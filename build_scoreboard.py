@@ -58,87 +58,103 @@ DATA = {
 'MRNA': dict(yf='MRNA',   fcf=None,   shares=None,   r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=6.0, clock='CONC', ins='SELLING', held=False, sector='Biotech', built='exact'),
 }
 
-# ---------------- engine ----------------
+# ---------------- Fault-Tolerant Engine ----------------
 def ngv(d):
-    if d.get('fcf') is None or d.get('shares') is None: return None
-    return (d['fcf']/d['shares'])/d['r']
+    fcf = d.get('fcf')
+    shares = d.get('shares')
+    r = d.get('r', 0.08)
+    if fcf is None or shares is None or r == 0: return None
+    return (fcf / shares) / r
 
 def cover(d):
     n, p = ngv(d), d.get('price')
-    return None if (n is None or p is None) else n/p
+    return None if (n is None or p is None or p == 0) else n / p
 
 def implied_growth(d):
     c = cover(d)
-    return None if c is None else d['r']*(1-c)/(1+c*d['r'])
+    r = d.get('r', 0.08)
+    return None if c is None else r * (1 - c) / (1 + c * r)
 
 def cushion(d):
     g = implied_growth(d)
-    return None if (g is None or d.get('deliver') is None) else d['deliver'] - 100*g
-
-def entry_price(d, target=.60):
-    n = ngv(d);  return None if n is None else n/target
+    deliver = d.get('deliver')
+    return None if (g is None or deliver is None) else deliver - 100 * g
 
 def entry_gap(d, target=.60):
-    c = cover(d); return None if c is None else c/target - 1
+    c = cover(d)
+    return None if c is None else c / target - 1
 
 def score(d):
-    if d.get('sub') is None: return None
-    g,p,c,b,v,r = d['sub']
-    core = g*W['g']+p*W['p']+c*W['c']+b*W['b']+v*W['v']+r*W['r']
-    if d.get('pr') is None: return (core + d['dil']*W['d'])/(1-W['pr'])
-    return core + d['pr']*W['pr'] + d['dil']*W['d']
+    sub = d.get('sub')
+    if not sub or len(sub) != 6: return None
+    g, p, c, b, v, r = sub
+    core = g*W['g'] + p*W['p'] + c*W['c'] + b*W['b'] + v*W['v'] + r*W['r']
+    pr = d.get('pr')
+    dil = d.get('dil', 6.0)
+    if pr is None: return (core + dil*W['d']) / (1 - W['pr'])
+    return core + pr*W['pr'] + dil*W['d']
 
 def risk(d):
     s = score(d)
     if s is None: return None
-    bs = d['sub'][3] if d.get('sub') else 6.0
-    x = 3.0 - .40*(bs-6)/2 - .40*(d['dil']-6)/2
+    sub = d.get('sub')
+    bs = sub[3] if (sub and len(sub) == 6) else 6.0
+    dil = d.get('dil', 6.0)
+    x = 3.0 - 0.40*(bs - 6)/2 - 0.40*(dil - 6)/2
     if d.get('pr') is None: x += 1.0
     cu = cushion(d)
-    if cu is not None and cu < 0: x += .6
-    if s < 3.50: x += .5
+    if cu is not None and cu < 0: x += 0.6
+    if s < 3.50: x += 0.5
     x = max(x, d.get('risk_floor', 0))
-    return max(1.0, min(5.0, round(x,1)))
+    return max(1.0, min(5.0, round(x, 1)))
 
 def band(s):
-    if s is None: return ('NO SCORE','empty')
-    for lim,name,css in BANDS:
-        if s < lim: return (name,css)
-    return ('STRONG BUY','p-sbuy')
+    if s is None: return ('NO SCORE', 'empty')
+    for lim, name, css in BANDS:
+        if s < lim: return (name, css)
+    return ('STRONG BUY', 'p-sbuy')
 
 def verdict(t, d):
     s, rk, cu = score(d), risk(d), cushion(d)
-    if s is None: return ('NO SCORE','v-hold')
-    if d.get('trap'): return ('TRAP BUY','v-trap')
+    if s is None: return ('NO SCORE', 'v-hold')
+    if d.get('trap'): return ('TRAP BUY', 'v-trap')
     if cu is not None and cu < 0:
-        return ('DO NOT ADD','v-avoid') if s < 7.00 else ('BUY · CUSHION NEG','v-avoid')
+        return ('DO NOT ADD', 'v-avoid') if s < 7.00 else ('BUY · CUSHION NEG', 'v-avoid')
     if s >= 7.00:
-        return ('BUY · LOW RISK','v-buy') if rk <= 2.4 else \
-               (('BUY · MOD','v-buymod') if rk <= 3.2 else ('BUY · HIGH RISK','v-buyhi'))
+        return ('BUY · LOW RISK', 'v-buy') if rk <= 2.4 else \
+               (('BUY · MOD', 'v-buymod') if rk <= 3.2 else ('BUY · HIGH RISK', 'v-buyhi'))
     if s >= 5.50:
-        return ('ACCUMULATE','v-acc') if rk <= 2.4 else ('HOLD','v-hold')
-    return ('AVOID','v-avoid') if s >= 3.50 else ('SELL','v-sell')
+        return ('ACCUMULATE', 'v-acc') if rk <= 2.4 else ('HOLD', 'v-hold')
+    return ('AVOID', 'v-avoid') if s >= 3.50 else ('SELL', 'v-sell')
 
-# ---------------- prices ----------------
+# ---------------- Safe Prices ----------------
 def fetch_prices():
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     for t, d in DATA.items():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
         try:
-            tk = yf.Ticker(d['yf'])
+            yf_ticker = d.get('yf', t)
+            tk = yf.Ticker(yf_ticker)
             fi = getattr(tk, 'fast_info', {}) or {}
             px = fi.get('last_price')
+            
             if px is None:
                 h = tk.history(period='5d', auto_adjust=False)
-                px = float(h['Close'].dropna().iloc[-1]) if not h.empty else None
+                if not h.empty and 'Close' in h.columns:
+                    px = float(h['Close'].dropna().iloc[-1])
+            
             if px is None:
                 d['price_note'] = 'no quote'; continue
+                
             cur = (fi.get('currency') or '').upper()
-            if cur and cur != d['cur']:
-                d['price_note'] = f'CURRENCY MISMATCH {cur}!={d["cur"]}'; continue
+            expected_cur = d.get('cur', '').upper()
+            if cur and expected_cur and cur != expected_cur:
+                d['price_note'] = f'CURRENCY MISMATCH {cur}!={expected_cur}'; continue
+                
             lo, hi = d.get('sanity', (0, 1e9))
             if not (lo <= px <= hi):
                 d['price_note'] = f'REJECTED {px:.2f} outside {lo}-{hi}'; continue
+                
             d['price'], d['price_ts'] = float(px), stamp
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
@@ -152,7 +168,7 @@ def snapshot():
            for t,d in DATA.items()}
     with open(f'history/{day}.json','w') as f: json.dump(rec, f, indent=1, default=str)
 
-# ---------------- render ----------------
+# ---------------- Safe HTML Render ----------------
 def fmt(x, spec, dash='—'):
     return dash if x is None else format(x, spec)
 
@@ -169,6 +185,7 @@ def build_html():
         s, rk, c, cu, eg = score(d), risk(d), cover(d), cushion(d), entry_gap(d)
         bn, bc = band(s); vn, vc = verdict(t, d)
         note = d.get('price_note','')
+        
         out.append(
           f'<tr{" class=held" if d.get("held") else ""}>'
           f'<td class="rk">{i}</td>'
@@ -233,7 +250,7 @@ tr.held{{background:#141826}}
 </style></head><body>
 <div class="kicker">Master Scoreboard · Live Update · {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</div>
 <h1>Revision 4A — Automated Repricing</h1>
-<div class="lede">GitHub Actions fetching end-of-day prices via Yahoo Finance. NGV logic strictly separated. 48 Tickers Tracked.</div>
+<div class="lede">GitHub Actions fetching end-of-day prices via Yahoo Finance. NGV logic strictly separated. {len(DATA)} Tickers Tracked.</div>
 <table><thead><tr><th>#</th><th>Ticker</th><th></th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>
 <th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th></th><th></th><th>NGV</th><th>Price</th><th>Built</th></tr></thead>
 <tbody>
