@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v3.0  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE · SCORECARD ENGINE · v4.0  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -59,19 +59,19 @@ DATA = {
 'UNH' : dict(yf='UNH',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.5, dil=8.5, clock='DIV',  ins='SELLING', held=False, sector='Health Ins', built='back-solved', score_fixed=6.35),
 'CMCSA':dict(yf='CMCSA',  fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=9.5, dil=6.0, clock='CLOCK',ins='SELLING', held=False, sector='Media',      built='back-solved', score_fixed=6.25),
 'NVO' : dict(yf='NVO',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Pharma',     built='back-solved', score_fixed=6.15),
-'ENG' : dict(yf='ENG.MC', fcf=None, shares=None, r=.075, cur='EUR', deliver=-8.6,dl='recurring net profit', sub=None, pr=8.0, dil=6.0, clock='CLOCK', ins='BUYING', held=True, sector='Utilities', built='back-solved', sanity=(5,40), score_fixed=6.0),
+'ENG' : dict(yf='ENG.MC', fcf=None, shares=None, r=.075, cur='EUR', deliver=-8.6,dl='recurring net profit', sub=None, pr=8.0, dil=6.0, clock='CLOCK', ins='BUYING', held=True, sector='Utilities', built='back-solved', sanity=(5,40), score_fixed=6.0, na='regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB'),
 'META': dict(yf='META',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=3.0, dil=8.0, clock='CONC', ins='SELLING', held=False, sector='AdTech',     built='back-solved', score_fixed=5.83),
 'DIS' : dict(yf='DIS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.0, dil=9.0, clock='DIV',  ins='AWARDS',  held=False, sector='Media',      built='back-solved', score_fixed=5.62),
 'PEP' : dict(yf='PEP',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.0, dil=7.0, clock='DIV',  ins='SELLING', held=False, sector='Staples',    built='back-solved', score_fixed=5.5),
 'BSX' : dict(yf='BSX',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.0, dil=6.0, clock='DIV',  ins='BUYING·LILA', held=False, sector='MedTech',built='exact', score_fixed=5.4),
 'WIX' : dict(yf='WIX',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(6,3,4,2,8,5), pr=9.5, dil=8.5, clock='CONC', ins='AWARDS', held=False, sector='Software', built='exact'),
-'GRAB': dict(yf='GRAB',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=5.5, clock='CONC', ins='SELLING', held=False, sector='Platform',   built='back-solved', score_fixed=5.23),
+'GRAB': dict(yf='GRAB',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=5.5, clock='CONC', ins='SELLING', held=False, sector='Platform',   built='back-solved', score_fixed=5.23, na='TTM IFRS free cash flow negative (-186m)'),
 'NOW' : dict(yf='NOW',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.0, dil=6.0, clock='CONC', ins='SELLING', held=False, sector='Software',   built='exact', score_fixed=5.22),
 'MCD' : dict(yf='MCD',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=7.0, clock='DIV',  ins='SELLING', held=False, sector='Restaurant', built='back-solved', score_fixed=5.2),
 'TTD' : dict(yf='TTD',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=9.0, clock='CONC', ins='BUYING',  held=False, sector='Ad Tech',    built='back-solved', score_fixed=4.7),
 'NKE' : dict(yf='NKE',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=7.0, clock='DIV',  ins='BUYING',  held=False, sector='Apparel',    built='exact', score_fixed=4.6),
 'ZTS' : dict(yf='ZTS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=6.0, clock='CLOCK',ins='BUYING',  held=False, sector='Animal Health', built='exact', score_fixed=4.55),
-'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7),
+'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
 }
 
 # ---------------- engine ----------------
@@ -213,6 +213,32 @@ def best_regime(d):
 
 # ---------------- prices ----------------
 
+
+def _valid_band(b):
+    """A band is usable only if it is a real interval. (0,0) is not a band --
+       it is a missing one, and rejecting every price because the RANGE is
+       absent confuses 'unknown' with 'wrong'."""
+    try:
+        lo, hi = b
+        return hi > 0 and hi > lo and lo >= 0
+    except Exception:
+        return False
+
+def _year_range(tk, fi):
+    """fast_info key names vary by yfinance version. Try all of them, then fall
+       back to a year of history."""
+    for lo_k, hi_k in (('year_low','year_high'), ('yearLow','yearHigh'),
+                       ('fiftyTwoWeekLow','fiftyTwoWeekHigh')):
+        lo, hi = fi.get(lo_k), fi.get(hi_k)
+        if lo and hi: return float(lo), float(hi)
+    try:
+        h = tk.history(period='1y', auto_adjust=False)
+        if h is not None and not h.empty:
+            return float(h['Low'].min()), float(h['High'].max())
+    except Exception:
+        pass
+    return None, None
+
 def bootstrap_fundamentals():
     """Fill fcf and shares from Yahoo ONLY where both are missing and the row is
        not flagged na. Marks built='yahoo-draft' so the table shows you which
@@ -261,9 +287,9 @@ def bootstrap_fundamentals():
             d['fcf'] = round(fcf / 1e6, 1)
             d['shares'] = round(sh / 1e6, 2)
             d['built'] = 'yahoo-draft'
-            if 'sanity' not in d:
-                lo, hi = fi.get('year_low'), fi.get('year_high')
-                d['sanity'] = (round(lo * .5), round(hi * 2)) if (lo and hi) else (0, 0)
+            if not _valid_band(d.get('sanity')):
+                lo, hi = _year_range(tk, fi)
+                if lo and hi: d['sanity'] = (round(lo * .5, 2), round(hi * 2, 2))
         except Exception as e:
             d['boot_note'] = f'bootstrap failed: {type(e).__name__}'
 
@@ -289,9 +315,17 @@ def fetch_prices():
             cur = str(fi.get('currency') or '').strip()
             if cur and cur.upper() != d.get('cur','').upper():
                 d['price_note'] = f'CURRENCY {cur} != {d.get("cur")}'; continue
-            lo, hi = d.get('sanity', (0, 1e12))
-            if not (lo <= px <= hi):
-                d['price_note'] = f'REJECTED {px:.2f} outside {lo}-{hi}'; continue
+            band = d.get('sanity')
+            if not _valid_band(band):
+                lo, hi = _year_range(tk, fi)          # self-heal: build one now
+                if lo and hi:
+                    band = (round(lo * .5, 2), round(hi * 2, 2)); d['sanity'] = band
+            if _valid_band(band):
+                lo, hi = band
+                if not (lo <= px <= hi):
+                    d['price_note'] = f'REJECTED {px:.2f} outside {lo}-{hi}'; continue
+            else:
+                d['price_note'] = f'accepted UNBOUNDED at {px:.2f} - no 52w range, set sanity by hand'
             d['price'], d['price_ts'] = float(px), stamp
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
