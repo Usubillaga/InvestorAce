@@ -4,11 +4,20 @@ on:
   schedule:
     - cron: '0 23 * * 1-5'
   workflow_dispatch:
+    inputs:
+      new_ticker:
+        description: 'Optional: Yahoo ticker to add as a draft (e.g. ASML.AS)'
+        required: false
+        type: string
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
+
+concurrency:
+  group: scoreboard
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -17,24 +26,44 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install Dependencies
-        run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
-      - name: Build HTML
-        run: python build_scoreboard.py
+      - name: Add ticker as draft
+        if: github.event_name == 'workflow_dispatch' && inputs.new_ticker != ''
+        run: python add_ticker.py "${{ inputs.new_ticker }}"
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Build scoreboard
+        run: python engine.py
+
+      - name: Commit results
+        run: |
+          git config user.name  "investorace-bot"
+          git config user.email "actions@github.com"
+          git add -A index.html history/ engine.py
+          if git diff --staged --quiet; then
+            echo "nothing changed"
+          else
+            git commit -m "scoreboard $(date -u +%Y-%m-%d)"
+            git pull --rebase --autostash origin ${{ github.ref_name }} || true
+            git push
+          fi
+
+      - name: Stage site
+        run: |
+          mkdir -p public
+          cp index.html public/
+          cp tickers.js public/ 2>/dev/null || true
+          cp -r history public/ 2>/dev/null || true
+
+      - uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'public'
 
       - name: Deploy to GitHub Pages
         id: deployment
