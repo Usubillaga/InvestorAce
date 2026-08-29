@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v2.1
+INVESTORACE · SCORECARD ENGINE · v3.0  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -141,6 +141,76 @@ def verdict(t, d):
         return ('ACCUMULATE','v-acc') if rk <= 2.4 else ('HOLD','v-hold')
     return ('AVOID','v-avoid') if s >= 3.50 else ('SELL','v-sell')
 
+
+# =====================================================================
+# MACRO REGIME FIT
+# Five regimes on the growth x inflation grid. Scored 0-100 per ticker,
+# mechanically, from four inputs -- not from a feel for the sector.
+#
+# The key idea: COVER IS DURATION. A row with 25% cover holds three
+# quarters of its value in far-future cash flows, so a rising discount
+# rate destroys it. A row with 98% cover is short-duration -- its value
+# is cash already produced. That is why NVDA and WKL sit at opposite
+# ends of the stagflation column despite both being "good businesses".
+# =====================================================================
+REGIMES = ['GOLDILOCKS', 'REFLATION', 'INFLATION', 'STAGFLATION', 'RECESSION']
+REGIME_CSS = {'GOLDILOCKS':'g-gold','REFLATION':'g-refl','INFLATION':'g-infl',
+              'STAGFLATION':'g-stag','RECESSION':'g-rec'}
+
+# sector affinity, -2 to +2
+AFF = {
+'GOLDILOCKS': {'Semis':2,'Software':2,'AI Infra':2,'Ad Tech':2,'AdTech':2,'Platform':2,'Space':2,
+    'MedTech':1,'Luxury':1,'Apparel':1,'Info Svcs':1,'Health Data':1,'Biotech':1,
+    'Services':0,'Media':0,'Restaurant':0,'Animal Health':0,'Aerospace':0,
+    'Staples':-1,'Utilities':-1,'REIT':-1,'Health Ins':-1,'Pharma':-1,
+    'Energy':-2,'Midstream':-2,'Materials':-2},
+'REFLATION': {'Energy':2,'Materials':2,'Aerospace':2,'Midstream':2,
+    'Semis':1,'Luxury':1,'Apparel':1,'Platform':1,'Media':1,'Restaurant':1,
+    'Software':0,'Info Svcs':0,'Services':0,'MedTech':0,'Space':0,'Health Data':0,'Ad Tech':0,'AdTech':0,'Animal Health':0,
+    'Staples':-1,'Utilities':-1,'Pharma':-1,'Health Ins':-1,'REIT':-2,'Biotech':-2,'AI Infra':0},
+'INFLATION': {'Energy':2,'Midstream':2,'Materials':2,'REIT':2,'Utilities':2,
+    'Staples':1,'Restaurant':1,'Info Svcs':1,'Luxury':1,
+    'MedTech':0,'Pharma':0,'Services':0,'Health Ins':0,'Aerospace':0,'Animal Health':0,
+    'Software':-1,'Platform':-1,'Apparel':-1,'Media':-1,
+    'Semis':-2,'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
+'STAGFLATION': {'Energy':2,'Midstream':2,'Materials':2,
+    'Utilities':1,'REIT':1,'Staples':1,'Info Svcs':1,
+    'Pharma':0,'MedTech':0,'Health Ins':0,'Restaurant':0,'Services':0,'Animal Health':0,
+    'Luxury':-1,'Apparel':-1,'Media':-1,'Platform':-1,'Aerospace':-1,
+    'Semis':-2,'Software':-2,'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
+'RECESSION': {'Staples':2,'Pharma':2,'Utilities':2,'Health Ins':2,
+    'MedTech':1,'Info Svcs':1,'Services':1,'Animal Health':1,'REIT':1,
+    'Software':0,'Media':0,'Restaurant':0,'Midstream':0,
+    'Luxury':-1,'Apparel':-1,'Platform':-1,'Semis':-1,'Materials':-1,'Aerospace':-1,'Energy':-1,
+    'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
+}
+# how hard duration, balance sheet and payout bite in each regime
+DUR_W = {'GOLDILOCKS':-0.35,'REFLATION':0.00,'INFLATION':0.45,'STAGFLATION':0.55,'RECESSION':0.45}
+BS_W  = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':2.5,'RECESSION':3.0}
+PAY_W = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':1.5,'RECESSION':1.5}
+
+def regime_scores(d):
+    """0-100 per regime. Returns {} when there is no cover, because duration is
+       the single largest term and without it the answer would be a sector guess."""
+    c = cover(d)
+    if c is None: return {}
+    sec = d.get('sector','')
+    sub = d.get('sub')
+    bs  = sub[3] if (sub and len(sub)==6) else 6.0
+    pay = sub[5] if (sub and len(sub)==6) else 6.0
+    dur = max(-40.0, min(40.0, (c - 0.60) * 100))      # cover above/below the GOOD line
+    out = {}
+    for r in REGIMES:
+        v = 50.0 + 12.0*AFF[r].get(sec, 0) + DUR_W[r]*dur + BS_W[r]*(bs-6) + PAY_W[r]*(pay-6)
+        out[r] = round(max(0.0, min(100.0, v)), 1)
+    return out
+
+def best_regime(d):
+    s = regime_scores(d)
+    if not s: return (None, None)
+    r = max(s, key=s.get)
+    return (r, s[r])
+
 # ---------------- prices ----------------
 
 def bootstrap_fundamentals():
@@ -149,8 +219,9 @@ def bootstrap_fundamentals():
        numbers are unverified. REITs (AFFO) and pipelines (DCF) already carry
        manual values and are left alone -- Yahoo's FCF line is wrong for them."""
     for t, d in DATA.items():
-        if d.get('na') or d.get('fcf') is not None or d.get('shares') is not None:
-            continue
+        if d.get('na') or (d.get('fcf') is not None and d.get('shares') is not None):
+            continue                       # [FIX] was skipping rows where only ONE field was set
+        why = []
         try:
             tk = yf.Ticker(d.get('yf', t))
             fi = {}
@@ -181,16 +252,20 @@ def bootstrap_fundamentals():
                         if p: fcf = sum(a + b for a, b in p); break
                 except Exception:
                     continue
-            if fcf is None or sh is None or fcf <= 0:
-                continue                      # negative FCF -> leave blank, needs an na reason
+            if sh is None: why.append('no share count')
+            if fcf is None: why.append('no cash-flow line')
+            elif fcf <= 0: why.append(f'FCF negative ({fcf/1e6:,.0f}m) -> needs na="reason"')
+            if why:
+                d['boot_note'] = '; '.join(why)      # [FIX] surface it instead of silent continue
+                continue
             d['fcf'] = round(fcf / 1e6, 1)
             d['shares'] = round(sh / 1e6, 2)
             d['built'] = 'yahoo-draft'
             if 'sanity' not in d:
                 lo, hi = fi.get('year_low'), fi.get('year_high')
                 d['sanity'] = (round(lo * .5), round(hi * 2)) if (lo and hi) else (0, 0)
-        except Exception:
-            continue
+        except Exception as e:
+            d['boot_note'] = f'bootstrap failed: {type(e).__name__}'
 
 def fetch_prices():
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
@@ -239,6 +314,8 @@ def cls(x, good, bad, invert=False):
     return 'pr pos' if x >= good else ('pr neg' if x <= bad else 'pr mid')
 
 CLOCK_CSS = {'CLOCK':'s-clock','CONC':'s-conc','DIV':'s-diverse'}
+REG_CSS = {'GOLDILOCKS':'g-gold','REFLATION':'g-refl','INFLATION':'g-infl',
+           'STAGFLATION':'g-stag','RECESSION':'g-rec'}
 
 CSS = """
 :root{--bg:#0c0d12;--panel:#13151d;--line:#232634;--tx:#e7e9f0;--mu:#8f95a8;
@@ -283,6 +360,11 @@ tr.held{background:#141826}
 .s-clock{background:#331414;color:var(--red);border:1px solid #5c2020}
 .s-conc{background:#2b2210;color:var(--amber);border:1px solid #574318}
 .s-diverse{background:#12331f;color:var(--green);border:1px solid #1d5433}
+.g-gold{background:#123a26;color:#66e39c;border:1px solid #1e5c3c}
+.g-refl{background:#12283a;color:#63c6f0;border:1px solid #1d4a6b}
+.g-infl{background:#3a2c10;color:#e5b45c;border:1px solid #6b5218}
+.g-stag{background:#3a1414;color:#f06a6a;border:1px solid #6b2020}
+.g-rec{background:#2c1440;color:#d6a8ff;border:1px solid #543072}
 input,select,textarea{background:#0a0b10;color:var(--tx);border:1px solid #2a2e3c;border-radius:5px;padding:6px 8px;font-family:ui-monospace,monospace;font-size:11px}
 button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;cursor:pointer}
 .foot{color:#5e6373;font-family:ui-monospace,monospace;font-size:9.2px;border-top:1px solid var(--line);padding-top:11px;margin-top:22px}
@@ -344,6 +426,9 @@ def build_html():
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
           + f'<td><span class="pill {CLOCK_CSS.get(d.get("clock"),"s-conc")}">{d.get("clock","")}</span></td>'
           + f'<td class="in">{d.get("ins","")}</td>'
+          + (lambda rg, sc: f'<td><span class="pill {REG_CSS.get(rg,"empty")}">{rg or "—"}</span>'
+                            f'{f"<br><span style=font-size:8px;color:#5e6373>{sc:.0f}</span>" if sc else ""}</td>'
+            )(*best_regime(d))
           + f'<td class="mono">{fmt(ngv(d),",.2f")}</td>'
           + f'<td class="mono">{fmt(entry_price(d),",.2f")}</td>'
           + f'<td class="mono">{fmt(d.get("price"),",.2f")}'
@@ -357,6 +442,8 @@ def build_html():
     withngv = sum(1 for d in DATA.values() if ngv(d) is not None)
     na = sum(1 for d in DATA.values() if d.get('na'))
     issues = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
+    for t,d in DATA.items():
+        if d.get('boot_note'): issues[t] = 'NGV: ' + d['boot_note']
 
     js = JS.replace('__TICKERS__', json.dumps(sorted(DATA.keys())))
     head = ('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
@@ -379,7 +466,7 @@ def build_html():
              '<button onclick="addTicker()">Generate</button>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
-           '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th>'
+           '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table>')
     foot = (f'<div class="foot">Snapshot written to history/. NGV = (FCF ÷ shares) ÷ r and is price-independent. '
@@ -396,3 +483,4 @@ if __name__ == '__main__':
     bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
     print(f'{len(DATA)} tickers · snapshot history/{day}.json · index.html written')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)
+
