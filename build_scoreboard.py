@@ -251,6 +251,75 @@ tr.held{{background:#141826}}
 <div class="kicker">Master Scoreboard · Live Update · {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</div>
 <h1>Revision 4A — Automated Repricing</h1>
 <div class="lede">GitHub Actions fetching end-of-day prices via Yahoo Finance. NGV logic strictly separated. {len(DATA)} Tickers Tracked.</div>
+<!-- UI für den Ticker-Export -->
+<div class="box" style="margin-bottom: 20px;">
+    <h2>Add Ticker to Model (Export for Claude)</h2>
+    <div style="margin-bottom: 10px;">
+        <label>1. Wähle eine Gruppe: </label>
+        <select id="groupSelect" onchange="filterTickers()" style="background:#1a1d27; color:#e7e9f0; padding:5px; border:1px solid #232634;">
+            <option value="All">Alle anzeigen</option>
+            <option value="Defensive">Defensive</option>
+            <option value="Cyclical">Cyclical</option>
+            <option value="Sensitive">Sensitive</option>
+            <option value="Growth">Growth</option>
+            <option value="High Yield">High Yield</option>
+        </select>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <label>2. Wähle eine Aktie: </label>
+        <select id="tickerSelect" style="background:#1a1d27; color:#e7e9f0; padding:5px; border:1px solid #232634; width: 300px;">
+            <!-- Wird per JS gefüllt -->
+        </select>
+    </div>
+    <button onclick="generateCode()" style="background:#4ecb8a; color:#0c0d12; font-weight:bold; border:none; padding:8px 15px; border-radius:4px; cursor:pointer;">Export Code</button>
+    
+    <div style="margin-top: 15px;">
+        <label class="sub">Kopiere diesen Code für Claude oder deine DATA-Struktur:</label>
+        <textarea id="codeOutput" style="width:100%; height:80px; background:#141826; color:#5cc8d8; font-family:monospace; border:1px solid #232634; padding:10px; margin-top:5px;" readonly></textarea>
+    </div>
+</div>
+
+<!-- Logik zum Filtern und Code generieren -->
+<script src="tickers.js"></script>
+<script>
+    function filterTickers() {
+        const group = document.getElementById("groupSelect").value;
+        const select = document.getElementById("tickerSelect");
+        select.innerHTML = ""; // Leeren
+        
+        tickerLibrary.forEach(item => {
+            if (group === "All" || item.group === group) {
+                let option = document.createElement("option");
+                option.value = JSON.stringify(item);
+                option.text = `${item.yf} - ${item.name} (${item.index})`;
+                select.appendChild(option);
+            }
+        });
+    }
+
+    function generateCode() {
+        const select = document.getElementById("tickerSelect");
+        if (select.selectedIndex === -1) return;
+        
+        const data = JSON.parse(select.value);
+        const internalTicker = data.yf.split('.')[0]; // Entfernt .DE etc für den internen Key
+        
+        // Generiert die exakte Syntax für dein Python DATA dict
+        const code = `'${internalTicker}': dict(yf='${data.yf}', fcf=None, shares=None, r=.080, cur='${data.cur}', deliver=None, dl='', sub=None, pr=None, dil=6.0, clock='CONC', ins='', held=False, sector='${data.sector}', built='exact'),`;
+        
+        const output = document.getElementById("codeOutput");
+        output.value = "Claude, bitte fülle die FCF und Shares Daten für diesen Ticker aus Yahoo Finance ab und gib mir das aktualisierte Dictionary zurück:\n\n" + code;
+        
+        // Text markieren für einfaches Kopieren
+        output.select();
+    }
+
+    // Beim Laden initialisieren
+    window.onload = function() {
+        filterTickers();
+    };
+</script>
+
 <table><thead><tr><th>#</th><th>Ticker</th><th></th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>
 <th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th></th><th></th><th>NGV</th><th>Price</th><th>Built</th></tr></thead>
 <tbody>
