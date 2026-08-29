@@ -20,6 +20,7 @@ refusing to automate the judgement half is the correct split.
 """
 import sys, math, json, re, os
 import yfinance as yf
+from autoscore import auto_row
 
 TARGET = 'engine.py'          # file containing the DATA = { ... } block
 
@@ -117,10 +118,18 @@ def main():
     if sanity == (0, 0):
         warn.append('no 52-week range — set sanity manually before trusting the price')
 
-    entry = (f"'{key}': dict(yf='{yft}', fcf={fcf}, shares={sh}, r=.080, cur='{cur}',\n"
-             f"    deliver=None, dl='', sub=None, pr=None, dil=6.0, clock='CONC',\n"
-             f"    ins='NOT CHECKED', held=False, sector='{sector}', built='yahoo-draft',\n"
-             f"    sanity={sanity}),\n")
+    # full auto-draft: six subscores from thresholds, priced-in derived from cover
+    row, auto_warn = auto_row(yft)
+    if row is None:
+        entry = (f"'{key}': dict(yf='{yft}', fcf={fcf}, shares={sh}, r=.080, cur='{cur}',\n"
+                 f"    deliver=None, dl='', sub=None, pr=None, dil=6.0, clock='CONC',\n"
+                 f"    ins='NOT CHECKED', held=False, sector='{sector}', built='yahoo-draft',\n"
+                 f"    sanity={sanity}),\n")
+        warn += auto_warn
+    else:
+        warn += auto_warn
+        parts = ', '.join(f"{k}={v!r}" for k, v in row.items())
+        entry = f"'{key}': dict({parts}),\n"
 
     # [FIX] plain splice, not re.sub. A backslash or a \1 in a sector name makes
     # re.sub either corrupt the file or raise. String surgery on the anchor is safe.
@@ -132,16 +141,17 @@ def main():
 
     print(f'ADDED {key}  ({yft})')
     print(f'  price {px}  {cur} | shares {sh}m | fcf {fcf}m from {fcf_src} | sanity {sanity}')
-    print(f'  built=yahoo-draft -> NGV and cover will compute, SCORE WILL NOT.')
+    print(f'  built=auto -> NGV, cover, score, risk, verdict and regime ALL compute.')
     for w in warn: print(f'  ! {w}')
-    print('\nSTILL OWED BY A HUMAN — Yahoo cannot supply these:')
-    print('  sub=(growth, profitability, cash gen, balance sheet, valuation, returns)')
-    print('  pr, dil   priced-in and dilution subscores')
-    print('  deliver   the company\'s own leading growth metric, in %')
-    print('  clock     CLOCK / CONC / DIV')
+    print('\nSTILL OWED BY A HUMAN — only two things now:')
+    print('  deliver   the company\'s OWN leading metric. Auto-filled with revenue')
+    print('            growth as a proxy; replace with organic revenue / cRPO /')
+    print('            comps / gross bookings / AFFO per share.')
+    print('  clock     CLOCK / CONC / DIV. Guessed from sector; confirm by hand.')
     print('  REIT? use AFFO per share.  Pipeline? use distributable cash flow.')
     print('  Commodity producer or negative FCF? set fcf=None and na="reason".')
     return 0
 
 if __name__ == '__main__':
     sys.exit(main())
+
