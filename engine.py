@@ -87,6 +87,7 @@ DATA = {
 'MSFT': dict(yf='MSFT', fcf=66987.0, shares=7425.55, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0, 5.0, 5.0, 8.0, 5.0, 9.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(174.6, 1107.44)),
 'AAPL': dict(yf='AAPL', fcf=136683.0, shares=14594.18, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0, 5.0, 5.0, 8.0, 5.0, 9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(112.97, 689.14)),
 'KO': dict(yf='KO', fcf=14297.0, shares=4302.55, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0, 5.0, 5.0, 7.0, 5.0, 6.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(32.67, 184.98)),
+'CVX': dict(yf='CVX', fcf=27012.0, shares=1961.6, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0, 5.0, 5.0, 8.0, 5.0, 7.5), pr=None, dil=0.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Energy', built='auto', sanity=(73.25, 429.42)),
 }
 
 # ---------------- engine ----------------
