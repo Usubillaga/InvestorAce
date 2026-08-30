@@ -7,7 +7,15 @@
   "score": 7.88,
   "risk": 2.3,
   "verdict": "TRAP BUY",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 62.9,
+   "REFLATION": 50.0,
+   "INFLATION": 52.3,
+   "STAGFLATION": 43.5,
+   "RECESSION": 64.3
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "ASML": {
@@ -18,7 +26,15 @@
   "score": 6.900000000000001,
   "risk": 2.3,
   "verdict": "ACCUMULATE",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 89.1,
+   "REFLATION": 63.8,
+   "INFLATION": 14.1,
+   "STAGFLATION": 11.8,
+   "RECESSION": 28.3
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "RIVN": {
@@ -29,6 +45,8 @@
   "score": 3.6764705882352944,
   "risk": 4.9,
   "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: free cash flow -$1,924m in H1 2026; automotive gross profit still negative"
  },
@@ -40,7 +58,15 @@
   "score": 4.875000000000001,
   "risk": 3.4,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 58.6,
+   "REFLATION": 71.0,
+   "INFLATION": 38.1,
+   "STAGFLATION": 9.3,
+   "RECESSION": 11.9
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "CRM": {
@@ -51,7 +77,15 @@
   "score": 7.575,
   "risk": 2.1,
   "verdict": "BUY \u00b7 LOW RISK",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 73.4,
+   "REFLATION": 51.2,
+   "INFLATION": 44.1,
+   "STAGFLATION": 34.2,
+   "RECESSION": 58.4
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "NVDA": {
@@ -62,7 +96,15 @@
   "score": 7.7250000000000005,
   "risk": 3.4,
   "verdict": "BUY \u00b7 HIGH RISK",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 88.1,
+   "REFLATION": 63.5,
+   "INFLATION": 14.3,
+   "STAGFLATION": 13.7,
+   "RECESSION": 30.8
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "SPGI": {
@@ -73,7 +115,15 @@
   "score": 7.6000000000000005,
   "risk": 2.3,
   "verdict": "BUY \u00b7 LOW RISK",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 66.1,
+   "REFLATION": 51.8,
+   "INFLATION": 64.3,
+   "STAGFLATION": 64.1,
+   "RECESSION": 65.0
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "SAN": {
@@ -84,7 +134,15 @@
   "score": 7.65,
   "risk": 2.4,
   "verdict": "BUY \u00b7 LOW RISK",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 28.3,
+   "REFLATION": 39.5,
+   "INFLATION": 68.9,
+   "STAGFLATION": 73.0,
+   "RECESSION": 94.4
+  },
+  "weight": 6.05,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "APP": {
@@ -95,7 +153,15 @@
   "score": 7.5249999999999995,
   "risk": 2.1,
   "verdict": "BUY \u00b7 LOW RISK",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 83.9,
+   "REFLATION": 52.0,
+   "INFLATION": 21.9,
+   "STAGFLATION": 22.1,
+   "RECESSION": 25.6
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "ABT": {
@@ -106,7 +172,15 @@
   "score": 7.074999999999999,
   "risk": 2.5,
   "verdict": "BUY \u00b7 MOD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 66.4,
+   "REFLATION": 52.0,
+   "INFLATION": 52.9,
+   "STAGFLATION": 53.7,
+   "RECESSION": 67.2
+  },
+  "weight": 1.94,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "WKL": {
@@ -117,7 +191,15 @@
   "score": 7.375,
   "risk": 2.7,
   "verdict": "BUY \u00b7 MOD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 50.0,
+   "REFLATION": 50.5,
+   "INFLATION": 79.6,
+   "STAGFLATION": 83.1,
+   "RECESSION": 79.6
+  },
+  "weight": 33.92,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "LVMH": {
@@ -128,7 +210,15 @@
   "score": 7.16,
   "risk": 3.5,
   "verdict": "BUY \u00b7 CUSHION NEG",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 58.0,
+   "REFLATION": 62.0,
+   "INFLATION": 67.2,
+   "STAGFLATION": 44.3,
+   "RECESSION": 43.2
+  },
+  "weight": 30.16,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "UBER": {
@@ -139,7 +229,15 @@
   "score": 7.15,
   "risk": 2.4,
   "verdict": "BUY \u00b7 LOW RISK",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 68.6,
+   "REFLATION": 62.0,
+   "INFLATION": 45.0,
+   "STAGFLATION": 46.5,
+   "RECESSION": 45.0
+  },
+  "weight": 16.04,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "AVGO": {
@@ -150,7 +248,15 @@
   "score": 7.1499999999999995,
   "risk": 2.7,
   "verdict": "BUY \u00b7 MOD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 89.2,
+   "REFLATION": 63.2,
+   "INFLATION": 11.8,
+   "STAGFLATION": 9.2,
+   "RECESSION": 26.0
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "ONON": {
@@ -161,7 +267,15 @@
   "score": 6.7749999999999995,
   "risk": 2.4,
   "verdict": "ACCUMULATE",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 68.1,
+   "REFLATION": 61.2,
+   "INFLATION": 27.0,
+   "STAGFLATION": 28.0,
+   "RECESSION": 31.5
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "VICI": {
@@ -172,7 +286,15 @@
   "score": 6.8,
   "risk": 3.5,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 24.0,
+   "REFLATION": 26.0,
+   "INFLATION": 92.0,
+   "STAGFLATION": 84.0,
+   "RECESSION": 80.0
+  },
+  "weight": 2.04,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "ENB": {
@@ -183,7 +305,15 @@
   "score": 5.975,
   "risk": 3.5,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 12.0,
+   "REFLATION": 74.0,
+   "INFLATION": 92.0,
+   "STAGFLATION": 93.5,
+   "RECESSION": 64.2
+  },
+  "weight": 1.65,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "PFE": {
@@ -194,7 +324,15 @@
   "score": 5.55,
   "risk": 4.1,
   "verdict": "DO NOT ADD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 32.5,
+   "REFLATION": 37.5,
+   "INFLATION": 55.0,
+   "STAGFLATION": 54.4,
+   "RECESSION": 76.0
+  },
+  "weight": 1.11,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "ROL": {
@@ -205,7 +343,15 @@
   "score": 6.47,
   "risk": 3.0,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 57.5,
+   "REFLATION": 50.0,
+   "INFLATION": 40.4,
+   "STAGFLATION": 38.3,
+   "RECESSION": 52.4
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "LULU": {
@@ -216,7 +362,15 @@
   "score": 5.8500000000000005,
   "risk": 2.9,
   "verdict": "DO NOT ADD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 55.6,
+   "REFLATION": 62.5,
+   "INFLATION": 48.4,
+   "STAGFLATION": 53.3,
+   "RECESSION": 52.9
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "PL": {
@@ -227,8 +381,143 @@
   "score": 4.574999999999999,
   "risk": 3.5,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 86.0,
+   "REFLATION": 48.0,
+   "INFLATION": 2.0,
+   "STAGFLATION": 0.0,
+   "RECESSION": 3.5
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
+ },
+ "MSFT": {
+  "price": 513.530029296875,
+  "ngv": 112.7643743561083,
+  "cover": 0.21958671922361622,
+  "cushion": null,
+  "score": 5.375,
+  "risk": 2.4,
+  "verdict": "AVOID",
+  "regime": {
+   "GOLDILOCKS": 89.8,
+   "REFLATION": 64.5,
+   "INFLATION": 28.4,
+   "STAGFLATION": 14.6,
+   "RECESSION": 43.4
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
+  "note": ""
+ },
+ "AAPL": {
+  "price": 319.70001220703125,
+  "ngv": 117.069783982382,
+  "cover": 0.3661863606891888,
+  "cushion": null,
+  "score": 5.75,
+  "risk": 2.1,
+  "verdict": "ACCUMULATE",
+  "regime": {
+   "GOLDILOCKS": 84.7,
+   "REFLATION": 64.5,
+   "INFLATION": 35.0,
+   "STAGFLATION": 22.6,
+   "RECESSION": 50.0
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
+  "note": ""
+ },
+ "KO": {
+  "price": 89.66000366210938,
+  "ngv": 41.53641445189481,
+  "cover": 0.46326581257377575,
+  "cushion": null,
+  "score": 5.5249999999999995,
+  "risk": 2.6,
+  "verdict": "HOLD",
+  "regime": {
+   "GOLDILOCKS": 43.3,
+   "REFLATION": 38.5,
+   "INFLATION": 57.3,
+   "STAGFLATION": 57.0,
+   "RECESSION": 70.8
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
+  "note": ""
+ },
+ "CVX": {
+  "price": 201.86000061035156,
+  "ngv": 172.12989396411092,
+  "cover": 0.8527191788549116,
+  "cushion": null,
+  "score": 5.800000000000001,
+  "risk": 3.7,
+  "verdict": "HOLD",
+  "regime": {
+   "GOLDILOCKS": 18.9,
+   "REFLATION": 75.8,
+   "INFLATION": 90.6,
+   "STAGFLATION": 95.1,
+   "RECESSION": 57.6
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
+  "note": ""
+ },
+ "AMAT": {
+  "price": 461.6700134277344,
+  "ngv": 84.15763608870968,
+  "cover": 0.18228958702314105,
+  "cushion": null,
+  "score": 5.45,
+  "risk": 2.1,
+  "verdict": "AVOID",
+  "regime": {
+   "GOLDILOCKS": 90.5,
+   "REFLATION": 64.5,
+   "INFLATION": 27.5,
+   "STAGFLATION": 13.5,
+   "RECESSION": 42.5
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
+  "note": ""
+ },
+ "PHR": {
+  "price": 12.149999618530273,
+  "ngv": 12.809616318601261,
+  "cover": 1.0542894420395692,
+  "cushion": null,
+  "score": 5.85,
+  "risk": 3.1,
+  "verdict": "HOLD",
+  "regime": {
+   "GOLDILOCKS": 34.5,
+   "REFLATION": 36.5,
+   "INFLATION": 63.5,
+   "STAGFLATION": 69.5,
+   "RECESSION": 90.5
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
+  "note": ""
+ },
+ "RCAT": {
+  "price": null,
+  "ngv": null,
+  "cover": null,
+  "cushion": null,
+  "score": 4.6764705882352935,
+  "risk": 5.0,
+  "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
+  "ts": null,
+  "note": "N/A: free cash flow -157.7m -- a NEGATIVE fcf was written straight into the row, which makes NGV negative"
  },
  "AR": {
   "price": null,
@@ -238,6 +527,8 @@
   "score": 6.529411764705881,
   "risk": 4.0,
   "verdict": "HOLD",
+  "regime": {},
+  "weight": 4.18,
   "ts": null,
   "note": "N/A: commodity producer"
  },
@@ -249,6 +540,8 @@
   "score": 5.647058823529412,
   "risk": 4.4,
   "verdict": "HOLD",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: commodity producer"
  },
@@ -260,6 +553,8 @@
   "score": 6.264705882352941,
   "risk": 3.9,
   "verdict": "HOLD",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: commodity producer"
  },
@@ -271,6 +566,8 @@
   "score": 2.97,
   "risk": 4.7,
   "verdict": "SELL",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: FCF deeply negative"
  },
@@ -282,6 +579,8 @@
   "score": 4.29,
   "risk": 3.7,
   "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: FCF negative"
  },
@@ -293,6 +592,8 @@
   "score": 4.15,
   "risk": 5.0,
   "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: adj. FCF -$8.4bn in the quarter"
  },
@@ -304,6 +605,8 @@
   "score": 3.41,
   "risk": 5.0,
   "verdict": "SELL",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: no steady-state FCF"
  },
@@ -315,6 +618,8 @@
   "score": 4.29,
   "risk": 4.9,
   "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: no steady-state FCF"
  },
@@ -326,6 +631,8 @@
   "score": 3.44,
   "risk": 4.5,
   "verdict": "SELL",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: FCF tracks the inventory cycle"
  },
@@ -337,6 +644,8 @@
   "score": 4.411764705882353,
   "risk": 4.3,
   "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: trailing FCF negative; guide is a forecast"
  },
@@ -348,6 +657,8 @@
   "score": 4.647058823529411,
   "risk": 4.7,
   "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: operating cash flow negative"
  },
@@ -359,7 +670,15 @@
   "score": 6.65,
   "risk": 2.6,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 72.4,
+   "REFLATION": 50.0,
+   "INFLATION": 36.6,
+   "STAGFLATION": 33.6,
+   "RECESSION": 48.6
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "VST": {
@@ -370,7 +689,15 @@
   "score": 6.58,
   "risk": 2.5,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 37.6,
+   "REFLATION": 38.0,
+   "INFLATION": 74.6,
+   "STAGFLATION": 62.7,
+   "RECESSION": 74.6
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "SE": {
@@ -381,7 +708,15 @@
   "score": 6.47,
   "risk": 3.3,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 66.3,
+   "REFLATION": 62.0,
+   "INFLATION": 47.9,
+   "STAGFLATION": 50.1,
+   "RECESSION": 47.9
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "UNH": {
@@ -392,7 +727,15 @@
   "score": 6.35,
   "risk": 2.5,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 34.6,
+   "REFLATION": 38.0,
+   "INFLATION": 54.4,
+   "STAGFLATION": 55.3,
+   "RECESSION": 78.4
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "CMCSA": {
@@ -403,7 +746,15 @@
   "score": 6.25,
   "risk": 3.0,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 36.0,
+   "REFLATION": 62.0,
+   "INFLATION": 56.0,
+   "STAGFLATION": 60.0,
+   "RECESSION": 68.0
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "NVO": {
@@ -414,7 +765,15 @@
   "score": 6.15,
   "risk": 3.0,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 24.0,
+   "REFLATION": 38.0,
+   "INFLATION": 68.0,
+   "STAGFLATION": 72.0,
+   "RECESSION": 92.0
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "ENG": {
@@ -425,6 +784,8 @@
   "score": 6.0,
   "risk": 3.0,
   "verdict": "HOLD",
+  "regime": {},
+  "weight": 2.92,
   "ts": null,
   "note": "N/A: regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB"
  },
@@ -436,7 +797,15 @@
   "score": 5.83,
   "risk": 2.6,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 82.8,
+   "REFLATION": 50.0,
+   "INFLATION": 14.7,
+   "STAGFLATION": 12.1,
+   "RECESSION": 14.7
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "DIS": {
@@ -447,7 +816,15 @@
   "score": 5.62,
   "risk": 2.4,
   "verdict": "ACCUMULATE",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 51.6,
+   "REFLATION": 62.0,
+   "INFLATION": 36.0,
+   "STAGFLATION": 35.5,
+   "RECESSION": 48.0
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "PEP": {
@@ -458,29 +835,53 @@
   "score": 5.5,
   "risk": 2.8,
   "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 37.9,
+   "REFLATION": 38.0,
+   "INFLATION": 62.1,
+   "STAGFLATION": 62.1,
+   "RECESSION": 74.1
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "BSX": {
   "price": 46.84000015258789,
-  "ngv": 28.4461403641934,
-  "cover": 0.607304446445903,
+  "ngv": 15.577237567535864,
+  "cover": 0.3325627138512131,
   "cushion": null,
   "score": 5.4,
   "risk": 3.0,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 71.4,
+   "REFLATION": 50.0,
+   "INFLATION": 38.0,
+   "STAGFLATION": 35.3,
+   "RECESSION": 50.0
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "WIX": {
   "price": 87.62000274658203,
-  "ngv": 87.9994855084891,
-  "cover": 1.0043310060489798,
+  "ngv": 122.610513739546,
+  "cover": 1.3993438700768461,
   "cushion": null,
   "score": 5.3,
   "risk": 3.3,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 57.5,
+   "REFLATION": 47.5,
+   "INFLATION": 48.5,
+   "STAGFLATION": 36.5,
+   "RECESSION": 54.5
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "GRAB": {
@@ -491,6 +892,8 @@
   "score": 5.23,
   "risk": 3.1,
   "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: TTM IFRS free cash flow negative (-186m)"
  },
@@ -502,7 +905,15 @@
   "score": 5.22,
   "risk": 3.0,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 81.6,
+   "REFLATION": 50.0,
+   "INFLATION": 28.2,
+   "STAGFLATION": 14.0,
+   "RECESSION": 40.2
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "MCD": {
@@ -513,7 +924,15 @@
   "score": 5.2,
   "risk": 2.8,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 52.9,
+   "REFLATION": 62.0,
+   "INFLATION": 58.3,
+   "STAGFLATION": 45.5,
+   "RECESSION": 46.3
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "TTD": {
@@ -524,18 +943,34 @@
   "score": 4.7,
   "risk": 2.4,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 60.0,
+   "REFLATION": 50.0,
+   "INFLATION": 44.0,
+   "STAGFLATION": 48.0,
+   "RECESSION": 44.0
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "NKE": {
   "price": 39.599998474121094,
-  "ngv": 18.434860117902073,
-  "cover": 0.4655267885919086,
+  "ngv": 18.402426693629927,
+  "cover": 0.4647077626948914,
   "cushion": null,
   "score": 4.6,
   "risk": 2.8,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 66.7,
+   "REFLATION": 62.0,
+   "INFLATION": 31.9,
+   "STAGFLATION": 30.6,
+   "RECESSION": 31.9
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "ZTS": {
@@ -546,7 +981,15 @@
   "score": 4.55,
   "risk": 3.0,
   "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
+  "regime": {
+   "GOLDILOCKS": 39.3,
+   "REFLATION": 50.0,
+   "INFLATION": 63.8,
+   "STAGFLATION": 66.8,
+   "RECESSION": 75.8
+  },
+  "weight": null,
+  "ts": "2026-08-30 21:59 UTC",
   "note": ""
  },
  "IBST": {
@@ -557,84 +1000,16 @@
   "score": 3.7,
   "risk": 3.0,
   "verdict": "AVOID",
+  "regime": {},
+  "weight": null,
   "ts": null,
   "note": "N/A: free cash flow negative (-7m) in a UK housing downturn"
  },
- "MSFT": {
-  "price": 513.530029296875,
-  "ngv": 112.7643743561083,
-  "cover": 0.21958671922361622,
-  "cushion": null,
-  "score": 5.375,
-  "risk": 2.4,
-  "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
-  "note": ""
- },
- "AAPL": {
-  "price": 319.70001220703125,
-  "ngv": 117.069783982382,
-  "cover": 0.3661863606891888,
-  "cushion": null,
-  "score": 5.75,
-  "risk": 2.1,
-  "verdict": "ACCUMULATE",
-  "ts": "2026-08-30 18:23 UTC",
-  "note": ""
- },
- "KO": {
-  "price": 89.66000366210938,
-  "ngv": 41.53641445189481,
-  "cover": 0.46326581257377575,
-  "cushion": null,
-  "score": 5.5249999999999995,
-  "risk": 2.6,
-  "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
-  "note": ""
- },
- "CVX": {
-  "price": 201.86000061035156,
-  "ngv": 172.12989396411092,
-  "cover": 0.8527191788549116,
-  "cushion": null,
-  "score": 5.800000000000001,
-  "risk": 3.7,
-  "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
-  "note": ""
- },
- "RCAT": {
-  "price": 8.489999771118164,
-  "ngv": -12.908453932289959,
-  "cover": -1.52043042170658,
-  "cushion": null,
-  "score": 4.2,
-  "risk": 4.1,
-  "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
-  "note": ""
- },
- "AMAT": {
-  "price": 461.6700134277344,
-  "ngv": 84.15763608870968,
-  "cover": 0.18228958702314105,
-  "cushion": null,
-  "score": 5.45,
-  "risk": 2.1,
-  "verdict": "AVOID",
-  "ts": "2026-08-30 18:23 UTC",
-  "note": ""
- },
- "PHR": {
-  "price": 12.149999618530273,
-  "ngv": 12.809616318601261,
-  "cover": 1.0542894420395692,
-  "cushion": null,
-  "score": 5.85,
-  "risk": 3.1,
-  "verdict": "HOLD",
-  "ts": "2026-08-30 18:23 UTC",
-  "note": ""
+ "_portfolio": {
+  "GOLDILOCKS": 53.3,
+  "REFLATION": 55.3,
+  "INFLATION": 68.5,
+  "STAGFLATION": 62.8,
+  "RECESSION": 62.2
  }
 }
