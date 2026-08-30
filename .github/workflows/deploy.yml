@@ -9,9 +9,12 @@ on:
         description: 'Optional: Yahoo ticker to add as a draft (e.g. ASML.AS)'
         required: false
         type: string
+  issues:
+    types: [opened]
 
 permissions:
   contents: write
+  issues: write
   pages: write
   id-token: write
 
@@ -21,50 +24,162 @@ concurrency:
 
 jobs:
   build-and-deploy:
+    # Run for the normal scheduled/manual builds, or only for an issue whose
+    # title is the ticker-adder command. This is the missing link that makes
+    # the Add via GitHub button actually trigger automation.
+    if: >-
+      github.event_name != 'issues' ||
+      startsWith(github.event.issue.title, 'add-ticker:')
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: pip
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
 
-      - name: Add ticker as draft
-        if: github.event_name == 'workflow_dispatch' && inputs.new_ticker != ''
-        run: python add_ticker.py "${{ inputs.new_ticker }}"
+      - name: Determine ticker request
+        id: ticker
+        env:
+          MANUAL_TICKER: ${{ inputs.new_ticker }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          raw="$MANUAL_TICKER"
+          if [[ -z "$raw" && -n "$ISSUE_TITLE" ]]; then
+            raw="$ISSUE_TITLE"
+          fi
+
+          # A manual run carries only the ticker. An issue run carries
+          # "add-ticker: TICKER". Keep the value in an environment variable,
+          # never interpolate the issue title directly into shell syntax.
+          ticker="${raw#add-ticker:}"
+          ticker="${ticker#Add-ticker:}"
+          ticker="${ticker#ADD-TICKER:}"
+          ticker="$(printf '%s' "$ticker" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+
+          if [[ -z "$ticker" ]]; then
+            echo "has_ticker=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Yahoo symbols may contain letters, numbers, dot, dash, caret and =.
+          if [[ ! "$ticker" =~ ^[A-Z0-9^._=-]+$ ]]; then
+            echo "::error::Invalid Yahoo ticker: $ticker"
+            exit 1
+          fi
+
+          echo "has_ticker=true" >> "$GITHUB_OUTPUT"
+          echo "ticker=$ticker" >> "$GITHUB_OUTPUT"
+          echo "Requested ticker: $ticker" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Add ticker
+        id: add
+        if: steps.ticker.outputs.has_ticker == 'true'
+        env:
+          TICKER: ${{ steps.ticker.outputs.ticker }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python add_ticker.py "$TICKER" 2>&1 | tee result.txt
 
       - name: Build scoreboard
         run: python engine.py
 
-      - name: Commit results
+      - name: Validate generated files
         run: |
-          git config user.name  "investorace-bot"
+          python -m py_compile engine.py add_ticker.py autoscore.py
+          test -s index.html
+
+      - name: Commit results
+        env:
+          TICKER: ${{ steps.ticker.outputs.ticker }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "investorace-bot"
           git config user.email "actions@github.com"
           git add -A index.html history/ engine.py
+
           if git diff --staged --quiet; then
             echo "nothing changed"
+            exit 0
+          fi
+
+          if [[ -n "${TICKER:-}" ]]; then
+            git commit -m "add ${TICKER} and rebuild scoreboard"
           else
             git commit -m "scoreboard $(date -u +%Y-%m-%d)"
-            git pull --rebase --autostash origin ${{ github.ref_name }} || true
-            git push
           fi
+
+          # Rebase before push in case a scheduled/manual run overlapped a
+          # previous commit. Do not hide a failed rebase.
+          git fetch origin "${GITHUB_REF_NAME}"
+          git rebase "origin/${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Stage site
         run: |
+          set -euo pipefail
+          rm -rf public
           mkdir -p public
           cp index.html public/
           cp tickers.js public/ 2>/dev/null || true
           cp -r history public/ 2>/dev/null || true
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: 'public'
+          path: public
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Report ticker result on issue
+        if: always() && github.event_name == 'issues'
+        uses: actions/github-script@v7
+        env:
+          TICKER: ${{ steps.ticker.outputs.ticker }}
+          ADD_RESULT: ${{ steps.add.outcome }}
+        with:
+          script: |
+            const fs = require('fs');
+            let output = '';
+            try { output = fs.readFileSync('result.txt', 'utf8'); } catch (_) {}
+
+            const success = '${{ job.status }}' === 'success';
+            const body = success
+              ? `### ✅ Ticker processed\n\nTicker: **${process.env.TICKER || '—'}**\n\n${output.slice(0, 50000)}`
+              : `### ❌ Ticker workflow failed\n\nTicker: **${process.env.TICKER || '—'}**\n\n${output.slice(0, 50000)}`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+
+            if (success) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed'
+              });
+            }
