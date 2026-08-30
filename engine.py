@@ -489,42 +489,87 @@ button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-rad
 # it also means you never have to double-brace anything again.
 JS = r"""
 const KNOWN = __TICKERS__;
-const REPO  = 'usubillaga/InvestorAce';      // <-- must match your repo exactly
+const REPO = 'usubillaga/InvestorAce';
 
 function addTicker(){
-  const t = document.getElementById('newTicker').value.trim().toUpperCase();
+  const input = document.getElementById('newTicker');
   const out = document.getElementById('out');
   const link = document.getElementById('gh');
-  if(!t){ out.value = 'Type a Yahoo ticker first, e.g. ROAD or ASML.AS'; return; }
+  const button = document.getElementById('addTickerButton');
+
+  if (!input || !out || !link) {
+    console.error('InvestorAce: Add ticker controls are missing from the page.');
+    return false;
+  }
+
+  const t = input.value.trim().toUpperCase();
+  if (!t) {
+    out.value = 'Enter a Yahoo ticker first, for example ROAD or ASML.AS.';
+    input.focus();
+    return false;
+  }
+
+  // Accept Yahoo symbols such as ASML.AS / SAN.PA / IBST.L.
+  // The model key is the portion before the first dot.
   const key = t.split('.')[0];
-  if (KNOWN.includes(key)) { out.value = key + ' is already in the model.'; return; }
+  if (KNOWN.includes(key)) {
+    out.value = key + ' is already in the model.';
+    return false;
+  }
 
-  // NO LABEL in the URL. GitHub silently drops ?labels= when the label does not
-  // already exist in the repo, the issue opens unlabelled, and a label-gated
-  // workflow never fires -- with no error anywhere. The workflow now gates on
-  // the TITLE instead, so nothing needs configuring first.
+  const title = 'add-ticker: ' + t;
+  const body = [
+    'Auto-add ' + t + '.',
+    '',
+    'Do not edit the title -- the workflow reads the ticker from it.',
+    '',
+    'It will fetch price, shares and TTM free cash flow from Yahoo, draft the',
+    'mechanical fields, commit the change and redeploy. Human review is still',
+    'required for the delivering metric and clock classification.',
+    '',
+    'If free cash flow is negative the row may be added with na= and no NGV, by design.'
+  ].join('\n');
+
   const url = 'https://github.com/' + REPO + '/issues/new'
-    + '?title=' + encodeURIComponent('add-ticker: ' + t)
-    + '&body='  + encodeURIComponent(
-        'Auto-add ' + t + '.\n\n'
-      + 'Do not edit the title -- the workflow reads the ticker from it.\n\n'
-      + 'It will fetch price, shares and TTM free cash flow from Yahoo, draft all\n'
-      + 'eight subscores from the threshold tables, derive priced-in from cover,\n'
-      + 'commit and redeploy. Two fields still need a human afterwards:\n'
-      + '  deliver : the company\'s own leading metric (revenue growth fills as a proxy)\n'
-      + '  clock   : CLOCK / CONC / DIV\n\n'
-      + 'If free cash flow is negative the row is added with na= and no NGV, by design.');
+    + '?title=' + encodeURIComponent(title)
+    + '&body=' + encodeURIComponent(body);
 
-  // A real anchor, not window.open -- mobile Safari and Chrome block popups and
-  // the button then appears to do nothing at all.
   link.href = url;
+  link.textContent = 'Open GitHub issue for ' + t + ' →';
+  link.hidden = false;
   link.style.display = 'inline-block';
-  link.textContent = 'Open issue for ' + t + ' \u2192';
-  out.value = 'Tap the green link below to open the GitHub issue.\n\n'
-            + 'If the link will not open, paste this URL into your browser:\n\n' + url;
-  try { window.open(url, '_blank'); } catch(e) {}
+
+  out.value = 'Opening GitHub…\n\nIf it does not open automatically, use the green link below.\n\n' + url;
+
+  if (button) button.disabled = true;
+
+  // Navigate in the same tab after a real user click. This avoids popup blockers
+  // on Safari/iOS/Chrome that can make window.open() appear to do nothing.
+  window.location.assign(url);
+  return true;
+}
+
+function initTickerAdder(){
+  const button = document.getElementById('addTickerButton');
+  const input = document.getElementById('newTicker');
+  if (!button || !input) return;
+
+  button.addEventListener('click', addTicker);
+  input.addEventListener('keydown', function(event){
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      addTicker();
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTickerAdder);
+} else {
+  initTickerAdder();
 }
 """
+
 
 
 CHART_JS = r"""
@@ -625,10 +670,12 @@ def build_html():
              '<div class="lede" style="margin-bottom:10px">Yahoo can supply the mechanical half — price, shares, '
              'cash flow, currency. It cannot supply subscores, the delivering metric or the clock classification. '
              'This opens a pre-filled GitHub issue; the workflow does the rest and comments back with the result.</div>'
-             '<input id="newTicker" placeholder="e.g. ASML.AS" style="width:220px">&nbsp;'
-             '<button onclick="addTicker()">Add via GitHub</button>&nbsp;'
-             '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
-             '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
+             '<input id="newTicker" type="text" autocomplete="off" spellcheck="false" '
+             'placeholder="e.g. ASML.AS" aria-label="Yahoo ticker" style="width:220px">&nbsp;'
+             '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
+             '<a id="gh" target="_blank" rel="noopener noreferrer" hidden '
+             'style="background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
+             '<textarea id="out" aria-live="polite" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
