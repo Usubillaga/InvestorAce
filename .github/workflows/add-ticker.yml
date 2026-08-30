@@ -22,7 +22,9 @@ concurrency:
 
 jobs:
   add:
-    if: startsWith(github.event.issue.title, 'add-ticker:')
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      startsWith(github.event.issue.title, 'add-ticker:')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
