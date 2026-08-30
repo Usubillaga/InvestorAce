@@ -1,17 +1,14 @@
-# .github/workflows/add-ticker.yml
-# Makes the website button ACTUALLY add a ticker, with no token in the page.
-#
-# A static GitHub Pages site cannot write to its own repo -- that is the whole
-# limitation. But it CAN open a pre-filled GitHub Issue, and an issue can
-# trigger a workflow. So: button -> issue -> workflow -> add_ticker.py ->
-# autoscore -> commit -> rebuild -> deploy -> issue closed with the result.
-#
-# Works from a phone. No secrets exposed.
 name: Add ticker from issue
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [opened, edited, labeled]
+  workflow_dispatch:
+    inputs:
+      ticker:
+        description: 'Yahoo ticker (e.g. ASML.AS)'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -25,27 +22,29 @@ concurrency:
 
 jobs:
   add:
-    if: contains(github.event.issue.labels.*.name, 'add-ticker')
+    if: startsWith(github.event.issue.title, 'add-ticker:')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
       - run: pip install -r requirements.txt
 
       - name: Parse ticker from issue title
         id: parse
         run: |
-          # title looks like  "add-ticker: RIVN"  or  "add-ticker: ASML.AS"
-          T=$(echo "${{ github.event.issue.title }}" | sed -n 's/.*add-ticker:[[:space:]]*\([A-Za-z0-9.\-]*\).*/\1/p' | tr '[:lower:]' '[:upper:]')
+          RAW="${{ github.event.inputs.ticker || github.event.issue.title }}"
+          T=$(echo "$RAW" | sed 's/^add-ticker:[[:space:]]*//' | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')
           if [ -z "$T" ]; then echo "no ticker found in title"; exit 1; fi
           echo "ticker=$T" >> $GITHUB_OUTPUT
 
       - name: Add and score
         id: add
         run: |
-          python add_ticker.py "${{ steps.parse.outputs.ticker }}" 2>&1 | tee result.txt
-          echo "ok=true" >> $GITHUB_OUTPUT
+          set -o pipefail
+          python add_ticker.py "${{ steps.parse.outputs.ticker }}" 2>&1 | tee result.txt \
+            && echo "ok=true" >> $GITHUB_OUTPUT \
+            || echo "ok=false" >> $GITHUB_OUTPUT
 
       - name: Rebuild scoreboard
         run: python engine.py
@@ -64,12 +63,14 @@ jobs:
           mkdir -p public && cp index.html public/
           cp tickers.js public/ 2>/dev/null || true
           cp -r history public/ 2>/dev/null || true
+
       - uses: actions/upload-pages-artifact@v3
         with: { path: 'public' }
+
       - uses: actions/deploy-pages@v4
 
       - name: Report back and close
-        if: always()
+        if: always() && github.event_name == 'issues'
         uses: actions/github-script@v7
         with:
           script: |
