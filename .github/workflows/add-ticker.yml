@@ -1,10 +1,5 @@
-# .github/workflows/add-ticker.yml
-# Two ways in, one job:
-#   1. Actions -> Run workflow -> type a ticker         (workflow_dispatch)
-#   2. New issue titled  "add-ticker: MSFT"             (issues)
-# Both run add_ticker.py -> autoscore -> commit -> rebuild -> deploy.
-
 name: Add ticker
+
 run-name: >-
   Add ${{ inputs.ticker || github.event.issue.title || 'ticker' }}
 
@@ -12,11 +7,11 @@ on:
   workflow_dispatch:
     inputs:
       ticker:
-        description: 'Yahoo ticker, e.g. MSFT or ASML.AS'
+        description: Yahoo ticker, e.g. MSFT or ASML.AS
         required: true
         type: string
   issues:
-    types: [opened, edited]
+    types: [opened]
 
 permissions:
   contents: write
@@ -30,117 +25,155 @@ concurrency:
 
 jobs:
   add:
-    # A manual run has NO github.event.issue, so a title-only gate evaluates to
-    # startsWith(null, ...) = false and the job shows "skipped" before doing
-    # anything. Both clauses are required.
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      startsWith(github.event.issue.title, 'add-ticker:')
+      (github.event_name == 'issues' && startsWith(github.event.issue.title, 'add-ticker:'))
     runs-on: ubuntu-latest
-    timeout-minutes: 15            # a hung yfinance call must not run for hours
+    timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: pip               # ~30s faster per run
+          cache: pip
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Parse ticker
+      - name: Parse ticker safely
         id: parse
+        env:
+          MANUAL_TICKER: ${{ inputs.ticker }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
-          RAW="${{ inputs.ticker || github.event.issue.title }}"
-          T=$(echo "$RAW" | sed 's/^[Aa]dd-ticker:[[:space:]]*//' \
-                          | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')
-          if [ -z "$T" ]; then
-            echo "::error::No ticker found in '$RAW'"
+          set -euo pipefail
+
+          RAW="$MANUAL_TICKER"
+          if [ -z "$RAW" ]; then
+            RAW="$ISSUE_TITLE"
+          fi
+
+          T="$(printf '%s\n' "$RAW" |
+            sed -E 's/^[Aa][Dd][Dd]-[Tt][Ii][Cc][Kk][Ee][Rr]:[[:space:]]*//' |
+            tr -d '[:space:]' |
+            tr '[:lower:]' '[:upper:]')"
+
+          # Accept only normal Yahoo-style symbols.
+          if ! printf '%s\n' "$T" | grep -Eq '^[A-Z0-9][A-Z0-9._=-]{0,19}$'; then
+            echo "::error::Invalid ticker: '$T'"
             exit 1
           fi
-          echo "ticker=$T" >> $GITHUB_OUTPUT
-          echo "### Adding \`$T\`" >> $GITHUB_STEP_SUMMARY
 
-      - name: Add and score
+          echo "ticker=$T" >> "$GITHUB_OUTPUT"
+          echo "### Adding \`$T\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Add ticker
         id: add
+        env:
+          TICKER: ${{ steps.parse.outputs.ticker }}
         run: |
           set +e
-          python add_ticker.py "${{ steps.parse.outputs.ticker }}" 2>&1 | tee result.txt
+          python add_ticker.py "$TICKER" 2>&1 | tee result.txt
           CODE=${PIPESTATUS[0]}
           set -e
-          if grep -q "already in DATA" result.txt; then
-            echo "status=exists" >> $GITHUB_OUTPUT
+
+          if grep -q "is already in DATA" result.txt; then
+            STATUS="exists"
           elif [ "$CODE" -eq 0 ]; then
-            echo "status=added"  >> $GITHUB_OUTPUT
+            STATUS="added"
           else
-            echo "status=failed" >> $GITHUB_OUTPUT
+            STATUS="failed"
           fi
+
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+
           {
-            echo '```'
+            echo '```text'
             cat result.txt
             echo '```'
-          } >> $GITHUB_STEP_SUMMARY
+          } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Stop if nothing was added
-        if: steps.add.outputs.status != 'added'
-        run: |
-          echo "::notice::${{ steps.parse.outputs.ticker }} -> ${{ steps.add.outputs.status }}, nothing to deploy"
+          exit 0
 
       - name: Rebuild scoreboard
         if: steps.add.outputs.status == 'added'
         run: python engine.py
 
-      - name: Commit
+      - name: Commit and push
         if: steps.add.outputs.status == 'added'
+        env:
+          TICKER: ${{ steps.parse.outputs.ticker }}
         run: |
-          git config user.name  "investorace-bot"
+          set -euo pipefail
+          git config user.name "investorace-bot"
           git config user.email "actions@github.com"
-          git add -A engine.py index.html history/
+
+          git add -A engine.py autoscore.py index.html history/
           if git diff --staged --quiet; then
-            echo "::notice::no file changes to commit"
-          else
-            git commit -m "add ${{ steps.parse.outputs.ticker }}"
-            git pull --rebase --autostash origin "${{ github.ref_name }}" || true
-            git push
+            echo "::notice::No changes to commit"
+            exit 0
           fi
+
+          git commit -m "add ${TICKER}"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Stage site
         if: steps.add.outputs.status == 'added'
         run: |
+          set -euo pipefail
           mkdir -p public
           cp index.html public/
-          cp tickers.js public/ 2>/dev/null || true
-          cp -r history  public/ 2>/dev/null || true
+          [ ! -e tickers.js ] || cp tickers.js public/
+          [ ! -d history ] || cp -r history public/
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload Pages artifact
         if: steps.add.outputs.status == 'added'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
-      - uses: actions/deploy-pages@v4
+      - name: Deploy Pages
         if: steps.add.outputs.status == 'added'
+        uses: actions/deploy-pages@v4
 
-      - name: Comment on the issue
+      - name: Comment on issue
         if: always() && github.event_name == 'issues'
         uses: actions/github-script@v7
+        env:
+          STATUS: ${{ steps.add.outputs.status }}
         with:
           script: |
             const fs = require('fs');
-            let out = '(no output captured)';
-            try { out = fs.readFileSync('result.txt', 'utf8'); } catch (e) {}
-            const s = '${{ steps.add.outputs.status }}';
-            const head = s === 'added'  ? '### Added and deployed'
-                       : s === 'exists' ? '### Already in the model'
-                       :                  '### Failed';
+            const status = process.env.STATUS || 'failed';
+            let output = '(no output captured)';
+            try {
+              output = fs.readFileSync('result.txt', 'utf8');
+            } catch (_) {}
+
+            const head =
+              status === 'added' ? '### Added and deployed' :
+              status === 'exists' ? '### Already in the model' :
+              '### Failed';
+
             await github.rest.issues.createComment({
-              owner: context.repo.owner, repo: context.repo.repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: head + '\n\n```\n' + out.slice(0, 60000) + '\n```'
+              body: `${head}\n\n\`\`\`\n${output.slice(0, 60000)}\n\`\`\``
             });
-            if (s === 'added' || s === 'exists') {
+
+            if (status === 'added' || status === 'exists') {
               await github.rest.issues.update({
-                owner: context.repo.owner, repo: context.repo.repo,
-                issue_number: context.issue.number, state: 'closed'
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed'
               });
             }
