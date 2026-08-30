@@ -95,6 +95,7 @@ DATA = {
 'GILD': dict(yf='GILD', fcf=12943.0, shares=1239.96, r=0.08, cur='USD', deliver=5.9, dl='revenue growth (PROXY)', sub=(5.5, 9.0, 9.5, 1.5, 5.0, 6.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(54.23, 314.58)),
 'AG': dict(yf='AG', fcf=614.1, shares=492.91, r=0.08, cur='USD', deliver=192.7, dl='revenue growth (PROXY)', sub=(9.5, 9.0, 9.5, 9.5, 5.0, 9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Basic Materials', built='auto', sanity=(4.5, 64.08)),
 'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, dl='revenue growth (PROXY)', sub=(4.0, 4.0, 1.5, 7.0, 5.0, 9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99, 385.34), na='FCF non-positive (-50,724.0m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
+'BYRN': dict(yf='BYRN', fcf=None, shares=22.8, r=0.08, cur='USD', deliver=26.9, dl='revenue growth (PROXY)', sub=(8.5, 2.0, 1.5, 6.0, 5.0, 1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(1.59, 61.24), na='FCF non-positive (-0.5m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
 }
 
 # ---------------- engine ----------------
