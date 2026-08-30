@@ -1,0 +1,88 @@
+# .github/workflows/add-ticker.yml
+# Makes the website button ACTUALLY add a ticker, with no token in the page.
+#
+# A static GitHub Pages site cannot write to its own repo -- that is the whole
+# limitation. But it CAN open a pre-filled GitHub Issue, and an issue can
+# trigger a workflow. So: button -> issue -> workflow -> add_ticker.py ->
+# autoscore -> commit -> rebuild -> deploy -> issue closed with the result.
+#
+# Works from a phone. No secrets exposed.
+name: Add ticker from issue
+
+on:
+  issues:
+    types: [opened, labeled]
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: scoreboard
+  cancel-in-progress: false
+
+jobs:
+  add:
+    if: contains(github.event.issue.labels.*.name, 'add-ticker')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: { python-version: '3.11' }
+      - run: pip install -r requirements.txt
+
+      - name: Parse ticker from issue title
+        id: parse
+        run: |
+          # title looks like  "add-ticker: RIVN"  or  "add-ticker: ASML.AS"
+          T=$(echo "${{ github.event.issue.title }}" | sed -n 's/.*add-ticker:[[:space:]]*\([A-Za-z0-9.\-]*\).*/\1/p' | tr '[:lower:]' '[:upper:]')
+          if [ -z "$T" ]; then echo "no ticker found in title"; exit 1; fi
+          echo "ticker=$T" >> $GITHUB_OUTPUT
+
+      - name: Add and score
+        id: add
+        run: |
+          python add_ticker.py "${{ steps.parse.outputs.ticker }}" 2>&1 | tee result.txt
+          echo "ok=true" >> $GITHUB_OUTPUT
+
+      - name: Rebuild scoreboard
+        run: python engine.py
+
+      - name: Commit
+        run: |
+          git config user.name  "investorace-bot"
+          git config user.email "actions@github.com"
+          git add -A engine.py index.html history/
+          git diff --staged --quiet || git commit -m "add ${{ steps.parse.outputs.ticker }}"
+          git pull --rebase --autostash origin ${{ github.ref_name }} || true
+          git push
+
+      - name: Stage site
+        run: |
+          mkdir -p public && cp index.html public/
+          cp tickers.js public/ 2>/dev/null || true
+          cp -r history public/ 2>/dev/null || true
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: 'public' }
+      - uses: actions/deploy-pages@v4
+
+      - name: Report back and close
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let out = 'add_ticker produced no output.';
+            try { out = fs.readFileSync('result.txt', 'utf8'); } catch (e) {}
+            const ok = '${{ steps.add.outputs.ok }}' === 'true';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: (ok ? '### Added\n' : '### Failed\n') + '```\n' + out.slice(0, 60000) + '\n```'
+            });
+            if (ok) await github.rest.issues.update({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number, state: 'closed'
+            });
