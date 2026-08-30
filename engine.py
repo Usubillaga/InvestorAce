@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v4.3  (+ASML, +RIVN, +ROAD)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE · SCORECARD ENGINE · v5.0  (live priced-in)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -109,6 +109,21 @@ def entry_price(d, target=.60):
 def entry_gap(d, target=.60):
     c = cover(d);  return None if c is None else c/target - 1
 
+def priced_in_live(d):
+    """[FIX] cover is live, pr was static. When the price moved, cover updated
+       and the SCORE DID NOT -- the stale-cover bug one level up. Derive pr from
+       cover on every run; fall back to the stored value when there is no price.
+       Same mapping used by autoscore, including the Pfizer rule: a negative
+       cushion costs 2.0 points however good the cover looks."""
+    c = cover(d)
+    if c is None: return d.get('pr')
+    pct = c * 100
+    for hi, v in ((15,1.5),(25,2.5),(35,3.0),(45,4.5),(60,5.5),(75,7.0),(90,8.0),(100,9.0),(1e9,9.5)):
+        if pct < hi: pr = v; break
+    cu = cushion(d)
+    if cu is not None and cu < 0: pr = max(1.0, pr - 2.0)
+    return round(pr, 1)
+
 def score(d):
     """[FIX] 28 of 48 rows had sub=None, so score() returned None, so risk()
        returned None, so verdict() said NO SCORE -- four blank columns per row.
@@ -119,7 +134,7 @@ def score(d):
     g,p,c,b,v,r = sub
     core = g*W['g']+p*W['p']+c*W['c']+b*W['b']+v*W['v']+r*W['r']
     dil = d.get('dil', 6.0)
-    pr = d.get('pr')
+    pr = priced_in_live(d)                     # live, not the stored constant
     return (core + dil*W['d'])/(1-W['pr']) if pr is None else core + pr*W['pr'] + dil*W['d']
 
 def risk(d):
@@ -128,7 +143,7 @@ def risk(d):
     sub = d.get('sub'); dil = d.get('dil', 6.0)
     bs = sub[3] if (sub and len(sub)==6) else 6.0
     x = 3.0 - .40*(bs-6)/2 - .40*(dil-6)/2
-    if d.get('pr') is None: x += 1.0
+    if priced_in_live(d) is None: x += 1.0
     cu = cushion(d)
     if cu is not None and cu < 0: x += .6
     if s < 3.50: x += .5
@@ -540,4 +555,3 @@ if __name__ == '__main__':
     bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
     print(f'{len(DATA)} tickers · snapshot history/{day}.json · index.html written')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)
-
