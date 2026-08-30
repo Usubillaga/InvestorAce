@@ -487,7 +487,7 @@ button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-rad
 # raises SyntaxError at import time. The CSS was escaped with {{ }} but the JS
 # was not. Keeping CSS and JS as PLAIN strings and concatenating is the fix --
 # it also means you never have to double-brace anything again.
-JS = """
+JS = r"""
 const KNOWN = __TICKERS__;
 const REPO  = 'usubillaga/InvestorAce';      // <-- must match your repo exactly
 
@@ -527,7 +527,7 @@ function addTicker(){
 """
 
 
-CHART_JS = """
+CHART_JS = r"""
 const RD = __DATES__, RS = __SERIES__;
 if (RD.length && window.Chart) {
   new Chart(document.getElementById('regimeChart').getContext('2d'), {
