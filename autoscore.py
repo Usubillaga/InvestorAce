@@ -114,16 +114,41 @@ def _fin(tk):
                 if p: out['fcf'] = sum(a+b for a,b in p)
     except Exception: pass
     try:
-        qis = tk.quarterly_financials
-        r = rows(qis,'total revenue')
-        if r is not None and len(r) >= 8:
+        qis = None
+        for attr in ('quarterly_income_stmt', 'quarterly_financials'):   # newer name first
+            try:
+                cand = getattr(tk, attr, None)
+                if cand is not None and not cand.empty: qis = cand; break
+            except Exception: continue
+        r = rows(qis, 'total revenue', 'operating revenue')
+        if r is not None and len(r) >= 8:                 # ideal: TTM vs prior TTM
             cur4  = [num(x) for x in r.iloc[:4]];  prev4 = [num(x) for x in r.iloc[4:8]]
             if all(v is not None for v in cur4+prev4):
                 out['rev'], out['rev_prev'] = sum(cur4), sum(prev4)
-        oi = rows(qis,'operating income','ebit')
+        if out['rev'] is None and r is not None and len(r) >= 4:
+            v = [num(x) for x in r.iloc[:4]]                # [FIX] 4 quarters is enough for TTM
+            if all(x is not None for x in v): out['rev'] = sum(v)
+        if out['rev_prev'] is None:                        # [FIX] YoY from ANNUAL statements
+            try:
+                ais = getattr(tk, 'income_stmt', None)
+                if ais is None or ais.empty: ais = tk.financials
+                ar = rows(ais, 'total revenue', 'operating revenue')
+                if ar is not None and len(ar) >= 2:
+                    a0, a1 = num(ar.iloc[0]), num(ar.iloc[1])
+                    if a0 and a1:
+                        if out['rev'] is None: out['rev'] = a0
+                        out['rev_prev'] = a1
+            except Exception: pass
+        oi = rows(qis,'operating income','ebit','total operating income as reported')
         if oi is not None:
             v = [num(x) for x in oi.iloc[:4]]; v=[x for x in v if x is not None]
             if v: out['opinc'] = sum(v)
+        if out['opinc'] is None:                            # [FIX] annual fallback
+            try:
+                ais = getattr(tk, 'income_stmt', None)
+                ao = rows(ais, 'operating income', 'ebit')
+                if ao is not None: out['opinc'] = num(ao.iloc[0])
+            except Exception: pass
         eb = rows(qis,'ebitda','normalized ebitda')
         if eb is not None:
             v = [num(x) for x in eb.iloc[:4]]; v=[x for x in v if x is not None]
@@ -198,4 +223,3 @@ if __name__ == '__main__':
     print(f"'{key}': " + repr(row).replace('{','dict(').replace('}',')').replace("'yf':","yf=") + ',')
     print()
     for w in warn: print('  !', w)
-
