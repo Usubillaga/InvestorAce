@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v4.1  (+ASML)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE · SCORECARD ENGINE · v4.3  (+ASML, +RIVN, +ROAD)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -26,6 +26,14 @@ DATA = {
     dl='FY26 revenue guidance vs FY25', sub=(9.5,9.5,5.5,7.5,4.5,8.0), pr=4.5, dil=8.0,
     clock='CONC', ins='NOT CHECKED', held=False, sector='Semis', built='est',
     sanity=(300,1600)),
+'RIVN': dict(yf='RIVN', fcf=None, shares=1415.0, r=.080, cur='USD', deliver=27.0,
+    dl='revenue growth', sub=(7,2,0.5,5.5,6.5,0.5), pr=None, dil=2.0, clock='CONC',
+    ins='NOT CHECKED', held=False, sector='Automotive', built='exact', sanity=(3,60),
+    na='free cash flow -$1,924m in H1 2026; automotive gross profit still negative'),
+'ROAD': dict(yf='ROAD', fcf=150, shares=56.1, r=.090, cur='USD', deliver=14.3,
+    dl='backlog growth', sub=(8,6,4,4.5,4,1.5), pr=4.5, dil=5.5, clock='CONC',
+    ins='NOT CHECKED', held=False, sector='Industrials', built='est',
+    sanity=(25,250)),
 'CRM' : dict(yf='CRM',    fcf=12700,  shares=950.0,  r=.080, cur='USD', deliver=14.0, dl='cRPO cc',          sub=(7,8,8,7.5,7.5,7),       pr=8.0, dil=9.0, clock='CONC', ins='AWARDS',      held=False, sector='Software',      built='exact', sanity=(120,450)),
 'NVDA': dict(yf='NVDA',   fcf=126900, shares=24285., r=.100, cur='USD', deliver=106.0,dl='revenue',          sub=(10,10,8,9,6,6),         pr=2.5, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Semis',         built='exact', sanity=(80,400), risk_floor=3.4),
 'SPGI': dict(yf='SPGI',   fcf=5200,   shares=293.3,  r=.075, cur='USD', deliver=7.0,  dl='organic cc',       sub=(8,9.5,9,6.5,4.5,9),     pr=6.0, dil=9.0, clock='CONC', ins='BUYING·LILA', held=False, sector='Info Svcs',     built='exact', sanity=(200,700)),
@@ -165,26 +173,26 @@ REGIME_CSS = {'GOLDILOCKS':'g-gold','REFLATION':'g-refl','INFLATION':'g-infl',
 AFF = {
 'GOLDILOCKS': {'Semis':2,'Software':2,'AI Infra':2,'Ad Tech':2,'AdTech':2,'Platform':2,'Space':2,
     'MedTech':1,'Luxury':1,'Apparel':1,'Info Svcs':1,'Health Data':1,'Biotech':1,
-    'Services':0,'Media':0,'Restaurant':0,'Animal Health':0,'Aerospace':0,
+    'Services':0,'Industrials':0,'Automotive':1,'Media':0,'Restaurant':0,'Animal Health':0,'Aerospace':0,
     'Staples':-1,'Utilities':-1,'REIT':-1,'Health Ins':-1,'Pharma':-1,
     'Energy':-2,'Midstream':-2,'Materials':-2},
 'REFLATION': {'Energy':2,'Materials':2,'Aerospace':2,'Midstream':2,
     'Semis':1,'Luxury':1,'Apparel':1,'Platform':1,'Media':1,'Restaurant':1,
-    'Software':0,'Info Svcs':0,'Services':0,'MedTech':0,'Space':0,'Health Data':0,'Ad Tech':0,'AdTech':0,'Animal Health':0,
+    'Software':0,'Industrials':2,'Automotive':2,'Info Svcs':0,'Services':0,'MedTech':0,'Space':0,'Health Data':0,'Ad Tech':0,'AdTech':0,'Animal Health':0,
     'Staples':-1,'Utilities':-1,'Pharma':-1,'Health Ins':-1,'REIT':-2,'Biotech':-2,'AI Infra':0},
 'INFLATION': {'Energy':2,'Midstream':2,'Materials':2,'REIT':2,'Utilities':2,
     'Staples':1,'Restaurant':1,'Info Svcs':1,'Luxury':1,
-    'MedTech':0,'Pharma':0,'Services':0,'Health Ins':0,'Aerospace':0,'Animal Health':0,
+    'MedTech':0,'Industrials':1,'Automotive':-1,'Pharma':0,'Services':0,'Health Ins':0,'Aerospace':0,'Animal Health':0,
     'Software':-1,'Platform':-1,'Apparel':-1,'Media':-1,
     'Semis':-2,'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
 'STAGFLATION': {'Energy':2,'Midstream':2,'Materials':2,
     'Utilities':1,'REIT':1,'Staples':1,'Info Svcs':1,
-    'Pharma':0,'MedTech':0,'Health Ins':0,'Restaurant':0,'Services':0,'Animal Health':0,
+    'Pharma':0,'Industrials':-1,'Automotive':-2,'MedTech':0,'Health Ins':0,'Restaurant':0,'Services':0,'Animal Health':0,
     'Luxury':-1,'Apparel':-1,'Media':-1,'Platform':-1,'Aerospace':-1,
     'Semis':-2,'Software':-2,'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
 'RECESSION': {'Staples':2,'Pharma':2,'Utilities':2,'Health Ins':2,
     'MedTech':1,'Info Svcs':1,'Services':1,'Animal Health':1,'REIT':1,
-    'Software':0,'Media':0,'Restaurant':0,'Midstream':0,
+    'Software':0,'Industrials':-1,'Automotive':-2,'Media':0,'Restaurant':0,'Midstream':0,
     'Luxury':-1,'Apparel':-1,'Platform':-1,'Semis':-1,'Materials':-1,'Aerospace':-1,'Energy':-1,
     'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
 }
@@ -416,30 +424,35 @@ button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-rad
 # it also means you never have to double-brace anything again.
 JS = """
 const KNOWN = __TICKERS__;
+const REPO  = 'usubillaga/InvestorAce';      // <-- change if you rename the repo
+
 function addTicker(){
   const t = document.getElementById('newTicker').value.trim().toUpperCase();
   if(!t) return;
   const key = t.split('.')[0];
   const out = document.getElementById('out');
   if (KNOWN.includes(key)) { out.value = key + ' is already in the model.'; return; }
-  out.value =
-"Add this ticker to the scoreboard. Fetch from Yahoo/filings and fill the blanks:\\n\\n" +
-"'" + key + "': dict(yf='" + t + "', fcf=None, shares=None, r=.080, cur='USD',\\n" +
-"    deliver=None, dl='', sub=None, pr=None, dil=6.0, clock='CONC',\\n" +
-"    ins='NOT CHECKED', held=False, sector='', built='exact', sanity=(0,0)),\\n\\n" +
-"NEEDED FROM YAHOO (mechanical):\\n" +
-"  fcf     = TTM operating cash flow minus capex, in millions\\n" +
-"  shares  = diluted shares outstanding, in millions\\n" +
-"  cur     = listing currency (GBp for London, not GBP)\\n" +
-"  sanity  = plausible price band, roughly half to double the 52-week range\\n\\n" +
-"NEEDED FROM A HUMAN (judgement -- Yahoo cannot supply these):\\n" +
-"  sub     = (growth, profitability, cash gen, balance sheet, valuation, returns)\\n" +
-"  pr,dil  = priced-in and dilution subscores\\n" +
-"  deliver = the company's own leading growth metric, in %\\n" +
-"  clock   = CLOCK / CONC / DIV\\n\\n" +
-"If FCF is negative or it is a commodity producer, set fcf=None and add na='reason'.\\n" +
-"If it is a REIT use AFFO per share; if a pipeline use distributable cash flow.";
-  out.select();
+
+  // A static page cannot commit to its own repo. It CAN open a pre-filled issue,
+  // and .github/workflows/add-ticker.yml fires on that issue, runs add_ticker.py,
+  // autoscores, commits, rebuilds and redeploys -- then closes the issue with the
+  // result. No token is ever exposed. This is the button actually doing the work.
+  const url = 'https://github.com/' + REPO + '/issues/new'
+    + '?title=' + encodeURIComponent('add-ticker: ' + t)
+    + '&labels=' + encodeURIComponent('add-ticker')
+    + '&body='  + encodeURIComponent(
+        'Auto-add ' + t + '.\n\n'
+      + 'The workflow will fetch price, shares and TTM free cash flow from Yahoo, '
+      + 'draft all eight subscores from the threshold tables, derive priced-in from '
+      + 'cover, commit and redeploy.\n\n'
+      + 'Two fields still need a human afterwards:\n'
+      + '- deliver : the company\'s own leading metric (revenue growth is filled as a proxy)\n'
+      + '- clock   : CLOCK / CONC / DIV\n\n'
+      + 'If free cash flow is negative the row is added with na= and no NGV, by design.');
+  out.value = 'Opening a GitHub issue for ' + t + '.\n'
+            + 'The workflow adds it, rescores, and redeploys automatically.\n'
+            + 'Watch the issue -- the bot comments with the result and closes it.';
+  window.open(url, '_blank');
 }
 """
 
@@ -499,9 +512,9 @@ def build_html():
     adder = ('<div class="box"><h2>Add a ticker</h2>'
              '<div class="lede" style="margin-bottom:10px">Yahoo can supply the mechanical half — price, shares, '
              'cash flow, currency. It cannot supply subscores, the delivering metric or the clock classification. '
-             'A new ticker enters with NGV and cover but <b>no score</b>, which is the honest state.</div>'
+             'This opens a pre-filled GitHub issue; the workflow does the rest and comments back with the result.</div>'
              '<input id="newTicker" placeholder="e.g. ASML.AS" style="width:220px">&nbsp;'
-             '<button onclick="addTicker()">Generate</button>'
+             '<button onclick="addTicker()">Add via GitHub</button>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Regime</th>'
@@ -521,4 +534,3 @@ if __name__ == '__main__':
     bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
     print(f'{len(DATA)} tickers · snapshot history/{day}.json · index.html written')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)
-
