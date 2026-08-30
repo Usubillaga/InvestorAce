@@ -96,6 +96,7 @@ DATA = {
 'AG': dict(yf='AG', fcf=614.1, shares=492.91, r=0.08, cur='USD', deliver=192.7, dl='revenue growth (PROXY)', sub=(9.5, 9.0, 9.5, 9.5, 5.0, 9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Basic Materials', built='auto', sanity=(4.5, 64.08)),
 'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, dl='revenue growth (PROXY)', sub=(4.0, 4.0, 1.5, 7.0, 5.0, 9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99, 385.34), na='FCF non-positive (-50,724.0m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
 'BYRN': dict(yf='BYRN', fcf=None, shares=22.8, r=0.08, cur='USD', deliver=26.9, dl='revenue growth (PROXY)', sub=(8.5, 2.0, 1.5, 6.0, 5.0, 1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(1.59, 61.24), na='FCF non-positive (-0.5m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
+'GOOG': dict(yf='GOOG', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, dl='revenue growth (PROXY)', sub=(8.5, 9.0, 6.0, 8.0, 5.0, 9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(103.48, 808.94)),
 }
 
 # ---------------- engine ----------------
