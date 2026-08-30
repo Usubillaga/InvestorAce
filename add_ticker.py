@@ -1,157 +1,207 @@
 #!/usr/bin/env python3
 """
-add_ticker.py · v2 · safe draft-only ticker adder
+add_ticker.py · v3 · safe, idempotent ticker adder
 
-  python add_ticker.py ASML.AS
+Usage:
+    python add_ticker.py ASML.AS
 
-WHAT THIS DOES AND DELIBERATELY DOES NOT DO
--------------------------------------------
-Yahoo can supply the MECHANICAL half honestly: price, share count, a cash-flow
-figure, currency, sector. It cannot supply the JUDGEMENT half: the eight
-subscores, the delivering metric, the clock classification.
+The script adds only Yahoo-supplied mechanical data. It does not pretend that
+Yahoo can determine the model's two judgement fields (deliver and clock).
 
-So a new ticker is written as a DRAFT: built='yahoo-draft', sub=None, pr=None.
-It gets NGV and cover — which are real and useful immediately — and NO SCORE,
-which is the honest state until a human fills the rest in.
-
-Gemini is right that raw Yahoo FCF will not run this model unattended. It is
-wrong that this makes automation useless. Automating the mechanical half and
-refusing to automate the judgement half is the correct split.
+The generated row is marked built='auto'. Negative/non-usable FCF is converted
+to fcf=None with an explanatory na= reason so the engine cannot create a fake
+NGV from negative cash flow.
 """
-import sys, math, json, re, os
+from __future__ import annotations
+
+import math
+import os
+import re
+import sys
+from pathlib import Path
+
 import yfinance as yf
 from autoscore import auto_row
 
-TARGET = 'engine.py'          # file containing the DATA = { ... } block
+TARGET = Path(os.environ.get("INVESTORACE_ENGINE", "engine.py"))
 
-# Yahoo quirks worth encoding once
-LONDON_PENCE = ('.L',)        # London quotes GBp (pence), not GBP
-KNOWN_FIX = {                 # tickers where the obvious guess is a different company
-    'ENG':  ('ENG.MC',  'Enagas — ENGI.PA is ENGIE, a different company'),
-    'SAN':  ('SAN.PA',  'Sanofi — SAN.MC is Banco Santander'),
-    'ENB':  ('ENB.TO',  'use .TO for the CAD line; plain ENB quotes USD'),
-    'MUV2': ('MUV2.DE', 'Munich Re — MUVG.DE does not exist'),
-    'NVO':  ('NVO',     'NYSE ADR quotes USD; NOVO-B.CO quotes DKK'),
+LONDON_PENCE_SUFFIX = ".L"
+
+KNOWN_FIX = {
+    "ENG": ("ENG.MC", "Enagas — ENGIE uses ENGI.PA and is a different company"),
+    "SAN": ("SAN.PA", "Sanofi — SAN.MC is Banco Santander"),
+    "ENB": ("ENB.TO", "use .TO for the CAD listing"),
+    "MUV2": ("MUV2.DE", "Munich Re"),
+    "NVO": ("NVO", "NYSE ADR quotes USD; NOVO-B.CO quotes DKK"),
 }
 
-def clean(x):
-    """None for anything that is not a finite number. [FIX] NaN is truthy in
-       Python, so `if x else None` lets nan through and writes fcf=nan, which
-       raises NameError the next time the module imports."""
+
+def clean_number(value):
+    """Return a finite float or None."""
     try:
-        v = float(x)
-        return None if (math.isnan(v) or math.isinf(v)) else v
+        value = float(value)
     except (TypeError, ValueError):
         return None
+    return None if not math.isfinite(value) else value
 
-def ttm_fcf(tk):
-    """TTM = last four quarters of (operating cash flow − capex), in millions.
-       [FIX] Gemini's version took cashflow.iloc[0], which is the last ANNUAL
-       figure — up to twelve months stale for a company mid-year."""
-    for getter, label, n in ((lambda: tk.quarterly_cashflow, 'TTM q', 4),
-                             (lambda: tk.cashflow,           'FY',    1)):
-        try:
-            cf = getter()
-            if cf is None or cf.empty: continue
-            idx = {str(i).strip().lower(): i for i in cf.index}
-            def row(*names):
-                for nm in names:
-                    if nm in idx: return cf.loc[idx[nm]]
-                return None
-            fcf = row('free cash flow')
-            if fcf is not None:
-                vals = [clean(v) for v in fcf.iloc[:n]]
-                vals = [v for v in vals if v is not None]
-                if vals: return sum(vals)/1e6, f'{label} FreeCashFlow'
-            ocf = row('operating cash flow', 'total cash from operating activities')
-            cap = row('capital expenditure', 'capital expenditures')
-            if ocf is not None and cap is not None:
-                o = [clean(v) for v in ocf.iloc[:n]]; c = [clean(v) for v in cap.iloc[:n]]
-                pairs = [(a,b) for a,b in zip(o,c) if a is not None and b is not None]
-                if pairs: return sum(a+b for a,b in pairs)/1e6, f'{label} OCF-capex'
-        except Exception:
-            continue
-    return None, 'unavailable'
 
-def main():
-    if len(sys.argv) < 2:
-        print('usage: python add_ticker.py <YAHOO_TICKER>'); return 1
-    yft = sys.argv[1].strip().upper()
-    key = yft.split('.')[0]
+def normalize_symbol(raw):
+    """Normalize a Yahoo symbol and apply known ticker corrections."""
+    symbol = (raw or "").strip().upper()
+    if not symbol:
+        raise ValueError("ticker is empty")
 
-    src = open(TARGET, encoding='utf-8').read()
-    if re.search(rf"^\s*'{re.escape(key)}'\s*:", src, re.M):
-        print(f'{key} is already in DATA. Nothing written.'); return 1   # [FIX] duplicate guard
+    # Common accidental spaces are removed, but internal punctuation is kept.
+    symbol = re.sub(r"\s+", "", symbol)
 
-    tk = yf.Ticker(yft)
-    fi = {}
-    try: fi = dict(tk.fast_info) or {}
-    except Exception: pass
+    key = symbol.split(".", 1)[0]
+    if key in KNOWN_FIX:
+        expected, _ = KNOWN_FIX[key]
+        if symbol == key:
+            symbol = expected
 
-    px  = clean(fi.get('last_price'))
-    cur = str(fi.get('currency') or '').strip() or 'USD'
-    sh  = clean(fi.get('shares'))                       # [FIX] fast_info, not info['sharesOutstanding']
-    if sh is None:
-        try: sh = clean((tk.get_info() or {}).get('sharesOutstanding'))
-        except Exception: pass
-    sh = round(sh/1e6, 2) if sh else None
+    # Yahoo's London listing reports pence; preserve .L.
+    return symbol
 
-    fcf, fcf_src = ttm_fcf(tk)
-    fcf = round(fcf, 1) if fcf is not None else None
 
-    sector = ''
-    try: sector = (tk.get_info() or {}).get('sector', '') or ''
-    except Exception: pass
+def extract_data_row(text):
+    """Return the insertion position immediately before DATA's closing brace."""
+    match = re.search(r"(?m)^DATA\s*=\s*\{", text)
+    if not match:
+        raise RuntimeError('could not find "DATA = {" in engine.py')
 
-    # sanity band from the 52-week range, widened. A quote outside it is rejected
-    # at fetch time rather than silently producing a plausible wrong cover.
-    lo = clean(fi.get('year_low')); hi = clean(fi.get('year_high'))
-    sanity = (round(lo*0.5), round(hi*2)) if (lo and hi) else (0, 0)
+    pos = match.end()
+    close = text.find("\n}", pos)
+    if close < 0:
+        raise RuntimeError("could not find the closing brace of DATA")
+    return close + 1
 
-    warn = []
-    if yft.endswith(LONDON_PENCE) and cur.upper() == 'GBP':
-        cur = 'GBp'; warn.append('London quotes pence — currency forced to GBp')
-    if key in KNOWN_FIX and KNOWN_FIX[key][0] != yft:
-        warn.append(f'expected {KNOWN_FIX[key][0]}: {KNOWN_FIX[key][1]}')
-    if fcf is not None and fcf <= 0:
-        warn.append('FCF is negative or zero — set fcf=None and add na="reason"')
-    if sanity == (0, 0):
-        warn.append('no 52-week range — set sanity manually before trusting the price')
 
-    # full auto-draft: six subscores from thresholds, priced-in derived from cover
-    row, auto_warn = auto_row(yft)
+def has_ticker(text, key):
+    return re.search(rf"(?m)^\s*['\"]{re.escape(key)}['\"]\s*:", text) is not None
+
+
+def format_dict_as_python(row):
+    """
+    Use repr() only for values, with a stable dict(...) representation that is
+    valid Python and easy for a human to edit later.
+    """
+    parts = []
+    for key, value in row.items():
+        parts.append(f"{key}={value!r}")
+    return f"'{row['yf'].split('.')[0]}': dict({', '.join(parts)}),\n"
+
+
+def repair_negative_fcf(row, warning_list):
+    """Never persist a negative FCF as an NGV-producing number."""
+    fcf = clean_number(row.get("fcf"))
+    if fcf is None:
+        return
+
+    if fcf <= 0:
+        row["fcf"] = None
+        row["na"] = (
+            f'FCF non-positive ({fcf:,.1f}m from Yahoo); '
+            "NGV intentionally disabled until a model-appropriate metric is supplied"
+        )
+        row["built"] = "auto"
+        warning_list.append(
+            f"FCF is non-positive ({fcf:,.1f}m); wrote fcf=None and na= instead"
+        )
+
+
+def main(argv=None):
+    argv = sys.argv[1:] if argv is None else argv
+    if not argv:
+        print("usage: python add_ticker.py <YAHOO_TICKER>", file=sys.stderr)
+        return 2
+
+    try:
+        symbol = normalize_symbol(argv[0])
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+
+    key = symbol.split(".", 1)[0]
+
+    if not TARGET.exists():
+        print(f"ERROR: target file not found: {TARGET}", file=sys.stderr)
+        return 1
+
+    source = TARGET.read_text(encoding="utf-8")
+    if has_ticker(source, key):
+        print(f"{key} is already in DATA. Nothing written.")
+        return 0
+
+    # One source of truth: autoscore owns the Yahoo extraction and calculations.
+    try:
+        row, warnings = auto_row(symbol)
+    except Exception as exc:
+        print(f"ERROR: Yahoo/autoscore failed for {symbol}: {type(exc).__name__}: {exc}")
+        return 1
+
+    warnings = list(warnings or [])
+
     if row is None:
-        entry = (f"'{key}': dict(yf='{yft}', fcf={fcf}, shares={sh}, r=.080, cur='{cur}',\n"
-                 f"    deliver=None, dl='', sub=None, pr=None, dil=6.0, clock='CONC',\n"
-                 f"    ins='NOT CHECKED', held=False, sector='{sector}', built='yahoo-draft',\n"
-                 f"    sanity={sanity}),\n")
-        warn += auto_warn
-    else:
-        warn += auto_warn
-        parts = ', '.join(f"{k}={v!r}" for k, v in row.items())
-        entry = f"'{key}': dict({parts}),\n"
+        print(f"ERROR: could not build a row for {symbol}.")
+        for warning in warnings:
+            print(f"  ! {warning}")
+        return 1
 
-    # [FIX] plain splice, not re.sub. A backslash or a \1 in a sector name makes
-    # re.sub either corrupt the file or raise. String surgery on the anchor is safe.
-    m = re.search(r'^DATA\s*=\s*\{', src, re.M)
-    if not m: print(f'could not find "DATA = {{" in {TARGET}'); return 1
-    close = src.index('\n}', m.end())
-    out = src[:close+1] + entry + src[close+1:]
-    open(TARGET, 'w', encoding='utf-8').write(out)
+    row["yf"] = symbol
+    row["built"] = "auto"
 
-    print(f'ADDED {key}  ({yft})')
-    print(f'  price {px}  {cur} | shares {sh}m | fcf {fcf}m from {fcf_src} | sanity {sanity}')
-    print(f'  built=auto -> NGV, cover, score, risk, verdict and regime ALL compute.')
-    for w in warn: print(f'  ! {w}')
-    print('\nSTILL OWED BY A HUMAN — only two things now:')
-    print('  deliver   the company\'s OWN leading metric. Auto-filled with revenue')
-    print('            growth as a proxy; replace with organic revenue / cRPO /')
-    print('            comps / gross bookings / AFFO per share.')
-    print('  clock     CLOCK / CONC / DIV. Guessed from sector; confirm by hand.')
-    print('  REIT? use AFFO per share.  Pipeline? use distributable cash flow.')
-    print('  Commodity producer or negative FCF? set fcf=None and na="reason".')
+    # Normalize currency for London listings.
+    if symbol.endswith(LONDON_PENCE_SUFFIX) and str(row.get("cur") or "").upper() == "GBP":
+        row["cur"] = "GBp"
+
+    # Make missing sanity ranges explicit and valid.
+    sanity = row.get("sanity")
+    if sanity is not None:
+        try:
+            lo, hi = sanity
+            lo = clean_number(lo)
+            hi = clean_number(hi)
+            row["sanity"] = (lo, hi) if lo is not None and hi is not None and 0 <= lo < hi else None
+        except (TypeError, ValueError):
+            row["sanity"] = None
+
+    repair_negative_fcf(row, warnings)
+
+    if symbol == key and key in KNOWN_FIX:
+        expected, explanation = KNOWN_FIX[key]
+        warnings.append(f"known ticker mapping applied: {key} -> {expected} ({explanation})")
+
+    if row.get("sanity") is None:
+        warnings.append("no valid 52-week sanity range; price validation will be unbounded")
+
+    # Defensive compile check before touching the real engine.py.
+    entry = format_dict_as_python(row)
+    candidate = source[:extract_data_row(source)] + entry + source[extract_data_row(source):]
+
+    try:
+        compile(candidate, str(TARGET), "exec")
+    except SyntaxError as exc:
+        print(f"ERROR: generated engine.py would not compile: {exc}", file=sys.stderr)
+        return 1
+
+    TARGET.write_text(candidate, encoding="utf-8")
+
+    print(f"ADDED {key} ({symbol})")
+    print(f"  built={row.get('built')} | sector={row.get('sector') or 'unknown'}")
+    print(f"  currency={row.get('cur') or 'unknown'} | FCF={row.get('fcf')}")
+    print(f"  shares={row.get('shares')} | sanity={row.get('sanity')}")
+    print("  NGV, cover, score, risk, verdict and regime will be recomputed by engine.py.")
+
+    for warning in warnings:
+        print(f"  ! {warning}")
+
+    print("\nHUMAN REVIEW STILL REQUIRED:")
+    print("  deliver  Replace the revenue-growth proxy with the company's own leading metric.")
+    print("  clock    Confirm CLOCK / CONC / DIV.")
+    print("  special  REITs use AFFO; pipelines use DCF/distributable cash flow.")
     return 0
 
-if __name__ == '__main__':
-    sys.exit(main())
 
+if __name__ == "__main__":
+    raise SystemExit(main())
