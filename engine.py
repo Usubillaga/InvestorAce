@@ -424,35 +424,40 @@ button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-rad
 # it also means you never have to double-brace anything again.
 JS = """
 const KNOWN = __TICKERS__;
-const REPO  = 'usubillaga/InvestorAce';      // <-- change if you rename the repo
+const REPO  = 'usubillaga/InvestorAce';      // <-- must match your repo exactly
 
 function addTicker(){
   const t = document.getElementById('newTicker').value.trim().toUpperCase();
-  if(!t) return;
-  const key = t.split('.')[0];
   const out = document.getElementById('out');
+  const link = document.getElementById('gh');
+  if(!t){ out.value = 'Type a Yahoo ticker first, e.g. ROAD or ASML.AS'; return; }
+  const key = t.split('.')[0];
   if (KNOWN.includes(key)) { out.value = key + ' is already in the model.'; return; }
 
-  // A static page cannot commit to its own repo. It CAN open a pre-filled issue,
-  // and .github/workflows/add-ticker.yml fires on that issue, runs add_ticker.py,
-  // autoscores, commits, rebuilds and redeploys -- then closes the issue with the
-  // result. No token is ever exposed. This is the button actually doing the work.
+  // NO LABEL in the URL. GitHub silently drops ?labels= when the label does not
+  // already exist in the repo, the issue opens unlabelled, and a label-gated
+  // workflow never fires -- with no error anywhere. The workflow now gates on
+  // the TITLE instead, so nothing needs configuring first.
   const url = 'https://github.com/' + REPO + '/issues/new'
     + '?title=' + encodeURIComponent('add-ticker: ' + t)
-    + '&labels=' + encodeURIComponent('add-ticker')
     + '&body='  + encodeURIComponent(
         'Auto-add ' + t + '.\n\n'
-      + 'The workflow will fetch price, shares and TTM free cash flow from Yahoo, '
-      + 'draft all eight subscores from the threshold tables, derive priced-in from '
-      + 'cover, commit and redeploy.\n\n'
-      + 'Two fields still need a human afterwards:\n'
-      + '- deliver : the company\'s own leading metric (revenue growth is filled as a proxy)\n'
-      + '- clock   : CLOCK / CONC / DIV\n\n'
+      + 'Do not edit the title -- the workflow reads the ticker from it.\n\n'
+      + 'It will fetch price, shares and TTM free cash flow from Yahoo, draft all\n'
+      + 'eight subscores from the threshold tables, derive priced-in from cover,\n'
+      + 'commit and redeploy. Two fields still need a human afterwards:\n'
+      + '  deliver : the company\'s own leading metric (revenue growth fills as a proxy)\n'
+      + '  clock   : CLOCK / CONC / DIV\n\n'
       + 'If free cash flow is negative the row is added with na= and no NGV, by design.');
-  out.value = 'Opening a GitHub issue for ' + t + '.\n'
-            + 'The workflow adds it, rescores, and redeploys automatically.\n'
-            + 'Watch the issue -- the bot comments with the result and closes it.';
-  window.open(url, '_blank');
+
+  // A real anchor, not window.open -- mobile Safari and Chrome block popups and
+  // the button then appears to do nothing at all.
+  link.href = url;
+  link.style.display = 'inline-block';
+  link.textContent = 'Open issue for ' + t + ' \u2192';
+  out.value = 'Tap the green link below to open the GitHub issue.\n\n'
+            + 'If the link will not open, paste this URL into your browser:\n\n' + url;
+  try { window.open(url, '_blank'); } catch(e) {}
 }
 """
 
@@ -514,7 +519,8 @@ def build_html():
              'cash flow, currency. It cannot supply subscores, the delivering metric or the clock classification. '
              'This opens a pre-filled GitHub issue; the workflow does the rest and comments back with the result.</div>'
              '<input id="newTicker" placeholder="e.g. ASML.AS" style="width:220px">&nbsp;'
-             '<button onclick="addTicker()">Add via GitHub</button>'
+             '<button onclick="addTicker()">Add via GitHub</button>&nbsp;'
+             '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Regime</th>'
@@ -534,3 +540,4 @@ if __name__ == '__main__':
     bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
     print(f'{len(DATA)} tickers · snapshot history/{day}.json · index.html written')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)
+
