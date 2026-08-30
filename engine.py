@@ -90,6 +90,7 @@ DATA = {
 'CVX': dict(yf='CVX', fcf=27012.0, shares=1961.6, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0, 5.0, 5.0, 8.0, 5.0, 7.5), pr=None, dil=0.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Energy', built='auto', sanity=(73.25, 429.42)),
 'RCAT': dict(yf='RCAT', fcf=-157.7, shares=152.71, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0, 5.0, 5.0, 6.0, 5.0, 1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(2.88, 37.56)),
 'AMAT': dict(yf='AMAT', fcf=5343.0, shares=793.6, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0, 5.0, 5.0, 8.0, 5.0, 9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(77.24, 1479.34)),
+'PHR': dict(yf='PHR', fcf=63.3, shares=61.77, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0, 5.0, 5.0, 8.0, 5.0, 1.0), pr=None, dil=3.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(3.88, 63.66)),
 }
 
 # ---------------- engine ----------------
