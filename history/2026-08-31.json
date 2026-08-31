@@ -15,14 +15,14 @@
    "RECESSION": 64.3
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "ASML": {
-  "price": 1480.0,
+  "price": 1480.5999755859375,
   "ngv": 326.37075718015666,
-  "cover": 0.22052078187848423,
-  "cushion": 28.87226960682338,
+  "cover": 0.22043142142495148,
+  "cushion": 28.871524064333027,
   "score": 6.900000000000001,
   "risk": 2.3,
   "verdict": "ACCUMULATE",
@@ -34,7 +34,7 @@
    "RECESSION": 28.4
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "RIVN": {
@@ -66,7 +66,7 @@
    "RECESSION": 11.9
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "CRM": {
@@ -85,7 +85,7 @@
    "RECESSION": 58.4
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "NVDA": {
@@ -104,7 +104,7 @@
    "RECESSION": 30.8
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "SPGI": {
@@ -123,26 +123,26 @@
    "RECESSION": 65.0
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "SAN": {
-  "price": 77.01000213623047,
+  "price": 77.08000183105469,
   "ngv": 70.98765432098766,
-  "cover": 0.9217978490042203,
-  "cushion": 9.417349658551283,
+  "cover": 0.9209607243728362,
+  "cushion": 9.411075874146428,
   "score": 7.65,
   "risk": 2.4,
   "verdict": "BUY \u00b7 LOW RISK",
   "regime": {
-   "GOLDILOCKS": 28.2,
+   "GOLDILOCKS": 28.3,
    "REFLATION": 39.5,
-   "INFLATION": 69.0,
+   "INFLATION": 68.9,
    "STAGFLATION": 73.2,
-   "RECESSION": 94.5
+   "RECESSION": 94.4
   },
   "weight": 6.05,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "APP": {
@@ -161,7 +161,7 @@
    "RECESSION": 25.6
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "ABT": {
@@ -180,45 +180,45 @@
    "RECESSION": 67.2
   },
   "weight": 1.94,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "WKL": {
-  "price": 70.5999984741211,
+  "price": 70.45999908447266,
   "ngv": 67.19852055737141,
-  "cover": 0.9518204250670556,
-  "cushion": 4.641836023597495,
+  "cover": 0.9537116297263765,
+  "cushion": 4.655943493159553,
   "score": 7.375,
   "risk": 2.7,
   "verdict": "BUY \u00b7 MOD",
   "regime": {
-   "GOLDILOCKS": 50.2,
+   "GOLDILOCKS": 50.1,
    "REFLATION": 50.5,
-   "INFLATION": 79.3,
-   "STAGFLATION": 82.9,
-   "RECESSION": 79.3
+   "INFLATION": 79.4,
+   "STAGFLATION": 83.0,
+   "RECESSION": 79.4
   },
   "weight": 33.92,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "LVMH": {
-  "price": 455.8500061035156,
+  "price": 455.25,
   "ngv": 327.5,
-  "cover": 0.7184380730832555,
-  "cushion": -0.13006956918828338,
+  "cover": 0.7193849533223503,
+  "cushion": -0.12275418008100614,
   "score": 7.16,
   "risk": 3.5,
   "verdict": "BUY \u00b7 CUSHION NEG",
   "regime": {
-   "GOLDILOCKS": 57.9,
+   "GOLDILOCKS": 57.8,
    "REFLATION": 62.0,
-   "INFLATION": 67.3,
-   "STAGFLATION": 44.5,
-   "RECESSION": 43.3
+   "INFLATION": 67.4,
+   "STAGFLATION": 44.6,
+   "RECESSION": 43.4
   },
   "weight": 30.16,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "UBER": {
@@ -237,7 +237,7 @@
    "RECESSION": 45.0
   },
   "weight": 16.04,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "AVGO": {
@@ -256,7 +256,7 @@
    "RECESSION": 26.0
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "ONON": {
@@ -275,7 +275,7 @@
    "RECESSION": 31.5
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "VICI": {
@@ -294,7 +294,7 @@
    "RECESSION": 80.0
   },
   "weight": 2.04,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "ENB": {
@@ -313,7 +313,7 @@
    "RECESSION": 64.2
   },
   "weight": 1.65,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "PFE": {
@@ -332,7 +332,7 @@
    "RECESSION": 76.0
   },
   "weight": 1.11,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "ROL": {
@@ -351,7 +351,7 @@
    "RECESSION": 52.4
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "LULU": {
@@ -370,7 +370,7 @@
    "RECESSION": 52.9
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "PL": {
@@ -389,7 +389,7 @@
    "RECESSION": 3.5
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "MSFT": {
@@ -408,7 +408,7 @@
    "RECESSION": 43.4
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "AAPL": {
@@ -427,7 +427,7 @@
    "RECESSION": 50.0
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "KO": {
@@ -446,7 +446,7 @@
    "RECESSION": 70.8
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "CVX": {
@@ -465,7 +465,7 @@
    "RECESSION": 57.6
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "AMAT": {
@@ -484,7 +484,7 @@
    "RECESSION": 42.5
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "PHR": {
@@ -503,7 +503,7 @@
    "RECESSION": 90.5
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "RCAT": {
@@ -535,7 +535,7 @@
    "RECESSION": 56.5
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "GOOG": {
@@ -554,7 +554,7 @@
    "RECESSION": 42.5
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "GILD": {
@@ -573,7 +573,7 @@
    "RECESSION": 84.3
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "AG": {
@@ -774,7 +774,7 @@
    "RECESSION": 48.6
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "VST": {
@@ -793,7 +793,7 @@
    "RECESSION": 74.6
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "SE": {
@@ -812,7 +812,7 @@
    "RECESSION": 47.9
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "UNH": {
@@ -831,7 +831,7 @@
    "RECESSION": 78.4
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "CMCSA": {
@@ -850,7 +850,7 @@
    "RECESSION": 68.0
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "NVO": {
@@ -869,7 +869,7 @@
    "RECESSION": 92.0
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "ENG": {
@@ -901,7 +901,7 @@
    "RECESSION": 14.7
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "DIS": {
@@ -920,7 +920,7 @@
    "RECESSION": 48.0
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "PEP": {
@@ -939,7 +939,7 @@
    "RECESSION": 74.1
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "BSX": {
@@ -958,7 +958,7 @@
    "RECESSION": 50.0
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "WIX": {
@@ -977,7 +977,7 @@
    "RECESSION": 54.5
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "GRAB": {
@@ -1009,7 +1009,7 @@
    "RECESSION": 40.2
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "MCD": {
@@ -1028,7 +1028,7 @@
    "RECESSION": 46.3
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "TTD": {
@@ -1047,7 +1047,7 @@
    "RECESSION": 44.0
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "NKE": {
@@ -1066,7 +1066,7 @@
    "RECESSION": 31.9
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "ZTS": {
@@ -1085,7 +1085,7 @@
    "RECESSION": 75.8
   },
   "weight": null,
-  "ts": "2026-08-31 10:36 UTC",
+  "ts": "2026-08-31 10:51 UTC",
   "note": ""
  },
  "IBST": {
@@ -1101,11 +1101,30 @@
   "ts": null,
   "note": "N/A: free cash flow negative (-7m) in a UK housing downturn"
  },
+ "TSLA": {
+  "price": 348.75,
+  "ngv": 18.214100340545126,
+  "cover": 0.05222681101231578,
+  "cushion": -1.4506378530077564,
+  "score": 4.45,
+  "risk": 4.3,
+  "verdict": "DO NOT ADD",
+  "regime": {
+   "GOLDILOCKS": 86.5,
+   "REFLATION": 60.5,
+   "INFLATION": 15.5,
+   "STAGFLATION": 13.5,
+   "RECESSION": 18.5
+  },
+  "weight": null,
+  "ts": "2026-08-31 10:51 UTC",
+  "note": ""
+ },
  "_portfolio": {
   "GOLDILOCKS": 53.3,
   "REFLATION": 55.3,
   "INFLATION": 68.5,
-  "STAGFLATION": 62.8,
-  "RECESSION": 62.1
+  "STAGFLATION": 62.9,
+  "RECESSION": 62.2
  }
 }
