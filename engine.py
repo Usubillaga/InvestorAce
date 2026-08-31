@@ -103,6 +103,7 @@ DATA = {
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
 'TSLA': dict(yf='TSLA', fcf=5755.0, shares=3949.55, r=0.08, cur='USD', deliver=6.1, dl='revenue growth (PROXY)', sub=(5.5, 4.0, 6.0, 8.0, 5.0, 1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(148.69, 997.66)),
 'SPCX': dict(yf='SPCX', fcf=None, shares=13181.78, r=0.08, cur='USD', deliver=47.3, dl='revenue growth (PROXY)', sub=(9.5, 2.0, 1.5, 9.5, 5.0, 1.0), pr=None, dil=5.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(52.42, 451.28), na='FCF non-positive (-32,522.0m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
+'OXY': dict(yf='OXY', fcf=4793.0, shares=999.64, r=0.08, cur='USD', deliver=-1.6, dl='revenue growth (PROXY)', sub=(2.0, 7.5, 9.0, 8.0, 5.0, 6.0), pr=None, dil=5.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Energy', built='auto', sanity=(19.4, 134.9)),
 }
 
 # ---------------- engine ----------------
