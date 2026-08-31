@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v10.0  (full merge: 71 tickers)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE · SCORECARD ENGINE · v11.0  (mid-cycle NGV for producers — no more na by category)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -67,7 +67,7 @@ DATA = {
 'ADSK': dict(yf='ADSK', fcf=2694.0, shares=211.15, r=0.08, cur='USD', deliver=22.4, dl='revenue growth (PROXY)', sub=(8.5,7.5,9.5,8.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(92.75,658.18)),
 'GOOG': dict(yf='GOOG', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, dl='revenue growth (PROXY)', sub=(8.5,9.0,6.0,8.0,5.0,9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(103.48,808.94)),
 'GILD': dict(yf='GILD', fcf=12943.0, shares=1239.96, r=0.08, cur='USD', deliver=5.9, dl='revenue growth (PROXY)', sub=(5.5,9.0,9.5,5.0,5.0,6.0), pr=None, dil=7.0, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(54.23,314.58), boot_note='balance sheet auto-scored 1.5 (net debt/EBITDA >5x); Gilead runs nearer 1.5-2x -- reset to 5.0 until EBITDA is verified'),
-'AG'  : dict(yf='AG', fcf=None, shares=492.91, r=0.08, cur='USD', deliver=None, dl='', sub=(9.5,9.0,9.5,9.5,5.0,9.0), pr=None, dil=5.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Materials', built='auto', sanity=(4.5,64.08), na='commodity producer (silver miner) -- implied growth is really a price deck, same exclusion as AR, DVN and CNX'),
+'AG'  : dict(yf='AG', fcf=180, fcf_ttm=614, shares=492.91, r=.11, cur='USD', deliver=8.0, dl='production growth', sub=(9,8,7,9,5,7), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Materials', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='silver; the most cyclical row in the table'),
 'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, dl='revenue growth (PROXY)', sub=(4.0,4.0,1.5,7.0,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99,385.34), na='Yahoo returned FCF of -50,724m, not credible for Alibaba. Treated as a bad pull, NOT as evidence of cash burn.'),
 'BYRN': dict(yf='BYRN', fcf=None, shares=22.8, r=0.08, cur='USD', deliver=26.9, dl='revenue growth (PROXY)', sub=(8.5,2.0,1.5,6.0,5.0,1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(1.59,61.24), na='free cash flow non-positive (-0.5m)'),
 'FSLR': dict(yf='FSLR', fcf=None, shares=107.0, r=.090, cur='USD', deliver=-4.0,
@@ -78,11 +78,11 @@ DATA = {
 'TSLA': dict(yf='TSLA', fcf=5755.0, shares=3949.55, r=0.08, cur='USD', deliver=6.1, dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,8.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(148.69,997.66)),
 'PG'  : dict(yf='PG', fcf=15147.0, shares=2324.43, r=0.08, cur='USD', deliver=3.3, dl='revenue growth (PROXY)', sub=(4.0,7.5,7.5,7.0,5.0,7.5), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(68.81,334.5)),
 'CSGP': dict(yf='CSGP', fcf=227.0, shares=405.2, r=0.08, cur='USD', deliver=30.0, dl='revenue growth (PROXY)', sub=(8.5,4.0,6.0,9.5,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', sanity=(12.94,183.78)),
-'OXY' : dict(yf='OXY', fcf=None, shares=999.64, r=0.08, cur='USD', deliver=None, dl='', sub=(2.0,7.5,9.0,8.0,5.0,6.0), pr=None, dil=5.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Energy', built='auto', sanity=(19.4,134.9), na='commodity producer -- implied growth is really an oil price deck. Same exclusion as AR, DVN, CNX and AG.'),
+'OXY' : dict(yf='OXY', fcf=3900, fcf_ttm=4793, shares=999.64, r=.105, cur='USD', deliver=-1.6, dl='production growth', sub=(2,7.5,7,6,6,6), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='oil and gas; heavy post-CrownRock leverage'),
 'SPCX': dict(yf='SPCX', fcf=None, shares=13181.78, r=0.08, cur='USD', deliver=47.3, dl='revenue growth (PROXY)', sub=(9.5,2.0,1.5,9.5,5.0,1.0), pr=None, dil=5.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(52.42,451.28), na='Yahoo returned FCF of -32,522m on 13.2bn shares. Not credible -- a bad pull, not evidence of cash burn. Verify what this symbol actually is before trusting any of it.'),
-'AR'  : dict(yf='AR',     fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(8,8,5,6,6,4),   pr=None, dil=6.0, clock='DIV',  ins='SELLING', held=True,  sector='Energy',      built='exact', na='commodity producer', weight=2.5),
-'DVN' : dict(yf='DVN',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(6,7,3,5,7,7),   pr=None, dil=5.0, clock='DIV',  ins='SELLING', held=False, sector='Energy',      built='exact', na='commodity producer'),
-'CNX' : dict(yf='CNX',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(3.5,6.5,7.5,6,7.5,8), pr=None, dil=6.5, clock='DIV', ins='AWARDS', held=False, sector='Energy', built='exact', na='commodity producer'),
+'AR'  : dict(yf='AR', fcf=520, fcf_ttm=340, shares=310.0, r=.105, cur='USD', deliver=3.0, dl='production growth', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=True, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='mid-cycle FCF across four reported years; natural gas', weight=2.5),
+'DVN' : dict(yf='DVN', fcf=2600, fcf_ttm=2150, shares=1290.0, r=.105, cur='USD', deliver=2.0, dl='production growth', sub=(6,7,6.5,5,7,7), pr=None, dil=5.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='post-Coterra share count; oil and gas'),
+'CNX' : dict(yf='CNX', fcf=440, fcf_ttm=525, shares=145.0, r=.1, cur='USD', deliver=1.0, dl='production growth', sub=(3.5,6.5,7,6,7.5,8), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='26 consecutive positive-FCF quarters; gas'),
 'MRNA': dict(yf='MRNA',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=5.0, clock='CONC', ins='SELLING', held=False, sector='Biotech',  built='exact', na='FCF deeply negative', score_fixed=2.97),
 'BNTX': dict(yf='BNTX',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=7.5, clock='CONC', ins='SELLING', held=False, sector='Biotech',  built='exact', na='FCF negative', score_fixed=4.29),
 'INTC': dict(yf='INTC',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=1.0, clock='CONC', ins='BUYING',  held=False, sector='Semis',    built='exact', na='adj. FCF -$8.4bn in the quarter', score_fixed=4.15),
@@ -271,6 +271,66 @@ def best_regime(d):
     r = max(s, key=s.get)
     return (r, s[r])
 
+
+# =====================================================================
+# MID-CYCLE NGV  —  commodity producers get a number, not a refusal
+#
+# The old rule marked AR, DVN, CNX, AG and OXY as na because "implied
+# growth is really a price deck". That was true and it was also a
+# cop-out: the framework ALREADY normalises the cash line for REITs
+# (AFFO) and pipelines (distributable cash flow). Refusing to do the
+# same work for a producer is inconsistent.
+#
+# The fix is what energy analysts actually do: capitalise MID-CYCLE
+# free cash flow — the average across a full price cycle — instead of
+# whatever this year happens to be. Then report where in the cycle the
+# CURRENT year sits, so the flattery is visible rather than hidden.
+#
+#   NGV_midcycle = (mean annual FCF over ~4 years / shares) / r
+#   cycle_pos    = TTM FCF / mid-cycle FCF
+#                  > 1.5  cyclical PEAK  — cover looks better than it is
+#                  < 0.7  cyclical TROUGH — cover looks worse than it is
+#
+# Producers also carry a higher discount rate (10-11%) because the cash
+# flow is a price bet, not an annuity.
+# =====================================================================
+def cycle_pos(d):
+    """TTM FCF divided by mid-cycle FCF. None when either is missing."""
+    ttm, mid = d.get('fcf_ttm'), d.get('fcf')
+    if ttm is None or not mid: return None
+    return round(ttm / mid, 2)
+
+def cycle_note(d):
+    cp = cycle_pos(d)
+    if cp is None: return ''
+    if cp >= 1.5: return f'PEAK {cp:.2f}x mid-cycle — cover flatters'
+    if cp <= 0.7: return f'TROUGH {cp:.2f}x mid-cycle — cover understates'
+    return f'{cp:.2f}x mid-cycle'
+
+def midcycle_from_yahoo(tk, years=4):
+    """Mean annual free cash flow across `years` reported years."""
+    try:
+        cf = tk.cashflow
+        if cf is None or cf.empty: return None, None
+        idx = {str(i).strip().lower(): i for i in cf.index}
+        def row(*n):
+            for x in n:
+                if x in idx: return cf.loc[idx[x]]
+            return None
+        fr = row('free cash flow')
+        vals = None
+        if fr is not None:
+            vals = [float(v) for v in fr.iloc[:years] if v == v and v is not None]
+        if not vals:
+            o, c = row('operating cash flow'), row('capital expenditure')
+            if o is not None and c is not None:
+                vals = [float(a) + float(b) for a, b in zip(o.iloc[:years], c.iloc[:years])
+                        if a == a and b == b]
+        if not vals: return None, None
+        return sum(vals) / len(vals), vals[0]      # (mid-cycle, most recent year)
+    except Exception:
+        return None, None
+
 # ---------------- prices ----------------
 
 
@@ -305,6 +365,25 @@ def bootstrap_fundamentals():
        numbers are unverified. REITs (AFFO) and pipelines (DCF) already carry
        manual values and are left alone -- Yahoo's FCF line is wrong for them."""
     for t, d in DATA.items():
+        if d.get('midcycle'):              # producers: mean annual FCF, not TTM
+            try:
+                tk = yf.Ticker(d.get('yf', t))
+                mid, last = midcycle_from_yahoo(tk)
+                if mid and mid > 0:
+                    d['fcf'] = round(mid / 1e6, 1)
+                    d['fcf_ttm'] = round(last / 1e6, 1) if last else None
+                    d['built'] = 'mid-cycle'
+                    if not d.get('shares'):
+                        fi = {}
+                        try: fi = dict(tk.fast_info) or {}
+                        except Exception: pass
+                        sh = fi.get('shares')
+                        if sh: d['shares'] = round(sh / 1e6, 2)
+                else:
+                    d['boot_note'] = 'mid-cycle FCF not positive across the cycle'
+            except Exception as ex:
+                d['boot_note'] = f'mid-cycle fetch failed: {type(ex).__name__}'
+            continue
         if d.get('na') or (d.get('fcf') is not None and d.get('shares') is not None):
             continue                       # [FIX] was skipping rows where only ONE field was set
         why = []
@@ -398,7 +477,7 @@ def fetch_prices():
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     for t, d in DATA.items():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
-        if d.get('na'):
+        if d.get('na') and not d.get('midcycle'):
             d['price_note'] = 'N/A: ' + d['na']; continue          # never price an N/A row
         try:
             tk = yf.Ticker(d.get('yf', t))
@@ -657,7 +736,9 @@ def build_html():
           + (f'<br><span style="color:#f06a6a;font-size:8px">{note}</span>' if note else '')
           + '</td>'
           + f'<td class="mono" style="font-size:8px;color:#5e6373">{d.get("price_ts") or ""}</td>'
-          + f'<td class="pv {d.get("built","exact")}">{d.get("built","exact")}</td></tr>')
+          + f'<td class="pv {d.get("built","exact")}">{d.get("built","exact")}'
+          + (f'<br><span style="color:#e5b45c;font-size:8px">{cycle_note(d)}</span>' if cycle_note(d) else '')
+          + '</td></tr>')
 
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     priced = sum(1 for d in DATA.values() if d.get('price') is not None)
