@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v11.0  (mid-cycle NGV for producers — no more na by category)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE · SCORECARD ENGINE · v12.0  (NGV proximity alerts + Ziel gate on the portfolio)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -111,7 +111,6 @@ DATA = {
 'NKE' : dict(yf='NKE',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=7.0, clock='DIV',  ins='BUYING',  held=False, sector='Apparel',    built='exact', score_fixed=4.6),
 'ZTS' : dict(yf='ZTS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=6.0, clock='CLOCK',ins='BUYING',  held=False, sector='Animal Health', built='exact', score_fixed=4.55),
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
-'VRTX': dict(yf='VRTX', fcf=3796.1, shares=253.46, r=0.08, cur='USD', deliver=14.2, dl='revenue growth (PROXY)', sub=(7.0, 9.0, 9.5, 9.5, 5.0, 6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(187.09, 1111.38)),
 }
 
 # ---------------- engine ----------------
@@ -331,6 +330,32 @@ def midcycle_from_yahoo(tk, years=4):
         return sum(vals) / len(vals), vals[0]      # (mid-cycle, most recent year)
     except Exception:
         return None, None
+
+
+# =====================================================================
+# PROXIMITY ALERT  —  which rows are near a price that matters
+#
+# Two thresholds, both derived from NGV so neither goes stale:
+#   AT NGV      price <= NGV. You are paying nothing for growth at all.
+#   NEAR ENTRY  within 5% of entry@60%, the GOOD-cover threshold.
+#   APPROACHING within 12% of it.
+# =====================================================================
+def proximity(d):
+    """[FIX] the first version had this inverted. A NEGATIVE gap means the price
+       is already BELOW the entry level, i.e. cover already exceeds 60% -- that
+       is 'clears', not 'approaching'. Approaching means falling toward it from
+       above, so the gap must be positive and small."""
+    n, p = ngv(d), d.get('price')
+    if n is None or not p: return (None, None)
+    e = n / 0.60
+    gap = 100 * (p/e - 1)            # >0 price above entry, <0 already through it
+    if p <= n:   return ('AT NGV',      round(100*(p/n - 1), 1))   # cover >= 100%
+    if gap <= 0: return ('CLEARS',      round(gap, 1))             # cover >= 60%
+    if gap <= 5: return ('NEAR ENTRY',  round(gap, 1))
+    if gap <= 12:return ('APPROACHING', round(gap, 1))
+    return (None, round(gap, 1))
+
+PROX_CSS = {'AT NGV':'x-atngv', 'CLEARS':'x-clear', 'NEAR ENTRY':'x-near', 'APPROACHING':'x-appr'}
 
 # ---------------- prices ----------------
 
@@ -582,6 +607,12 @@ tr.held{background:#141826}
 .g-infl{background:#3a2c10;color:#e5b45c;border:1px solid #6b5218}
 .g-stag{background:#3a1414;color:#f06a6a;border:1px solid #6b2020}
 .g-rec{background:#2c1440;color:#d6a8ff;border:1px solid #543072}
+.x-atngv{background:#0f3d24;color:#5fe39a;border:1px solid #1e6b40}
+.x-near{background:#123a26;color:#66e39c;border:1px solid #1e5c3c}
+.x-appr{background:#2b2210;color:var(--amber);border:1px solid #574318}
+.x-clear{background:#13202e;color:#7fb6d8;border:1px solid #23405c}
+tr.hit{box-shadow:inset 3px 0 0 #4ecb8a}
+.lock{border:1px dashed #2a7a4a;border-radius:10px;padding:16px;background:#0e1712;margin-bottom:14px}
 input,select,textarea{background:#0a0b10;color:var(--tx);border:1px solid #2a2e3c;border-radius:5px;padding:6px 8px;font-family:ui-monospace,monospace;font-size:11px}
 button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;cursor:pointer}
 .foot{color:#5e6373;font-family:ui-monospace,monospace;font-size:9.2px;border-top:1px solid var(--line);padding-top:11px;margin-top:22px}
@@ -662,7 +693,8 @@ if (FL.length && window.Chart) {
 
 SCAT_JS = """
 const PTS = __PTS__;
-if (PTS.length && window.Chart) {
+window.drawPortfolioCharts = function(){
+if (PTS.length && window.Chart && document.getElementById('rwChart')) {
   new Chart(document.getElementById('rwChart').getContext('2d'), {
     type: 'scatter',
     data: { datasets: [{ data: PTS, pointRadius: 7, pointHoverRadius: 10,
@@ -677,6 +709,38 @@ if (PTS.length && window.Chart) {
              ticks:{color:'#5e6373',font:{size:9}}, grid:{color:'#1a1d27'} } } }
   });
 }
+};
+"""
+
+
+ZIEL_JS = """
+// "Ziel" gate. IMPORTANT: this is a CURTAIN, NOT A LOCK. The payload is in the
+// page source and anyone can read it with view-source or devtools. It stops
+// casual browsing of a public URL; it is not security. If the holdings must be
+// genuinely private, do not publish them to a public Pages site at all.
+const ZP = "__ZIELPAYLOAD__";
+function b64utf8(s){
+  return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+}
+function revealZiel(){
+  const box = document.getElementById('zielBox');
+  if (!box || box.dataset.open === '1') return;
+  box.innerHTML = b64utf8(ZP);
+  box.dataset.open = '1';
+  if (window.drawPortfolioCharts) window.drawPortfolioCharts();
+}
+function tryZiel(){
+  const v = (document.getElementById('zielIn') || {}).value || '';
+  if (v.trim().toLowerCase() === 'ziel') revealZiel();
+  else { const n = document.getElementById('zielNote'); if (n) n.textContent = 'Not the word.'; }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  const b = document.getElementById('zielBtn'), i = document.getElementById('zielIn');
+  if (b) b.addEventListener('click', tryZiel);
+  if (i) i.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); tryZiel(); } });
+  if ((location.hash || '').toLowerCase() === '#ziel') revealZiel();   // bookmarkable
+});
 """
 
 CHART_JS = """
@@ -715,9 +779,9 @@ def build_html():
         bn, bc = band(s); vn, vc = verdict(t, d)
         note = d.get('price_note','')
         rows.append(
-          '<tr%s>' % (' class="held"' if d.get('held') else '')
+          '<tr%s>' % (' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
-          + f'<td class="tk">{t}{"<sup>&#9679;</sup>" if d.get("held") else ""}</td>'
+          + f'<td class="tk">{t}</td>'
           + f'<td class="se">{d.get("sector","")}</td>'
           + f'<td class="sc">{fmt(s,".2f")}</td>'
           + f'<td><span class="pill {bc}">{bn}</span></td>'
@@ -733,7 +797,9 @@ def build_html():
             )(*best_regime(d))
           + f'<td class="mono">{fmt(ngv(d),",.2f")}</td>'
           + f'<td class="mono">{fmt(entry_price(d),",.2f")}</td>'
-          + f'<td class="mono">{fmt(d.get("price"),",.2f")}'
+          + (lambda pf, gp: f'<td class="mono">{fmt(d.get("price"),",.2f")}'
+             + (f'<br><span class="pill {PROX_CSS[pf]}">{pf} {gp:+.1f}%</span>' if pf else ''))(*proximity(d))
+          + f'{""}'
           + (f'<br><span style="color:#f06a6a;font-size:8px">{note}</span>' if note else '')
           + '</td>'
           + f'<td class="mono" style="font-size:8px;color:#5e6373">{d.get("price_ts") or ""}</td>'
@@ -846,8 +912,22 @@ def build_html():
     foot = (f'<div class="foot">Snapshot written to history/. NGV = (FCF ÷ shares) ÷ r and is price-independent. '
             f'Negative cushion forces DO NOT ADD at every band. NVDA carries a manual risk floor because the '
             f'formula has no concentration term. Last pull {stamp}.<br>Not financial advice</div>')
-    with open('index.html','w',encoding='utf-8') as f:
-        f.write(head + hdr + macro_box + port_box + fit_box + issue_box + chart_box + adder + tbl + foot + '<script>' + js + '</script></body></html>')
+    import base64
+    ziel_payload = base64.b64encode((port_box + chart_box).encode('utf-8')).decode('ascii')
+    js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
+    gate = ('<div class="lock"><h2 style="margin-bottom:6px">Portfolio · locked</h2>'
+            '<div class="lede" style="margin-bottom:8px">Position sizes, the weighted panel and the '
+            'rank-versus-weight chart are hidden. Type the word to show them, or open the page with '
+            '<span class="mono">#Ziel</span> on the end of the URL.<br>'
+            '<b style="color:#e5b45c">This is a curtain, not a lock</b> \u2014 the data sits in the '
+            'page source. It stops casual browsing of a public URL; it is not security.</div>'
+            '<input id="zielIn" type="password" placeholder="word" style="width:150px">&nbsp;'
+            '<button id="zielBtn" type="button">Show</button>'
+            '<span id="zielNote" class="mono" style="margin-left:10px;color:#f06a6a"></span></div>'
+            '<div id="zielBox" data-open="0"></div>')
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(head + hdr + macro_box + gate + fit_box + issue_box + adder + tbl + foot
+                + '<script>' + js + js_z + '</script></body></html>')
 
 if __name__ == '__main__':
     bootstrap_fundamentals()
