@@ -107,6 +107,7 @@ DATA = {
 'PG': dict(yf='PG', fcf=15147.0, shares=2324.43, r=0.08, cur='USD', deliver=3.3, dl='revenue growth (PROXY)', sub=(4.0, 7.5, 7.5, 7.0, 5.0, 7.5), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(68.81, 334.5)),
 'CSGP': dict(yf='CSGP', fcf=227.0, shares=405.2, r=0.08, cur='USD', deliver=30.0, dl='revenue growth (PROXY)', sub=(8.5, 4.0, 6.0, 9.5, 5.0, 9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', sanity=(12.94, 183.78)),
 'SITE': dict(yf='SITE', fcf=250.2, shares=43.66, r=0.08, cur='USD', deliver=5.2, dl='revenue growth (PROXY)', sub=(5.5, 4.0, 6.0, 6.0, 5.0, 6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(45.03, 337.12)),
+'FSLR': dict(yf='FSLR', fcf=1500.1, shares=107.47, r=0.08, cur='USD', deliver=27.9, dl='revenue growth (PROXY)', sub=(8.5, 9.0, 9.0, 9.5, 5.0, 1.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(91.5, 641.9)),
 }
 
 # ---------------- engine ----------------
