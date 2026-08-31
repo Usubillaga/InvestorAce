@@ -105,6 +105,7 @@ DATA = {
 'SPCX': dict(yf='SPCX', fcf=None, shares=13181.78, r=0.08, cur='USD', deliver=47.3, dl='revenue growth (PROXY)', sub=(9.5, 2.0, 1.5, 9.5, 5.0, 1.0), pr=None, dil=5.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(52.42, 451.28), na='FCF non-positive (-32,522.0m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
 'OXY': dict(yf='OXY', fcf=4793.0, shares=999.64, r=0.08, cur='USD', deliver=-1.6, dl='revenue growth (PROXY)', sub=(2.0, 7.5, 9.0, 8.0, 5.0, 6.0), pr=None, dil=5.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Energy', built='auto', sanity=(19.4, 134.9)),
 'PG': dict(yf='PG', fcf=15147.0, shares=2324.43, r=0.08, cur='USD', deliver=3.3, dl='revenue growth (PROXY)', sub=(4.0, 7.5, 7.5, 7.0, 5.0, 7.5), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(68.81, 334.5)),
+'CSGP': dict(yf='CSGP', fcf=227.0, shares=405.2, r=0.08, cur='USD', deliver=30.0, dl='revenue growth (PROXY)', sub=(8.5, 4.0, 6.0, 9.5, 5.0, 9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', sanity=(12.94, 183.78)),
 }
 
 # ---------------- engine ----------------
