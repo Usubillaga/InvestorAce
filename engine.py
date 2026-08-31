@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v6.0  (merged: 58 tickers, chart, auto rows)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE · SCORECARD ENGINE · v8.0  (merged with the ChatGPT revision)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -9,6 +9,10 @@ DEPLOY: GitHub Actions cron -> commit index.html -> GitHub Pages.
 import json, os, sys
 from datetime import datetime, timezone
 import yfinance as yf
+try:
+    from macro import read_macro
+except Exception:
+    read_macro = lambda: {'ok': False, 'note': 'macro.py not present'}
 
 W = {'g':.15,'p':.20,'c':.15,'b':.15,'v':.10,'pr':.15,'r':.05,'d':.05}
 BANDS = [(3.50,'SELL','p-sell'), (5.50,'HOLD NEG','p-hneg'), (7.00,'HOLD POS','p-hpos'),
@@ -60,6 +64,12 @@ DATA = {
 'AMAT': dict(yf='AMAT', fcf=5343.0, shares=793.6, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(77.24,1479.34)),
 'PHR': dict(yf='PHR', fcf=63.3, shares=61.77, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,1.0), pr=None, dil=3.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(3.88,63.66)),
 'RCAT': dict(yf='RCAT', fcf=None, shares=152.71, r=0.08, cur='USD', deliver=None, dl='', sub=(5.0,5.0,5.0,6.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(2.88,37.56), na='free cash flow -157.7m -- a NEGATIVE fcf was written straight into the row, which makes NGV negative'),
+'ADSK': dict(yf='ADSK', fcf=2694.0, shares=211.15, r=0.08, cur='USD', deliver=22.4, dl='revenue growth (PROXY)', sub=(8.5,7.5,9.5,8.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(92.75,658.18)),
+'GOOG': dict(yf='GOOG', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, dl='revenue growth (PROXY)', sub=(8.5,9.0,6.0,8.0,5.0,9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(103.48,808.94)),
+'GILD': dict(yf='GILD', fcf=12943.0, shares=1239.96, r=0.08, cur='USD', deliver=5.9, dl='revenue growth (PROXY)', sub=(5.5,9.0,9.5,5.0,5.0,6.0), pr=None, dil=7.0, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(54.23,314.58), boot_note='balance sheet auto-scored 1.5 (net debt/EBITDA >5x); Gilead runs nearer 1.5-2x -- reset to 5.0 until EBITDA is verified'),
+'AG'  : dict(yf='AG', fcf=None, shares=492.91, r=0.08, cur='USD', deliver=None, dl='', sub=(9.5,9.0,9.5,9.5,5.0,9.0), pr=None, dil=5.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Materials', built='auto', sanity=(4.5,64.08), na='commodity producer (silver miner) -- implied growth is really a price deck, same exclusion as AR, DVN and CNX'),
+'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, dl='revenue growth (PROXY)', sub=(4.0,4.0,1.5,7.0,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99,385.34), na='Yahoo returned FCF of -50,724m, not credible for Alibaba. Treated as a bad pull, NOT as evidence of cash burn.'),
+'BYRN': dict(yf='BYRN', fcf=None, shares=22.8, r=0.08, cur='USD', deliver=26.9, dl='revenue growth (PROXY)', sub=(8.5,2.0,1.5,6.0,5.0,1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(1.59,61.24), na='free cash flow non-positive (-0.5m)'),
 'AR'  : dict(yf='AR',     fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(8,8,5,6,6,4),   pr=None, dil=6.0, clock='DIV',  ins='SELLING', held=True,  sector='Energy',      built='exact', na='commodity producer', weight=4.18),
 'DVN' : dict(yf='DVN',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(6,7,3,5,7,7),   pr=None, dil=5.0, clock='DIV',  ins='SELLING', held=False, sector='Energy',      built='exact', na='commodity producer'),
 'CNX' : dict(yf='CNX',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(3.5,6.5,7.5,6,7.5,8), pr=None, dil=6.5, clock='DIV', ins='AWARDS', held=False, sector='Energy', built='exact', na='commodity producer'),
@@ -91,12 +101,6 @@ DATA = {
 'NKE' : dict(yf='NKE',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=7.0, clock='DIV',  ins='BUYING',  held=False, sector='Apparel',    built='exact', score_fixed=4.6),
 'ZTS' : dict(yf='ZTS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=6.0, clock='CLOCK',ins='BUYING',  held=False, sector='Animal Health', built='exact', score_fixed=4.55),
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
-'ADSK': dict(yf='ADSK', fcf=2694.0, shares=211.15, r=0.08, cur='USD', deliver=22.4, dl='revenue growth (PROXY)', sub=(8.5, 7.5, 9.5, 8.0, 5.0, 6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(92.75, 658.18)),
-'GILD': dict(yf='GILD', fcf=12943.0, shares=1239.96, r=0.08, cur='USD', deliver=5.9, dl='revenue growth (PROXY)', sub=(5.5, 9.0, 9.5, 1.5, 5.0, 6.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(54.23, 314.58)),
-'AG': dict(yf='AG', fcf=614.1, shares=492.91, r=0.08, cur='USD', deliver=192.7, dl='revenue growth (PROXY)', sub=(9.5, 9.0, 9.5, 9.5, 5.0, 9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Basic Materials', built='auto', sanity=(4.5, 64.08)),
-'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, dl='revenue growth (PROXY)', sub=(4.0, 4.0, 1.5, 7.0, 5.0, 9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99, 385.34), na='FCF non-positive (-50,724.0m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
-'BYRN': dict(yf='BYRN', fcf=None, shares=22.8, r=0.08, cur='USD', deliver=26.9, dl='revenue growth (PROXY)', sub=(8.5, 2.0, 1.5, 6.0, 5.0, 1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(1.59, 61.24), na='FCF non-positive (-0.5m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
-'GOOG': dict(yf='GOOG', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, dl='revenue growth (PROXY)', sub=(8.5, 9.0, 6.0, 8.0, 5.0, 9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(103.48, 808.94)),
 }
 
 # ---------------- engine ----------------
@@ -199,26 +203,26 @@ REGIME_CSS = {'GOLDILOCKS':'g-gold','REFLATION':'g-refl','INFLATION':'g-infl',
 
 # sector affinity, -2 to +2
 AFF = {
-'GOLDILOCKS': {'Technology':2,'Consumer Defensive':-1,'Healthcare':0,'Semis':2,'Software':2,'AI Infra':2,'Ad Tech':2,'AdTech':2,'Platform':2,'Space':2,
+'GOLDILOCKS': {'Consumer Cyclical':2,'Communication Services':1,'Technology':2,'Consumer Defensive':-1,'Healthcare':0,'Semis':2,'Software':2,'AI Infra':2,'Ad Tech':2,'AdTech':2,'Platform':2,'Space':2,
     'MedTech':1,'Luxury':1,'Apparel':1,'Info Svcs':1,'Health Data':1,'Biotech':1,
     'Services':0,'Industrials':0,'Automotive':1,'Media':0,'Restaurant':0,'Animal Health':0,'Aerospace':0,
     'Staples':-1,'Utilities':-1,'REIT':-1,'Health Ins':-1,'Pharma':-1,
     'Energy':-2,'Midstream':-2,'Materials':-2},
-'REFLATION': {'Technology':1,'Consumer Defensive':-1,'Healthcare':-1,'Energy':2,'Materials':2,'Aerospace':2,'Midstream':2,
+'REFLATION': {'Consumer Cyclical':1,'Communication Services':1,'Technology':1,'Consumer Defensive':-1,'Healthcare':-1,'Energy':2,'Materials':2,'Aerospace':2,'Midstream':2,
     'Semis':1,'Luxury':1,'Apparel':1,'Platform':1,'Media':1,'Restaurant':1,
     'Software':0,'Industrials':2,'Automotive':2,'Info Svcs':0,'Services':0,'MedTech':0,'Space':0,'Health Data':0,'Ad Tech':0,'AdTech':0,'Animal Health':0,
     'Staples':-1,'Utilities':-1,'Pharma':-1,'Health Ins':-1,'REIT':-2,'Biotech':-2,'AI Infra':0},
-'INFLATION': {'Technology':-1,'Consumer Defensive':1,'Healthcare':0,'Energy':2,'Midstream':2,'Materials':2,'REIT':2,'Utilities':2,
+'INFLATION': {'Consumer Cyclical':-1,'Communication Services':-1,'Technology':-1,'Consumer Defensive':1,'Healthcare':0,'Energy':2,'Midstream':2,'Materials':2,'REIT':2,'Utilities':2,
     'Staples':1,'Restaurant':1,'Info Svcs':1,'Luxury':1,
     'MedTech':0,'Industrials':1,'Automotive':-1,'Pharma':0,'Services':0,'Health Ins':0,'Aerospace':0,'Animal Health':0,
     'Software':-1,'Platform':-1,'Apparel':-1,'Media':-1,
     'Semis':-2,'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
-'STAGFLATION': {'Technology':-2,'Consumer Defensive':1,'Healthcare':0,'Energy':2,'Midstream':2,'Materials':2,
+'STAGFLATION': {'Consumer Cyclical':-1,'Communication Services':-1,'Technology':-2,'Consumer Defensive':1,'Healthcare':0,'Energy':2,'Midstream':2,'Materials':2,
     'Utilities':1,'REIT':1,'Staples':1,'Info Svcs':1,
     'Pharma':0,'Industrials':-1,'Automotive':-2,'MedTech':0,'Health Ins':0,'Restaurant':0,'Services':0,'Animal Health':0,
     'Luxury':-1,'Apparel':-1,'Media':-1,'Platform':-1,'Aerospace':-1,
     'Semis':-2,'Software':-2,'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
-'RECESSION': {'Technology':0,'Consumer Defensive':2,'Healthcare':2,'Staples':2,'Pharma':2,'Utilities':2,'Health Ins':2,
+'RECESSION': {'Consumer Cyclical':-1,'Communication Services':0,'Technology':0,'Consumer Defensive':2,'Healthcare':2,'Staples':2,'Pharma':2,'Utilities':2,'Health Ins':2,
     'MedTech':1,'Info Svcs':1,'Services':1,'Animal Health':1,'REIT':1,
     'Software':0,'Industrials':-1,'Automotive':-2,'Media':0,'Restaurant':0,'Midstream':0,
     'Luxury':-1,'Apparel':-1,'Platform':-1,'Semis':-1,'Materials':-1,'Aerospace':-1,'Energy':-1,
@@ -244,6 +248,12 @@ def regime_scores(d):
         v = 50.0 + 12.0*AFF[r].get(sec, 0) + DUR_W[r]*dur + BS_W[r]*(bs-6) + PAY_W[r]*(pay-6)
         out[r] = round(max(0.0, min(100.0, v)), 1)
     return out
+
+def fit_now(d, macro_regime):
+    """The number that makes the regime column actionable: how well THIS row
+       suits the regime we are ACTUALLY in, rather than the one it likes best."""
+    sc = regime_scores(d)
+    return sc.get(macro_regime) if (sc and macro_regime) else None
 
 def best_regime(d):
     s = regime_scores(d)
@@ -493,92 +503,73 @@ button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-rad
 # raises SyntaxError at import time. The CSS was escaped with {{ }} but the JS
 # was not. Keeping CSS and JS as PLAIN strings and concatenating is the fix --
 # it also means you never have to double-brace anything again.
-JS = r"""
+JS = """
 const KNOWN = __TICKERS__;
 const REPO = 'usubillaga/InvestorAce';
 
 function addTicker(){
-  const input = document.getElementById('newTicker');
-  const out = document.getElementById('out');
-  const link = document.getElementById('gh');
+  const input  = document.getElementById('newTicker');
+  const out    = document.getElementById('out');
+  const link   = document.getElementById('gh');
   const button = document.getElementById('addTickerButton');
-
-  if (!input || !out || !link) {
-    console.error('InvestorAce: Add ticker controls are missing from the page.');
-    return false;
-  }
+  if (!input || !out || !link) { console.error('add-ticker controls missing'); return false; }
 
   const t = input.value.trim().toUpperCase();
-  if (!t) {
-    out.value = 'Enter a Yahoo ticker first, for example ROAD or ASML.AS.';
-    input.focus();
-    return false;
-  }
-
-  // Accept Yahoo symbols such as ASML.AS / SAN.PA / IBST.L.
-  // The model key is the portion before the first dot.
+  if (!t) { out.value = 'Enter a Yahoo ticker first, e.g. ROAD or ASML.AS.'; input.focus(); return false; }
   const key = t.split('.')[0];
-  if (KNOWN.includes(key)) {
-    out.value = key + ' is already in the model.';
-    return false;
-  }
+  if (KNOWN.includes(key)) { out.value = key + ' is already in the model.'; return false; }
 
-  const title = 'add-ticker: ' + t;
   const body = [
-    'Auto-add ' + t + '.',
-    '',
-    'Do not edit the title -- the workflow reads the ticker from it.',
-    '',
-    'It will fetch price, shares and TTM free cash flow from Yahoo, draft the',
-    'mechanical fields, commit the change and redeploy. Human review is still',
-    'required for the delivering metric and clock classification.',
-    '',
-    'If free cash flow is negative the row may be added with na= and no NGV, by design.'
-  ].join('\n');
+    'Auto-add ' + t + '.', '',
+    'Do not edit the title -- the workflow reads the ticker from it.', '',
+    'It fetches price, shares and TTM free cash flow from Yahoo, drafts the',
+    'mechanical fields, commits and redeploys. Two fields still need a human:',
+    '  deliver : the company own leading metric (revenue growth fills as a proxy)',
+    '  clock   : CLOCK / CONC / DIV', '',
+    'Negative free cash flow is written as na= with no NGV, by design.'
+  ].join('\\n');
 
   const url = 'https://github.com/' + REPO + '/issues/new'
-    + '?title=' + encodeURIComponent(title)
-    + '&body=' + encodeURIComponent(body);
+    + '?title=' + encodeURIComponent('add-ticker: ' + t)
+    + '&body='  + encodeURIComponent(body);
 
   link.href = url;
-  link.textContent = 'Open GitHub issue for ' + t + ' →';
+  link.textContent = 'Open GitHub issue for ' + t + ' \\u2192';
   link.hidden = false;
   link.style.display = 'inline-block';
-
-  out.value = 'Opening GitHub…\n\nIf it does not open automatically, use the green link below.\n\n' + url;
-
+  out.value = 'Opening GitHub...\\n\\nIf it does not open, use the green link below.\\n\\n' + url;
   if (button) button.disabled = true;
-
-  // Navigate in the same tab after a real user click. This avoids popup blockers
-  // on Safari/iOS/Chrome that can make window.open() appear to do nothing.
-  window.location.assign(url);
+  window.location.assign(url);   // not window.open -- mobile blocks popups
   return true;
 }
 
 function initTickerAdder(){
   const button = document.getElementById('addTickerButton');
-  const input = document.getElementById('newTicker');
+  const input  = document.getElementById('newTicker');
   if (!button || !input) return;
-
   button.addEventListener('click', addTicker);
-  input.addEventListener('keydown', function(event){
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      addTicker();
-    }
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') { e.preventDefault(); addTicker(); }
   });
 }
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initTickerAdder);
-} else {
-  initTickerAdder();
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initTickerAdder);
+else initTickerAdder();
+"""
+FIT_JS = """
+const FL = __FITLAB__, FV = __FITVAL__, FC = __FITCOL__;
+if (FL.length && window.Chart) {
+  new Chart(document.getElementById('fitChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels: FL, datasets: [{ data: FV, backgroundColor: FC, borderWidth: 0 }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { x: { min: 0, max: 100, ticks: { color: '#5e6373', font: { size: 9 } }, grid: { color: '#1a1d27' } },
+                y: { ticks: { color: '#8f95a8', font: { size: 10 } }, grid: { display: false } } } }
+  });
 }
 """
 
-
-
-CHART_JS = r"""
+CHART_JS = """
 const RD = __DATES__, RS = __SERIES__;
 if (RD.length && window.Chart) {
   new Chart(document.getElementById('regimeChart').getContext('2d'), {
@@ -647,11 +638,45 @@ def build_html():
         if d.get('boot_note'): issues[t] = 'NGV: ' + d['boot_note']
 
     js = JS.replace('__TICKERS__', json.dumps(sorted(DATA.keys())))
+    M = read_macro()
+    cur_reg = M.get('regime') if M.get('ok') else None
+    fits = sorted(((t, fit_now(d, cur_reg)) for t, d in DATA.items()), key=lambda kv: -(kv[1] or -1))
+    fits = [(t, v) for t, v in fits if v is not None][:15]
+    FIT_COL = {'GOLDILOCKS':'#66e39c','REFLATION':'#63c6f0','INFLATION':'#e5b45c',
+               'STAGFLATION':'#f06a6a','RECESSION':'#d6a8ff'}
+    bar = FIT_COL.get(cur_reg, '#5cc8d8')
     rdates, rser = regime_history()
     js += CHART_JS.replace('__DATES__', json.dumps(rdates)).replace('__SERIES__', json.dumps(rser))
+    js += (FIT_JS.replace('__FITLAB__', json.dumps([t for t, _ in fits]))
+                 .replace('__FITVAL__', json.dumps([v for _, v in fits]))
+                 .replace('__FITCOL__', json.dumps([bar]*len(fits))))
     pf = portfolio_regime()
     pf_txt = ' · '.join(f'<b>{r.title()}</b> {v:.0f}' for r, v in
                         sorted(pf.items(), key=lambda kv: -kv[1])) if pf else 'no cover yet'
+    if M.get('ok'):
+        legs = ''.join(f'<div class="mono" style="font-size:10px">· {x}</div>' for x in M['recession_legs'])
+        det = ' · '.join(f'{k} {v:+.1f}%' for k, v in M['detail'].items() if v is not None)
+        macro_box = (
+          f'<div class="box" style="border-color:#4a3566;background:#15111d">'
+          f'<h2>Regime now: <span class="pill {REG_CSS.get(cur_reg,"empty")}">{cur_reg}</span></h2>'
+          f'<div class="lede" style="margin-bottom:8px">Read off market data, not opinion. '
+          f'<b>Growth impulse {M["growth"]:+.1f}%</b> (S&amp;P + copper, 6-month) · '
+          f'<b>Inflation impulse {M["inflation"]:+.1f}%</b> (oil + 10-year, 6-month).<br>'
+          f'<span class="mono" style="font-size:10px">{det}</span></div>'
+          f'<div class="lede" style="margin-bottom:6px">'
+          f'VIX <b>{M["vix"]:.1f} — {M["vix_state"]}</b>'
+          + (f' · tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')
+          + (f' · breadth {M["breadth"]}' if M.get('breadth') else '')
+          + f' · recession score <b>{M["recession_score"]}/100</b></div>{legs}</div>')
+    else:
+        macro_box = f'<div class="box"><h2>Regime now</h2><div class="lede">unavailable: {M.get("note","")}</div></div>'
+
+    fit_box = ('<div class="box"><h2>Best fit for the regime we are actually in</h2>'
+               f'<div class="lede" style="margin-bottom:8px">Each row scored against <b>{cur_reg or "—"}</b>, '
+               'not against the regime it happens to like best. This is what makes the regime column '
+               'actionable rather than descriptive.</div>'
+               '<div style="height:330px"><canvas id="fitChart"></canvas></div></div>') if cur_reg else ''
+
     chart_box = ('<div class="box"><h2>Where the book sits on the growth / inflation grid</h2>'
                  '<div class="lede" style="margin-bottom:8px">Position-weighted, not a cross-sectional '
                  'average — averaging all 51 rows is dominated by the sector mix and barely moves. '
@@ -676,12 +701,10 @@ def build_html():
              '<div class="lede" style="margin-bottom:10px">Yahoo can supply the mechanical half — price, shares, '
              'cash flow, currency. It cannot supply subscores, the delivering metric or the clock classification. '
              'This opens a pre-filled GitHub issue; the workflow does the rest and comments back with the result.</div>'
-             '<input id="newTicker" type="text" autocomplete="off" spellcheck="false" '
-             'placeholder="e.g. ASML.AS" aria-label="Yahoo ticker" style="width:220px">&nbsp;'
+             '<input id="newTicker" placeholder="e.g. ASML.AS" style="width:220px">&nbsp;'
              '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
-             '<a id="gh" target="_blank" rel="noopener noreferrer" hidden '
-             'style="background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
-             '<textarea id="out" aria-live="polite" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
+             '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
+             '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
@@ -690,7 +713,7 @@ def build_html():
             f'Negative cushion forces DO NOT ADD at every band. NVDA carries a manual risk floor because the '
             f'formula has no concentration term. Last pull {stamp}.<br>Not financial advice</div>')
     with open('index.html','w',encoding='utf-8') as f:
-        f.write(head + hdr + issue_box + chart_box + adder + tbl + foot + '<script>' + js + '</script></body></html>')
+        f.write(head + hdr + macro_box + fit_box + issue_box + chart_box + adder + tbl + foot + '<script>' + js + '</script></body></html>')
 
 if __name__ == '__main__':
     bootstrap_fundamentals()
@@ -700,3 +723,4 @@ if __name__ == '__main__':
     bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
     print(f'{len(DATA)} tickers · snapshot history/{day}.json · index.html written')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)
+
