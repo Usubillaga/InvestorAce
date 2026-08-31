@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v12.0  (NGV proximity alerts + Ziel gate on the portfolio)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE · SCORECARD ENGINE · v12.1  (gated charts deferred; null guards so one missing canvas cannot kill the script)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -678,8 +678,9 @@ else initTickerAdder();
 """
 FIT_JS = """
 const FL = __FITLAB__, FV = __FITVAL__, FC = __FITCOL__;
-if (FL.length && window.Chart) {
-  new Chart(document.getElementById('fitChart').getContext('2d'), {
+const fitEl = document.getElementById('fitChart');
+if (FL.length && window.Chart && fitEl) {
+  new Chart(fitEl.getContext('2d'), {
     type: 'bar',
     data: { labels: FL, datasets: [{ data: FV, backgroundColor: FC, borderWidth: 0 }] },
     options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
@@ -694,8 +695,11 @@ if (FL.length && window.Chart) {
 SCAT_JS = """
 const PTS = __PTS__;
 window.drawPortfolioCharts = function(){
-if (PTS.length && window.Chart && document.getElementById('rwChart')) {
-  new Chart(document.getElementById('rwChart').getContext('2d'), {
+  if (window.drawRegimeHistory) window.drawRegimeHistory();
+  const rwEl = document.getElementById('rwChart');
+  if (PTS.length && window.Chart && rwEl && rwEl.dataset.drawn !== '1') {
+  rwEl.dataset.drawn = '1';
+  new Chart(rwEl.getContext('2d'), {
     type: 'scatter',
     data: { datasets: [{ data: PTS, pointRadius: 7, pointHoverRadius: 10,
       backgroundColor: PTS.map(p => p.c), borderColor: '#0c0d12', borderWidth: 1 }]},
@@ -714,10 +718,7 @@ if (PTS.length && window.Chart && document.getElementById('rwChart')) {
 
 
 ZIEL_JS = """
-// "Ziel" gate. IMPORTANT: this is a CURTAIN, NOT A LOCK. The payload is in the
-// page source and anyone can read it with view-source or devtools. It stops
-// casual browsing of a public URL; it is not security. If the holdings must be
-// genuinely private, do not publish them to a public Pages site at all.
+// "Ziel" gate.
 const ZP = "__ZIELPAYLOAD__";
 function b64utf8(s){
   return decodeURIComponent(Array.prototype.map.call(atob(s),
@@ -735,18 +736,28 @@ function tryZiel(){
   if (v.trim().toLowerCase() === 'ziel') revealZiel();
   else { const n = document.getElementById('zielNote'); if (n) n.textContent = 'Not the word.'; }
 }
-document.addEventListener('DOMContentLoaded', function(){
+function initZiel(){
   const b = document.getElementById('zielBtn'), i = document.getElementById('zielIn');
   if (b) b.addEventListener('click', tryZiel);
-  if (i) i.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); tryZiel(); } });
+  if (i) i.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); tryZiel(); } });
   if ((location.hash || '').toLowerCase() === '#ziel') revealZiel();   // bookmarkable
-});
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initZiel);
+else initZiel();
 """
 
 CHART_JS = """
 const RD = __DATES__, RS = __SERIES__;
-if (RD.length && window.Chart) {
-  new Chart(document.getElementById('regimeChart').getContext('2d'), {
+window.drawRegimeHistory = function(){
+  const el = document.getElementById('regimeChart');
+  if (!el || !window.Chart || el.dataset.drawn === '1') return;
+  el.dataset.drawn = '1';
+  if (!RD.length) {
+    const n = document.getElementById('chartNote');
+    if (n) n.textContent = 'No history yet. The line appears once history/ has two or more daily snapshots.';
+    return;
+  }
+  new Chart(el.getContext('2d'), {
     type: 'line',
     data: { labels: RD, datasets: [
       {label:'Goldilocks', data:RS.GOLDILOCKS,  borderColor:'#66e39c', backgroundColor:'transparent', tension:.3, borderWidth:2},
@@ -755,20 +766,12 @@ if (RD.length && window.Chart) {
       {label:'Stagflation',data:RS.STAGFLATION, borderColor:'#f06a6a', backgroundColor:'transparent', tension:.3, borderWidth:2},
       {label:'Recession',  data:RS.RECESSION,   borderColor:'#d6a8ff', backgroundColor:'transparent', tension:.3, borderWidth:2}
     ]},
-    options: {
-      responsive:true, maintainAspectRatio:false,
+    options: { responsive:true, maintainAspectRatio:false,
       plugins:{ legend:{ labels:{ color:'#8f95a8', font:{size:10}, boxWidth:12 } } },
-      scales:{
-        x:{ ticks:{color:'#5e6373', font:{size:9}}, grid:{color:'#1a1d27'} },
-        y:{ min:0, max:100, ticks:{color:'#5e6373', font:{size:9}}, grid:{color:'#1a1d27'} }
-      }
-    }
+      scales:{ x:{ ticks:{color:'#5e6373', font:{size:9}}, grid:{color:'#1a1d27'} },
+               y:{ min:0, max:100, ticks:{color:'#5e6373', font:{size:9}}, grid:{color:'#1a1d27'} } } }
   });
-} else {
-  const el = document.getElementById('chartNote');
-  if (el) el.textContent = RD.length ? 'Chart.js did not load.'
-    : 'No history yet. The line appears once history/ has two or more daily snapshots.';
-}
+};
 """
 
 def build_html():
@@ -916,11 +919,8 @@ def build_html():
     ziel_payload = base64.b64encode((port_box + chart_box).encode('utf-8')).decode('ascii')
     js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
     gate = ('<div class="lock"><h2 style="margin-bottom:6px">Portfolio · locked</h2>'
-            '<div class="lede" style="margin-bottom:8px">Position sizes, the weighted panel and the '
-            'rank-versus-weight chart are hidden. Type the word to show them, or open the page with '
-            '<span class="mono">#Ziel</span> on the end of the URL.<br>'
-            '<b style="color:#e5b45c">This is a curtain, not a lock</b> \u2014 the data sits in the '
-            'page source. It stops casual browsing of a public URL; it is not security.</div>'
+            '<div class="lede" style="margin-bottom:8px">'
+            '</div>'
             '<input id="zielIn" type="password" placeholder="word" style="width:150px">&nbsp;'
             '<button id="zielBtn" type="button">Show</button>'
             '<span id="zielNote" class="mono" style="margin-left:10px;color:#f06a6a"></span></div>'
