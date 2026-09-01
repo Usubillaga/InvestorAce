@@ -111,6 +111,7 @@ DATA = {
 'NKE' : dict(yf='NKE',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=7.0, clock='DIV',  ins='BUYING',  held=False, sector='Apparel',    built='exact', score_fixed=4.6),
 'ZTS' : dict(yf='ZTS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=6.0, clock='CLOCK',ins='BUYING',  held=False, sector='Animal Health', built='exact', score_fixed=4.55),
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
+'MSTR': dict(yf='MSTR', fcf=None, shares=397.28, r=0.08, cur='USD', deliver=7.5, dl='revenue growth (PROXY)', sub=(5.5, 2.0, 1.5, 9.5, 5.0, 1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(40.9, 730.42), na='FCF non-positive (-21,749.5m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
 }
 
 # ---------------- engine ----------------
