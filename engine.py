@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE · SCORECARD ENGINE · v12.1  (gated charts deferred; null guards so one missing canvas cannot kill the script)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE Â· SCORECARD ENGINE Â· v15.0  (forward test with monthly / yearly breakdown and a stability gate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -9,6 +9,11 @@ DEPLOY: GitHub Actions cron -> commit index.html -> GitHub Pages.
 import json, os, sys
 from datetime import datetime, timezone
 import yfinance as yf
+try:
+    from forward import run as forward_run, freeze_cohorts
+except Exception:
+    forward_run = lambda: {'ok': False, 'note': 'forward.py not present'}
+    freeze_cohorts = lambda *a, **k: None
 try:
     from macro import read_macro
 except Exception:
@@ -40,12 +45,12 @@ DATA = {
     sanity=(25,250)),
 'CRM' : dict(yf='CRM',    fcf=12700,  shares=950.0,  r=.080, cur='USD', deliver=14.0, dl='cRPO cc',          sub=(7,8,8,7.5,7.5,7),       pr=8.0, dil=9.0, clock='CONC', ins='AWARDS',      held=False, sector='Software',      built='exact', sanity=(120,450)),
 'NVDA': dict(yf='NVDA',   fcf=126900, shares=24285., r=.100, cur='USD', deliver=106.0,dl='revenue',          sub=(10,10,8,9,6,6),         pr=2.5, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Semis',         built='exact', sanity=(80,400), risk_floor=3.4),
-'SPGI': dict(yf='SPGI',   fcf=5200,   shares=293.3,  r=.075, cur='USD', deliver=7.0,  dl='organic cc',       sub=(8,9.5,9,6.5,4.5,9),     pr=6.0, dil=9.0, clock='CONC', ins='BUYING·LILA', held=True, sector='Info Svcs',     built='exact', sanity=(200,700), weight=5.5),
+'SPGI': dict(yf='SPGI',   fcf=5200,   shares=293.3,  r=.075, cur='USD', deliver=7.0,  dl='organic cc',       sub=(8,9.5,9,6.5,4.5,9),     pr=6.0, dil=9.0, clock='CONC', ins='BUYINGÂ·LILA', held=True, sector='Info Svcs',     built='exact', sanity=(200,700), weight=5.5),
 'SAN' : dict(yf='SAN.PA', fcf=6900,   shares=1215.0, r=.080, cur='EUR', deliver=10.0, dl='sales cc',         sub=(8,7,7,7,8,8),           pr=9.0, dil=8.0, clock='CLOCK',ins='AWARDS',      held=True,  sector='Pharma',        built='exact', sanity=(50,140), weight=5.7),
 'APP' : dict(yf='APP',    fcf=4000,   shares=335.29, r=.100, cur='USD', deliver=53.0, dl='revenue',          sub=(9,9.5,8,8.5,3.5,7.5),   pr=5.0, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Ad Tech',       built='exact', sanity=(100,700)),
 'ABT' : dict(yf='ABT',    fcf=7824,   shares=1746.0, r=.075, cur='USD', deliver=7.0,  dl='comparable sales', sub=(7,7.5,7,7.5,7.5,8.5),   pr=7.5, dil=7.0, clock='DIV',  ins='MIXED',       held=True,  sector='MedTech',       built='exact', sanity=(50,200), weight=1.8),
 'WKL' : dict(yf='WKL.AS', fcf=1250,   shares=232.52, r=.080, cur='EUR', deliver=5.0,  dl='organic revenue',  sub=(6,9,8,6,5,7),           pr=8.5, dil=7.5, clock='DIV',  ins='MIXED',       held=True,  sector='Info Svcs',     built='exact', sanity=(30,150), weight=23.9),
-'LVMH': dict(yf='MC.PA',  fcf=13100,  shares=500.0,  r=.080, cur='EUR', deliver=2.0,  dl='organic revenue',  sub=None,                    pr=8.0, dil=6.5, clock='CONC', ins='BUYING·LILA', held=True,  sector='Luxury',        built='back-solved', sanity=(300,900), score_fixed=7.16, weight=28.6),
+'LVMH': dict(yf='MC.PA',  fcf=13100,  shares=500.0,  r=.080, cur='EUR', deliver=2.0,  dl='organic revenue',  sub=None,                    pr=8.0, dil=6.5, clock='CONC', ins='BUYINGÂ·LILA', held=True,  sector='Luxury',        built='back-solved', sanity=(300,900), score_fixed=7.16, weight=28.6),
 'UBER': dict(yf='UBER',   fcf=10000,  shares=2100.0, r=.080, cur='USD', deliver=24.0, dl='gross bookings',   sub=(6,7,8,6,8,6),           pr=7.5, dil=9.0, clock='DIV',  ins='AWARDS',      held=True,  sector='Platform',      built='exact', sanity=(40,150), weight=7.5),
 'AVGO': dict(yf='AVGO',   fcf=35000,  shares=4757.0, r=.100, cur='USD', deliver=48.0, dl='revenue',          sub=(9.5,9.5,9.5,7.5,2.5,7), pr=2.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Semis',         built='exact', sanity=(100,1000)),
 'ONON': dict(yf='ONON',   fcf=437,    shares=416.0,  r=.090, cur='USD', deliver=21.6, dl='revenue cc',       sub=(8.5,8.5,7,9,3.5,1.5),   pr=6.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True, sector='Apparel',       built='est',   sanity=(10,120), weight=4.6),
@@ -102,7 +107,7 @@ DATA = {
 'META': dict(yf='META',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=3.0, dil=8.0, clock='CONC', ins='SELLING', held=False, sector='AdTech',     built='back-solved', score_fixed=5.83),
 'DIS' : dict(yf='DIS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.0, dil=9.0, clock='DIV',  ins='AWARDS',  held=False, sector='Media',      built='back-solved', score_fixed=5.62),
 'PEP' : dict(yf='PEP',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.0, dil=7.0, clock='DIV',  ins='SELLING', held=False, sector='Staples',    built='back-solved', score_fixed=5.5),
-'BSX' : dict(yf='BSX',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.0, dil=6.0, clock='DIV',  ins='BUYING·LILA', held=True, sector='MedTech',built='exact', score_fixed=5.4, weight=2.0),
+'BSX' : dict(yf='BSX',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.0, dil=6.0, clock='DIV',  ins='BUYINGÂ·LILA', held=True, sector='MedTech',built='exact', score_fixed=5.4, weight=2.0),
 'WIX' : dict(yf='WIX',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(6,3,4,2,8,5), pr=9.5, dil=8.5, clock='CONC', ins='AWARDS', held=False, sector='Software', built='exact'),
 'GRAB': dict(yf='GRAB',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=5.5, clock='CONC', ins='SELLING', held=False, sector='Platform',   built='back-solved', score_fixed=5.23, na='TTM IFRS free cash flow negative (-186m)'),
 'NOW' : dict(yf='NOW',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.0, dil=6.0, clock='CONC', ins='SELLING', held=False, sector='Software',   built='exact', score_fixed=5.22),
@@ -111,7 +116,6 @@ DATA = {
 'NKE' : dict(yf='NKE',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=7.0, clock='DIV',  ins='BUYING',  held=False, sector='Apparel',    built='exact', score_fixed=4.6),
 'ZTS' : dict(yf='ZTS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=6.0, clock='CLOCK',ins='BUYING',  held=False, sector='Animal Health', built='exact', score_fixed=4.55),
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
-'MSTR': dict(yf='MSTR', fcf=None, shares=397.28, r=0.08, cur='USD', deliver=7.5, dl='revenue growth (PROXY)', sub=(5.5, 2.0, 1.5, 9.5, 5.0, 1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(40.9, 730.42), na='FCF non-positive (-21,749.5m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
 }
 
 # ---------------- engine ----------------
@@ -188,10 +192,10 @@ def verdict(t, d):
     if s is None: return ('NO SCORE','v-hold')
     if d.get('trap'): return ('TRAP BUY','v-trap')
     if cu is not None and cu < 0:
-        return ('DO NOT ADD','v-avoid') if s < 7.00 else ('BUY · CUSHION NEG','v-avoid')
+        return ('DO NOT ADD','v-avoid') if s < 7.00 else ('BUY Â· CUSHION NEG','v-avoid')
     if s >= 7.00:
-        return ('BUY · LOW RISK','v-buy') if rk <= 2.4 else \
-               (('BUY · MOD','v-buymod') if rk <= 3.2 else ('BUY · HIGH RISK','v-buyhi'))
+        return ('BUY Â· LOW RISK','v-buy') if rk <= 2.4 else \
+               (('BUY Â· MOD','v-buymod') if rk <= 3.2 else ('BUY Â· HIGH RISK','v-buyhi'))
     if s >= 5.50:
         return ('ACCUMULATE','v-acc') if rk <= 2.4 else ('HOLD','v-hold')
     return ('AVOID','v-avoid') if s >= 3.50 else ('SELL','v-sell')
@@ -274,7 +278,7 @@ def best_regime(d):
 
 
 # =====================================================================
-# MID-CYCLE NGV  —  commodity producers get a number, not a refusal
+# MID-CYCLE NGV  â€”  commodity producers get a number, not a refusal
 #
 # The old rule marked AR, DVN, CNX, AG and OXY as na because "implied
 # growth is really a price deck". That was true and it was also a
@@ -283,14 +287,14 @@ def best_regime(d):
 # same work for a producer is inconsistent.
 #
 # The fix is what energy analysts actually do: capitalise MID-CYCLE
-# free cash flow — the average across a full price cycle — instead of
+# free cash flow â€” the average across a full price cycle â€” instead of
 # whatever this year happens to be. Then report where in the cycle the
 # CURRENT year sits, so the flattery is visible rather than hidden.
 #
 #   NGV_midcycle = (mean annual FCF over ~4 years / shares) / r
 #   cycle_pos    = TTM FCF / mid-cycle FCF
-#                  > 1.5  cyclical PEAK  — cover looks better than it is
-#                  < 0.7  cyclical TROUGH — cover looks worse than it is
+#                  > 1.5  cyclical PEAK  â€” cover looks better than it is
+#                  < 0.7  cyclical TROUGH â€” cover looks worse than it is
 #
 # Producers also carry a higher discount rate (10-11%) because the cash
 # flow is a price bet, not an annuity.
@@ -304,8 +308,8 @@ def cycle_pos(d):
 def cycle_note(d):
     cp = cycle_pos(d)
     if cp is None: return ''
-    if cp >= 1.5: return f'PEAK {cp:.2f}x mid-cycle — cover flatters'
-    if cp <= 0.7: return f'TROUGH {cp:.2f}x mid-cycle — cover understates'
+    if cp >= 1.5: return f'PEAK {cp:.2f}x mid-cycle â€” cover flatters'
+    if cp <= 0.7: return f'TROUGH {cp:.2f}x mid-cycle â€” cover understates'
     return f'{cp:.2f}x mid-cycle'
 
 def midcycle_from_yahoo(tk, years=4):
@@ -334,7 +338,7 @@ def midcycle_from_yahoo(tk, years=4):
 
 
 # =====================================================================
-# PROXIMITY ALERT  —  which rows are near a price that matters
+# PROXIMITY ALERT  â€”  which rows are near a price that matters
 #
 # Two thresholds, both derived from NGV so neither goes stale:
 #   AT NGV      price <= NGV. You are paying nothing for growth at all.
@@ -481,6 +485,11 @@ def regime_history():
     import glob
     dates, series = [], {r: [] for r in REGIMES}
     for fp in sorted(glob.glob('history/*.json')):
+        # [FIX] history/ now also holds _cohort.json, which is NOT a daily
+        # snapshot. Reading it as one crashes on its string-valued keys.
+        # Any leading-underscore file is metadata, not a day.
+        if os.path.basename(fp).startswith('_'):
+            continue
         try:
             with open(fp) as f: day = json.load(f)
         except Exception:
@@ -549,7 +558,7 @@ def snapshot():
     return day
 
 # ---------------- render ----------------
-def fmt(x, spec, dash='—'):  return dash if x is None else format(x, spec)
+def fmt(x, spec, dash='â€”'):  return dash if x is None else format(x, spec)
 
 def cls(x, good, bad, invert=False):
     if x is None: return 'pr na'
@@ -719,7 +728,6 @@ window.drawPortfolioCharts = function(){
 
 
 ZIEL_JS = """
-// "Ziel" gate.
 const ZP = "__ZIELPAYLOAD__";
 function b64utf8(s){
   return decodeURIComponent(Array.prototype.map.call(atob(s),
@@ -732,16 +740,17 @@ function revealZiel(){
   box.dataset.open = '1';
   if (window.drawPortfolioCharts) window.drawPortfolioCharts();
 }
-function tryZiel(){
-  const v = (document.getElementById('zielIn') || {}).value || '';
-  if (v.trim().toLowerCase() === 'ziel') revealZiel();
-  else { const n = document.getElementById('zielNote'); if (n) n.textContent = 'Not the word.'; }
-}
 function initZiel(){
-  const b = document.getElementById('zielBtn'), i = document.getElementById('zielIn');
-  if (b) b.addEventListener('click', tryZiel);
-  if (i) i.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); tryZiel(); } });
-  if ((location.hash || '').toLowerCase() === '#ziel') revealZiel();   // bookmarkable
+  if ((location.hash || '').toLowerCase() === '#ziel') revealZiel();
+  let buf = '';
+  document.addEventListener('keydown', function(e){
+    const tag = (e.target && e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;      // do not eat the ticker box
+    if (e.key && e.key.length === 1) {
+      buf = (buf + e.key.toLowerCase()).slice(-8);
+      if (buf.endsWith('ziel')) { buf = ''; revealZiel(); }
+    }
+  });
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initZiel);
 else initZiel();
@@ -796,7 +805,7 @@ def build_html():
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
           + f'<td><span class="pill {CLOCK_CSS.get(d.get("clock"),"s-conc")}">{d.get("clock","")}</span></td>'
           + f'<td class="in">{d.get("ins","")}</td>'
-          + (lambda rg, sc: f'<td><span class="pill {REG_CSS.get(rg,"empty")}">{rg or "—"}</span>'
+          + (lambda rg, sc: f'<td><span class="pill {REG_CSS.get(rg,"empty")}">{rg or "â€”"}</span>'
                             f'{f"<br><span style=font-size:8px;color:#5e6373>{sc:.0f}</span>" if sc else ""}</td>'
             )(*best_regime(d))
           + f'<td class="mono">{fmt(ngv(d),",.2f")}</td>'
@@ -839,23 +848,82 @@ def build_html():
                  .replace('__FITVAL__', json.dumps([v for _, v in fits]))
                  .replace('__FITCOL__', json.dumps([bar]*len(fits))))
     pf = portfolio_regime()
-    pf_txt = ' · '.join(f'<b>{r.title()}</b> {v:.0f}' for r, v in
+    pf_txt = ' Â· '.join(f'<b>{r.title()}</b> {v:.0f}' for r, v in
                         sorted(pf.items(), key=lambda kv: -kv[1])) if pf else 'no cover yet'
+    FW = forward_run()
+    if FW.get('ok') and FW.get('signals'):
+        pick = 'score' if 'score' in FW['signals'] else list(FW['signals'])[0]
+        P = FW['signals'][pick]
+        head_fw = (f'<div class="lede" style="margin-bottom:8px">Cohorts frozen '
+                   f'<b>{FW["frozen_on"]}</b> Â· <b>{FW["obs"]}</b> observations against a '
+                   f'<b>{FW["floor"]}</b>-day floor. Top quintile minus bottom, equal-weighted. '
+                   f'Three signals are tested, so the threshold is Bonferroni-adjusted to '
+                   f'|t| &ge; 2.39.</div>')
+        srows = ''.join(
+            f'<tr><td class="tk">{k}</td>'
+            f'<td class="{cls(v["spread_pct"],0.0001,-0.0001)}">{v["spread_pct"]:+.1f}%</td>'
+            f'<td class="{cls(v.get("annualised_pct"),0.0001,-0.0001)}">'
+            f'{(("%+.1f%%" % v["annualised_pct"]) if v.get("annualised_pct") is not None else "â€”")}</td>'
+            f'<td class="mono">{v["daily_bp"]:+.2f}bp</td><td class="mono">{v["t"]:+.2f}</td>'
+            f'<td class="mono">{(str(v["years_needed"]) + "y") if v["years_needed"] else "â€”"}</td>'
+            f'<td><span class="pill {"v-buy" if v["verdict"]=="RANKS" else "v-sell" if v["verdict"]=="RANKS INVERSELY" else "v-hold"}">{v["verdict"]}</span></td></tr>'
+            for k, v in FW['signals'].items())
+
+        mrows = ''.join(
+            f'<tr><td class="mono">{m["period"]}</td><td class="mono">{m["top"]:+.2f}%</td>'
+            f'<td class="mono">{m["bot"]:+.2f}%</td>'
+            f'<td class="{cls(m["spread"],0.0001,-0.0001)}">{m["spread"]:+.2f}%</td>'
+            f'<td class="mono" style="color:#5e6373">{m["obs"]}</td></tr>'
+            for m in reversed(P.get('monthly', [])))
+        yrows = ''.join(
+            f'<tr><td class="mono"><b>{y["period"]}</b></td><td class="mono">{y["top"]:+.2f}%</td>'
+            f'<td class="mono">{y["bot"]:+.2f}%</td>'
+            f'<td class="{cls(y["spread"],0.0001,-0.0001)}"><b>{y["spread"]:+.2f}%</b></td>'
+            f'<td class="mono" style="color:#5e6373">{y["obs"]}</td></tr>'
+            for y in reversed(P.get('yearly', [])))
+        SB = P.get('stability')
+        sb_txt = ('' if not SB else
+            f'<div class="lede" style="margin-top:10px;margin-bottom:0"><b>Stability {SB["rho"]:.3f}</b> '
+            f'&mdash; {SB["pct_positive"]:.0f}% of {SB["months"]} months positive, dispersion '
+            f'{SB["dispersion"]:.2f}pp, worst month {SB["worst"]:+.2f}%. Reads as '
+            f'<b>{SB["reads"]}</b>. This is the paper&rsquo;s regime gate applied to the monthly '
+            f'spreads: a result that comes from one lucky month scores low here even when the '
+            f'cumulative number looks strong.</div>')
+        per = ('' if not (mrows or yrows) else
+            f'<h2 style="margin-top:16px">Month by month &mdash; <span class="mono">{pick}</span></h2>'
+            '<div class="lede" style="margin-bottom:8px">Reading twelve monthly cells is twelve '
+            'more looks at the same data. <b>One good month is noise.</b> Read the stability line '
+            'under the table, not the best row in it.</div>'
+            '<table><thead><tr><th>Period</th><th>Top</th><th>Bottom</th><th>Spread</th>'
+            f'<th>Days</th></tr></thead><tbody>{yrows}{mrows}</tbody></table>{sb_txt}')
+
+        fw_box = ('<div class="box"><h2>Does the scorecard actually rank?</h2>' + head_fw +
+                  '<table><thead><tr><th>Signal</th><th>Cumulative</th><th>Annualised</th>'
+                  '<th>Per day</th><th>t</th><th>Years to sig.</th><th>Verdict</th></tr></thead>'
+                  f'<tbody>{srows}</tbody></table>' + per +
+                  '<div class="lede" style="font-size:10.5px;margin-top:10px">Forward test, not a '
+                  'backtest. Cohorts were fixed before any of these prices existed. '
+                  '<b>Re-freezing them after reading this destroys the test.</b></div></div>')
+    else:
+        fw_box = ('<div class="box"><h2>Does the scorecard actually rank?</h2>'
+                  f'<div class="lede">{FW.get("note","")} &mdash; cohorts freeze on the first run '
+                  'and the test accumulates from there.</div></div>')
+
     if M.get('ok'):
-        legs = ''.join(f'<div class="mono" style="font-size:10px">· {x}</div>' for x in M['recession_legs'])
-        det = ' · '.join(f'{k} {v:+.1f}%' for k, v in M['detail'].items() if v is not None)
+        legs = ''.join(f'<div class="mono" style="font-size:10px">Â· {x}</div>' for x in M['recession_legs'])
+        det = ' Â· '.join(f'{k} {v:+.1f}%' for k, v in M['detail'].items() if v is not None)
         macro_box = (
           f'<div class="box" style="border-color:#4a3566;background:#15111d">'
           f'<h2>Regime now: <span class="pill {REG_CSS.get(cur_reg,"empty")}">{cur_reg}</span></h2>'
           f'<div class="lede" style="margin-bottom:8px">Read off market data, not opinion. '
-          f'<b>Growth impulse {M["growth"]:+.1f}%</b> (S&amp;P + copper, 6-month) · '
+          f'<b>Growth impulse {M["growth"]:+.1f}%</b> (S&amp;P + copper, 6-month) Â· '
           f'<b>Inflation impulse {M["inflation"]:+.1f}%</b> (oil + 10-year, 6-month).<br>'
           f'<span class="mono" style="font-size:10px">{det}</span></div>'
           f'<div class="lede" style="margin-bottom:6px">'
-          f'VIX <b>{M["vix"]:.1f} — {M["vix_state"]}</b>'
-          + (f' · tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')
-          + (f' · breadth {M["breadth"]}' if M.get('breadth') else '')
-          + f' · recession score <b>{M["recession_score"]}/100</b></div>{legs}</div>')
+          f'VIX <b>{M["vix"]:.1f} â€” {M["vix_state"]}</b>'
+          + (f' Â· tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')
+          + (f' Â· breadth {M["breadth"]}' if M.get('breadth') else '')
+          + f' Â· recession score <b>{M["recession_score"]}/100</b></div>{legs}</div>')
     else:
         macro_box = f'<div class="box"><h2>Regime now</h2><div class="lede">unavailable: {M.get("note","")}</div></div>'
 
@@ -867,42 +935,42 @@ def build_html():
     eqr = (sum(rank_of[t] for t, d in DATA.items() if d.get('weight'))/len(pts)) if pts else 0
     port_box = ('<div class="box" style="border-color:#1d5433;background:#0e1712">'
         '<h2>Your book as one line</h2>'
-        f'<div class="lede" style="margin-bottom:8px">{len(pts)} positions · weighted score '
-        f'<b>{wsc:.2f}</b> · weighted cover <b>{("%.0f%%" % wcv) if wcv else "n/a"}</b> · '
+        f'<div class="lede" style="margin-bottom:8px">{len(pts)} positions Â· weighted score '
+        f'<b>{wsc:.2f}</b> Â· weighted cover <b>{("%.0f%%" % wcv) if wcv else "n/a"}</b> Â· '
         f'<b>weight-weighted rank {wrk:.1f}</b> against <b>{eqr:.1f}</b> if held equally.</div>'
         '<div class="lede" style="margin-bottom:8px">Every dot should sit on a line falling left to '
-        'right: best ideas biggest. <b>Dots high and to the right are the problem</b> — size with no '
+        'right: best ideas biggest. <b>Dots high and to the right are the problem</b> â€” size with no '
         'rank to justify it.</div>'
         '<div style="height:280px"><canvas id="rwChart"></canvas></div></div>')
 
     fit_box = ('<div class="box"><h2>Best fit for the regime we are actually in</h2>'
-               f'<div class="lede" style="margin-bottom:8px">Each row scored against <b>{cur_reg or "—"}</b>, '
+               f'<div class="lede" style="margin-bottom:8px">Each row scored against <b>{cur_reg or "â€”"}</b>, '
                'not against the regime it happens to like best. This is what makes the regime column '
                'actionable rather than descriptive.</div>'
                '<div style="height:330px"><canvas id="fitChart"></canvas></div></div>') if cur_reg else ''
 
     chart_box = ('<div class="box"><h2>Where the book sits on the growth / inflation grid</h2>'
                  '<div class="lede" style="margin-bottom:8px">Position-weighted, not a cross-sectional '
-                 'average — averaging all 51 rows is dominated by the sector mix and barely moves. '
+                 'average â€” averaging all 51 rows is dominated by the sector mix and barely moves. '
                  'Today: ' + pf_txt + '</div>'
                  '<div style="height:220px"><canvas id="regimeChart"></canvas></div>'
                  '<div id="chartNote" class="lede" style="font-size:10.5px;margin-top:6px"></div></div>')
     head = ('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
-            '<title>InvestorAce · Master Scoreboard</title>'
+            '<title>InvestorAce Â· Master Scoreboard</title>'
             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>'
             '<style>' + CSS + '</style></head><body>')
-    hdr = (f'<div class="kicker">InvestorAce · Live · {stamp}</div>'
+    hdr = (f'<div class="kicker">InvestorAce Â· Live Â· {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
-           f'<div class="lede">{len(DATA)} tickers · <b>{withngv}</b> with NGV · <b>{priced}</b> priced this run · '
+           f'<div class="lede">{len(DATA)} tickers Â· <b>{withngv}</b> with NGV Â· <b>{priced}</b> priced this run Â· '
            f'<b>{na}</b> formally N/A. Prices from Yahoo; NGV, subscores and the delivering metric are static and '
-           f'human-set. <b>NGV does not move with price — cover, cushion and entry gap all derive from it.</b></div>')
+           f'human-set. <b>NGV does not move with price â€” cover, cushion and entry gap all derive from it.</b></div>')
     issue_box = ''
     if issues:
         li = ''.join(f'<div class="mono">{t}: {v}</div>' for t,v in sorted(issues.items()))
         issue_box = f'<div class="box"><h2 style="color:#f06a6a">Price issues this run ({len(issues)})</h2>{li}</div>'
     adder = ('<div class="box"><h2>Add a ticker</h2>'
-             '<div class="lede" style="margin-bottom:10px">Yahoo can supply the mechanical half — price, shares, '
+             '<div class="lede" style="margin-bottom:10px">Yahoo can supply the mechanical half â€” price, shares, '
              'cash flow, currency. It cannot supply subscores, the delivering metric or the clock classification. '
              'This opens a pre-filled GitHub issue; the workflow does the rest and comments back with the result.</div>'
              '<input id="newTicker" placeholder="e.g. ASML.AS" style="width:220px">&nbsp;'
@@ -913,28 +981,23 @@ def build_html():
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table>')
-    foot = (f'<div class="foot">Snapshot written to history/. NGV = (FCF ÷ shares) ÷ r and is price-independent. '
+    foot = (f'<div class="foot">Snapshot written to history/. NGV = (FCF Ã· shares) Ã· r and is price-independent. '
             f'Negative cushion forces DO NOT ADD at every band. NVDA carries a manual risk floor because the '
             f'formula has no concentration term. Last pull {stamp}.<br>Not financial advice</div>')
     import base64
     ziel_payload = base64.b64encode((port_box + chart_box).encode('utf-8')).decode('ascii')
     js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
-    gate = ('<div class="lock"><h2 style="margin-bottom:6px">Portfolio · locked</h2>'
-            '<div class="lede" style="margin-bottom:8px">'
-            '</div>'
-            '<input id="zielIn" type="password" placeholder="word" style="width:150px">&nbsp;'
-            '<button id="zielBtn" type="button">Show</button>'
-            '<span id="zielNote" class="mono" style="margin-left:10px;color:#f06a6a"></span></div>'
-            '<div id="zielBox" data-open="0"></div>')
+    gate = '<div id="zielBox" data-open="0"></div>'
     with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(head + hdr + macro_box + gate + fit_box + issue_box + adder + tbl + foot
+        f.write(head + hdr + macro_box + fw_box + gate + fit_box + issue_box + adder + tbl + foot
                 + '<script>' + js + js_z + '</script></body></html>')
 
 if __name__ == '__main__':
     bootstrap_fundamentals()
     fetch_prices()
     day = snapshot()
+    freeze_cohorts()          # once, from the oldest snapshot
     build_html()
     bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
-    print(f'{len(DATA)} tickers · snapshot history/{day}.json · index.html written')
+    print(f'{len(DATA)} tickers Â· snapshot history/{day}.json Â· index.html written')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)
