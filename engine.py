@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE Â· SCORECARD ENGINE Â· v15.0  (forward test with monthly / yearly breakdown and a stability gate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE Â· SCORECARD ENGINE Â· v15.1  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -45,18 +45,18 @@ DATA = {
     sanity=(25,250)),
 'CRM' : dict(yf='CRM',    fcf=12700,  shares=950.0,  r=.080, cur='USD', deliver=14.0, dl='cRPO cc',          sub=(7,8,8,7.5,7.5,7),       pr=8.0, dil=9.0, clock='CONC', ins='AWARDS',      held=False, sector='Software',      built='exact', sanity=(120,450)),
 'NVDA': dict(yf='NVDA',   fcf=126900, shares=24285., r=.100, cur='USD', deliver=106.0,dl='revenue',          sub=(10,10,8,9,6,6),         pr=2.5, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Semis',         built='exact', sanity=(80,400), risk_floor=3.4),
-'SPGI': dict(yf='SPGI',   fcf=5200,   shares=293.3,  r=.075, cur='USD', deliver=7.0,  dl='organic cc',       sub=(8,9.5,9,6.5,4.5,9),     pr=6.0, dil=9.0, clock='CONC', ins='BUYINGÂ·LILA', held=True, sector='Info Svcs',     built='exact', sanity=(200,700), weight=5.5),
-'SAN' : dict(yf='SAN.PA', fcf=6900,   shares=1215.0, r=.080, cur='EUR', deliver=10.0, dl='sales cc',         sub=(8,7,7,7,8,8),           pr=9.0, dil=8.0, clock='CLOCK',ins='AWARDS',      held=True,  sector='Pharma',        built='exact', sanity=(50,140), weight=5.7),
+'SPGI': dict(yf='SPGI',   fcf=5200,   shares=293.3,  r=.075, cur='USD', deliver=7.0,  dl='organic cc',       sub=(8,9.5,9,6.5,4.5,9),     pr=6.0, dil=9.0, clock='CONC', ins='BUYINGÂ·LILA', held=True, sector='Info Svcs',     built='exact', sanity=(200,700), weight=5.4),
+'SAN' : dict(yf='SAN.PA', fcf=6900,   shares=1215.0, r=.080, cur='EUR', deliver=10.0, dl='sales cc',         sub=(8,7,7,7,8,8),           pr=9.0, dil=8.0, clock='CLOCK',ins='AWARDS',      held=True,  sector='Pharma',        built='exact', sanity=(50,140), weight=5.6),
 'APP' : dict(yf='APP',    fcf=4000,   shares=335.29, r=.100, cur='USD', deliver=53.0, dl='revenue',          sub=(9,9.5,8,8.5,3.5,7.5),   pr=5.0, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Ad Tech',       built='exact', sanity=(100,700)),
 'ABT' : dict(yf='ABT',    fcf=7824,   shares=1746.0, r=.075, cur='USD', deliver=7.0,  dl='comparable sales', sub=(7,7.5,7,7.5,7.5,8.5),   pr=7.5, dil=7.0, clock='DIV',  ins='MIXED',       held=True,  sector='MedTech',       built='exact', sanity=(50,200), weight=1.8),
-'WKL' : dict(yf='WKL.AS', fcf=1250,   shares=232.52, r=.080, cur='EUR', deliver=5.0,  dl='organic revenue',  sub=(6,9,8,6,5,7),           pr=8.5, dil=7.5, clock='DIV',  ins='MIXED',       held=True,  sector='Info Svcs',     built='exact', sanity=(30,150), weight=23.9),
-'LVMH': dict(yf='MC.PA',  fcf=13100,  shares=500.0,  r=.080, cur='EUR', deliver=2.0,  dl='organic revenue',  sub=None,                    pr=8.0, dil=6.5, clock='CONC', ins='BUYINGÂ·LILA', held=True,  sector='Luxury',        built='back-solved', sanity=(300,900), score_fixed=7.16, weight=28.6),
-'UBER': dict(yf='UBER',   fcf=10000,  shares=2100.0, r=.080, cur='USD', deliver=24.0, dl='gross bookings',   sub=(6,7,8,6,8,6),           pr=7.5, dil=9.0, clock='DIV',  ins='AWARDS',      held=True,  sector='Platform',      built='exact', sanity=(40,150), weight=7.5),
+'WKL' : dict(yf='WKL.AS', fcf=1250,   shares=232.52, r=.080, cur='EUR', deliver=5.0,  dl='organic revenue',  sub=(6,9,8,6,5,7),           pr=8.5, dil=7.5, clock='DIV',  ins='MIXED',       held=True,  sector='Info Svcs',     built='exact', sanity=(30,150), weight=23.5),
+'LVMH': dict(yf='MC.PA',  fcf=13100,  shares=500.0,  r=.080, cur='EUR', deliver=2.0,  dl='organic revenue',  sub=None,                    pr=8.0, dil=6.5, clock='CONC', ins='BUYINGÂ·LILA', held=True,  sector='Luxury',        built='back-solved', sanity=(300,900), score_fixed=7.16, weight=28.2),
+'UBER': dict(yf='UBER',   fcf=10000,  shares=2100.0, r=.080, cur='USD', deliver=24.0, dl='gross bookings',   sub=(6,7,8,6,8,6),           pr=7.5, dil=9.0, clock='DIV',  ins='AWARDS',      held=True,  sector='Platform',      built='exact', sanity=(40,150), weight=7.4),
 'AVGO': dict(yf='AVGO',   fcf=35000,  shares=4757.0, r=.100, cur='USD', deliver=48.0, dl='revenue',          sub=(9.5,9.5,9.5,7.5,2.5,7), pr=2.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Semis',         built='exact', sanity=(100,1000)),
-'ONON': dict(yf='ONON',   fcf=437,    shares=416.0,  r=.090, cur='USD', deliver=21.6, dl='revenue cc',       sub=(8.5,8.5,7,9,3.5,1.5),   pr=6.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True, sector='Apparel',       built='est',   sanity=(10,120), weight=4.6),
+'ONON': dict(yf='ONON',   fcf=437,    shares=416.0,  r=.090, cur='USD', deliver=21.6, dl='revenue cc',       sub=(8.5,8.5,7,9,3.5,1.5),   pr=6.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True, sector='Apparel',       built='est',   sanity=(10,120), weight=4.5),
 'VICI': dict(yf='VICI',   fcf=2480,   shares=1000.0, r=.075, cur='USD', deliver=3.3,  dl='AFFO/share',       sub=None,                    pr=8.0, dil=3.5, clock='CONC', ins='AWARDS',      held=True,  sector='REIT',          built='back-solved', sanity=(15,60), score_fixed=6.8, weight=1.9),
 'ENB' : dict(yf='ENB.TO', fcf=12900,  shares=2184.0, r=.075, cur='CAD', deliver=5.0,  dl='DCF/share CAGR',   sub=(5,6,5,3.5,6,8.5),       pr=8.5, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True,  sector='Midstream',     built='exact', sanity=(30,120), weight=1.6),
-'PFE' : dict(yf='PFE',    fcf=9480,   shares=5700.0, r=.080, cur='USD', deliver=-1.8, dl='FY guide vs FY25', sub=(4,6.5,5.5,4,8.5,7),     pr=6.5, dil=5.5, clock='CLOCK',ins='BUYING',      held=True,  sector='Pharma',        built='exact', sanity=(10,60), weight=1.1),
+'PFE' : dict(yf='PFE',    fcf=9480,   shares=5700.0, r=.080, cur='USD', deliver=-1.8, dl='FY guide vs FY25', sub=(4,6.5,5.5,4,8.5,7),     pr=6.5, dil=5.5, clock='CLOCK',ins='BUYING',      held=False,  sector='Pharma',        built='exact', sanity=(10,60)),
 # [FIX 5] NGV inputs restored -- these were computed and then dropped back to None
 'ROL' : dict(yf='ROL',    fcf=502,    shares=475.3,  r=.075, cur='USD', deliver=5.7,  dl='organic revenue',  sub=None,                    pr=4.5, dil=6.0, clock='CONC', ins='SELLING',     held=False, sector='Services',      built='exact', sanity=(15,80), score_fixed=6.47),
 'LULU': dict(yf='LULU',   fcf=1000,   shares=115.4,  r=.090, cur='USD', deliver=-2.0, dl='comps cc',         sub=(3,5,5.5,9,8,4),         pr=5.5, dil=6.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Apparel',       built='est',   sanity=(80,500)),
@@ -72,22 +72,28 @@ DATA = {
 'ADSK': dict(yf='ADSK', fcf=2694.0, shares=211.15, r=0.08, cur='USD', deliver=22.4, dl='revenue growth (PROXY)', sub=(8.5,7.5,9.5,8.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(92.75,658.18)),
 'GOOG': dict(yf='GOOG', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, dl='revenue growth (PROXY)', sub=(8.5,9.0,6.0,8.0,5.0,9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(103.48,808.94)),
 'GILD': dict(yf='GILD', fcf=12943.0, shares=1239.96, r=0.08, cur='USD', deliver=5.9, dl='revenue growth (PROXY)', sub=(5.5,9.0,9.5,5.0,5.0,6.0), pr=None, dil=7.0, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(54.23,314.58), boot_note='balance sheet auto-scored 1.5 (net debt/EBITDA >5x); Gilead runs nearer 1.5-2x -- reset to 5.0 until EBITDA is verified'),
-'AG'  : dict(yf='AG', fcf=180, fcf_ttm=614, shares=492.91, r=.11, cur='USD', deliver=8.0, dl='production growth', sub=(9,8,7,9,5,7), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Materials', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='silver; the most cyclical row in the table'),
+'AG'  : dict(yf='AG', fcf=180, fcf_ttm=614, shares=492.91, r=.11, cur='USD', deliver=None, dl='n/a - see note', sub=(9,8,7,9,5,7), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Materials', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='silver; the most cyclical row in the table | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
 'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, dl='revenue growth (PROXY)', sub=(4.0,4.0,1.5,7.0,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99,385.34), na='Yahoo returned FCF of -50,724m, not credible for Alibaba. Treated as a bad pull, NOT as evidence of cash burn.'),
 'BYRN': dict(yf='BYRN', fcf=None, shares=22.8, r=0.08, cur='USD', deliver=26.9, dl='revenue growth (PROXY)', sub=(8.5,2.0,1.5,6.0,5.0,1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(1.59,61.24), na='free cash flow non-positive (-0.5m)'),
 'FSLR': dict(yf='FSLR', fcf=None, shares=107.0, r=.090, cur='USD', deliver=-4.0,
     dl='net sales YoY', sub=(4,8.5,1,7.5,7.5,1), pr=None, dil=6.5, clock='CLOCK',
     ins='NOT CHECKED', held=False, sector='Semis', built='exact', sanity=(60,600),
     na='H1 2026 free cash flow -$640m (OCF -$360m, capex -$280m). And the margin is policy: Section 45X credits decline after 2029.'),
-'SITE': dict(yf='SITE', fcf=250.2, shares=43.66, r=.080, cur='USD', deliver=5.2, dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,6.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=True, sector='Industrials', built='auto', sanity=(45.03,337.12), weight=4.6),
+'SITE': dict(yf='SITE', fcf=250.2, shares=43.66, r=.080, cur='USD', deliver=5.2, dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,6.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=True, sector='Industrials', built='auto', sanity=(45.03,337.12), weight=4.5),
 'TSLA': dict(yf='TSLA', fcf=5755.0, shares=3949.55, r=0.08, cur='USD', deliver=6.1, dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,8.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(148.69,997.66)),
 'PG'  : dict(yf='PG', fcf=15147.0, shares=2324.43, r=0.08, cur='USD', deliver=3.3, dl='revenue growth (PROXY)', sub=(4.0,7.5,7.5,7.0,5.0,7.5), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(68.81,334.5)),
 'CSGP': dict(yf='CSGP', fcf=227.0, shares=405.2, r=0.08, cur='USD', deliver=30.0, dl='revenue growth (PROXY)', sub=(8.5,4.0,6.0,9.5,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', sanity=(12.94,183.78)),
-'OXY' : dict(yf='OXY', fcf=3900, fcf_ttm=4793, shares=999.64, r=.105, cur='USD', deliver=-1.6, dl='production growth', sub=(2,7.5,7,6,6,6), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='oil and gas; heavy post-CrownRock leverage'),
+'OXY' : dict(yf='OXY', fcf=3900, fcf_ttm=4793, shares=999.64, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(2,7.5,7,6,6,6), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='oil and gas; heavy post-CrownRock leverage | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
 'SPCX': dict(yf='SPCX', fcf=None, shares=13181.78, r=0.08, cur='USD', deliver=47.3, dl='revenue growth (PROXY)', sub=(9.5,2.0,1.5,9.5,5.0,1.0), pr=None, dil=5.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(52.42,451.28), na='Yahoo returned FCF of -32,522m on 13.2bn shares. Not credible -- a bad pull, not evidence of cash burn. Verify what this symbol actually is before trusting any of it.'),
-'AR'  : dict(yf='AR', fcf=520, fcf_ttm=340, shares=310.0, r=.105, cur='USD', deliver=3.0, dl='production growth', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=True, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='mid-cycle FCF across four reported years; natural gas', weight=2.5),
-'DVN' : dict(yf='DVN', fcf=2600, fcf_ttm=2150, shares=1290.0, r=.105, cur='USD', deliver=2.0, dl='production growth', sub=(6,7,6.5,5,7,7), pr=None, dil=5.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='post-Coterra share count; oil and gas'),
-'CNX' : dict(yf='CNX', fcf=440, fcf_ttm=525, shares=145.0, r=.1, cur='USD', deliver=1.0, dl='production growth', sub=(3.5,6.5,7,6,7.5,8), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='26 consecutive positive-FCF quarters; gas'),
+'JEQE': dict(yf='JEQE.DE', fcf=None, shares=None, r=.080, cur='EUR', deliver=None,
+    dl='', sub=None, pr=None, dil=6.0, clock='CONC', ins='N/A - FUND', held=True,
+    sector='Technology', built='fund', sanity=(8,60), weight=4.1,
+    na='fund, not a company. No single free cash flow to capitalise, so no NGV. '
+       'A covered-call overlay on the Nasdaq-100: 109 holdings, top 10 = 49.4%. '
+       'The framework cannot score it and should not pretend to.'),
+'AR'  : dict(yf='AR', fcf=520, fcf_ttm=340, shares=310.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=True, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='mid-cycle FCF across four reported years; natural gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction', weight=2.5),
+'DVN' : dict(yf='DVN', fcf=2600, fcf_ttm=2150, shares=1290.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(6,7,6.5,5,7,7), pr=None, dil=5.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='post-Coterra share count; oil and gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
+'CNX' : dict(yf='CNX', fcf=440, fcf_ttm=525, shares=145.0, r=.1, cur='USD', deliver=None, dl='n/a - see note', sub=(3.5,6.5,7,6,7.5,8), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='26 consecutive positive-FCF quarters; gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
 'MRNA': dict(yf='MRNA',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=5.0, clock='CONC', ins='SELLING', held=False, sector='Biotech',  built='exact', na='FCF deeply negative', score_fixed=2.97),
 'BNTX': dict(yf='BNTX',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=7.5, clock='CONC', ins='SELLING', held=False, sector='Biotech',  built='exact', na='FCF negative', score_fixed=4.29),
 'INTC': dict(yf='INTC',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=1.0, clock='CONC', ins='BUYING',  held=False, sector='Semis',    built='exact', na='adj. FCF -$8.4bn in the quarter', score_fixed=4.15),
@@ -98,7 +104,7 @@ DATA = {
 'TEM' : dict(yf='TEM',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=(8,3.5,4,6,4,0.5), pr=None, dil=2.5, clock='CONC', ins='SELLING', held=False, sector='Health Data', built='exact', na='operating cash flow negative'),
 # --- awaiting FCF + shares. price will fetch; NGV stays None until filled. ------
 'ISRG': dict(yf='ISRG',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=8.0, clock='CLOCK',ins='SELLING', held=False, sector='MedTech',    built='back-solved', score_fixed=6.65),
-'VST' : dict(yf='VST',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=8.5, clock='DIV',  ins='MIXED',   held=True, sector='Utilities',  built='back-solved', score_fixed=6.58, weight=4.4),
+'VST' : dict(yf='VST',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=8.5, clock='DIV',  ins='MIXED',   held=True, sector='Utilities',  built='back-solved', score_fixed=6.58, weight=4.3),
 'SE'  : dict(yf='SE',     fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.5, dil=4.5, clock='CONC', ins='SELLING', held=False, sector='Platform',   built='back-solved', score_fixed=6.47),
 'UNH' : dict(yf='UNH',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.5, dil=8.5, clock='DIV',  ins='SELLING', held=False, sector='Health Ins', built='back-solved', score_fixed=6.35),
 'CMCSA':dict(yf='CMCSA',  fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=9.5, dil=6.0, clock='CLOCK',ins='SELLING', held=False, sector='Media',      built='back-solved', score_fixed=6.25),
@@ -132,8 +138,25 @@ def implied_growth(d):
     return None if c is None else r*(1-c)/(1+c*r)
 
 def cushion(d):
+    """[FIX] A mid-cycle producer row carries deliver = PRODUCTION growth, which
+       is a VOLUME rate. implied_growth is a CASH FLOW rate. A gas producer can
+       grow volume 3% while cash flow doubles on price, so subtracting one from
+       the other is a category error -- it was manufacturing negative cushions
+       for AR, DVN, OXY and CNX out of nothing. NGV and cover are unaffected and
+       stay; only the comparison is withdrawn."""
+    if d.get('midcycle'): return None
     g, dv = implied_growth(d), d.get('deliver')
     return None if (g is None or dv is None) else dv - 100*g
+
+CUSHION_TOL = 0.5     # percentage points
+
+def cushion_neg(d):
+    """[FIX] A cushion of -0.2 is arithmetic noise, not evidence that the price
+       demands more than the business delivers. It fired DO NOT ADD on LVMH for
+       weeks while I called it a rounding artefact in prose and left the code
+       alone. Anything inside +/-0.5pp now counts as flat."""
+    cu = cushion(d)
+    return cu is not None and cu < -CUSHION_TOL
 
 def entry_price(d, target=.60):
     n = ngv(d);  return None if n is None else n/target
@@ -152,8 +175,7 @@ def priced_in_live(d):
     pct = c * 100
     for hi, v in ((15,1.5),(25,2.5),(35,3.0),(45,4.5),(60,5.5),(75,7.0),(90,8.0),(100,9.0),(1e9,9.5)):
         if pct < hi: pr = v; break
-    cu = cushion(d)
-    if cu is not None and cu < 0: pr = max(1.0, pr - 2.0)
+    if cushion_neg(d): pr = max(1.0, pr - 2.0)
     return round(pr, 1)
 
 def score(d):
@@ -176,8 +198,7 @@ def risk(d):
     bs = sub[3] if (sub and len(sub)==6) else 6.0
     x = 3.0 - .40*(bs-6)/2 - .40*(dil-6)/2
     if priced_in_live(d) is None: x += 1.0
-    cu = cushion(d)
-    if cu is not None and cu < 0: x += .6
+    if cushion_neg(d): x += .6
     if s < 3.50: x += .5
     return max(1.0, min(5.0, round(max(x, d.get('risk_floor', 0)), 1)))
 
@@ -191,7 +212,7 @@ def verdict(t, d):
     s, rk, cu = score(d), risk(d), cushion(d)
     if s is None: return ('NO SCORE','v-hold')
     if d.get('trap'): return ('TRAP BUY','v-trap')
-    if cu is not None and cu < 0:
+    if cushion_neg(d):
         return ('DO NOT ADD','v-avoid') if s < 7.00 else ('BUY Â· CUSHION NEG','v-avoid')
     if s >= 7.00:
         return ('BUY Â· LOW RISK','v-buy') if rk <= 2.4 else \
@@ -740,7 +761,17 @@ function revealZiel(){
   box.dataset.open = '1';
   if (window.drawPortfolioCharts) window.drawPortfolioCharts();
 }
+function tryZiel(){
+  const el = document.getElementById('zielIn');
+  const v = (el && el.value || '').trim().toLowerCase();
+  if (v === 'ziel' || v === 'ziele') { if (el) el.value = ''; revealZiel(); }
+}
 function initZiel(){
+  const b = document.getElementById('zielBtn'), i = document.getElementById('zielIn');
+  if (b) b.addEventListener('click', tryZiel);
+  if (i) i.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') { e.preventDefault(); tryZiel(); }
+  });
   if ((location.hash || '').toLowerCase() === '#ziel') revealZiel();
   let buf = '';
   document.addEventListener('keydown', function(e){
@@ -933,12 +964,18 @@ def build_html():
     wcv = (sum(d['weight']*cover(d)*100 for d in DATA.values() if d.get('weight') and cover(d))/cw) if cw else None
     wrk = sum(d['weight']*rank_of[t] for t, d in DATA.items() if d.get('weight'))/tw
     eqr = (sum(rank_of[t] for t, d in DATA.items() if d.get('weight'))/len(pts)) if pts else 0
+    uns = [(t, d['weight']) for t, d in DATA.items() if d.get('weight') and score(d) is None]
+    unscored = sum(w for _, w in uns)
+    unscored_names = ', '.join(f'{t} {w:.1f}%' for t, w in sorted(uns, key=lambda kv: -kv[1]))
     port_box = ('<div class="box" style="border-color:#1d5433;background:#0e1712">'
         '<h2>Your book as one line</h2>'
         f'<div class="lede" style="margin-bottom:8px">{len(pts)} positions Â· weighted score '
         f'<b>{wsc:.2f}</b> Â· weighted cover <b>{("%.0f%%" % wcv) if wcv else "n/a"}</b> Â· '
         f'<b>weight-weighted rank {wrk:.1f}</b> against <b>{eqr:.1f}</b> if held equally.</div>'
-        '<div class="lede" style="margin-bottom:8px">Every dot should sit on a line falling left to '
+        + (f'<div class="lede" style="margin-bottom:8px;color:#e5b45c"><b>{unscored:.1f}% of the '
+           f'book carries no score</b> â€” {unscored_names}. The weighted figures above exclude it, '
+           f'so they describe {100-unscored:.1f}% of what you own.</div>' if unscored else '')
+        + '<div class="lede" style="margin-bottom:8px">Every dot should sit on a line falling left to '
         'right: best ideas biggest. <b>Dots high and to the right are the problem</b> â€” size with no '
         'rank to justify it.</div>'
         '<div style="height:280px"><canvas id="rwChart"></canvas></div></div>')
@@ -981,6 +1018,12 @@ def build_html():
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table>')
+    zin = ('<div style="margin-top:18px;text-align:right">'
+           '<input id="zielIn" type="password" autocomplete="off" placeholder="&#8942;" '
+           'style="width:96px;text-align:center;opacity:.55" aria-label="">'
+           '&nbsp;<button id="zielBtn" type="button" '
+           'style="padding:6px 11px;font-size:11px;opacity:.55">&#8594;</button></div>')
+
     foot = (f'<div class="foot">Snapshot written to history/. NGV = (FCF Ã· shares) Ã· r and is price-independent. '
             f'Negative cushion forces DO NOT ADD at every band. NVDA carries a manual risk floor because the '
             f'formula has no concentration term. Last pull {stamp}.<br>Not financial advice</div>')
@@ -989,7 +1032,7 @@ def build_html():
     js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
     gate = '<div id="zielBox" data-open="0"></div>'
     with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(head + hdr + macro_box + fw_box + gate + fit_box + issue_box + adder + tbl + foot
+        f.write(head + hdr + macro_box + fw_box + gate + zin + fit_box + issue_box + adder + tbl + foot
                 + '<script>' + js + js_z + '</script></body></html>')
 
 if __name__ == '__main__':
