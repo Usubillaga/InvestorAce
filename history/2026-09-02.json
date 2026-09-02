@@ -17,14 +17,14 @@
   "weight": null,
   "momentum": -25.8,
   "from_high": -22.1,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "ASML": {
-  "price": 1430.199951171875,
+  "price": 1432.199951171875,
   "ngv": 326.37075718015666,
-  "cover": 0.22819939052069993,
-  "cushion": 28.93629384801988,
+  "cover": 0.2278807207842096,
+  "cushion": 28.933638316118525,
   "score": 6.900000000000001,
   "risk": 2.3,
   "verdict": "ACCUMULATE",
@@ -36,9 +36,9 @@
    "RECESSION": 28.8
   },
   "weight": null,
-  "momentum": 146.1,
-  "from_high": -16.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "momentum": 144.9,
+  "from_high": -16.7,
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "RIVN": {
@@ -74,7 +74,7 @@
   "weight": null,
   "momentum": 14.1,
   "from_high": -28.4,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "CRM": {
@@ -95,7 +95,7 @@
   "weight": null,
   "momentum": -23.7,
   "from_high": -2.6,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "NVDA": {
@@ -116,7 +116,7 @@
   "weight": null,
   "momentum": 17.9,
   "from_high": -7.7,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "SPGI": {
@@ -137,28 +137,28 @@
   "weight": 5.4,
   "momentum": -21.2,
   "from_high": -16.6,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "SAN": {
-  "price": 77.26000213623047,
+  "price": 76.93000030517578,
   "ngv": 70.98765432098766,
-  "cover": 0.918815070646996,
-  "cushion": 9.394991816150801,
+  "cover": 0.9227564544311028,
+  "cushion": 9.424532912959188,
   "score": 7.65,
   "risk": 2.4,
   "verdict": "BUY \u00c2\u00b7 LOW RISK",
   "regime": {
-   "GOLDILOCKS": 28.3,
+   "GOLDILOCKS": 28.2,
    "REFLATION": 39.5,
-   "INFLATION": 68.8,
-   "STAGFLATION": 73.0,
-   "RECESSION": 94.3
+   "INFLATION": 69.0,
+   "STAGFLATION": 73.3,
+   "RECESSION": 94.5
   },
   "weight": 5.6,
-  "momentum": -4.2,
-  "from_high": -9.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "momentum": -4.1,
+  "from_high": -10.2,
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "APP": {
@@ -179,7 +179,7 @@
   "weight": null,
   "momentum": 2.8,
   "from_high": -57.5,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "ABT": {
@@ -200,49 +200,49 @@
   "weight": 1.8,
   "momentum": -15.6,
   "from_high": -18.4,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "WKL": {
-  "price": 69.19999694824219,
+  "price": 67.05999755859375,
   "ngv": 67.19852055737141,
-  "cover": 0.9710769294922401,
-  "cushion": 4.785295038702967,
-  "score": 7.375,
+  "cover": 1.002065657677017,
+  "cushion": 5.0152988270786745,
+  "score": 7.45,
   "risk": 2.7,
   "verdict": "BUY \u00c2\u00b7 MOD",
   "regime": {
-   "GOLDILOCKS": 49.5,
+   "GOLDILOCKS": 48.5,
    "REFLATION": 50.5,
-   "INFLATION": 80.2,
-   "STAGFLATION": 83.9,
-   "RECESSION": 80.2
+   "INFLATION": 81.5,
+   "STAGFLATION": 85.5,
+   "RECESSION": 81.5
   },
   "weight": 23.5,
-  "momentum": -44.6,
-  "from_high": -45.6,
-  "ts": "2026-09-02 07:15 UTC",
+  "momentum": -45.7,
+  "from_high": -47.4,
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "LVMH": {
-  "price": 443.8500061035156,
+  "price": 439.3500061035156,
   "ngv": 327.5,
-  "cover": 0.7378618801316852,
-  "cushion": 0.019785051075731808,
+  "cover": 0.7454193591676824,
+  "cushion": 0.07797221115455111,
   "score": 7.16,
   "risk": 2.9,
   "verdict": "BUY \u00c2\u00b7 MOD",
   "regime": {
-   "GOLDILOCKS": 57.2,
+   "GOLDILOCKS": 56.9,
    "REFLATION": 62.0,
-   "INFLATION": 68.2,
-   "STAGFLATION": 45.6,
-   "RECESSION": 44.2
+   "INFLATION": 68.5,
+   "STAGFLATION": 46.0,
+   "RECESSION": 44.5
   },
   "weight": 28.2,
-  "momentum": 7.5,
-  "from_high": -30.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "momentum": 6.4,
+  "from_high": -31.5,
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "UBER": {
@@ -263,7 +263,7 @@
   "weight": 7.4,
   "momentum": -19.0,
   "from_high": -24.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "AVGO": {
@@ -284,7 +284,7 @@
   "weight": null,
   "momentum": 41.5,
   "from_high": -23.1,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "ONON": {
@@ -305,7 +305,7 @@
   "weight": 4.5,
   "momentum": -20.3,
   "from_high": -45.2,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "VICI": {
@@ -326,7 +326,7 @@
   "weight": 1.9,
   "momentum": -16.7,
   "from_high": -19.9,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "ENB": {
@@ -347,7 +347,7 @@
   "weight": 1.6,
   "momentum": 26.4,
   "from_high": -10.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "PFE": {
@@ -368,7 +368,7 @@
   "weight": null,
   "momentum": 13.8,
   "from_high": -0.1,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "ROL": {
@@ -389,7 +389,7 @@
   "weight": null,
   "momentum": -33.9,
   "from_high": -44.2,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "LULU": {
@@ -410,7 +410,7 @@
   "weight": null,
   "momentum": -37.4,
   "from_high": -45.3,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "PL": {
@@ -431,7 +431,7 @@
   "weight": null,
   "momentum": 249.1,
   "from_high": -62.5,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "MSFT": {
@@ -452,7 +452,7 @@
   "weight": null,
   "momentum": -7.3,
   "from_high": -6.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "AAPL": {
@@ -473,7 +473,7 @@
   "weight": null,
   "momentum": 52.7,
   "from_high": -4.3,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "KO": {
@@ -494,7 +494,7 @@
   "weight": null,
   "momentum": 29.5,
   "from_high": -4.3,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "CVX": {
@@ -515,7 +515,7 @@
   "weight": null,
   "momentum": 31.3,
   "from_high": 0.0,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "AMAT": {
@@ -536,7 +536,7 @@
   "weight": null,
   "momentum": 185.5,
   "from_high": -38.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "PHR": {
@@ -557,7 +557,7 @@
   "weight": null,
   "momentum": -58.6,
   "from_high": -63.6,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "RCAT": {
@@ -593,7 +593,7 @@
   "weight": null,
   "momentum": -22.4,
   "from_high": -24.2,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "GOOG": {
@@ -614,7 +614,7 @@
   "weight": null,
   "momentum": 92.3,
   "from_high": -16.7,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "GILD": {
@@ -635,7 +635,7 @@
   "weight": null,
   "momentum": 17.5,
   "from_high": -2.6,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "AG": {
@@ -656,7 +656,7 @@
   "weight": null,
   "momentum": 101.6,
   "from_high": -37.9,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "BABA": {
@@ -722,7 +722,7 @@
   "weight": 4.5,
   "momentum": -27.8,
   "from_high": -40.3,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "TSLA": {
@@ -743,7 +743,7 @@
   "weight": null,
   "momentum": 5.8,
   "from_high": -27.3,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "PG": {
@@ -764,7 +764,7 @@
   "weight": null,
   "momentum": -1.0,
   "from_high": -11.2,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "CSGP": {
@@ -785,7 +785,7 @@
   "weight": null,
   "momentum": -69.0,
   "from_high": -67.0,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "OXY": {
@@ -806,7 +806,7 @@
   "weight": null,
   "momentum": 32.1,
   "from_high": -7.6,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "SPCX": {
@@ -835,29 +835,29 @@
   "regime": {},
   "weight": 4.1,
   "momentum": null,
-  "from_high": -1.2,
+  "from_high": -1.9,
   "ts": null,
   "note": "N/A: fund, not a company. No single free cash flow to capitalise, so no NGV. A covered-call overlay on the Nasdaq-100: 109 holdings, top 10 = 49.4%. The framework cannot score it and should not pretend to."
  },
  "REP": {
-  "price": 28.399999618530273,
+  "price": 27.950000762939453,
   "ngv": 16.556521739130435,
-  "cover": 0.5829761254055696,
+  "cover": 0.5923621211876209,
   "cushion": null,
   "score": 6.55,
   "risk": 2.4,
   "verdict": "ACCUMULATE",
   "regime": {
-   "GOLDILOCKS": 28.3,
+   "GOLDILOCKS": 28.0,
    "REFLATION": 75.8,
-   "INFLATION": 78.5,
-   "STAGFLATION": 78.8,
-   "RECESSION": 43.2
+   "INFLATION": 78.9,
+   "STAGFLATION": 79.3,
+   "RECESSION": 43.7
   },
   "weight": null,
-  "momentum": 111.0,
-  "from_high": 0.0,
-  "ts": "2026-09-02 07:15 UTC",
+  "momentum": 107.8,
+  "from_high": -0.7,
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "AR": {
@@ -878,7 +878,7 @@
   "weight": 2.5,
   "momentum": 10.5,
   "from_high": -11.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "DVN": {
@@ -899,7 +899,7 @@
   "weight": null,
   "momentum": 43.2,
   "from_high": -5.1,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "CNX": {
@@ -920,7 +920,7 @@
   "weight": null,
   "momentum": 24.0,
   "from_high": -11.9,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "MRNA": {
@@ -1061,7 +1061,7 @@
   "weight": null,
   "momentum": -22.3,
   "from_high": -37.7,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "VST": {
@@ -1082,7 +1082,7 @@
   "weight": 4.3,
   "momentum": -32.7,
   "from_high": -36.4,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "SE": {
@@ -1103,7 +1103,7 @@
   "weight": null,
   "momentum": -29.1,
   "from_high": -42.7,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "UNH": {
@@ -1124,7 +1124,7 @@
   "weight": null,
   "momentum": 77.0,
   "from_high": -9.2,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "CMCSA": {
@@ -1145,7 +1145,7 @@
   "weight": null,
   "momentum": -15.6,
   "from_high": -17.0,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "NVO": {
@@ -1166,7 +1166,7 @@
   "weight": null,
   "momentum": 1.1,
   "from_high": -26.0,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "ENG": {
@@ -1179,8 +1179,8 @@
   "verdict": "HOLD",
   "regime": {},
   "weight": 2.8,
-  "momentum": 35.4,
-  "from_high": -5.1,
+  "momentum": 34.9,
+  "from_high": -5.4,
   "ts": null,
   "note": "N/A: regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB"
  },
@@ -1202,7 +1202,7 @@
   "weight": null,
   "momentum": -24.0,
   "from_high": -26.5,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "DIS": {
@@ -1223,7 +1223,7 @@
   "weight": null,
   "momentum": -16.6,
   "from_high": -9.7,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "PEP": {
@@ -1244,7 +1244,7 @@
   "weight": null,
   "momentum": 4.0,
   "from_high": -16.4,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "BSX": {
@@ -1265,7 +1265,7 @@
   "weight": 2.0,
   "momentum": -54.6,
   "from_high": -55.5,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "WIX": {
@@ -1286,7 +1286,7 @@
   "weight": null,
   "momentum": -56.8,
   "from_high": -52.0,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "GRAB": {
@@ -1322,7 +1322,7 @@
   "weight": null,
   "momentum": -36.0,
   "from_high": -25.7,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "MCD": {
@@ -1343,7 +1343,7 @@
   "weight": null,
   "momentum": -10.7,
   "from_high": -21.9,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "TTD": {
@@ -1364,7 +1364,7 @@
   "weight": null,
   "momentum": -78.5,
   "from_high": -84.6,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "NKE": {
@@ -1385,7 +1385,7 @@
   "weight": null,
   "momentum": -43.0,
   "from_high": -50.0,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "ZTS": {
@@ -1406,7 +1406,7 @@
   "weight": null,
   "momentum": -48.2,
   "from_high": -49.8,
-  "ts": "2026-09-02 07:15 UTC",
+  "ts": "2026-09-02 10:33 UTC",
   "note": ""
  },
  "IBST": {
@@ -1419,16 +1419,16 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
-  "momentum": -35.0,
-  "from_high": -43.3,
+  "momentum": -34.0,
+  "from_high": -43.7,
   "ts": null,
   "note": "N/A: free cash flow negative (-7m) in a UK housing downturn"
  },
  "_portfolio": {
-  "GOLDILOCKS": 51.6,
+  "GOLDILOCKS": 51.3,
   "REFLATION": 55.9,
-  "INFLATION": 68.2,
-  "STAGFLATION": 61.0,
-  "RECESSION": 60.4
+  "INFLATION": 68.6,
+  "STAGFLATION": 61.5,
+  "RECESSION": 60.8
  }
 }
