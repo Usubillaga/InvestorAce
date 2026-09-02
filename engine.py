@@ -877,6 +877,67 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 else initZiel();
 """
 
+
+QUAD_JS = """
+const QT = __TRAIL__, QH = __HEADING__;
+if (QT.length && window.Chart) {
+  const el = document.getElementById('quadChart');
+  if (el) {
+    const pts = QT.map((p,k) => ({x:p.g, y:p.i, l:p.label, q:p.quadrant, last:k===QT.length-1}));
+    const lim = Math.max(6, Math.ceil(Math.max(...pts.flatMap(p=>[Math.abs(p.x),Math.abs(p.y)]))*1.35));
+    // four quadrants painted behind the path, so the position reads at a glance
+    const quads = {
+      id:'quads',
+      beforeDatasetsDraw(c){
+        const {ctx, chartArea:a, scales:{x,y}} = c;
+        const zx = x.getPixelForValue(0), zy = y.getPixelForValue(0);
+        const fill = (x0,y0,x1,y1,col) => { ctx.save(); ctx.fillStyle=col;
+          ctx.fillRect(x0, y0, x1-x0, y1-y0); ctx.restore(); };
+        fill(zx, a.top, a.right, zy, 'rgba(99,198,240,.10)');   // g+ i+  reflation
+        fill(zx, zy, a.right, a.bottom, 'rgba(102,227,156,.10)'); // g+ i-  goldilocks
+        fill(a.left, a.top, zx, zy, 'rgba(240,106,106,.11)');   // g- i+  stagflation
+        fill(a.left, zy, zx, a.bottom, 'rgba(214,168,255,.10)'); // g- i-  recession
+        ctx.save();
+        ctx.strokeStyle='#2a2e3c'; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(a.left,zy); ctx.lineTo(a.right,zy);
+        ctx.moveTo(zx,a.top); ctx.lineTo(zx,a.bottom); ctx.stroke();
+        ctx.font='600 11px Inter, sans-serif'; ctx.textAlign='center';
+        ctx.fillStyle='#63c6f0'; ctx.fillText('REFLATION',  (zx+a.right)/2, a.top+18);
+        ctx.fillStyle='#f06a6a'; ctx.fillText('STAGFLATION',(a.left+zx)/2,  a.top+18);
+        ctx.fillStyle='#66e39c'; ctx.fillText('GOLDILOCKS', (zx+a.right)/2, a.bottom-10);
+        ctx.fillStyle='#d6a8ff'; ctx.fillText('RECESSION',  (a.left+zx)/2,  a.bottom-10);
+        ctx.restore();
+      }
+    };
+    new Chart(el.getContext('2d'), {
+      type:'scatter',
+      data:{ datasets:[{
+        data: pts, showLine:true, borderColor:'#e7e9f0', borderWidth:2,
+        pointBackgroundColor: pts.map(p => p.last ? '#ffffff' : 'rgba(231,233,240,.55)'),
+        pointBorderColor: pts.map(p => p.last ? '#0c0d12' : 'transparent'),
+        pointBorderWidth: pts.map(p => p.last ? 3 : 0),
+        pointRadius: pts.map((p,k) => p.last ? 9 : 3 + k*0.8),
+        pointHoverRadius: 11, tension:.25
+      }]},
+      options:{ responsive:true, maintainAspectRatio:false, animation:false,
+        plugins:{ legend:{display:false},
+          tooltip:{ callbacks:{ label: c =>
+            c.raw.l + ' Â· growth ' + c.raw.x.toFixed(1) + '% Â· inflation ' +
+            c.raw.y.toFixed(1) + '% Â· ' + c.raw.q }}},
+        scales:{
+          x:{ min:-lim, max:lim, title:{display:true,text:'growth impulse  (S&P + copper, 6m)',
+              color:'#9aa0b3',font:{size:11}}, ticks:{color:'#6b7183',font:{size:10}},
+              grid:{color:'#171a23'} },
+          y:{ min:-lim, max:lim, title:{display:true,text:'inflation impulse  (oil + 10y, 6m)',
+              color:'#9aa0b3',font:{size:11}}, ticks:{color:'#6b7183',font:{size:10}},
+              grid:{color:'#171a23'} } }
+      },
+      plugins:[quads]
+    });
+  }
+}
+"""
+
 CHART_JS = """
 const RD = __DATES__, RS = __SERIES__;
 window.drawRegimeHistory = function(){
@@ -962,6 +1023,8 @@ def build_html():
     FIT_COL = {'GOLDILOCKS':'#66e39c','REFLATION':'#63c6f0','INFLATION':'#e5b45c',
                'STAGFLATION':'#f06a6a','RECESSION':'#d6a8ff'}
     bar = FIT_COL.get(cur_reg, '#5cc8d8')
+    js += (QUAD_JS.replace('__TRAIL__', json.dumps(M.get('trail') or []))
+                  .replace('__HEADING__', json.dumps(M.get('heading') or {})))
     rdates, rser = regime_history()
     js += CHART_JS.replace('__DATES__', json.dumps(rdates)).replace('__SERIES__', json.dumps(rser))
     ranked_all = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
@@ -1049,7 +1112,18 @@ def build_html():
           f'VIX <b>{M["vix"]:.1f} â€” {M["vix_state"]}</b>'
           + (f' Â· tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')
           + (f' Â· breadth {M["breadth"]}' if M.get('breadth') else '')
-          + f' Â· recession score <b>{M["recession_score"]}/100</b></div>{legs}</div>')
+          + f' Â· recession score <b>{M["recession_score"]}/100</b></div>{legs}'
+          + (lambda H, T: '' if not (H and T) else
+             f'<div class="lede" style="margin-top:12px;margin-bottom:6px">Path over the last '
+             f'twelve months, each dot the same statistic read at an earlier date. Growth impulse '
+             f'moved <b>{H["dg"]:+.1f}pp</b> and inflation <b>{H["di"]:+.1f}pp</b> across the last '
+             f'two readings &mdash; ' +
+             (f'<b>{H["note"]}</b> inside {H["toward"]}.' if H['note'] in ('holding','stalled')
+              else f'<b>crossing toward {H["toward"]}</b>.') +
+             ' The path is data. Extending it is not.</div>'
+             '<div style="height:340px"><canvas id="quadChart"></canvas></div>'
+            )(M.get('heading'), M.get('trail'))
+          + '</div>')
     else:
         macro_box = f'<div class="box"><h2>Regime now</h2><div class="lede">unavailable: {M.get("note","")}</div></div>'
 
