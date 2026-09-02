@@ -15,14 +15,16 @@
    "RECESSION": 65.1
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -25.8,
+  "from_high": -22.1,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "ASML": {
-  "price": 1435.4,
+  "price": 1430.199951171875,
   "ngv": 326.37075718015666,
-  "cover": 0.22737268857472248,
-  "cushion": 28.929404517879327,
+  "cover": 0.22819939052069993,
+  "cushion": 28.93629384801988,
   "score": 6.900000000000001,
   "risk": 2.3,
   "verdict": "ACCUMULATE",
@@ -31,10 +33,12 @@
    "REFLATION": 63.8,
    "INFLATION": 14.5,
    "STAGFLATION": 12.3,
-   "RECESSION": 28.7
+   "RECESSION": 28.8
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 146.1,
+  "from_high": -16.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "RIVN": {
@@ -47,6 +51,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": 27.0,
+  "from_high": -30.8,
   "ts": null,
   "note": "N/A: free cash flow -$1,924m in H1 2026; automotive gross profit still negative"
  },
@@ -66,7 +72,9 @@
    "RECESSION": 13.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 14.1,
+  "from_high": -28.4,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "CRM": {
@@ -85,7 +93,9 @@
    "RECESSION": 58.1
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -23.7,
+  "from_high": -2.6,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "NVDA": {
@@ -104,7 +114,9 @@
    "RECESSION": 30.8
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 17.9,
+  "from_high": -7.7,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "SPGI": {
@@ -123,26 +135,30 @@
    "RECESSION": 65.2
   },
   "weight": 5.4,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -21.2,
+  "from_high": -16.6,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "SAN": {
-  "price": 76.86,
+  "price": 77.26000213623047,
   "ngv": 70.98765432098766,
-  "cover": 0.923596855594427,
-  "cushion": 9.430829566564856,
+  "cover": 0.918815070646996,
+  "cushion": 9.394991816150801,
   "score": 7.65,
   "risk": 2.4,
   "verdict": "BUY \u00c2\u00b7 LOW RISK",
   "regime": {
-   "GOLDILOCKS": 28.2,
+   "GOLDILOCKS": 28.3,
    "REFLATION": 39.5,
-   "INFLATION": 69.1,
-   "STAGFLATION": 73.3,
-   "RECESSION": 94.6
+   "INFLATION": 68.8,
+   "STAGFLATION": 73.0,
+   "RECESSION": 94.3
   },
   "weight": 5.6,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -4.2,
+  "from_high": -9.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "APP": {
@@ -161,7 +177,9 @@
    "RECESSION": 26.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 2.8,
+  "from_high": -57.5,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "ABT": {
@@ -180,45 +198,51 @@
    "RECESSION": 67.9
   },
   "weight": 1.8,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -15.6,
+  "from_high": -18.4,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "WKL": {
-  "price": 69.78,
+  "price": 69.19999694824219,
   "ngv": 67.19852055737141,
-  "cover": 0.9630054536739956,
-  "cushion": 4.725213315456923,
+  "cover": 0.9710769294922401,
+  "cushion": 4.785295038702967,
   "score": 7.375,
   "risk": 2.7,
   "verdict": "BUY \u00c2\u00b7 MOD",
   "regime": {
-   "GOLDILOCKS": 49.8,
+   "GOLDILOCKS": 49.5,
    "REFLATION": 50.5,
-   "INFLATION": 79.8,
-   "STAGFLATION": 83.5,
-   "RECESSION": 79.8
+   "INFLATION": 80.2,
+   "STAGFLATION": 83.9,
+   "RECESSION": 80.2
   },
   "weight": 23.5,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -44.6,
+  "from_high": -45.6,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "LVMH": {
-  "price": 445.0,
+  "price": 443.8500061035156,
   "ngv": 327.5,
-  "cover": 0.7359550561797753,
-  "cushion": 0.005093378607810006,
+  "cover": 0.7378618801316852,
+  "cushion": 0.019785051075731808,
   "score": 7.16,
   "risk": 2.9,
   "verdict": "BUY \u00c2\u00b7 MOD",
   "regime": {
    "GOLDILOCKS": 57.2,
    "REFLATION": 62.0,
-   "INFLATION": 68.1,
-   "STAGFLATION": 45.5,
-   "RECESSION": 44.1
+   "INFLATION": 68.2,
+   "STAGFLATION": 45.6,
+   "RECESSION": 44.2
   },
   "weight": 28.2,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 7.5,
+  "from_high": -30.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "UBER": {
@@ -237,7 +261,9 @@
    "RECESSION": 46.6
   },
   "weight": 7.4,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -19.0,
+  "from_high": -24.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "AVGO": {
@@ -256,7 +282,9 @@
    "RECESSION": 26.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 41.5,
+  "from_high": -23.1,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "ONON": {
@@ -275,7 +303,9 @@
    "RECESSION": 32.2
   },
   "weight": 4.5,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -20.3,
+  "from_high": -45.2,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "VICI": {
@@ -294,7 +324,9 @@
    "RECESSION": 80.0
   },
   "weight": 1.9,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -16.7,
+  "from_high": -19.9,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "ENB": {
@@ -313,7 +345,9 @@
    "RECESSION": 64.2
   },
   "weight": 1.6,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 26.4,
+  "from_high": -10.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "PFE": {
@@ -332,7 +366,9 @@
    "RECESSION": 75.3
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 13.8,
+  "from_high": -0.1,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "ROL": {
@@ -351,7 +387,9 @@
    "RECESSION": 52.5
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -33.9,
+  "from_high": -44.2,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "LULU": {
@@ -370,7 +408,9 @@
    "RECESSION": 53.7
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -37.4,
+  "from_high": -45.3,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "PL": {
@@ -389,7 +429,9 @@
    "RECESSION": 3.5
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 249.1,
+  "from_high": -62.5,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "MSFT": {
@@ -408,7 +450,9 @@
    "RECESSION": 43.6
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -7.3,
+  "from_high": -6.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "AAPL": {
@@ -427,7 +471,9 @@
    "RECESSION": 49.7
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 52.7,
+  "from_high": -4.3,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "KO": {
@@ -446,7 +492,9 @@
    "RECESSION": 71.2
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 29.5,
+  "from_high": -4.3,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "CVX": {
@@ -465,7 +513,9 @@
    "RECESSION": 56.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 31.3,
+  "from_high": 0.0,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "AMAT": {
@@ -484,7 +534,9 @@
    "RECESSION": 42.5
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 185.5,
+  "from_high": -38.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "PHR": {
@@ -503,7 +555,9 @@
    "RECESSION": 90.5
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -58.6,
+  "from_high": -63.6,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "RCAT": {
@@ -516,6 +570,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": 0.3,
+  "from_high": -52.5,
   "ts": null,
   "note": "N/A: free cash flow -157.7m -- a NEGATIVE fcf was written straight into the row, which makes NGV negative"
  },
@@ -535,7 +591,9 @@
    "RECESSION": 58.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -22.4,
+  "from_high": -24.2,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "GOOG": {
@@ -554,7 +612,9 @@
    "RECESSION": 42.5
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 92.3,
+  "from_high": -16.7,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "GILD": {
@@ -573,7 +633,9 @@
    "RECESSION": 83.2
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 17.5,
+  "from_high": -2.6,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "AG": {
@@ -592,7 +654,9 @@
    "RECESSION": 30.5
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 101.6,
+  "from_high": -37.9,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "BABA": {
@@ -605,6 +669,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": 9.3,
+  "from_high": -39.9,
   "ts": null,
   "note": "N/A: Yahoo returned FCF of -50,724m, not credible for Alibaba. Treated as a bad pull, NOT as evidence of cash burn."
  },
@@ -618,6 +684,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": -77.6,
+  "from_high": -87.7,
   "ts": null,
   "note": "N/A: free cash flow non-positive (-0.5m)"
  },
@@ -631,6 +699,8 @@
   "verdict": "HOLD",
   "regime": {},
   "weight": null,
+  "momentum": 26.9,
+  "from_high": -37.3,
   "ts": null,
   "note": "N/A: H1 2026 free cash flow -$640m (OCF -$360m, capex -$280m). And the margin is policy: Section 45X credits decline after 2029."
  },
@@ -650,7 +720,9 @@
    "RECESSION": 44.1
   },
   "weight": 4.5,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -27.8,
+  "from_high": -40.3,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "TSLA": {
@@ -669,7 +741,9 @@
    "RECESSION": 18.5
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 5.8,
+  "from_high": -27.3,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "PG": {
@@ -688,7 +762,9 @@
    "RECESSION": 77.3
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -1.0,
+  "from_high": -11.2,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "CSGP": {
@@ -707,7 +783,9 @@
    "RECESSION": 59.9
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -69.0,
+  "from_high": -67.0,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "OXY": {
@@ -726,7 +804,9 @@
    "RECESSION": 56.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 32.1,
+  "from_high": -7.6,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "SPCX": {
@@ -739,6 +819,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": null,
+  "from_high": null,
   "ts": null,
   "note": "N/A: Yahoo returned FCF of -32,522m on 13.2bn shares. Not credible -- a bad pull, not evidence of cash burn. Verify what this symbol actually is before trusting any of it."
  },
@@ -752,8 +834,31 @@
   "verdict": "NO SCORE",
   "regime": {},
   "weight": 4.1,
+  "momentum": null,
+  "from_high": -1.2,
   "ts": null,
   "note": "N/A: fund, not a company. No single free cash flow to capitalise, so no NGV. A covered-call overlay on the Nasdaq-100: 109 holdings, top 10 = 49.4%. The framework cannot score it and should not pretend to."
+ },
+ "REP": {
+  "price": 28.399999618530273,
+  "ngv": 16.556521739130435,
+  "cover": 0.5829761254055696,
+  "cushion": null,
+  "score": 6.55,
+  "risk": 2.4,
+  "verdict": "ACCUMULATE",
+  "regime": {
+   "GOLDILOCKS": 28.3,
+   "REFLATION": 75.8,
+   "INFLATION": 78.5,
+   "STAGFLATION": 78.8,
+   "RECESSION": 43.2
+  },
+  "weight": null,
+  "momentum": 111.0,
+  "from_high": 0.0,
+  "ts": "2026-09-02 07:15 UTC",
+  "note": ""
  },
  "AR": {
   "price": 39.810001373291016,
@@ -771,7 +876,9 @@
    "RECESSION": 53.0
   },
   "weight": 2.5,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 10.5,
+  "from_high": -11.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "DVN": {
@@ -790,7 +897,9 @@
    "RECESSION": 23.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 43.2,
+  "from_high": -5.1,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "CNX": {
@@ -809,7 +918,9 @@
    "RECESSION": 47.3
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 24.0,
+  "from_high": -11.9,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "MRNA": {
@@ -822,6 +933,8 @@
   "verdict": "SELL",
   "regime": {},
   "weight": null,
+  "momentum": 106.2,
+  "from_high": -11.5,
   "ts": null,
   "note": "N/A: FCF deeply negative"
  },
@@ -835,6 +948,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": -16.2,
+  "from_high": -14.6,
   "ts": null,
   "note": "N/A: FCF negative"
  },
@@ -848,6 +963,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": 417.2,
+  "from_high": -36.9,
   "ts": null,
   "note": "N/A: adj. FCF -$8.4bn in the quarter"
  },
@@ -861,6 +978,8 @@
   "verdict": "SELL",
   "regime": {},
   "weight": null,
+  "momentum": -13.3,
+  "from_high": -45.0,
   "ts": null,
   "note": "N/A: no steady-state FCF"
  },
@@ -874,6 +993,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": 316.7,
+  "from_high": -30.4,
   "ts": null,
   "note": "N/A: no steady-state FCF"
  },
@@ -887,6 +1008,8 @@
   "verdict": "SELL",
   "regime": {},
   "weight": null,
+  "momentum": 67.5,
+  "from_high": -71.1,
   "ts": null,
   "note": "N/A: FCF tracks the inventory cycle"
  },
@@ -900,6 +1023,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": 5.0,
+  "from_high": -18.4,
   "ts": null,
   "note": "N/A: trailing FCF negative; guide is a forecast"
  },
@@ -913,6 +1038,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": -18.2,
+  "from_high": -39.7,
   "ts": null,
   "note": "N/A: operating cash flow negative"
  },
@@ -932,7 +1059,9 @@
    "RECESSION": 48.7
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -22.3,
+  "from_high": -37.7,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "VST": {
@@ -951,7 +1080,9 @@
    "RECESSION": 74.4
   },
   "weight": 4.3,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -32.7,
+  "from_high": -36.4,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "SE": {
@@ -970,7 +1101,9 @@
    "RECESSION": 50.1
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -29.1,
+  "from_high": -42.7,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "UNH": {
@@ -989,7 +1122,9 @@
    "RECESSION": 78.1
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 77.0,
+  "from_high": -9.2,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "CMCSA": {
@@ -1008,7 +1143,9 @@
    "RECESSION": 68.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -15.6,
+  "from_high": -17.0,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "NVO": {
@@ -1027,7 +1164,9 @@
    "RECESSION": 92.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 1.1,
+  "from_high": -26.0,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "ENG": {
@@ -1040,6 +1179,8 @@
   "verdict": "HOLD",
   "regime": {},
   "weight": 2.8,
+  "momentum": 35.4,
+  "from_high": -5.1,
   "ts": null,
   "note": "N/A: regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB"
  },
@@ -1059,7 +1200,9 @@
    "RECESSION": 14.6
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -24.0,
+  "from_high": -26.5,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "DIS": {
@@ -1078,7 +1221,9 @@
    "RECESSION": 48.4
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -16.6,
+  "from_high": -9.7,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "PEP": {
@@ -1097,7 +1242,9 @@
    "RECESSION": 74.4
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": 4.0,
+  "from_high": -16.4,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "BSX": {
@@ -1116,7 +1263,9 @@
    "RECESSION": 49.6
   },
   "weight": 2.0,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -54.6,
+  "from_high": -55.5,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "WIX": {
@@ -1135,7 +1284,9 @@
    "RECESSION": 54.5
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -56.8,
+  "from_high": -52.0,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "GRAB": {
@@ -1148,6 +1299,8 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": -25.0,
+  "from_high": -46.4,
   "ts": null,
   "note": "N/A: TTM IFRS free cash flow negative (-186m)"
  },
@@ -1167,7 +1320,9 @@
    "RECESSION": 40.4
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -36.0,
+  "from_high": -25.7,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "MCD": {
@@ -1186,7 +1341,9 @@
    "RECESSION": 46.6
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -10.7,
+  "from_high": -21.9,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "TTD": {
@@ -1205,7 +1362,9 @@
    "RECESSION": 44.0
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -78.5,
+  "from_high": -84.6,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "NKE": {
@@ -1224,7 +1383,9 @@
    "RECESSION": 32.7
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -43.0,
+  "from_high": -50.0,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "ZTS": {
@@ -1243,7 +1404,9 @@
    "RECESSION": 75.8
   },
   "weight": null,
-  "ts": "2026-09-02 00:54 UTC",
+  "momentum": -48.2,
+  "from_high": -49.8,
+  "ts": "2026-09-02 07:15 UTC",
   "note": ""
  },
  "IBST": {
@@ -1256,14 +1419,16 @@
   "verdict": "AVOID",
   "regime": {},
   "weight": null,
+  "momentum": -35.0,
+  "from_high": -43.3,
   "ts": null,
   "note": "N/A: free cash flow negative (-7m) in a UK housing downturn"
  },
  "_portfolio": {
-  "GOLDILOCKS": 51.7,
+  "GOLDILOCKS": 51.6,
   "REFLATION": 55.9,
-  "INFLATION": 68.1,
-  "STAGFLATION": 60.9,
-  "RECESSION": 60.3
+  "INFLATION": 68.2,
+  "STAGFLATION": 61.0,
+  "RECESSION": 60.4
  }
 }
