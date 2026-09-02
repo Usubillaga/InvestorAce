@@ -656,43 +656,59 @@ REG_CSS = {'GOLDILOCKS':'g-gold','REFLATION':'g-refl','INFLATION':'g-infl',
            'STAGFLATION':'g-stag','RECESSION':'g-rec'}
 
 CSS = """
-:root{--bg:#0c0d12;--panel:#13151d;--line:#232634;--tx:#e7e9f0;--mu:#8f95a8;
---green:#4ecb8a;--red:#f06a6a;--amber:#e5b45c;--cyan:#5cc8d8;}
+:root{--bg:#0c0d12;--panel:#13151d;--line:#232634;--tx:#e7e9f0;--mu:#9aa0b3;
+--green:#4ecb8a;--red:#f06a6a;--amber:#e5b45c;--cyan:#5cc8d8;
+--sans:'Inter','SF Pro Text',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+--mono:'JetBrains Mono','SF Mono',ui-monospace,'Roboto Mono',Menlo,Consolas,monospace;}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--tx);margin:0;padding:26px 14px 40px;
-font-family:Inter,system-ui,sans-serif;font-size:12.2px;line-height:1.5}
-.kicker{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.17em;color:var(--cyan);text-transform:uppercase;margin-bottom:8px}
-h1{font-weight:800;font-size:30px;margin:0 0 10px}
-h2{font-size:16px;margin:0 0 8px}
-.lede{color:#c3c7d4;max-width:1030px;margin:0 0 16px;font-size:12.5px}
-.box{border:1px solid var(--line);border-radius:10px;padding:14px 15px;background:var(--panel);margin-bottom:14px}
-table{width:100%;border-collapse:collapse;font-size:10.4px}
-th{text-align:left;color:var(--mu);font-weight:600;font-size:8.6px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line);padding:0 4px 7px}
-td{border-bottom:1px solid #1a1d27;padding:6px 4px;vertical-align:middle}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--tx);margin:0;padding:24px 14px 44px;
+font-family:var(--sans);font-size:15px;line-height:1.55;
+-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+text-rendering:optimizeLegibility;font-feature-settings:'cv05','ss01'}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--cyan);
+text-transform:uppercase;margin-bottom:10px}
+h1{font-weight:700;font-size:32px;line-height:1.15;letter-spacing:-.02em;margin:0 0 12px}
+h2{font-size:18px;font-weight:650;letter-spacing:-.01em;margin:0 0 10px}
+.lede{color:#c8ccd8;max-width:68ch;margin:0 0 16px;font-size:14px;line-height:1.6}
+.box{border:1px solid var(--line);border-radius:12px;padding:16px 17px;background:var(--panel);margin-bottom:16px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;
+border:1px solid var(--line);background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+th{text-align:left;color:var(--mu);font-weight:600;font-size:10px;letter-spacing:.07em;
+text-transform:uppercase;border-bottom:1px solid var(--line);padding:11px 7px;white-space:nowrap;
+position:sticky;top:0;background:var(--panel);z-index:2}
+td{border-bottom:1px solid #1a1d27;padding:9px 7px;vertical-align:middle}
 tr.held{background:#141826}
-.rk{color:var(--mu);font-family:ui-monospace,monospace;width:22px}
-.tk{font-weight:700;font-size:11.6px;width:54px}.tk sup{color:var(--cyan);font-size:8px}
-.se{color:#7d8395;font-size:9.2px;width:70px}
-.sc{font-family:ui-monospace,monospace;font-weight:600;font-size:11.6px;color:var(--green);width:40px}
-.pr{font-family:ui-monospace,monospace;font-size:10.4px;width:44px}
-.pr.pos{color:var(--green)}.pr.mid{color:var(--amber)}.pr.neg{color:var(--red)}.pr.na{color:#5e6373}
-.in{font-family:ui-monospace,monospace;font-size:8.6px;color:#8f95a8;width:58px}
-.pv{font-family:ui-monospace,monospace;font-size:8.2px;width:58px}
-.pv.exact{color:#3f4657}.pv.back-solved{color:#8a6a3a}.pv.est{color:#a05555}
-.mono{font-family:ui-monospace,monospace;font-size:10.4px;color:#c3c7d4}
-.pill{display:inline-block;padding:2px 7px;border-radius:4px;font-size:8.2px;font-weight:700;font-family:ui-monospace,monospace;white-space:nowrap}
+tr.hit td:first-child{box-shadow:inset 3px 0 0 var(--green)}
+.rk{color:var(--mu);font-family:var(--mono);font-size:11px}
+.tk{font-weight:700;font-size:13.5px;letter-spacing:-.01em;white-space:nowrap;
+position:sticky;left:0;background:inherit;z-index:1}
+tr.held .tk{background:#141826}
+thead .tk,th:nth-child(2){z-index:3}
+.se{color:#868da0;font-size:11px;white-space:nowrap}
+.sc{font-family:var(--mono);font-weight:600;font-size:13.5px;color:var(--green)}
+.pr{font-family:var(--mono);font-size:12px;white-space:nowrap}
+.pr.pos{color:var(--green)}.pr.mid{color:var(--amber)}.pr.neg{color:var(--red)}.pr.na{color:#6b7183}
+.in{font-family:var(--mono);font-size:10.5px;color:var(--mu);white-space:nowrap}
+.pv{font-family:var(--mono);font-size:10.5px;white-space:nowrap}
+.pv.exact{color:#4a5165}.pv.back-solved{color:#a07f45}.pv.est{color:#b96565}
+.pv.auto{color:#5f7fa8}.pv.fund{color:#8a6ab0}.pv.mid-cycle{color:#c08a4a}
+.mono{font-family:var(--mono);font-size:12px;color:#c8ccd8;white-space:nowrap}
+.pill{display:inline-block;padding:3px 8px;border-radius:5px;font-size:9.5px;font-weight:700;
+font-family:var(--mono);letter-spacing:.02em;white-space:nowrap}
 .p-sbuy{background:#123a26;color:#66e39c;border:1px solid #1e5c3c}
 .p-buy{background:#12331f;color:var(--green);border:1px solid #1d5433}
 .p-hpos{background:#13202e;color:#7fb6d8;border:1px solid #23405c}
 .p-hneg{background:#2b2210;color:var(--amber);border:1px solid #574318}
 .p-sell{background:#331414;color:var(--red);border:1px solid #5c2020}
-.empty{background:#181a22;color:#6b7183;border:1px solid #272b38}
+.empty{background:#181a22;color:#7b8195;border:1px solid #272b38}
 .v-buy{background:#0f3d24;color:#5fe39a;border:1px solid #1e6b40}
 .v-buymod{background:#12331f;color:var(--green);border:1px solid #1d5433}
 .v-buyhi{background:#2b2210;color:var(--amber);border:1px solid #574318}
 .v-trap{background:#2c1440;color:#d6a8ff;border:1px solid #543072}
 .v-acc{background:#13202e;color:#7fb6d8;border:1px solid #23405c}
-.v-hold{background:#181a22;color:#8f95a8;border:1px solid #272b38}
+.v-hold{background:#181a22;color:var(--mu);border:1px solid #272b38}
 .v-avoid{background:#2b1a10;color:#d08a5c;border:1px solid #573018}
 .v-sell{background:#331414;color:var(--red);border:1px solid #5c2020}
 .s-clock{background:#331414;color:var(--red);border:1px solid #5c2020}
@@ -704,14 +720,23 @@ tr.held{background:#141826}
 .g-stag{background:#3a1414;color:#f06a6a;border:1px solid #6b2020}
 .g-rec{background:#2c1440;color:#d6a8ff;border:1px solid #543072}
 .x-atngv{background:#0f3d24;color:#5fe39a;border:1px solid #1e6b40}
+.x-clear{background:#13202e;color:#7fb6d8;border:1px solid #23405c}
 .x-near{background:#123a26;color:#66e39c;border:1px solid #1e5c3c}
 .x-appr{background:#2b2210;color:var(--amber);border:1px solid #574318}
-.x-clear{background:#13202e;color:#7fb6d8;border:1px solid #23405c}
-tr.hit{box-shadow:inset 3px 0 0 #4ecb8a}
-.lock{border:1px dashed #2a7a4a;border-radius:10px;padding:16px;background:#0e1712;margin-bottom:14px}
-input,select,textarea{background:#0a0b10;color:var(--tx);border:1px solid #2a2e3c;border-radius:5px;padding:6px 8px;font-family:ui-monospace,monospace;font-size:11px}
-button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;cursor:pointer}
-.foot{color:#5e6373;font-family:ui-monospace,monospace;font-size:9.2px;border-top:1px solid var(--line);padding-top:11px;margin-top:22px}
+.lock{border:1px dashed #2a7a4a;border-radius:12px;padding:16px;background:#0e1712;margin-bottom:16px}
+input,select,textarea{background:#0a0b10;color:var(--tx);border:1px solid #2a2e3c;border-radius:7px;
+padding:9px 11px;font-family:var(--mono);font-size:14px}
+button{background:#1d5433;color:var(--green);border:1px solid #2a7a4a;border-radius:8px;
+padding:10px 16px;font-weight:700;font-size:14px;font-family:var(--sans);cursor:pointer}
+.foot{color:#6b7183;font-family:var(--mono);font-size:11px;line-height:1.7;
+border-top:1px solid var(--line);padding-top:14px;margin-top:26px}
+@media (max-width:640px){
+  body{padding:18px 10px 40px;font-size:14.5px}
+  h1{font-size:27px}
+  h2{font-size:16.5px}
+  .lede{font-size:13.5px}
+  table{font-size:12px}
+}
 """
 
 # [FIX 1] THE BUG THAT SHOULD HAVE KILLED THE SCRIPT.
@@ -903,22 +928,22 @@ def build_html():
           + f'<td class="in">{d.get("ins","")}</td>'
           + (lambda mm, fh: '<td class="mono">'
              + (f'<span class="{cls(mm,10,-15)}">{mm:+.0f}%</span>' if mm is not None else '<span class="pr na">â€”</span>')
-             + (f'<br><span style="font-size:8px;color:#5e6373">{fh:+.0f}% off high</span>' if fh is not None else '')
+             + (f'<br><span style="font-size:10px;color:#7b8195">{fh:+.0f}% off high</span>' if fh is not None else '')
              + ('<br><span class="pill x-appr">DIVERGENCE</span>' if divergence(d) else '')
              + '</td>')(momentum(d), from_high(d))
           + (lambda rg, sc: f'<td><span class="pill {REG_CSS.get(rg,"empty")}">{rg or "â€”"}</span>'
-                            f'{f"<br><span style=font-size:8px;color:#5e6373>{sc:.0f}</span>" if sc else ""}</td>'
+                            f'{f"<br><span style=font-size:10px;color:#7b8195>{sc:.0f}</span>" if sc else ""}</td>'
             )(*best_regime(d))
           + f'<td class="mono">{fmt(ngv(d),",.2f")}</td>'
           + f'<td class="mono">{fmt(entry_price(d),",.2f")}</td>'
           + (lambda pf, gp: f'<td class="mono">{fmt(d.get("price"),",.2f")}'
              + (f'<br><span class="pill {PROX_CSS[pf]}">{pf} {gp:+.1f}%</span>' if pf else ''))(*proximity(d))
           + f'{""}'
-          + (f'<br><span style="color:#f06a6a;font-size:8px">{note}</span>' if note else '')
+          + (f'<br><span style="color:#f06a6a;font-size:10px">{note}</span>' if note else '')
           + '</td>'
-          + f'<td class="mono" style="font-size:8px;color:#5e6373">{d.get("price_ts") or ""}</td>'
+          + f'<td class="mono" style="font-size:10px;color:#7b8195">{d.get("price_ts") or ""}</td>'
           + f'<td class="pv {d.get("built","exact")}">{d.get("built","exact")}'
-          + (f'<br><span style="color:#e5b45c;font-size:8px">{cycle_note(d)}</span>' if cycle_note(d) else '')
+          + (f'<br><span style="color:#e5b45c;font-size:10px">{cycle_note(d)}</span>' if cycle_note(d) else '')
           + '</td></tr>')
 
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
@@ -1002,7 +1027,7 @@ def build_html():
                   '<table><thead><tr><th>Signal</th><th>Cumulative</th><th>Annualised</th>'
                   '<th>Per day</th><th>t</th><th>Years to sig.</th><th>Verdict</th></tr></thead>'
                   f'<tbody>{srows}</tbody></table>' + per +
-                  '<div class="lede" style="font-size:10.5px;margin-top:10px">Forward test, not a '
+                  '<div class="lede" style="font-size:12px;margin-top:10px">Forward test, not a '
                   'backtest. Cohorts were fixed before any of these prices existed. '
                   '<b>Re-freezing them after reading this destroys the test.</b></div></div>')
     else:
@@ -1061,10 +1086,14 @@ def build_html():
                  'average â€” averaging all 51 rows is dominated by the sector mix and barely moves. '
                  'Today: ' + pf_txt + '</div>'
                  '<div style="height:220px"><canvas id="regimeChart"></canvas></div>'
-                 '<div id="chartNote" class="lede" style="font-size:10.5px;margin-top:6px"></div></div>')
+                 '<div id="chartNote" class="lede" style="font-size:12px;margin-top:6px"></div></div>')
     head = ('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             '<title>InvestorAce Â· Master Scoreboard</title>'
+            '<link rel="preconnect" href="https://fonts.googleapis.com">'
+            '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+            '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
+            'family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">'
             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>'
             '<style>' + CSS + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce Â· Live Â· {stamp}</div>'
@@ -1084,10 +1113,10 @@ def build_html():
              '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
-    tbl = ('<table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
+    tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
-           + '\n'.join(rows) + '</tbody></table>')
+           + '\n'.join(rows) + '</tbody></table></div>')
     zin = ('<div style="margin-top:18px;text-align:right">'
            '<input id="zielIn" type="password" autocomplete="off" placeholder="&#8942;" '
            'style="width:96px;text-align:center;opacity:.55" aria-label="">'
