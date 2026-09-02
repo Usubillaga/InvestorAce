@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-macro.py · what regime are we ACTUALLY in
+macro.py &middot; what regime are we ACTUALLY in
 =========================================
 The engine's regime_scores() answers "which regime does this STOCK suit".
 It never answered "which regime are we IN". That gap made the whole column
@@ -125,16 +125,16 @@ def read_macro():
     if tnx is not None and fvx is not None:
         curve = float(tnx.iloc[-1]) - float(fvx.iloc[-1])
         if curve < 0:
-            score += 35; legs.append(f'yield curve inverted ({curve:+.2f}pp) â€” banks lend less')
+            score += 35; legs.append(f'yield curve inverted ({curve:+.2f}pp) &mdash; banks lend less')
     if _vs_ma(c.get('RHI')) is False:
-        score += 25; legs.append('staffing stocks below their 200-day â€” temp hiring slowing')
+        score += 25; legs.append('staffing stocks below their 200-day &mdash; temp hiring slowing')
     if _vs_ma(c.get('IYT')) is False:
-        score += 25; legs.append('transports below their 200-day â€” physical goods volume falling')
+        score += 25; legs.append('transports below their 200-day &mdash; physical goods volume falling')
     xly, xlp = c.get('XLY'), c.get('XLP')
     if xly is not None and xlp is not None and len(xly) > 50 and len(xlp) > 50:
         ratio = (xly / xlp).dropna()
         if len(ratio) > 50 and float(ratio.iloc[-1]) < float(ratio.rolling(50).mean().iloc[-1]):
-            score += 15; legs.append('staples beating discretionary â€” consumer defensive')
+            score += 15; legs.append('staples beating discretionary &mdash; consumer defensive')
 
     vix = float(c['^VIX'].iloc[-1]) if '^VIX' in c else None
     vix_state = (None if vix is None else
