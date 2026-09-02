@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE Â· SCORECARD ENGINE Â· v15.1  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE Â· SCORECARD ENGINE · v15.1  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -220,8 +220,8 @@ def verdict(t, d):
     if cushion_neg(d):
         return ('DO NOT ADD','v-avoid') if s < 7.00 else ('BUY Â· CUSHION NEG','v-avoid')
     if s >= 7.00:
-        return ('BUY Â· LOW RISK','v-buy') if rk <= 2.4 else \
-               (('BUY Â· MOD','v-buymod') if rk <= 3.2 else ('BUY Â· HIGH RISK','v-buyhi'))
+        return ('BUY · LOW RISK','v-buy') if rk <= 2.4 else \
+               (('BUY · MOD','v-buymod') if rk <= 3.2 else ('BUY Â· HIGH RISK','v-buyhi'))
     if s >= 5.50:
         return ('ACCUMULATE','v-acc') if rk <= 2.4 else ('HOLD','v-hold')
     return ('AVOID','v-avoid') if s >= 3.50 else ('SELL','v-sell')
@@ -304,7 +304,7 @@ def best_regime(d):
 
 
 # =====================================================================
-# MID-CYCLE NGV  â€”  commodity producers get a number, not a refusal
+# MID-CYCLE NGV ”  commodity producers get a number, not a refusal
 #
 # The old rule marked AR, DVN, CNX, AG and OXY as na because "implied
 # growth is really a price deck". That was true and it was also a
@@ -313,7 +313,7 @@ def best_regime(d):
 # same work for a producer is inconsistent.
 #
 # The fix is what energy analysts actually do: capitalise MID-CYCLE
-# free cash flow â€” the average across a full price cycle â€” instead of
+# free cash flow â€” the average across a full price cycle ” instead of
 # whatever this year happens to be. Then report where in the cycle the
 # CURRENT year sits, so the flattery is visible rather than hidden.
 #
