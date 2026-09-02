@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-forward.py Â· does the scorecard actually rank? â€” and when will you know?
+forward.py &middot; does the scorecard actually rank? &mdash; and when will you know?
 =======================================================================
 This is NOT a backtest. A backtest reconstructs the past, and there are no
 past scores to reconstruct: the scorecard did not exist before you built it,
 and every subscore in it was set with today's information. Reconstructing it
 backwards would be the purest form of the selection bias the Minerva paper
-is about (arXiv:2608.23808, Â§9.1-9.2).
+is about (arXiv:2608.23808, section 9.1-9.2).
 
 What is legitimate is a FORWARD test, and it needs exactly one discipline:
 the cohort assignment must be frozen BEFORE the outcome is observed.
@@ -15,8 +15,8 @@ the cohort assignment must be frozen BEFORE the outcome is observed.
      signal and write history/_cohort.json. That file is never rewritten.
   2. On every later run, read history/*.json and compute each quintile's
      cumulative return from prices that did not exist at freeze time.
-  3. Report the top-minus-bottom spread with a t-statistic, and â€” the part
-     that actually matters â€” how many more trading days are needed before
+  3. Report the top-minus-bottom spread with a t-statistic, and &mdash; the part
+     that actually matters &mdash; how many more trading days are needed before
      that spread could be distinguished from noise.
 
 FOUR SIGNALS ARE TESTED (score, cover, cushion, momentum), so the threshold
@@ -24,7 +24,7 @@ is Bonferroni-adjusted to alpha/4. Momentum is included NOT because it is
 assumed to work but so that it is tested rather than believed -- and adding
 it raises the bar for all four, which is the honest cost of another look.
 
-The harness refuses to state a verdict below an evidence floor (Â§4.1 of the
+The harness refuses to state a verdict below an evidence floor (section 4.1 of the
 paper): too few days is reported as INSUFFICIENT EVIDENCE, which is a
 different statement from "no effect".
 """
