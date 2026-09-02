@@ -19,9 +19,10 @@ the cohort assignment must be frozen BEFORE the outcome is observed.
      that actually matters â€” how many more trading days are needed before
      that spread could be distinguished from noise.
 
-THREE SIGNALS ARE TESTED (score, cover, cushion), so the significance
-threshold is Bonferroni-adjusted to alpha/3. Testing three and reporting
-the best without adjustment is the error the paper names.
+FOUR SIGNALS ARE TESTED (score, cover, cushion, momentum), so the threshold
+is Bonferroni-adjusted to alpha/4. Momentum is included NOT because it is
+assumed to work but so that it is tested rather than believed -- and adding
+it raises the bar for all four, which is the honest cost of another look.
 
 The harness refuses to state a verdict below an evidence floor (Â§4.1 of the
 paper): too few days is reported as INSUFFICIENT EVIDENCE, which is a
@@ -31,11 +32,11 @@ import json, os, glob, math
 from datetime import datetime, timezone
 
 COHORT_FILE = 'history/_cohort.json'
-SIGNALS     = ('score', 'cover', 'cushion')
+SIGNALS     = ('score', 'cover', 'cushion', 'momentum')
 N_BUCKETS   = 5
 ALPHA       = 0.05
 N_TESTS     = len(SIGNALS)          # Bonferroni: alpha / 3
-Z_CRIT      = 2.394                 # two-sided z for alpha/3 = 0.0167
+Z_CRIT      = 2.498                 # two-sided z for alpha/4 = 0.0125
 MIN_DAYS    = 60                    # evidence floor: below this, no verdict
 MIN_PER_BUCKET = 3
 
