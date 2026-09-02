@@ -91,6 +91,11 @@ DATA = {
     na='fund, not a company. No single free cash flow to capitalise, so no NGV. '
        'A covered-call overlay on the Nasdaq-100: 109 holdings, top 10 = 49.4%. '
        'The framework cannot score it and should not pretend to.'),
+'REP' : dict(yf='REP.MC', fcf=1800, fcf_ttm=2604, shares=1150.0, r=.105, cur='EUR',
+    deliver=None, dl='n/a - see note', sub=(5.5,6.5,7,6.5,7,9), pr=None, dil=8.5,
+    clock='DIV', ins='NOT CHECKED', held=False, sector='Energy', built='mid-cycle',
+    midcycle=True, sanity=(4,60),
+    boot_note='mid-cycle FCF EUR1.8bn against H1-2026 annualised EUR2.6bn. Brent averaged $104 in Q2, up 53% YoY, and adjusted net income rose 135% on production up 4% q/q -- a price event, not a business event. Spanish withholding 19% on a 4.8% yield = 0.91%/yr unrecoverable, on top of ENG.'),
 'AR'  : dict(yf='AR', fcf=520, fcf_ttm=340, shares=310.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=True, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='mid-cycle FCF across four reported years; natural gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction', weight=2.5),
 'DVN' : dict(yf='DVN', fcf=2600, fcf_ttm=2150, shares=1290.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(6,7,6.5,5,7,7), pr=None, dil=5.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='post-Coterra share count; oil and gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
 'CNX' : dict(yf='CNX', fcf=440, fcf_ttm=525, shares=145.0, r=.1, cur='USD', deliver=None, dl='n/a - see note', sub=(3.5,6.5,7,6,7.5,8), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='26 consecutive positive-FCF quarters; gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
@@ -383,6 +388,59 @@ def proximity(d):
 
 PROX_CSS = {'AT NGV':'x-atngv', 'CLEARS':'x-clear', 'NEAR ENTRY':'x-near', 'APPROACHING':'x-appr'}
 
+
+# =====================================================================
+# MOMENTUM â€” reported, never scored
+#
+# The scorecard excludes technicals by design, so momentum enters as a
+# column with the same standing as the insider column: informative,
+# displayed, outside the weighting.
+#
+# It earns its place because of a specific defect in cover. Cover is
+# NGV/price, so it RISES WHEN THE PRICE FALLS. A collapsing business and
+# a bargain look identical in that column, and the framework has no way
+# to tell them apart. Momentum is the standard diagnostic for exactly
+# that confusion.
+#
+#   mom_12_1   twelve-month return excluding the most recent month.
+#              The academic definition (Jegadeesh-Titman); the last month
+#              is dropped because short-horizon returns mean-revert and
+#              would work against the signal.
+#   from_high  how far below the 52-week high, which is the number that
+#              says how much has already been conceded.
+#   DIVERGENCE cover >= 60% AND mom_12_1 <= -20%: the business standing
+#              still covers most of the price AND the market is still
+#              selling. That is either the best entry in the table or a
+#              value trap, and the framework alone cannot say which.
+# =====================================================================
+def momentum(d):
+    return d.get('mom_12_1')
+
+def from_high(d):
+    return d.get('from_high')
+
+def divergence(d):
+    c, mm = cover(d), d.get('mom_12_1')
+    if c is None or mm is None: return False
+    return c >= 0.60 and mm <= -20.0
+
+def _fetch_momentum(tk, d):
+    """12-1 return and distance from the 52-week high, from one history pull."""
+    try:
+        h = tk.history(period='13mo', auto_adjust=True)
+        if h is None or h.empty or 'Close' not in h: return
+        c = h['Close'].dropna()
+        if len(c) < 60: return
+        last = float(c.iloc[-1])
+        skip = 21                                    # one month of trading days
+        if len(c) > skip + 200:
+            start = float(c.iloc[0]); end = float(c.iloc[-skip])
+            if start: d['mom_12_1'] = round(100 * (end / start - 1), 1)
+        hi = float(c.max())
+        if hi: d['from_high'] = round(100 * (last / hi - 1), 1)
+    except Exception:
+        pass
+
 # ---------------- prices ----------------
 
 
@@ -535,7 +593,12 @@ def fetch_prices():
     for t, d in DATA.items():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
         if d.get('na') and not d.get('midcycle'):
-            d['price_note'] = 'N/A: ' + d['na']; continue          # never price an N/A row
+            d['price_note'] = 'N/A: ' + d['na']
+            try:                       # [FIX] momentum is price-only. An N/A row
+                _fetch_momentum(yf.Ticker(d.get('yf', t)), d)   # has no NGV but it
+            except Exception:          # still has a chart, and the column was
+                pass                   # blank on 22 rows for no reason.
+            continue
         try:
             tk = yf.Ticker(d.get('yf', t))
             fi = {}
@@ -564,6 +627,7 @@ def fetch_prices():
             else:
                 d['price_note'] = f'accepted UNBOUNDED at {px:.2f} - no 52w range, set sanity by hand'
             d['price'], d['price_ts'] = float(px), stamp
+            _fetch_momentum(tk, d)
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
 
@@ -573,6 +637,7 @@ def snapshot():
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
                    score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
                    regime=regime_scores(d), weight=d.get('weight'),
+                   momentum=d.get('mom_12_1'), from_high=d.get('from_high'),
                    ts=d.get('price_ts'), note=d.get('price_note')) for t,d in DATA.items()}
     rec['_portfolio'] = portfolio_regime()
     with open(f'history/{day}.json','w') as f: json.dump(rec, f, indent=1, default=str)
@@ -836,6 +901,11 @@ def build_html():
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
           + f'<td><span class="pill {CLOCK_CSS.get(d.get("clock"),"s-conc")}">{d.get("clock","")}</span></td>'
           + f'<td class="in">{d.get("ins","")}</td>'
+          + (lambda mm, fh: '<td class="mono">'
+             + (f'<span class="{cls(mm,10,-15)}">{mm:+.0f}%</span>' if mm is not None else '<span class="pr na">â€”</span>')
+             + (f'<br><span style="font-size:8px;color:#5e6373">{fh:+.0f}% off high</span>' if fh is not None else '')
+             + ('<br><span class="pill x-appr">DIVERGENCE</span>' if divergence(d) else '')
+             + '</td>')(momentum(d), from_high(d))
           + (lambda rg, sc: f'<td><span class="pill {REG_CSS.get(rg,"empty")}">{rg or "â€”"}</span>'
                             f'{f"<br><span style=font-size:8px;color:#5e6373>{sc:.0f}</span>" if sc else ""}</td>'
             )(*best_regime(d))
@@ -1015,7 +1085,7 @@ def build_html():
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
-           '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Regime</th>'
+           '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table>')
     zin = ('<div style="margin-top:18px;text-align:right">'
