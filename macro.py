@@ -161,3 +161,55 @@ def read_macro():
 if __name__ == '__main__':
     import json
     print(json.dumps(read_macro(), indent=1))
+
+
+# =====================================================================
+# SECTOR PERFORMANCE
+#
+# The eleven SPDR sector ETFs, rebased and measured over 1/3/5/10 years.
+# The point is not the league table. It is that the ordering IS a regime
+# reading: a decade in which technology triples and energy goes nowhere
+# is a decade of falling discount rates, and the framework's REFLATION
+# affinities are a bet that the ordering inverts. Putting the two side
+# by side is the only way to see whether that bet is contrarian or late.
+# =====================================================================
+SECTOR_ETF = {
+    'XLK':  'Technology',      'XLV': 'Health Care',    'XLE': 'Energy',
+    'XLF':  'Financials',      'XLP': 'Cons. Staples',  'XLY': 'Cons. Discretionary',
+    'XLI':  'Industrials',     'XLB': 'Materials',      'XLU': 'Utilities',
+    'XLRE': 'Real Estate',     'XLC': 'Comm. Services', 'SPY': 'S&P 500',
+}
+# how each maps onto the engine's affinity tables, so the two can be compared
+SECTOR_TO_ENGINE = {
+    'XLK':'Technology','XLV':'Healthcare','XLE':'Energy','XLF':'Info Svcs',
+    'XLP':'Consumer Defensive','XLY':'Consumer Cyclical','XLI':'Industrials',
+    'XLB':'Materials','XLU':'Utilities','XLRE':'REIT','XLC':'Communication Services',
+}
+
+def sector_performance(years=10):
+    """Annualised total return over several windows, plus a rebased path."""
+    if yf is None: return {}
+    out, paths, dates = {}, {}, None
+    for sym, name in SECTOR_ETF.items():
+        try:
+            h = yf.Ticker(sym).history(period=f'{years}y', auto_adjust=True)
+            if h is None or h.empty: continue
+            c = h['Close'].dropna()
+            if len(c) < 260: continue
+            row = {'name': name, 'sym': sym}
+            for w, lbl in ((252,'1y'), (756,'3y'), (1260,'5y'), (2520,'10y')):
+                if len(c) > w:
+                    tot = float(c.iloc[-1]) / float(c.iloc[-w-1]) - 1
+                    row[lbl] = round(100 * ((1 + tot) ** (252.0/w) - 1), 2)
+                else:
+                    row[lbl] = None
+            out[sym] = row
+            m = c.resample('ME').last().dropna()
+            paths[sym] = [round(100 * float(x) / float(m.iloc[0]), 1) for x in m]
+            if dates is None or len(m) > len(dates):
+                dates = [str(i)[:7] for i in m.index]
+        except Exception:
+            continue
+    n = min((len(v) for v in paths.values()), default=0)
+    paths = {k: v[-n:] for k, v in paths.items()}
+    return dict(rows=out, paths=paths, dates=(dates[-n:] if dates else []), years=years)
