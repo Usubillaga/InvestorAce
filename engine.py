@@ -15,6 +15,11 @@ except Exception:
     forward_run = lambda: {'ok': False, 'note': 'forward.py not present'}
     freeze_cohorts = lambda *a, **k: None
 try:
+    from macro import sector_performance, SECTOR_TO_ENGINE
+except Exception:
+    sector_performance = lambda years=10: {}
+    SECTOR_TO_ENGINE = {}
+try:
     from macro import read_macro
 except Exception:
     read_macro = lambda: {'ok': False, 'note': 'macro.py not present'}
@@ -103,6 +108,10 @@ DATA = {
     clock='DIV', ins='NOT CHECKED', held=False, sector='Utilities', built='exact',
     sanity=(40,320),
     na='regulated water utility. 2025 operating cash flow $2.06bn against $3.13bn capex, so free cash flow is negative and stays negative BY PLAN: $19-20bn of investment 2026-2030. NGV cannot be built from a cash line the business is designed not to produce. Value here is rate base times allowed return, which this framework does not compute. Same structural problem as ENG.'),
+'MRVL': dict(yf='MRVL', fcf=2100, shares=921.0, r=.100, cur='USD', deliver=37.0,
+    dl='revenue growth', sub=(9.5,5.5,7.5,6.5,1.5,2), pr=None, dil=3.0, clock='CONC',
+    ins='NOT CHECKED', held=False, sector='Semis', built='est', sanity=(40,500),
+    boot_note='Q2 FY2027 reported 27 Aug 2026. Revenue $2.739bn +37%, Data Center +46% and 79% of the mix, guidance raised twice for FY27 AND FY28. GAAP net income $308m vs non-GAAP $866m -- a $558m gap, mostly stock comp and amortisation. Google warrant for up to 7% of shares is the dilution risk. $120bn Google deal produces material revenue only from FY2029.'),
 'AR'  : dict(yf='AR', fcf=520, fcf_ttm=340, shares=310.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=True, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='mid-cycle FCF across four reported years; natural gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction', weight=2.5),
 'DVN' : dict(yf='DVN', fcf=2600, fcf_ttm=2150, shares=1290.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(6,7,6.5,5,7,7), pr=None, dil=5.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='post-Coterra share count; oil and gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
 'CNX' : dict(yf='CNX', fcf=440, fcf_ttm=525, shares=145.0, r=.1, cur='USD', deliver=None, dl='n/a - see note', sub=(3.5,6.5,7,6,7.5,8), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=True, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='26 consecutive positive-FCF quarters; gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction', weight=2.3),
@@ -909,6 +918,7 @@ SCAT_JS = """
 const PTS = __PTS__;
 window.drawPortfolioCharts = function(){
   if (window.drawRegimeHistory) window.drawRegimeHistory();
+  if (window.drawSectors) window.drawSectors();
   const rwEl = document.getElementById('rwChart');
   if (PTS.length && window.Chart && rwEl && rwEl.dataset.drawn !== '1') {
   rwEl.dataset.drawn = '1';
@@ -965,6 +975,7 @@ function initZiel(){
     }
   });
 }
+if (window.drawSectors) window.drawSectors();
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initZiel);
 else initZiel();
 """
@@ -1028,6 +1039,33 @@ if (QT.length && window.Chart) {
     });
   }
 }
+"""
+
+
+SEC_JS = """
+const SD = __SECDATES__, SP = __SECPATHS__, SC = __SECCOLS__;
+window.drawSectors = function(){
+  const el = document.getElementById('secChart');
+  if (!el || !window.Chart || !SD.length || el.dataset.drawn === '1') return;
+  el.dataset.drawn = '1';
+  new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: { labels: SD, datasets: Object.keys(SP).map(k => ({
+      label: k, data: SP[k], borderColor: SC[k], backgroundColor: 'transparent',
+      borderWidth: k === 'SPY' ? 3 : 1.6, borderDash: k === 'SPY' ? [] : [],
+      pointRadius: 0, tension: .2 })) },
+    options: { responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { labels: { color: '#9aa0b3', font: { size: 10 },
+                 boxWidth: 11, usePointStyle: true } } },
+      scales: { x: { ticks: { color: '#5e6373', font: { size: 9 }, maxTicksLimit: 8 },
+                     grid: { color: '#171a23' } },
+                y: { type: 'logarithmic', ticks: { color: '#5e6373', font: { size: 9 } },
+                     grid: { color: '#171a23' },
+                     title: { display: true, text: 'rebased to 100', color: '#9aa0b3',
+                              font: { size: 10 } } } } }
+  });
+};
 """
 
 CHART_JS = """
@@ -1122,6 +1160,13 @@ def build_html():
     bar = FIT_COL.get(cur_reg, '#5cc8d8')
     js += (QUAD_JS.replace('__TRAIL__', json.dumps(M.get('trail') or []))
                   .replace('__HEADING__', json.dumps(M.get('heading') or {})))
+    SEC = sector_performance(10)
+    SECCOL = {'XLK':'#63c6f0','XLV':'#66e39c','XLE':'#e5b45c','XLF':'#8f9bd6','XLP':'#c88a5c',
+              'XLY':'#d6a8ff','XLI':'#8ad6c0','XLB':'#c0a86a','XLU':'#7fb6d8','XLRE':'#f06a6a',
+              'XLC':'#a0d67f','SPY':'#e7e9f0'}
+    js += (SEC_JS.replace('__SECDATES__', json.dumps(SEC.get('dates', [])))
+                 .replace('__SECPATHS__', json.dumps(SEC.get('paths', {})))
+                 .replace('__SECCOLS__', json.dumps(SECCOL)))
     rdates, rser = regime_history()
     js += CHART_JS.replace('__DATES__', json.dumps(rdates)).replace('__SERIES__', json.dumps(rser))
     ranked_all = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
@@ -1252,6 +1297,33 @@ def build_html():
                'actionable rather than descriptive.</div>'
                '<div style="height:330px"><canvas id="fitChart"></canvas></div></div>') if cur_reg else ''
 
+    if SEC.get('rows'):
+        rr = sorted(SEC['rows'].values(), key=lambda x: -(x.get('10y') if x.get('10y') is not None else -99))
+        srows = ''
+        for x in rr:
+            eng = SECTOR_TO_ENGINE.get(x['sym'])
+            aff = AFF['REFLATION'].get(eng) if eng else None
+            ac = 'pos' if (aff or 0) > 0 else ('neg' if (aff or 0) < 0 else 'na')
+            spy = x['sym'] == 'SPY'
+            srows += ('<tr%s>' % (' style="background:#141826"' if spy else '')
+                + f'<td class="tk">{x["sym"]}<div class="se">{x["name"]}</div></td>'
+                + ''.join(f'<td class="pr {cls(x.get(w),8,0)}">'
+                          f'{("%+.1f%%" % x[w]) if x.get(w) is not None else "&mdash;"}</td>'
+                          for w in ('1y','3y','5y','10y'))
+                + f'<td class="pr {ac}">{("%+d" % aff) if aff is not None else "&mdash;"}</td></tr>')
+        sec_box = ('<div class="box"><h2>Eleven sectors, ten years</h2>'
+          '<div class="lede" style="margin-bottom:10px">Annualised total return. The right-hand '
+          'column is the same sector&rsquo;s <b>reflation affinity</b> from the engine&rsquo;s own '
+          'table. <b>Read them together</b>: a decade where technology compounds and energy does '
+          'not is a decade of falling discount rates, and a reflation tilt is a bet that the '
+          'ordering inverts. Whether that is contrarian or late is the only question the table '
+          'answers.</div>'
+          '<div class="tw"><table><thead><tr><th>Sector</th><th>1y</th><th>3y</th><th>5y</th>'
+          '<th>10y</th><th>Refl</th></tr></thead><tbody>' + srows + '</tbody></table></div>'
+          '<div style="height:300px;margin-top:14px"><canvas id="secChart"></canvas></div></div>')
+    else:
+        sec_box = ''
+
     chart_box = ('<div class="box"><h2>Where the book sits on the growth / inflation grid</h2>'
                  '<div class="lede" style="margin-bottom:8px">Position-weighted, not a cross-sectional '
                  'average &mdash; averaging all 51 rows is dominated by the sector mix and barely moves. '
@@ -1302,7 +1374,7 @@ def build_html():
     js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
     gate = '<div id="zielBox" data-open="0"></div>'
     with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(head + hdr + macro_box + fw_box + gate + zin + fit_box + issue_box + adder + tbl + foot
+        f.write(head + hdr + macro_box + sec_box + fw_box + gate + zin + fit_box + issue_box + adder + tbl + foot
                 + '<script>' + js + js_z + '</script></body></html>')
 
 if __name__ == '__main__':
