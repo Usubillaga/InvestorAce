@@ -1449,6 +1449,47 @@ def build_html():
     else:
         macro_box = f'<div class="box"><h2>Regime now</h2><div class="lede">unavailable: {M.get("note","")}</div></div>'
 
+    # Sector-performance panel
+    if SEC.get('rows'):
+        rr = sorted(SEC['rows'].values(), key=lambda x: -(x.get('10y') if x.get('10y') is not None else -99))
+        srows_sec = ''
+        for x in rr:
+            eng = SECTOR_TO_ENGINE.get(x['sym'])
+            aff = AFF['REFLATION'].get(eng) if eng else None
+            ac = 'pos' if (aff or 0) > 0 else ('neg' if (aff or 0) < 0 else 'na')
+            spy = x['sym'] == 'SPY'
+            srows_sec += ('<tr%s>' % (' style="background:#141826"' if spy else '')
+                + f'<td class="tk">{x["sym"]}<div class="se">{x["name"]}</div></td>'
+                + ''.join(f'<td class="pr {cls(x.get(w),8,0)}">{("%+.1f%%" % x[w]) if x.get(w) is not None else "&mdash;"}</td>' for w in ('1y','3y','5y','10y'))
+                + f'<td class="pr {ac}">{("%+d" % aff) if aff is not None else "&mdash;"}</td></tr>')
+        sec_box = ('<div class="box"><h2>Eleven sectors, ten years</h2>'
+          '<div class="lede" style="margin-bottom:10px">Annualised total return. The right-hand '
+          'column is the same sector&rsquo;s <b>reflation affinity</b> from the engine&rsquo;s own table.</div>'
+          '<div class="tw"><table><thead><tr><th>Sector</th><th>1y</th><th>3y</th><th>5y</th><th>10y</th><th>Refl</th></tr></thead><tbody>' + srows_sec + '</tbody></table></div>'
+          '<div style="height:300px;margin-top:14px"><canvas id="secChart"></canvas></div></div>')
+    else:
+        sec_box = ''
+
+    fit_box = ''
+    if cur_reg:
+        model_names = {x['t'] for x in regime_book}
+        regime_ranked = sorted([(t, fit_now(d, cur_reg), d.get('weight',0), score(d)) for t,d in DATA.items() if t in model_names and fit_now(d,cur_reg) is not None], key=lambda x:(-x[1],x[0]))
+        top_rows = ''.join(f'<tr><td class="tk">{t}</td><td class="pr {cls(fit,60,40)}">{fit:.0f}</td><td class="mono">{w:.1f}%</td><td class="pr {cls(s,7,3.5)}">{fmt(s,".2f")}</td></tr>' for t,fit,w,s in regime_ranked)
+        sector_fits = {}
+        for t,d in DATA.items():
+            if t not in model_names: continue
+            f = fit_now(d,cur_reg)
+            if f is not None: sector_fits.setdefault(d.get('sector','Unclassified'),[]).append(f)
+        sector_rows = ''.join(f'<tr><td class="tk">{sec}</td><td class="pr {cls(avg,60,40)}">{avg:.0f}</td></tr>' for sec,avg in sorted(((sec,sum(v)/len(v)) for sec,v in sector_fits.items()), key=lambda x:-x[1]))
+        fit_box = (f'<div class="box"><h2>30-stock fit for {cur_reg}</h2>'
+                   '<div class="lede">Current-regime fit is the selection variable. Score and risk remain diagnostics.</div>'
+                   '<div style="height:420px"><canvas id="fitChart"></canvas></div>'
+                   '<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Model holdings ranked by fit</h3>'
+                   '<div class="tw"><table style="font-size:11px"><thead><tr><th>Ticker</th><th>Fit</th><th>Weight</th><th>Score</th></tr></thead>'
+                   f'<tbody>{top_rows}</tbody></table></div>'
+                   '<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Sector average fit</h3>'
+                   f'<div class="tw"><table style="font-size:11px"><thead><tr><th>Sector</th><th>Avg Fit</th></tr></thead><tbody>{sector_rows}</tbody></table></div></div>')
+
     tw = sum(x['weight'] for x in regime_book) or 1
     wsc = (sum(x['weight'] * x['score'] for x in regime_book) / tw) if regime_book else 0
     cw = sum(x['weight'] for x in regime_book if x.get('cover') is not None)
