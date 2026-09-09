@@ -8,16 +8,16 @@
   "risk": 2.3,
   "verdict": "TRAP BUY",
   "regime": {
-   "GOLDILOCKS": 65.3,
+   "GOLDILOCKS": 64.8,
    "REFLATION": 50.0,
-   "INFLATION": 49.2,
-   "STAGFLATION": 39.6,
-   "RECESSION": 61.2
+   "INFLATION": 46.7,
+   "STAGFLATION": 38.2,
+   "RECESSION": 56.7
   },
   "weight": null,
   "momentum": -21.0,
   "from_high": -30.6,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "ASML": {
@@ -29,16 +29,16 @@
   "risk": 2.3,
   "verdict": "ACCUMULATE",
   "regime": {
-   "GOLDILOCKS": 89.8,
-   "REFLATION": 63.8,
-   "INFLATION": 13.2,
-   "STAGFLATION": 10.8,
-   "RECESSION": 27.5
+   "GOLDILOCKS": 81.5,
+   "REFLATION": 65.2,
+   "INFLATION": 27.1,
+   "STAGFLATION": 25.4,
+   "RECESSION": 37.1
   },
   "weight": null,
   "momentum": 149.5,
   "from_high": -12.9,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "RIVN": {
@@ -65,16 +65,16 @@
   "risk": 3.4,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 53.6,
-   "REFLATION": 71.0,
-   "INFLATION": 44.6,
-   "STAGFLATION": 17.2,
-   "RECESSION": 18.3
+   "GOLDILOCKS": 44.9,
+   "REFLATION": 61.0,
+   "INFLATION": 45.9,
+   "STAGFLATION": 24.8,
+   "RECESSION": 25.9
   },
   "weight": null,
   "momentum": 6.4,
   "from_high": -30.1,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "CRM": {
@@ -86,16 +86,16 @@
   "risk": 2.1,
   "verdict": "BUY &middot; LOW RISK",
   "regime": {
-   "GOLDILOCKS": 73.3,
-   "REFLATION": 51.2,
-   "INFLATION": 44.3,
-   "STAGFLATION": 34.3,
-   "RECESSION": 58.5
+   "GOLDILOCKS": 72.6,
+   "REFLATION": 53.8,
+   "INFLATION": 45.3,
+   "STAGFLATION": 35.6,
+   "RECESSION": 55.3
   },
   "weight": null,
   "momentum": -14.4,
   "from_high": -7.8,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "NVDA": {
@@ -107,16 +107,16 @@
   "risk": 3.4,
   "verdict": "BUY &middot; HIGH RISK",
   "regime": {
-   "GOLDILOCKS": 89.5,
-   "REFLATION": 63.5,
-   "INFLATION": 12.5,
-   "STAGFLATION": 11.5,
-   "RECESSION": 29.0
+   "GOLDILOCKS": 80.8,
+   "REFLATION": 64.5,
+   "INFLATION": 26.4,
+   "STAGFLATION": 24.6,
+   "RECESSION": 36.4
   },
   "weight": null,
   "momentum": 19.6,
   "from_high": -5.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "SPGI": {
@@ -128,16 +128,16 @@
   "risk": 2.3,
   "verdict": "BUY &middot; LOW RISK",
   "regime": {
-   "GOLDILOCKS": 66.4,
-   "REFLATION": 51.8,
-   "INFLATION": 63.8,
-   "STAGFLATION": 63.6,
-   "RECESSION": 64.6
+   "GOLDILOCKS": 66.8,
+   "REFLATION": 55.2,
+   "INFLATION": 63.2,
+   "STAGFLATION": 62.8,
+   "RECESSION": 63.2
   },
   "weight": 1.4,
   "momentum": -21.6,
   "from_high": -20.8,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "SAN": {
@@ -149,16 +149,16 @@
   "risk": 2.4,
   "verdict": "BUY &middot; LOW RISK",
   "regime": {
-   "GOLDILOCKS": 25.5,
-   "REFLATION": 39.5,
-   "INFLATION": 72.5,
-   "STAGFLATION": 77.5,
-   "RECESSION": 98.0
+   "GOLDILOCKS": 38.2,
+   "REFLATION": 44.5,
+   "INFLATION": 72.6,
+   "STAGFLATION": 64.4,
+   "RECESSION": 82.6
   },
   "weight": 5.7,
   "momentum": -2.1,
   "from_high": -13.3,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "APP": {
@@ -170,16 +170,16 @@
   "risk": 2.1,
   "verdict": "BUY &middot; LOW RISK",
   "regime": {
-   "GOLDILOCKS": 87.2,
-   "REFLATION": 52.0,
-   "INFLATION": 17.6,
-   "STAGFLATION": 16.9,
-   "RECESSION": 21.3
+   "GOLDILOCKS": 82.3,
+   "REFLATION": 56.0,
+   "INFLATION": 27.9,
+   "STAGFLATION": 26.1,
+   "RECESSION": 27.9
   },
   "weight": null,
   "momentum": -31.6,
   "from_high": -58.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "ABT": {
@@ -191,16 +191,16 @@
   "risk": 2.5,
   "verdict": "BUY &middot; MOD",
   "regime": {
-   "GOLDILOCKS": 59.7,
-   "REFLATION": 52.0,
-   "INFLATION": 61.5,
-   "STAGFLATION": 64.3,
-   "RECESSION": 75.8
+   "GOLDILOCKS": 63.4,
+   "REFLATION": 56.0,
+   "INFLATION": 59.3,
+   "STAGFLATION": 60.1,
+   "RECESSION": 69.3
   },
   "weight": 1.8,
   "momentum": -14.5,
   "from_high": -21.2,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "WKL": {
@@ -212,16 +212,16 @@
   "risk": 2.7,
   "verdict": "BUY &middot; MOD",
   "regime": {
-   "GOLDILOCKS": 48.5,
-   "REFLATION": 50.5,
-   "INFLATION": 81.5,
-   "STAGFLATION": 85.5,
-   "RECESSION": 81.5
+   "GOLDILOCKS": 55.2,
+   "REFLATION": 51.5,
+   "INFLATION": 69.6,
+   "STAGFLATION": 71.4,
+   "RECESSION": 69.6
   },
   "weight": 23.2,
   "momentum": -37.1,
   "from_high": -40.6,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "LVMH": {
@@ -233,16 +233,16 @@
   "risk": 2.6,
   "verdict": "BUY &middot; MOD",
   "regime": {
-   "GOLDILOCKS": 51.4,
+   "GOLDILOCKS": 56.7,
    "REFLATION": 63.0,
-   "INFLATION": 80.0,
-   "STAGFLATION": 60.8,
-   "RECESSION": 58.2
+   "INFLATION": 71.1,
+   "STAGFLATION": 52.9,
+   "RECESSION": 51.1
   },
   "weight": 27.4,
   "momentum": 7.2,
   "from_high": -35.9,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "UBER": {
@@ -254,16 +254,16 @@
   "risk": 2.4,
   "verdict": "BUY &middot; LOW RISK",
   "regime": {
-   "GOLDILOCKS": 67.9,
-   "REFLATION": 62.0,
-   "INFLATION": 45.9,
-   "STAGFLATION": 47.6,
-   "RECESSION": 45.9
+   "GOLDILOCKS": 66.3,
+   "REFLATION": 60.0,
+   "INFLATION": 44.7,
+   "STAGFLATION": 45.8,
+   "RECESSION": 44.7
   },
   "weight": 3.8,
   "momentum": -13.3,
   "from_high": -29.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "AVGO": {
@@ -275,16 +275,16 @@
   "risk": 2.7,
   "verdict": "BUY &middot; MOD",
   "regime": {
-   "GOLDILOCKS": 89.2,
-   "REFLATION": 63.2,
-   "INFLATION": 11.8,
-   "STAGFLATION": 9.2,
-   "RECESSION": 26.0
+   "GOLDILOCKS": 80.0,
+   "REFLATION": 63.8,
+   "INFLATION": 25.6,
+   "STAGFLATION": 23.9,
+   "RECESSION": 35.6
   },
   "weight": null,
   "momentum": 37.9,
   "from_high": -24.2,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "ONON": {
@@ -296,16 +296,16 @@
   "risk": 2.4,
   "verdict": "ACCUMULATE",
   "regime": {
-   "GOLDILOCKS": 71.7,
-   "REFLATION": 61.2,
-   "INFLATION": 22.3,
-   "STAGFLATION": 22.3,
-   "RECESSION": 26.8
+   "GOLDILOCKS": 64.0,
+   "REFLATION": 57.8,
+   "INFLATION": 29.7,
+   "STAGFLATION": 27.9,
+   "RECESSION": 29.7
   },
   "weight": 4.5,
   "momentum": -32.4,
   "from_high": -47.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "VICI": {
@@ -317,16 +317,16 @@
   "risk": 3.5,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 24.0,
-   "REFLATION": 26.0,
-   "INFLATION": 92.0,
-   "STAGFLATION": 84.0,
-   "RECESSION": 80.0
+   "GOLDILOCKS": 33.7,
+   "REFLATION": 30.0,
+   "INFLATION": 78.1,
+   "STAGFLATION": 69.9,
+   "RECESSION": 68.1
   },
   "weight": 1.9,
   "momentum": -15.7,
   "from_high": -20.5,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "ENB": {
@@ -338,16 +338,16 @@
   "risk": 3.5,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 12.0,
-   "REFLATION": 74.0,
-   "INFLATION": 92.0,
-   "STAGFLATION": 93.5,
-   "RECESSION": 64.2
+   "GOLDILOCKS": 23.7,
+   "REFLATION": 70.0,
+   "INFLATION": 78.1,
+   "STAGFLATION": 79.9,
+   "RECESSION": 58.1
   },
   "weight": 4.1,
   "momentum": 15.9,
   "from_high": -12.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "PFE": {
@@ -359,37 +359,37 @@
   "risk": 4.1,
   "verdict": "DO NOT ADD",
   "regime": {
-   "GOLDILOCKS": 23.5,
-   "REFLATION": 37.5,
-   "INFLATION": 66.5,
-   "STAGFLATION": 68.5,
-   "RECESSION": 87.5
+   "GOLDILOCKS": 32.2,
+   "REFLATION": 38.5,
+   "INFLATION": 66.6,
+   "STAGFLATION": 58.4,
+   "RECESSION": 76.6
   },
   "weight": null,
   "momentum": 15.9,
   "from_high": -4.3,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "ROL": {
   "price": 34.540000915527344,
-  "ngv": 14.08233396451364,
-  "cover": 0.40771087409505463,
-  "cushion": 1.3896352492283315,
+  "ngv": 15.385153220427169,
+  "cover": 0.4454300177366476,
+  "cushion": 2.0058933005818353,
   "score": 6.47,
   "risk": 3.0,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 56.7,
+   "GOLDILOCKS": 53.2,
    "REFLATION": 50.0,
-   "INFLATION": 41.3,
-   "STAGFLATION": 39.4,
-   "RECESSION": 53.3
+   "INFLATION": 45.8,
+   "STAGFLATION": 44.9,
+   "RECESSION": 55.8
   },
   "weight": null,
   "momentum": -35.7,
   "from_high": -46.7,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "LULU": {
@@ -401,16 +401,16 @@
   "risk": 2.7,
   "verdict": "DO NOT ADD",
   "regime": {
-   "GOLDILOCKS": 49.0,
+   "GOLDILOCKS": 56.7,
    "REFLATION": 63.0,
-   "INFLATION": 59.0,
-   "STAGFLATION": 66.0,
-   "RECESSION": 63.5
+   "INFLATION": 51.1,
+   "STAGFLATION": 52.9,
+   "RECESSION": 51.1
   },
   "weight": null,
   "momentum": -32.6,
   "from_high": -53.8,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "PL": {
@@ -422,16 +422,16 @@
   "risk": 3.2,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 86.8,
-   "REFLATION": 48.8,
-   "INFLATION": 4.2,
-   "STAGFLATION": 2.8,
-   "RECESSION": 8.0
+   "GOLDILOCKS": 72.5,
+   "REFLATION": 46.2,
+   "INFLATION": 18.1,
+   "STAGFLATION": 16.4,
+   "RECESSION": 18.1
   },
   "weight": 1.7,
   "momentum": 269.2,
   "from_high": -66.5,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "MSFT": {
@@ -443,16 +443,16 @@
   "risk": 2.4,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 90.1,
-   "REFLATION": 64.5,
-   "INFLATION": 28.0,
-   "STAGFLATION": 14.1,
-   "RECESSION": 43.0
+   "GOLDILOCKS": 83.8,
+   "REFLATION": 67.5,
+   "INFLATION": 39.4,
+   "STAGFLATION": 27.6,
+   "RECESSION": 49.4
   },
   "weight": null,
   "momentum": -2.7,
   "from_high": -8.6,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "AAPL": {
@@ -464,16 +464,16 @@
   "risk": 2.1,
   "verdict": "ACCUMULATE",
   "regime": {
-   "GOLDILOCKS": 85.5,
-   "REFLATION": 64.5,
-   "INFLATION": 33.9,
-   "STAGFLATION": 21.3,
-   "RECESSION": 48.9
+   "GOLDILOCKS": 82.9,
+   "REFLATION": 67.5,
+   "INFLATION": 40.5,
+   "STAGFLATION": 29.0,
+   "RECESSION": 50.5
   },
   "weight": null,
   "momentum": 34.7,
   "from_high": -7.2,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "KO": {
@@ -485,16 +485,16 @@
   "risk": 2.6,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 33.2,
-   "REFLATION": 38.5,
-   "INFLATION": 70.4,
-   "STAGFLATION": 72.9,
-   "RECESSION": 83.9
+   "GOLDILOCKS": 38.3,
+   "REFLATION": 41.5,
+   "INFLATION": 65.6,
+   "STAGFLATION": 66.5,
+   "RECESSION": 75.6
   },
   "weight": null,
   "momentum": 25.7,
   "from_high": -4.8,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "CVX": {
@@ -506,16 +506,16 @@
   "risk": 3.7,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 13.8,
-   "REFLATION": 75.8,
-   "INFLATION": 97.2,
-   "STAGFLATION": 100.0,
-   "RECESSION": 64.2
+   "GOLDILOCKS": 28.9,
+   "REFLATION": 75.2,
+   "INFLATION": 83.3,
+   "STAGFLATION": 85.2,
+   "RECESSION": 53.4
   },
   "weight": null,
   "momentum": 33.5,
   "from_high": 0.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "AMAT": {
@@ -527,16 +527,16 @@
   "risk": 2.1,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 90.5,
-   "REFLATION": 64.5,
-   "INFLATION": 27.5,
-   "STAGFLATION": 13.5,
-   "RECESSION": 42.5
+   "GOLDILOCKS": 83.8,
+   "REFLATION": 67.5,
+   "INFLATION": 39.4,
+   "STAGFLATION": 27.6,
+   "RECESSION": 49.4
   },
   "weight": null,
   "momentum": 187.2,
   "from_high": -35.1,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "PHR": {
@@ -548,16 +548,16 @@
   "risk": 3.1,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 34.5,
-   "REFLATION": 36.5,
-   "INFLATION": 63.5,
-   "STAGFLATION": 69.5,
-   "RECESSION": 90.5
+   "GOLDILOCKS": 39.2,
+   "REFLATION": 35.5,
+   "INFLATION": 53.6,
+   "STAGFLATION": 55.4,
+   "RECESSION": 73.6
   },
   "weight": null,
   "momentum": -54.8,
   "from_high": -68.2,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "RCAT": {
@@ -584,16 +584,16 @@
   "risk": 2.1,
   "verdict": "BUY &middot; LOW RISK",
   "regime": {
-   "GOLDILOCKS": 72.7,
+   "GOLDILOCKS": 71.6,
    "REFLATION": 63.0,
-   "INFLATION": 43.9,
-   "STAGFLATION": 34.6,
-   "RECESSION": 58.9
+   "INFLATION": 44.8,
+   "STAGFLATION": 35.2,
+   "RECESSION": 54.8
   },
   "weight": null,
   "momentum": -11.6,
   "from_high": -36.8,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "GOOG": {
@@ -605,16 +605,16 @@
   "risk": 2.7,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 78.5,
-   "REFLATION": 64.5,
-   "INFLATION": 27.5,
-   "STAGFLATION": 25.5,
-   "RECESSION": 42.5
+   "GOLDILOCKS": 73.8,
+   "REFLATION": 67.5,
+   "INFLATION": 39.4,
+   "STAGFLATION": 37.6,
+   "RECESSION": 49.4
   },
   "weight": null,
   "momentum": 70.6,
   "from_high": -17.6,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "GILD": {
@@ -626,16 +626,16 @@
   "risk": 3.0,
   "verdict": "BUY &middot; MOD",
   "regime": {
-   "GOLDILOCKS": 35.5,
-   "REFLATION": 37.5,
-   "INFLATION": 66.5,
-   "STAGFLATION": 69.5,
-   "RECESSION": 89.0
+   "GOLDILOCKS": 42.2,
+   "REFLATION": 38.5,
+   "INFLATION": 56.6,
+   "STAGFLATION": 58.4,
+   "RECESSION": 76.6
   },
   "weight": null,
   "momentum": 15.6,
   "from_high": -5.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "AG": {
@@ -647,16 +647,16 @@
   "risk": 2.4,
   "verdict": "ACCUMULATE",
   "regime": {
-   "GOLDILOCKS": 42.0,
+   "GOLDILOCKS": 42.3,
    "REFLATION": 76.0,
-   "INFLATION": 62.0,
-   "STAGFLATION": 61.0,
-   "RECESSION": 30.5
+   "INFLATION": 67.9,
+   "STAGFLATION": 66.1,
+   "RECESSION": 37.9
   },
   "weight": null,
   "momentum": 117.2,
   "from_high": -33.7,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "BABA": {
@@ -713,16 +713,16 @@
   "risk": 2.5,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 46.9,
-   "REFLATION": 74.0,
-   "INFLATION": 66.0,
+   "GOLDILOCKS": 48.1,
+   "REFLATION": 70.0,
+   "INFLATION": 62.4,
    "STAGFLATION": 42.9,
-   "RECESSION": 42.0
+   "RECESSION": 42.4
   },
   "weight": 2.0,
   "momentum": -24.8,
   "from_high": -40.1,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "TSLA": {
@@ -734,16 +734,16 @@
   "risk": 4.3,
   "verdict": "DO NOT ADD",
   "regime": {
-   "GOLDILOCKS": 86.5,
-   "REFLATION": 60.5,
-   "INFLATION": 15.5,
-   "STAGFLATION": 13.5,
-   "RECESSION": 18.5
+   "GOLDILOCKS": 71.8,
+   "REFLATION": 55.5,
+   "INFLATION": 27.4,
+   "STAGFLATION": 25.6,
+   "RECESSION": 27.4
   },
   "weight": null,
   "momentum": -1.8,
   "from_high": -24.9,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "PG": {
@@ -755,16 +755,16 @@
   "risk": 2.6,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 29.5,
-   "REFLATION": 39.2,
-   "INFLATION": 78.2,
-   "STAGFLATION": 82.0,
-   "RECESSION": 91.7
+   "GOLDILOCKS": 37.9,
+   "REFLATION": 43.8,
+   "INFLATION": 71.2,
+   "STAGFLATION": 72.9,
+   "RECESSION": 81.2
   },
   "weight": null,
   "momentum": -3.5,
   "from_high": -13.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "CSGP": {
@@ -776,16 +776,16 @@
   "risk": 1.6,
   "verdict": "ACCUMULATE",
   "regime": {
-   "GOLDILOCKS": 64.4,
-   "REFLATION": 41.2,
-   "INFLATION": 69.4,
-   "STAGFLATION": 57.7,
-   "RECESSION": 62.6
+   "GOLDILOCKS": 66.0,
+   "REFLATION": 49.8,
+   "INFLATION": 71.7,
+   "STAGFLATION": 59.9,
+   "RECESSION": 61.6
   },
   "weight": null,
   "momentum": -66.4,
   "from_high": -68.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "OXY": {
@@ -797,16 +797,16 @@
   "risk": 3.0,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 12.0,
-   "REFLATION": 74.0,
-   "INFLATION": 92.0,
-   "STAGFLATION": 96.0,
-   "RECESSION": 56.0
+   "GOLDILOCKS": 23.7,
+   "REFLATION": 70.0,
+   "INFLATION": 78.1,
+   "STAGFLATION": 79.9,
+   "RECESSION": 48.1
   },
   "weight": null,
   "momentum": 37.9,
   "from_high": -7.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "SPCX": {
@@ -848,16 +848,16 @@
   "risk": 2.4,
   "verdict": "BUY &middot; LOW RISK",
   "regime": {
-   "GOLDILOCKS": 13.8,
-   "REFLATION": 75.8,
-   "INFLATION": 97.2,
-   "STAGFLATION": 100.0,
-   "RECESSION": 62.0
+   "GOLDILOCKS": 28.9,
+   "REFLATION": 75.2,
+   "INFLATION": 83.3,
+   "STAGFLATION": 85.2,
+   "RECESSION": 53.4
   },
   "weight": null,
   "momentum": 109.6,
   "from_high": 0.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "AWK": {
@@ -884,16 +884,16 @@
   "risk": 3.5,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 86.2,
-   "REFLATION": 60.2,
-   "INFLATION": 2.8,
-   "STAGFLATION": 0.0,
-   "RECESSION": 15.5
+   "GOLDILOCKS": 71.0,
+   "REFLATION": 54.8,
+   "INFLATION": 16.6,
+   "STAGFLATION": 14.9,
+   "RECESSION": 26.6
   },
   "weight": null,
   "momentum": 175.3,
   "from_high": -25.7,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "AR": {
@@ -905,16 +905,16 @@
   "risk": 3.0,
   "verdict": "BUY &middot; MOD",
   "regime": {
-   "GOLDILOCKS": 11.0,
-   "REFLATION": 73.0,
-   "INFLATION": 89.0,
-   "STAGFLATION": 93.0,
-   "RECESSION": 53.0
+   "GOLDILOCKS": 20.7,
+   "REFLATION": 67.0,
+   "INFLATION": 75.1,
+   "STAGFLATION": 76.9,
+   "RECESSION": 45.1
   },
   "weight": 2.5,
   "momentum": 16.8,
   "from_high": -13.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "DVN": {
@@ -926,16 +926,16 @@
   "risk": 3.4,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 26.0,
-   "REFLATION": 74.0,
-   "INFLATION": 74.0,
-   "STAGFLATION": 73.1,
-   "RECESSION": 36.5
+   "GOLDILOCKS": 30.0,
+   "REFLATION": 70.0,
+   "INFLATION": 70.0,
+   "STAGFLATION": 70.0,
+   "RECESSION": 40.0
   },
   "weight": null,
   "momentum": 41.7,
   "from_high": -5.3,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "CNX": {
@@ -947,16 +947,16 @@
   "risk": 3.0,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 13.0,
-   "REFLATION": 75.0,
-   "INFLATION": 95.0,
-   "STAGFLATION": 99.0,
-   "RECESSION": 59.0
+   "GOLDILOCKS": 26.7,
+   "REFLATION": 73.0,
+   "INFLATION": 81.1,
+   "STAGFLATION": 82.9,
+   "RECESSION": 51.1
   },
   "weight": 2.3,
   "momentum": 25.5,
   "from_high": -13.7,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "MRNA": {
@@ -1088,16 +1088,16 @@
   "risk": 2.6,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 74.6,
+   "GOLDILOCKS": 66.3,
    "REFLATION": 50.0,
-   "INFLATION": 33.8,
-   "STAGFLATION": 30.2,
-   "RECESSION": 45.8
+   "INFLATION": 41.9,
+   "STAGFLATION": 40.1,
+   "RECESSION": 51.9
   },
   "weight": null,
   "momentum": -15.0,
   "from_high": -40.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "VST": {
@@ -1109,16 +1109,16 @@
   "risk": 2.5,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 40.1,
-   "REFLATION": 38.0,
-   "INFLATION": 71.2,
-   "STAGFLATION": 58.6,
-   "RECESSION": 71.2
+   "GOLDILOCKS": 41.3,
+   "REFLATION": 40.0,
+   "INFLATION": 68.3,
+   "STAGFLATION": 58.0,
+   "RECESSION": 68.3
   },
   "weight": 4.8,
   "momentum": -27.2,
   "from_high": -30.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "SE": {
@@ -1130,16 +1130,16 @@
   "risk": 3.3,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 71.2,
-   "REFLATION": 62.0,
-   "INFLATION": 41.6,
-   "STAGFLATION": 42.5,
-   "RECESSION": 41.6
+   "GOLDILOCKS": 68.3,
+   "REFLATION": 60.0,
+   "INFLATION": 42.2,
+   "STAGFLATION": 42.7,
+   "RECESSION": 42.2
   },
   "weight": null,
   "momentum": -10.1,
   "from_high": -44.7,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "UNH": {
@@ -1151,16 +1151,16 @@
   "risk": 2.5,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 24.0,
-   "REFLATION": 38.0,
-   "INFLATION": 68.0,
-   "STAGFLATION": 72.0,
-   "RECESSION": 92.0
+   "GOLDILOCKS": 33.7,
+   "REFLATION": 40.0,
+   "INFLATION": 58.1,
+   "STAGFLATION": 59.9,
+   "RECESSION": 78.1
   },
   "weight": null,
   "momentum": 63.6,
   "from_high": -9.9,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "CMCSA": {
@@ -1172,16 +1172,16 @@
   "risk": 3.0,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 36.0,
-   "REFLATION": 62.0,
-   "INFLATION": 56.0,
-   "STAGFLATION": 60.0,
-   "RECESSION": 68.0
+   "GOLDILOCKS": 43.7,
+   "REFLATION": 60.0,
+   "INFLATION": 48.1,
+   "STAGFLATION": 49.9,
+   "RECESSION": 58.1
   },
   "weight": null,
   "momentum": -8.6,
   "from_high": -22.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "NVO": {
@@ -1193,16 +1193,16 @@
   "risk": 3.0,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 24.0,
-   "REFLATION": 38.0,
-   "INFLATION": 68.0,
-   "STAGFLATION": 72.0,
-   "RECESSION": 92.0
+   "GOLDILOCKS": 33.7,
+   "REFLATION": 40.0,
+   "INFLATION": 68.1,
+   "STAGFLATION": 59.9,
+   "RECESSION": 78.1
   },
   "weight": null,
   "momentum": -0.8,
   "from_high": -26.9,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "ENG": {
@@ -1229,16 +1229,16 @@
   "risk": 2.6,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 85.5,
+   "GOLDILOCKS": 76.3,
    "REFLATION": 50.0,
-   "INFLATION": 11.2,
-   "STAGFLATION": 7.9,
-   "RECESSION": 11.2
+   "INFLATION": 21.9,
+   "STAGFLATION": 20.1,
+   "RECESSION": 21.9
   },
   "weight": null,
   "momentum": -21.5,
   "from_high": -17.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "DIS": {
@@ -1250,16 +1250,16 @@
   "risk": 2.4,
   "verdict": "ACCUMULATE",
   "regime": {
-   "GOLDILOCKS": 53.0,
-   "REFLATION": 62.0,
-   "INFLATION": 34.1,
-   "STAGFLATION": 33.3,
-   "RECESSION": 46.1
+   "GOLDILOCKS": 51.8,
+   "REFLATION": 60.0,
+   "INFLATION": 37.7,
+   "STAGFLATION": 37.2,
+   "RECESSION": 47.7
   },
   "weight": null,
   "momentum": -6.7,
   "from_high": -11.1,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "PEP": {
@@ -1271,58 +1271,58 @@
   "risk": 2.8,
   "verdict": "HOLD",
   "regime": {
-   "GOLDILOCKS": 24.0,
-   "REFLATION": 38.0,
-   "INFLATION": 80.0,
-   "STAGFLATION": 84.0,
-   "RECESSION": 92.0
+   "GOLDILOCKS": 33.7,
+   "REFLATION": 40.0,
+   "INFLATION": 68.1,
+   "STAGFLATION": 69.9,
+   "RECESSION": 78.1
   },
   "weight": null,
   "momentum": -0.7,
   "from_high": -17.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "BSX": {
   "price": 44.959999084472656,
-  "ngv": 39.040274560682334,
-  "cover": 0.8683335265939818,
+  "ngv": 21.378634280349395,
+  "cover": 0.47550344118518234,
   "cushion": null,
   "score": 5.4,
   "risk": 3.0,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 52.6,
+   "GOLDILOCKS": 62.6,
    "REFLATION": 50.0,
-   "INFLATION": 62.1,
-   "STAGFLATION": 64.8,
-   "RECESSION": 74.1
+   "INFLATION": 46.6,
+   "STAGFLATION": 45.9,
+   "RECESSION": 56.6
   },
   "weight": 0.2,
   "momentum": -50.2,
   "from_high": -58.4,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "WIX": {
   "price": 74.2300033569336,
-  "ngv": 101.49216577596556,
-  "cover": 1.3672660809126245,
+  "ngv": 149.2722759686221,
+  "cover": 2.01094260026972,
   "cushion": null,
   "score": 5.3,
   "risk": 3.3,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 57.5,
-   "REFLATION": 47.5,
-   "INFLATION": 48.5,
-   "STAGFLATION": 36.5,
-   "RECESSION": 54.5
+   "GOLDILOCKS": 56.2,
+   "REFLATION": 42.5,
+   "INFLATION": 40.6,
+   "STAGFLATION": 32.4,
+   "RECESSION": 50.6
   },
   "weight": null,
   "momentum": -42.2,
   "from_high": -59.7,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "GRAB": {
@@ -1349,37 +1349,37 @@
   "risk": 3.0,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 80.1,
+   "GOLDILOCKS": 73.7,
    "REFLATION": 50.0,
-   "INFLATION": 30.1,
-   "STAGFLATION": 16.4,
-   "RECESSION": 42.1
+   "INFLATION": 35.3,
+   "STAGFLATION": 24.2,
+   "RECESSION": 45.3
   },
   "weight": null,
   "momentum": -25.5,
   "from_high": -31.8,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "MCD": {
   "price": 253.47999572753906,
-  "ngv": 220.0264432634589,
-  "cover": 0.8680229089950011,
+  "ngv": 219.8682479053588,
+  "cover": 0.8673988149411644,
   "cushion": null,
   "score": 5.2,
   "risk": 2.8,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 40.6,
-   "REFLATION": 62.0,
-   "INFLATION": 74.1,
-   "STAGFLATION": 64.7,
-   "RECESSION": 62.1
+   "GOLDILOCKS": 44.4,
+   "REFLATION": 60.0,
+   "INFLATION": 67.2,
+   "STAGFLATION": 58.8,
+   "RECESSION": 57.2
   },
   "weight": null,
   "momentum": -7.7,
   "from_high": -24.2,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "TTD": {
@@ -1391,37 +1391,37 @@
   "risk": 2.4,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 60.0,
+   "GOLDILOCKS": 63.7,
    "REFLATION": 50.0,
-   "INFLATION": 44.0,
-   "STAGFLATION": 48.0,
-   "RECESSION": 44.0
+   "INFLATION": 38.1,
+   "STAGFLATION": 39.9,
+   "RECESSION": 38.1
   },
   "weight": null,
   "momentum": -74.5,
   "from_high": -74.9,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "NKE": {
   "price": 37.349998474121094,
-  "ngv": 18.636998804598818,
-  "cover": 0.498982585434694,
+  "ngv": 18.600775371661662,
+  "cover": 0.49801274783316757,
   "cushion": null,
   "score": 4.6,
   "risk": 2.8,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 65.5,
-   "REFLATION": 62.0,
-   "INFLATION": 33.5,
-   "STAGFLATION": 32.4,
-   "RECESSION": 33.5
+   "GOLDILOCKS": 62.1,
+   "REFLATION": 60.0,
+   "INFLATION": 37.2,
+   "STAGFLATION": 36.6,
+   "RECESSION": 37.2
   },
   "weight": null,
   "momentum": -42.6,
   "from_high": -51.0,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "ZTS": {
@@ -1433,16 +1433,16 @@
   "risk": 3.0,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 36.0,
+   "GOLDILOCKS": 43.7,
    "REFLATION": 50.0,
-   "INFLATION": 68.0,
-   "STAGFLATION": 72.0,
-   "RECESSION": 80.0
+   "INFLATION": 58.1,
+   "STAGFLATION": 59.9,
+   "RECESSION": 68.1
   },
   "weight": null,
   "momentum": -48.5,
   "from_high": -52.3,
-  "ts": "2026-09-09 20:38 UTC",
+  "ts": "2026-09-09 20:51 UTC",
   "note": ""
  },
  "IBST": {
@@ -1461,10 +1461,10 @@
   "note": "N/A: free cash flow negative (-7m) in a UK housing downturn"
  },
  "_portfolio": {
-  "GOLDILOCKS": 46.5,
-  "REFLATION": 56.5,
-  "INFLATION": 74.0,
-  "STAGFLATION": 68.3,
-  "RECESSION": 65.3
+  "GOLDILOCKS": 51.6,
+  "REFLATION": 56.6,
+  "INFLATION": 66.6,
+  "STAGFLATION": 59.7,
+  "RECESSION": 57.9
  }
 }
