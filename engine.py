@@ -8,7 +8,7 @@ DEPLOY: GitHub Actions cron -> commit index.html -> GitHub Pages.
 """
 import warnings as _w
 _w.filterwarnings('ignore')          # [FIX] yfinance emits a Pandas4Warning per
-import json, os, sys                 # fetch; 200 lines of them buried the real
+import json, os, sys, collections                 # fetch; 200 lines of them buried the real
                                      # traceback and made the failure unreadable
 from datetime import datetime, timezone
 import yfinance as yf
@@ -780,9 +780,12 @@ def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdict
     out = []
     for t, d in DATA.items():
         s, c, v = score(d), cover(d), verdict(t, d)[0]
-        if s is None or s < min_score or v in exclude_verdicts: continue
-        if min_cover is not None and (c is None or c < min_cover): continue
-        if held_only and not d.get('weight'): continue
+        if s is None or s < min_score or v in exclude_verdicts:
+            continue
+        if min_cover is not None and (c is None or c < min_cover):
+            continue
+        if held_only and not d.get('weight'):
+            continue
         fit = fit_now(d, regime) if regime else None
         aff = AFF[regime].get(d.get('sector', '')) if regime else None
         out.append(dict(t=t, score=s, cover=c, cushion=cushion(d), risk=risk(d),
@@ -794,6 +797,110 @@ def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdict
            'duration': lambda r: -(r['cover'] or 0)}[purpose]
     out.sort(key=key)
     return out[:limit]
+
+
+# =====================================================================
+# REGIME PORTFOLIO -- exactly 30 names selected for the CURRENT regime
+# =====================================================================
+
+REGIME_PORTFOLIO_SIZE = 30
+REGIME_INVESTED_PCT = 100.0 - CASH_PCT
+REGIME_MAX_SECTOR = 4
+REGIME_MAX_WEIGHT = 5.0
+
+
+def build_regime_portfolio(regime, size=REGIME_PORTFOLIO_SIZE,
+                           invested_pct=REGIME_INVESTED_PCT,
+                           max_sector=REGIME_MAX_SECTOR,
+                           max_weight=REGIME_MAX_WEIGHT):
+    """Build a deterministic 30-stock regime-fit model portfolio.
+
+    Selection is regime-first: current-regime fit is the primary rank.
+    Score/risk are tie-breakers only. Weak verdicts are excluded, and a
+    sector cap prevents the box from becoming a single-theme portfolio.
+    The output is a derived model portfolio; it does NOT overwrite DATA
+    holdings or the user's existing weights.
+    """
+    if regime not in REGIMES:
+        return []
+
+    candidates = []
+    for t, d in DATA.items():
+        fit = fit_now(d, regime)
+        s = score(d)
+        c = cover(d)
+        v = verdict(t, d)[0]
+        if fit is None or s is None or c is None:
+            continue
+        if v in ('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE'):
+            continue
+        candidates.append({
+            't': t,
+            'fit': float(fit),
+            'score': float(s),
+            'risk': float(risk(d) or 5.0),
+            'cover': float(c),
+            'sector': d.get('sector', 'Unclassified'),
+            'verdict': v,
+        })
+
+    candidates.sort(key=lambda x: (-x['fit'], -x['score'], x['risk'], -x['cover'], x['t']))
+
+    selected = []
+    sector_count = collections.Counter() if 'collections' in globals() else {}
+    for row in candidates:
+        sec = row['sector']
+        n_sec = sector_count.get(sec, 0) if hasattr(sector_count, 'get') else 0
+        if n_sec >= max_sector:
+            continue
+        selected.append(row)
+        sector_count[sec] = n_sec + 1
+        if len(selected) >= size:
+            break
+
+    # If the sector cap leaves fewer than the requested number, fill the remainder
+    # using the original regime ranking. This guarantees "30" when 30 valid names
+    # exist, while still preferring diversification whenever possible.
+    if len(selected) < min(size, len(candidates)):
+        chosen = {x['t'] for x in selected}
+        for row in candidates:
+            if row['t'] in chosen:
+                continue
+            selected.append(row)
+            chosen.add(row['t'])
+            if len(selected) >= size:
+                break
+
+    if not selected:
+        return []
+
+    # Equal-weight by default, with cents allocated deterministically so the
+    # displayed weights sum to the exact invested target after rounding.
+    n = len(selected)
+    base_cents = int(round(invested_pct * 100)) // n
+    extra_cents = int(round(invested_pct * 100)) - base_cents * n
+    weights = [base_cents / 100.0] * n
+    for i in range(extra_cents):
+        weights[i % n] += 0.01
+
+    if any(w > max_weight for w in weights):
+        # This branch is not expected with 30 names and 92.2% invested, but
+        # keeps the constructor safe when size is changed.
+        weights = [min(max_weight, w) for w in weights]
+        remainder = round(invested_pct - sum(weights), 2)
+        if remainder > 0:
+            capacity = [max_weight - w for w in weights]
+            for i in sorted(range(n), key=lambda j: capacity[j], reverse=True):
+                add = min(capacity[i], remainder)
+                weights[i] += add
+                remainder = round(remainder - add, 2)
+                if remainder <= 0:
+                    break
+
+    for row, w in zip(selected, weights):
+        row['weight'] = round(w, 2)
+
+    return selected
 
 # ---------------- render ----------------
 def fmt(x, spec, dash='&mdash;'):  return dash if x is None else format(x, spec)
@@ -1210,7 +1317,7 @@ def build_html():
     M = read_macro()
     cur_reg = M.get('regime') if M.get('ok') else None
     fits = sorted(((t, fit_now(d, cur_reg)) for t, d in DATA.items()), key=lambda kv: -(kv[1] or -1))
-    fits = [(t, v) for t, v in fits if v is not None][:15]
+    fits = [(t, v) for t, v in fits if v is not None][:30]
     FIT_COL = {'GOLDILOCKS':'#66e39c','REFLATION':'#63c6f0','INFLATION':'#e5b45c',
                'STAGFLATION':'#f06a6a','RECESSION':'#d6a8ff'}
     bar = FIT_COL.get(cur_reg, '#5cc8d8')
@@ -1227,16 +1334,32 @@ def build_html():
     js += CHART_JS.replace('__DATES__', json.dumps(rdates)).replace('__SERIES__', json.dumps(rser))
     ranked_all = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
     rank_of = {t: i for i, (t, _) in enumerate(ranked_all, 1)}
-    pts = sorted([dict(x=rank_of[t], y=d['weight'], t=t,
-                 c=('#4ecb8a' if rank_of[t] <= 6 else '#e5b45c' if rank_of[t] <= 15 else '#f06a6a'))
-                 for t, d in DATA.items() if d.get('weight')], key=lambda p: p['x'])
+    regime_book_map = {x['t']: x for x in regime_book}
+    regime_ranked_all = [t for t in sorted(regime_book_map, key=lambda t: (-regime_book_map[t]['fit'], t))]
+    regime_rank = {t: i for i, t in enumerate(regime_ranked_all, 1)}
+    pts = sorted([
+        dict(x=regime_rank[t], y=regime_book_map[t]['weight'], t=t,
+             c=('#4ecb8a' if regime_rank[t] <= 6
+                else '#e5b45c' if regime_rank[t] <= 15 else '#f06a6a'))
+        for t in regime_ranked_all
+    ], key=lambda p: p['x'])
     js += SCAT_JS.replace('__PTS__', json.dumps(pts))
     js += (FIT_JS.replace('__FITLAB__', json.dumps([t for t, _ in fits]))
                  .replace('__FITVAL__', json.dumps([v for _, v in fits]))
                  .replace('__FITCOL__', json.dumps([bar]*len(fits))))
-    pf = portfolio_regime()
-    pf_txt = ' &middot; '.join(f'<b>{r.title()}</b> {v:.0f}' for r, v in
-                        sorted(pf.items(), key=lambda kv: -kv[1])) if pf else 'no cover yet'
+    model_pf = {}
+    if regime_book:
+        model_total = sum(x['weight'] for x in regime_book)
+        if model_total:
+            model_acc = {r: 0.0 for r in REGIMES}
+            for x in regime_book:
+                sc = regime_scores(DATA[x['t']])
+                for r in REGIMES:
+                    model_acc[r] += x['weight'] * sc.get(r, 0.0)
+            model_pf = {r: round(v / model_total, 1) for r, v in model_acc.items()}
+    pf_txt = (' &middot; '.join(f'<b>{r.title()}</b> {v:.0f}' for r, v in
+                              sorted(model_pf.items(), key=lambda kv: -kv[1]))
+              if model_pf else 'no cover yet')
     FW = forward_run()
     if FW.get('ok') and FW.get('signals'):
         pick = 'score' if 'score' in FW['signals'] else list(FW['signals'])[0]
@@ -1325,148 +1448,34 @@ def build_html():
     else:
         macro_box = f'<div class="box"><h2>Regime now</h2><div class="lede">unavailable: {M.get("note","")}</div></div>'
 
-    tw  = sum(d['weight'] for d in DATA.values() if d.get('weight')) or 1
-    wsc = sum(d['weight']*(score(d) or 0) for d in DATA.values() if d.get('weight'))/tw
-    cw  = sum(d['weight'] for d in DATA.values() if d.get('weight') and cover(d))
-    wcv = (sum(d['weight']*cover(d)*100 for d in DATA.values() if d.get('weight') and cover(d))/cw) if cw else None
-    wrk = sum(d['weight']*rank_of[t] for t, d in DATA.items() if d.get('weight'))/tw
-    eqr = (sum(rank_of[t] for t, d in DATA.items() if d.get('weight'))/len(pts)) if pts else 0
-    uns = [(t, d['weight']) for t, d in DATA.items() if d.get('weight') and score(d) is None]
-    unscored = sum(w for _, w in uns)
-    unscored_names = ', '.join(f'{t} {w:.1f}%' for t, w in sorted(uns, key=lambda kv: -kv[1]))
-    port_box = ('<div class="box" style="border-color:#1d5433;background:#0e1712">'
-        '<h2>Your book as one line</h2>'
-        f'<div class="lede" style="margin-bottom:8px">{len(pts)} positions &middot; weighted score '
-        f'<b>{wsc:.2f}</b> &middot; weighted cover <b>{("%.0f%%" % wcv) if wcv else "n/a"}</b> &middot; '
-        f'<b>weight-weighted rank {wrk:.1f}</b> against <b>{eqr:.1f}</b> if held equally.</div>'
-        + (f'<div class="lede" style="margin-bottom:8px;color:#e5b45c"><b>{unscored:.1f}% of the '
-           f'book carries no score</b> &mdash; {unscored_names}. The weighted figures above exclude it, '
-           f'so they describe {100-unscored:.1f}% of what you own.</div>' if unscored else '')
-        + '<div class="lede" style="margin-bottom:8px">Every dot should sit on a line falling left to '
-        'right: best ideas biggest. <b>Dots high and to the right are the problem</b> &mdash; size with no '
-        'rank to justify it.</div>'
-        '<div style="height:280px"><canvas id="rwChart"></canvas></div></div>')
+    tw = sum(x['weight'] for x in regime_book) or 1
+    wsc = (sum(x['weight'] * x['score'] for x in regime_book) / tw) if regime_book else 0
+    cw = sum(x['weight'] for x in regime_book if x.get('cover') is not None)
+    wcv = (sum(x['weight'] * x['cover'] * 100 for x in regime_book if x.get('cover') is not None) / cw) if cw else None
+    wrk = (
+        sum(x['weight'] * regime_rank.get(x['t'], 0) for x in regime_book) / tw
+        if regime_book else 0
+    )
+    eqr = (sum(regime_rank.values()) / len(regime_rank)) if regime_rank else 0
 
-    fit_box = ''
-if cur_reg:
-    # Get top holdings by regime fit
-    regime_ranked = sorted(
-        [(t, fit_now(d, cur_reg), d.get('weight', 0), score(d)) 
-         for t, d in DATA.items() if fit_now(d, cur_reg) is not None],
-        key=lambda x: -x[1]
+    port_box = (
+        '<div class="box" style="border-color:#1d5433;background:#0e1712">'
+        f'<h2>Regime model book &mdash; {cur_reg or "unavailable"}</h2>'
+        f'<div class="lede" style="margin-bottom:8px">{len(regime_book)} positions &middot; '
+        f'weighted score <b>{wsc:.2f}</b> &middot; weighted cover '
+        f'<b>{("%.0f%%" % wcv) if wcv is not None else "n/a"}</b> &middot; '
+        f'avg regime rank <b>{wrk:.1f}</b> against <b>{eqr:.1f}</b> if equally ranked.</div>'
+        '<div class="lede" style="margin-bottom:8px">'
+        'This box is the regime-fit model portfolio, not the manually marked <i>held</i> book. '
+        f'It targets exactly {REGIME_PORTFOLIO_SIZE} names and {REGIME_INVESTED_PCT:.1f}% invested, '
+        f'leaving {CASH_PCT:.1f}% cash.'
+        '</div>'
+        '<div style="height:280px"><canvas id="rwChart"></canvas></div></div>'
     )
-    top_5 = regime_ranked[:5]
-    bottom_5 = regime_ranked[-5:] if len(regime_ranked) > 5 else []
-    
-    # Build rows for best and worst performers in this regime
-    top_rows = ''.join(
-        f'<tr><td class="tk">{t}</td>'
-        f'<td class="pr {cls(fit, 60, 40)}">{fit:.0f}</td>'
-        f'<td class="mono">{w:.1f}%</td>'
-        f'<td class="pr {cls(s, 7, 3.5)}">{fmt(s, ".2f")}</td></tr>'
-        for t, fit, w, s in top_5
-    )
-    bottom_rows = ''.join(
-        f'<tr><td class="tk">{t}</td>'
-        f'<td class="pr {cls(fit, 60, 40)}">{fit:.0f}</td>'
-        f'<td class="mono">{w:.1f}%</td>'
-        f'<td class="pr {cls(s, 7, 3.5)}">{fmt(s, ".2f")}</td></tr>'
-        for t, fit, w, s in bottom_5
-    )
-    
-    # Sector tilt: count holdings by sector and their average fit
-    sector_fits = {}
-    for t, d in DATA.items():
-        sec = d.get('sector', 'Unclassified')
-        fit = fit_now(d, cur_reg)
-        if fit is not None:
-            if sec not in sector_fits:
-                sector_fits[sec] = {'fits': [], 'count': 0}
-            sector_fits[sec]['fits'].append(fit)
-            sector_fits[sec]['count'] += 1
-    
-    sector_fits = {
-        sec: sum(v['fits']) / len(v['fits']) 
-        for sec, v in sector_fits.items()
-    }
-    sector_sorted = sorted(sector_fits.items(), key=lambda kv: -kv[1])
-    
-    sector_rows = ''.join(
-        f'<tr><td class="tk">{sec}</td>'
-        f'<td class="pr {cls(avg, 60, 40)}">{avg:.0f}</td></tr>'
-        for sec, avg in sector_sorted
-    )
-    
-    # Affinity explanation
-    aff_sec = ', '.join(
-        f'{sec} ({v:+d})'
-        for sec, v in sorted(
-            AFF[cur_reg].items(), 
-            key=lambda kv: -kv[1]
-        )[:8]
-    )
-    
-    fit_box = (
-        f'<div class="box"><h2>Best fit for {cur_reg}</h2>'
-        f'<div class="lede" style="margin-bottom:8px">Each row scored against <b>{cur_reg}</b>, '
-        f'not against the regime it happens to like best. This is what makes the regime column '
-        f'actionable rather than descriptive.</div>'
-        f'<div style="height:330px"><canvas id="fitChart"></canvas></div>'
-        
-        # Top and bottom performers section
-        f'<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Holdings ranked by fit</h3>'
-        f'<div class="lede" style="font-size:13px;margin-bottom:10px">Green = aligned, red = headwind</div>'
-        f'<div class="tw"><table style="font-size:11px"><thead>'
-        f'<tr><th>Top 5</th><th>Fit</th><th>Weight</th><th>Score</th></tr></thead>'
-        f'<tbody>{top_rows}</tbody></table></div>'
-        
-        + (f'<div class="tw"><table style="font-size:11px;margin-top:10px"><thead>'
-           f'<tr><th>Bottom 5</th><th>Fit</th><th>Weight</th><th>Score</th></tr></thead>'
-           f'<tbody>{bottom_rows}</tbody></table></div>' if bottom_rows else '')
-        
-        # Sector tilt
-        f'<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Sector average fit</h3>'
-        f'<div class="tw"><table style="font-size:11px"><thead>'
-        f'<tr><th>Sector</th><th>Avg Fit</th></tr></thead>'
-        f'<tbody>{sector_rows}</tbody></table></div>'
-        
-        # Regime rules
-        f'<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Affinity rules for {cur_reg}</h3>'
-        f'<div class="lede" style="font-size:12px">Highest: {aff_sec}</div>'
-        
-        f'</div>'
-    )
-
-    if SEC.get('rows'):
-        rr = sorted(SEC['rows'].values(), key=lambda x: -(x.get('10y') if x.get('10y') is not None else -99))
-        srows = ''
-        for x in rr:
-            eng = SECTOR_TO_ENGINE.get(x['sym'])
-            aff = AFF['REFLATION'].get(eng) if eng else None
-            ac = 'pos' if (aff or 0) > 0 else ('neg' if (aff or 0) < 0 else 'na')
-            spy = x['sym'] == 'SPY'
-            srows += ('<tr%s>' % (' style="background:#141826"' if spy else '')
-                + f'<td class="tk">{x["sym"]}<div class="se">{x["name"]}</div></td>'
-                + ''.join(f'<td class="pr {cls(x.get(w),8,0)}">'
-                          f'{("%+.1f%%" % x[w]) if x.get(w) is not None else "&mdash;"}</td>'
-                          for w in ('1y','3y','5y','10y'))
-                + f'<td class="pr {ac}">{("%+d" % aff) if aff is not None else "&mdash;"}</td></tr>')
-        sec_box = ('<div class="box"><h2>Eleven sectors, ten years</h2>'
-          '<div class="lede" style="margin-bottom:10px">Annualised total return. The right-hand '
-          'column is the same sector&rsquo;s <b>reflation affinity</b> from the engine&rsquo;s own '
-          'table. <b>Read them together</b>: a decade where technology compounds and energy does '
-          'not is a decade of falling discount rates, and a reflation tilt is a bet that the '
-          'ordering inverts. Whether that is contrarian or late is the only question the table '
-          'answers.</div>'
-          '<div class="tw"><table><thead><tr><th>Sector</th><th>1y</th><th>3y</th><th>5y</th>'
-          '<th>10y</th><th>Refl</th></tr></thead><tbody>' + srows + '</tbody></table></div>'
-          '<div style="height:300px;margin-top:14px"><canvas id="secChart"></canvas></div></div>')
-    else:
-        sec_box = ''
 
     chart_box = ('<div class="box"><h2>Where the book sits on the growth / inflation grid</h2>'
-                 '<div class="lede" style="margin-bottom:8px">Position-weighted, not a cross-sectional '
-                 'average &mdash; averaging all 51 rows is dominated by the sector mix and barely moves. '
+                 '<div class="lede" style="margin-bottom:8px">Position-weighted across the 30-stock regime model, not a cross-sectional '
+                 'average &mdash; averaging the full universe is dominated by the sector mix and barely moves. '
                  'Today: ' + pf_txt + '</div>'
                  '<div style="height:220px"><canvas id="regimeChart"></canvas></div>'
                  '<div id="chartNote" class="lede" style="font-size:12px;margin-top:6px"></div></div>')
@@ -1481,7 +1490,7 @@ if cur_reg:
             '<style>' + CSS + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce &middot; Live &middot; {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
-           f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{priced}</b> priced this run &middot; '
+           f'<div class="lede">{len(DATA)} universe tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{priced}</b> priced this run &middot; '
            f'<b>{na}</b> formally N/A. Prices from Yahoo; NGV, subscores and the delivering metric are static and '
            f'human-set. <b>NGV does not move with price &mdash; cover, cushion and entry gap all derive from it.</b></div>')
     issue_box = ''
