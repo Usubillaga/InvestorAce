@@ -10,6 +10,10 @@ import json, os, sys
 from datetime import datetime, timezone
 import yfinance as yf
 try:
+    import wacc as WACC
+except Exception:
+    WACC = None
+try:
     from forward import run as forward_run, freeze_cohorts
 except Exception:
     forward_run = lambda: {'ok': False, 'note': 'forward.py not present'}
@@ -147,15 +151,32 @@ DATA = {
 
 # ---------------- engine ----------------
 def ngv(d):
-    f, s, r = d.get('fcf'), d.get('shares'), d.get('r', .08)
+    """[CHANGE] r is now COMPUTED where possible, not assigned.
+
+       The hand-set rates (0.075 to 0.105) were judgements doing enormous
+       unexamined work. Worked from the FMP Advanced DCF for JNJ and AAPL at
+       the same FCF per share: under a flat 8% the two read 65% and 52% cover,
+       nearly identical. Under their real WACCs -- 5.36% and 8.67% -- they are
+       49 cover-points apart. A beta-0.39 pharma and a beta-1.09 consumer-tech
+       company cannot share a discount rate.
+
+       r_wacc is filled during the price fetch. A row whose beta fetch fails
+       keeps its hand-set r, so nothing breaks."""
+    f, s = d.get('fcf'), d.get('shares')
+    r = d.get('r_wacc') or d.get('r', .08)
     return None if (f is None or s is None or not r) else (f/s)/r
+
+def rate_used(d):
+    """Which discount rate this row is actually valued on, and where it came from."""
+    return (d['r_wacc'], 'wacc') if d.get('r_wacc') else (d.get('r', .08), 'manual')
 
 def cover(d):
     n, p = ngv(d), d.get('price')
     return None if (n is None or not p) else n/p
 
 def implied_growth(d):
-    c, r = cover(d), d.get('r', .08)
+    c = cover(d)
+    r = d.get('r_wacc') or d.get('r', .08)   # must match ngv(), or cushion lies
     return None if c is None else r*(1-c)/(1+c*r)
 
 def cushion(d):
@@ -644,6 +665,17 @@ def fetch_prices():
                 d['price_note'] = f'accepted UNBOUNDED at {px:.2f} - no 52w range, set sanity by hand'
             d['price'], d['price_ts'] = float(px), stamp
             _fetch_momentum(tk, d)
+            if WACC is not None and d.get('shares'):
+                try:
+                    inp = WACC.fetch(d.get('yf', t), yf=yf)
+                    if inp and inp.get('beta'):
+                        mc = d['price'] * d['shares'] * 1e6
+                        rw, _det = WACC.compute(
+                            beta=inp['beta'], market_cap=mc or inp.get('market_cap'),
+                            total_debt=inp.get('total_debt'), tax_rate=inp.get('tax_rate'))
+                        d['r_wacc'], d['beta'] = rw, inp['beta']
+                except Exception:
+                    pass
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
 
@@ -695,6 +727,11 @@ def validate(strict=True):
             p.append(f'{t}: sanity={b} is not a usable interval; every price will be rejected')
         if d.get('fcf') is not None and not d.get('shares'):
             p.append(f'{t}: fcf without shares -- NGV cannot be built')
+    for t, d in DATA.items():
+        if d.get('r_wacc') and abs(d['r_wacc'] - d.get('r', .08)) > 0.025:
+            p.append(f'{t}: WACC {100*d["r_wacc"]:.1f}% vs manual r {100*d.get("r",.08):.1f}% '
+                     f'-- a {100*abs(d["r_wacc"]-d.get("r",.08)):.1f}pp gap. Check the beta '
+                     f'({d.get("beta")}) before trusting the NGV.')
     w = sum(d['weight'] for d in DATA.values() if d.get('weight'))
     tgt = 100.0 - CASH_PCT          # [FIX] the first validate() run flagged this:
     if w and abs(w - tgt) > 3:      # weights cover INVESTED positions, cash is the rest
@@ -1138,7 +1175,10 @@ def build_html():
           + (f'<br><span style="color:#f06a6a;font-size:10px">{note}</span>' if note else '')
           + '</td>'
           + f'<td class="mono" style="font-size:10px;color:#7b8195">{d.get("price_ts") or ""}</td>'
-          + f'<td class="pv {d.get("built","exact")}">{d.get("built","exact")}'
+          + (lambda rr, src: f'<td class="pv {d.get("built","exact")}">{d.get("built","exact")}'
+             + f'<br><span style="font-size:10px;color:'
+             + ('#5cc8d8' if src == 'wacc' else '#7b8195')
+             + f'">r {100*rr:.2f}% {src}</span>')(*rate_used(d))
           + (f'<br><span style="color:#e5b45c;font-size:10px">{cycle_note(d)}</span>' if cycle_note(d) else '')
           + '</td></tr>')
 
