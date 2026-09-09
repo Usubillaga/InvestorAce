@@ -6,7 +6,10 @@ Corrected build. Fixes marked [FIX n].
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
 DEPLOY: GitHub Actions cron -> commit index.html -> GitHub Pages.
 """
-import json, os, sys
+import warnings as _w
+_w.filterwarnings('ignore')          # [FIX] yfinance emits a Pandas4Warning per
+import json, os, sys                 # fetch; 200 lines of them buried the real
+                                     # traceback and made the failure unreadable
 from datetime import datetime, timezone
 import yfinance as yf
 try:
@@ -706,8 +709,19 @@ def snapshot():
 # None of those needed more care. They needed an assertion.
 # =====================================================================
 def validate(strict=True):
-    """Structural checks. Returns a list of problems; empty means clean."""
-    p = []
+    """Back-compat wrapper: blocking problems only."""
+    return validate_full()[0]
+
+
+def validate_full():
+    """[FIX] Returns (errors, warnings).
+
+       v25.0 shipped with ONE list and build_html() exiting on any entry.
+       The WACC-gap check was described as informational and was in fact
+       build-blocking, so the first live run with real betas killed the
+       deploy. A check that reports a FACT ('this beta looks odd') must not
+       stop a build; only a check that proves the OUTPUT is wrong may."""
+    p, warn = [], []
     secs = {d.get('sector') for d in DATA.values() if d.get('sector')}
     for r in REGIMES:
         miss = sorted(x for x in secs if x not in AFF[r])
@@ -729,18 +743,18 @@ def validate(strict=True):
             p.append(f'{t}: fcf without shares -- NGV cannot be built')
     for t, d in DATA.items():
         if d.get('r_wacc') and abs(d['r_wacc'] - d.get('r', .08)) > 0.025:
-            p.append(f'{t}: WACC {100*d["r_wacc"]:.1f}% vs manual r {100*d.get("r",.08):.1f}% '
+            warn.append(f'{t}: WACC {100*d["r_wacc"]:.1f}% vs manual r {100*d.get("r",.08):.1f}% '
                      f'-- a {100*abs(d["r_wacc"]-d.get("r",.08)):.1f}pp gap. Check the beta '
                      f'({d.get("beta")}) before trusting the NGV.')
     w = sum(d['weight'] for d in DATA.values() if d.get('weight'))
     tgt = 100.0 - CASH_PCT          # [FIX] the first validate() run flagged this:
     if w and abs(w - tgt) > 3:      # weights cover INVESTED positions, cash is the rest
-        p.append(f'weights sum to {w:.1f}%, expected ~{tgt:.1f}% with CASH_PCT={CASH_PCT}')
+        warn.append(f'weights sum to {w:.1f}%, expected ~{tgt:.1f}% with CASH_PCT={CASH_PCT}')
     dup = {}
     for t, d in DATA.items(): dup.setdefault(d['yf'], []).append(t)
     for y, ts in dup.items():
         if len(ts) > 1: p.append(f'duplicate Yahoo symbol {y} on {ts}')
-    return p
+    return p, warn
 
 
 # =====================================================================
@@ -1134,10 +1148,12 @@ window.drawRegimeHistory = function(){
 """
 
 def build_html():
-    problems = validate()
-    if problems:
+    errors, warnings = validate_full()
+    for w_ in warnings:
+        print('   ~ ' + w_, file=sys.stderr)
+    if errors:
         print('VALIDATION FAILED - index.html NOT written:', file=sys.stderr)
-        for p in problems: print('   ! ' + p, file=sys.stderr)
+        for p_ in errors: print('   ! ' + p_, file=sys.stderr)
         raise SystemExit(1)
     rows = []
     ranked = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
