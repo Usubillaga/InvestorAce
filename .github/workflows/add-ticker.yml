@@ -1,179 +1,69 @@
-name: Add ticker
+name: add-ticker
 
-run-name: >-
-  Add ${{ inputs.ticker || github.event.issue.title || 'ticker' }}
+# Triggered by an issue titled  add-ticker: MSFT
+# The gate is TITLE-based: labels are silently dropped on issues opened by
+# some clients, so a label gate skips runs with no visible reason.
 
 on:
+  issues:
+    types: [opened]
   workflow_dispatch:
     inputs:
       ticker:
-        description: Yahoo ticker, e.g. MSFT or ASML.AS
+        description: 'Ticker symbol'
         required: true
-        type: string
-  issues:
-    types: [opened]
 
 permissions:
   contents: write
   issues: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: scoreboard
-  cancel-in-progress: false
 
 jobs:
   add:
-    if: >-
+    if: >
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issues' && startsWith(github.event.issue.title, 'add-ticker:'))
+      startsWith(github.event.issue.title, 'add-ticker:')
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
           cache: pip
 
-      - name: Install dependencies
+      - name: Install
         run: pip install -r requirements.txt
 
-      - name: Parse ticker safely
-        id: parse
-        env:
-          MANUAL_TICKER: ${{ inputs.ticker }}
-          ISSUE_TITLE: ${{ github.event.issue.title }}
+      - name: Resolve ticker
+        id: t
         run: |
-          set -euo pipefail
-
-          RAW="$MANUAL_TICKER"
-          if [ -z "$RAW" ]; then
-            RAW="$ISSUE_TITLE"
-          fi
-
-          T="$(printf '%s\n' "$RAW" |
-            sed -E 's/^[Aa][Dd][Dd]-[Tt][Ii][Cc][Kk][Ee][Rr]:[[:space:]]*//' |
-            tr -d '[:space:]' |
-            tr '[:lower:]' '[:upper:]')"
-
-          # Accept only normal Yahoo-style symbols.
-          if ! printf '%s\n' "$T" | grep -Eq '^[A-Z0-9][A-Z0-9._=-]{0,19}$'; then
-            echo "::error::Invalid ticker: '$T'"
-            exit 1
-          fi
-
-          echo "ticker=$T" >> "$GITHUB_OUTPUT"
-          echo "### Adding \`$T\`" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Add ticker
-        id: add
-        env:
-          TICKER: ${{ steps.parse.outputs.ticker }}
-        run: |
-          set +e
-          python add_ticker.py "$TICKER" 2>&1 | tee result.txt
-          CODE=${PIPESTATUS[0]}
-          set -e
-
-          if grep -q "is already in DATA" result.txt; then
-            STATUS="exists"
-          elif [ "$CODE" -eq 0 ]; then
-            STATUS="added"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "sym=${{ github.event.inputs.ticker }}" >> $GITHUB_OUTPUT
           else
-            STATUS="failed"
+            echo "sym=$(echo '${{ github.event.issue.title }}' | sed 's/add-ticker://' | tr -d ' ')" >> $GITHUB_OUTPUT
           fi
 
-          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
-
-          {
-            echo '```text'
-            cat result.txt
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
-
-          exit 0
-
-      - name: Rebuild scoreboard
-        if: steps.add.outputs.status == 'added'
-        run: python engine.py
-
-      - name: Commit and push
-        if: steps.add.outputs.status == 'added'
-        env:
-          TICKER: ${{ steps.parse.outputs.ticker }}
+      - name: Add and verify
         run: |
-          set -euo pipefail
-          git config user.name "investorace-bot"
-          git config user.email "actions@github.com"
+          python add_ticker.py "${{ steps.t.outputs.sym }}"
+          python -c "import ast;ast.parse(open('engine.py').read())"
+          python engine.py
 
-          git add -A engine.py autoscore.py index.html history/
-          if git diff --staged --quiet; then
-            echo "::notice::No changes to commit"
-            exit 0
-          fi
-
-          git commit -m "add ${TICKER}"
-          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
-
-      - name: Stage site
-        if: steps.add.outputs.status == 'added'
+      - name: Commit
         run: |
-          set -euo pipefail
-          mkdir -p public
-          cp index.html public/
-          [ ! -e tickers.js ] || cp tickers.js public/
-          [ ! -d history ] || cp -r history public/
+          git config user.name  "investorace-bot"
+          git config user.email "investorace-bot@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "add ${{ steps.t.outputs.sym }}"
+          git push
 
-      - name: Upload Pages artifact
-        if: steps.add.outputs.status == 'added'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: public
-
-      - name: Deploy Pages
-        if: steps.add.outputs.status == 'added'
-        uses: actions/deploy-pages@v4
-
-      - name: Comment on issue
-        if: always() && github.event_name == 'issues'
-        uses: actions/github-script@v7
-        env:
-          STATUS: ${{ steps.add.outputs.status }}
+      - name: Report
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v8
         with:
           script: |
-            const fs = require('fs');
-            const status = process.env.STATUS || 'failed';
-            let output = '(no output captured)';
-            try {
-              output = fs.readFileSync('result.txt', 'utf8');
-            } catch (_) {}
-
-            const head =
-              status === 'added' ? '### Added and deployed' :
-              status === 'exists' ? '### Already in the model' :
-              '### Failed';
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
-              body: `${head}\n\n\`\`\`\n${output.slice(0, 60000)}\n\`\`\``
-            });
+              owner: context.repo.owner, repo: context.repo.repo,
+              body: 'Added `${{ steps.t.outputs.sym }}` and rebuilt. Deploy runs on the next schedule, or trigger build-and-deploy manually.'
 
-            if (status === 'added' || status === 'exists') {
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                state: 'closed'
-              });
-            }
+            })
