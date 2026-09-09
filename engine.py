@@ -1347,11 +1347,95 @@ def build_html():
         'rank to justify it.</div>'
         '<div style="height:280px"><canvas id="rwChart"></canvas></div></div>')
 
-    fit_box = ('<div class="box"><h2>Best fit for the regime we are actually in</h2>'
-               f'<div class="lede" style="margin-bottom:8px">Each row scored against <b>{cur_reg or "&mdash;"}</b>, '
-               'not against the regime it happens to like best. This is what makes the regime column '
-               'actionable rather than descriptive.</div>'
-               '<div style="height:330px"><canvas id="fitChart"></canvas></div></div>') if cur_reg else ''
+    fit_box = ''
+if cur_reg:
+    # Get top holdings by regime fit
+    regime_ranked = sorted(
+        [(t, fit_now(d, cur_reg), d.get('weight', 0), score(d)) 
+         for t, d in DATA.items() if fit_now(d, cur_reg) is not None],
+        key=lambda x: -x[1]
+    )
+    top_5 = regime_ranked[:5]
+    bottom_5 = regime_ranked[-5:] if len(regime_ranked) > 5 else []
+    
+    # Build rows for best and worst performers in this regime
+    top_rows = ''.join(
+        f'<tr><td class="tk">{t}</td>'
+        f'<td class="pr {cls(fit, 60, 40)}">{fit:.0f}</td>'
+        f'<td class="mono">{w:.1f}%</td>'
+        f'<td class="pr {cls(s, 7, 3.5)}">{fmt(s, ".2f")}</td></tr>'
+        for t, fit, w, s in top_5
+    )
+    bottom_rows = ''.join(
+        f'<tr><td class="tk">{t}</td>'
+        f'<td class="pr {cls(fit, 60, 40)}">{fit:.0f}</td>'
+        f'<td class="mono">{w:.1f}%</td>'
+        f'<td class="pr {cls(s, 7, 3.5)}">{fmt(s, ".2f")}</td></tr>'
+        for t, fit, w, s in bottom_5
+    )
+    
+    # Sector tilt: count holdings by sector and their average fit
+    sector_fits = {}
+    for t, d in DATA.items():
+        sec = d.get('sector', 'Unclassified')
+        fit = fit_now(d, cur_reg)
+        if fit is not None:
+            if sec not in sector_fits:
+                sector_fits[sec] = {'fits': [], 'count': 0}
+            sector_fits[sec]['fits'].append(fit)
+            sector_fits[sec]['count'] += 1
+    
+    sector_fits = {
+        sec: sum(v['fits']) / len(v['fits']) 
+        for sec, v in sector_fits.items()
+    }
+    sector_sorted = sorted(sector_fits.items(), key=lambda kv: -kv[1])
+    
+    sector_rows = ''.join(
+        f'<tr><td class="tk">{sec}</td>'
+        f'<td class="pr {cls(avg, 60, 40)}">{avg:.0f}</td></tr>'
+        for sec, avg in sector_sorted
+    )
+    
+    # Affinity explanation
+    aff_sec = ', '.join(
+        f'{sec} ({v:+d})'
+        for sec, v in sorted(
+            AFF[cur_reg].items(), 
+            key=lambda kv: -kv[1]
+        )[:8]
+    )
+    
+    fit_box = (
+        f'<div class="box"><h2>Best fit for {cur_reg}</h2>'
+        f'<div class="lede" style="margin-bottom:8px">Each row scored against <b>{cur_reg}</b>, '
+        f'not against the regime it happens to like best. This is what makes the regime column '
+        f'actionable rather than descriptive.</div>'
+        f'<div style="height:330px"><canvas id="fitChart"></canvas></div>'
+        
+        # Top and bottom performers section
+        f'<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Holdings ranked by fit</h3>'
+        f'<div class="lede" style="font-size:13px;margin-bottom:10px">Green = aligned, red = headwind</div>'
+        f'<div class="tw"><table style="font-size:11px"><thead>'
+        f'<tr><th>Top 5</th><th>Fit</th><th>Weight</th><th>Score</th></tr></thead>'
+        f'<tbody>{top_rows}</tbody></table></div>'
+        
+        + (f'<div class="tw"><table style="font-size:11px;margin-top:10px"><thead>'
+           f'<tr><th>Bottom 5</th><th>Fit</th><th>Weight</th><th>Score</th></tr></thead>'
+           f'<tbody>{bottom_rows}</tbody></table></div>' if bottom_rows else '')
+        
+        # Sector tilt
+        f'<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Sector average fit</h3>'
+        f'<div class="tw"><table style="font-size:11px"><thead>'
+        f'<tr><th>Sector</th><th>Avg Fit</th></tr></thead>'
+        f'<tbody>{sector_rows}</tbody></table></div>'
+        
+        # Regime rules
+        f'<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Affinity rules for {cur_reg}</h3>'
+        f'<div class="lede" style="font-size:12px">Highest: {aff_sec}</div>'
+        
+        f'</div>'
+    )
 
     if SEC.get('rows'):
         rr = sorted(SEC['rows'].values(), key=lambda x: -(x.get('10y') if x.get('10y') is not None else -99))
