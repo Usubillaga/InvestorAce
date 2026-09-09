@@ -1316,6 +1316,7 @@ def build_html():
     js = JS.replace('__TICKERS__', json.dumps(sorted(DATA.keys())))
     M = read_macro()
     cur_reg = M.get('regime') if M.get('ok') else None
+    regime_book = build_regime_portfolio(cur_reg) if cur_reg else []
     fits = sorted(((t, fit_now(d, cur_reg)) for t, d in DATA.items()), key=lambda kv: -(kv[1] or -1))
     fits = [(t, v) for t, v in fits if v is not None][:30]
     FIT_COL = {'GOLDILOCKS':'#66e39c','REFLATION':'#63c6f0','INFLATION':'#e5b45c',
