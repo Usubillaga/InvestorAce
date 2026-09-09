@@ -295,7 +295,7 @@ AFF = {
     'Staples':-1,'Utilities':-1,'Pharma':-1,'Health Ins':-1,'REIT':-2,'Biotech':-2,'AI Infra':0},
 'INFLATION': {'Real Estate':2,'Consumer Cyclical':-1,'Communication Services':-1,'Technology':-1,'Consumer Defensive':1,'Healthcare':0,'Energy':2,'Midstream':2,'Materials':2,'REIT':2,'Utilities':2,
     'Staples':1,'Restaurant':1,'Info Svcs':1,'Luxury':1,
-    'MedTech':0,'Industrials':1,'Automotive':-1,'Pharma':0,'Services':0,'Health Ins':0,'Aerospace':0,'Animal Health':0,
+    'MedTech':0,'Industrials':1,'Automotive':-1,'Pharma':1,'Services':0,'Health Ins':0,'Aerospace':0,'Animal Health':0,
     'Software':-1,'Platform':-1,'Apparel':-1,'Media':-1,
     'Semis':-2,'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
 'STAGFLATION': {'Real Estate':1,'Consumer Cyclical':-1,'Communication Services':-1,'Technology':-2,'Consumer Defensive':1,'Healthcare':0,'Energy':2,'Midstream':2,'Materials':2,
@@ -315,18 +315,28 @@ BS_W  = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':2.5,'REC
 PAY_W = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':1.5,'RECESSION':1.5}
 
 def regime_scores(d):
-    """0-100 per regime. Returns {} when there is no cover, because duration is
-       the single largest term and without it the answer would be a sector guess."""
+    """Position-independent 0-100 regime fit for one security.
+
+    Fit is a property of the security itself. Portfolio position weights are
+    intentionally never used here or in the equal-name regime summary.
+    """
     c = cover(d)
-    if c is None: return {}
+    if c is None:
+        return {}
     sec = d.get('sector','')
     sub = d.get('sub')
-    bs  = sub[3] if (sub and len(sub)==6) else 6.0
+    bs = sub[3] if (sub and len(sub)==6) else 6.0
     pay = sub[5] if (sub and len(sub)==6) else 6.0
-    dur = max(-40.0, min(40.0, (c - 0.60) * 100))      # cover above/below the GOOD line
+    # Cover is a duration proxy. Keep its influence bounded so it cannot
+    # overwhelm the actual sector/regime relationship.
+    dur = max(-30.0, min(30.0, (c - 0.60) * 100.0))
     out = {}
     for r in REGIMES:
-        v = 50.0 + 12.0*AFF[r].get(sec, 0) + DUR_W[r]*dur + BS_W[r]*(bs-6) + PAY_W[r]*(pay-6)
+        sector_term = 10.0 * AFF[r].get(sec, 0)
+        duration_term = 0.60 * DUR_W[r] * dur
+        balance_term = 1.50 * (bs - 6.0)
+        payout_term = 1.50 * (pay - 6.0)
+        v = 50.0 + sector_term + duration_term + balance_term + payout_term
         out[r] = round(max(0.0, min(100.0, v)), 1)
     return out
 
@@ -598,6 +608,22 @@ def portfolio_regime():
         for r in REGIMES: acc[r] += w * sc[r]
     if not tot: return {}
     return {r: round(acc[r]/tot, 1) for r in REGIMES}
+
+def regime_book_profile(tickers):
+    """Equal-name average regime profile; never use portfolio weights."""
+    names=[t for t in tickers if t in DATA]
+    if not names:
+        return {}
+    acc={r:0.0 for r in REGIMES}
+    n=0
+    for t in names:
+        sc=regime_scores(DATA[t])
+        if not sc:
+            continue
+        n += 1
+        for r in REGIMES:
+            acc[r] += sc[r]
+    return {r: round(acc[r]/n,1) for r in REGIMES} if n else {}
 
 def regime_history():
     """Read history/*.json and return (dates, {regime: [values]}) for the chart."""
@@ -1317,8 +1343,7 @@ def build_html():
     M = read_macro()
     cur_reg = M.get('regime') if M.get('ok') else None
     regime_book = build_regime_portfolio(cur_reg) if cur_reg else []
-    fits = sorted(((t, fit_now(d, cur_reg)) for t, d in DATA.items()), key=lambda kv: -(kv[1] or -1))
-    fits = [(t, v) for t, v in fits if v is not None][:30]
+    fits = sorted(((x['t'], x['fit']) for x in regime_book), key=lambda kv: (-kv[1], kv[0]))
     FIT_COL = {'GOLDILOCKS':'#66e39c','REFLATION':'#63c6f0','INFLATION':'#e5b45c',
                'STAGFLATION':'#f06a6a','RECESSION':'#d6a8ff'}
     bar = FIT_COL.get(cur_reg, '#5cc8d8')
@@ -1348,16 +1373,7 @@ def build_html():
     js += (FIT_JS.replace('__FITLAB__', json.dumps([t for t, _ in fits]))
                  .replace('__FITVAL__', json.dumps([v for _, v in fits]))
                  .replace('__FITCOL__', json.dumps([bar]*len(fits))))
-    model_pf = {}
-    if regime_book:
-        model_total = sum(x['weight'] for x in regime_book)
-        if model_total:
-            model_acc = {r: 0.0 for r in REGIMES}
-            for x in regime_book:
-                sc = regime_scores(DATA[x['t']])
-                for r in REGIMES:
-                    model_acc[r] += x['weight'] * sc.get(r, 0.0)
-            model_pf = {r: round(v / model_total, 1) for r, v in model_acc.items()}
+    model_pf = regime_book_profile([x['t'] for x in regime_book])
     pf_txt = (' &middot; '.join(f'<b>{r.title()}</b> {v:.0f}' for r, v in
                               sorted(model_pf.items(), key=lambda kv: -kv[1]))
               if model_pf else 'no cover yet')
@@ -1474,7 +1490,7 @@ def build_html():
     if cur_reg:
         model_names = {x['t'] for x in regime_book}
         regime_ranked = sorted([(t, fit_now(d, cur_reg), d.get('weight',0), score(d)) for t,d in DATA.items() if t in model_names and fit_now(d,cur_reg) is not None], key=lambda x:(-x[1],x[0]))
-        top_rows = ''.join(f'<tr><td class="tk">{t}</td><td class="pr {cls(fit,60,40)}">{fit:.0f}</td><td class="mono">{w:.1f}%</td><td class="pr {cls(s,7,3.5)}">{fmt(s,".2f")}</td></tr>' for t,fit,w,s in regime_ranked)
+        top_rows = ''.join(f'<tr><td class="tk">{t}</td><td class="pr {cls(fit,60,40)}">{fit:.0f}</td><td class="pr {cls(s,7,3.5)}">{fmt(s,".2f")}</td></tr>' for t,fit,w,s in regime_ranked)
         sector_fits = {}
         for t,d in DATA.items():
             if t not in model_names: continue
@@ -1482,10 +1498,10 @@ def build_html():
             if f is not None: sector_fits.setdefault(d.get('sector','Unclassified'),[]).append(f)
         sector_rows = ''.join(f'<tr><td class="tk">{sec}</td><td class="pr {cls(avg,60,40)}">{avg:.0f}</td></tr>' for sec,avg in sorted(((sec,sum(v)/len(v)) for sec,v in sector_fits.items()), key=lambda x:-x[1]))
         fit_box = (f'<div class="box"><h2>30-stock fit for {cur_reg}</h2>'
-                   '<div class="lede">Current-regime fit is the selection variable. Score and risk remain diagnostics.</div>'
+                   '<div class="lede">Current-regime fit is the selection variable. Fit is calculated per name and never weighted by portfolio size; score and risk remain diagnostics.</div>'
                    '<div style="height:420px"><canvas id="fitChart"></canvas></div>'
                    '<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Model holdings ranked by fit</h3>'
-                   '<div class="tw"><table style="font-size:11px"><thead><tr><th>Ticker</th><th>Fit</th><th>Weight</th><th>Score</th></tr></thead>'
+                   '<div class="tw"><table style="font-size:11px"><thead><tr><th>Ticker</th><th>Fit</th><th>Score</th></tr></thead>'
                    f'<tbody>{top_rows}</tbody></table></div>'
                    '<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Sector average fit</h3>'
                    f'<div class="tw"><table style="font-size:11px"><thead><tr><th>Sector</th><th>Avg Fit</th></tr></thead><tbody>{sector_rows}</tbody></table></div></div>')
@@ -1494,11 +1510,7 @@ def build_html():
     wsc = (sum(x['weight'] * x['score'] for x in regime_book) / tw) if regime_book else 0
     cw = sum(x['weight'] for x in regime_book if x.get('cover') is not None)
     wcv = (sum(x['weight'] * x['cover'] * 100 for x in regime_book if x.get('cover') is not None) / cw) if cw else None
-    wrk = (
-        sum(x['weight'] * regime_rank.get(x['t'], 0) for x in regime_book) / tw
-        if regime_book else 0
-    )
-    eqr = (sum(regime_rank.values()) / len(regime_rank)) if regime_rank else 0
+    wrk = (sum(regime_rank.get(x['t'], 0) for x in regime_book) / len(regime_book)) if regime_book else 0
 
     port_box = (
         '<div class="box" style="border-color:#1d5433;background:#0e1712">'
@@ -1506,7 +1518,7 @@ def build_html():
         f'<div class="lede" style="margin-bottom:8px">{len(regime_book)} positions &middot; '
         f'weighted score <b>{wsc:.2f}</b> &middot; weighted cover '
         f'<b>{("%.0f%%" % wcv) if wcv is not None else "n/a"}</b> &middot; '
-        f'avg regime rank <b>{wrk:.1f}</b> against <b>{eqr:.1f}</b> if equally ranked.</div>'
+        f'average regime rank <b>{wrk:.1f}</b> (equal-name ranking).</div>'
         '<div class="lede" style="margin-bottom:8px">'
         'This box is the regime-fit model portfolio, not the manually marked <i>held</i> book. '
         f'It targets exactly {REGIME_PORTFOLIO_SIZE} names and {REGIME_INVESTED_PCT:.1f}% invested, '
@@ -1516,7 +1528,7 @@ def build_html():
     )
 
     chart_box = ('<div class="box"><h2>Where the book sits on the growth / inflation grid</h2>'
-                 '<div class="lede" style="margin-bottom:8px">Position-weighted across the 30-stock regime model, not a cross-sectional '
+                 '<div class="lede" style="margin-bottom:8px">Equal-name average across the 30-stock regime model, not a position-weighted '
                  'average &mdash; averaging the full universe is dominated by the sector mix and barely moves. '
                  'Today: ' + pf_txt + '</div>'
                  '<div style="height:220px"><canvas id="regimeChart"></canvas></div>'
