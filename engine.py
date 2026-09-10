@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE &middot; SCORECARD ENGINE &middot; v15.1  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE &middot; SCORECARD ENGINE &middot; v15.1 / FRAMEWORK 2.0  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -36,6 +36,19 @@ CASH_PCT = 7.8      # uninvested, so weights should sum to 100 - this
 W = {'g':.15,'p':.20,'c':.15,'b':.15,'v':.10,'pr':.15,'r':.05,'d':.05}
 BANDS = [(3.50,'SELL','p-sell'), (5.50,'HOLD NEG','p-hneg'), (7.00,'HOLD POS','p-hpos'),
          (8.50,'BUY','p-buy'), (999,'STRONG BUY','p-sbuy')]
+
+
+# =====================================================================
+# FRAMEWORK CONTRACT
+# =====================================================================
+FRAMEWORK_VERSION = '2.0'
+FRAMEWORK_METHOD = {
+    'quality': 'score-v15',
+    'valuation': 'ngv-price-independent',
+    'regime': 'fit-structural-unweighted',
+    'decision': 'rules-no-composite',
+    'confidence': 'evidence-only',
+}
 
 # [FIX 2] ENGI.PA is ENGIE (French utility). Enagas is ENG.MC (Madrid).
 #         Same class of error as SAN.MC/Banco Santander. A wrong ticker returns a
@@ -314,30 +327,48 @@ DUR_W = {'GOLDILOCKS':-0.35,'REFLATION':0.00,'INFLATION':0.45,'STAGFLATION':0.55
 BS_W  = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':2.5,'RECESSION':3.0}
 PAY_W = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':1.5,'RECESSION':1.5}
 
-def regime_scores(d):
-    """Position-independent 0-100 regime fit for one security.
+def regime_fit_components(d, regime):
+    """Auditable components of the current structural regime-fit model.
 
-    Fit is a property of the security itself. Portfolio position weights are
-    intentionally never used here or in the equal-name regime summary.
+    The live formula is preserved exactly. Portfolio weights are never read.
+    BS_W/PAY_W remain research parameters until historical/forward validation
+    justifies activating them.
     """
+    if regime not in REGIMES:
+        return None
     c = cover(d)
     if c is None:
-        return {}
-    sec = d.get('sector','')
+        return None
+    sec = d.get('sector', '')
     sub = d.get('sub')
-    bs = sub[3] if (sub and len(sub)==6) else 6.0
-    pay = sub[5] if (sub and len(sub)==6) else 6.0
-    # Cover is a duration proxy. Keep its influence bounded so it cannot
-    # overwhelm the actual sector/regime relationship.
+    bs = sub[3] if (sub and len(sub) == 6) else 6.0
+    pay = sub[5] if (sub and len(sub) == 6) else 6.0
     dur = max(-30.0, min(30.0, (c - 0.60) * 100.0))
+    base = 50.0
+    sector_term = 10.0 * AFF[regime].get(sec, 0)
+    duration_term = 0.60 * DUR_W[regime] * dur
+    balance_term = 1.50 * (bs - 6.0)
+    payout_term = 1.50 * (pay - 6.0)
+    raw = base + sector_term + duration_term + balance_term + payout_term
+    return {
+        'base': base,
+        'sector': round(sector_term, 3),
+        'duration': round(duration_term, 3),
+        'balance': round(balance_term, 3),
+        'payout': round(payout_term, 3),
+        'raw': round(raw, 3),
+        'total': round(max(0.0, min(100.0, raw)), 1),
+    }
+
+
+def regime_scores(d):
+    """Position-independent 0-100 structural regime fit."""
     out = {}
-    for r in REGIMES:
-        sector_term = 10.0 * AFF[r].get(sec, 0)
-        duration_term = 0.60 * DUR_W[r] * dur
-        balance_term = 1.50 * (bs - 6.0)
-        payout_term = 1.50 * (pay - 6.0)
-        v = 50.0 + sector_term + duration_term + balance_term + payout_term
-        out[r] = round(max(0.0, min(100.0, v)), 1)
+    for regime in REGIMES:
+        comp = regime_fit_components(d, regime)
+        if comp is None:
+            return {}
+        out[regime] = comp['total']
     return out
 
 def fit_now(d, macro_regime):
@@ -437,6 +468,81 @@ def proximity(d):
     return (None, round(gap, 1))
 
 PROX_CSS = {'AT NGV':'x-atngv', 'CLEARS':'x-clear', 'NEAR ENTRY':'x-near', 'APPROACHING':'x-appr'}
+
+
+# =====================================================================
+# EVIDENCE CONFIDENCE -- data quality only, never an investment input
+# =====================================================================
+PROVENANCE_CONFIDENCE = {
+    'exact': 1.00,
+    'mid-cycle': 0.85,
+    'est': 0.75,
+    'auto': 0.55,
+    'back-solved': 0.40,
+}
+
+
+def evidence_confidence(d):
+    """Equal-check evidence quality, 0-100. Never modifies score or fit."""
+    sub = d.get('sub')
+    checks = [
+        ('price', 1.0 if d.get('price') is not None else 0.0),
+        ('ngv', 1.0 if ngv(d) is not None else 0.0),
+        ('quality_detail', 1.0 if (sub and len(sub) == 6) else (0.45 if d.get('score_fixed') is not None else 0.0)),
+        ('deliver_metric', 1.0 if d.get('deliver') is not None else (0.5 if d.get('midcycle') else 0.0)),
+        ('sanity_band', 1.0 if _valid_band(d.get('sanity')) else 0.0),
+        ('provenance', PROVENANCE_CONFIDENCE.get(d.get('built', 'exact'), 0.50)),
+    ]
+    value = round(100.0 * sum(v for _, v in checks) / len(checks))
+    missing = [name for name, v in checks if v < 0.5]
+    label = 'HIGH' if value >= 80 else ('MEDIUM' if value >= 60 else 'LOW')
+    return {'score': value, 'label': label, 'missing': missing}
+
+
+DECISION_CSS = {
+    'BUY SETUP':'v-buy', 'WAIT ENTRY':'v-acc', 'CONTRARIAN':'v-buymod',
+    'REGIME WATCH':'v-hold', 'VALUE WATCH':'v-hold', 'WATCH':'v-hold',
+    'AVOID':'v-avoid', 'INCOMPLETE':'v-avoid', 'NO REGIME':'v-hold',
+}
+
+
+def decision_signal(t, d, macro_regime=None):
+    """Rule engine over independent signals; deliberately no super-score."""
+    s, rk, c = score(d), risk(d), cover(d)
+    vn = verdict(t, d)[0]
+    fit = fit_now(d, macro_regime) if macro_regime else None
+    prox, _ = proximity(d)
+    conf = evidence_confidence(d)
+
+    if s is None or c is None:
+        action, reason = 'INCOMPLETE', 'quality or valuation evidence missing'
+    elif vn in ('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE') or cushion_neg(d):
+        action, reason = 'AVOID', 'existing quality/valuation safety gate failed'
+    elif macro_regime is None or fit is None:
+        action, reason = 'NO REGIME', 'current macro regime unavailable'
+    elif conf['score'] < 50:
+        action, reason = 'INCOMPLETE', 'evidence confidence below 50%'
+    else:
+        entry_ready = prox in ('AT NGV', 'CLEARS', 'NEAR ENTRY')
+        quality_ready = s >= 7.00
+        regime_ready = fit >= 60.0
+        regime_weak = fit < 50.0
+        risk_ok = rk is not None and rk <= 3.2
+        if quality_ready and entry_ready and regime_ready and risk_ok:
+            action, reason = 'BUY SETUP', 'quality, valuation, regime and risk gates align'
+        elif quality_ready and entry_ready and regime_weak:
+            action, reason = 'CONTRARIAN', 'quality/value align but current regime does not'
+        elif quality_ready and regime_ready and not entry_ready:
+            action, reason = 'WAIT ENTRY', 'quality/regime align; valuation trigger not reached'
+        elif fit >= 70.0 and s >= 5.50:
+            action, reason = 'REGIME WATCH', 'strong regime fit without a full quality/value setup'
+        elif entry_ready and s >= 5.50:
+            action, reason = 'VALUE WATCH', 'valuation trigger reached without full alignment'
+        else:
+            action, reason = 'WATCH', 'no complete setup'
+    return {'action': action, 'reason': reason, 'score': s, 'cover': c,
+            'risk': rk, 'fit': fit, 'confidence': conf['score'],
+            'confidence_label': conf['label'], 'proximity': prox}
 
 
 # =====================================================================
@@ -714,9 +820,11 @@ def snapshot():
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
                    score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
                    regime=regime_scores(d), weight=d.get('weight'),
+                   confidence=evidence_confidence(d)['score'],
                    momentum=d.get('mom_12_1'), from_high=d.get('from_high'),
                    ts=d.get('price_ts'), note=d.get('price_note')) for t,d in DATA.items()}
     rec['_portfolio'] = portfolio_regime()
+    rec['_framework'] = {'version': FRAMEWORK_VERSION, 'method': FRAMEWORK_METHOD}
     with open(f'history/{day}.json','w') as f: json.dump(rec, f, indent=1, default=str)
     return day
 
@@ -780,6 +888,20 @@ def validate_full():
     for t, d in DATA.items(): dup.setdefault(d['yf'], []).append(t)
     for y, ts in dup.items():
         if len(ts) > 1: p.append(f'duplicate Yahoo symbol {y} on {ts}')
+
+    # Framework invariants: fit must be bounded, complete and position-independent.
+    for t, d in DATA.items():
+        rs = regime_scores(d)
+        if rs:
+            if set(rs) != set(REGIMES):
+                p.append(f'{t}: incomplete regime score keys -> {sorted(rs)}')
+            for rr, value in rs.items():
+                if not 0.0 <= value <= 100.0:
+                    p.append(f'{t}: {rr} fit {value} outside 0..100')
+            probe = dict(d)
+            probe['weight'] = 9999.0
+            if regime_scores(probe) != rs:
+                p.append(f'{t}: regime fit changes with portfolio weight -- forbidden')
     return p, warn
 
 
@@ -870,7 +992,7 @@ def build_regime_portfolio(regime, size=REGIME_PORTFOLIO_SIZE,
             'verdict': v,
         })
 
-    candidates.sort(key=lambda x: (-x['fit'], -x['score'], x['risk'], -x['cover'], x['t']))
+    candidates.sort(key=lambda x: (-x['fit'], x['t']))  # fit ONLY; ticker is deterministic tie-break
 
     selected = []
     sector_count = collections.Counter() if 'collections' in globals() else {}
@@ -923,10 +1045,62 @@ def build_regime_portfolio(regime, size=REGIME_PORTFOLIO_SIZE,
                 if remainder <= 0:
                     break
 
+    # Diversification can skip a high-fit row and add it in the fill pass.
+    # Re-sort final membership by fit before assigning/displaying equal weights.
+    selected.sort(key=lambda x: (-x['fit'], x['t']))
     for row, w in zip(selected, weights):
         row['weight'] = round(w, 2)
 
     return selected
+
+
+def validate_regime_portfolio(regime, book, size=REGIME_PORTFOLIO_SIZE,
+                              invested_pct=REGIME_INVESTED_PCT,
+                              max_sector=REGIME_MAX_SECTOR,
+                              max_weight=REGIME_MAX_WEIGHT):
+    """Runtime invariants for the derived regime model book."""
+    errors, warnings = [], []
+    if regime not in REGIMES:
+        return errors, warnings
+
+    eligible = []
+    for t, d in DATA.items():
+        fit, s, c, v = fit_now(d, regime), score(d), cover(d), verdict(t, d)[0]
+        if fit is None or s is None or c is None:
+            continue
+        if v in ('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE'):
+            continue
+        eligible.append(t)
+
+    expected = min(size, len(eligible))
+    if len(book) != expected:
+        errors.append(f'regime book has {len(book)} names; expected {expected}')
+    if len(eligible) < size:
+        warnings.append(f'only {len(eligible)} eligible names exist; cannot fill target {size}')
+
+    tickers = [x['t'] for x in book]
+    if len(tickers) != len(set(tickers)):
+        errors.append('duplicate ticker in regime model book')
+
+    for row in book:
+        actual = fit_now(DATA[row['t']], regime)
+        if actual is None or abs(float(row['fit']) - float(actual)) > 1e-9:
+            errors.append(f'{row["t"]}: stored model fit differs from fit_now()')
+        if row['weight'] > max_weight + 1e-9:
+            errors.append(f'{row["t"]}: model weight {row["weight"]:.2f}% exceeds {max_weight:.2f}%')
+
+    if book:
+        weight_sum = sum(x['weight'] for x in book)
+        if abs(weight_sum - invested_pct) > 0.011:
+            errors.append(f'regime model weights sum to {weight_sum:.2f}%, expected {invested_pct:.2f}%')
+        fits = [x['fit'] for x in book]
+        if any(fits[i] < fits[i+1] for i in range(len(fits)-1)):
+            errors.append('regime model is not ordered by descending fit')
+        counts = collections.Counter(x['sector'] for x in book)
+        breached = {sec:n for sec,n in counts.items() if n > max_sector}
+        if breached:
+            warnings.append(f'sector cap relaxed to reach target size: {breached}')
+    return errors, warnings
 
 # ---------------- render ----------------
 def fmt(x, spec, dash='&mdash;'):  return dash if x is None else format(x, spec)
@@ -1288,6 +1462,23 @@ def build_html():
         print('VALIDATION FAILED - index.html NOT written:', file=sys.stderr)
         for p_ in errors: print('   ! ' + p_, file=sys.stderr)
         raise SystemExit(1)
+
+    # Every render component exists before conditional branches. This turns the
+    # old sec_box-style NameError failure into a render-contract failure.
+    head = hdr = macro_box = sec_box = fw_box = framework_box = ''
+    gate = zin = fit_box = issue_box = adder = tbl = foot = ''
+
+    M = read_macro()
+    cur_reg = M.get('regime') if M.get('ok') else None
+    regime_book = build_regime_portfolio(cur_reg) if cur_reg else []
+    runtime_errors, runtime_warnings = validate_regime_portfolio(cur_reg, regime_book)
+    for w_ in runtime_warnings:
+        print('   ~ ' + w_, file=sys.stderr)
+    if runtime_errors:
+        print('RUNTIME VALIDATION FAILED - index.html NOT written:', file=sys.stderr)
+        for p_ in runtime_errors: print('   ! ' + p_, file=sys.stderr)
+        raise SystemExit(1)
+
     rows = []
     ranked = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
     for i,(t,d) in enumerate(ranked, 1):
@@ -1303,6 +1494,9 @@ def build_html():
           + f'<td><span class="pill {bc}">{bn}</span></td>'
           + f'<td class="{cls(rk,2.4,3.3,invert=True)}">{fmt(rk,".1f")}</td>'
           + f'<td><span class="pill {vc}">{vn}</span></td>'
+          + (lambda ds: f'<td><span class="pill {DECISION_CSS.get(ds["action"],"v-hold")}">{ds["action"]}</span>'
+             f'<br><span style="font-size:10px;color:#7b8195">{ds["reason"]}</span></td>')(decision_signal(t, d, cur_reg))
+          + (lambda cf: f'<td class="mono">{cf["score"]:.0f}%<br><span style="font-size:10px;color:#7b8195">{cf["label"]}</span></td>')(evidence_confidence(d))
           + f'<td class="{cls(None if c is None else c*100,60,35)}">{fmt(None if c is None else c*100,".0f")}%</td>'
           + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}</td>'
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
@@ -1340,9 +1534,6 @@ def build_html():
         if d.get('boot_note'): issues[t] = 'NGV: ' + d['boot_note']
 
     js = JS.replace('__TICKERS__', json.dumps(sorted(DATA.keys())))
-    M = read_macro()
-    cur_reg = M.get('regime') if M.get('ok') else None
-    regime_book = build_regime_portfolio(cur_reg) if cur_reg else []
     fits = sorted(((x['t'], x['fit']) for x in regime_book), key=lambda kv: (-kv[1], kv[0]))
     FIT_COL = {'GOLDILOCKS':'#66e39c','REFLATION':'#63c6f0','INFLATION':'#e5b45c',
                'STAGFLATION':'#f06a6a','RECESSION':'#d6a8ff'}
@@ -1506,6 +1697,23 @@ def build_html():
                    '<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Sector average fit</h3>'
                    f'<div class="tw"><table style="font-size:11px"><thead><tr><th>Sector</th><th>Avg Fit</th></tr></thead><tbody>{sector_rows}</tbody></table></div></div>')
 
+    decisions = [decision_signal(t, d, cur_reg) for t, d in DATA.items()]
+    action_counts = collections.Counter(x['action'] for x in decisions)
+    conf_vals = [x['confidence'] for x in decisions]
+    avg_conf = (sum(conf_vals) / len(conf_vals)) if conf_vals else 0.0
+    book_avg_fit = (sum(x['fit'] for x in regime_book) / len(regime_book)) if regime_book else None
+    framework_box = (
+        '<div class="box" style="border-color:#284154">'
+        f'<h2>Decision framework v{FRAMEWORK_VERSION}</h2>'
+        '<div class="lede">Quality, valuation, regime fit and evidence confidence are independent outputs. '
+        '<b>No composite score and no portfolio weight enters regime fit.</b></div>'
+        f'<div class="mono" style="font-size:12px">Regime: {cur_reg or "unavailable"} &middot; '
+        f'Model names: {len(regime_book)} &middot; Equal-name fit: {fmt(book_avg_fit,".1f")} &middot; '
+        f'Average evidence confidence: {avg_conf:.0f}% &middot; BUY SETUP: {action_counts.get("BUY SETUP",0)} &middot; '
+        f'CONTRARIAN: {action_counts.get("CONTRARIAN",0)} &middot; WAIT ENTRY: {action_counts.get("WAIT ENTRY",0)}</div>'
+        '</div>'
+    )
+
     tw = sum(x['weight'] for x in regime_book) or 1
     wsc = (sum(x['weight'] * x['score'] for x in regime_book) / tw) if regime_book else 0
     cw = sum(x['weight'] for x in regime_book if x.get('cover') is not None)
@@ -1560,7 +1768,7 @@ def build_html():
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
-           '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
+           '<th>Verdict</th><th>Action</th><th>Conf</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table></div>')
     zin = ('<div style="margin-top:18px;text-align:right">'
@@ -1576,9 +1784,34 @@ def build_html():
     ziel_payload = base64.b64encode((port_box + chart_box).encode('utf-8')).decode('ascii')
     js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
     gate = '<div id="zielBox" data-open="0"></div>'
-    with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(head + hdr + macro_box + sec_box + fw_box + gate + zin + fit_box + issue_box + adder + tbl + foot
-                + '<script>' + js + js_z + '</script></body></html>')
+    html_parts = {
+        'head': head,
+        'header': hdr,
+        'macro': macro_box,
+        'framework': framework_box,
+        'sector': sec_box,
+        'forward': fw_box,
+        'gate': gate,
+        'ziel_input': zin,
+        'regime_fit': fit_box,
+        'issues': issue_box,
+        'adder': adder,
+        'table': tbl,
+        'footer': foot,
+        'scripts': '<script>' + js + js_z + '</script></body></html>',
+    }
+    required = ('head','header','macro','framework','gate','ziel_input','table','footer','scripts')
+    missing = [name for name in required if not html_parts.get(name)]
+    if missing:
+        raise RuntimeError('HTML render contract failed; empty required components: ' + ', '.join(missing))
+
+    html = ''.join(html_parts.values())
+    tmp = 'index.html.tmp'
+    with open(tmp, 'w', encoding='utf-8') as f:
+        f.write(html)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, 'index.html')
 
 if __name__ == '__main__':
     bootstrap_fundamentals()
