@@ -11,8 +11,8 @@ is about (arXiv:2608.23808, section 9.1-9.2).
 What is legitimate is a FORWARD test, and it needs exactly one discipline:
 the cohort assignment must be frozen BEFORE the outcome is observed.
 
-  1. On first run, split every priced ticker into quintiles by today's
-     signal and write history/_cohort.json. That file is never rewritten.
+  1. Explicitly freeze the newest validated snapshot into quintiles.
+     Write history/_cohort.json once; analysis never creates or rewrites it.
   2. On every later run, read history/*.json and compute each quintile's
      cumulative return from prices that did not exist at freeze time.
   3. Report the top-minus-bottom spread with a t-statistic, and &mdash; the part
@@ -30,13 +30,15 @@ different statement from "no effect".
 """
 import json, os, glob, math
 from datetime import datetime, timezone
+from statistics import NormalDist
+from integrity import atomic_json, finite_number, positive_number
 
 COHORT_FILE = 'history/_cohort.json'
 SIGNALS     = ('score', 'cover', 'cushion', 'momentum')
 N_BUCKETS   = 5
 ALPHA       = 0.05
-N_TESTS     = len(SIGNALS)          # Bonferroni: alpha / 3
-Z_CRIT      = 2.498                 # two-sided z for alpha/4 = 0.0125
+N_TESTS     = len(SIGNALS)          # Predeclared family, even if a cohort is absent.
+Z_CRIT      = NormalDist().inv_cdf(1 - ALPHA / (2 * N_TESTS))
 MIN_DAYS    = 60                    # evidence floor: below this, no verdict
 MIN_PER_BUCKET = 3
 
@@ -49,67 +51,68 @@ def _days():
         if base.startswith('_'):
             continue
         try:
+            datetime.strptime(base, '%Y-%m-%d.json')
             with open(fp) as f:
-                out.append((base[:-5], json.load(f)))
+                snapshot = json.load(f)
+            if isinstance(snapshot, dict):
+                out.append((base[:-5], snapshot))
         except Exception:
             continue
     return out
 
 
 def freeze_cohorts(force=False):
-    """Split into quintiles by each signal, using the OLDEST snapshot only.
-       Written once. Re-bucketing after seeing outcomes destroys the test."""
-    if os.path.exists(COHORT_FILE) and not force:
-        return json.load(open(COHORT_FILE))
-    d = _days()
-    if not d:
+    """Freeze the newest available observation, preserving existing cohorts."""
+    if os.path.exists(COHORT_FILE):
+        if force:
+            raise ValueError('Never overwrite a frozen cohort; start a versioned experiment')
+        with open(COHORT_FILE, encoding='utf-8') as stream:
+            return json.load(stream)
+    days = _days()
+    if not days:
         return None
-    date, snap = d[0]
-    coh = {'frozen_on': date, 'written': datetime.now(timezone.utc).isoformat(), 'buckets': {}}
+    date, snap = days[-1]
+    written = datetime.now(timezone.utc).isoformat()
+    coh = {'frozen_on': date, 'written': written, 'buckets': {},
+           'method': 'equal-name-complete-case-price-returns-v2'}
     for sig in SIGNALS:
         pairs = []
-        for t, row in snap.items():
-            if t.startswith('_'):
+        for ticker, row in snap.items():
+            if ticker.startswith('_') or not isinstance(row, dict):
                 continue
-            v, px = row.get(sig), row.get('price')
-            if v is None or not px:
-                continue
-            try:
-                pairs.append((t, float(v)))
-            except (TypeError, ValueError):
-                continue
+            value, price = finite_number(row.get(sig)), positive_number(row.get('price'))
+            if value is not None and price is not None:
+                pairs.append((ticker, value))
         if len(pairs) < N_BUCKETS * MIN_PER_BUCKET:
             continue
-        pairs.sort(key=lambda kv: kv[1])
-        n, per = len(pairs), max(1, len(pairs) // N_BUCKETS)
-        b = {}
-        for i, (t, _) in enumerate(pairs):
-            b[t] = min(N_BUCKETS - 1, i // per)      # 0 = lowest signal
-        coh['buckets'][sig] = b
-    os.makedirs('history', exist_ok=True)
-    with open(COHORT_FILE, 'w') as f:
-        json.dump(coh, f, indent=1)
+        pairs.sort(key=lambda pair: (pair[1], pair[0]))
+        # Balanced buckets; the final bucket must not absorb the entire remainder.
+        coh['buckets'][sig] = {ticker: i * N_BUCKETS // len(pairs)
+                              for i, (ticker, _) in enumerate(pairs)}
+    if not coh['buckets']:
+        return None
+    atomic_json(COHORT_FILE, coh)
     return coh
 
 
+def _bucket_return(a, b, tickers):
+    """Require all frozen members; never silently reweight surviving quotes."""
+    if not tickers:
+        return None
+    values = []
+    for ticker in tickers:
+        pa = positive_number((a.get(ticker) or {}).get('price'))
+        pb = positive_number((b.get(ticker) or {}).get('price'))
+        if pa is None or pb is None or abs(pb / pa - 1) >= 0.5:
+            return None  # unresolved split, extreme move, or missing quote
+        values.append(pb / pa - 1)
+    return sum(values) / len(values)
+
+
 def _returns(days, tickers):
-    """Equal-weighted daily returns for a set of tickers, using only rows
-       priced on BOTH days. A ticker that stops pricing simply drops out."""
-    out = []
-    for i in range(1, len(days)):
-        _, a = days[i - 1]
-        _, b = days[i]
-        rs = []
-        for t in tickers:
-            pa, pb = (a.get(t) or {}).get('price'), (b.get(t) or {}).get('price')
-            try:
-                pa, pb = float(pa), float(pb)
-            except (TypeError, ValueError):
-                continue
-            if pa and pb and abs(pb / pa - 1) < 0.5:      # ignore splits / bad quotes
-                rs.append(pb / pa - 1)
-        out.append(sum(rs) / len(rs) if rs else 0.0)
-    return out
+    """Aligned intervals; missing data is None, never a fabricated zero."""
+    return [_bucket_return(a, b, tickers)
+            for (_, a), (_, b) in zip(days, days[1:])]
 
 
 # ---------------------------------------------------------------------
@@ -127,19 +130,15 @@ def _returns(days, tickers):
 # cumulative number looks strong. That is the point.
 # ---------------------------------------------------------------------
 def _daily_series(days, top, bot):
-    """[(date, top_ret, bot_ret)] for consecutive priced pairs."""
+    """Only matched, complete, near-daily intervals for both frozen buckets."""
     out = []
-    for i in range(1, len(days)):
-        (da, a), (db, b) = days[i - 1], days[i]
-        def avg(ts):
-            rs = []
-            for t in ts:
-                pa, pb = (a.get(t) or {}).get('price'), (b.get(t) or {}).get('price')
-                try: pa, pb = float(pa), float(pb)
-                except (TypeError, ValueError): continue
-                if pa and pb and abs(pb / pa - 1) < 0.5: rs.append(pb / pa - 1)
-            return sum(rs) / len(rs) if rs else 0.0
-        out.append((db, avg(top), avg(bot)))
+    for (da, a), (db, b) in zip(days, days[1:]):
+        start, end = datetime.fromisoformat(da), datetime.fromisoformat(db)
+        if end.weekday() >= 5 or start.weekday() >= 5 or not 1 <= (end-start).days <= 4:
+            continue
+        rt, rb = _bucket_return(a, b, top), _bucket_return(a, b, bot)
+        if rt is not None and rb is not None:
+            out.append((db, rt, rb))
     return out
 
 
@@ -186,22 +185,30 @@ def stability(monthly):
 
 
 def run():
-    coh = freeze_cohorts()
-    days = _days()
+    if not os.path.exists(COHORT_FILE):
+        return {'ok': False, 'note': 'no frozen cohort yet; build a validated snapshot first'}
+    with open(COHORT_FILE, encoding='utf-8') as stream:
+        coh = json.load(stream)
+    # Legacy cohorts were written later than their chosen historical snapshot.
+    # Do not count outcomes observed before the actual freeze was recorded.
+    start = max(coh['frozen_on'], coh.get('written', coh['frozen_on'])[:10])
+    days = [(date, snap) for date, snap in _days() if date >= start]
     if not coh or len(days) < 2:
         return {'ok': False, 'days': len(days),
                 'note': 'cohorts frozen; the test starts once there are two or more snapshots'
                         if coh else 'no history yet'}
 
     res = {'ok': True, 'frozen_on': coh['frozen_on'], 'days': len(days),
-           'obs': len(days) - 1, 'floor': MIN_DAYS, 'signals': {}}
+           'obs': len(days) - 1, 'floor': MIN_DAYS, 'signals': {},
+           'n_tests': N_TESTS, 'z_crit': Z_CRIT, 'analysis_start': start}
 
     for sig, b in coh['buckets'].items():
         top = [t for t, k in b.items() if k == N_BUCKETS - 1]
         bot = [t for t, k in b.items() if k == 0]
         if len(top) < MIN_PER_BUCKET or len(bot) < MIN_PER_BUCKET:
             continue
-        rt, rb = _returns(days, top), _returns(days, bot)
+        ser = _daily_series(days, top, bot)
+        rt, rb = [x for _, x, _ in ser], [y for _, _, y in ser]
         spread = [x - y for x, y in zip(rt, rb)]
         n = len(spread)
         if n < 2:
@@ -211,14 +218,15 @@ def run():
         sd = math.sqrt(var) if var > 0 else 0.0
         t_stat = (mu * math.sqrt(n) / sd) if sd else 0.0
         # projection: trading days needed for |t| to reach the adjusted critical value
-        need = int(math.ceil((Z_CRIT * sd / abs(mu)) ** 2)) if (sd and mu) else None
-        ser = _daily_series(days, top, bot)
+        need = max(MIN_DAYS, int(math.ceil((Z_CRIT * sd / abs(mu)) ** 2))) if (sd and mu) else None
         mo  = by_period(ser, 'month')
         yr  = by_period(ser, 'year')
         cum = _compound([x for x in spread])
-        ann = ((1 + cum) ** (252.0 / n) - 1) if n else None
+        ann = ((1 + cum) ** (252.0 / n) - 1) if n >= MIN_DAYS and n == len(days)-1 else None
         res['signals'][sig] = dict(
             n_top=len(top), n_bot=len(bot), obs=n,
+            excluded_intervals=len(days)-1-n,
+            return_basis='local-currency unadjusted price; complete-case intervals',
             monthly=mo, yearly=yr, stability=stability(mo),
             annualised_pct=(round(100 * ann, 2) if ann is not None else None),
             cum_top=round(100 * (math.prod(1 + x for x in rt) - 1), 2),
