@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE &middot; SCORECARD ENGINE &middot; v15.1  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE &middot; SCORECARD ENGINE &middot; v15.2-framework  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -8,7 +8,7 @@ DEPLOY: GitHub Actions cron -> commit index.html -> GitHub Pages.
 """
 import warnings as _w
 _w.filterwarnings('ignore')          # [FIX] yfinance emits a Pandas4Warning per
-import json, os, sys                 # fetch; 200 lines of them buried the real
+import json, os, sys, math, hashlib  # fetch; 200 lines of them buried the real
                                      # traceback and made the failure unreadable
 from datetime import datetime, timezone
 import yfinance as yf
@@ -16,6 +16,10 @@ try:
     import wacc as WACC
 except Exception:
     WACC = None
+try:
+    import epv as EPV
+except Exception:
+    EPV = None
 try:
     from forward import run as forward_run, freeze_cohorts
 except Exception:
@@ -209,6 +213,44 @@ def entry_price(d, target=.60):
 def entry_gap(d, target=.60):
     c = cover(d);  return None if c is None else c/target - 1
 
+def epv(d):
+    """EPV per share, populated by populate_epv(). Separate from NGV by design."""
+    return d.get('epv_value')
+
+
+def epv_cover(d):
+    """EPV / price. Diagnostic only; never enters score(), risk() or regime fit."""
+    e, p = epv(d), d.get('price')
+    return None if (e is None or not p) else e / p
+
+
+def valuation_gap(d):
+    """EPV relative to NGV. -0.49 means EPV is 49% below NGV."""
+    n, e = ngv(d), epv(d)
+    if n is None or e is None or n <= 0:
+        return None
+    return e / n - 1.0
+
+
+def valuation_read(d):
+    """Describe agreement/divergence without manufacturing a composite valuation score."""
+    n, e = ngv(d), epv(d)
+    if n is None and e is None: return 'NO VALUE'
+    if n is None: return 'EPV ONLY'
+    if e is None: return 'NGV ONLY'
+    if n <= 0 or e <= 0: return 'CHECK'
+    g = abs(e / n - 1.0)
+    if g <= .15: return 'AGREE'
+    if g <= .35: return 'DIVERGE'
+    return 'WIDE GAP'
+
+def valuation_gap_class(d):
+    g = valuation_gap(d)
+    if g is None: return 'pr na'
+    a = abs(g)
+    return 'pr pos' if a <= .15 else ('pr mid' if a <= .35 else 'pr neg')
+
+
 def priced_in_live(d):
     """[FIX] cover is live, pr was static. When the price moved, cover updated
        and the SCORE DID NOT -- the stale-cover bug one level up. Derive pr from
@@ -314,21 +356,99 @@ DUR_W = {'GOLDILOCKS':-0.35,'REFLATION':0.00,'INFLATION':0.45,'STAGFLATION':0.55
 BS_W  = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':2.5,'RECESSION':3.0}
 PAY_W = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':1.5,'RECESSION':1.5}
 
-def regime_scores(d):
-    """0-100 per regime. Returns {} when there is no cover, because duration is
-       the single largest term and without it the answer would be a sector guess."""
+REGIME_MODEL_VERSION = 'v15.1-golden-2026-09-13'
+REGIME_SECTOR_MULT = 12.0
+REGIME_DURATION_CLAMP = 40.0
+REGIME_SPEC_EXPECTED_SHA256 = '78c4c1681fe507136a77e06e02f5ffcadcc86a165a3376366744a815c6b1121d'
+
+
+def regime_spec_sha256():
+    payload = dict(AFF=AFF, DUR_W=DUR_W, BS_W=BS_W, PAY_W=PAY_W,
+                   sector_mult=REGIME_SECTOR_MULT, duration_clamp=REGIME_DURATION_CLAMP)
+    raw = json.dumps(payload, sort_keys=True, separators=(',', ':')).encode('utf-8')
+    return hashlib.sha256(raw).hexdigest()
+
+
+def regime_fit_components(d):
+    """Return the exact live regime formula as auditable components.
+
+    This is deliberately boring: the coefficients below are the pre-v2 model.
+    Changing one is a MODEL CHANGE and must update the golden-master fixtures.
+    Portfolio weight, score, risk, momentum and valuation never enter this function.
+    """
     c = cover(d)
     if c is None: return {}
     sec = d.get('sector','')
     sub = d.get('sub')
     bs  = sub[3] if (sub and len(sub)==6) else 6.0
     pay = sub[5] if (sub and len(sub)==6) else 6.0
-    dur = max(-40.0, min(40.0, (c - 0.60) * 100))      # cover above/below the GOOD line
+    dur = max(-REGIME_DURATION_CLAMP, min(REGIME_DURATION_CLAMP, (c - 0.60) * 100))
     out = {}
     for r in REGIMES:
-        v = 50.0 + 12.0*AFF[r].get(sec, 0) + DUR_W[r]*dur + BS_W[r]*(bs-6) + PAY_W[r]*(pay-6)
-        out[r] = round(max(0.0, min(100.0, v)), 1)
+        base = 50.0
+        sector = REGIME_SECTOR_MULT * AFF[r].get(sec, 0)
+        duration = DUR_W[r] * dur
+        balance = BS_W[r] * (bs - 6)
+        payout = PAY_W[r] * (pay - 6)
+        raw = base + sector + duration + balance + payout
+        out[r] = dict(base=base, sector=sector, duration=duration,
+                      balance=balance, payout=payout, duration_input=dur,
+                      raw=raw, total=round(max(0.0, min(100.0, raw)), 1))
     return out
+
+
+def regime_scores(d):
+    """0-100 per regime, preserving the v15.1 formula exactly."""
+    comp = regime_fit_components(d)
+    return {r: comp[r]['total'] for r in REGIMES} if comp else {}
+
+
+# Frozen fixtures catch coefficient/clamp drift. These examples intentionally include
+# the three names that exposed the v2 regression plus explicit clamp boundaries.
+REGIME_GOLDEN = (
+    ('NVDA', 'Semis', 0.21714285714285714, 9.0, 6.0,
+     {'GOLDILOCKS':88.9,'REFLATION':63.5,'INFLATION':13.3,'STAGFLATION':12.4,'RECESSION':29.8}),
+    ('ROAD', 'Industrials', 0.21636363636363637, 4.5, 1.5,
+     {'GOLDILOCKS':60.4,'REFLATION':71.0,'INFLATION':35.7,'STAGFLATION':6.4,'RECESSION':9.5}),
+    ('SAN', 'Pharma', 0.7466666666666667, 7.0, 8.0,
+     {'GOLDILOCKS':34.4,'REFLATION':39.5,'INFLATION':61.1,'STAGFLATION':63.6,'RECESSION':86.6}),
+    ('CLAMP_HIGH', 'Energy', 1.50, 6.0, 6.0,
+     {'GOLDILOCKS':12.0,'REFLATION':74.0,'INFLATION':92.0,'STAGFLATION':96.0,'RECESSION':56.0}),
+    ('CLAMP_LOW', 'Technology', 0.01, 6.0, 6.0,
+     {'GOLDILOCKS':88.0,'REFLATION':62.0,'INFLATION':20.0,'STAGFLATION':4.0,'RECESSION':32.0}),
+)
+
+
+def _regime_fixture(sec, cv, bs, pay):
+    """Build a stock with NGV=100 and price chosen to produce the frozen cover."""
+    return dict(fcf=8.0, shares=1.0, r=.08, price=100.0/cv,
+                sector=sec, sub=(6,6,6,bs,6,pay), dil=6.0, pr=6.0)
+
+
+def regime_regression_errors():
+    """True regression test: compare outputs to a frozen previous-model oracle."""
+    errors = []
+    for name, sec, cv, bs, pay, expected in REGIME_GOLDEN:
+        got = regime_scores(_regime_fixture(sec, cv, bs, pay))
+        if got != expected:
+            errors.append(f'{name}: regime model drift: expected {expected}, got {got}')
+    return errors
+
+
+def regime_book(regime, size=30):
+    """Pure regime ranking. No score/risk/cover/portfolio-weight tie-breaks.
+
+    Ticker is used only to make exact-fit ties deterministic.
+    """
+    if regime not in REGIMES: return []
+    rows = []
+    for t, d in DATA.items():
+        f = fit_now(d, regime)
+        if f is not None:
+            rows.append((t, d, f))
+    rows.sort(key=lambda x: (-x[2], x[0]))
+    return rows[:size]
+
 
 def fit_now(d, macro_regime):
     """The number that makes the regime column actionable: how well THIS row
@@ -633,12 +753,10 @@ def fetch_prices():
     for t, d in DATA.items():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
         if d.get('na') and not d.get('midcycle'):
-            d['price_note'] = 'N/A: ' + d['na']
-            try:                       # [FIX] momentum is price-only. An N/A row
-                _fetch_momentum(yf.Ticker(d.get('yf', t)), d)   # has no NGV but it
-            except Exception:          # still has a chart, and the column was
-                pass                   # blank on 22 rows for no reason.
-            continue
+            # `na` means NGV is structurally unavailable, not that the security has no price.
+            # Keep the reason separate so EPV can value rows such as AWK without suppressing
+            # price/momentum data for the whole row.
+            d['ngv_note'] = 'N/A: ' + d['na']
         try:
             tk = yf.Ticker(d.get('yf', t))
             fi = {}
@@ -682,6 +800,95 @@ def fetch_prices():
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
 
+EPV_CACHE_FILE = os.path.join('history', '_epv_cache.json')
+EPV_CACHE_DAYS = 7
+
+
+def _epv_cache_load():
+    try:
+        with open(EPV_CACHE_FILE, encoding='utf-8') as f:
+            x = json.load(f)
+            return x if isinstance(x, dict) else {}
+    except Exception:
+        return {}
+
+
+def _epv_cache_fresh(rec):
+    try:
+        then = datetime.fromisoformat(rec.get('asof')).replace(tzinfo=timezone.utc)
+        return (datetime.now(timezone.utc) - then).days < EPV_CACHE_DAYS
+    except Exception:
+        return False
+
+
+def _epv_cache_write(cache):
+    os.makedirs('history', exist_ok=True)
+    tmp = EPV_CACHE_FILE + '.tmp'
+    with open(tmp, 'w', encoding='utf-8') as f:
+        json.dump(cache, f, indent=1, default=str)
+    os.replace(tmp, EPV_CACHE_FILE)
+
+
+def populate_epv(force=False):
+    """Populate a second, normalised valuation lens without touching NGV or score.
+
+    Annual statement inputs are cached for seven days; EPV itself is recomputed every run
+    with the current WACC/manual fallback, so a changing discount rate still flows through.
+    """
+    if EPV is None:
+        for d in DATA.values(): d['epv_note'] = 'epv.py not present'
+        return
+    cache = _epv_cache_load()
+    dirty = False
+    today = datetime.now(timezone.utc).date().isoformat()
+    for t, d in DATA.items():
+        d['epv_value'] = None
+        d['epv_confidence'] = 'NONE'
+        d['epv_confidence_score'] = 0.0
+        d['epv_note'] = ''
+        if d.get('built') == 'fund':
+            d['epv_note'] = 'fund: company EPV not applicable'
+            continue
+        sym = d.get('yf', t)
+        rec = cache.get(sym) if isinstance(cache.get(sym), dict) else None
+        inputs = rec.get('inputs') if (rec and not force and _epv_cache_fresh(rec)) else None
+        if not inputs:
+            try: inputs = EPV.fetch(sym, yf=yf)
+            except Exception: inputs = None
+            if inputs:
+                cache[sym] = {'asof': today, 'inputs': inputs}
+                dirty = True
+        if not inputs:
+            d['epv_note'] = 'annual statement inputs unavailable'
+            continue
+        inp = dict(inputs)
+        tax_override = d.get('epv_tax_rate')
+        if tax_override is not None:
+            inp['tax_rate'] = tax_override
+            inp['tax_source'] = 'manual-epv-tax-rate'
+        rr, rsrc = rate_used(d)
+        try:
+            ans = EPV.compute(wacc=rr, **{k: inp.get(k) for k in EPV.FIELDS})
+        except Exception as ex:
+            ans = None
+            d['epv_note'] = f'EPV compute failed: {type(ex).__name__}'
+        if not ans or not math.isfinite(ans.get('epv_per_share', float('nan'))):
+            if not d.get('epv_note'): d['epv_note'] = 'EPV not computable from fetched inputs'
+            continue
+        d['epv_value'] = ans['epv_per_share']
+        d['epv_normalised_earnings'] = ans['normalised_earnings']
+        d['epv_net_debt'] = ans['net_debt']
+        d['epv_wacc'] = rr
+        d['epv_rate_source'] = rsrc
+        d['epv_tax_source'] = inp.get('tax_source', 'unknown')
+        cf = EPV.confidence(inp, tax_overridden=(tax_override is not None))
+        d['epv_confidence'] = cf['level']
+        d['epv_confidence_score'] = cf['score']
+        d['epv_note'] = '; '.join(cf.get('reasons') or [])
+    if dirty:
+        _epv_cache_write(cache)
+
+
 def snapshot():
     os.makedirs('history', exist_ok=True)
     day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
@@ -689,8 +896,13 @@ def snapshot():
                    score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
                    regime=regime_scores(d), weight=d.get('weight'),
                    momentum=d.get('mom_12_1'), from_high=d.get('from_high'),
+                   epv=epv(d), epv_cover=epv_cover(d), valuation_gap=valuation_gap(d),
+                   valuation_read=valuation_read(d), epv_confidence=d.get('epv_confidence'),
                    ts=d.get('price_ts'), note=d.get('price_note')) for t,d in DATA.items()}
     rec['_portfolio'] = portfolio_regime()
+    rec['_models'] = dict(engine='v15.2-framework', regime=REGIME_MODEL_VERSION,
+                          regime_spec_sha256=regime_spec_sha256(),
+                          ngv='fcf-per-share-capitalised', epv='greenwald-template-lens-v1')
     with open(f'history/{day}.json','w') as f: json.dump(rec, f, indent=1, default=str)
     return day
 
@@ -741,6 +953,29 @@ def validate_full():
             p.append(f'{t}: sanity={b} is not a usable interval; every price will be rejected')
         if d.get('fcf') is not None and not d.get('shares'):
             p.append(f'{t}: fcf without shares -- NGV cannot be built')
+    # Model regression is build-blocking: explainability is not regression testing.
+    spec_hash = regime_spec_sha256()
+    if spec_hash != REGIME_SPEC_EXPECTED_SHA256:
+        p.append(f'regime spec changed: expected {REGIME_SPEC_EXPECTED_SHA256}, got {spec_hash}')
+    p.extend(regime_regression_errors())
+    for t, d in DATA.items():
+        rg0 = regime_scores(d)
+        if rg0:
+            probe = dict(d); probe['weight'] = 999999.0
+            if regime_scores(probe) != rg0:
+                p.append(f'{t}: portfolio weight changes regime fit -- forbidden')
+            comp = regime_fit_components(d)
+            if any(comp[r]['total'] != rg0[r] for r in REGIMES):
+                p.append(f'{t}: regime components do not reconcile to reported fit')
+        e = epv(d)
+        if e is not None and not math.isfinite(e):
+            p.append(f'{t}: non-finite EPV {e}')
+        if e is not None and e <= 0:
+            warn.append(f'{t}: EPV <= 0 ({e:.2f}); normalised earning power/net debt needs review')
+        vg = valuation_gap(d)
+        if vg is not None and abs(vg) >= 1.0:
+            warn.append(f'{t}: EPV/NGV divergence {vg:+.0%}; inspect normalisation and net debt')
+
     for t, d in DATA.items():
         if d.get('r_wacc') and abs(d['r_wacc'] - d.get('r', .08)) > 0.025:
             warn.append(f'{t}: WACC {100*d["r_wacc"]:.1f}% vs manual r {100*d.get("r",.08):.1f}% '
@@ -1184,6 +1419,13 @@ def build_html():
                             f'{f"<br><span style=font-size:10px;color:#7b8195>{sc:.0f}</span>" if sc else ""}</td>'
             )(*best_regime(d))
           + f'<td class="mono">{fmt(ngv(d),",.2f")}</td>'
+          + (lambda ev, ec: f'<td class="mono">{fmt(ev,",.2f")}'
+             + (f'<br><span style="font-size:10px;color:#7b8195">{ec}</span>' if ev is not None else '')
+             + '</td>')(epv(d), d.get('epv_confidence',''))
+          + (lambda vg, vr: '<td class="mono">'
+             + ((f'<span class="{valuation_gap_class(d)}">{vg:+.0%}</span>') if vg is not None else '&mdash;')
+             + (f'<br><span style="font-size:10px;color:#7b8195">{vr}</span>' if vr else '')
+             + '</td>')(valuation_gap(d), valuation_read(d))
           + f'<td class="mono">{fmt(entry_price(d),",.2f")}</td>'
           + (lambda pf, gp: f'<td class="mono">{fmt(d.get("price"),",.2f")}'
              + (f'<br><span class="pill {PROX_CSS[pf]}">{pf} {gp:+.1f}%</span>' if pf else ''))(*proximity(d))
@@ -1353,6 +1595,22 @@ def build_html():
                'actionable rather than descriptive.</div>'
                '<div style="height:330px"><canvas id="fitChart"></canvas></div></div>') if cur_reg else ''
 
+    if cur_reg:
+        rb = regime_book(cur_reg, 30)
+        rb_rows = ''.join(
+            f'<tr><td class="rk">{i}</td><td class="tk">{t}</td><td class="se">{d.get("sector","")}</td>'
+            f'<td class="mono"><b>{f:.1f}</b></td><td class="mono">{fmt(score(d),".2f")}</td>'
+            f'<td class="mono">{fmt(None if cover(d) is None else cover(d)*100,".0f")}%</td>'
+            f'<td class="mono">{valuation_read(d)}</td></tr>'
+            for i, (t, d, f) in enumerate(rb, 1))
+        regime_book_box = ('<div class="box"><h2>30-name regime book</h2>'
+            f'<div class="lede">Ranked <b>only</b> by {cur_reg} fit. Score, risk, valuation and existing portfolio weight '
+            'are shown only as diagnostics and never break a fit tie. Ticker alphabetically breaks exact ties.</div>'
+            '<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Fit</th>'
+            '<th>Score</th><th>NGV cover</th><th>Valuation</th></tr></thead><tbody>' + rb_rows + '</tbody></table></div></div>')
+    else:
+        regime_book_box = ''
+
     if SEC.get('rows'):
         rr = sorted(SEC['rows'].values(), key=lambda x: -(x.get('10y') if x.get('10y') is not None else -99))
         srows = ''
@@ -1397,9 +1655,8 @@ def build_html():
             '<style>' + CSS + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce &middot; Live &middot; {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
-           f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{priced}</b> priced this run &middot; '
-           f'<b>{na}</b> formally N/A. Prices from Yahoo; NGV, subscores and the delivering metric are static and '
-           f'human-set. <b>NGV does not move with price &mdash; cover, cushion and entry gap all derive from it.</b></div>')
+           f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{sum(1 for d in DATA.values() if epv(d) is not None)}</b> with EPV &middot; <b>{priced}</b> priced this run &middot; '
+           f'<b>{na}</b> NGV-N/A. <b>NGV and EPV are separate valuation lenses.</b> The gap is diagnostic and is never fed into score or regime fit.</div>')
     issue_box = ''
     if issues:
         li = ''.join(f'<div class="mono">{t}: {v}</div>' for t,v in sorted(issues.items()))
@@ -1414,7 +1671,7 @@ def build_html():
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
-           '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
+           '<th>NGV</th><th>EPV</th><th>EPV vs NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table></div>')
     zin = ('<div style="margin-top:18px;text-align:right">'
            '<input id="zielIn" type="password" autocomplete="off" placeholder="&#8942;" '
@@ -1422,9 +1679,9 @@ def build_html():
            '&nbsp;<button id="zielBtn" type="button" '
            'style="padding:6px 11px;font-size:11px;opacity:.55">&#8594;</button></div>')
 
-    foot = (f'<div class="foot">Snapshot written to history/. NGV = (FCF &divide; shares) &divide; r and is price-independent. '
-            f'Negative cushion forces DO NOT ADD at every band. NVDA carries a manual risk floor because the '
-            f'formula has no concentration term. Last pull {stamp}.<br>Not financial advice</div>')
+    foot = (f'<div class="foot">Snapshot written to history/. NGV capitalises the row FCF; EPV normalises operating earning power and subtracts net debt. '
+            f'Neither valuation gap nor EPV confidence changes Score or Regime Fit. Regime model {REGIME_MODEL_VERSION}. '
+            f'Negative cushion forces DO NOT ADD at every band. Last pull {stamp}.<br>Not financial advice</div>')
     import base64
     ziel_payload = base64.b64encode((port_box + chart_box).encode('utf-8')).decode('ascii')
     js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
@@ -1432,13 +1689,14 @@ def build_html():
     # [FROM V2] atomic write. A build that dies mid-write used to leave
     # index.html truncated and the live site broken until the next cron run.
     with open('index.html.tmp', 'w', encoding='utf-8') as f:
-        f.write(head + hdr + macro_box + sec_box + fw_box + gate + zin + fit_box + issue_box + adder + tbl + foot
+        f.write(head + hdr + macro_box + sec_box + fw_box + gate + zin + fit_box + regime_book_box + issue_box + adder + tbl + foot
                 + '<script>' + js + js_z + '</script></body></html>')
     os.replace('index.html.tmp', 'index.html')
 
 if __name__ == '__main__':
     bootstrap_fundamentals()
     fetch_prices()
+    populate_epv()
     day = snapshot()
     freeze_cohorts()          # once, from the oldest snapshot
     build_html()

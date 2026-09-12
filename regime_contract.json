@@ -1,0 +1,17 @@
+{
+  "model_version": "v15.1-golden-2026-09-13",
+  "spec_sha256": "78c4c1681fe507136a77e06e02f5ffcadcc86a165a3376366744a815c6b1121d",
+  "formula": {
+    "base": 50.0,
+    "sector_multiplier": 12.0,
+    "duration_clamp": 40.0,
+    "duration": "DUR_W[regime] * clamp((cover - 0.60) * 100, -40, +40)",
+    "balance_sheet": "BS_W[regime] * (bs - 6)",
+    "payout": "PAY_W[regime] * (pay - 6)"
+  },
+  "golden_checks": {
+    "NVDA_GOLDILOCKS": 88.9,
+    "ROAD_STAGFLATION": 6.4,
+    "SAN_RECESSION": 86.6
+  }
+}

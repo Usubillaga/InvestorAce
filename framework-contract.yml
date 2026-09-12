@@ -1,0 +1,27 @@
+name: framework-contract
+
+on:
+  push:
+    paths:
+      - 'engine.py'
+      - 'epv.py'
+      - 'test_framework_contract.py'
+      - '.github/workflows/framework-contract.yml'
+  pull_request:
+    paths:
+      - 'engine.py'
+      - 'epv.py'
+      - 'test_framework_contract.py'
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile framework
+        run: python -m py_compile engine.py epv.py
+      - name: Run offline model contracts
+        run: python test_framework_contract.py
