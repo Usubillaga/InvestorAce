@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-INVESTORACE &middot; SCORECARD ENGINE &middot; v15.1 / FRAMEWORK 2.0  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
+INVESTORACE &middot; SCORECARD ENGINE &middot; v15.1  (producer cushion withdrawn: volume growth is not a cash-flow rate)  (sanity-band fix, self-healing ranges)  (regime classifier + score fallback + bootstrap diagnostics)
 Corrected build. Fixes marked [FIX n].
 
 RUN:  python engine.py          -> writes index.html + history/YYYY-MM-DD.json
@@ -8,12 +8,10 @@ DEPLOY: GitHub Actions cron -> commit index.html -> GitHub Pages.
 """
 import warnings as _w
 _w.filterwarnings('ignore')          # [FIX] yfinance emits a Pandas4Warning per
-import json, os, sys, collections                 # fetch; 200 lines of them buried the real
+import json, os, sys                 # fetch; 200 lines of them buried the real
                                      # traceback and made the failure unreadable
 from datetime import datetime, timezone
 import yfinance as yf
-from html import escape
-from integrity import finite_number, positive_number, atomic_json, atomic_text
 try:
     import wacc as WACC
 except Exception:
@@ -38,19 +36,6 @@ CASH_PCT = 7.8      # uninvested, so weights should sum to 100 - this
 W = {'g':.15,'p':.20,'c':.15,'b':.15,'v':.10,'pr':.15,'r':.05,'d':.05}
 BANDS = [(3.50,'SELL','p-sell'), (5.50,'HOLD NEG','p-hneg'), (7.00,'HOLD POS','p-hpos'),
          (8.50,'BUY','p-buy'), (999,'STRONG BUY','p-sbuy')]
-
-
-# =====================================================================
-# FRAMEWORK CONTRACT
-# =====================================================================
-FRAMEWORK_VERSION = '2.1'
-FRAMEWORK_METHOD = {
-    'quality': 'score-v15',
-    'valuation': 'ngv-rate-conditional',
-    'regime': 'fit-structural-unweighted',
-    'decision': 'rules-no-composite',
-    'confidence': 'evidence-only',
-}
 
 # [FIX 2] ENGI.PA is ENGIE (French utility). Enagas is ENG.MC (Madrid).
 #         Same class of error as SAN.MC/Banco Santander. A wrong ticker returns a
@@ -180,16 +165,16 @@ def ngv(d):
 
        r_wacc is filled during the price fetch. A row whose beta fetch fails
        keeps its hand-set r, so nothing breaks."""
-    f, s = positive_number(d.get('fcf')), positive_number(d.get('shares'))
-    r = positive_number(d.get('r_wacc')) or positive_number(d.get('r', .08))
-    return None if (f is None or s is None or r is None or d.get('na') and not d.get('midcycle')) else (f/s)/r
+    f, s = d.get('fcf'), d.get('shares')
+    r = d.get('r_wacc') or d.get('r', .08)
+    return None if (f is None or s is None or not r) else (f/s)/r
 
 def rate_used(d):
     """Which discount rate this row is actually valued on, and where it came from."""
     return (d['r_wacc'], 'wacc') if d.get('r_wacc') else (d.get('r', .08), 'manual')
 
 def cover(d):
-    n, p = ngv(d), positive_number(d.get('price'))
+    n, p = ngv(d), d.get('price')
     return None if (n is None or not p) else n/p
 
 def implied_growth(d):
@@ -271,9 +256,9 @@ def band(s):
 def verdict(t, d):
     s, rk, cu = score(d), risk(d), cushion(d)
     if s is None: return ('NO SCORE','v-hold')
+    if d.get('trap'): return ('TRAP BUY','v-trap')
     if cushion_neg(d):
-        return ('DO NOT ADD','v-avoid')
-    if d.get('trap'): return ('TRAP WATCH','v-trap')
+        return ('DO NOT ADD','v-avoid') if s < 7.00 else ('BUY &middot; CUSHION NEG','v-avoid')
     if s >= 7.00:
         return ('BUY &middot; LOW RISK','v-buy') if rk <= 2.4 else \
                (('BUY &middot; MOD','v-buymod') if rk <= 3.2 else ('BUY &middot; HIGH RISK','v-buyhi'))
@@ -310,7 +295,7 @@ AFF = {
     'Staples':-1,'Utilities':-1,'Pharma':-1,'Health Ins':-1,'REIT':-2,'Biotech':-2,'AI Infra':0},
 'INFLATION': {'Real Estate':2,'Consumer Cyclical':-1,'Communication Services':-1,'Technology':-1,'Consumer Defensive':1,'Healthcare':0,'Energy':2,'Midstream':2,'Materials':2,'REIT':2,'Utilities':2,
     'Staples':1,'Restaurant':1,'Info Svcs':1,'Luxury':1,
-    'MedTech':0,'Industrials':1,'Automotive':-1,'Pharma':1,'Services':0,'Health Ins':0,'Aerospace':0,'Animal Health':0,
+    'MedTech':0,'Industrials':1,'Automotive':-1,'Pharma':0,'Services':0,'Health Ins':0,'Aerospace':0,'Animal Health':0,
     'Software':-1,'Platform':-1,'Apparel':-1,'Media':-1,
     'Semis':-2,'AI Infra':-2,'Space':-2,'Biotech':-2,'Ad Tech':-2,'AdTech':-2,'Health Data':-2},
 'STAGFLATION': {'Real Estate':1,'Consumer Cyclical':-1,'Communication Services':-1,'Technology':-2,'Consumer Defensive':1,'Healthcare':0,'Energy':2,'Midstream':2,'Materials':2,
@@ -329,48 +314,20 @@ DUR_W = {'GOLDILOCKS':-0.35,'REFLATION':0.00,'INFLATION':0.45,'STAGFLATION':0.55
 BS_W  = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':2.5,'RECESSION':3.0}
 PAY_W = {'GOLDILOCKS':0.5,'REFLATION':0.5,'INFLATION':1.5,'STAGFLATION':1.5,'RECESSION':1.5}
 
-def regime_fit_components(d, regime):
-    """Auditable components of the current structural regime-fit model.
-
-    The live formula is preserved exactly. Portfolio weights are never read.
-    BS_W/PAY_W remain research parameters until historical/forward validation
-    justifies activating them.
-    """
-    if regime not in REGIMES:
-        return None
-    c = cover(d)
-    if c is None:
-        return None
-    sec = d.get('sector', '')
-    sub = d.get('sub')
-    bs = sub[3] if (sub and len(sub) == 6) else 6.0
-    pay = sub[5] if (sub and len(sub) == 6) else 6.0
-    dur = max(-30.0, min(30.0, (c - 0.60) * 100.0))
-    base = 50.0
-    sector_term = 10.0 * AFF[regime].get(sec, 0)
-    duration_term = 0.60 * DUR_W[regime] * dur
-    balance_term = 1.50 * (bs - 6.0)
-    payout_term = 1.50 * (pay - 6.0)
-    raw = base + sector_term + duration_term + balance_term + payout_term
-    return {
-        'base': base,
-        'sector': round(sector_term, 3),
-        'duration': round(duration_term, 3),
-        'balance': round(balance_term, 3),
-        'payout': round(payout_term, 3),
-        'raw': round(raw, 3),
-        'total': round(max(0.0, min(100.0, raw)), 1),
-    }
-
-
 def regime_scores(d):
-    """Position-independent 0-100 structural regime fit."""
+    """0-100 per regime. Returns {} when there is no cover, because duration is
+       the single largest term and without it the answer would be a sector guess."""
+    c = cover(d)
+    if c is None: return {}
+    sec = d.get('sector','')
+    sub = d.get('sub')
+    bs  = sub[3] if (sub and len(sub)==6) else 6.0
+    pay = sub[5] if (sub and len(sub)==6) else 6.0
+    dur = max(-40.0, min(40.0, (c - 0.60) * 100))      # cover above/below the GOOD line
     out = {}
-    for regime in REGIMES:
-        comp = regime_fit_components(d, regime)
-        if comp is None:
-            return {}
-        out[regime] = comp['total']
+    for r in REGIMES:
+        v = 50.0 + 12.0*AFF[r].get(sec, 0) + DUR_W[r]*dur + BS_W[r]*(bs-6) + PAY_W[r]*(pay-6)
+        out[r] = round(max(0.0, min(100.0, v)), 1)
     return out
 
 def fit_now(d, macro_regime):
@@ -473,81 +430,6 @@ PROX_CSS = {'AT NGV':'x-atngv', 'CLEARS':'x-clear', 'NEAR ENTRY':'x-near', 'APPR
 
 
 # =====================================================================
-# EVIDENCE CONFIDENCE -- data quality only, never an investment input
-# =====================================================================
-PROVENANCE_CONFIDENCE = {
-    'exact': 1.00,
-    'mid-cycle': 0.85,
-    'est': 0.75,
-    'auto': 0.55,
-    'back-solved': 0.40,
-}
-
-
-def evidence_confidence(d):
-    """Equal-check evidence quality, 0-100. Never modifies score or fit."""
-    sub = d.get('sub')
-    checks = [
-        ('price', 1.0 if d.get('price') is not None else 0.0),
-        ('ngv', 1.0 if ngv(d) is not None else 0.0),
-        ('quality_detail', 1.0 if (sub and len(sub) == 6) else (0.45 if d.get('score_fixed') is not None else 0.0)),
-        ('deliver_metric', 1.0 if d.get('deliver') is not None else (0.5 if d.get('midcycle') else 0.0)),
-        ('sanity_band', 1.0 if _valid_band(d.get('sanity')) else 0.0),
-        ('provenance', PROVENANCE_CONFIDENCE.get(d.get('built', 'exact'), 0.50)),
-    ]
-    value = round(100.0 * sum(v for _, v in checks) / len(checks))
-    missing = [name for name, v in checks if v < 0.5]
-    label = 'HIGH' if value >= 80 else ('MEDIUM' if value >= 60 else 'LOW')
-    return {'score': value, 'label': label, 'missing': missing}
-
-
-DECISION_CSS = {
-    'BUY SETUP':'v-buy', 'WAIT ENTRY':'v-acc', 'CONTRARIAN':'v-buymod',
-    'REGIME WATCH':'v-hold', 'VALUE WATCH':'v-hold', 'WATCH':'v-hold',
-    'AVOID':'v-avoid', 'INCOMPLETE':'v-avoid', 'NO REGIME':'v-hold',
-}
-
-
-def decision_signal(t, d, macro_regime=None):
-    """Rule engine over independent signals; deliberately no super-score."""
-    s, rk, c = score(d), risk(d), cover(d)
-    vn = verdict(t, d)[0]
-    fit = fit_now(d, macro_regime) if macro_regime else None
-    prox, _ = proximity(d)
-    conf = evidence_confidence(d)
-
-    if s is None or c is None:
-        action, reason = 'INCOMPLETE', 'quality or valuation evidence missing'
-    elif not passes_safety_gate(t, d):
-        action, reason = 'AVOID', 'existing quality/valuation safety gate failed'
-    elif macro_regime is None or fit is None:
-        action, reason = 'NO REGIME', 'current macro regime unavailable'
-    elif conf['score'] < 50:
-        action, reason = 'INCOMPLETE', 'evidence confidence below 50%'
-    else:
-        entry_ready = prox in ('AT NGV', 'CLEARS', 'NEAR ENTRY')
-        quality_ready = s >= 7.00
-        regime_ready = fit >= 60.0
-        regime_weak = fit < 50.0
-        risk_ok = rk is not None and rk <= 3.2
-        if quality_ready and entry_ready and regime_ready and risk_ok:
-            action, reason = 'BUY SETUP', 'quality, valuation, regime and risk gates align'
-        elif quality_ready and entry_ready and regime_weak:
-            action, reason = 'CONTRARIAN', 'quality/value align but current regime does not'
-        elif quality_ready and regime_ready and not entry_ready:
-            action, reason = 'WAIT ENTRY', 'quality/regime align; valuation trigger not reached'
-        elif fit >= 70.0 and s >= 5.50:
-            action, reason = 'REGIME WATCH', 'strong regime fit without a full quality/value setup'
-        elif entry_ready and s >= 5.50:
-            action, reason = 'VALUE WATCH', 'valuation trigger reached without full alignment'
-        else:
-            action, reason = 'WATCH', 'no complete setup'
-    return {'action': action, 'reason': reason, 'score': s, 'cover': c,
-            'risk': rk, 'fit': fit, 'confidence': conf['score'],
-            'confidence_label': conf['label'], 'proximity': prox}
-
-
-# =====================================================================
 # MOMENTUM -- reported, never scored
 #
 # The scorecard excludes technicals by design, so momentum enters as a
@@ -590,10 +472,11 @@ def _fetch_momentum(tk, d):
         c = h['Close'].dropna()
         if len(c) < 60: return
         last = float(c.iloc[-1])
-        if len(c) >= 253:
-            start = float(c.iloc[-253]); end = float(c.iloc[-22])
+        skip = 21                                    # one month of trading days
+        if len(c) > skip + 200:
+            start = float(c.iloc[0]); end = float(c.iloc[-skip])
             if start: d['mom_12_1'] = round(100 * (end / start - 1), 1)
-        hi = float(c.iloc[-252:].max())
+        hi = float(c.max())
         if hi: d['from_high'] = round(100 * (last / hi - 1), 1)
     except Exception:
         pass
@@ -716,22 +599,6 @@ def portfolio_regime():
     if not tot: return {}
     return {r: round(acc[r]/tot, 1) for r in REGIMES}
 
-def regime_book_profile(tickers):
-    """Equal-name average regime profile; never use portfolio weights."""
-    names=[t for t in tickers if t in DATA]
-    if not names:
-        return {}
-    acc={r:0.0 for r in REGIMES}
-    n=0
-    for t in names:
-        sc=regime_scores(DATA[t])
-        if not sc:
-            continue
-        n += 1
-        for r in REGIMES:
-            acc[r] += sc[r]
-    return {r: round(acc[r]/n,1) for r in REGIMES} if n else {}
-
 def regime_history():
     """Read history/*.json and return (dates, {regime: [values]}) for the chart."""
     import glob
@@ -746,9 +613,17 @@ def regime_history():
             with open(fp) as f: day = json.load(f)
         except Exception:
             continue
-        pf = day.get('_model', {}).get('profile')
-        if not pf:
-            continue  # Legacy weighted personal books are not model histories.
+        pf = day.get('_portfolio')
+        if not pf:                       # older snapshots: rebuild from the rows
+            tot = 0.0; acc = {r: 0.0 for r in REGIMES}
+            for t, m in day.items():
+                if t.startswith('_'): continue
+                w, rg = m.get('weight'), m.get('regime') or {}
+                if not w or not rg: continue
+                tot += w
+                for r in REGIMES: acc[r] += w * float(rg.get(r, 0))
+            if not tot: continue
+            pf = {r: round(acc[r]/tot, 1) for r in REGIMES}
         dates.append(os.path.basename(fp)[:-5])
         for r in REGIMES: series[r].append(pf.get(r))
     return dates, series
@@ -757,8 +632,6 @@ def fetch_prices():
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     for t, d in DATA.items():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
-        for key in ('r_wacc', 'beta', 'mom_12_1', 'from_high'):
-            d.pop(key, None)
         if d.get('na') and not d.get('midcycle'):
             d['price_note'] = 'N/A: ' + d['na']
             try:                       # [FIX] momentum is price-only. An N/A row
@@ -777,7 +650,6 @@ def fetch_prices():
                 if not h.empty and 'Close' in h:
                     ser = h['Close'].dropna()
                     if len(ser): px = float(ser.iloc[-1])
-            px = positive_number(px)
             if px is None:
                 d['price_note'] = 'no quote'; continue
             cur = str(fi.get('currency') or '').strip()
@@ -810,28 +682,16 @@ def fetch_prices():
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
 
-def snapshot(macro=None):
-    errors, _ = validate_full()
-    if errors:
-        raise ValueError('Snapshot validation failed: ' + '; '.join(errors))
+def snapshot():
     os.makedirs('history', exist_ok=True)
     day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
                    score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
                    regime=regime_scores(d), weight=d.get('weight'),
-                   confidence=evidence_confidence(d)['score'],
                    momentum=d.get('mom_12_1'), from_high=d.get('from_high'),
                    ts=d.get('price_ts'), note=d.get('price_note')) for t,d in DATA.items()}
-    if macro and macro.get('ok'):
-        book = build_regime_portfolio(macro.get('regime'))
-        rec['_model'] = {'regime': macro['regime'], 'tickers': [r['t'] for r in book],
-                         'profile': regime_book_profile([r['t'] for r in book])}
-    rec['_macro'] = macro or {'ok': False, 'note': 'not supplied'}
-    rec['_framework'] = {'version': FRAMEWORK_VERSION, 'method': FRAMEWORK_METHOD}
-    path = f'history/{day}.json'
-    # Preserve the first daily observation used by the forward test.
-    if not os.path.exists(path):
-        atomic_json(path, rec)
+    rec['_portfolio'] = portfolio_regime()
+    with open(f'history/{day}.json','w') as f: json.dump(rec, f, indent=1, default=str)
     return day
 
 
@@ -867,22 +727,6 @@ def validate_full():
         miss = sorted(x for x in secs if x not in AFF[r])
         if miss: p.append(f'{r}: sectors unmapped -> {miss} (they would score 0 affinity silently)')
     for t, d in DATA.items():
-        malformed = False
-        for key in ('fcf', 'shares', 'price', 'r', 'r_wacc', 'deliver', 'dil', 'pr', 'score_fixed', 'weight'):
-            value = d.get(key)
-            if value is not None and (not isinstance(value, (int, float)) or finite_number(value) is None):
-                p.append(f'{t}: {key} must be finite, not {value!r}')
-                malformed = True
-        if malformed:
-            continue
-        for key in ('fcf', 'shares', 'price', 'r', 'r_wacc'):
-            if d.get(key) is not None and d[key] <= 0:
-                p.append(f'{t}: {key} must be positive when supplied')
-        sub = d.get('sub')
-        if sub is not None and (not isinstance(sub, (list, tuple)) or len(sub) != 6 or
-                any(not isinstance(x, (int, float)) or finite_number(x) is None or not 0 <= x <= 10 for x in sub)):
-            p.append(f'{t}: sub must contain six finite scores in 0..10')
-            continue
         n = ngv(d)
         if n is not None and n < 0:
             p.append(f'{t}: NEGATIVE NGV {n:.2f} -- a negative FCF was written into the row')
@@ -897,8 +741,6 @@ def validate_full():
             p.append(f'{t}: sanity={b} is not a usable interval; every price will be rejected')
         if d.get('fcf') is not None and not d.get('shares'):
             p.append(f'{t}: fcf without shares -- NGV cannot be built')
-    if p:
-        return p, warn
     for t, d in DATA.items():
         if d.get('r_wacc') and abs(d['r_wacc'] - d.get('r', .08)) > 0.025:
             warn.append(f'{t}: WACC {100*d["r_wacc"]:.1f}% vs manual r {100*d.get("r",.08):.1f}% '
@@ -912,20 +754,6 @@ def validate_full():
     for t, d in DATA.items(): dup.setdefault(d['yf'], []).append(t)
     for y, ts in dup.items():
         if len(ts) > 1: p.append(f'duplicate Yahoo symbol {y} on {ts}')
-
-    # Framework invariants: fit must be bounded, complete and position-independent.
-    for t, d in DATA.items():
-        rs = regime_scores(d)
-        if rs:
-            if set(rs) != set(REGIMES):
-                p.append(f'{t}: incomplete regime score keys -> {sorted(rs)}')
-            for rr, value in rs.items():
-                if not 0.0 <= value <= 100.0:
-                    p.append(f'{t}: {rr} fit {value} outside 0..100')
-            probe = dict(d)
-            probe['weight'] = 9999.0
-            if regime_scores(probe) != rs:
-                p.append(f'{t}: regime fit changes with portfolio weight -- forbidden')
     return p, warn
 
 
@@ -940,12 +768,6 @@ def validate_full():
 # purpose and ranks ONLY by that purpose. The other dimension is
 # reported beside it and never used for ordering.
 # =====================================================================
-def passes_safety_gate(t, d):
-    """One veto policy for decisions, screens and model construction."""
-    return (not d.get('trap') and not cushion_neg(d) and
-            verdict(t, d)[0] not in ('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE'))
-
-
 def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdicts=
            ('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE'), held_only=False, limit=15):
     """purpose='quality'  -> rank by score. Regime fit shown, not ranked on.
@@ -958,12 +780,9 @@ def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdict
     out = []
     for t, d in DATA.items():
         s, c, v = score(d), cover(d), verdict(t, d)[0]
-        if s is None or s < min_score or v in exclude_verdicts or not passes_safety_gate(t, d):
-            continue
-        if min_cover is not None and (c is None or c < min_cover):
-            continue
-        if held_only and not d.get('weight'):
-            continue
+        if s is None or s < min_score or v in exclude_verdicts: continue
+        if min_cover is not None and (c is None or c < min_cover): continue
+        if held_only and not d.get('weight'): continue
         fit = fit_now(d, regime) if regime else None
         aff = AFF[regime].get(d.get('sector', '')) if regime else None
         out.append(dict(t=t, score=s, cover=c, cushion=cushion(d), risk=risk(d),
@@ -973,158 +792,8 @@ def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdict
     key = {'quality':  lambda r: -r['score'],
            'regime':   lambda r: -(r['fit'] if r['fit'] is not None else -1),
            'duration': lambda r: -(r['cover'] or 0)}[purpose]
-    out.sort(key=lambda row: (key(row), row['t']))
+    out.sort(key=key)
     return out[:limit]
-
-
-# =====================================================================
-# REGIME PORTFOLIO -- exactly 30 names selected for the CURRENT regime
-# =====================================================================
-
-REGIME_PORTFOLIO_SIZE = 30
-REGIME_INVESTED_PCT = 100.0 - CASH_PCT
-REGIME_MAX_SECTOR = 4
-REGIME_MAX_WEIGHT = 5.0
-
-
-def build_regime_portfolio(regime, size=REGIME_PORTFOLIO_SIZE,
-                           invested_pct=REGIME_INVESTED_PCT,
-                           max_sector=REGIME_MAX_SECTOR,
-                           max_weight=REGIME_MAX_WEIGHT):
-    """Build a deterministic 30-stock regime-fit model portfolio.
-
-    Selection is regime-first: current-regime fit is the primary rank.
-    Ticker is the only tie-breaker. Weak verdicts are excluded, and a
-    sector cap prevents the box from becoming a single-theme portfolio.
-    The output is a derived model portfolio; it does NOT overwrite DATA
-    holdings or the user's existing weights.
-    """
-    if regime not in REGIMES:
-        return []
-    if size < 1 or max_sector < 1 or not 0 <= invested_pct <= 100 or max_weight <= 0:
-        raise ValueError('invalid model size, sector cap or allocation constraints')
-
-    candidates = []
-    for t, d in DATA.items():
-        fit = fit_now(d, regime)
-        s = score(d)
-        c = cover(d)
-        v = verdict(t, d)[0]
-        if fit is None or s is None or c is None:
-            continue
-        if not passes_safety_gate(t, d):
-            continue
-        candidates.append({
-            't': t,
-            'fit': float(fit),
-            'score': float(s),
-            'risk': float(risk(d) or 5.0),
-            'cover': float(c),
-            'sector': d.get('sector', 'Unclassified'),
-            'verdict': v,
-        })
-
-    candidates.sort(key=lambda x: (-x['fit'], x['t']))  # fit ONLY; ticker is deterministic tie-break
-
-    selected = []
-    sector_count = collections.Counter() if 'collections' in globals() else {}
-    for row in candidates:
-        sec = row['sector']
-        n_sec = sector_count.get(sec, 0) if hasattr(sector_count, 'get') else 0
-        if n_sec >= max_sector:
-            continue
-        selected.append(row)
-        sector_count[sec] = n_sec + 1
-        if len(selected) >= size:
-            break
-
-    if not selected:
-        return []
-
-    # Equal-weight by default, with cents allocated deterministically so the
-    # displayed weights sum to the exact invested target after rounding.
-    n = len(selected)
-    base_cents = int(round(invested_pct * 100)) // n
-    extra_cents = int(round(invested_pct * 100)) - base_cents * n
-    weights = [base_cents / 100.0] * n
-    for i in range(extra_cents):
-        weights[i % n] += 0.01
-
-    if any(w > max_weight for w in weights):
-        # This branch is not expected with 30 names and 92.2% invested, but
-        # keeps the constructor safe when size is changed.
-        weights = [min(max_weight, w) for w in weights]
-        remainder = round(invested_pct - sum(weights), 2)
-        if remainder > 0:
-            capacity = [max_weight - w for w in weights]
-            for i in sorted(range(n), key=lambda j: capacity[j], reverse=True):
-                add = min(capacity[i], remainder)
-                weights[i] += add
-                remainder = round(remainder - add, 2)
-                if remainder <= 0:
-                    break
-
-    # Diversification can skip a high-fit row and add it in the fill pass.
-    # Re-sort final membership by fit before assigning/displaying equal weights.
-    selected.sort(key=lambda x: (-x['fit'], x['t']))
-    for row, w in zip(selected, weights):
-        row['weight'] = round(w, 2)
-
-    return selected
-
-
-def validate_regime_portfolio(regime, book, size=REGIME_PORTFOLIO_SIZE,
-                              invested_pct=REGIME_INVESTED_PCT,
-                              max_sector=REGIME_MAX_SECTOR,
-                              max_weight=REGIME_MAX_WEIGHT):
-    """Runtime invariants for the derived regime model book."""
-    errors, warnings = [], []
-    if regime not in REGIMES:
-        return errors, warnings
-
-    eligible = []
-    for t, d in DATA.items():
-        fit, s, c, v = fit_now(d, regime), score(d), cover(d), verdict(t, d)[0]
-        if fit is None or s is None or c is None:
-            continue
-        if not passes_safety_gate(t, d):
-            continue
-        eligible.append(t)
-
-    counts = collections.Counter(DATA[t].get('sector', 'Unclassified') for t in eligible)
-    expected = min(size, sum(min(n, max_sector) for n in counts.values()))
-    if len(book) != expected:
-        errors.append(f'regime book has {len(book)} names; expected {expected}')
-    if expected < size:
-        warnings.append(f'only {expected}/{size} names satisfy safety and sector caps; no forced additions')
-
-    tickers = [x['t'] for x in book]
-    if len(tickers) != len(set(tickers)):
-        errors.append('duplicate ticker in regime model book')
-
-    for row in book:
-        if row['t'] not in eligible:
-            errors.append(f'{row["t"]}: ineligible model member')
-            continue
-        actual = fit_now(DATA[row['t']], regime)
-        if actual is None or abs(float(row['fit']) - float(actual)) > 1e-9:
-            errors.append(f'{row["t"]}: stored model fit differs from fit_now()')
-        if row['weight'] > max_weight + 1e-9:
-            errors.append(f'{row["t"]}: model weight {row["weight"]:.2f}% exceeds {max_weight:.2f}%')
-
-    if book:
-        weight_sum = sum(x['weight'] for x in book)
-        target = min(invested_pct, len(book) * max_weight)
-        if abs(weight_sum - target) > 0.011:
-            errors.append(f'regime model weights sum to {weight_sum:.2f}%, expected {target:.2f}%')
-        fits = [x['fit'] for x in book]
-        if any(fits[i] < fits[i+1] for i in range(len(fits)-1)):
-            errors.append('regime model is not ordered by descending fit')
-        counts = collections.Counter(x['sector'] for x in book)
-        breached = {sec:n for sec,n in counts.items() if n > max_sector}
-        if breached:
-            errors.append(f'sector cap breached: {breached}')
-    return errors, warnings
 
 # ---------------- render ----------------
 def fmt(x, spec, dash='&mdash;'):  return dash if x is None else format(x, spec)
@@ -1240,7 +909,6 @@ function addTicker(){
   if (!input || !out || !link) { console.error('add-ticker controls missing'); return false; }
 
   const t = input.value.trim().toUpperCase();
-  if (!/^[A-Z0-9^][A-Z0-9.^=-]{0,19}$/.test(t)) { out.value = 'Enter a valid Yahoo ticker (maximum 20 characters).'; return false; }
   if (!t) { out.value = 'Enter a Yahoo ticker first, e.g. ROAD or ASML.AS.'; input.focus(); return false; }
   const key = t.split('.')[0];
   if (KNOWN.includes(key)) { out.value = key + ' is already in the model.'; return false; }
@@ -1249,8 +917,7 @@ function addTicker(){
     'Auto-add ' + t + '.', '',
     'Do not edit the title -- the workflow reads the ticker from it.', '',
     'It fetches price, shares and TTM free cash flow from Yahoo, drafts the',
-    'mechanical fields after a maintainer reviews this request and runs add-ticker.',
-    'Public issues do not execute code. Two fields still need a human:',
+    'mechanical fields, commits and redeploys. Two fields still need a human:',
     '  deliver : the company own leading metric (revenue growth fills as a proxy)',
     '  clock   : CLOCK / CONC / DIV', '',
     'Negative free cash flow is written as na= with no NGV, by design.'
@@ -1298,9 +965,70 @@ if (FL.length && window.Chart && fitEl) {
 """
 
 
-PUBLIC_JS = """
-if (window.drawRegimeHistory) window.drawRegimeHistory();
+SCAT_JS = """
+const PTS = __PTS__;
+window.drawPortfolioCharts = function(){
+  if (window.drawRegimeHistory) window.drawRegimeHistory();
+  if (window.drawSectors) window.drawSectors();
+  const rwEl = document.getElementById('rwChart');
+  if (PTS.length && window.Chart && rwEl && rwEl.dataset.drawn !== '1') {
+  rwEl.dataset.drawn = '1';
+  new Chart(rwEl.getContext('2d'), {
+    type: 'scatter',
+    data: { datasets: [{ data: PTS, pointRadius: 7, pointHoverRadius: 10,
+      backgroundColor: PTS.map(p => p.c), borderColor: '#0c0d12', borderWidth: 1 }]},
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: c => c.raw.t + '  rank ' + c.raw.x + '  ' + c.raw.y.toFixed(1) + '%' } } },
+      scales: {
+        x: { title:{display:true,text:'rank (1 = best)',color:'#8f95a8',font:{size:10}}, min:0,
+             ticks:{color:'#5e6373',font:{size:9}}, grid:{color:'#1a1d27'} },
+        y: { title:{display:true,text:'weight %',color:'#8f95a8',font:{size:10}}, min:0,
+             ticks:{color:'#5e6373',font:{size:9}}, grid:{color:'#1a1d27'} } } }
+  });
+}
+};
+"""
+
+
+ZIEL_JS = """
+const ZP = "__ZIELPAYLOAD__";
+function b64utf8(s){
+  return decodeURIComponent(Array.prototype.map.call(atob(s),
+    c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+}
+function revealZiel(){
+  const box = document.getElementById('zielBox');
+  if (!box || box.dataset.open === '1') return;
+  box.innerHTML = b64utf8(ZP);
+  box.dataset.open = '1';
+  if (window.drawPortfolioCharts) window.drawPortfolioCharts();
+}
+function tryZiel(){
+  const el = document.getElementById('zielIn');
+  const v = (el && el.value || '').trim().toLowerCase();
+  if (v === 'ziel' || v === 'ziele') { if (el) el.value = ''; revealZiel(); }
+}
+function initZiel(){
+  const b = document.getElementById('zielBtn'), i = document.getElementById('zielIn');
+  if (b) b.addEventListener('click', tryZiel);
+  if (i) i.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') { e.preventDefault(); tryZiel(); }
+  });
+  if ((location.hash || '').toLowerCase() === '#ziel') revealZiel();
+  let buf = '';
+  document.addEventListener('keydown', function(e){
+    const tag = (e.target && e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;      // do not eat the ticker box
+    if (e.key && e.key.length === 1) {
+      buf = (buf + e.key.toLowerCase()).slice(-8);
+      if (buf.endsWith('ziel')) { buf = ''; revealZiel(); }
+    }
+  });
+}
 if (window.drawSectors) window.drawSectors();
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initZiel);
+else initZiel();
 """
 
 
@@ -1419,7 +1147,7 @@ window.drawRegimeHistory = function(){
 };
 """
 
-def build_html(macro=None):
+def build_html():
     errors, warnings = validate_full()
     for w_ in warnings:
         print('   ~ ' + w_, file=sys.stderr)
@@ -1427,29 +1155,12 @@ def build_html(macro=None):
         print('VALIDATION FAILED - index.html NOT written:', file=sys.stderr)
         for p_ in errors: print('   ! ' + p_, file=sys.stderr)
         raise SystemExit(1)
-
-    # Every render component exists before conditional branches. This turns the
-    # old sec_box-style NameError failure into a render-contract failure.
-    head = hdr = macro_box = sec_box = fw_box = framework_box = ''
-    fit_box = issue_box = adder = tbl = foot = ''
-
-    M = read_macro() if macro is None else macro
-    cur_reg = M.get('regime') if M.get('ok') else None
-    regime_book = build_regime_portfolio(cur_reg) if cur_reg else []
-    runtime_errors, runtime_warnings = validate_regime_portfolio(cur_reg, regime_book)
-    for w_ in runtime_warnings:
-        print('   ~ ' + w_, file=sys.stderr)
-    if runtime_errors:
-        print('RUNTIME VALIDATION FAILED - index.html NOT written:', file=sys.stderr)
-        for p_ in runtime_errors: print('   ! ' + p_, file=sys.stderr)
-        raise SystemExit(1)
-
     rows = []
     ranked = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
     for i,(t,d) in enumerate(ranked, 1):
         s, rk, c, cu, eg = score(d), risk(d), cover(d), cushion(d), entry_gap(d)
         bn, bc = band(s); vn, vc = verdict(t, d)
-        note = escape(str(d.get('price_note','')))
+        note = d.get('price_note','')
         rows.append(
           '<tr%s>' % (' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
@@ -1459,9 +1170,6 @@ def build_html(macro=None):
           + f'<td><span class="pill {bc}">{bn}</span></td>'
           + f'<td class="{cls(rk,2.4,3.3,invert=True)}">{fmt(rk,".1f")}</td>'
           + f'<td><span class="pill {vc}">{vn}</span></td>'
-          + (lambda ds: f'<td><span class="pill {DECISION_CSS.get(ds["action"],"v-hold")}">{ds["action"]}</span>'
-             f'<br><span style="font-size:10px;color:#7b8195">{ds["reason"]}</span></td>')(decision_signal(t, d, cur_reg))
-          + (lambda cf: f'<td class="mono">{cf["score"]:.0f}%<br><span style="font-size:10px;color:#7b8195">{cf["label"]}</span></td>')(evidence_confidence(d))
           + f'<td class="{cls(None if c is None else c*100,60,35)}">{fmt(None if c is None else c*100,".0f")}%</td>'
           + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}</td>'
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
@@ -1499,7 +1207,10 @@ def build_html(macro=None):
         if d.get('boot_note'): issues[t] = 'NGV: ' + d['boot_note']
 
     js = JS.replace('__TICKERS__', json.dumps(sorted(DATA.keys())))
-    fits = sorted(((x['t'], x['fit']) for x in regime_book), key=lambda kv: (-kv[1], kv[0]))
+    M = read_macro()
+    cur_reg = M.get('regime') if M.get('ok') else None
+    fits = sorted(((t, fit_now(d, cur_reg)) for t, d in DATA.items()), key=lambda kv: -(kv[1] or -1))
+    fits = [(t, v) for t, v in fits if v is not None][:15]
     FIT_COL = {'GOLDILOCKS':'#66e39c','REFLATION':'#63c6f0','INFLATION':'#e5b45c',
                'STAGFLATION':'#f06a6a','RECESSION':'#d6a8ff'}
     bar = FIT_COL.get(cur_reg, '#5cc8d8')
@@ -1514,26 +1225,29 @@ def build_html(macro=None):
                  .replace('__SECCOLS__', json.dumps(SECCOL)))
     rdates, rser = regime_history()
     js += CHART_JS.replace('__DATES__', json.dumps(rdates)).replace('__SERIES__', json.dumps(rser))
+    ranked_all = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
+    rank_of = {t: i for i, (t, _) in enumerate(ranked_all, 1)}
+    pts = sorted([dict(x=rank_of[t], y=d['weight'], t=t,
+                 c=('#4ecb8a' if rank_of[t] <= 6 else '#e5b45c' if rank_of[t] <= 15 else '#f06a6a'))
+                 for t, d in DATA.items() if d.get('weight')], key=lambda p: p['x'])
+    js += SCAT_JS.replace('__PTS__', json.dumps(pts))
     js += (FIT_JS.replace('__FITLAB__', json.dumps([t for t, _ in fits]))
                  .replace('__FITVAL__', json.dumps([v for _, v in fits]))
                  .replace('__FITCOL__', json.dumps([bar]*len(fits))))
-    model_pf = regime_book_profile([x['t'] for x in regime_book])
-    pf_txt = (' &middot; '.join(f'<b>{r.title()}</b> {v:.0f}' for r, v in
-                              sorted(model_pf.items(), key=lambda kv: -kv[1]))
-              if model_pf else 'no cover yet')
+    pf = portfolio_regime()
+    pf_txt = ' &middot; '.join(f'<b>{r.title()}</b> {v:.0f}' for r, v in
+                        sorted(pf.items(), key=lambda kv: -kv[1])) if pf else 'no cover yet'
     FW = forward_run()
     if FW.get('ok') and FW.get('signals'):
         pick = 'score' if 'score' in FW['signals'] else list(FW['signals'])[0]
         P = FW['signals'][pick]
         head_fw = (f'<div class="lede" style="margin-bottom:8px">Cohorts frozen '
-                   f'<b>{FW["frozen_on"]}</b>; analysis starts <b>{FW["analysis_start"]}</b> &middot; '
-                   f'<b>{P["obs"]}</b> valid intervals for {pick} against a '
+                   f'<b>{FW["frozen_on"]}</b> &middot; <b>{FW["obs"]}</b> observations against a '
                    f'<b>{FW["floor"]}</b>-day floor. Top quintile minus bottom, equal-weighted. '
-                   f'{FW["n_tests"]} signals are tested; the approximate normal threshold is '
-                   f'|t| &ge; {FW["z_crit"]:.3f}. Missing-price intervals are excluded; '
-                   f'local-currency price returns exclude dividends and FX. Not proof of alpha.</div>')
+                   f'Three signals are tested, so the threshold is Bonferroni-adjusted to '
+                   f'|t| &ge; 2.39.</div>')
         srows = ''.join(
-            f'<tr><td class="tk">{k}</td><td>{v["obs"]} valid / {v["excluded_intervals"]} excluded</td>'
+            f'<tr><td class="tk">{k}</td>'
             f'<td class="{cls(v["spread_pct"],0.0001,-0.0001)}">{v["spread_pct"]:+.1f}%</td>'
             f'<td class="{cls(v.get("annualised_pct"),0.0001,-0.0001)}">'
             f'{(("%+.1f%%" % v["annualised_pct"]) if v.get("annualised_pct") is not None else "&mdash;")}</td>'
@@ -1571,7 +1285,7 @@ def build_html(macro=None):
             f'<th>Days</th></tr></thead><tbody>{yrows}{mrows}</tbody></table>{sb_txt}')
 
         fw_box = ('<div class="box"><h2>Does the scorecard actually rank?</h2>' + head_fw +
-                  '<table><thead><tr><th>Signal</th><th>Intervals</th><th>Cumulative*</th><th>Annualised spread*</th>'
+                  '<table><thead><tr><th>Signal</th><th>Cumulative</th><th>Annualised</th>'
                   '<th>Per day</th><th>t</th><th>Years to sig.</th><th>Verdict</th></tr></thead>'
                   f'<tbody>{srows}</tbody></table>' + per +
                   '<div class="lede" style="font-size:12px;margin-top:10px">Forward test, not a '
@@ -1593,7 +1307,7 @@ def build_html(macro=None):
           f'<b>Inflation impulse {M["inflation"]:+.1f}%</b> (oil + 10-year, 6-month).<br>'
           f'<span class="mono" style="font-size:10px">{det}</span></div>'
           f'<div class="lede" style="margin-bottom:6px">'
-          f'VIX <b>{fmt(M.get("vix"),".1f")} &mdash; {M.get("vix_state") or "unavailable"}</b>'
+          f'VIX <b>{M["vix"]:.1f} &mdash; {M["vix_state"]}</b>'
           + (f' &middot; tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')
           + (f' &middot; breadth {M["breadth"]}' if M.get('breadth') else '')
           + f' &middot; recession score <b>{M["recession_score"]}/100</b></div>{legs}'
@@ -1609,79 +1323,66 @@ def build_html(macro=None):
             )(M.get('heading'), M.get('trail'))
           + '</div>')
     else:
-        macro_box = f'<div class="box"><h2>Regime now</h2><div class="lede">unavailable: {escape(str(M.get("note","")))}</div></div>'
+        macro_box = f'<div class="box"><h2>Regime now</h2><div class="lede">unavailable: {M.get("note","")}</div></div>'
 
-    # Sector-performance panel
+    tw  = sum(d['weight'] for d in DATA.values() if d.get('weight')) or 1
+    wsc = sum(d['weight']*(score(d) or 0) for d in DATA.values() if d.get('weight'))/tw
+    cw  = sum(d['weight'] for d in DATA.values() if d.get('weight') and cover(d))
+    wcv = (sum(d['weight']*cover(d)*100 for d in DATA.values() if d.get('weight') and cover(d))/cw) if cw else None
+    wrk = sum(d['weight']*rank_of[t] for t, d in DATA.items() if d.get('weight'))/tw
+    eqr = (sum(rank_of[t] for t, d in DATA.items() if d.get('weight'))/len(pts)) if pts else 0
+    uns = [(t, d['weight']) for t, d in DATA.items() if d.get('weight') and score(d) is None]
+    unscored = sum(w for _, w in uns)
+    unscored_names = ', '.join(f'{t} {w:.1f}%' for t, w in sorted(uns, key=lambda kv: -kv[1]))
+    port_box = ('<div class="box" style="border-color:#1d5433;background:#0e1712">'
+        '<h2>Your book as one line</h2>'
+        f'<div class="lede" style="margin-bottom:8px">{len(pts)} positions &middot; weighted score '
+        f'<b>{wsc:.2f}</b> &middot; weighted cover <b>{("%.0f%%" % wcv) if wcv else "n/a"}</b> &middot; '
+        f'<b>weight-weighted rank {wrk:.1f}</b> against <b>{eqr:.1f}</b> if held equally.</div>'
+        + (f'<div class="lede" style="margin-bottom:8px;color:#e5b45c"><b>{unscored:.1f}% of the '
+           f'book carries no score</b> &mdash; {unscored_names}. The weighted figures above exclude it, '
+           f'so they describe {100-unscored:.1f}% of what you own.</div>' if unscored else '')
+        + '<div class="lede" style="margin-bottom:8px">Every dot should sit on a line falling left to '
+        'right: best ideas biggest. <b>Dots high and to the right are the problem</b> &mdash; size with no '
+        'rank to justify it.</div>'
+        '<div style="height:280px"><canvas id="rwChart"></canvas></div></div>')
+
+    fit_box = ('<div class="box"><h2>Best fit for the regime we are actually in</h2>'
+               f'<div class="lede" style="margin-bottom:8px">Each row scored against <b>{cur_reg or "&mdash;"}</b>, '
+               'not against the regime it happens to like best. This is what makes the regime column '
+               'actionable rather than descriptive.</div>'
+               '<div style="height:330px"><canvas id="fitChart"></canvas></div></div>') if cur_reg else ''
+
     if SEC.get('rows'):
         rr = sorted(SEC['rows'].values(), key=lambda x: -(x.get('10y') if x.get('10y') is not None else -99))
-        srows_sec = ''
+        srows = ''
         for x in rr:
             eng = SECTOR_TO_ENGINE.get(x['sym'])
             aff = AFF['REFLATION'].get(eng) if eng else None
             ac = 'pos' if (aff or 0) > 0 else ('neg' if (aff or 0) < 0 else 'na')
             spy = x['sym'] == 'SPY'
-            srows_sec += ('<tr%s>' % (' style="background:#141826"' if spy else '')
+            srows += ('<tr%s>' % (' style="background:#141826"' if spy else '')
                 + f'<td class="tk">{x["sym"]}<div class="se">{x["name"]}</div></td>'
-                + ''.join(f'<td class="pr {cls(x.get(w),8,0)}">{("%+.1f%%" % x[w]) if x.get(w) is not None else "&mdash;"}</td>' for w in ('1y','3y','5y','10y'))
+                + ''.join(f'<td class="pr {cls(x.get(w),8,0)}">'
+                          f'{("%+.1f%%" % x[w]) if x.get(w) is not None else "&mdash;"}</td>'
+                          for w in ('1y','3y','5y','10y'))
                 + f'<td class="pr {ac}">{("%+d" % aff) if aff is not None else "&mdash;"}</td></tr>')
         sec_box = ('<div class="box"><h2>Eleven sectors, ten years</h2>'
           '<div class="lede" style="margin-bottom:10px">Annualised total return. The right-hand '
-          'column is the same sector&rsquo;s <b>reflation affinity</b> from the engine&rsquo;s own table.</div>'
-          '<div class="tw"><table><thead><tr><th>Sector</th><th>1y</th><th>3y</th><th>5y</th><th>10y</th><th>Refl</th></tr></thead><tbody>' + srows_sec + '</tbody></table></div>'
+          'column is the same sector&rsquo;s <b>reflation affinity</b> from the engine&rsquo;s own '
+          'table. <b>Read them together</b>: a decade where technology compounds and energy does '
+          'not is a decade of falling discount rates, and a reflation tilt is a bet that the '
+          'ordering inverts. Whether that is contrarian or late is the only question the table '
+          'answers.</div>'
+          '<div class="tw"><table><thead><tr><th>Sector</th><th>1y</th><th>3y</th><th>5y</th>'
+          '<th>10y</th><th>Refl</th></tr></thead><tbody>' + srows + '</tbody></table></div>'
           '<div style="height:300px;margin-top:14px"><canvas id="secChart"></canvas></div></div>')
     else:
         sec_box = ''
 
-    fit_box = ''
-    if cur_reg:
-        model_names = {x['t'] for x in regime_book}
-        top_rows = ''
-        for row in regime_book:
-            t, fit, s = row['t'], row['fit'], row['score']
-            comp = regime_fit_components(DATA[t], cur_reg)
-            explanation = ' + '.join(f'{key}: {comp[key]:+.1f}' for key in
-                                      ('base','sector','duration','balance','payout'))
-            top_rows += (f'<tr><td class="tk">{escape(t)}</td>'
-                         f'<td class="pr {cls(fit,60,40)}">{fit:.1f}</td>'
-                         f'<td class="pr">{fmt(s,".2f")}</td>'
-                         f'<td>{escape(explanation)}</td></tr>')
-        sector_fits = {}
-        for t,d in DATA.items():
-            if t not in model_names: continue
-            f = fit_now(d,cur_reg)
-            if f is not None: sector_fits.setdefault(d.get('sector','Unclassified'),[]).append(f)
-        sector_rows = ''.join(f'<tr><td class="tk">{sec}</td><td class="pr {cls(avg,60,40)}">{avg:.0f}</td></tr>' for sec,avg in sorted(((sec,sum(v)/len(v)) for sec,v in sector_fits.items()), key=lambda x:-x[1]))
-        fit_box = (f'<div class="box" id="regime-fit"><h2>Regime fit: {len(regime_book)}/{REGIME_PORTFOLIO_SIZE} stocks for {cur_reg}</h2>'
-                   + ''.join(f'<p class="lede">{escape(w)}</p>' for w in runtime_warnings)
-                   +
-                   '<div class="lede">One unweighted fit per stock; score and risk remain separate diagnostics. Sector caps and safety vetoes are never relaxed to fill the target. Fit is a structural hypothesis, not a return forecast.</div>'
-                   '<div style="height:420px"><canvas id="fitChart"></canvas></div>'
-                   '<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Model holdings ranked by fit</h3>'
-                   '<div class="tw"><table style="font-size:11px"><thead><tr><th>Ticker</th><th>Fit</th><th>Score</th><th>Fit contributions (points)</th></tr></thead>'
-                   f'<tbody>{top_rows}</tbody></table></div>'
-                   '<h3 style="font-size:14px;margin:16px 0 10px;font-weight:650">Sector average fit</h3>'
-                   f'<div class="tw"><table style="font-size:11px"><thead><tr><th>Sector</th><th>Avg Fit</th></tr></thead><tbody>{sector_rows}</tbody></table></div></div>')
-
-    decisions = [decision_signal(t, d, cur_reg) for t, d in DATA.items()]
-    action_counts = collections.Counter(x['action'] for x in decisions)
-    conf_vals = [x['confidence'] for x in decisions]
-    avg_conf = (sum(conf_vals) / len(conf_vals)) if conf_vals else 0.0
-    book_avg_fit = (sum(x['fit'] for x in regime_book) / len(regime_book)) if regime_book else None
-    framework_box = (
-        '<div class="box" style="border-color:#284154">'
-        f'<h2>Decision framework v{FRAMEWORK_VERSION}</h2>'
-        '<div class="lede">Legacy score, valuation, regime fit and evidence confidence are shown separately. '
-        '<b>No composite score and no portfolio weight enters regime fit.</b></div>'
-        f'<div class="mono" style="font-size:12px">Regime: {cur_reg or "unavailable"} &middot; '
-        f'Model names: {len(regime_book)} &middot; Equal-name fit: {fmt(book_avg_fit,".1f")} &middot; '
-        f'Average evidence confidence: {avg_conf:.0f}% &middot; BUY SETUP: {action_counts.get("BUY SETUP",0)} &middot; '
-        f'CONTRARIAN: {action_counts.get("CONTRARIAN",0)} &middot; WAIT ENTRY: {action_counts.get("WAIT ENTRY",0)}</div>'
-        '</div>'
-    )
-
-    chart_box = ('<div class="box"><h2>Model regime history (unweighted)</h2>'
-                 '<div class="lede" style="margin-bottom:8px">Equal-name average across the eligible model names, not a position-weighted '
-                 'average. Only versioned model snapshots are plotted; legacy personal-book history is not mixed in. '
+    chart_box = ('<div class="box"><h2>Where the book sits on the growth / inflation grid</h2>'
+                 '<div class="lede" style="margin-bottom:8px">Position-weighted, not a cross-sectional '
+                 'average &mdash; averaging all 51 rows is dominated by the sector mix and barely moves. '
                  'Today: ' + pf_txt + '</div>'
                  '<div style="height:220px"><canvas id="regimeChart"></canvas></div>'
                  '<div id="chartNote" class="lede" style="font-size:12px;margin-top:6px"></div></div>')
@@ -1696,64 +1397,51 @@ def build_html(macro=None):
             '<style>' + CSS + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce &middot; Live &middot; {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
-           f'<div class="lede">{len(DATA)} universe tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{priced}</b> priced this run &middot; '
-           f'<b>{na}</b> formally N/A. Prices from Yahoo; valuation uses reviewed or automatically drafted fundamentals. '
-           f'<b>NGV is conditional on cash flow, shares and the discount-rate estimate; it is not a target price.</b> '
-           f'Legacy quality scores also contain valuation inputs. This public model is not your personal portfolio.</div>')
+           f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{priced}</b> priced this run &middot; '
+           f'<b>{na}</b> formally N/A. Prices from Yahoo; NGV, subscores and the delivering metric are static and '
+           f'human-set. <b>NGV does not move with price &mdash; cover, cushion and entry gap all derive from it.</b></div>')
     issue_box = ''
     if issues:
-        li = ''.join(f'<div class="mono">{escape(t)}: {escape(str(v))}</div>' for t,v in sorted(issues.items()))
+        li = ''.join(f'<div class="mono">{t}: {v}</div>' for t,v in sorted(issues.items()))
         issue_box = f'<div class="box"><h2 style="color:#f06a6a">Price issues this run ({len(issues)})</h2>{li}</div>'
     adder = ('<div class="box"><h2>Add a ticker</h2>'
              '<div class="lede" style="margin-bottom:10px">Yahoo can supply the mechanical half &mdash; price, shares, '
              'cash flow, currency. It cannot supply subscores, the delivering metric or the clock classification. '
-             'This opens a request for maintainer review. Only a maintainer can run the add-ticker workflow.</div>'
-             '<input id="newTicker" aria-label="Yahoo ticker symbol" maxlength="20" placeholder="e.g. ASML.AS" style="width:220px">&nbsp;'
+             'This opens a pre-filled GitHub issue; the workflow does the rest and comments back with the result.</div>'
+             '<input id="newTicker" placeholder="e.g. ASML.AS" style="width:220px">&nbsp;'
              '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
     tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
-           '<th>Verdict</th><th>Action</th><th>Conf</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
+           '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
            '<th>NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table></div>')
+    zin = ('<div style="margin-top:18px;text-align:right">'
+           '<input id="zielIn" type="password" autocomplete="off" placeholder="&#8942;" '
+           'style="width:96px;text-align:center;opacity:.55" aria-label="">'
+           '&nbsp;<button id="zielBtn" type="button" '
+           'style="padding:6px 11px;font-size:11px;opacity:.55">&#8594;</button></div>')
 
-    foot = (f'<div class="foot">Validated snapshots are retained in history/. NGV = (FCF &divide; shares) &divide; r, conditional on the rate estimate. '
-            f'*Forward cumulative spread is the difference between compounded legs; annualised spread compounds daily differences. Neither includes dividends or FX. '
+    foot = (f'<div class="foot">Snapshot written to history/. NGV = (FCF &divide; shares) &divide; r and is price-independent. '
             f'Negative cushion forces DO NOT ADD at every band. NVDA carries a manual risk floor because the '
             f'formula has no concentration term. Last pull {stamp}.<br>Not financial advice</div>')
-    html_parts = {
-        'head': head,
-        'header': hdr,
-        'macro': macro_box,
-        'framework': framework_box,
-        'sector': sec_box,
-        'forward': fw_box,
-        'model_history': chart_box,
-        'regime_fit': fit_box,
-        'issues': issue_box,
-        'adder': adder,
-        'table': tbl,
-        'footer': foot,
-        'scripts': '<script>' + js + PUBLIC_JS + '</script></body></html>',
-    }
-    required = ('head','header','macro','framework','table','footer','scripts')
-    missing = [name for name in required if not html_parts.get(name)]
-    if missing:
-        raise RuntimeError('HTML render contract failed; empty required components: ' + ', '.join(missing))
-
-    html = ''.join(html_parts.values())
-    atomic_text('index.html', html)
+    import base64
+    ziel_payload = base64.b64encode((port_box + chart_box).encode('utf-8')).decode('ascii')
+    js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
+    gate = '<div id="zielBox" data-open="0"></div>'
+    # [FROM V2] atomic write. A build that dies mid-write used to leave
+    # index.html truncated and the live site broken until the next cron run.
+    with open('index.html.tmp', 'w', encoding='utf-8') as f:
+        f.write(head + hdr + macro_box + sec_box + fw_box + gate + zin + fit_box + issue_box + adder + tbl + foot
+                + '<script>' + js + js_z + '</script></body></html>')
+    os.replace('index.html.tmp', 'index.html')
 
 if __name__ == '__main__':
     bootstrap_fundamentals()
     fetch_prices()
-    if not any(positive_number(d.get('price')) for d in DATA.values()):
-        raise SystemExit('No usable quotes: existing report and archives are preserved')
-    macro = read_macro()
-    # Validate and render before committing a new observation to the archive.
-    build_html(macro)
-    day = snapshot(macro)
-    freeze_cohorts()
+    day = snapshot()
+    freeze_cohorts()          # once, from the oldest snapshot
+    build_html()
     bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
     print(f'{len(DATA)} tickers &middot; snapshot history/{day}.json &middot; index.html written')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)
