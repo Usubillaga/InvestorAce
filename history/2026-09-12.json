@@ -1,23 +1,28 @@
 {
  "ADBE": {
   "price": 252.22999572753906,
-  "ngv": 215.8141854992435,
-  "cover": 0.8556245853184241,
-  "cushion": 9.179677342219861,
+  "ngv": 216.23023842804582,
+  "cover": 0.8572740835377071,
+  "cushion": 9.197273546204997,
   "score": 7.88,
   "risk": 2.3,
   "verdict": "TRAP BUY",
   "regime": {
-   "GOLDILOCKS": 65.1,
+   "GOLDILOCKS": 65.0,
    "REFLATION": 50.0,
-   "INFLATION": 49.5,
-   "STAGFLATION": 40.1,
-   "RECESSION": 61.5
+   "INFLATION": 49.6,
+   "STAGFLATION": 40.2,
+   "RECESSION": 61.6
   },
   "weight": null,
   "momentum": -20.1,
   "from_high": -31.4,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 167.50904025422082,
+  "epv_cover": 0.6641122907331192,
+  "valuation_gap": -0.2253209288766418,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "ASML": {
@@ -38,11 +43,16 @@
   "weight": null,
   "momentum": 158.4,
   "from_high": -14.0,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 203.78965139349458,
+  "epv_cover": 0.13784472945626675,
+  "valuation_gap": -0.2133484553983267,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "RIVN": {
-  "price": null,
+  "price": 16.030000686645508,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -53,8 +63,13 @@
   "weight": null,
   "momentum": 32.2,
   "from_high": -28.6,
-  "ts": null,
-  "note": "N/A: free cash flow -$1,924m in H1 2026; automotive gross profit still negative"
+  "epv": -44.52006751325224,
+  "epv_cover": -2.7772966691349943,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "ROAD": {
   "price": 99.66999816894531,
@@ -74,7 +89,12 @@
   "weight": null,
   "momentum": 0.8,
   "from_high": -29.1,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": -0.4847526249814582,
+  "epv_cover": -0.004863576140131756,
+  "valuation_gap": -1.0119925694849472,
+  "valuation_read": "CHECK",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "CRM": {
@@ -95,7 +115,12 @@
   "weight": null,
   "momentum": -12.3,
   "from_high": -6.5,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 113.34315105053233,
+  "epv_cover": 0.4575454161634313,
+  "valuation_gap": -0.2915114350208243,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "NVDA": {
@@ -116,7 +141,12 @@
   "weight": null,
   "momentum": 23.2,
   "from_high": -7.2,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 20.13471818301767,
+  "epv_cover": 0.09223839297399786,
+  "valuation_gap": -0.46055139203749573,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "SPGI": {
@@ -137,7 +167,12 @@
   "weight": 1.4,
   "momentum": -19.4,
   "from_high": -22.2,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 206.37282415364942,
+  "epv_cover": 0.5024782168617431,
+  "valuation_gap": -0.060653025438492936,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "SAN": {
@@ -158,7 +193,12 @@
   "weight": 5.7,
   "momentum": -0.8,
   "from_high": -14.5,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 224.46381286673352,
+  "epv_cover": 3.0639340202220082,
+  "valuation_gap": 0.8122467413510968,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "APP": {
@@ -179,7 +219,12 @@
   "weight": null,
   "momentum": -33.0,
   "from_high": -55.8,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 46.08314835193372,
+  "epv_cover": 0.14224950477665338,
+  "valuation_gap": -0.45920734161780485,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "ABT": {
@@ -200,7 +245,12 @@
   "weight": 1.8,
   "momentum": -13.1,
   "from_high": -23.7,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 75.52526171215841,
+  "epv_cover": 0.7408069050801537,
+  "valuation_gap": -0.009694278487101582,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "WKL": {
@@ -221,7 +271,12 @@
   "weight": 23.2,
   "momentum": -39.4,
   "from_high": -41.1,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 123.20509411139784,
+  "epv_cover": 1.8599803454822543,
+  "valuation_gap": 0.03131534538016001,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "LVMH": {
@@ -242,7 +297,12 @@
   "weight": 27.4,
   "momentum": 3.0,
   "from_high": -35.3,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 384.21320639014164,
+  "epv_cover": 0.9251462019827359,
+  "valuation_gap": 0.0028316263434116085,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "UBER": {
@@ -263,7 +323,12 @@
   "weight": 3.8,
   "momentum": -17.3,
   "from_high": -28.4,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 37.92952168773026,
+  "epv_cover": 0.5292245382554671,
+  "valuation_gap": -0.3107883573074832,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "AVGO": {
@@ -284,7 +349,12 @@
   "weight": null,
   "momentum": 34.5,
   "from_high": -24.7,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 46.630300356806664,
+  "epv_cover": 0.128816546354266,
+  "valuation_gap": -0.34609547689348474,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "ONON": {
@@ -305,7 +375,12 @@
   "weight": 4.5,
   "momentum": -36.6,
   "from_high": -45.9,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 7.641551109212313,
+  "epv_cover": 0.2787869810927337,
+  "valuation_gap": -0.051223695073369546,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "VICI": {
@@ -326,7 +401,12 @@
   "weight": 1.9,
   "momentum": -14.7,
   "from_high": -21.7,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 46.913316481828744,
+  "epv_cover": 1.8893804521134527,
+  "valuation_gap": 0.04830419888948323,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "ENB": {
@@ -347,7 +427,12 @@
   "weight": 4.1,
   "momentum": 15.3,
   "from_high": -16.3,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 74.24526766653449,
+  "epv_cover": 1.1210216503599464,
+  "valuation_gap": -0.322981550853933,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "PFE": {
@@ -368,7 +453,12 @@
   "weight": null,
   "momentum": 16.3,
   "from_high": -4.5,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 64.81402542430746,
+  "epv_cover": 2.338168363268408,
+  "valuation_gap": 0.8225665096065287,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "ROL": {
@@ -389,7 +479,12 @@
   "weight": null,
   "momentum": -36.5,
   "from_high": -46.5,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 17.89161915448921,
+  "epv_cover": 0.5151632418748122,
+  "valuation_gap": 0.16315680694317414,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "LULU": {
@@ -410,7 +505,12 @@
   "weight": null,
   "momentum": -38.0,
   "from_high": -54.2,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 170.43286970456737,
+  "epv_cover": 1.7220659553646163,
+  "valuation_gap": 0.5524089725634724,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "PL": {
@@ -431,7 +531,12 @@
   "weight": 1.7,
   "momentum": 272.2,
   "from_high": -68.0,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": -3.6813380785002914,
+  "epv_cover": -0.2237895384658008,
+  "valuation_gap": -4.180778475818552,
+  "valuation_read": "CHECK",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "MSFT": {
@@ -452,7 +557,12 @@
   "weight": null,
   "momentum": -5.4,
   "from_high": -7.8,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 100.85625733427102,
+  "epv_cover": 0.20349102423312249,
+  "valuation_gap": -0.02747230075138163,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "AAPL": {
@@ -473,7 +583,12 @@
   "weight": null,
   "momentum": 33.4,
   "from_high": -2.2,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 77.2012551008281,
+  "epv_cover": 0.23234495336156138,
+  "valuation_gap": -0.28335859847442424,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "KO": {
@@ -494,7 +609,12 @@
   "weight": null,
   "momentum": 27.1,
   "from_high": -4.0,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 41.833897833278,
+  "epv_cover": 0.47382373314621606,
+  "valuation_gap": -0.3645698967393398,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "CVX": {
@@ -515,7 +635,12 @@
   "weight": null,
   "momentum": 33.4,
   "from_high": 0.0,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 298.26124534537956,
+  "epv_cover": 1.3933534931660352,
+  "valuation_gap": 0.2324392796117276,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "AMAT": {
@@ -536,7 +661,12 @@
   "weight": null,
   "momentum": 185.7,
   "from_high": -36.8,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 58.97873346421305,
+  "epv_cover": 0.12920049667229655,
+  "valuation_gap": -0.032865873045463956,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "PHR": {
@@ -557,11 +687,16 @@
   "weight": null,
   "momentum": -54.7,
   "from_high": -68.3,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": -3.129597218262537,
+  "epv_cover": -0.30354966933928484,
+  "valuation_gap": -1.2201636199332768,
+  "valuation_read": "CHECK",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "RCAT": {
-  "price": null,
+  "price": 7.960000038146973,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -572,8 +707,13 @@
   "weight": null,
   "momentum": 7.7,
   "from_high": -54.1,
-  "ts": null,
-  "note": "N/A: free cash flow -157.7m -- a NEGATIVE fcf was written straight into the row, which makes NGV negative"
+  "epv": -1.9660473411928394,
+  "epv_cover": -0.24699087082548812,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "ADSK": {
   "price": 212.39999389648438,
@@ -593,7 +733,12 @@
   "weight": null,
   "momentum": -8.9,
   "from_high": -35.0,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 55.10239924821357,
+  "epv_cover": 0.2594274992073134,
+  "valuation_gap": -0.598638835335114,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "GOOG": {
@@ -614,7 +759,12 @@
   "weight": null,
   "momentum": 68.9,
   "from_high": -15.8,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 61.84397689619375,
+  "epv_cover": 0.1843612301257727,
+  "valuation_gap": 0.3159752090964463,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "GILD": {
@@ -635,7 +785,12 @@
   "weight": null,
   "momentum": 18.1,
   "from_high": -6.6,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 161.41934057847345,
+  "epv_cover": 1.1231515391555724,
+  "valuation_gap": -0.2193530746413762,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "AG": {
@@ -656,11 +811,16 @@
   "weight": null,
   "momentum": 110.1,
   "from_high": -38.8,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 1.5863597699322498,
+  "epv_cover": 0.08110223994097744,
+  "valuation_gap": 6.332131452745279,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "BABA": {
-  "price": null,
+  "price": 109.30000305175781,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -671,11 +831,16 @@
   "weight": null,
   "momentum": 0.7,
   "from_high": -41.7,
-  "ts": null,
-  "note": "N/A: Yahoo returned FCF of -50,724m, not credible for Alibaba. Treated as a bad pull, NOT as evidence of cash burn."
+  "epv": 72.46697198903672,
+  "epv_cover": 0.6630097892560971,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "BYRN": {
-  "price": null,
+  "price": 3.619999885559082,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -686,11 +851,16 @@
   "weight": null,
   "momentum": -79.6,
   "from_high": -86.9,
-  "ts": null,
-  "note": "N/A: free cash flow non-positive (-0.5m)"
+  "epv": null,
+  "epv_cover": null,
+  "valuation_gap": null,
+  "valuation_read": "NO VALUE",
+  "epv_confidence": "NONE",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "FSLR": {
-  "price": null,
+  "price": 209.02999877929688,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -701,8 +871,13 @@
   "weight": null,
   "momentum": 21.1,
   "from_high": -34.3,
-  "ts": null,
-  "note": "N/A: H1 2026 free cash flow -$640m (OCF -$360m, capex -$280m). And the margin is policy: Section 45X credits decline after 2029."
+  "epv": 62.12909159946265,
+  "epv_cover": 0.297225718615926,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "SITE": {
   "price": 92.81999969482422,
@@ -722,7 +897,12 @@
   "weight": 2.0,
   "momentum": -29.1,
   "from_high": -43.1,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 66.23327374945389,
+  "epv_cover": 0.7135668386901228,
+  "valuation_gap": -0.024789636989868913,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "TSLA": {
@@ -743,7 +923,12 @@
   "weight": null,
   "momentum": -0.3,
   "from_high": -25.4,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 3.155364609511939,
+  "epv_cover": 0.008634425865892617,
+  "valuation_gap": -0.7342635358788427,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "PG": {
@@ -764,7 +949,12 @@
   "weight": null,
   "momentum": -4.2,
   "from_high": -11.8,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 114.20898621437334,
+  "epv_cover": 0.78618422837084,
+  "valuation_gap": -0.0867809449907273,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "CSGP": {
@@ -785,7 +975,12 @@
   "weight": null,
   "momentum": -62.6,
   "from_high": -66.6,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": -2.3017133505017595,
+  "epv_cover": -0.07556511555100752,
+  "valuation_gap": -1.2780914756328092,
+  "valuation_read": "CHECK",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "OXY": {
@@ -806,11 +1001,16 @@
   "weight": null,
   "momentum": 33.4,
   "from_high": -6.4,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 112.96914199269091,
+  "epv_cover": 1.8380921522211933,
+  "valuation_gap": -0.27933329226819703,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "SPCX": {
-  "price": null,
+  "price": 151.2100067138672,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -821,11 +1021,16 @@
   "weight": null,
   "momentum": null,
   "from_high": -28.5,
-  "ts": null,
-  "note": "N/A: Yahoo returned FCF of -32,522m on 13.2bn shares. Not credible -- a bad pull, not evidence of cash burn. Verify what this symbol actually is before trusting any of it."
+  "epv": -7.693683552458514,
+  "epv_cover": -0.05088078308876194,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "JEQE": {
-  "price": null,
+  "price": 22.104999542236328,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -835,9 +1040,14 @@
   "regime": {},
   "weight": 2.1,
   "momentum": null,
-  "from_high": -1.1,
-  "ts": null,
-  "note": "N/A: fund, not a company. No single free cash flow to capitalise, so no NGV. A covered-call overlay on the Nasdaq-100: 109 holdings, top 10 = 49.4%. The framework cannot score it and should not pretend to."
+  "from_high": -0.4,
+  "epv": null,
+  "epv_cover": null,
+  "valuation_gap": null,
+  "valuation_read": "NO VALUE",
+  "epv_confidence": "NONE",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "REP": {
   "price": 28.920000076293945,
@@ -857,11 +1067,16 @@
   "weight": null,
   "momentum": 115.0,
   "from_high": 0.0,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 91.27960460830478,
+  "epv_cover": 3.1562795424446666,
+  "valuation_gap": 1.3628048911963648,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "AWK": {
-  "price": null,
+  "price": 137.69000244140625,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -872,8 +1087,13 @@
   "weight": null,
   "momentum": -1.3,
   "from_high": -3.3,
-  "ts": null,
-  "note": "N/A: regulated water utility. 2025 operating cash flow $2.06bn against $3.13bn capex, so free cash flow is negative and stays negative BY PLAN: $19-20bn of investment 2026-2030. NGV cannot be built from a cash line the business is designed not to produce. Value here is rate base times allowed return, which this framework does not compute. Same structural problem as ENG."
+  "epv": null,
+  "epv_cover": null,
+  "valuation_gap": null,
+  "valuation_read": "NO VALUE",
+  "epv_confidence": "NONE",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "MRVL": {
   "price": 236.10000610351562,
@@ -893,7 +1113,12 @@
   "weight": null,
   "momentum": 186.2,
   "from_high": -25.4,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 7.273464893529353,
+  "epv_cover": 0.030806712009742082,
+  "valuation_gap": -0.5534092555372977,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "AR": {
@@ -914,7 +1139,12 @@
   "weight": 2.5,
   "momentum": 13.8,
   "from_high": -14.9,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 36.981606215177194,
+  "epv_cover": 0.9623108488551452,
+  "valuation_gap": -0.6298480437280567,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "DVN": {
@@ -935,7 +1165,12 @@
   "weight": null,
   "momentum": 36.7,
   "from_high": -2.8,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 25.012407928205565,
+  "epv_cover": 0.4979575583546177,
+  "valuation_gap": -0.14888626655901616,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "CNX": {
@@ -956,11 +1191,16 @@
   "weight": 2.3,
   "momentum": 22.6,
   "from_high": -15.7,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 20.707045486637256,
+  "epv_cover": 0.576637303665417,
+  "valuation_gap": -0.5984687738928587,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "MRNA": {
-  "price": null,
+  "price": 143.97000122070312,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -971,11 +1211,16 @@
   "weight": null,
   "momentum": 148.1,
   "from_high": -17.4,
-  "ts": null,
-  "note": "N/A: FCF deeply negative"
+  "epv": -118.08614652620342,
+  "epv_cover": -0.8202135550806847,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "BNTX": {
-  "price": null,
+  "price": 96.7300033569336,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -986,11 +1231,16 @@
   "weight": null,
   "momentum": -17.0,
   "from_high": -18.9,
-  "ts": null,
-  "note": "N/A: FCF negative"
+  "epv": 4.952744110102365,
+  "epv_cover": 0.051201736154466417,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "INTC": {
-  "price": null,
+  "price": 102.94000244140625,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1001,11 +1251,16 @@
   "weight": null,
   "momentum": 379.4,
   "from_high": -27.0,
-  "ts": null,
-  "note": "N/A: adj. FCF -$8.4bn in the quarter"
+  "epv": -35.25342516061634,
+  "epv_cover": -0.3424657501896087,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "CRWV": {
-  "price": null,
+  "price": 88.98999786376953,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1016,11 +1271,16 @@
   "weight": null,
   "momentum": -28.5,
   "from_high": -40.2,
-  "ts": null,
-  "note": "N/A: no steady-state FCF"
+  "epv": -134.87226361163349,
+  "epv_cover": -1.5155890195446784,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "NBIS": {
-  "price": null,
+  "price": 224.5500030517578,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1031,11 +1291,16 @@
   "weight": null,
   "momentum": 238.6,
   "from_high": -21.7,
-  "ts": null,
-  "note": "N/A: no steady-state FCF"
+  "epv": -72.07430171375515,
+  "epv_cover": -0.3209721698250983,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "OPEN": {
-  "price": null,
+  "price": 2.7899999618530273,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1046,11 +1311,16 @@
   "weight": null,
   "momentum": 47.8,
   "from_high": -73.5,
-  "ts": null,
-  "note": "N/A: FCF tracks the inventory cycle"
+  "epv": -3.959206880877961,
+  "epv_cover": -1.4190705860255224,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "BA": {
-  "price": null,
+  "price": 210.4499969482422,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1061,11 +1331,16 @@
   "weight": null,
   "momentum": -1.0,
   "from_high": -16.5,
-  "ts": null,
-  "note": "N/A: trailing FCF negative; guide is a forecast"
+  "epv": -137.91907001247853,
+  "epv_cover": -0.6553531575787961,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "TEM": {
-  "price": null,
+  "price": 59.0099983215332,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1076,8 +1351,13 @@
   "weight": null,
   "momentum": -18.2,
   "from_high": -42.8,
-  "ts": null,
-  "note": "N/A: operating cash flow negative"
+  "epv": -24.21135327845752,
+  "epv_cover": -0.4102923905629499,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "ISRG": {
   "price": 369.1499938964844,
@@ -1097,7 +1377,12 @@
   "weight": null,
   "momentum": -16.1,
   "from_high": -37.7,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 55.628390860937294,
+  "epv_cover": 0.15069319187510644,
+  "valuation_gap": -0.3453708853192462,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "VST": {
@@ -1118,7 +1403,12 @@
   "weight": 4.8,
   "momentum": -29.8,
   "from_high": -31.6,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 102.67293399721699,
+  "epv_cover": 0.6919593652682918,
+  "valuation_gap": 0.2572232286798999,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "SE": {
@@ -1139,7 +1429,12 @@
   "weight": null,
   "momentum": -29.2,
   "from_high": -45.9,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 19.249301613584727,
+  "epv_cover": 0.18118695407230628,
+  "valuation_gap": -0.7402297913883693,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "UNH": {
@@ -1160,7 +1455,12 @@
   "weight": null,
   "momentum": 56.6,
   "from_high": -13.1,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": null,
+  "epv_cover": null,
+  "valuation_gap": null,
+  "valuation_read": "NGV ONLY",
+  "epv_confidence": "NONE",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "CMCSA": {
@@ -1181,7 +1481,12 @@
   "weight": null,
   "momentum": -8.8,
   "from_high": -20.4,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 322.5994342476188,
+  "epv_cover": 12.801564463523817,
+  "valuation_gap": 2.0756793956640336,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "NVO": {
@@ -1202,11 +1507,16 @@
   "weight": null,
   "momentum": -1.6,
   "from_high": -29.3,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 278.47138565991537,
+  "epv_cover": 6.4655534625736175,
+  "valuation_gap": 0.15873004688396164,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "ENG": {
-  "price": null,
+  "price": 16.43000030517578,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1217,8 +1527,13 @@
   "weight": 2.8,
   "momentum": 36.4,
   "from_high": -6.5,
-  "ts": null,
-  "note": "N/A: regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB"
+  "epv": 35.48468980308324,
+  "epv_cover": 2.159749795738278,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "META": {
   "price": 648.030029296875,
@@ -1238,7 +1553,12 @@
   "weight": null,
   "momentum": -24.4,
   "from_high": -17.7,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 63.043461003070696,
+  "epv_cover": 0.097284783347886,
+  "valuation_gap": -0.6435673597967235,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "DIS": {
@@ -1259,7 +1579,12 @@
   "weight": null,
   "momentum": -6.5,
   "from_high": -9.1,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 78.38847502109363,
+  "epv_cover": 0.7356966004310256,
+  "valuation_gap": 0.4671733674922802,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "PEP": {
@@ -1280,34 +1605,44 @@
   "weight": null,
   "momentum": -0.5,
   "from_high": -17.6,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 109.20060052232373,
+  "epv_cover": 0.801060700228726,
+  "valuation_gap": -0.22286143733816155,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "BSX": {
   "price": 42.97999954223633,
-  "ngv": 39.17461953788965,
-  "cover": 0.9114616090070652,
+  "ngv": 21.452202209044483,
+  "cover": 0.4991205778856154,
   "cushion": null,
   "score": 5.4,
   "risk": 3.0,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 51.1,
+   "GOLDILOCKS": 65.5,
    "REFLATION": 50.0,
-   "INFLATION": 64.0,
-   "STAGFLATION": 67.1,
-   "RECESSION": 76.0
+   "INFLATION": 45.5,
+   "STAGFLATION": 44.5,
+   "RECESSION": 57.5
   },
   "weight": 0.2,
   "momentum": -49.6,
   "from_high": -60.3,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 37.578078506503985,
+  "epv_cover": 0.8743154701427139,
+  "valuation_gap": 0.7517119287016909,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "WIX": {
   "price": 76.58000183105469,
-  "ngv": 101.02010652955194,
-  "cover": 1.319144739019663,
+  "ngv": 148.46548788101668,
+  "cover": 1.9386978888894597,
   "cushion": null,
   "score": 5.3,
   "risk": 3.3,
@@ -1322,11 +1657,16 @@
   "weight": null,
   "momentum": -31.8,
   "from_high": -58.4,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": -16.98112956805486,
+  "epv_cover": -0.22174365581130975,
+  "valuation_gap": -1.1143776227756303,
+  "valuation_read": "CHECK",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "GRAB": {
-  "price": null,
+  "price": 3.049999952316284,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1337,8 +1677,13 @@
   "weight": null,
   "momentum": -25.9,
   "from_high": -52.7,
-  "ts": null,
-  "note": "N/A: TTM IFRS free cash flow negative (-186m)"
+  "epv": 0.2706110699356923,
+  "epv_cover": 0.08872494234964827,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "NOW": {
   "price": 132.52999877929688,
@@ -1358,7 +1703,12 @@
   "weight": null,
   "momentum": -25.4,
   "from_high": -31.1,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 11.310739648711909,
+  "epv_cover": 0.08534475026705284,
+  "valuation_gap": -0.7968023723089276,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "MCD": {
@@ -1379,7 +1729,12 @@
   "weight": null,
   "momentum": -7.6,
   "from_high": -24.5,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 183.8119231196872,
+  "epv_cover": 0.7278815348996732,
+  "valuation_gap": -0.16490049238740256,
+  "valuation_read": "DIVERGE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "TTD": {
@@ -1400,28 +1755,38 @@
   "weight": null,
   "momentum": -72.7,
   "from_high": -74.1,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 6.840011737224641,
+  "epv_cover": 0.4769882611186896,
+  "valuation_gap": -0.694969356481089,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "NKE": {
   "price": 36.79999923706055,
-  "ngv": 18.66619510108666,
-  "cover": 0.5072335730455209,
+  "ngv": 18.629875367423086,
+  "cover": 0.506246623740723,
   "cushion": null,
   "score": 4.6,
   "risk": 2.8,
   "verdict": "AVOID",
   "regime": {
-   "GOLDILOCKS": 65.2,
+   "GOLDILOCKS": 65.3,
    "REFLATION": 62.0,
    "INFLATION": 33.8,
-   "STAGFLATION": 32.9,
+   "STAGFLATION": 32.8,
    "RECESSION": 33.8
   },
   "weight": null,
   "momentum": -43.4,
   "from_high": -51.7,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 29.70309162365642,
+  "epv_cover": 0.8071492456375658,
+  "valuation_gap": 0.5943795134344476,
+  "valuation_read": "WIDE GAP",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "ZTS": {
@@ -1442,11 +1807,16 @@
   "weight": null,
   "momentum": -48.4,
   "from_high": -52.6,
-  "ts": "2026-09-12 22:12 UTC",
+  "epv": 84.04514255453587,
+  "epv_cover": 1.1517766362691315,
+  "valuation_gap": -0.08130495288374229,
+  "valuation_read": "AGREE",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
   "note": ""
  },
  "IBST": {
-  "price": null,
+  "price": 79.0,
   "ngv": null,
   "cover": null,
   "cushion": null,
@@ -1457,14 +1827,26 @@
   "weight": null,
   "momentum": -38.1,
   "from_high": -46.7,
-  "ts": null,
-  "note": "N/A: free cash flow negative (-7m) in a UK housing downturn"
+  "epv": -0.104798024708814,
+  "epv_cover": -0.0013265572747951139,
+  "valuation_gap": null,
+  "valuation_read": "EPV ONLY",
+  "epv_confidence": "MEDIUM",
+  "ts": "2026-09-12 22:40 UTC",
+  "note": ""
  },
  "_portfolio": {
   "GOLDILOCKS": 46.5,
   "REFLATION": 56.5,
   "INFLATION": 73.9,
   "STAGFLATION": 68.2,
-  "RECESSION": 65.3
+  "RECESSION": 65.2
+ },
+ "_models": {
+  "engine": "v15.2-framework",
+  "regime": "v15.1-golden-2026-09-13",
+  "regime_spec_sha256": "78c4c1681fe507136a77e06e02f5ffcadcc86a165a3376366744a815c6b1121d",
+  "ngv": "fcf-per-share-capitalised",
+  "epv": "greenwald-template-lens-v1"
  }
 }
