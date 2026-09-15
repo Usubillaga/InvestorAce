@@ -928,12 +928,18 @@ def observation(macro, bundle, captured_at=None):
                     diagnostics=EVIDENCE.row_diagnostics(d, W)) for t,d in DATA.items()}
     rec['_portfolio'] = portfolio_regime()
     regime = macro.get('regime') if macro.get('ok') else None
-    rec['_portfolio_proposal'] = (construct_portfolio(regime_book(regime, len(DATA)))
+    rec['_portfolio_proposal'] = (portfolio_proposal(regime)
                                   if regime in REGIMES else None)
     rec['_models'] = dict(engine='v15.3-evidence', regime=REGIME_MODEL_VERSION,
                           regime_spec_sha256=regime_spec_sha256(),
                           ngv='fcf-per-share-capitalised', epv='greenwald-template-lens-v1')
     return EVIDENCE.create_record(DATA, rec, macro, rec['_models'], bundle['sha256'], captured_at)
+
+
+def portfolio_proposal(regime):
+    """Ten-slot planning book; the legacy raw regime book remains unchanged."""
+    return construct_portfolio(regime_book(regime, len(DATA)),
+                               entry_limits={t: entry_price(d) for t, d in DATA.items()})
 
 
 def snapshot(macro=None, captured_at=None):
@@ -1744,7 +1750,7 @@ def build_html(macro=None, write=True):
     gate = '<div id="zielBox" data-open="0"></div>'
     # [FROM V2] atomic write. A build that dies mid-write used to leave
     # index.html truncated and the live site broken until the next cron run.
-    proposal = construct_portfolio(regime_book(cur_reg, len(DATA))) if cur_reg in REGIMES else None
+    proposal = portfolio_proposal(cur_reg) if cur_reg in REGIMES else None
     html = (head + hdr + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
             + regime_book_box + issue_box + adder + tbl + foot
             + '<script>' + js + js_z + '</script></body></html>')
