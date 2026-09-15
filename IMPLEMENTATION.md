@@ -103,9 +103,11 @@ signed-area diagnostic changes when the order of moves changes even if their
 endpoints agree. No trained signature strategy is enabled in the live engine.
 
 **Portfolio proposal:** raw regime ranking is unchanged. The separate proposal
-fills up to 30 equal slots with at most six names per sector; missing slots stay
+fills up to 10 equal slots with at most two names per sector; missing slots stay
 in cash. Positive prices are required. Correlation, liquidity, tax and execution
 constraints remain separate research requirements. This does not change holdings.
+Entry, initial-stop and holding-period columns use the configurable rules in
+`TEN_STOCK_PLAN.md`.
 
 ## Offline path experiment
 
