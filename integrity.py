@@ -40,3 +40,4 @@ def atomic_text(path, text):
 def atomic_json(path, value):
     # Refuse NaN/Infinity instead of producing invalid JSON archives.
     atomic_text(path, json.dumps(value, indent=1, allow_nan=False) + '\n')
+

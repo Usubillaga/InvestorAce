@@ -11,6 +11,11 @@ _w.filterwarnings('ignore')          # [FIX] yfinance emits a Pandas4Warning per
 import json, os, sys, math, hashlib  # fetch; 200 lines of them buried the real
                                      # traceback and made the failure unreadable
 from datetime import datetime, timezone
+from pathlib import Path
+import evidence as EVIDENCE
+from integrity import atomic_text
+from framework_view import framework_panel
+from portfolio import construct as construct_portfolio
 import yfinance as yf
 try:
     import wacc as WACC
@@ -592,6 +597,8 @@ def _fetch_momentum(tk, d):
         c = h['Close'].dropna()
         if len(c) < 60: return
         last = float(c.iloc[-1])
+        d['momentum_observed_at'] = c.index[-1].isoformat()
+        d['momentum_history_start'] = c.index[0].isoformat()
         skip = 21                                    # one month of trading days
         if len(c) > skip + 200:
             start = float(c.iloc[0]); end = float(c.iloc[-skip])
@@ -752,6 +759,11 @@ def fetch_prices():
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     for t, d in DATA.items():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
+        ser = None
+        d['quote_observed_at'], d['quote_time_status'] = None, 'UNKNOWN'
+        for field in ('mom_12_1', 'from_high', 'r_wacc', 'beta', 'wacc_inputs', 'wacc_details',
+                      'momentum_observed_at', 'momentum_history_start'):
+            d.pop(field, None)
         if d.get('na') and not d.get('midcycle'):
             # `na` means NGV is structurally unavailable, not that the security has no price.
             # Keep the reason separate so EPV can value rows such as AWK without suppressing
@@ -785,6 +797,12 @@ def fetch_prices():
             else:
                 d['price_note'] = f'accepted UNBOUNDED at {px:.2f} - no 52w range, set sanity by hand'
             d['price'], d['price_ts'] = float(px), stamp
+            # Retrieval time is not necessarily the quote's exchange timestamp.
+            d['quote_observed_at'] = None
+            d['quote_time_status'] = 'UNKNOWN'
+            if ser is not None and len(ser):
+                d['quote_observed_at'] = ser.index[-1].isoformat()
+                d['quote_time_status'] = 'DAILY_CLOSE'
             _fetch_momentum(tk, d)
             if WACC is not None and d.get('shares'):
                 try:
@@ -795,6 +813,7 @@ def fetch_prices():
                             beta=inp['beta'], market_cap=mc or inp.get('market_cap'),
                             total_debt=inp.get('total_debt'), tax_rate=inp.get('tax_rate'))
                         d['r_wacc'], d['beta'] = rw, inp['beta']
+                        d['wacc_inputs'], d['wacc_details'] = inp, _det
                 except Exception:
                     pass
         except Exception as e:
@@ -843,6 +862,9 @@ def populate_epv(force=False):
     today = datetime.now(timezone.utc).date().isoformat()
     for t, d in DATA.items():
         d['epv_value'] = None
+        for field in ('epv_inputs', 'epv_inputs_retrieved_on', 'epv_normalised_earnings',
+                      'epv_net_debt', 'epv_wacc', 'epv_rate_source', 'epv_tax_source'):
+            d.pop(field, None)
         d['epv_confidence'] = 'NONE'
         d['epv_confidence_score'] = 0.0
         d['epv_note'] = ''
@@ -862,6 +884,8 @@ def populate_epv(force=False):
             d['epv_note'] = 'annual statement inputs unavailable'
             continue
         inp = dict(inputs)
+        d['epv_inputs'] = inp
+        d['epv_inputs_retrieved_on'] = (cache.get(sym) or {}).get('asof')
         tax_override = d.get('epv_tax_rate')
         if tax_override is not None:
             inp['tax_rate'] = tax_override
@@ -889,22 +913,54 @@ def populate_epv(force=False):
         _epv_cache_write(cache)
 
 
-def snapshot():
-    os.makedirs('history', exist_ok=True)
-    day = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+def observation(macro, bundle, captured_at=None):
+    """Prepare a validated, detached observation without writing anything."""
+    errors, _ = validate_full()
+    if errors:
+        raise ValueError('VALIDATION FAILED: ' + '; '.join(errors))
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
                    score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
                    regime=regime_scores(d), weight=d.get('weight'),
                    momentum=d.get('mom_12_1'), from_high=d.get('from_high'),
                    epv=epv(d), epv_cover=epv_cover(d), valuation_gap=valuation_gap(d),
                    valuation_read=valuation_read(d), epv_confidence=d.get('epv_confidence'),
-                   ts=d.get('price_ts'), note=d.get('price_note')) for t,d in DATA.items()}
+                    ts=d.get('price_ts'), note=d.get('price_note'),
+                    diagnostics=EVIDENCE.row_diagnostics(d, W)) for t,d in DATA.items()}
     rec['_portfolio'] = portfolio_regime()
-    rec['_models'] = dict(engine='v15.2-framework', regime=REGIME_MODEL_VERSION,
+    regime = macro.get('regime') if macro.get('ok') else None
+    rec['_portfolio_proposal'] = (construct_portfolio(regime_book(regime, len(DATA)))
+                                  if regime in REGIMES else None)
+    rec['_models'] = dict(engine='v15.3-evidence', regime=REGIME_MODEL_VERSION,
                           regime_spec_sha256=regime_spec_sha256(),
                           ngv='fcf-per-share-capitalised', epv='greenwald-template-lens-v1')
-    with open(f'history/{day}.json','w') as f: json.dump(rec, f, indent=1, default=str)
-    return day
+    return EVIDENCE.create_record(DATA, rec, macro, rec['_models'], bundle['sha256'], captured_at)
+
+
+def snapshot(macro=None, captured_at=None):
+    """Compatibility API: archive a validated observation; never overwrite a day."""
+    bundle = EVIDENCE.model_bundle(Path(__file__).parent)
+    macro = read_macro() if macro is None else macro
+    record = observation(macro, bundle, captured_at)
+    return EVIDENCE.publish_record(record, bundle)['day']
+
+
+def run_build():
+    """One macro reading shared by the report and immutable observation."""
+    with EVIDENCE.build_lock():
+        bootstrap_fundamentals()
+        fetch_prices()
+        populate_epv()
+        macro = read_macro()
+        bundle = EVIDENCE.model_bundle(Path(__file__).parent)
+        record = observation(macro, bundle)
+        # Rendering can fail without publishing an observation or changing index.html.
+        html = build_html(macro=macro, write=False)
+        published = EVIDENCE.publish_record(record, bundle)
+        atomic_text('index.html', html)
+        # The report's forward panel consumes prior frozen evidence. New cohorts
+        # become visible next run, after this validated observation is published.
+        freeze_cohorts()
+        return published
 
 
 # =====================================================================
@@ -1382,7 +1438,7 @@ window.drawRegimeHistory = function(){
 };
 """
 
-def build_html():
+def build_html(macro=None, write=True):
     errors, warnings = validate_full()
     for w_ in warnings:
         print('   ~ ' + w_, file=sys.stderr)
@@ -1449,7 +1505,7 @@ def build_html():
         if d.get('boot_note'): issues[t] = 'NGV: ' + d['boot_note']
 
     js = JS.replace('__TICKERS__', json.dumps(sorted(DATA.keys())))
-    M = read_macro()
+    M = read_macro() if macro is None else macro
     cur_reg = M.get('regime') if M.get('ok') else None
     fits = sorted(((t, fit_now(d, cur_reg)) for t, d in DATA.items()), key=lambda kv: -(kv[1] or -1))
     fits = [(t, v) for t, v in fits if v is not None][:15]
@@ -1486,8 +1542,8 @@ def build_html():
         head_fw = (f'<div class="lede" style="margin-bottom:8px">Cohorts frozen '
                    f'<b>{FW["frozen_on"]}</b> &middot; <b>{FW["obs"]}</b> observations against a '
                    f'<b>{FW["floor"]}</b>-day floor. Top quintile minus bottom, equal-weighted. '
-                   f'Three signals are tested, so the threshold is Bonferroni-adjusted to '
-                   f'|t| &ge; 2.39.</div>')
+                    f'{FW.get("n_tests", 4)} signals are tested, so the threshold is Bonferroni-adjusted to '
+                    f'|t| &ge; {FW.get("z_crit", 2.50):.2f}.</div>')
         srows = ''.join(
             f'<tr><td class="tk">{k}</td>'
             f'<td class="{cls(v["spread_pct"],0.0001,-0.0001)}">{v["spread_pct"]:+.1f}%</td>'
@@ -1549,7 +1605,7 @@ def build_html():
           f'<b>Inflation impulse {M["inflation"]:+.1f}%</b> (oil + 10-year, 6-month).<br>'
           f'<span class="mono" style="font-size:10px">{det}</span></div>'
           f'<div class="lede" style="margin-bottom:6px">'
-          f'VIX <b>{M["vix"]:.1f} &mdash; {M["vix_state"]}</b>'
+           f'VIX <b>{fmt(M.get("vix"), ".1f")} &mdash; {M.get("vix_state") or "unavailable"}</b>'
           + (f' &middot; tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')
           + (f' &middot; breadth {M["breadth"]}' if M.get('breadth') else '')
           + f' &middot; recession score <b>{M["recession_score"]}/100</b></div>{legs}'
@@ -1669,7 +1725,7 @@ def build_html():
              '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
-    tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Score</th><th>Band</th><th>Risk</th>'
+    tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Legacy Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
            '<th>NGV</th><th>EPV</th><th>EPV vs NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table></div>')
@@ -1688,18 +1744,17 @@ def build_html():
     gate = '<div id="zielBox" data-open="0"></div>'
     # [FROM V2] atomic write. A build that dies mid-write used to leave
     # index.html truncated and the live site broken until the next cron run.
-    with open('index.html.tmp', 'w', encoding='utf-8') as f:
-        f.write(head + hdr + macro_box + sec_box + fw_box + gate + zin + fit_box + regime_book_box + issue_box + adder + tbl + foot
-                + '<script>' + js + js_z + '</script></body></html>')
-    os.replace('index.html.tmp', 'index.html')
+    proposal = construct_portfolio(regime_book(cur_reg, len(DATA))) if cur_reg in REGIMES else None
+    html = (head + hdr + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
+            + regime_book_box + issue_box + adder + tbl + foot
+            + '<script>' + js + js_z + '</script></body></html>')
+    if write:
+        atomic_text('index.html', html)
+    return html
 
 if __name__ == '__main__':
-    bootstrap_fundamentals()
-    fetch_prices()
-    populate_epv()
-    day = snapshot()
-    freeze_cohorts()          # once, from the oldest snapshot
-    build_html()
+    published = run_build()
+    day = published['day']
     bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
     print(f'{len(DATA)} tickers &middot; snapshot history/{day}.json &middot; index.html written')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)

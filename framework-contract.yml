@@ -25,3 +25,4 @@ jobs:
         run: python -m py_compile engine.py epv.py
       - name: Run offline model contracts
         run: python test_framework_contract.py
+

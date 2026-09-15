@@ -29,6 +29,7 @@ No inputs, no opinions. Everything here is a number off a price series.
 """
 import math
 from datetime import datetime, timezone
+from path_features import diagnostics as path_diagnostics
 
 try:
     import yfinance as yf
@@ -149,7 +150,16 @@ def read_macro():
             breadth = 'broadening' if float(r.iloc[-1]) > float(r.rolling(50).mean().iloc[-1]) else 'narrowing'
 
     tr = trail(c)
+    # Preserve the legacy classifier above. Research observations require all
+    # four proxy series on exactly the same dates, never positional alignment.
+    points = aligned_path(c)
+    raw = {sym: [{'date': idx.isoformat(), 'close': float(value)}
+                  for idx, value in series.items()]
+           for sym, series in c.items()}
     return dict(ok=True, regime=regime, trail=tr, heading=heading(tr), growth=round(growth, 1), inflation=round(infl, 1),
+                path_points=points, path_diagnostics=path_diagnostics(points),
+                input_series=raw, source='Yahoo market-price proxies; unadjusted closes',
+                source_vintage='retrieved-now; historical closes may be revised',
                 recession_score=score, recession_legs=legs, vix=vix, vix_state=vix_state,
                 breadth=breadth,
                 detail={'SPY 6m': None if g_eq is None else round(100*g_eq,1),
@@ -157,6 +167,26 @@ def read_macro():
                         'Oil 6m': None if i_oil is None else round(100*i_oil,1),
                         '10Y 6m': None if i_ty is None else round(100*i_ty,1)},
                 ts=datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'))
+
+def aligned_path(closes, lookback=126, window=126):
+    """Common-date proxy path, with no forward filling or future interpolation."""
+    keys = ('SPY', 'HG=F', 'CL=F', '^TNX')
+    if any(k not in closes for k in keys):
+        return []
+    series = {k: {idx.date().isoformat(): float(v) for idx, v in closes[k].items()
+                  if math.isfinite(float(v))} for k in keys}
+    dates = sorted(set.intersection(*(set(s) for s in series.values())))
+    points = []
+    for j in range(max(lookback, len(dates) - window), len(dates)):
+        now, prev = dates[j], dates[j - lookback]
+        if any(series[k][prev] == 0 for k in keys):
+            continue
+        roc = {k: 100 * (series[k][now] / series[k][prev] - 1) for k in keys}
+        points.append({'date': now, 'g': (roc['SPY'] + roc['HG=F']) / 2,
+                       'i': (roc['CL=F'] + roc['^TNX']) / 2,
+                       'spy_close': series['SPY'][now]})
+    return points
+
 
 if __name__ == '__main__':
     import json

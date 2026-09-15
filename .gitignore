@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+index.html.tmp
+history/_build.lock
+research-output/
+*.zip

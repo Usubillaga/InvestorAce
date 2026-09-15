@@ -74,3 +74,4 @@ const tickerLibrary = [
  {yf:"SPGI",name:"S&P Global",index:"S&P 500",group:"High Yield",sector:"Info Svcs",cur:"USD"},
  {yf:"T",name:"AT&T",index:"S&P 500",group:"High Yield",sector:"Communication",cur:"USD"}
 ];
+

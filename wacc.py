@@ -140,3 +140,4 @@ if __name__ == '__main__':
         print(f'{name:5} computed {100*w:.2f}%   workbook {expected:.2f}%   '
               f'ke {100*d["ke"]:.2f}%  kd_at {100*d["kd_after"]:.2f}%  '
               f'we {100*d["we"]:.1f}%')
+
