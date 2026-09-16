@@ -13,7 +13,7 @@ import json, os, sys, math, hashlib  # fetch; 200 lines of them buried the real
 from datetime import datetime, timezone
 from pathlib import Path
 import evidence as EVIDENCE
-from integrity import atomic_text
+from integrity import atomic_text, risk_free_faults, clamp_saturation_faults
 from framework_view import framework_panel
 from portfolio import construct as construct_portfolio
 import yfinance as yf
@@ -925,7 +925,18 @@ def observation(macro, bundle, captured_at=None):
                    epv=epv(d), epv_cover=epv_cover(d), valuation_gap=valuation_gap(d),
                    valuation_read=valuation_read(d), epv_confidence=d.get('epv_confidence'),
                     ts=d.get('price_ts'), note=d.get('price_note'),
+                    r_wacc=d.get('r_wacc'), beta=d.get('beta'),
+                    wacc_clamped=(d.get('wacc_details') or {}).get('clamped'),
                     diagnostics=EVIDENCE.row_diagnostics(d, W)) for t,d in DATA.items()}
+    # [FIX 2026-09-16] Archive the discount rate alongside the NGV it produced.
+    # Without it no historical snapshot is reproducible: history/2026-09-16.json
+    # records ngv=99.80 for AR and gives no way to recover the r that made it,
+    # so a repricing cannot be distinguished from a fundamentals change after
+    # the fact. For a framework whose stated design is "one input reprices the
+    # book", not archiving that input is the gap that hid this bug for months.
+    rec['_rates'] = (WACC.provenance() if WACC is not None else None)
+    if rec['_rates'] is not None:
+        rec['_rates']['live_10y'] = LIVE_10Y
     rec['_portfolio'] = portfolio_regime()
     regime = macro.get('regime') if macro.get('ok') else None
     rec['_portfolio_proposal'] = (portfolio_proposal(regime)
@@ -950,9 +961,61 @@ def snapshot(macro=None, captured_at=None):
     return EVIDENCE.publish_record(record, bundle)['day']
 
 
+LIVE_10Y = None   # the ^TNX close this build priced on; None if the pull failed
+
+# ---------------------------------------------------------------------
+# THE ONE DECISION THIS FILE ASKS YOU TO MAKE ON PURPOSE
+#
+# 'spot'        price the book on the observed 10y. This is wacc.py's stated
+#               design intent ("US 10y in the source workbooks") and it is the
+#               default. It also imports a cyclical-peak yield into a
+#               perpetuity that has no terminal value to absorb it.
+# 'normalized'  price on a long-run rate instead. The SEP long-run funds rate
+#               of 3.0-4.0% implies a 10y around 4.25-4.50%. This is the same
+#               mid-cycle logic the framework already applies to producers,
+#               turned on the discount rate -- but it is a METHOD CHANGE, not
+#               a bug fix, and it should be chosen, not drifted into.
+#
+# Under 'normalized' the gap to spot is deliberate, so the staleness check is
+# widened to tolerate it -- and still prints it as a warning on every build,
+# because a declared divergence that stops being visible is how 3.67 survived.
+# ---------------------------------------------------------------------
+RISK_FREE_MODE = 'spot'            # 'spot' | 'normalized'
+RISK_FREE_NORMALIZED = 4.40        # % -- only consulted when mode is 'normalized'
+RISK_FREE_NORMALIZED_DRIFT_BP = 150
+
+
+def sync_risk_free():
+    """[FIX 2026-09-16] Pull the 10y BEFORE any WACC is computed and point the
+       book at it. Ordering is the whole point: fetch_prices() calls
+       WACC.compute() per row, so a risk-free set afterwards would stamp the
+       provenance correctly and price everything at the old rate anyway."""
+    global LIVE_10Y
+    LIVE_10Y = None
+    if WACC is None:
+        return None
+    try:
+        from macro import _closes
+        ser = (_closes() or {}).get('^TNX')
+        if ser is None or not len(ser):
+            return None
+        LIVE_10Y = float(ser.iloc[-1])
+        asof = getattr(ser.index[-1], 'date', lambda: None)()
+        asof = asof.isoformat() if asof else None
+        if RISK_FREE_MODE == 'normalized':
+            WACC.RISK_FREE_MAX_DRIFT_BP = RISK_FREE_NORMALIZED_DRIFT_BP
+            WACC.set_risk_free(RISK_FREE_NORMALIZED, 'normalized-longrun', asof)
+        else:
+            WACC.set_risk_free(LIVE_10Y, 'live-tnx', asof)
+    except Exception as e:
+        print(f'  risk-free: live 10y unavailable ({e}); falling back to the literal')
+    return LIVE_10Y
+
+
 def run_build():
     """One macro reading shared by the report and immutable observation."""
     with EVIDENCE.build_lock():
+        sync_risk_free()
         bootstrap_fundamentals()
         fetch_prices()
         populate_epv()
@@ -1037,6 +1100,17 @@ def validate_full():
         vg = valuation_gap(d)
         if vg is not None and abs(vg) >= 1.0:
             warn.append(f'{t}: EPV/NGV divergence {vg:+.0%}; inspect normalisation and net debt')
+
+    # [FIX 2026-09-16] The risk-free rate is the one input that reprices the
+    # entire book at once, so unlike the per-row beta check below it is
+    # BLOCKING: a stale rate does not report a fact about one row, it proves
+    # every NGV, cover, cushion and entry price in the output is wrong.
+    if WACC is not None:
+        rf_err, rf_warn = risk_free_faults(WACC.provenance(), LIVE_10Y)
+        p.extend(rf_err)
+        warn.extend(rf_warn)
+        warn.extend(clamp_saturation_faults(
+            [d.get('wacc_details') for d in DATA.values()]))
 
     for t, d in DATA.items():
         if d.get('r_wacc') and abs(d['r_wacc'] - d.get('r', .08)) > 0.025:

@@ -54,14 +54,65 @@ the terminal value where it is.
 import math
 
 # ---- the three market-wide inputs. Change RISK_FREE and the book reprices ----
-RISK_FREE = 3.67          # % -- US 10y in the source workbooks
+#
+# [FIX 2026-09-16] RISK_FREE was a frozen literal (3.67) taken from the source
+# workbooks, while macro.py has been reading the SAME series (^TNX) live all
+# along and feeding its rate of change into the inflation impulse. One module
+# knew rates had moved; the other did not. On the day the FOMC took the funds
+# rate to 3.75-4.00% the 10y printed 5.04% -- a 137bp gap that had been
+# silently overstating every NGV, cover, cushion and entry price in the book
+# for months. The docstring above promises "change it once and the book
+# reprices". Nothing was changing it. It is now resolved, stamped and checked.
+RISK_FREE = 3.67          # % -- FALLBACK ONLY; the live ^TNX level overrides it
 MARKET_RISK_PREMIUM = 4.72  # % -- FMP's global equity risk premium
 DEFAULT_BETA = 1.00
-FLOOR, CEILING = 0.045, 0.140   # sanity band on the output
+RISK_FREE_SOURCE = 'workbook-literal'   # 'live-tnx' once resolve_risk_free() runs
+RISK_FREE_ASOF = None                   # ISO date of the observation actually used
+RISK_FREE_MAX_DRIFT_BP = 50             # integrity.py fails the build past this
+
+# The clamp is no longer a pair of literals. A FIXED floor of 4.50% sat BELOW
+# the risk-free rate once the 10y crossed 5%, which prices equity cash flows as
+# safer than Treasuries -- not a conservative assumption, an impossible one.
+# A fixed 14.00% ceiling compresses every high-beta row onto one number, which
+# is precisely the flat-rate failure this module was written to remove.
+# Both bands now move with the inputs they are bands ON.
+CEILING_BETA = 2.00       # the ceiling is "a beta-2 row", not an arbitrary 14%
+
+
+def bands(risk_free=None, mrp=None):
+    """(floor, ceiling) as fractions. Floor = rf: an equity perpetuity is not
+       discounted below Treasuries. Ceiling = the cost of equity at beta 2."""
+    rf = resolve_risk_free() if risk_free is None else risk_free
+    p = MARKET_RISK_PREMIUM if mrp is None else mrp
+    return rf / 100.0, (rf + CEILING_BETA * p) / 100.0
+
+
+def resolve_risk_free():
+    """The rate actually in force. Callers must not read RISK_FREE directly."""
+    return RISK_FREE
+
+
+def set_risk_free(value, source='live-tnx', asof=None):
+    """Point the whole book at an observed 10y. engine.fetch_prices() calls this
+       once per build with the ^TNX close macro.py already pulled."""
+    global RISK_FREE, RISK_FREE_SOURCE, RISK_FREE_ASOF
+    value = float(value)
+    if not (0.0 < value < 25.0):
+        raise ValueError(f'risk-free {value} is outside any believable range')
+    RISK_FREE, RISK_FREE_SOURCE, RISK_FREE_ASOF = value, source, asof
+    return RISK_FREE
+
+
+def provenance():
+    """What integrity.py and the archived observation both record."""
+    floor, ceiling = bands()
+    return dict(risk_free=RISK_FREE, source=RISK_FREE_SOURCE, asof=RISK_FREE_ASOF,
+                mrp=MARKET_RISK_PREMIUM, floor=floor, ceiling=ceiling,
+                max_drift_bp=RISK_FREE_MAX_DRIFT_BP)
 
 
 def cost_of_equity(beta, risk_free=None, mrp=None):
-    rf = RISK_FREE if risk_free is None else risk_free
+    rf = resolve_risk_free() if risk_free is None else risk_free
     p = MARKET_RISK_PREMIUM if mrp is None else mrp
     return (rf + (DEFAULT_BETA if beta is None else beta) * p) / 100.0
 
@@ -71,7 +122,7 @@ def compute(beta=None, market_cap=None, total_debt=None, tax_rate=None,
     """Returns (wacc, detail). wacc is a fraction; detail explains it.
        Missing debt data collapses to cost of equity, which is correct for
        a debt-free company and conservative for one whose debt we cannot see."""
-    rf = RISK_FREE if risk_free is None else risk_free
+    rf = resolve_risk_free() if risk_free is None else risk_free
     ke = cost_of_equity(beta, rf, mrp)
     kd = (rf if cost_of_debt is None else cost_of_debt) / 100.0
     tx = 0.21 if tax_rate is None else tax_rate / 100.0
@@ -88,9 +139,15 @@ def compute(beta=None, market_cap=None, total_debt=None, tax_rate=None,
         we, wd = e / tot, d / tot
         w = we * ke + wd * kd_after
         detail = dict(beta=beta, ke=ke, kd_after=kd_after, we=we, wd=wd, note='')
-    capped = max(FLOOR, min(CEILING, w))
+    floor, ceiling = bands(rf, mrp)
+    capped = max(floor, min(ceiling, w))
+    detail['clamped'] = None
     if capped != w:
-        detail['note'] = (detail['note'] + f' | clamped from {100*w:.2f}%').strip(' |')
+        detail['clamped'] = 'floor' if capped > w else 'ceiling'
+        detail['note'] = (detail['note'] + f' | clamped from {100*w:.2f}% '
+                          f'({detail["clamped"]} {100*capped:.2f}%)').strip(' |')
+    detail['risk_free'] = rf
+    detail['risk_free_source'] = RISK_FREE_SOURCE
     detail['wacc'] = capped
     return capped, detail
 
