@@ -301,7 +301,7 @@ def band(s):
     return ('STRONG BUY','p-sbuy')
 
 def verdict(t, d):
-    s, rk, cu = score(d), risk(d), cushion(d)
+    s, rk = score(d), risk(d)
     if s is None: return ('NO SCORE','v-hold')
     if d.get('trap'): return ('TRAP BUY','v-trap')
     if cushion_neg(d):
@@ -1570,7 +1570,7 @@ def build_html(macro=None, write=True):
           + '</td>'
           + f'<td class="mono" style="font-size:10px;color:#7b8195">{d.get("price_ts") or ""}</td>'
           + (lambda rr, src: f'<td class="pv {d.get("built","exact")}">{d.get("built","exact")}'
-             + f'<br><span style="font-size:10px;color:'
+             + '<br><span style="font-size:10px;color:'
              + ('#5cc8d8' if src == 'wacc' else '#7b8195')
              + f'">r {100*rr:.2f}% {src}</span>')(*rate_used(d))
           + (f'<br><span style="color:#e5b45c;font-size:10px">{cycle_note(d)}</span>' if cycle_note(d) else '')
@@ -1686,7 +1686,7 @@ def build_html(macro=None, write=True):
           f'<span class="mono" style="font-size:10px">{det}</span></div>'
           f'<div class="lede" style="margin-bottom:6px">'
            f'VIX <b>{fmt(M.get("vix"), ".1f")} &mdash; {M.get("vix_state") or "unavailable"}</b>'
-          + (f' &middot; tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')
+          + (' &middot; tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')
           + (f' &middot; breadth {M["breadth"]}' if M.get('breadth') else '')
           + f' &middot; recession score <b>{M["recession_score"]}/100</b></div>{legs}'
           + (lambda H, T: '' if not (H and T) else

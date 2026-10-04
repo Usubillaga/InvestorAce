@@ -51,7 +51,6 @@ different question -- what is this worth if it never grows again -- and
 it has no terminal value to hide in. Take the WACC from the DCF. Leave
 the terminal value where it is.
 """
-import math
 
 # ---- the three market-wide inputs. Change RISK_FREE and the book reprices ----
 #

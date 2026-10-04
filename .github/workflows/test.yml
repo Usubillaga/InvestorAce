@@ -1,0 +1,31 @@
+name: test
+
+# Runs the contract and regression tests on every push and pull request, so a
+# broken change is caught before the nightly build-and-deploy cron refuses it.
+# Tests are offline: no Yahoo calls, nothing is written or published.
+
+on:
+  push:
+    branches-ignore: [gh-pages]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install
+        run: pip install -r requirements-research.txt pyflakes
+      - name: Lint
+        run: python -m pyflakes *.py
+      - name: Unit tests
+        run: python -m unittest discover -p 'test_*.py' -v
+      - name: WACC workbook reproduction
+        run: python wacc.py

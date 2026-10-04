@@ -20,7 +20,6 @@ import re
 import sys
 from pathlib import Path
 
-import yfinance as yf
 from autoscore import auto_row
 
 TARGET = Path(os.environ.get("INVESTORACE_ENGINE", "engine.py"))
