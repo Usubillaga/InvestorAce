@@ -299,7 +299,6 @@ def auto_row(symbol, r=0.080):
 
 
 if __name__ == "__main__":
-    import pprint
     sym = sys.argv[1] if len(sys.argv) > 1 else "ASML.AS"
     row, warn = auto_row(sym)
     if row is None:

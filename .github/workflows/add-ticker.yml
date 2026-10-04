@@ -3,6 +3,7 @@ name: add-ticker
 # Triggered by an issue titled  add-ticker: MSFT
 # The gate is TITLE-based: labels are silently dropped on issues opened by
 # some clients, so a label gate skips runs with no visible reason.
+# Only repo owner/members/collaborators can trigger it: the job commits to main.
 
 on:
   issues:
@@ -21,7 +22,8 @@ jobs:
   add:
     if: >
       github.event_name == 'workflow_dispatch' ||
-      startsWith(github.event.issue.title, 'add-ticker:')
+      (startsWith(github.event.issue.title, 'add-ticker:') &&
+       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -35,36 +37,53 @@ jobs:
 
       - name: Resolve ticker
         id: t
+        # Untrusted input (issue title) is passed via env, never interpolated
+        # into the script, and must look like a Yahoo symbol before it is used.
+        env:
+          RAW_INPUT: ${{ github.event.inputs.ticker }}
+          RAW_TITLE: ${{ github.event.issue.title }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "sym=${{ github.event.inputs.ticker }}" >> $GITHUB_OUTPUT
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            raw="$RAW_INPUT"
           else
-            echo "sym=$(echo '${{ github.event.issue.title }}' | sed 's/add-ticker://' | tr -d ' ')" >> $GITHUB_OUTPUT
+            raw="${RAW_TITLE#add-ticker:}"
           fi
+          sym="$(printf '%s' "$raw" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+          if ! printf '%s' "$sym" | grep -Eq '^[A-Z0-9][A-Z0-9.^=-]{0,19}$'; then
+            echo "::error::invalid ticker symbol: '$sym'"
+            exit 1
+          fi
+          echo "sym=$sym" >> "$GITHUB_OUTPUT"
 
       - name: Add and verify
+        env:
+          SYM: ${{ steps.t.outputs.sym }}
         run: |
-          python add_ticker.py "${{ steps.t.outputs.sym }}"
+          python add_ticker.py "$SYM"
           python -c "import ast;ast.parse(open('engine.py').read())"
           python engine.py
 
       - name: Commit
+        env:
+          SYM: ${{ steps.t.outputs.sym }}
         run: |
           git config user.name  "investorace-bot"
           git config user.email "investorace-bot@users.noreply.github.com"
           git add -A
-          git diff --staged --quiet || git commit -m "add ${{ steps.t.outputs.sym }}"
+          git diff --staged --quiet || git commit -m "add $SYM"
           git push
 
       - name: Report
         if: github.event_name == 'issues'
         uses: actions/github-script@v8
+        env:
+          SYM: ${{ steps.t.outputs.sym }}
         with:
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner, repo: context.repo.repo,
-              body: 'Added `${{ steps.t.outputs.sym }}` and rebuilt. Deploy runs on the next schedule, or trigger build-and-deploy manually.'
+              body: `Added \`${process.env.SYM}\` and rebuilt. Deploy runs on the next schedule, or trigger build-and-deploy manually.`
 
             })
 

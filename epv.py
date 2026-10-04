@@ -23,7 +23,6 @@ No automatic tax smoothing is invented here.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List, Optional
 
 

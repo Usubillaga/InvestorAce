@@ -1,5 +1,4 @@
 import copy
-import importlib.util
 import json
 import os
 import random
@@ -11,7 +10,6 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest.mock import patch
 
-import numpy as np
 import pandas as pd
 
 import test_framework_contract
