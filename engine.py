@@ -12,33 +12,17 @@ import json, os, sys, math, hashlib  # fetch; 200 lines of them buried the real
                                      # traceback and made the failure unreadable
 from datetime import datetime, timezone
 from pathlib import Path
+from html import escape
 import evidence as EVIDENCE
-from integrity import atomic_text, risk_free_faults, clamp_saturation_faults
+from integrity import (atomic_text, atomic_json, finite_number, positive_number,
+                       numeric_input_faults, risk_free_faults, clamp_saturation_faults)
 from framework_view import framework_panel
 from portfolio import construct as construct_portfolio
 import yfinance as yf
-try:
-    import wacc as WACC
-except Exception:
-    WACC = None
-try:
-    import epv as EPV
-except Exception:
-    EPV = None
-try:
-    from forward import run as forward_run, freeze_cohorts
-except Exception:
-    forward_run = lambda: {'ok': False, 'note': 'forward.py not present'}
-    freeze_cohorts = lambda *a, **k: None
-try:
-    from macro import sector_performance, SECTOR_TO_ENGINE
-except Exception:
-    sector_performance = lambda years=10: {}
-    SECTOR_TO_ENGINE = {}
-try:
-    from macro import read_macro
-except Exception:
-    read_macro = lambda: {'ok': False, 'note': 'macro.py not present'}
+import wacc as WACC
+import epv as EPV
+from forward import run as forward_run, freeze_cohorts
+from macro import sector_performance, SECTOR_TO_ENGINE, read_macro
 
 CASH_PCT = 7.8      # uninvested, so weights should sum to 100 - this
 
@@ -301,6 +285,8 @@ def band(s):
     return ('STRONG BUY','p-sbuy')
 
 def verdict(t, d):
+    if positive_number(d.get('price')) is None:
+        return ('NO QUOTE', 'v-hold')
     s, rk = score(d), risk(d)
     if s is None: return ('NO SCORE','v-hold')
     if d.get('trap'): return ('TRAP BUY','v-trap')
@@ -617,8 +603,10 @@ def _valid_band(b):
        absent confuses 'unknown' with 'wrong'."""
     try:
         lo, hi = b
+        if finite_number(lo) is None or finite_number(hi) is None:
+            return False
         return hi > 0 and hi > lo and lo >= 0
-    except Exception:
+    except (TypeError, ValueError):
         return False
 
 def _year_range(tk, fi):
@@ -727,19 +715,9 @@ def portfolio_regime():
     return {r: round(acc[r]/tot, 1) for r in REGIMES}
 
 def regime_history():
-    """Read history/*.json and return (dates, {regime: [values]}) for the chart."""
-    import glob
+    """Read committed daily evidence, preserving legacy daily observations."""
     dates, series = [], {r: [] for r in REGIMES}
-    for fp in sorted(glob.glob('history/*.json')):
-        # [FIX] history/ now also holds _cohort.json, which is NOT a daily
-        # snapshot. Reading it as one crashes on its string-valued keys.
-        # Any leading-underscore file is metadata, not a day.
-        if os.path.basename(fp).startswith('_'):
-            continue
-        try:
-            with open(fp) as f: day = json.load(f)
-        except Exception:
-            continue
+    for date, day in EVIDENCE.daily_records():
         pf = day.get('_portfolio')
         if not pf:                       # older snapshots: rebuild from the rows
             tot = 0.0; acc = {r: 0.0 for r in REGIMES}
@@ -751,7 +729,7 @@ def regime_history():
                 for r in REGIMES: acc[r] += w * float(rg.get(r, 0))
             if not tot: continue
             pf = {r: round(acc[r]/tot, 1) for r in REGIMES}
-        dates.append(os.path.basename(fp)[:-5])
+        dates.append(date)
         for r in REGIMES: series[r].append(pf.get(r))
     return dates, series
 
@@ -762,7 +740,7 @@ def fetch_prices():
         ser = None
         d['quote_observed_at'], d['quote_time_status'] = None, 'UNKNOWN'
         for field in ('mom_12_1', 'from_high', 'r_wacc', 'beta', 'wacc_inputs', 'wacc_details',
-                      'momentum_observed_at', 'momentum_history_start'):
+                      'momentum_observed_at', 'momentum_history_start', 'wacc_note'):
             d.pop(field, None)
         if d.get('na') and not d.get('midcycle'):
             # `na` means NGV is structurally unavailable, not that the security has no price.
@@ -774,7 +752,9 @@ def fetch_prices():
             fi = {}
             try: fi = dict(tk.fast_info) or {}
             except Exception: fi = {}
-            px = fi.get('last_price') or fi.get('lastPrice')
+            px = fi.get('last_price')
+            if px is None:
+                px = fi.get('lastPrice')
             if px is None:
                 h = tk.history(period='5d', auto_adjust=False)
                 if not h.empty and 'Close' in h:
@@ -782,6 +762,9 @@ def fetch_prices():
                     if len(ser): px = float(ser.iloc[-1])
             if px is None:
                 d['price_note'] = 'no quote'; continue
+            px = positive_number(px)
+            if px is None:
+                d['price_note'] = 'REJECTED invalid quote: positive finite price required'; continue
             cur = str(fi.get('currency') or '').strip()
             if cur and cur.upper() != d.get('cur','').upper():
                 d['price_note'] = f'CURRENCY {cur} != {d.get("cur")}'; continue
@@ -807,15 +790,17 @@ def fetch_prices():
             if WACC is not None and d.get('shares'):
                 try:
                     inp = WACC.fetch(d.get('yf', t), yf=yf)
-                    if inp and inp.get('beta'):
+                    if inp and finite_number(inp.get('beta')) is not None:
                         mc = d['price'] * d['shares'] * 1e6
                         rw, _det = WACC.compute(
                             beta=inp['beta'], market_cap=mc or inp.get('market_cap'),
                             total_debt=inp.get('total_debt'), tax_rate=inp.get('tax_rate'))
                         d['r_wacc'], d['beta'] = rw, inp['beta']
                         d['wacc_inputs'], d['wacc_details'] = inp, _det
-                except Exception:
-                    pass
+                    else:
+                        d['wacc_note'] = 'manual rate fallback: no valid beta inputs'
+                except Exception as exc:
+                    d['wacc_note'] = f'manual rate fallback: {type(exc).__name__}'
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
 
@@ -841,11 +826,7 @@ def _epv_cache_fresh(rec):
 
 
 def _epv_cache_write(cache):
-    os.makedirs('history', exist_ok=True)
-    tmp = EPV_CACHE_FILE + '.tmp'
-    with open(tmp, 'w', encoding='utf-8') as f:
-        json.dump(cache, f, indent=1, default=str)
-    os.replace(tmp, EPV_CACHE_FILE)
+    atomic_json(EPV_CACHE_FILE, cache)
 
 
 def populate_epv(force=False):
@@ -913,6 +894,16 @@ def populate_epv(force=False):
         _epv_cache_write(cache)
 
 
+def data_quality():
+    missing = {t: d.get('price_note') or 'no quote'
+               for t, d in DATA.items() if positive_number(d.get('price')) is None}
+    return {'status': 'DEGRADED' if missing else 'COMPLETE',
+            'quotes_available': len(DATA) - len(missing), 'quotes_total': len(DATA),
+            'missing_quotes': missing,
+            'held_missing_quotes': sorted(t for t in missing if DATA[t].get('held')),
+            'wacc_fallbacks': {t: d['wacc_note'] for t, d in DATA.items() if d.get('wacc_note')}}
+
+
 def observation(macro, bundle, captured_at=None):
     """Prepare a validated, detached observation without writing anything."""
     errors, _ = validate_full()
@@ -938,6 +929,7 @@ def observation(macro, bundle, captured_at=None):
     if rec['_rates'] is not None:
         rec['_rates']['live_10y'] = LIVE_10Y
     rec['_portfolio'] = portfolio_regime()
+    rec['_data_quality'] = data_quality()
     regime = macro.get('regime') if macro.get('ok') else None
     rec['_portfolio_proposal'] = (portfolio_proposal(regime)
                                   if regime in REGIMES else None)
@@ -1015,6 +1007,9 @@ def sync_risk_free():
 def run_build():
     """One macro reading shared by the report and immutable observation."""
     with EVIDENCE.build_lock():
+        faults = numeric_input_faults(DATA)
+        if faults:
+            raise ValueError('VALIDATION FAILED: ' + '; '.join(faults))
         sync_risk_free()
         bootstrap_fundamentals()
         fetch_prices()
@@ -1024,8 +1019,9 @@ def run_build():
         record = observation(macro, bundle)
         # Rendering can fail without publishing an observation or changing index.html.
         html = build_html(macro=macro, write=False)
-        published = EVIDENCE.publish_record(record, bundle)
-        atomic_text('index.html', html)
+        published = EVIDENCE.publish_build(record, bundle, html)
+        for note in published['compatibility_warnings']:
+            print('   ~ ' + note, file=sys.stderr)
         # The report's forward panel consumes prior frozen evidence. New cohorts
         # become visible next run, after this validated observation is published.
         freeze_cohorts()
@@ -1058,7 +1054,12 @@ def validate_full():
        build-blocking, so the first live run with real betas killed the
        deploy. A check that reports a FACT ('this beta looks odd') must not
        stop a build; only a check that proves the OUTPUT is wrong may."""
-    p, warn = [], []
+    p, warn = numeric_input_faults(DATA), []
+    for name, module in (('wacc', WACC), ('epv', EPV)):
+        if module is None:
+            p.append(f'required module {name} is unavailable')
+    if p:
+        return p, warn
     secs = {d.get('sector') for d in DATA.values() if d.get('sector')}
     for r in REGIMES:
         miss = sorted(x for x in secs if x not in AFF[r])
@@ -1140,7 +1141,7 @@ def validate_full():
 # reported beside it and never used for ordering.
 # =====================================================================
 def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdicts=
-           ('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE'), held_only=False, limit=15):
+           ('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE', 'NO QUOTE'), held_only=False, limit=15):
     """purpose='quality'  -> rank by score. Regime fit shown, not ranked on.
        purpose='regime'   -> rank by fit to `regime`. Score shown, not ranked on.
        purpose='duration' -> rank by cover, for a rates-up view."""
@@ -1566,7 +1567,7 @@ def build_html(macro=None, write=True):
           + (lambda pf, gp: f'<td class="mono">{fmt(d.get("price"),",.2f")}'
              + (f'<br><span class="pill {PROX_CSS[pf]}">{pf} {gp:+.1f}%</span>' if pf else ''))(*proximity(d))
           + f'{""}'
-          + (f'<br><span style="color:#f06a6a;font-size:10px">{note}</span>' if note else '')
+          + (f'<br><span style="color:#f06a6a;font-size:10px">{escape(note)}</span>' if note else '')
           + '</td>'
           + f'<td class="mono" style="font-size:10px;color:#7b8195">{d.get("price_ts") or ""}</td>'
           + (lambda rr, src: f'<td class="pv {d.get("built","exact")}">{d.get("built","exact")}'
@@ -1580,9 +1581,10 @@ def build_html(macro=None, write=True):
     priced = sum(1 for d in DATA.values() if d.get('price') is not None)
     withngv = sum(1 for d in DATA.values() if ngv(d) is not None)
     na = sum(1 for d in DATA.values() if d.get('na'))
-    issues = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
+    issues = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note')}
     for t,d in DATA.items():
-        if d.get('boot_note'): issues[t] = 'NGV: ' + d['boot_note']
+        if d.get('boot_note'):
+            issues[t] = '; '.join(filter(None, (issues.get(t), 'NGV: ' + d['boot_note'])))
 
     js = JS.replace('__TICKERS__', json.dumps(sorted(DATA.keys())))
     M = read_macro() if macro is None else macro
@@ -1795,7 +1797,7 @@ def build_html(macro=None, write=True):
            f'<b>{na}</b> NGV-N/A. <b>NGV and EPV are separate valuation lenses.</b> The gap is diagnostic and is never fed into score or regime fit.</div>')
     issue_box = ''
     if issues:
-        li = ''.join(f'<div class="mono">{t}: {v}</div>' for t,v in sorted(issues.items()))
+        li = ''.join(f'<div class="mono">{escape(t)}: {escape(v)}</div>' for t,v in sorted(issues.items()))
         issue_box = f'<div class="box"><h2 style="color:#f06a6a">Price issues this run ({len(issues)})</h2>{li}</div>'
     adder = ('<div class="box"><h2>Add a ticker</h2>'
              '<div class="lede" style="margin-bottom:10px">Yahoo can supply the mechanical half &mdash; price, shares, '
@@ -1825,7 +1827,18 @@ def build_html(macro=None, write=True):
     # [FROM V2] atomic write. A build that dies mid-write used to leave
     # index.html truncated and the live site broken until the next cron run.
     proposal = portfolio_proposal(cur_reg) if cur_reg in REGIMES else None
-    html = (head + hdr + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
+    quality = data_quality()
+    coverage_box = (f'<div class="box"><h2>Quote coverage: {quality["status"]}</h2>'
+                    f'<p>{quality["quotes_available"]}/{quality["quotes_total"]} valid quotes; '
+                    f'{len(quality["held_missing_quotes"])} held positions without a quote. '
+                    'Rows without a valid quote show NO QUOTE and have no current action signal.</p>'
+                    + ('<p>Held positions missing quotes: '
+                       + escape(', '.join(quality['held_missing_quotes'])) + '</p>'
+                       if quality['held_missing_quotes'] else '')
+                    + ('<p>Manual discount-rate fallbacks: '
+                       + escape('; '.join(f'{t}: {note}' for t, note in quality['wacc_fallbacks'].items()))
+                       + '</p>' if quality['wacc_fallbacks'] else '') + '</div>')
+    html = (head + hdr + coverage_box + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
             + regime_book_box + issue_box + adder + tbl + foot
             + '<script>' + js + js_z + '</script></body></html>')
     if write:
@@ -1834,7 +1847,7 @@ def build_html(macro=None, write=True):
 
 if __name__ == '__main__':
     published = run_build()
-    day = published['day']
-    bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note') and not d.get('na')}
-    print(f'{len(DATA)} tickers &middot; snapshot history/{day}.json &middot; index.html written')
+    bad = {t: d['price_note'] for t,d in DATA.items() if d.get('price_note')}
+    print(f'{len(DATA)} tickers; quote coverage {data_quality()["status"]}; '
+          f'committed build {published["run_id"]}; report {published["report_path"]}')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)

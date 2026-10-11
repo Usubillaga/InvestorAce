@@ -28,10 +28,11 @@ The harness refuses to state a verdict below an evidence floor (section 4.1 of t
 paper): too few days is reported as INSUFFICIENT EVIDENCE, which is a
 different statement from "no effect".
 """
-import json, os, glob, math
+import json, os, math
 from datetime import datetime, timezone
 from statistics import NormalDist
 from integrity import atomic_json, finite_number, positive_number
+from evidence import daily_records
 
 COHORT_FILE = 'history/_cohort.json'
 SIGNALS     = ('score', 'cover', 'cushion', 'momentum')
@@ -44,21 +45,8 @@ MIN_PER_BUCKET = 3
 
 
 def _days():
-    """Every daily snapshot, oldest first, as (date, {ticker: row})."""
-    out = []
-    for fp in sorted(glob.glob('history/*.json')):
-        base = os.path.basename(fp)
-        if base.startswith('_'):
-            continue
-        try:
-            datetime.strptime(base, '%Y-%m-%d.json')
-            with open(fp) as f:
-                snapshot = json.load(f)
-            if isinstance(snapshot, dict):
-                out.append((base[:-5], snapshot))
-        except Exception:
-            continue
-    return out
+    """Committed daily observations, oldest first; legacy dates are preserved."""
+    return daily_records()
 
 
 def freeze_cohorts(force=False):

@@ -25,6 +25,8 @@ jobs:
         run: pip install -r requirements-research.txt pyflakes
       - name: Lint
         run: python -m pyflakes *.py
+      - name: Runtime imports
+        run: python -c "import engine, integrity, evidence, wacc, epv, forward, macro; print('Runtime imports OK')"
       - name: Unit tests
         run: python -m unittest discover -p 'test_*.py' -v
       - name: WACC workbook reproduction

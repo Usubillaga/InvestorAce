@@ -49,7 +49,7 @@ jobs:
           python -m unittest discover -p 'test_*.py' -v
           python engine.py
           mkdir -p public
-          cp index.html public/
+          python -c "from evidence import current_build; from shutil import copyfile; copyfile(current_build()['report_path'], 'public/index.html')"
           [ -f tickers.js ] && cp tickers.js public/ || true
 
       - name: Commit history

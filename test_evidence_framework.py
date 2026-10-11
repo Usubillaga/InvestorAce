@@ -72,6 +72,12 @@ class LegacyEquivalence(unittest.TestCase):
 
 
 class EvidenceContract(unittest.TestCase):
+    def setUp(self):
+        # Dependency imports are real; the risk-free pull is an explicit network boundary.
+        sync = patch.object(engine, 'sync_risk_free')
+        sync.start()
+        self.addCleanup(sync.stop)
+
     def record(self):
         bundle = {'sources': {'engine.py': 'frozen source'}}
         bundle['sha256'] = evidence.digest(bundle['sources'])

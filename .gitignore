@@ -2,5 +2,6 @@ __pycache__/
 *.py[cod]
 index.html.tmp
 history/_build.lock
+history/_builds/.pending-*/
 research-output/
 *.zip
