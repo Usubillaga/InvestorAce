@@ -1,17 +1,12 @@
 import importlib.util
 import os
 import sys
-import types
 import unittest
 
 HERE = os.path.dirname(__file__)
 sys.path.insert(0, HERE)
 
-# engine imports yfinance unconditionally; unit tests do not touch the network.
-yf = types.ModuleType('yfinance')
-yf.Ticker = lambda *a, **k: None
-sys.modules['yfinance'] = yf
-
+# Imports use the real installed dependencies; tests patch network entry points.
 spec = importlib.util.spec_from_file_location('engine_v3', os.path.join(HERE, 'engine.py'))
 engine = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(engine)
