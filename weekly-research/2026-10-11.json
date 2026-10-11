@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-11",
+  "period_start": "2026-10-05",
+  "period_end": "2026-10-11",
+  "summary": "[Sicher] Retrospective for 5–11 October 2026 (trading week: 5–9 October). Three research papers and two institutional analyses cover valuation, systematic selection, portfolio construction and macro regimes. The implications below are review candidates; publication does not change InvestorAce's investment rules.",
+  "items": [
+    {
+      "title": "A microeconomic perspective on the cash-flow endogeneity in terminal value models",
+      "authors": "Felix Bogateck and Bernhard Schwetzler · Journal of Business Economics",
+      "publication_date": "7 October 2026 · journal publication",
+      "source_url": "https://link.springer.com/article/10.1007/s11573-026-01285-8",
+      "topics": [
+        "valuation_reverse_dcf"
+      ],
+      "what_changed": "[Sicher] The new model makes terminal FCF respond to investment choices, project delays and changing growth/rates; conventional sensitivities can overstate growth effects under its assumptions.",
+      "investorace_implication": "[Wahrscheinlich] Inference: reverse-DCF growth should be modeled with reinvestment requirements and a transition path before estimating distributable cash flow.",
+      "review": "both",
+      "review_question": "Do implied growth, ROIC, reinvestment and terminal cash flow reconcile across scenarios? Compare an offline prototype with NGV/EPV.",
+      "limitations": "[Sicher] Theoretical model with numerical examples, not a stock-return test; project parameters need company-specific calibration.",
+      "confidence": "Sicher"
+    },
+    {
+      "title": "Residual Learning in Empirical Asset Pricing",
+      "authors": "Dexin Peng and Xiaoyu Wang · arXiv",
+      "publication_date": "7 October 2026 · preprint submitted",
+      "source_url": "https://arxiv.org/html/2610.09613v1",
+      "topics": [
+        "stock_selection"
+      ],
+      "what_changed": "[Sicher] Authors report deep ResNet+ long-short Sharpe 2.07 gross versus 1.30 with 50-bp trading costs; residual connections preserve simpler forecasts.",
+      "investorace_implication": "[Wahrscheinlich] Inference: a learned extension should refine a frozen simple baseline and earn its place through independent forward testing.",
+      "review": "both",
+      "review_question": "Does a residual model outperform simple signals on a reserved sample after costs and multiple-testing controls?",
+      "limitations": "[Sicher] Preprint, US long-short evidence through 2023 and heavy turnover; median imputation differs from InvestorAce's missing-data discipline.",
+      "confidence": "Sicher"
+    },
+    {
+      "title": "Multi-period Mean-Expectile Portfolio Optimization under Wasserstein Ambiguity: Reformulation, Degeneracy and the Role of the Ground Metric",
+      "authors": "Rupendra Yadav and Aparna Mehra · arXiv",
+      "publication_date": "8 October 2026 · preprint submitted",
+      "source_url": "https://arxiv.org/html/2610.11917v1",
+      "topics": [
+        "portfolio_construction"
+      ],
+      "what_changed": "[Sicher] The new derivation shows the risk component can become inactive beyond a critical ambiguity radius; the distance metric can favor concentration or diversification.",
+      "investorace_implication": "[Wahrscheinlich] Inference: portfolio risk controls need diagnostics proving that they affect allocations, alongside sensitivity to modeling choices.",
+      "review": "both",
+      "review_question": "Across stress radii and distance metrics, do weights, maximum position size and downside losses actually change?",
+      "limitations": "[Sicher] Preprint; end-of-sample FTSE constituents introduce survivorship bias. Main results are gross; supplemental cost checks cannot remove that bias.",
+      "confidence": "Sicher"
+    },
+    {
+      "title": "Why equities can still thrive as bond yields rise",
+      "authors": "Colin Graham · Robeco",
+      "publication_date": "9 October 2026 · monthly outlook",
+      "source_url": "https://www.robeco.com/en-int/insights/2026/10/why-equities-can-still-thrive-as-bond-yields-rise",
+      "topics": [
+        "macro_regimes",
+        "valuation_reverse_dcf"
+      ],
+      "what_changed": "[Sicher] This outlook argues strong earnings can offset higher yields and distinguishes supply-driven inflation from the 2022 demand shock.",
+      "investorace_implication": "[Wahrscheinlich] Inference: rising yields alone cannot establish a macro regime; valuation stress should separate rates from cash-flow growth.",
+      "review": "both",
+      "review_question": "Replay rising-yield episodes using contemporaneous growth/inflation inputs; stress discount rates and cash-flow growth separately while preserving unweighted regime fit.",
+      "limitations": "[Sicher] Institutional scenario analysis, not a validated classifier; broad rate-sensitivity claims need stock-level verification.",
+      "confidence": "Wahrscheinlich"
+    },
+    {
+      "title": "Asia-Pacific: A real diversifier for US equity risk",
+      "authors": "Joshua Crabb and Helen Keung · Robeco",
+      "publication_date": "6 October 2026 · institutional analysis",
+      "source_url": "https://www.robeco.com/en-int/insights/2026/10/asia-pacific-a-real-diversifier-for-us-equity-risk",
+      "topics": [
+        "portfolio_construction"
+      ],
+      "what_changed": "[Sicher] The analysis compares Asia-Pacific with Asia ex-Japan: reported technology weights are 33.9% versus 46.4%, with lower historical volatility in the broader index.",
+      "investorace_implication": "[Wahrscheinlich] Inference: different country labels can hide common technology exposure; benchmark composition matters to diversification.",
+      "review": "both",
+      "review_question": "Measure region, currency and sector overlap, then compare stressed correlations before expanding the stock universe.",
+      "limitations": "[Sicher] Asset-manager perspective; August 2026 index data and gross USD histories do not prove forward diversification for InvestorAce.",
+      "confidence": "Wahrscheinlich"
+    }
+  ],
+  "priority_review": "[Wahrscheinlich] Start with valuation consistency: reconcile implied growth, reinvestment/ROIC and terminal FCF, then test transition scenarios against NGV/EPV in an offline prototype. Keep regime fit unweighted and separate from scoring."
+}
