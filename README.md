@@ -10,6 +10,7 @@ rebuilt nightly and published to GitHub Pages.
 |---|---|
 | Nightly build (weekdays 23:00 UTC): tests, then `python engine.py` commits a report/evidence pair and deploys its verified report to Pages | `.github/workflows/deploy.yml` |
 | Tests + lint on every push / PR | `.github/workflows/test.yml` |
+| Friday research briefings and dated archives; publishes immediately when a new edition is committed | `.github/workflows/research-pages.yml`, `weekly-research/` |
 | Add a ticker: open an issue titled `add-ticker: MSFT` (owner/collaborators only) or run the workflow manually | `.github/workflows/add-ticker.yml` |
 
 ## Local use
@@ -57,6 +58,7 @@ The build lock must be held when calling `evidence.publish_build()` directly.
 | `autoscore.py`, `add_ticker.py`, `verify_tickers.py`, `tickers.js` | Ticker onboarding and the ticker library |
 | `integrity.py`, `reprice.py` | Build integrity checks, risk-free repricing tool |
 | `research.py` | Offline feature research (not part of the build) |
+| `weekly_research.py`, `weekly-research/` | Published research briefings, schema and dated archives |
 | `test_*.py`, `tests/fixtures/` | Contract and regression tests |
 | `history/` | Daily observations committed by the build bot — do not edit by hand |
 | `docs/` | Framework spec, implementation notes, ten-stock plan |

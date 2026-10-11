@@ -48,9 +48,7 @@ jobs:
         run: |
           python -m unittest discover -p 'test_*.py' -v
           python engine.py
-          mkdir -p public
-          python -c "from evidence import current_build; from shutil import copyfile; copyfile(current_build()['report_path'], 'public/index.html')"
-          [ -f tickers.js ] && cp tickers.js public/ || true
+          python weekly_research.py --output public --require-committed-report
 
       - name: Commit history
         run: |
