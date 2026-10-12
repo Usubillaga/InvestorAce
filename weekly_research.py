@@ -1,4 +1,4 @@
-"""Build the weekly research pages alongside the last completed scoreboard.
+"""Build separate Friday research and Monday market briefing pages.
 
 No market requests, model changes or credentials are needed. The nightly build
 requires a verified report; research-only releases also support the legacy
@@ -26,6 +26,21 @@ TOPICS = {
 REVIEWS = {'code': 'Code review', 'framework': 'Framework review',
            'both': 'Code + framework review', 'neither': 'No review warranted'}
 CONFIDENCE = {'Sicher', 'Wahrscheinlich', 'Vermutung'}
+
+SERIES = {
+    'research': {
+        'folder': 'weekly-research', 'page': 'research.html', 'archive': 'research',
+        'title': 'Weekly Research', 'nav': 'Friday research', 'lang': 'en',
+        'eyebrow': 'The research notebook', 'heading': 'Evidence worth reviewing.',
+        'description': 'A concise shortlist of new research, with the practical consequences for InvestorAce made explicit.',
+    },
+    'market': {
+        'folder': 'market-briefings', 'page': 'market.html', 'archive': 'market',
+        'title': 'Montagsbriefing', 'nav': 'Montagsbriefing', 'lang': 'de',
+        'eyebrow': 'Montag · Marktbriefing', 'heading': 'Die Marktwoche im Blick.',
+        'description': 'Makro-Regime, Bewertung, Sektoren und Gewinne: Was hat sich verändert und was sollte InvestorAce überprüfen?',
+    },
+}
 
 CSS = """
 :root{color-scheme:dark;--bg:#0d0f14;--panel:#141821;--line:#2a3040;
@@ -139,11 +154,12 @@ def card(item, index):
             f'<div class="topics">{topics}</div><dl>{detail}</dl></article>')
 
 
-def render_page(issue, issues, config, archived=False):
+def render_page(issue, issues, config, archived=False, series='research'):
     e = escape
+    settings = SERIES[series]
     prefix = '../' if archived else ''
     topics = ''.join(f'<span class="topic">{e(t)}</span>' for t in TOPICS.values())
-    archive = ''.join(f'<li><a href="{prefix}research/{x["issue_date"]}.html">'
+    archive = ''.join(f'<li><a href="{prefix}{settings["archive"]}/{x["issue_date"]}.html">'
                       f'{e(x["issue_date"])}</a><br><span class="meta">'
                       f'{len(x["items"])} selected source{"s" if len(x["items"]) != 1 else ""}'
                       '</span></li>' for x in issues)
@@ -160,17 +176,20 @@ def render_page(issue, issues, config, archived=False):
                    + ''.join(card(item, i) for i, item in enumerate(issue['items'], 1))
                    + ('' if issue['items'] else '<div class="empty">No qualifying new sources this period.</div>')
                    + f'<div class="priority"><h2>Priority review</h2><div>{e(issue["priority_review"])}</div></div>')
-    title = 'Weekly Research' + (f' · {issue["issue_date"]}' if issue else '')
-    return (f'<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
+    title = settings['title'] + (f' · {issue["issue_date"]}' if issue else '')
+    navigation = ''.join(
+        f'<a href="{prefix}{s["page"]}"'
+        + (' aria-current="page"' if key == series else '')
+        + f'>{e(s["nav"])}</a>' for key, s in SERIES.items())
+    return (f'<!DOCTYPE html><html lang="{settings["lang"]}"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>InvestorAce · {e(title)}</title><meta name="description" '
-            'content="Weekly evidence and practical review ideas for the InvestorAce investment framework.">'
+            f'content="{e(settings["description"], quote=True)}">'
             f'<style>{CSS}</style></head><body><main><nav aria-label="Main navigation">'
             f'<strong>InvestorAce</strong><a href="{prefix}index.html">Scoreboard</a>'
-            f'<a href="{prefix}research.html" aria-current="page">Weekly research</a></nav>'
-            '<header><div class="eyebrow">The research notebook</div>'
-            '<h1>Evidence worth reviewing.</h1><p>A concise shortlist of new research, '
-            'with the practical consequences for InvestorAce made explicit.</p>'
+            f'{navigation}</nav>'
+            f'<header><div class="eyebrow">{e(settings["eyebrow"])}</div>'
+            f'<h1>{e(settings["heading"])}</h1><p>{e(settings["description"])}</p>'
             f'<div class="topics">{topics}</div></header><div class="layout"><section '
             f'aria-label="Research edition">{content}</section><aside><h2>Publishing schedule</h2>'
             f'<p>{e(config["schedule_label"])}</p><h2>Past editions</h2><ul>{archive}</ul>'
@@ -180,24 +199,58 @@ def render_page(issue, issues, config, archived=False):
 
 
 def add_research_link(html):
-    if 'id="investorace-research-nav"' in html:
-        return html
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
     nav = ('<nav id="investorace-research-nav" aria-label="Research" '
            'style="margin:0 0 22px;padding:12px 16px;border:1px solid #2a3040;'
            'border-radius:10px;background:#141821;display:flex;gap:16px;flex-wrap:wrap">'
-           '<a href="research.html" style="color:#c1d98b;font-weight:700">Weekly research ↗</a>'
-           '<span style="color:#a0aabe;font-size:13px">New evidence · InvestorAce implications · Review priorities</span></nav>')
+           '<a href="market.html" style="color:#c1d98b;font-weight:700">Montagsbriefing ↗</a>'
+           '<a href="research.html" style="color:#c1d98b;font-weight:700">Friday research ↗</a></nav>')
+    # Upgrade the old one-link navigation too; repeated builds stay idempotent.
+    pattern = r'<nav\b[^>]*\bid=["\']investorace-research-nav["\'][^>]*>.*?</nav>'
+    updated, count = re.subn(pattern, lambda _: nav, html, count=1, flags=re.IGNORECASE | re.DOTALL)
+    if count:
+        return updated
     return html[:match.end()] + nav + html[match.end():]
+
+
+def market_redirects(config, market_issues, research_issues):
+    """Preserve links to migrated editions without listing them in Friday's feed."""
+    stamps = config.get('legacy_research_dates', [])
+    if not isinstance(stamps, list) or any(not isinstance(s, str) for s in stamps):
+        raise ValueError('legacy_research_dates must be a list of ISO dates')
+    if len(set(stamps)) != len(stamps):
+        raise ValueError('Duplicate legacy research date')
+    market_dates = {x['issue_date'] for x in market_issues}
+    research_dates = {x['issue_date'] for x in research_issues}
+    pages = []
+    for stamp in stamps:
+        date.fromisoformat(stamp)
+        if stamp not in market_dates or stamp in research_dates:
+            raise ValueError('Legacy redirect must refer only to a market edition')
+        target = f'../market/{stamp}.html'
+        page = ('<!DOCTYPE html><html lang="de"><head><meta charset="utf-8">'
+                f'<meta http-equiv="refresh" content="0;url={target}">'
+                f'<link rel="canonical" href="{target}">'
+                '<title>InvestorAce · Montagsbriefing</title></head><body>'
+                f'<p>Diese Ausgabe gehört zum <a href="{target}">Montagsbriefing</a>.</p>'
+                '</body></html>')
+        pages.append((Path('research') / f'{stamp}.html', page))
+    return pages
 
 
 def build_site(root, output, require_committed=False):
     root, output = Path(root).resolve(), Path(output).resolve()
-    if output == root or output in (root / 'history', root / 'weekly-research'):
+    if output == root or output in (root / 'history', root / 'weekly-research',
+                                   root / 'market-briefings'):
         raise ValueError('Use a separate site output directory')
     config, issues = load_research(root / 'weekly-research')
+    collections = [('research', config, issues)]
+    market_folder = root / 'market-briefings'
+    if market_folder.exists():
+        market_config, market_issues = load_research(market_folder)
+        collections.append(('market', market_config, market_issues))
     pointer = root / 'history' / '_current.json'
     if pointer.exists() or require_committed:
         from evidence import current_build
@@ -207,16 +260,25 @@ def build_site(root, output, require_committed=False):
         print('Using the legacy scoreboard; no paired generation exists yet.')
     scoreboard = add_research_link(report.read_text(encoding='utf-8'))
     # Validate all content before creating an uploadable site.
-    latest = render_page(issues[0] if issues else None, issues, config)
-    archived = [(x['issue_date'], render_page(x, issues, config, archived=True)) for x in issues]
+    pages = []
+    for series, series_config, series_issues in collections:
+        settings = SERIES[series]
+        latest = render_page(series_issues[0] if series_issues else None,
+                             series_issues, series_config, series=series)
+        pages.append((Path(settings['page']), latest))
+        pages.extend((Path(settings['archive']) / f'{x["issue_date"]}.html',
+                      render_page(x, series_issues, series_config, archived=True, series=series))
+                     for x in series_issues)
+    if market_folder.exists():
+        pages.extend(market_redirects(market_config, market_issues, issues))
     output.mkdir(parents=True, exist_ok=True)
     atomic_text(output / 'index.html', scoreboard)
-    atomic_text(output / 'research.html', latest)
-    for stamp, page in archived:
-        atomic_text(output / 'research' / f'{stamp}.html', page)
+    for path, page in pages:
+        atomic_text(output / path, page)
     if (root / 'tickers.js').exists():
         shutil.copyfile(root / 'tickers.js', output / 'tickers.js')
-    print(f'Built research pages: {len(issues)} edition(s), output {output}')
+    count = sum(len(x[2]) for x in collections)
+    print(f'Built briefing pages: {count} edition(s) in {len(collections)} series, output {output}')
 
 
 def main():

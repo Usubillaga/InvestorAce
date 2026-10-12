@@ -1,5 +1,10 @@
 # InvestorAce weekly research
 
+This folder contains the Friday research series only. Monday market briefings
+are stored in `market-briefings`, with their own overview at `market.html` and
+dated archive at `market/YYYY-MM-DD.html`. Friday's overview and archive remain
+`research.html` and `research/YYYY-MM-DD.html`; the two feeds do not share issues.
+
 The existing ChatGPT Friday task researches and publishes each briefing here.
 It runs around 08:00 Europe/Berlin, starting 2026-10-16, and also sends the
 shortlist in chat. GitHub Actions only validates and renders the submitted
@@ -64,6 +69,7 @@ All user/source text is escaped, source URLs are checked, and malformed issues
 stop publication. No market-data request is made by this publisher.
 
 `.github/workflows/research-pages.yml` publishes on pushes of research content
+or Monday market-briefing content
 to `main`, with the same Pages concurrency lock as the nightly workflow. It
 uses the last verified report/evidence generation. Before the first generation
 exists, it can reuse the checked-in legacy scoreboard. A corrupt or missing
