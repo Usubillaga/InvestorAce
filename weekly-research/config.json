@@ -2,5 +2,10 @@
   "schema_version": 1,
   "first_issue_date": "2026-10-16",
   "timezone": "Europe/Berlin",
-  "schedule_label": "Fridays, around 08:00 Europe/Berlin"
+  "schedule_label": "Fridays, around 08:00 Europe/Berlin",
+  "languages": ["es", "en", "de"],
+  "schedule_labels": {
+    "es": "Viernes, alrededor de las 08:00, hora de Berlín",
+    "de": "Freitags, gegen 08:00 Uhr, Berliner Zeit"
+  }
 }
