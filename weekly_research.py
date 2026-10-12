@@ -26,6 +26,72 @@ TOPICS = {
 REVIEWS = {'code': 'Code review', 'framework': 'Framework review',
            'both': 'Code + framework review', 'neither': 'No review warranted'}
 CONFIDENCE = {'Sicher', 'Wahrscheinlich', 'Vermutung'}
+LANGUAGES = {'es': 'Español', 'en': 'English', 'de': 'Deutsch'}
+TRANSLATED_FIELDS = ('title', 'publication_date', 'what_changed',
+                     'investorace_implication', 'review_question', 'limitations')
+
+LOCALES = {
+    'en': {
+        'title': 'Weekly Research', 'nav': 'Friday research',
+        'eyebrow': 'The research notebook', 'heading': 'Evidence worth reviewing.',
+        'description': 'A concise shortlist of new research, with the practical consequences for InvestorAce made explicit.',
+        'scoreboard': 'Scoreboard', 'market': 'Monday briefing', 'navigation': 'Main navigation',
+        'language': 'Language', 'edition': 'Edition', 'coverage': 'Coverage',
+        'published': 'Published / revised', 'original': 'Original source title',
+        'fields': ('What changed', 'InvestorAce implication', 'Review question', 'Evidence limits'),
+        'schedule': 'Publishing schedule', 'past': 'Past editions',
+        'sources': ('selected source', 'selected sources'), 'priority': 'Priority review',
+        'empty': 'No qualifying new sources this period.', 'first': 'First edition',
+        'scheduled': 'Scheduled for', 'unpublished': 'No edition has been published yet.',
+        'intro': 'Each edition explains what changed, why it matters for InvestorAce, and whether a code or framework review is warranted.',
+        'policy': 'Primary sources first. Up to five useful items. Quiet weeks stay short.',
+        'footer': 'Research ideas are review candidates. Published editions do not change stock scores, regime fit or portfolio rules. Not investment advice.',
+        'topics': TOPICS, 'reviews': REVIEWS,
+        'confidence': {'Sicher': 'Certain', 'Wahrscheinlich': 'Likely', 'Vermutung': 'Speculative'},
+    },
+    'es': {
+        'title': 'Investigación semanal', 'nav': 'Investigación del viernes',
+        'eyebrow': 'El cuaderno de investigación', 'heading': 'Evidencia que merece una revisión.',
+        'description': 'Una selección concisa de nuevas investigaciones y sus consecuencias prácticas para InvestorAce.',
+        'scoreboard': 'Panel de acciones', 'market': 'Informe del lunes', 'navigation': 'Navegación principal',
+        'language': 'Idioma', 'edition': 'Edición', 'coverage': 'Periodo analizado',
+        'published': 'Publicado / revisado', 'original': 'Título original de la fuente',
+        'fields': ('Qué cambió', 'Implicación para InvestorAce', 'Pregunta de revisión', 'Limitaciones de la evidencia'),
+        'schedule': 'Calendario de publicación', 'past': 'Ediciones anteriores',
+        'sources': ('fuente seleccionada', 'fuentes seleccionadas'), 'priority': 'Revisión prioritaria',
+        'empty': 'No se encontraron nuevas fuentes pertinentes en este periodo.', 'first': 'Primera edición',
+        'scheduled': 'Programada para', 'unpublished': 'Todavía no se ha publicado ninguna edición.',
+        'intro': 'Cada edición explica qué cambió, por qué importa para InvestorAce y si conviene revisar el código o el marco de inversión.',
+        'policy': 'Primero las fuentes originales. Hasta cinco aportaciones útiles. Las semanas tranquilas se resumen brevemente.',
+        'footer': 'Las ideas de investigación son propuestas de revisión. Las ediciones publicadas no cambian las puntuaciones, la afinidad con el régimen ni las reglas de cartera. No constituye asesoramiento de inversión.',
+        'topics': {'stock_selection': 'Selección de acciones', 'valuation_reverse_dcf': 'Valoración / DCF inverso',
+                   'portfolio_construction': 'Construcción de carteras', 'macro_regimes': 'Regímenes macroeconómicos'},
+        'reviews': {'code': 'Revisar el código', 'framework': 'Revisar el marco',
+                    'both': 'Revisar código y marco', 'neither': 'Sin revisión necesaria'},
+        'confidence': {'Sicher': 'Seguro', 'Wahrscheinlich': 'Probable', 'Vermutung': 'Suposición'},
+    },
+    'de': {
+        'title': 'Wöchentliche Forschung', 'nav': 'Freitagsrecherche',
+        'eyebrow': 'Das Forschungsnotizbuch', 'heading': 'Evidenz, die eine Prüfung verdient.',
+        'description': 'Eine kompakte Auswahl neuer Forschung mit konkreten Folgen für InvestorAce.',
+        'scoreboard': 'Aktienübersicht', 'market': 'Montagsbriefing', 'navigation': 'Hauptnavigation',
+        'language': 'Sprache', 'edition': 'Ausgabe', 'coverage': 'Berichtszeitraum',
+        'published': 'Veröffentlicht / überarbeitet', 'original': 'Originaltitel der Quelle',
+        'fields': ('Was hat sich geändert?', 'Bedeutung für InvestorAce', 'Konkrete Prüffrage', 'Grenzen der Evidenz'),
+        'schedule': 'Veröffentlichungsplan', 'past': 'Frühere Ausgaben',
+        'sources': ('ausgewählte Quelle', 'ausgewählte Quellen'), 'priority': 'Priorisierte Prüfung',
+        'empty': 'In diesem Zeitraum gab es keine geeigneten neuen Quellen.', 'first': 'Erste Ausgabe',
+        'scheduled': 'Geplant für', 'unpublished': 'Es wurde noch keine Ausgabe veröffentlicht.',
+        'intro': 'Jede Ausgabe erklärt, was sich geändert hat, warum das für InvestorAce relevant ist und ob Code oder Investmentrahmen geprüft werden sollten.',
+        'policy': 'Primärquellen zuerst. Bis zu fünf nützliche Beiträge. Ruhige Wochen bleiben kurz.',
+        'footer': 'Forschungsideen sind Vorschläge zur Prüfung. Veröffentlichte Ausgaben ändern weder Aktienbewertungen noch Regime-Fit oder Portfolioregeln. Keine Anlageberatung.',
+        'topics': {'stock_selection': 'Aktienauswahl', 'valuation_reverse_dcf': 'Bewertung / Reverse DCF',
+                   'portfolio_construction': 'Portfoliokonstruktion', 'macro_regimes': 'Makroregime'},
+        'reviews': {'code': 'Code prüfen', 'framework': 'Investmentrahmen prüfen',
+                    'both': 'Code und Investmentrahmen prüfen', 'neither': 'Keine Prüfung erforderlich'},
+        'confidence': {'Sicher': 'Sicher', 'Wahrscheinlich': 'Wahrscheinlich', 'Vermutung': 'Vermutung'},
+    },
+}
 
 SERIES = {
     'research': {
@@ -72,6 +138,10 @@ aside h2{font-size:15px;margin:4px 0 16px}aside ul{list-style:none;padding:0;
 margin:0}aside li{padding:12px 0;border-bottom:1px solid var(--line)}
 aside p{font-size:13px;color:var(--muted)}.priority h2{font-size:18px;margin:0 0 12px}
 .priority{border-color:#465439}.empty h2{margin:0 0 12px}.empty p{color:var(--muted)}
+.languages{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:24px;
+font-size:14px}.languages a{padding:5px 12px;border:1px solid var(--line);
+border-radius:999px;text-decoration:none}.languages a[aria-current="page"]{
+background:#293521;border-color:#73854f;color:#e2f1be}
 footer{margin-top:40px;border-top:1px solid var(--line);padding-top:20px;
 font-size:12px;color:var(--muted)}@media(max-width:760px){main{padding:22px 16px 44px}
 .layout{grid-template-columns:1fr}aside{border-left:0;border-top:1px solid var(--line);
@@ -86,7 +156,7 @@ def text_field(obj, key):
     return value
 
 
-def validate_issue(issue, filename):
+def validate_issue(issue, filename, required_languages=('en',)):
     if not isinstance(issue, dict) or issue.get('schema_version') != 1:
         raise ValueError('Expected weekly research schema_version 1')
     stamp = date.fromisoformat(text_field(issue, 'issue_date'))
@@ -124,6 +194,27 @@ def validate_issue(issue, filename):
                 or any(not isinstance(t, str) or t not in TOPICS for t in topics)
                 or len(set(topics)) != len(topics)):
             raise ValueError('Use distinct supported research topics')
+    translations = issue.get('translations', {})
+    if not isinstance(translations, dict) or set(translations) - {'es', 'de'}:
+        raise ValueError('Translations support Spanish (es) and German (de); English is the base edition')
+    for language in required_languages:
+        if language != 'en' and language not in translations:
+            raise ValueError(f'Missing required {language} translation')
+    for language, translated in translations.items():
+        if not isinstance(translated, dict) or set(translated) != {'summary', 'priority_review', 'items'}:
+            raise ValueError(f'Invalid {language} translation fields')
+        text_field(translated, 'summary')
+        text_field(translated, 'priority_review')
+        if not isinstance(translated['items'], list) or len(translated['items']) != len(items):
+            raise ValueError(f'{language} translation must cover the same items in the same order')
+        for original, translated_item in zip(items, translated['items']):
+            if (not isinstance(translated_item, dict)
+                    or set(translated_item) != set(TRANSLATED_FIELDS) | {'source_url'}):
+                raise ValueError(f'Invalid {language} item translation fields')
+            if translated_item['source_url'] != original['source_url']:
+                raise ValueError('Translations must preserve source links and item order')
+            for key in TRANSLATED_FIELDS:
+                text_field(translated_item, key)
     return issue
 
 
@@ -131,71 +222,125 @@ def load_research(folder):
     config = json.loads((folder / 'config.json').read_text(encoding='utf-8'))
     date.fromisoformat(text_field(config, 'first_issue_date'))
     text_field(config, 'schedule_label')
-    issues = [validate_issue(json.loads(p.read_text(encoding='utf-8')), p.name)
+    languages = config.get('languages', ['en'])
+    if (not isinstance(languages, list) or not languages
+            or any(not isinstance(lang, str) or lang not in LANGUAGES for lang in languages)
+            or 'en' not in languages or len(set(languages)) != len(languages)):
+        raise ValueError('languages must contain English and distinct supported language codes')
+    schedules = config.get('schedule_labels', {})
+    if not isinstance(schedules, dict):
+        raise ValueError('schedule_labels must be an object')
+    for language in languages:
+        if language != 'en':
+            text_field(schedules, language)
+    issues = [validate_issue(json.loads(p.read_text(encoding='utf-8')), p.name, languages)
               for p in sorted(folder.glob('????-??-??.json'), reverse=True)]
     return config, issues
 
 
-def card(item, index):
+def display_text(value, language):
+    for label, translated in (LOCALES[language]['confidence'].items() if language else ()):
+        value = value.replace(f'[{label}]', f'[{translated}]')
+    return escape(value)
+
+
+def localized_issue(issue, language):
+    if issue is None or language == 'en':
+        return issue
+    translated = issue['translations'][language]
+    items = [{**original, **text, 'original_title': original['title']}
+             for original, text in zip(issue['items'], translated['items'])]
+    return {**issue, 'summary': translated['summary'],
+            'priority_review': translated['priority_review'], 'items': items}
+
+
+def research_path(stamp=None, language='en'):
+    suffix = '' if language == 'en' else f'-{language}'
+    return f'research/{stamp}{suffix}.html' if stamp else f'research{suffix}.html'
+
+
+def page_path(series, stamp=None, language='en'):
+    if series == 'research':
+        return research_path(stamp, language)
+    settings = SERIES[series]
+    return f'{settings["archive"]}/{stamp}.html' if stamp else settings['page']
+
+
+def card(item, index, language='en', translate_confidence=True):
     e = escape
-    topics = ''.join(f'<span class="topic">{e(TOPICS[t])}</span>' for t in item['topics'])
-    fields = [('What changed', 'what_changed'), ('InvestorAce implication', 'investorace_implication'),
-              ('Review question', 'review_question'), ('Evidence limits', 'limitations')]
+    labels = LOCALES[language]
+    topics = ''.join(f'<span class="topic">{e(labels["topics"][t])}</span>' for t in item['topics'])
+    fields = zip(labels['fields'], ('what_changed', 'investorace_implication',
+                                   'review_question', 'limitations'))
     detail = ''
     for label, key in fields:
         style = ' class="limitations"' if key == 'limitations' else ''
-        detail += f'<dt>{label}</dt><dd{style}>{e(item[key])}</dd>'
+        detail += f'<dt>{e(label)}</dt><dd{style}>{display_text(item[key], language if translate_confidence else None)}</dd>'
+    original = (f'<p class="meta">{e(labels["original"])}: {e(item["original_title"])}</p>'
+                if item.get('original_title') else '')
+    confidence = labels['confidence'][item['confidence']] if translate_confidence else item['confidence']
     return (f'<article><div class="card-top"><span class="number">{index:02d}</span>'
-            f'<span class="pill">{e(REVIEWS[item["review"]])}</span>'
-            f'<span class="meta">[{e(item["confidence"])}]</span></div>'
+            f'<span class="pill">{e(labels["reviews"][item["review"]])}</span>'
+            f'<span class="meta">[{e(confidence)}]</span></div>'
             f'<h2><a class="source" href="{e(item["source_url"], quote=True)}" '
             f'target="_blank" rel="noopener noreferrer">{e(item["title"])}</a></h2>'
-            f'<p class="meta">{e(item["authors"])} · Published / revised {e(item["publication_date"])}</p>'
+            f'{original}<p class="meta">{e(item["authors"])} · {e(labels["published"])} {e(item["publication_date"])}</p>'
             f'<div class="topics">{topics}</div><dl>{detail}</dl></article>')
 
 
-def render_page(issue, issues, config, archived=False, series='research'):
+def render_page(issue, issues, config, archived=False, series='research', language='en'):
     e = escape
     settings = SERIES[series]
+    labels = LOCALES[language]
+    text_language = language if series == 'research' else None
+    issue = localized_issue(issue, language) if series == 'research' else issue
     prefix = '../' if archived else ''
-    topics = ''.join(f'<span class="topic">{e(t)}</span>' for t in TOPICS.values())
-    archive = ''.join(f'<li><a href="{prefix}{settings["archive"]}/{x["issue_date"]}.html">'
+    topics = ''.join(f'<span class="topic">{e(t)}</span>' for t in labels['topics'].values())
+    archive = ''.join(f'<li><a href="{prefix}{page_path(series, x["issue_date"], language)}">'
                       f'{e(x["issue_date"])}</a><br><span class="meta">'
-                      f'{len(x["items"])} selected source{"s" if len(x["items"]) != 1 else ""}'
+                      f'{len(x["items"])} {e(labels["sources"][len(x["items"]) != 1])}'
                       '</span></li>' for x in issues)
     if issue is None:
-        first = date.fromisoformat(config['first_issue_date']).strftime('%d %B %Y')
-        content = ('<div class="empty"><div class="eyebrow">First edition</div>'
-                   f'<h2>Scheduled for {e(first)}</h2><p>Each edition explains what changed, '
-                   'why it matters for InvestorAce, and whether a code or framework review is warranted.</p>'
-                   '<p>No edition has been published yet.</p></div>')
+        first = (date.fromisoformat(config['first_issue_date']).strftime('%d %B %Y')
+                 if language == 'en' else config['first_issue_date'])
+        content = (f'<div class="empty"><div class="eyebrow">{e(labels["first"])}</div>'
+                   f'<h2>{e(labels["scheduled"])} {e(first)}</h2><p>{e(labels["intro"])}</p>'
+                   f'<p>{e(labels["unpublished"])}</p></div>')
     else:
-        content = (f'<h2 class="issue-heading">Edition · {e(issue["issue_date"])}</h2>'
-                   f'<p class="meta">Coverage: {e(issue["period_start"])} → {e(issue["period_end"])}</p>'
-                   f'<p class="summary">{e(issue["summary"])}</p>'
-                   + ''.join(card(item, i) for i, item in enumerate(issue['items'], 1))
-                   + ('' if issue['items'] else '<div class="empty">No qualifying new sources this period.</div>')
-                   + f'<div class="priority"><h2>Priority review</h2><div>{e(issue["priority_review"])}</div></div>')
-    title = settings['title'] + (f' · {issue["issue_date"]}' if issue else '')
-    navigation = ''.join(
-        f'<a href="{prefix}{s["page"]}"'
-        + (' aria-current="page"' if key == series else '')
-        + f'>{e(s["nav"])}</a>' for key, s in SERIES.items())
-    return (f'<!DOCTYPE html><html lang="{settings["lang"]}"><head><meta charset="utf-8">'
+        content = (f'<h2 class="issue-heading">{e(labels["edition"])} · {e(issue["issue_date"])}</h2>'
+                   f'<p class="meta">{e(labels["coverage"])}: {e(issue["period_start"])} → {e(issue["period_end"])}</p>'
+                   f'<p class="summary">{display_text(issue["summary"], text_language)}</p>'
+                   + ''.join(card(item, i, language, series == 'research') for i, item in enumerate(issue['items'], 1))
+                   + ('' if issue['items'] else f'<div class="empty">{e(labels["empty"])}</div>')
+                   + f'<div class="priority"><h2>{e(labels["priority"])}</h2><div>{display_text(issue["priority_review"], text_language)}</div></div>')
+    title = (labels['title'] if series == 'research' else settings['title']) + (f' · {issue["issue_date"]}' if issue else '')
+    navigation = ''
+    for key, nav_settings in SERIES.items():
+        label = labels['nav'] if key == 'research' else labels['market'] if series == 'research' else nav_settings['nav']
+        current = ' aria-current="page"' if key == series else ''
+        navigation += f'<a href="{prefix}{page_path(key, language=language)}"{current}>{e(label)}</a>'
+    language_links = ''
+    if series == 'research' and len(config.get('languages', ['en'])) > 1:
+        links = ''.join(f'<a href="{prefix}{research_path(issue["issue_date"] if archived and issue else None, lang)}" '
+                        f'lang="{lang}" hreflang="{lang}"'
+                        + (' aria-current="page"' if lang == language else '')
+                        + f'>{e(LANGUAGES[lang])}</a>' for lang in config['languages'])
+        language_links = f'<div class="languages" aria-label="{e(labels["language"])}">{e(labels["language"])}: {links}</div>'
+    description = labels['description'] if series == 'research' else settings['description']
+    return (f'<!DOCTYPE html><html lang="{language if series == "research" else settings["lang"]}"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>InvestorAce · {e(title)}</title><meta name="description" '
-            f'content="{e(settings["description"], quote=True)}">'
-            f'<style>{CSS}</style></head><body><main><nav aria-label="Main navigation">'
-            f'<strong>InvestorAce</strong><a href="{prefix}index.html">Scoreboard</a>'
+            f'content="{e(description, quote=True)}">'
+            f'<style>{CSS}</style></head><body><main><nav aria-label="{e(labels["navigation"])}">'
+            f'<strong>InvestorAce</strong><a href="{prefix}index.html">{e(labels["scoreboard"])}</a>'
             f'{navigation}</nav>'
-            f'<header><div class="eyebrow">{e(settings["eyebrow"])}</div>'
-            f'<h1>{e(settings["heading"])}</h1><p>{e(settings["description"])}</p>'
-            f'<div class="topics">{topics}</div></header><div class="layout"><section '
-            f'aria-label="Research edition">{content}</section><aside><h2>Publishing schedule</h2>'
-            f'<p>{e(config["schedule_label"])}</p><h2>Past editions</h2><ul>{archive}</ul>'
-            '<p>Primary sources first. Up to five useful items. Quiet weeks stay short.</p></aside></div>'
-            '<footer>Research ideas are review candidates. Published editions do not change stock scores, '
-            'regime fit or portfolio rules. Not investment advice.</footer></main></body></html>')
+            f'<header><div class="eyebrow">{e(labels["eyebrow"] if series == "research" else settings["eyebrow"])}</div>'
+            f'<h1>{e(labels["heading"] if series == "research" else settings["heading"])}</h1><p>{e(description)}</p>'
+            f'<div class="topics">{topics}</div>{language_links}</header><div class="layout"><section '
+            f'aria-label="{e(labels["edition"])}">{content}</section><aside><h2>{e(labels["schedule"])}</h2>'
+            f'<p>{e(config.get("schedule_labels", {}).get(language, config["schedule_label"]))}</p>'
+            f'<h2>{e(labels["past"])}</h2><ul>{archive}</ul>'
+            f'<p>{e(labels["policy"])}</p></aside></div><footer>{e(labels["footer"])}</footer></main></body></html>')
 
 
 def add_research_link(html):
@@ -262,13 +407,15 @@ def build_site(root, output, require_committed=False):
     # Validate all content before creating an uploadable site.
     pages = []
     for series, series_config, series_issues in collections:
-        settings = SERIES[series]
-        latest = render_page(series_issues[0] if series_issues else None,
-                             series_issues, series_config, series=series)
-        pages.append((Path(settings['page']), latest))
-        pages.extend((Path(settings['archive']) / f'{x["issue_date"]}.html',
-                      render_page(x, series_issues, series_config, archived=True, series=series))
-                     for x in series_issues)
+        languages = series_config.get('languages', ['en']) if series == 'research' else ['en']
+        for language in languages:
+            latest = render_page(series_issues[0] if series_issues else None,
+                                 series_issues, series_config, series=series, language=language)
+            path = page_path(series, language=language)
+            pages.append((Path(path), latest))
+            pages.extend((Path(page_path(series, x['issue_date'], language)),
+                          render_page(x, series_issues, series_config, archived=True,
+                                      series=series, language=language)) for x in series_issues)
     if market_folder.exists():
         pages.extend(market_redirects(market_config, market_issues, issues))
     output.mkdir(parents=True, exist_ok=True)

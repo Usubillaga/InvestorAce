@@ -82,5 +82,109 @@
       "confidence": "Wahrscheinlich"
     }
   ],
-  "priority_review": "[Wahrscheinlich] Start with valuation consistency: reconcile implied growth, reinvestment/ROIC and terminal FCF, then test transition scenarios against NGV/EPV in an offline prototype. Keep regime fit unweighted and separate from scoring."
+  "priority_review": "[Wahrscheinlich] Start with valuation consistency: reconcile implied growth, reinvestment/ROIC and terminal FCF, then test transition scenarios against NGV/EPV in an offline prototype. Keep regime fit unweighted and separate from scoring.",
+  "translations": {
+    "es": {
+      "summary": "[Sicher] Retrospectiva del 5–11 de octubre de 2026 (semana bursátil: 5–9). Tres investigaciones y dos análisis institucionales cubren valoración, selección sistemática, carteras y regímenes macroeconómicos. Son propuestas de revisión; publicarlas no cambia las reglas de InvestorAce.",
+      "priority_review": "[Wahrscheinlich] Priorizar coherencia de valoración: conciliar crecimiento implícito, reinversión/ROIC y FCF terminal; contrastar transiciones con NGV/EPV en un prototipo offline. Mantener el ajuste al régimen sin ponderaciones, separado de la puntuación.",
+      "items": [
+        {
+          "source_url": "https://link.springer.com/article/10.1007/s11573-026-01285-8",
+          "title": "Una perspectiva microeconómica sobre la endogeneidad del flujo de caja en los modelos de valor terminal",
+          "publication_date": "7 de octubre de 2026 · publicación en revista",
+          "what_changed": "[Sicher] El modelo vincula FCF terminal, inversión, retrasos de proyectos y cambios de crecimiento/tipos. Bajo sus supuestos, las sensibilidades convencionales pueden exagerar el efecto del crecimiento.",
+          "investorace_implication": "[Wahrscheinlich] Inferencia: modelar el crecimiento del DCF inverso junto con reinversión y transición antes de estimar FCF distribuible.",
+          "review_question": "¿Concuerdan crecimiento implícito, ROIC, reinversión y FCF terminal entre escenarios? Comparar un prototipo offline con NGV/EPV.",
+          "limitations": "[Sicher] Modelo teórico con ejemplos numéricos; no prueba rentabilidades bursátiles. Sus parámetros requieren calibración por empresa."
+        },
+        {
+          "source_url": "https://arxiv.org/html/2610.09613v1",
+          "title": "Aprendizaje residual en la valoración empírica de activos",
+          "publication_date": "7 de octubre de 2026 · envío de prepublicación",
+          "what_changed": "[Sicher] Los autores reportan Sharpe 2,07 bruto en ResNet+ profundo largo/corto, frente a 1,30 con costes de 50 puntos básicos. Las conexiones residuales conservan pronósticos sencillos.",
+          "investorace_implication": "[Wahrscheinlich] Inferencia: una extensión aprendida debe mejorar una referencia sencilla predefinida y justificar su utilidad mediante validación prospectiva independiente.",
+          "review_question": "¿Supera el modelo residual señales sencillas en una muestra reservada, después de costes y controles de pruebas múltiples?",
+          "limitations": "[Sicher] Prepublicación estadounidense largo/corto hasta 2023, con alta rotación. Imputar medianas difiere del tratamiento de datos faltantes de InvestorAce."
+        },
+        {
+          "source_url": "https://arxiv.org/html/2610.11917v1",
+          "title": "Optimización multiperiodo de carteras con media y expectil bajo ambigüedad de Wasserstein: reformulación, degeneración y papel de la métrica de distancia",
+          "publication_date": "8 de octubre de 2026 · envío de prepublicación",
+          "what_changed": "[Sicher] La derivación muestra que el componente de riesgo puede quedar inactivo sobre un radio crítico de ambigüedad. La métrica de distancia puede favorecer concentración o diversificación.",
+          "investorace_implication": "[Wahrscheinlich] Inferencia: demostrar mediante diagnósticos que los controles de riesgo afectan las asignaciones y comprobar sensibilidad a la modelización.",
+          "review_question": "¿Cambian pesos, posición máxima y pérdidas en escenarios adversos al variar radios de estrés y métricas de distancia?",
+          "limitations": "[Sicher] Prepublicación; componentes del FTSE elegidos al final introducen sesgo de supervivencia. Los resultados principales son brutos; los controles de costes no eliminan ese sesgo."
+        },
+        {
+          "source_url": "https://www.robeco.com/en-int/insights/2026/10/why-equities-can-still-thrive-as-bond-yields-rise",
+          "title": "Por qué las acciones pueden seguir prosperando cuando suben los rendimientos de los bonos",
+          "publication_date": "9 de octubre de 2026 · perspectiva mensual",
+          "what_changed": "[Sicher] El informe sostiene que beneficios sólidos pueden compensar rendimientos más altos; distingue inflación de oferta del choque de demanda de 2022.",
+          "investorace_implication": "[Wahrscheinlich] Inferencia: mayores rendimientos no identifican por sí solos un régimen macro; separar tipos y crecimiento del FCF en los escenarios de valoración.",
+          "review_question": "Reexaminar subidas de rendimientos con datos de crecimiento/inflación disponibles entonces; probar tipos de descuento y crecimiento del FCF por separado, conservando el ajuste al régimen sin ponderaciones.",
+          "limitations": "[Sicher] Escenarios institucionales, sin clasificador validado; verificar la sensibilidad a tipos por acción."
+        },
+        {
+          "source_url": "https://www.robeco.com/en-int/insights/2026/10/asia-pacific-a-real-diversifier-for-us-equity-risk",
+          "title": "Asia-Pacífico: una fuente de diversificación del riesgo de las acciones estadounidenses",
+          "publication_date": "6 de octubre de 2026 · análisis institucional",
+          "what_changed": "[Sicher] Asia-Pacífico y Asia sin Japón tienen pesos tecnológicos reportados del 33,9% y 46,4%, respectivamente; el índice más amplio muestra menor volatilidad histórica.",
+          "investorace_implication": "[Wahrscheinlich] Inferencia: distintos países pueden compartir exposición tecnológica; la composición del índice importa para diversificar.",
+          "review_question": "Medir solapamientos regionales, cambiarios y sectoriales; contrastar correlaciones bajo estrés antes de ampliar el universo.",
+          "limitations": "[Sicher] Visión de una gestora; índices de agosto de 2026 y series brutas en USD no prueban diversificación futura para InvestorAce."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Rückblick auf den 5.–11. Oktober 2026 (Handelswoche: 5.–9. Oktober). Drei Forschungsarbeiten und zwei institutionelle Analysen behandeln Bewertung, systematische Aktienauswahl, Portfoliokonstruktion und Makroregime. Die folgenden Schlussfolgerungen sind Prüfvorschläge; ihre Veröffentlichung ändert keine Investmentregeln von InvestorAce.",
+      "priority_review": "[Wahrscheinlich] Mit der Bewertungskonsistenz beginnen: implizites Wachstum, Reinvestition/ROIC und terminalen FCF abstimmen, danach Übergangsszenarien in einem Offline-Prototyp mit NGV/EPV vergleichen. Regime-Fit ungewichtet und getrennt vom Score halten.",
+      "items": [
+        {
+          "source_url": "https://link.springer.com/article/10.1007/s11573-026-01285-8",
+          "title": "Eine mikroökonomische Perspektive auf die Endogenität von Cashflows in Terminalwertmodellen",
+          "publication_date": "7. Oktober 2026 · Zeitschriftenveröffentlichung",
+          "what_changed": "[Sicher] Das neue Modell lässt terminalen FCF auf Investitionsentscheidungen, Projektverzögerungen und veränderte Wachstums-/Zinsannahmen reagieren; unter seinen Annahmen können herkömmliche Sensitivitäten die Wachstumseffekte überzeichnen.",
+          "investorace_implication": "[Wahrscheinlich] Schlussfolgerung: Wachstum im Reverse DCF sollte zusammen mit dem Reinvestitionsbedarf und einem Übergangspfad modelliert werden, bevor ausschüttbarer Cashflow geschätzt wird.",
+          "review_question": "Sind implizites Wachstum, ROIC, Reinvestition und terminaler Cashflow über die Szenarien hinweg konsistent? Einen Offline-Prototyp mit NGV/EPV vergleichen.",
+          "limitations": "[Sicher] Theoretisches Modell mit Zahlenbeispielen, ohne Test von Aktienrenditen; Projektparameter müssen für das jeweilige Unternehmen kalibriert werden."
+        },
+        {
+          "source_url": "https://arxiv.org/html/2610.09613v1",
+          "title": "Residual Learning in der empirischen Asset-Bewertung",
+          "publication_date": "7. Oktober 2026 · Preprint eingereicht",
+          "what_changed": "[Sicher] Die Autoren berichten für tiefe ResNet+-Long-Short-Portfolios eine Brutto-Sharpe-Ratio von 2,07 gegenüber 1,30 bei Handelskosten von 50 Basispunkten; Residualverbindungen bewahren einfachere Prognosen.",
+          "investorace_implication": "[Wahrscheinlich] Schlussfolgerung: Eine lernende Erweiterung sollte eine vorab fixierte, einfache Referenz verfeinern und ihren Nutzen durch unabhängige Vorwärtstests belegen.",
+          "review_question": "Übertrifft ein Residualmodell einfache Signale auf einer reservierten Stichprobe nach Kosten und mit Kontrolle multipler Tests?",
+          "limitations": "[Sicher] Preprint, US-Long-Short-Evidenz bis 2023 und hohe Umschichtung; Median-Imputation unterscheidet sich vom Umgang mit fehlenden Daten in InvestorAce."
+        },
+        {
+          "source_url": "https://arxiv.org/html/2610.11917v1",
+          "title": "Mehrperiodige Portfoliooptimierung mit Mittelwert und Expectile unter Wasserstein-Ambiguität: Reformulierung, Degeneration und die Rolle der Distanzmetrik",
+          "publication_date": "8. Oktober 2026 · Preprint eingereicht",
+          "what_changed": "[Sicher] Die neue Herleitung zeigt, dass die Risikokomponente oberhalb eines kritischen Ambiguitätsradius inaktiv werden kann; die Distanzmetrik kann Konzentration oder Diversifikation begünstigen.",
+          "investorace_implication": "[Wahrscheinlich] Schlussfolgerung: Portfoliorisikokontrollen brauchen Diagnosen, die ihren Einfluss auf die Allokation belegen, sowie Sensitivitätsprüfungen für Modellierungsentscheidungen.",
+          "review_question": "Verändern sich bei unterschiedlichen Stressradien und Distanzmetriken tatsächlich Gewichte, maximale Positionsgröße und Verluste?",
+          "limitations": "[Sicher] Preprint; am Stichprobenende ausgewählte FTSE-Mitglieder verursachen Survivorship Bias. Die Hauptergebnisse sind brutto; ergänzende Kostentests beseitigen diesen Bias nicht."
+        },
+        {
+          "source_url": "https://www.robeco.com/en-int/insights/2026/10/why-equities-can-still-thrive-as-bond-yields-rise",
+          "title": "Warum Aktien auch bei steigenden Anleiherenditen weiter zulegen können",
+          "publication_date": "9. Oktober 2026 · Monatsausblick",
+          "what_changed": "[Sicher] Dieser Ausblick argumentiert, dass starke Gewinne höhere Renditen ausgleichen können, und unterscheidet angebotsgetriebene Inflation vom Nachfrageschock des Jahres 2022.",
+          "investorace_implication": "[Wahrscheinlich] Schlussfolgerung: Steigende Renditen allein bestimmen kein Makroregime; Bewertungsstresstests sollten Zinsen und Cashflow-Wachstum getrennt untersuchen.",
+          "review_question": "Phasen steigender Renditen mit damals verfügbaren Wachstums-/Inflationsdaten nachspielen; Diskontsätze und Cashflow-Wachstum getrennt stressen und den Regime-Fit ungewichtet halten.",
+          "limitations": "[Sicher] Institutionelle Szenarioanalyse, kein validierter Klassifikator; allgemeine Aussagen zur Zinssensitivität erfordern Prüfungen auf Einzelaktienebene."
+        },
+        {
+          "source_url": "https://www.robeco.com/en-int/insights/2026/10/asia-pacific-a-real-diversifier-for-us-equity-risk",
+          "title": "Asien-Pazifik: Diversifikation gegenüber dem Risiko von US-Aktien",
+          "publication_date": "6. Oktober 2026 · Institutionelle Analyse",
+          "what_changed": "[Sicher] Die Analyse vergleicht Asien-Pazifik mit Asien ohne Japan: Die berichteten Technologiegewichte liegen bei 33,9% beziehungsweise 46,4%, mit niedrigerer historischer Volatilität im breiteren Index.",
+          "investorace_implication": "[Wahrscheinlich] Schlussfolgerung: Unterschiedliche Länderzuordnungen können gemeinsame Technologieexponierung verdecken; für Diversifikation ist die Zusammensetzung des Vergleichsindex relevant.",
+          "review_question": "Überschneidungen nach Region, Währung und Sektor messen, danach Stresskorrelationen vergleichen, bevor das Aktienuniversum erweitert wird.",
+          "limitations": "[Sicher] Sicht eines Vermögensverwalters; Indexdaten vom August 2026 und Brutto-USD-Zeitreihen belegen keine künftige Diversifikation für InvestorAce."
+        }
+      ]
+    }
+  }
 }

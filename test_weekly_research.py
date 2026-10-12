@@ -21,6 +21,20 @@ def example(stamp='2026-10-16'):
                 'limitations': 'Small sample.', 'confidence': 'Wahrscheinlich'}]}
 
 
+def multilingual(issue):
+    value = copy.deepcopy(issue)
+    value['translations'] = {}
+    for language in ('es', 'de'):
+        value['translations'][language] = {
+            'summary': f'{language}: translated summary.',
+            'priority_review': f'{language}: translated priority.',
+            'items': [{'source_url': item['source_url'],
+                       **{field: f'{language}: {item[field]}' for field in research.TRANSLATED_FIELDS}}
+                      for item in issue['items']],
+        }
+    return value
+
+
 class ResearchPublicationTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -36,6 +50,11 @@ class ResearchPublicationTests(unittest.TestCase):
 
     def write(self, name, value):
         (self.root / 'weekly-research' / name).write_text(json.dumps(value), encoding='utf-8')
+
+    def require_languages(self):
+        self.config.update(languages=['es', 'en', 'de'],
+                           schedule_labels={'es': 'Viernes a las 08:00', 'de': 'Freitags um 08:00'})
+        self.write('config.json', self.config)
 
     def write_market(self, issue, legacy_dates=None):
         folder = self.root / 'market-briefings'
@@ -76,7 +95,7 @@ class ResearchPublicationTests(unittest.TestCase):
         self.assertNotIn('<img src=x', page)
         self.assertIn('&lt;script&gt;', page)
         self.assertIn('?one=1&amp;two=2', page)
-        for label in ('Code review', '[Wahrscheinlich]', 'InvestorAce implication', 'Review question'):
+        for label in ('Code review', '[Likely]', 'InvestorAce implication', 'Review question'):
             self.assertIn(label, page)
 
     def test_latest_issue_and_dated_archives_survive_build(self):
@@ -217,6 +236,82 @@ class ResearchPublicationTests(unittest.TestCase):
         self.assertIn('href="research.html"', updated)
         self.assertEqual(updated.count('id="investorace-research-nav"'), 1)
         self.assertEqual(research.add_research_link(updated), updated)
+
+    def test_requires_complete_translations_and_preserves_source_order(self):
+        original = multilingual(example())
+        research.validate_issue(original, '2026-10-16.json', ('es', 'en', 'de'))
+        mutations = []
+        for language in ('es', 'de'):
+            incomplete = copy.deepcopy(original)
+            del incomplete['translations'][language]
+            mutations.append(incomplete)
+        for key, value in [('source_url', 'https://example.org/other'), ('title', ''), ('review', 'neither')]:
+            invalid = copy.deepcopy(original)
+            invalid['translations']['es']['items'][0][key] = value
+            mutations.append(invalid)
+        invalid = copy.deepcopy(original)
+        invalid['translations']['de']['items'] = []
+        mutations.append(invalid)
+        for item in mutations:
+            with self.subTest(item=item), self.assertRaises(ValueError):
+                research.validate_issue(item, '2026-10-16.json', ('es', 'en', 'de'))
+
+    def test_multilingual_pages_keep_language_through_overview_and_archive_links(self):
+        self.require_languages()
+        self.write('2026-10-16.json', multilingual(example()))
+        self.write_market({**example('2026-10-12'), 'summary': '[Sicher] Monday only.'})
+        research.build_site(self.root, self.output)
+        for language, label in [('es', 'Revisar el código'), ('en', 'Code review'), ('de', 'Code prüfen')]:
+            page = (self.output / research.research_path(language=language)).read_text()
+            old = (self.output / research.research_path('2026-10-16', language)).read_text()
+            with self.subTest(language=language):
+                self.assertIn(f'<html lang="{language}">', page)
+                self.assertIn(label, page)
+                self.assertIn('https://example.org/paper', page)
+                self.assertIn(research.research_path('2026-10-16', language), page)
+                self.assertIn('../' + research.research_path(language=language), old)
+                self.assertIn('lang="es" hreflang="es"', old)
+                self.assertIn('../research/2026-10-16-de.html', old)
+                if language != 'en':
+                    self.assertIn(f'{language}: translated summary.', page)
+                    self.assertIn(f'{language}: translated priority.', page)
+                self.assertNotIn('Monday only.', page)
+        monday = (self.output / 'market.html').read_text()
+        self.assertIn('[Sicher] Monday only.', monday)
+        self.assertNotIn('class="languages"', monday)
+
+    def test_translated_text_is_escaped_without_mutating_facts(self):
+        issue = multilingual(example())
+        issue['translations']['es']['items'][0]['title'] = '<script>unsafe</script>'
+        original = copy.deepcopy(issue)
+        page = research.render_page(issue, [issue], self.config, language='es')
+        self.assertIn('&lt;script&gt;unsafe&lt;/script&gt;', page)
+        self.assertNotIn('<script>', page)
+        localized = research.localized_issue(issue, 'es')
+        for key in ('source_url', 'review', 'confidence', 'topics', 'authors'):
+            self.assertEqual(localized['items'][0][key], issue['items'][0][key])
+        self.assertEqual(issue, original)
+
+    def test_missing_translation_blocks_publication_before_site_replacement(self):
+        self.require_languages()
+        self.write('2026-10-16.json', example())
+        self.output.mkdir()
+        (self.output / 'index.html').write_text('previous site')
+        with self.assertRaisesRegex(ValueError, 'Missing required es'):
+            research.build_site(self.root, self.output)
+        self.assertEqual((self.output / 'index.html').read_text(), 'previous site')
+        self.assertFalse((self.output / 'research.html').exists())
+
+    def test_empty_edition_has_translated_summary_and_priority_in_every_language(self):
+        self.require_languages()
+        issue = multilingual({**example(), 'items': []})
+        self.write('2026-10-16.json', issue)
+        research.build_site(self.root, self.output)
+        for language in ('es', 'de'):
+            page = (self.output / research.research_path(language=language)).read_text()
+            self.assertIn(f'{language}: translated summary.', page)
+            self.assertIn(f'{language}: translated priority.', page)
+            self.assertEqual(page.count('<article>'), 0)
 
 
 if __name__ == '__main__':
