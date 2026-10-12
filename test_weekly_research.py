@@ -313,6 +313,88 @@ class ResearchPublicationTests(unittest.TestCase):
             self.assertIn(f'{language}: translated priority.', page)
             self.assertEqual(page.count('<article>'), 0)
 
+    def test_monday_and_friday_language_archives_remain_separate(self):
+        self.require_languages()
+        self.write('2026-10-16.json', multilingual(example()))
+        issue = multilingual(example('2026-10-12'))
+        issue['summary'] = 'Monday English.'
+        issue['translations']['es']['summary'] = 'Lunes en español.'
+        issue['translations']['de']['summary'] = 'Montag auf Deutsch.'
+        self.write_market(issue)
+        path = self.root / 'market-briefings' / 'config.json'
+        config = json.loads(path.read_text())
+        config.update(languages=['es', 'en', 'de'], default_language='de',
+                      verify_translation_claims=True,
+                      schedule_labels={'es': 'Lunes a las 08:00', 'de': 'Montags um 08:00'})
+        path.write_text(json.dumps(config))
+        research.build_site(self.root, self.output)
+        for lang in ('es', 'en', 'de'):
+            monday = (self.output / research.page_path('market', language=lang)).read_text()
+            old = (self.output / research.page_path('market', '2026-10-12', lang)).read_text()
+            friday = (self.output / research.research_path(language=lang)).read_text()
+            self.assertIn(f'<html lang="{lang}">', monday)
+            self.assertIn(research.page_path('market', '2026-10-12', lang), monday)
+            self.assertIn('../' + research.page_path('market', language=lang), old)
+            self.assertNotIn('market/2026-10-12', friday)
+            for other in ('es', 'en', 'de'):
+                self.assertIn('../' + research.page_path('market', '2026-10-12', other), old)
+        self.assertIn('Montag auf Deutsch.', (self.output / 'market.html').read_text())
+
+    def test_monday_requires_complete_languages_before_publication(self):
+        self.write_market(example('2026-10-12'))
+        path = self.root / 'market-briefings' / 'config.json'
+        config = json.loads(path.read_text())
+        config.update(languages=['es', 'en', 'de'],
+                      schedule_labels={'es': 'Lunes', 'de': 'Montags'})
+        path.write_text(json.dumps(config))
+        self.output.mkdir()
+        (self.output / 'index.html').write_text('previous site')
+        with self.assertRaisesRegex(ValueError, 'Missing required es'):
+            research.build_site(self.root, self.output)
+        self.assertEqual((self.output / 'index.html').read_text(), 'previous site')
+        self.assertFalse((self.output / 'market-en.html').exists())
+
+    def test_monday_translations_preserve_numbers_signs_quarters_and_confidence(self):
+        source = example('2026-10-12')
+        source['items'][0]['what_changed'] = '[Sicher] Yield 5.24%; loss −0.9%; S&P-500 +1.2%; Q3.'
+        issue = multilingual(source)
+        issue['translations']['es']['items'][0]['what_changed'] = (
+            '[Sicher] Rendimiento 5,24%; pérdida −0,9%; S&P 500 +1,2%; Q3.')
+        research.validate_issue(issue, '2026-10-12.json', ('es', 'en', 'de'), True)
+        for text in ('[Sicher] Yield 5.25%; loss −0.9%; S&P-500 +1.2%; Q3.',
+                     '[Sicher] Yield 5.24%; loss +0.9%; S&P-500 +1.2%; Q3.',
+                     '[Sicher] Yield 5.24%; loss −0.9%; S&P-500 +1.2%; Q4.',
+                     '[Wahrscheinlich] Yield 5.24%; loss −0.9%; S&P-500 +1.2%; Q3.'):
+            invalid = copy.deepcopy(issue)
+            invalid['translations']['es']['items'][0]['what_changed'] = text
+            with self.subTest(text=text), self.assertRaises(ValueError):
+                research.validate_issue(invalid, '2026-10-12.json', ('es', 'en', 'de'), True)
+
+    def test_monday_translated_authors_do_not_override_source_metadata(self):
+        issue = multilingual(example('2026-10-12'))
+        issue['translations']['es']['items'][0]['authors'] = 'Institución de ejemplo'
+        research.validate_issue(issue, '2026-10-12.json', ('es', 'en', 'de'), True)
+        localized = research.localized_issue(issue, 'es')
+        for key in ('source_url', 'review', 'confidence', 'topics'):
+            self.assertEqual(localized['items'][0][key], issue['items'][0][key])
+        invalid = copy.deepcopy(issue)
+        invalid['translations']['es']['items'][0]['review'] = 'neither'
+        with self.assertRaises(ValueError):
+            research.validate_issue(invalid, '2026-10-12.json', ('es', 'en', 'de'), True)
+
+    def test_quiet_monday_edition_keeps_all_three_languages(self):
+        issue = multilingual({**example('2026-10-12'), 'items': []})
+        self.write_market(issue)
+        path = self.root / 'market-briefings' / 'config.json'
+        config = json.loads(path.read_text())
+        config.update(languages=['es', 'en', 'de'],
+                      schedule_labels={'es': 'Lunes', 'de': 'Montags'})
+        path.write_text(json.dumps(config))
+        research.build_site(self.root, self.output)
+        for lang in ('es', 'en', 'de'):
+            self.assertTrue((self.output / research.page_path('market', language=lang)).exists())
+            self.assertTrue((self.output / research.page_path('market', '2026-10-12', lang)).exists())
+
 
 if __name__ == '__main__':
     unittest.main()

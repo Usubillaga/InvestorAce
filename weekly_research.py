@@ -10,7 +10,9 @@ import argparse
 import json
 import re
 import shutil
+from collections import Counter
 from datetime import date
+from decimal import Decimal
 from html import escape
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -108,6 +110,18 @@ SERIES = {
     },
 }
 
+MARKET_LOCALES = {
+    'en': {'title': 'Monday Market Briefing', 'eyebrow': 'Monday · Market briefing',
+           'heading': 'The market week in focus.',
+           'description': 'Macro regimes, valuations, sectors and earnings: what changed and what should InvestorAce review?'},
+    'es': {'title': 'Informe de mercado del lunes', 'eyebrow': 'Lunes · Informe de mercado',
+           'heading': 'La semana bursátil en perspectiva.',
+           'description': 'Regímenes macroeconómicos, valoraciones, sectores y beneficios: qué ha cambiado y qué debe revisar InvestorAce.'},
+    'de': {'title': 'Montagsbriefing', 'eyebrow': 'Montag · Marktbriefing',
+           'heading': 'Die Marktwoche im Blick.',
+           'description': 'Makro-Regime, Bewertung, Sektoren und Gewinne: Was hat sich verändert und was sollte InvestorAce überprüfen?'},
+}
+
 CSS = """
 :root{color-scheme:dark;--bg:#0d0f14;--panel:#141821;--line:#2a3040;
 --text:#edf0f7;--muted:#a0aabe;--accent:#c1d98b}
@@ -132,7 +146,7 @@ font-size:13px;font-weight:700;margin-right:auto}.pill{color:var(--accent)}
 h2{font-size:22px;line-height:1.3;letter-spacing:-.5px;margin:16px 0 10px}
 .source{overflow-wrap:anywhere}dl{margin:22px 0 0}dt{font-size:12px;
 font-weight:700;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
-dd{margin:5px 0 18px}dd:last-child{margin-bottom:0}.limitations{font-size:14px;
+dd{margin:5px 0 18px;overflow-wrap:anywhere}dd:last-child{margin-bottom:0}.limitations{font-size:14px;
 color:var(--muted)}aside{border-left:1px solid var(--line);padding-left:22px}
 aside h2{font-size:15px;margin:4px 0 16px}aside ul{list-style:none;padding:0;
 margin:0}aside li{padding:12px 0;border-bottom:1px solid var(--line)}
@@ -156,7 +170,26 @@ def text_field(obj, key):
     return value
 
 
-def validate_issue(issue, filename, required_languages=('en',)):
+def numeric_claims(text):
+    claims = []
+    for match in re.finditer(r'[+−-]?\d+(?:[.,]\d+)?', text):
+        token = match.group().replace('−', '-').replace(',', '.')
+        if token.startswith('-') and match.start() and text[match.start() - 1].isalnum():
+            token = token[1:]
+        claims.append(Decimal(token))
+    return Counter(claims)
+
+
+def check_translated_claims(original, translated, keys):
+    tags = r'\[(Sicher|Wahrscheinlich|Vermutung)\]'
+    for key in keys:
+        if Counter(re.findall(tags, original[key])) != Counter(re.findall(tags, translated[key])):
+            raise ValueError(f'Translated confidence labels differ: {key}')
+        if numeric_claims(original[key]) != numeric_claims(translated[key]):
+            raise ValueError(f'Translated numeric claims differ: {key}')
+
+
+def validate_issue(issue, filename, required_languages=('en',), verify_translation_claims=False):
     if not isinstance(issue, dict) or issue.get('schema_version') != 1:
         raise ValueError('Expected weekly research schema_version 1')
     stamp = date.fromisoformat(text_field(issue, 'issue_date'))
@@ -205,16 +238,26 @@ def validate_issue(issue, filename, required_languages=('en',)):
             raise ValueError(f'Invalid {language} translation fields')
         text_field(translated, 'summary')
         text_field(translated, 'priority_review')
+        if verify_translation_claims:
+            check_translated_claims(issue, translated, ('summary', 'priority_review'))
         if not isinstance(translated['items'], list) or len(translated['items']) != len(items):
             raise ValueError(f'{language} translation must cover the same items in the same order')
         for original, translated_item in zip(items, translated['items']):
+            required = set(TRANSLATED_FIELDS) | {'source_url'}
+            optional = {'authors'} if verify_translation_claims else set()
             if (not isinstance(translated_item, dict)
-                    or set(translated_item) != set(TRANSLATED_FIELDS) | {'source_url'}):
+                    or not required <= set(translated_item)
+                    or set(translated_item) - required - optional):
                 raise ValueError(f'Invalid {language} item translation fields')
             if translated_item['source_url'] != original['source_url']:
                 raise ValueError('Translations must preserve source links and item order')
             for key in TRANSLATED_FIELDS:
                 text_field(translated_item, key)
+            if 'authors' in translated_item:
+                text_field(translated_item, 'authors')
+            if verify_translation_claims:
+                check_translated_claims(original, translated_item,
+                                        tuple(k for k in translated_item if k != 'source_url'))
     return issue
 
 
@@ -233,7 +276,12 @@ def load_research(folder):
     for language in languages:
         if language != 'en':
             text_field(schedules, language)
-    issues = [validate_issue(json.loads(p.read_text(encoding='utf-8')), p.name, languages)
+    verify = config.get('verify_translation_claims', False)
+    if not isinstance(verify, bool):
+        raise ValueError('verify_translation_claims must be a boolean')
+    if 'default_language' in config and config['default_language'] not in languages:
+        raise ValueError('default_language must be one of the configured languages')
+    issues = [validate_issue(json.loads(p.read_text(encoding='utf-8')), p.name, languages, verify)
               for p in sorted(folder.glob('????-??-??.json'), reverse=True)]
     return config, issues
 
@@ -261,9 +309,11 @@ def research_path(stamp=None, language='en'):
 
 def page_path(series, stamp=None, language='en'):
     if series == 'research':
-        return research_path(stamp, language)
+        return research_path(stamp, language or 'en')
     settings = SERIES[series]
-    return f'{settings["archive"]}/{stamp}.html' if stamp else settings['page']
+    suffix = f'-{language}' if language else ''
+    return (f'{settings["archive"]}/{stamp}{suffix}.html' if stamp
+            else f'{Path(settings["page"]).stem}{suffix}.html')
 
 
 def card(item, index, language='en', translate_confidence=True):
@@ -288,15 +338,18 @@ def card(item, index, language='en', translate_confidence=True):
             f'<div class="topics">{topics}</div><dl>{detail}</dl></article>')
 
 
-def render_page(issue, issues, config, archived=False, series='research', language='en'):
+def render_page(issue, issues, config, archived=False, series='research', language=None,
+                multilingual_series=()):
     e = escape
     settings = SERIES[series]
-    labels = LOCALES[language]
-    text_language = language if series == 'research' else None
-    issue = localized_issue(issue, language) if series == 'research' else issue
+    path_language = language
+    language = language or config.get('default_language', settings['lang'])
+    labels = {**LOCALES[language], **(MARKET_LOCALES[language] if series == 'market' else {})}
+    if series == 'research' or (issue and issue.get('translations')):
+        issue = localized_issue(issue, language)
     prefix = '../' if archived else ''
     topics = ''.join(f'<span class="topic">{e(t)}</span>' for t in labels['topics'].values())
-    archive = ''.join(f'<li><a href="{prefix}{page_path(series, x["issue_date"], language)}">'
+    archive = ''.join(f'<li><a href="{prefix}{page_path(series, x["issue_date"], path_language)}">'
                       f'{e(x["issue_date"])}</a><br><span class="meta">'
                       f'{len(x["items"])} {e(labels["sources"][len(x["items"]) != 1])}'
                       '</span></li>' for x in issues)
@@ -309,33 +362,32 @@ def render_page(issue, issues, config, archived=False, series='research', langua
     else:
         content = (f'<h2 class="issue-heading">{e(labels["edition"])} · {e(issue["issue_date"])}</h2>'
                    f'<p class="meta">{e(labels["coverage"])}: {e(issue["period_start"])} → {e(issue["period_end"])}</p>'
-                   f'<p class="summary">{display_text(issue["summary"], text_language)}</p>'
-                   + ''.join(card(item, i, language, series == 'research') for i, item in enumerate(issue['items'], 1))
+                   f'<p class="summary">{display_text(issue["summary"], language)}</p>'
+                   + ''.join(card(item, i, language) for i, item in enumerate(issue['items'], 1))
                    + ('' if issue['items'] else f'<div class="empty">{e(labels["empty"])}</div>')
-                   + f'<div class="priority"><h2>{e(labels["priority"])}</h2><div>{display_text(issue["priority_review"], text_language)}</div></div>')
-    title = (labels['title'] if series == 'research' else settings['title']) + (f' · {issue["issue_date"]}' if issue else '')
+                   + f'<div class="priority"><h2>{e(labels["priority"])}</h2><div>{display_text(issue["priority_review"], language)}</div></div>')
+    title = labels['title'] + (f' · {issue["issue_date"]}' if issue else '')
     navigation = ''
-    for key, nav_settings in SERIES.items():
-        label = labels['nav'] if key == 'research' else labels['market'] if series == 'research' else nav_settings['nav']
+    for key in SERIES:
+        label = labels['nav'] if key == 'research' else labels['market']
         current = ' aria-current="page"' if key == series else ''
-        navigation += f'<a href="{prefix}{page_path(key, language=language)}"{current}>{e(label)}</a>'
+        nav_language = path_language if key == series else language if key in multilingual_series else None
+        navigation += f'<a href="{prefix}{page_path(key, language=nav_language)}"{current}>{e(label)}</a>'
     language_links = ''
-    if series == 'research' and len(config.get('languages', ['en'])) > 1:
-        links = ''.join(f'<a href="{prefix}{research_path(issue["issue_date"] if archived and issue else None, lang)}" '
+    if len(config.get('languages', ['en'])) > 1:
+        links = ''.join(f'<a href="{prefix}{page_path(series, issue["issue_date"] if archived and issue else None, lang)}" '
                         f'lang="{lang}" hreflang="{lang}"'
                         + (' aria-current="page"' if lang == language else '')
                         + f'>{e(LANGUAGES[lang])}</a>' for lang in config['languages'])
         language_links = f'<div class="languages" aria-label="{e(labels["language"])}">{e(labels["language"])}: {links}</div>'
-    description = labels['description'] if series == 'research' else settings['description']
-    return (f'<!DOCTYPE html><html lang="{language if series == "research" else settings["lang"]}"><head><meta charset="utf-8">'
+    return (f'<!DOCTYPE html><html lang="{language}"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>InvestorAce · {e(title)}</title><meta name="description" '
-            f'content="{e(description, quote=True)}">'
+            f'content="{e(labels["description"], quote=True)}">'
             f'<style>{CSS}</style></head><body><main><nav aria-label="{e(labels["navigation"])}">'
             f'<strong>InvestorAce</strong><a href="{prefix}index.html">{e(labels["scoreboard"])}</a>'
-            f'{navigation}</nav>'
-            f'<header><div class="eyebrow">{e(labels["eyebrow"] if series == "research" else settings["eyebrow"])}</div>'
-            f'<h1>{e(labels["heading"] if series == "research" else settings["heading"])}</h1><p>{e(description)}</p>'
+            f'{navigation}</nav><header><div class="eyebrow">{e(labels["eyebrow"])}</div>'
+            f'<h1>{e(labels["heading"])}</h1><p>{e(labels["description"])}</p>'
             f'<div class="topics">{topics}</div>{language_links}</header><div class="layout"><section '
             f'aria-label="{e(labels["edition"])}">{content}</section><aside><h2>{e(labels["schedule"])}</h2>'
             f'<p>{e(config.get("schedule_labels", {}).get(language, config["schedule_label"]))}</p>'
@@ -406,16 +458,21 @@ def build_site(root, output, require_committed=False):
     scoreboard = add_research_link(report.read_text(encoding='utf-8'))
     # Validate all content before creating an uploadable site.
     pages = []
+    multilingual_series = {series for series, cfg, _ in collections
+                           if len(cfg.get('languages', ['en'])) > 1}
     for series, series_config, series_issues in collections:
-        languages = series_config.get('languages', ['en']) if series == 'research' else ['en']
+        languages = (series_config.get('languages', ['en']) if series == 'research'
+                     else [None] + series_config.get('languages', []))
         for language in languages:
             latest = render_page(series_issues[0] if series_issues else None,
-                                 series_issues, series_config, series=series, language=language)
+                                 series_issues, series_config, series=series, language=language,
+                                 multilingual_series=multilingual_series)
             path = page_path(series, language=language)
             pages.append((Path(path), latest))
             pages.extend((Path(page_path(series, x['issue_date'], language)),
                           render_page(x, series_issues, series_config, archived=True,
-                                      series=series, language=language)) for x in series_issues)
+                                      series=series, language=language,
+                                      multilingual_series=multilingual_series)) for x in series_issues)
     if market_folder.exists():
         pages.extend(market_redirects(market_config, market_issues, issues))
     output.mkdir(parents=True, exist_ok=True)

@@ -3,87 +3,201 @@
   "issue_date": "2026-10-12",
   "period_start": "2026-10-05",
   "period_end": "2026-10-09",
-  "summary": "[Wahrscheinlich] InvestorAce Montagsbriefing vom 12. Oktober 2026, morgens: Steigende Aktienindizes bestätigen noch keinen günstigeren Makro-Regimepfad. Diese Ausgabe behandelt die Handelswoche 5.–9. Oktober; Wochenvergleiche beziehen sich auf den 2. Oktober. Monats- und Quartalsdaten sind ausdrücklich gekennzeichnet.",
+  "summary": "[Wahrscheinlich] InvestorAce Monday briefing, morning of 12 October 2026: Rising stock indices do not yet confirm a more favorable macro regime. This edition covers the trading week of 5–9 October; weekly comparisons use 2 October. Monthly and quarterly data are explicitly identified.",
   "items": [
     {
       "title": "ISM® PMI® Reports Roundup: September Services",
       "authors": "Dan Zeiger · Institute for Supply Management",
-      "publication_date": "6. Oktober 2026; zugrunde liegende PMI-Veröffentlichung: 5. Oktober",
+      "publication_date": "6 October 2026; underlying PMI release: 5 October",
       "source_url": "https://www.ismworld.org/supply-management-news-and-reports/news-publications/inside-supply-management-magazine/blog/2026/2026-10/ism-pmi-reports-roundup-september-2026-services/",
       "topics": [
         "macro_regimes"
       ],
-      "what_changed": "[Sicher] USA: Der Dienstleistungs-PMI sank im September von 55,4 auf 54,9. Der Preisindex stieg von 72,6 auf 74,0. Monatsvergleich: weiterhin Expansion, bei stärkerem Kostendruck.",
-      "investorace_implication": "[Wahrscheinlich] Das Szenario langsameres Wachstum bei hartnäckigem Preisdruck verlangt eine Überprüfung der Regimeannahmen; ein Wechsel ist noch nicht bestätigt.",
+      "what_changed": "[Sicher] USA: The services PMI fell from 55.4 to 54.9 in September. The prices index rose from 72.6 to 74.0. Monthly comparison: continued expansion with stronger cost pressure.",
+      "investorace_implication": "[Wahrscheinlich] Slower growth with persistent price pressure calls for a review of regime assumptions; a regime change is not yet confirmed.",
       "review": "framework",
-      "review_question": "Hohe Priorität: Bestätigen weitere Inflations- und Aktivitätsdaten dieses Szenario? Wachstum und Inflation getrennt prüfen.",
-      "limitations": "[Sicher] Unternehmensbefragung, kein direkter Verbraucherpreisindex; ein Monatswert bestätigt keinen Regimewechsel.",
+      "review_question": "High priority: Do further inflation and activity data confirm this scenario? Review growth and inflation separately.",
+      "limitations": "[Sicher] Business survey, not a direct consumer price index; one monthly observation does not confirm a regime change.",
       "confidence": "Sicher"
     },
     {
       "title": "Volume of retail trade up by 0.1% in both the euro area and the EU",
-      "authors": "Eurostat; ergänzend Destatis",
-      "publication_date": "6. Oktober 2026; ergänzende Destatis-Veröffentlichungen: 6./7. Oktober",
+      "authors": "Eurostat; additional data: Destatis",
+      "publication_date": "6 October 2026; additional Destatis releases: 6/7 October",
       "source_url": "https://ec.europa.eu/eurostat/en/web/products-euro-indicators/w/4-06102026-ap",
       "topics": [
         "macro_regimes",
         "stock_selection"
       ],
-      "what_changed": "[Sicher] Europa: Reales Einzelhandelsvolumen im August +0,1% gegenüber Juli, nach −0,6% im Juli. Deutschlands Produktion +2,0%; Aufträge −10,6%, ohne Großaufträge aber nur −0,1%. Alle Veränderungen sind monatlich.",
-      "investorace_implication": "[Wahrscheinlich] Die Erholung bleibt uneinheitlich; die deutsche Auftragsschlagzeile allein überzeichnet die Nachfrageschwäche.",
+      "what_changed": "[Sicher] Europe: August real retail volume +0.1% versus July, after −0.6% in July. Germany's production +2.0%; orders −10.6%, but only −0.1% excluding large orders. All changes are monthly.",
+      "investorace_implication": "[Wahrscheinlich] The recovery remains uneven; Germany's headline order number alone overstates demand weakness.",
       "review": "framework",
-      "review_question": "Mittlere Priorität, Regime und Aktienauswahl: Dreimonatstrends und Aufträge ohne Großaufträge auswerten; Deutschland nicht mit der gesamten Eurozone gleichsetzen.",
-      "limitations": "[Sicher] Vorläufige Augustdaten mit Veröffentlichungslücke. Ergänzende Quellen: https://www.destatis.de/EN/Press/2026/10/PE26_354_421.html und https://www.destatis.de/EN/Press/2026/10/PE26_355_421.html",
+      "review_question": "Medium priority, regimes and stock selection: Review three-month trends and orders excluding large orders; do not equate Germany with the whole euro area.",
+      "limitations": "[Sicher] Provisional August data with a publication lag. Additional sources: https://www.destatis.de/EN/Press/2026/10/PE26_354_421.html and https://www.destatis.de/EN/Press/2026/10/PE26_355_421.html",
       "confidence": "Sicher"
     },
     {
       "title": "Daily Treasury Rates",
-      "authors": "U.S. Department of the Treasury; ergänzende Indexdaten: Associated Press",
-      "publication_date": "Beobachtungen: 2., 8. und 9. Oktober 2026; AP-Wochenbericht: 9. Oktober",
+      "authors": "U.S. Department of the Treasury; additional index data: Associated Press",
+      "publication_date": "Observations: 2, 8 and 9 October 2026; AP weekly report: 9 October",
       "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value=2026",
       "topics": [
         "valuation_reverse_dcf",
         "portfolio_construction"
       ],
-      "what_changed": "[Sicher] Die zehnjährige US-Nominalrendite sank vom 2. bis 9. Oktober von 5,28% auf 5,24%. Realrendite: 2,87% am 8. Oktober, gegenüber 2,92% am 2. Oktober. S&P 500 wöchentlich +1,2%, Russell 2000 −0,9%.",
-      "investorace_implication": "[Wahrscheinlich] Leichte Zinsentlastung trifft auf unterschiedliche Aktienentwicklung; Indexgewinne begründen keine erzwungene Rotation.",
+      "what_changed": "[Sicher] The ten-year US nominal yield fell from 5.28% to 5.24% between 2 and 9 October. Real yield: 2.87% on 8 October, versus 2.92% on 2 October. Weekly S&P 500 +1.2%, Russell 2000 −0.9%.",
+      "investorace_implication": "[Wahrscheinlich] Modest rate relief accompanies diverging stock performance; index gains do not justify forced rotation.",
       "review": "framework",
-      "review_question": "Mittlere Priorität, Portfoliokonstruktion: Zinsabhängigkeit, Refinanzierungsbedarf und gemeinsame Risikofaktoren untersuchen.",
-      "limitations": "[Sicher] Realzinsvergleich endet am 8. Oktober. Ein verifizierter Kreditspread-Wochenvergleich fehlt. Weitere Quellen: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_real_yield_curve&field_tdr_date_value=2026 und https://apnews.com/article/dafbd0c4037ee10e2a9e305f3cfa8e70",
+      "review_question": "Medium priority, portfolio construction: Examine sensitivity to interest rates, refinancing needs and common risk factors.",
+      "limitations": "[Sicher] The real-yield comparison ends on 8 October. A verified weekly credit-spread comparison is unavailable. Further sources: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_real_yield_curve&field_tdr_date_value=2026 and https://apnews.com/article/dafbd0c4037ee10e2a9e305f3cfa8e70",
       "confidence": "Sicher"
     },
     {
       "title": "Earnings Insight · October 9, 2026",
       "authors": "John Butters · FactSet",
-      "publication_date": "9. Oktober 2026",
+      "publication_date": "9 October 2026",
       "source_url": "https://www.factset.com/earningsinsight",
       "topics": [
         "valuation_reverse_dcf",
         "stock_selection"
       ],
-      "what_changed": "[Sicher] Erwartetes S&P-500-KGV: 19,1, gegenüber 20,4 Ende Juni. Die Q3-Gewinnwachstumsschätzung blieb gegenüber der Vorwoche bei 29,6%; erst 19 Unternehmen hatten berichtet.",
-      "investorace_implication": "[Wahrscheinlich] Niedrigere Multiplikatoren hängen an Gewinnannahmen und belegen allein keine Sicherheitsmarge.",
+      "what_changed": "[Sicher] Forward S&P 500 P/E: 19.1, versus 20.4 at the end of June. The Q3 earnings growth estimate remained at 29.6% versus the previous week; only 19 companies had reported.",
+      "investorace_implication": "[Wahrscheinlich] Lower multiples depend on earnings assumptions and alone do not establish a margin of safety.",
       "review": "framework",
-      "review_question": "Hohe Priorität, Aktienauswahl und Bewertung: Reverse DCF mit schwächeren Gewinn- und Margenpfaden rechnen.",
-      "limitations": "[Sicher] Überwiegend Schätzungen; frühe Berichtsstichprobe. KGV-Vergleich seit Juni, keine Wochenänderung. Der FactSet-Link wird aktualisiert; verwendet wurde die Ausgabe vom 9. Oktober.",
+      "review_question": "High priority, stock selection and valuation: Run reverse DCF with weaker earnings and margin scenarios.",
+      "limitations": "[Sicher] Mostly estimates; an early reporting sample. The P/E comparison is since June, not a weekly change. The FactSet link updates; the edition used was 9 October.",
       "confidence": "Sicher"
     },
     {
       "title": "Delta Air Lines Announces September Quarter 2026 Financial Results",
-      "authors": "Delta Air Lines · SEC-Filing, Exhibit 99.1",
-      "publication_date": "9. Oktober 2026",
+      "authors": "Delta Air Lines · SEC filing, Exhibit 99.1",
+      "publication_date": "9 October 2026",
       "source_url": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000035/deltaairlinesannouncessept.htm",
       "topics": [
         "stock_selection",
         "portfolio_construction"
       ],
-      "what_changed": "[Sicher] Q3 gegenüber Vorjahr: bereinigter Umsatz +16%, Treibstoffaufwand +62%, bereinigter Gewinn je Aktie mit 1,72 Dollar ungefähr unverändert.",
-      "investorace_implication": "[Wahrscheinlich] Starke Nachfrage schützt Energieverbraucher nicht vollständig vor Kostendruck.",
+      "what_changed": "[Sicher] Q3 versus the prior year: adjusted revenue +16%, fuel expense +62%, adjusted earnings per share approximately unchanged at $1.72.",
+      "investorace_implication": "[Wahrscheinlich] Strong demand does not fully protect energy consumers from cost pressure.",
       "review": "framework",
-      "review_question": "Hohe Priorität, Aktienauswahl und Portfoliokonstruktion: Kostenweitergabe testen; Rohstoffproduzenten weiterhin mit normalisierten Gewinnen bewerten.",
-      "limitations": "[Sicher] Einzelunternehmen und bereinigte Kennzahlen; keine Aussage über sämtliche Fluggesellschaften.",
+      "review_question": "High priority, stock selection and portfolio construction: Test cost pass-through; continue valuing commodity producers with normalized earnings.",
+      "limitations": "[Sicher] One company and adjusted metrics; no conclusion about all airlines.",
       "confidence": "Sicher"
     }
   ],
-  "priority_review": "[Wahrscheinlich] 1. Wachstum/Inflation bestätigen. 2. Reverse-DCF-Gewinn- und Margenannahmen stressen. 3. Gemeinsame Zins- und Energierisiken erfassen. Regime-Fit bleibt ungewichtet und getrennt von Qualitätsbewertung. Prüfaufträge bedeuten keine Änderung von Modellregeln."
+  "priority_review": "[Wahrscheinlich] 1. Confirm growth/inflation. 2. Stress reverse DCF earnings and margin assumptions. 3. Assess shared interest-rate and energy risks. Regime fit remains unweighted and separate from quality assessment. Review proposals do not change model rules.",
+  "translations": {
+    "es": {
+      "summary": "[Wahrscheinlich] Informe del lunes de InvestorAce, 12 de octubre de 2026 por la mañana: los índices al alza aún no confirman un régimen macroeconómico más favorable. Semana bursátil: 5–9 de octubre; referencia semanal: 2 de octubre. Se indican las comparaciones mensuales y trimestrales.",
+      "priority_review": "[Wahrscheinlich] 1. Confirmar crecimiento/inflación. 2. Evaluar beneficios y márgenes del DCF inverso en escenarios adversos. 3. Revisar riesgos comunes de tipos y energía. La afinidad con el régimen sigue sin ponderación y separada de la calidad. Estas revisiones no modifican las reglas.",
+      "items": [
+        {
+          "title": "ISM® PMI®: panorama de los servicios en septiembre",
+          "authors": "Dan Zeiger · Institute for Supply Management",
+          "publication_date": "6 de octubre de 2026; publicación original del PMI: 5 de octubre",
+          "what_changed": "[Sicher] EE. UU.: PMI de servicios en septiembre, 55,4 → 54,9; índice de precios, 72,6 → 74,0. Comparación mensual: continúa la expansión, aumenta la presión de costes.",
+          "investorace_implication": "[Wahrscheinlich] Revisar las hipótesis de régimen ante menor crecimiento y presión persistente de precios; el cambio aún no está confirmado.",
+          "review_question": "Prioridad alta: contrastar este escenario con nuevos datos de actividad e inflación, evaluando ambos ejes por separado.",
+          "limitations": "[Sicher] Encuesta empresarial, no IPC. Un dato mensual no confirma cambios de régimen.",
+          "source_url": "https://www.ismworld.org/supply-management-news-and-reports/news-publications/inside-supply-management-magazine/blog/2026/2026-10/ism-pmi-reports-roundup-september-2026-services/"
+        },
+        {
+          "title": "Volumen minorista: +0,1% en la eurozona y la UE",
+          "authors": "Eurostat; datos complementarios: Destatis",
+          "publication_date": "6 de octubre de 2026; Destatis: 6/7 de octubre",
+          "what_changed": "[Sicher] Europa, agosto frente a julio: volumen minorista real +0,1% (julio: −0,6%); producción alemana +2,0%; pedidos −10,6%, o −0,1% sin grandes contratos. Son variaciones mensuales.",
+          "investorace_implication": "[Wahrscheinlich] Recuperación desigual: el titular de pedidos alemanes exagera por sí solo la debilidad de la demanda.",
+          "review_question": "Prioridad media (régimen y selección): analizar tendencias de tres meses y pedidos sin grandes contratos. No extrapolar Alemania a toda la eurozona.",
+          "limitations": "[Sicher] Agosto provisional, publicado con retraso. Fuentes complementarias: https://www.destatis.de/EN/Press/2026/10/PE26_354_421.html y https://www.destatis.de/EN/Press/2026/10/PE26_355_421.html",
+          "source_url": "https://ec.europa.eu/eurostat/en/web/products-euro-indicators/w/4-06102026-ap"
+        },
+        {
+          "title": "Rendimientos diarios del Tesoro estadounidense",
+          "authors": "Tesoro estadounidense; índices: Associated Press",
+          "publication_date": "Datos: 2, 8 y 9 de octubre de 2026; AP: 9 de octubre",
+          "what_changed": "[Sicher] Rendimiento nominal estadounidense a diez años: 5,28% → 5,24% del 2 al 9 de octubre. Real: 2,87% el 8 de octubre, frente al 2,92% el 2 de octubre. Semana: S&P 500 +1,2%, Russell 2000 −0,9%.",
+          "investorace_implication": "[Wahrscheinlich] El alivio de tipos es leve y las acciones evolucionan desigualmente; las subidas de los índices no justifican rotaciones forzadas.",
+          "review_question": "Prioridad media (cartera): examinar sensibilidad a tipos, necesidades de refinanciación y riesgos comunes.",
+          "limitations": "[Sicher] El comparativo real termina el 8 de octubre; falta el comparativo semanal verificado de diferenciales crediticios. Otras fuentes: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_real_yield_curve&field_tdr_date_value=2026 y https://apnews.com/article/dafbd0c4037ee10e2a9e305f3cfa8e70",
+          "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value=2026"
+        },
+        {
+          "title": "FactSet Earnings Insight · 9 de octubre de 2026",
+          "authors": "John Butters · FactSet",
+          "publication_date": "9 de octubre de 2026",
+          "what_changed": "[Sicher] PER previsto del S&P 500: 19,1 (frente a 20,4 a finales de junio). Crecimiento estimado de beneficios de Q3: 29,6%, sin cambio frente a la semana anterior; solo 19 empresas habían informado.",
+          "investorace_implication": "[Wahrscheinlich] Múltiplos menores dependen de beneficios previstos y no acreditan, por sí solos, un margen de seguridad.",
+          "review_question": "Prioridad alta, selección y valoración: Calcular DCF inverso con escenarios de beneficios y márgenes más débiles.",
+          "limitations": "[Sicher] Principalmente estimaciones y muestra inicial. PER comparado desde junio, no semanalmente. FactSet actualiza el enlace; edición utilizada: 9 de octubre.",
+          "source_url": "https://www.factset.com/earningsinsight"
+        },
+        {
+          "title": "Delta Air Lines publica los resultados del trimestre de septiembre de 2026",
+          "authors": "Delta Air Lines · Documento SEC, anexo 99.1",
+          "publication_date": "9 de octubre de 2026",
+          "what_changed": "[Sicher] Q3 interanual: ingresos ajustados +16%, gasto en combustible +62%; beneficio ajustado por acción de 1,72 dólares, aproximadamente sin cambios.",
+          "investorace_implication": "[Wahrscheinlich] La demanda fuerte no protege totalmente a los consumidores de energía de la presión de costes.",
+          "review_question": "Prioridad alta (selección y cartera): evaluar capacidad de trasladar costes; valorar productores de materias primas con beneficios normalizados.",
+          "limitations": "[Sicher] Una empresa y métricas ajustadas; no permite generalizar a todas las aerolíneas.",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000035/deltaairlinesannouncessept.htm"
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Wahrscheinlich] InvestorAce Montagsbriefing vom 12. Oktober 2026, morgens: Steigende Aktienindizes bestätigen noch keinen günstigeren Makro-Regimepfad. Diese Ausgabe behandelt die Handelswoche 5.–9. Oktober; Wochenvergleiche beziehen sich auf den 2. Oktober. Monats- und Quartalsdaten sind ausdrücklich gekennzeichnet.",
+      "priority_review": "[Wahrscheinlich] 1. Wachstum/Inflation bestätigen. 2. Reverse-DCF-Gewinn- und Margenannahmen stressen. 3. Gemeinsame Zins- und Energierisiken erfassen. Regime-Fit bleibt ungewichtet und getrennt von Qualitätsbewertung. Prüfaufträge bedeuten keine Änderung von Modellregeln.",
+      "items": [
+        {
+          "title": "ISM® PMI®: Überblick über die Dienstleistungen im September",
+          "authors": "Dan Zeiger · Institute for Supply Management",
+          "publication_date": "6. Oktober 2026; zugrunde liegende PMI-Veröffentlichung: 5. Oktober",
+          "what_changed": "[Sicher] USA: Der Dienstleistungs-PMI sank im September von 55,4 auf 54,9. Der Preisindex stieg von 72,6 auf 74,0. Monatsvergleich: weiterhin Expansion, bei stärkerem Kostendruck.",
+          "investorace_implication": "[Wahrscheinlich] Das Szenario langsameres Wachstum bei hartnäckigem Preisdruck verlangt eine Überprüfung der Regimeannahmen; ein Wechsel ist noch nicht bestätigt.",
+          "review_question": "Hohe Priorität: Bestätigen weitere Inflations- und Aktivitätsdaten dieses Szenario? Wachstum und Inflation getrennt prüfen.",
+          "limitations": "[Sicher] Unternehmensbefragung, kein direkter Verbraucherpreisindex; ein Monatswert bestätigt keinen Regimewechsel.",
+          "source_url": "https://www.ismworld.org/supply-management-news-and-reports/news-publications/inside-supply-management-magazine/blog/2026/2026-10/ism-pmi-reports-roundup-september-2026-services/"
+        },
+        {
+          "title": "Einzelhandelsvolumen im Euroraum und in der EU um 0,1% gestiegen",
+          "authors": "Eurostat; ergänzend Destatis",
+          "publication_date": "6. Oktober 2026; ergänzende Destatis-Veröffentlichungen: 6./7. Oktober",
+          "what_changed": "[Sicher] Europa: Reales Einzelhandelsvolumen im August +0,1% gegenüber Juli, nach −0,6% im Juli. Deutschlands Produktion +2,0%; Aufträge −10,6%, ohne Großaufträge aber nur −0,1%. Alle Veränderungen sind monatlich.",
+          "investorace_implication": "[Wahrscheinlich] Die Erholung bleibt uneinheitlich; die deutsche Auftragsschlagzeile allein überzeichnet die Nachfrageschwäche.",
+          "review_question": "Mittlere Priorität, Regime und Aktienauswahl: Dreimonatstrends und Aufträge ohne Großaufträge auswerten; Deutschland nicht mit der gesamten Eurozone gleichsetzen.",
+          "limitations": "[Sicher] Vorläufige Augustdaten mit Veröffentlichungslücke. Ergänzende Quellen: https://www.destatis.de/EN/Press/2026/10/PE26_354_421.html und https://www.destatis.de/EN/Press/2026/10/PE26_355_421.html",
+          "source_url": "https://ec.europa.eu/eurostat/en/web/products-euro-indicators/w/4-06102026-ap"
+        },
+        {
+          "title": "Tägliche US-Treasury-Renditen",
+          "authors": "U.S. Department of the Treasury; ergänzende Indexdaten: Associated Press",
+          "publication_date": "Beobachtungen: 2., 8. und 9. Oktober 2026; AP-Wochenbericht: 9. Oktober",
+          "what_changed": "[Sicher] Die zehnjährige US-Nominalrendite sank vom 2. bis 9. Oktober von 5,28% auf 5,24%. Realrendite: 2,87% am 8. Oktober, gegenüber 2,92% am 2. Oktober. S&P 500 wöchentlich +1,2%, Russell 2000 −0,9%.",
+          "investorace_implication": "[Wahrscheinlich] Leichte Zinsentlastung trifft auf unterschiedliche Aktienentwicklung; Indexgewinne begründen keine erzwungene Rotation.",
+          "review_question": "Mittlere Priorität, Portfoliokonstruktion: Zinsabhängigkeit, Refinanzierungsbedarf und gemeinsame Risikofaktoren untersuchen.",
+          "limitations": "[Sicher] Realzinsvergleich endet am 8. Oktober. Ein verifizierter Kreditspread-Wochenvergleich fehlt. Weitere Quellen: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_real_yield_curve&field_tdr_date_value=2026 und https://apnews.com/article/dafbd0c4037ee10e2a9e305f3cfa8e70",
+          "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value=2026"
+        },
+        {
+          "title": "FactSet Earnings Insight · 9. Oktober 2026",
+          "authors": "John Butters · FactSet",
+          "publication_date": "9. Oktober 2026",
+          "what_changed": "[Sicher] Erwartetes S&P-500-KGV: 19,1, gegenüber 20,4 Ende Juni. Die Q3-Gewinnwachstumsschätzung blieb gegenüber der Vorwoche bei 29,6%; erst 19 Unternehmen hatten berichtet.",
+          "investorace_implication": "[Wahrscheinlich] Niedrigere Multiplikatoren hängen an Gewinnannahmen und belegen allein keine Sicherheitsmarge.",
+          "review_question": "Hohe Priorität, Aktienauswahl und Bewertung: Reverse DCF mit schwächeren Gewinn- und Margenpfaden rechnen.",
+          "limitations": "[Sicher] Überwiegend Schätzungen; frühe Berichtsstichprobe. KGV-Vergleich seit Juni, keine Wochenänderung. Der FactSet-Link wird aktualisiert; verwendet wurde die Ausgabe vom 9. Oktober.",
+          "source_url": "https://www.factset.com/earningsinsight"
+        },
+        {
+          "title": "Delta Air Lines veröffentlicht die Finanzergebnisse des Septemberquartals 2026",
+          "authors": "Delta Air Lines · SEC-Veröffentlichung, Anlage 99.1",
+          "publication_date": "9. Oktober 2026",
+          "what_changed": "[Sicher] Q3 gegenüber Vorjahr: bereinigter Umsatz +16%, Treibstoffaufwand +62%, bereinigter Gewinn je Aktie mit 1,72 Dollar ungefähr unverändert.",
+          "investorace_implication": "[Wahrscheinlich] Starke Nachfrage schützt Energieverbraucher nicht vollständig vor Kostendruck.",
+          "review_question": "Hohe Priorität, Aktienauswahl und Portfoliokonstruktion: Kostenweitergabe testen; Rohstoffproduzenten weiterhin mit normalisierten Gewinnen bewerten.",
+          "limitations": "[Sicher] Einzelunternehmen und bereinigte Kennzahlen; keine Aussage über sämtliche Fluggesellschaften.",
+          "source_url": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000035/deltaairlinesannouncessept.htm"
+        }
+      ]
+    }
+  }
 }
