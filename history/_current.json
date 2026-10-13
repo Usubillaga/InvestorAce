@@ -1,0 +1,10 @@
+{
+ "schema": "report-build-v1",
+ "run_id": "20261013T032739221275-1a252a95c2244fc682c4653103fb12db",
+ "day": "2026-10-13",
+ "previous_run_id": null,
+ "observation_sha256": "da53d366bce2bcd654346886d5ad36820b56306115d25fa6048252a4a04533ae",
+ "daily_observation_sha256": "da53d366bce2bcd654346886d5ad36820b56306115d25fa6048252a4a04533ae",
+ "report_sha256": "53c37a1ce15f1e2e629d426063761d0fed429b6159ec55f8774fe89903c81223",
+ "model_source_sha256": "84f5bceae88bb68fbd8d4132146fb933e88c73f83fc325ed82caf00b45b99b42"
+}
