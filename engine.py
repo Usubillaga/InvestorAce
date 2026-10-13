@@ -174,6 +174,7 @@ DATA = {
 'NKE' : dict(yf='NKE',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=7.0, clock='DIV',  ins='BUYING',  held=False, sector='Apparel',    built='exact', score_fixed=4.6),
 'ZTS' : dict(yf='ZTS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=6.0, clock='CLOCK',ins='BUYING',  held=False, sector='Animal Health', built='exact', score_fixed=4.55),
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
+'NFLX': dict(yf='NFLX', fcf=11152.0, shares=4163.94, r=0.08, cur='USD', deliver=24.0, dl='revenue growth (PROXY)', sub=(8.5, 7.5, 9.0, 8.0, 5.0, 6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(32.54, 249.72)),
 }
 
 # ---------------- engine ----------------
