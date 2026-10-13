@@ -935,10 +935,20 @@ def filing_monitoring(payload=None):
             raise ValueError(f'{ticker}: filing-monitoring primary sources required')
         for source in sources:
             url = urlsplit(source) if isinstance(source, str) else None
-            if (url is None or url.scheme != 'https' or not url.netloc or
+            if (url is None or url.scheme != 'https' or not url.hostname or
                     url.username or url.password or any(c.isspace() for c in source)):
                 raise ValueError(f'{ticker}: invalid filing-monitoring source URL')
+            if url.port is not None and url.port <= 0:
+                raise ValueError(f'{ticker}: invalid filing-monitoring source port')
     return doc
+
+
+def validate_filing_transition(monitoring, previous):
+    """An open warning needs a committed RESOLVED state before deletion."""
+    for ticker, entry in previous.get('entries', {}).items():
+        if (ticker in DATA and entry['status'] != 'RESOLVED' and
+                ticker not in monitoring['entries']):
+            raise ValueError(f'{ticker}: record RESOLVED before removing an open filing warning')
 
 
 def filing_badge(ticker, monitoring):
@@ -1089,6 +1099,9 @@ def run_build():
         macro = read_macro()
         bundle = EVIDENCE.model_bundle(Path(__file__).parent)
         record = observation(macro, bundle)
+        if Path('history/_current.json').exists():
+            previous = EVIDENCE.current_build()['record'].get('_filing_monitoring', {})
+            validate_filing_transition(record['_filing_monitoring'], previous)
         # Rendering can fail without publishing an observation or changing index.html.
         html = build_html(macro=macro, write=False, monitoring=record['_filing_monitoring'])
         published = EVIDENCE.publish_build(record, bundle, html)

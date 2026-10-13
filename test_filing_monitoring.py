@@ -58,12 +58,50 @@ class FilingMonitoring(unittest.TestCase):
     def test_invalid_metadata_cannot_publish_unsafe_or_undated_warnings(self):
         self.assertTrue(callable(getattr(engine, 'filing_monitoring', None)))
         for field, value in [('status', 'GOOD'), ('checked_at', '2026-10-13'),
-                             ('sources', ['javascript:alert(1)']), ('reason', '')]:
+                             ('sources', ['javascript:alert(1)']),
+                             ('sources', ['https://:1234']),
+                             ('sources', ['https://sec.gov:bad']), ('reason', '')]:
             with self.subTest(field=field):
                 doc = status(('RCAT',))
                 doc['entries']['RCAT'][field] = value
                 with self.assertRaises(ValueError):
                     engine.filing_monitoring(json.dumps(doc))
+
+    def test_open_warnings_require_an_explicit_resolution_before_removal(self):
+        self.assertTrue(callable(getattr(engine, 'validate_filing_transition', None)))
+        empty = {'schema': 'filing-monitoring-v1', 'entries': {}}
+        previous = status(('RCAT',))
+        with self.assertRaisesRegex(ValueError, 'RCAT.*RESOLVED'):
+            engine.validate_filing_transition(empty, previous)
+        resolved = copy.deepcopy(previous)
+        resolved['entries']['RCAT']['status'] = 'RESOLVED'
+        engine.validate_filing_transition(resolved, previous)
+        engine.validate_filing_transition(empty, resolved)
+
+    def test_dropped_warning_prevents_publication_and_preserves_previous_pair(self):
+        from test_evidence_framework import directory
+        rows = {'RCAT': dict(row(), yf='RCAT')}
+        with tempfile.TemporaryDirectory() as tmp, directory(tmp):
+            old_bundle = {'sources': {'monitoring_status.json': json.dumps(status(('RCAT',)))}}
+            old_bundle['sha256'] = evidence.digest(old_bundle['sources'])
+            new_bundle = {'sources': {}}
+            new_bundle['sha256'] = evidence.digest(new_bundle['sources'])
+            with patch.object(engine, 'DATA', rows):
+                record = engine.observation({'ok': False}, old_bundle, '2026-10-13T09:19:00Z')
+                evidence.publish_build(record, old_bundle, 'last good report')
+                pointer = Path('history/_current.json').read_bytes()
+                with patch.object(engine, 'sync_risk_free'), \
+                     patch.object(engine, 'bootstrap_fundamentals'), \
+                     patch.object(engine, 'fetch_prices'), patch.object(engine, 'populate_epv'), \
+                     patch.object(engine, 'read_macro', return_value={'ok': False}), \
+                     patch.object(engine.EVIDENCE, 'model_bundle', return_value=new_bundle), \
+                     patch.object(engine, 'freeze_cohorts'), \
+                     patch.object(engine, 'build_html', return_value='unexpected report') as render:
+                    with self.assertRaisesRegex(ValueError, 'RCAT.*RESOLVED'):
+                        engine.run_build()
+                    render.assert_not_called()
+                self.assertEqual(Path('history/_current.json').read_bytes(), pointer)
+                self.assertEqual(evidence.current_build()['report_path'].read_text(), 'last good report')
 
     def test_warning_is_bound_to_archived_generation_and_cannot_change_outputs(self):
         rows = {ticker: dict(row(), yf=ticker) for ticker in ('RCAT', 'GRAB')}

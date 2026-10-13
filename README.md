@@ -41,6 +41,8 @@ absent entry does not certify complete coverage. Mark a gap `RESOLVED` only
 after the missing source interval has been checked; restoring one directory
 head alone is insufficient. Update the register only when the documented
 coverage status changes, rather than committing every repeated check.
+The build rejects removal of an active ticker's unresolved warning against the
+previous committed generation; publish its explicit `RESOLVED` state first.
 
 The register is included in each model-source bundle and observation so old
 reports retain their own check status. A change to the register on `main`
