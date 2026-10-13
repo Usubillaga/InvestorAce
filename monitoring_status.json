@@ -1,0 +1,41 @@
+{
+  "schema": "filing-monitoring-v1",
+  "entries": {
+    "RCAT": {
+      "status": "PARTIAL",
+      "checked_at": "2026-10-13T09:25:04.168Z",
+      "reason": "The SEC directory head has recovered to the retained 6 October 2026 snapshot (000162828026065236). Earlier retrievals omitted newer rows, and the official IR filing list was not readable in this check. A complete filing-interval review is still open.",
+      "next_review": "Reconcile the full filing interval since 12 October 2026 with at least 48 hours of overlap, using dated original filing indexes and contents. Resolve this warning only after that interval is covered.",
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/748268/",
+        "https://ir.redcatholdings.com/financial-information/sec-filings"
+      ],
+      "retained_head": {
+        "accession": "000162828026065236",
+        "directory_modified_at": "2026-10-06T16:12:42Z"
+      },
+      "observed_head": {
+        "accession": "000162828026065236",
+        "directory_modified_at": "2026-10-06T16:12:42Z"
+      }
+    },
+    "GRAB": {
+      "status": "PARTIAL",
+      "checked_at": "2026-10-13T09:25:04.168Z",
+      "reason": "The retrieved SEC directory ends at 17 September 2026 (000169655526000010), behind the retained 7 October snapshot (000199086526000013). The official IR filing list was not readable in this check. Newer retained filings have not been discarded, but the missing interval is not fully covered.",
+      "next_review": "Reconcile the omitted October filings and the full interval since 12 October 2026 with at least 48 hours of overlap, using original filing indexes and contents. Resolve only after the interval is covered.",
+      "sources": [
+        "https://www.sec.gov/Archives/edgar/data/1855612/",
+        "https://investors.grab.com/financials/sec-filings/default.aspx"
+      ],
+      "retained_head": {
+        "accession": "000199086526000013",
+        "directory_modified_at": "2026-10-07T21:43:44Z"
+      },
+      "observed_head": {
+        "accession": "000169655526000010",
+        "directory_modified_at": "2026-09-17T19:55:58Z"
+      }
+    }
+  }
+}

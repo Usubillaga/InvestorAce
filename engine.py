@@ -13,6 +13,7 @@ import json, os, sys, math, hashlib  # fetch; 200 lines of them buried the real
 from datetime import datetime, timezone
 from pathlib import Path
 from html import escape
+from urllib.parse import urlsplit
 import evidence as EVIDENCE
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
                        numeric_input_faults, risk_free_faults, clamp_saturation_faults)
@@ -904,11 +905,78 @@ def data_quality():
             'wacc_fallbacks': {t: d['wacc_note'] for t, d in DATA.items() if d.get('wacc_note')}}
 
 
+def filing_monitoring(payload=None):
+    """Read source-coverage diagnostics, never a valuation input or trade gate."""
+    empty = {'schema': 'filing-monitoring-v1', 'entries': {}}
+    if payload is None:
+        path = Path(__file__).with_name('monitoring_status.json')
+        if not path.exists():
+            return empty
+        payload = path.read_text(encoding='utf-8')
+    doc = json.loads(payload)
+    if not isinstance(doc, dict) or doc.get('schema') != empty['schema']:
+        raise ValueError('Invalid filing-monitoring schema')
+    entries = doc.get('entries')
+    if not isinstance(entries, dict):
+        raise ValueError('Filing-monitoring entries must be an object')
+    for ticker, entry in entries.items():
+        if not isinstance(ticker, str) or not isinstance(entry, dict):
+            raise ValueError('Invalid filing-monitoring entry')
+        if entry.get('status') not in ('PARTIAL', 'BLOCKED', 'RESOLVED'):
+            raise ValueError(f'{ticker}: invalid filing-monitoring status')
+        for field in ('checked_at', 'reason', 'next_review'):
+            if not isinstance(entry.get(field), str) or not entry[field].strip():
+                raise ValueError(f'{ticker}: missing filing-monitoring {field}')
+        stamp = datetime.fromisoformat(entry['checked_at'].replace('Z', '+00:00'))
+        if stamp.tzinfo is None:
+            raise ValueError(f'{ticker}: filing-monitoring checked_at needs a timezone')
+        sources = entry.get('sources')
+        if not isinstance(sources, list) or not sources:
+            raise ValueError(f'{ticker}: filing-monitoring primary sources required')
+        for source in sources:
+            url = urlsplit(source) if isinstance(source, str) else None
+            if (url is None or url.scheme != 'https' or not url.netloc or
+                    url.username or url.password or any(c.isspace() for c in source)):
+                raise ValueError(f'{ticker}: invalid filing-monitoring source URL')
+    return doc
+
+
+def filing_badge(ticker, monitoring):
+    entry = monitoring['entries'].get(ticker)
+    if not entry or entry['status'] == 'RESOLVED':
+        return ''
+    title = escape(f"Filing coverage {entry['status']}; checked {entry['checked_at']}: {entry['reason']}")
+    return (f'<br><a class="pill x-appr" href="#filing-{escape(ticker)}" '
+            f'title="{title}">FILING GAP</a>')
+
+
+def filing_monitoring_box(monitoring):
+    entries = {t: d for t, d in monitoring['entries'].items() if t in DATA}
+    gaps = sum(d['status'] != 'RESOLVED' for d in entries.values())
+    status = 'PARTIAL' if gaps else ('NO RECORDED GAPS' if entries else 'NOT RECORDED')
+    lines = []
+    for ticker, entry in sorted(entries.items()):
+        links = ' &middot; '.join(f'<a href="{escape(url)}" target="_blank" rel="noopener">'
+                                f'Primary source {i}</a>' for i, url in enumerate(entry['sources'], 1))
+        lines.append(f'<div id="filing-{escape(ticker)}" style="margin-top:12px">'
+                     f'<b>{escape(ticker)} &middot; {entry["status"]}</b> &middot; '
+                     f'checked <span class="mono">{escape(entry["checked_at"])}</span>'
+                     f'<p>{escape(entry["reason"])}</p>'
+                     f'<p>Next review: {escape(entry["next_review"])}</p>{links}</div>')
+    return (f'<div class="box"><h2>Filing coverage: {status}</h2>'
+            f'<p>{gaps} recorded gap(s) among {len(entries)} monitored ticker(s). '
+            'This records source availability at the stated check time, not a full-coverage certification '
+            'for the watchlist. A filing gap calls for source review; financial inputs and valuation '
+            'signals retain their recorded basis.</p>' + ''.join(lines) + '</div>')
+
+
 def observation(macro, bundle, captured_at=None):
     """Prepare a validated, detached observation without writing anything."""
     errors, _ = validate_full()
     if errors:
         raise ValueError('VALIDATION FAILED: ' + '; '.join(errors))
+    monitoring = filing_monitoring(bundle['sources'].get('monitoring_status.json',
+                                   '{"schema":"filing-monitoring-v1","entries":{}}'))
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
                    score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
                    regime=regime_scores(d), weight=d.get('weight'),
@@ -930,6 +998,10 @@ def observation(macro, bundle, captured_at=None):
         rec['_rates']['live_10y'] = LIVE_10Y
     rec['_portfolio'] = portfolio_regime()
     rec['_data_quality'] = data_quality()
+    rec['_filing_monitoring'] = monitoring
+    for ticker, entry in monitoring['entries'].items():
+        if ticker in DATA:
+            rec[ticker]['filing_coverage'] = entry
     regime = macro.get('regime') if macro.get('ok') else None
     rec['_portfolio_proposal'] = (portfolio_proposal(regime)
                                   if regime in REGIMES else None)
@@ -1018,7 +1090,7 @@ def run_build():
         bundle = EVIDENCE.model_bundle(Path(__file__).parent)
         record = observation(macro, bundle)
         # Rendering can fail without publishing an observation or changing index.html.
-        html = build_html(macro=macro, write=False)
+        html = build_html(macro=macro, write=False, monitoring=record['_filing_monitoring'])
         published = EVIDENCE.publish_build(record, bundle, html)
         for note in published['compatibility_warnings']:
             print('   ~ ' + note, file=sys.stderr)
@@ -1519,7 +1591,7 @@ window.drawRegimeHistory = function(){
 };
 """
 
-def build_html(macro=None, write=True):
+def build_html(macro=None, write=True, monitoring=None):
     errors, warnings = validate_full()
     for w_ in warnings:
         print('   ~ ' + w_, file=sys.stderr)
@@ -1527,6 +1599,7 @@ def build_html(macro=None, write=True):
         print('VALIDATION FAILED - index.html NOT written:', file=sys.stderr)
         for p_ in errors: print('   ! ' + p_, file=sys.stderr)
         raise SystemExit(1)
+    monitoring = filing_monitoring() if monitoring is None else monitoring
     rows = []
     ranked = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
     for i,(t,d) in enumerate(ranked, 1):
@@ -1536,7 +1609,7 @@ def build_html(macro=None, write=True):
         rows.append(
           '<tr%s>' % (' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
-          + f'<td class="tk">{t}</td>'
+          + f'<td class="tk">{t}{filing_badge(t, monitoring)}</td>'
           + f'<td class="se">{d.get("sector","")}</td>'
           + f'<td class="sc">{fmt(s,".2f")}</td>'
           + f'<td><span class="pill {bc}">{bn}</span></td>'
@@ -1838,7 +1911,7 @@ def build_html(macro=None, write=True):
                     + ('<p>Manual discount-rate fallbacks: '
                        + escape('; '.join(f'{t}: {note}' for t, note in quality['wacc_fallbacks'].items()))
                        + '</p>' if quality['wacc_fallbacks'] else '') + '</div>')
-    html = (head + hdr + coverage_box + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
+    html = (head + hdr + coverage_box + filing_monitoring_box(monitoring) + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
             + regime_book_box + issue_box + adder + tbl + foot
             + '<script>' + js + js_z + '</script></body></html>')
     if write:

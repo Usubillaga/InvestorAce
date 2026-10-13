@@ -11,6 +11,9 @@ name: build-and-deploy
 # not. Only v5 carries a node24 build.
 
 on:
+  push:
+    branches: [main]
+    paths: ['monitoring_status.json']
   schedule:
     - cron: '0 23 * * 1-5'      # 23:00 UTC, weekdays
   workflow_dispatch:
