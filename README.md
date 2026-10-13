@@ -33,6 +33,22 @@ default action screens. Quote coverage and manual WACC fallbacks are reported
 in both the HTML and observation; sanity-band and currency rejections remain
 visible rather than being silently accepted.
 
+Filing-monitoring gaps appear as `FILING GAP` badges beside affected tickers,
+with dated reasons, primary-source links and a concrete next review. The
+`monitoring_status.json` register is a source-coverage diagnostic: it does not
+change financial inputs, scores, regime fit, rankings or portfolio rules. An
+absent entry does not certify complete coverage. Mark a gap `RESOLVED` only
+after the missing source interval has been checked; restoring one directory
+head alone is insufficient. Update the register only when the documented
+coverage status changes, rather than committing every repeated check.
+The build rejects removal of an active ticker's unresolved warning against the
+previous committed generation; publish its explicit `RESOLVED` state first.
+
+The register is included in each model-source bundle and observation so old
+reports retain their own check status. A change to the register on `main`
+triggers the regular tested build and Pages deployment; old history files and
+committed reports are never edited to insert new labels.
+
 Each report build stages `index.html`, `observation.json` and a hash manifest
 under `history/_builds/`. The atomic replacement of `history/_current.json`
 commits that complete pair. `evidence.current_build()` verifies the report,

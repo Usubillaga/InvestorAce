@@ -43,6 +43,9 @@ def model_bundle(root):
                for p in sorted(Path(root).glob('*.py')) if not p.name.startswith('test_')}
     for p in sorted(Path(root).glob('requirements*.txt')):
         sources[p.name] = p.read_text(encoding='utf-8')
+    monitoring = Path(root) / 'monitoring_status.json'
+    if monitoring.exists():
+        sources[monitoring.name] = monitoring.read_text(encoding='utf-8')
     return {'sha256': digest(sources), 'sources': sources}
 
 
