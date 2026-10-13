@@ -128,7 +128,37 @@ DATA = {
 'ISRG': dict(yf='ISRG',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=8.0, clock='CLOCK',ins='SELLING', held=False, sector='MedTech',    built='back-solved', score_fixed=6.65),
 'VST' : dict(yf='VST',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=8.5, clock='DIV',  ins='MIXED',   held=True, sector='Utilities',  built='back-solved', score_fixed=6.58, weight=4.8),
 'SE'  : dict(yf='SE',     fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.5, dil=4.5, clock='CONC', ins='SELLING', held=False, sector='Platform',   built='back-solved', score_fixed=6.47),
-'UNH' : dict(yf='UNH',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.5, dil=8.5, clock='DIV',  ins='SELLING', held=False, sector='Health Ins', built='back-solved', score_fixed=6.35),
+'UNH' : dict(yf='UNH', fcf=22826, fcf_ttm=22826, shares=897.594847, r=.080, cur='USD',
+    deliver=None, dl='', sub=None, pr=5.5, dil=8.5, clock='DIV', ins='SELLING',
+    held=False, sector='Health Ins', built='issuer-ttm', score_fixed=6.35,
+    cash_flow_basis='OCF_MINUS_CAPEX', financial_period='2025-10-01/2026-09-30',
+    financial_published_at='2026-10-13', financial_unit='USD million',
+    # Annual cash flow less the comparable prior YTD plus current YTD. Capex
+    # includes property, equipment and capitalized software, excluding M&A.
+    fcf_reconciliation=dict(fy2025=dict(ocf=19697, capex=3622),
+                            ytd2025_9m=dict(ocf=18589, capex=2674),
+                            ytd2026_9m=dict(ocf=25087, capex=2421)),
+    financial_sources=[
+        dict(url='https://www.unitedhealthgroup.com/content/dam/UHG/PDF/investors/2025/UNH-Q4-2025-Form-10-K.pdf',
+             period='FY2025', page=45,
+             sha256='6f49d20d3e564c5d55fad592090de53b05d8b51420acfbab88d5b9ada2ffd4fe'),
+        dict(url='https://www.unitedhealthgroup.com/content/dam/UHG/PDF/investors/2026/unh-reports-third-quarter-2026-results.pdf',
+             period='9M2026 and 9M2025', published_at='2026-10-13', page=11,
+             sha256='e88305dac725e41a4365385ca35645295b7dbc2a1e0a244f342db861f4045155')],
+    shares_basis='ISSUED_AND_OUTSTANDING', shares_asof='2026-07-31',
+    shares_source_url='https://www.unitedhealthgroup.com/content/dam/UHG/PDF/investors/2026/UNH_2026.6.30_10-Q.pdf',
+    shares_source_sha256='17a854ba86316ed1b6b42b99b6ec4a53319e47c7fa9378227ce4f115ef119979',
+    # The Q3 release discloses EPS weighted shares, not a new point-in-time
+    # common share count. Retain the latest count read from a primary cover.
+    normalization_status='REVIEW_REQUIRED',
+    boot_note='2026-10-13: issuer TTM OCF $26,195m minus capex $3,369m = $22,826m; '
+              'not normalized distributable cash. TTM net operating asset/liability inflow $3,832m; '
+              'FY2025 included early receipts expected in 2026. Q3 reserve development $610m and '
+              'loss-contract reserve decrease $95m are earnings items, not automatic cash-flow haircuts. '
+              'Regulated subsidiary capital/dividend restrictions and cash one-offs need reconciliation. '
+              'Shares 897.594847m as of 2026-07-31; Q3 diluted weighted 902m is a different basis. '
+              'Legacy WACC-capitalized proxy remains UNVERIFIED, not FCFE/FCFF; '
+              'score_fixed 6.35 retained, category review pending.'),
 'CMCSA':dict(yf='CMCSA',  fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=9.5, dil=6.0, clock='CLOCK',ins='SELLING', held=False, sector='Media',      built='back-solved', score_fixed=6.25),
 'NVO' : dict(yf='NVO',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Pharma',     built='back-solved', score_fixed=6.15),
 'ENG' : dict(yf='ENG.MC', fcf=None, shares=None, r=.075, cur='EUR', deliver=-8.6,dl='recurring net profit', sub=None, pr=8.0, dil=6.0, clock='CLOCK', ins='BUYING', held=True, sector='Utilities', built='back-solved', sanity=(5,40), score_fixed=6.0, na='regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB', weight=2.8),
@@ -478,7 +508,8 @@ def best_regime(d):
 # flow is a price bet, not an annuity.
 # =====================================================================
 def cycle_pos(d):
-    """TTM FCF divided by mid-cycle FCF. None when either is missing."""
+    """Producer TTM divided by mid-cycle FCF; other TTM rows are not normalized."""
+    if not d.get('midcycle'): return None
     ttm, mid = d.get('fcf_ttm'), d.get('fcf')
     if ttm is None or not mid: return None
     return round(ttm / mid, 2)
@@ -1661,6 +1692,8 @@ def build_html(macro=None, write=True, monitoring=None):
              + ('#5cc8d8' if src == 'wacc' else '#7b8195')
              + f'">r {100*rr:.2f}% {src}</span>')(*rate_used(d))
           + (f'<br><span style="color:#e5b45c;font-size:10px">{cycle_note(d)}</span>' if cycle_note(d) else '')
+          + ('<br><span class="pill x-appr">NORMALIZATION REVIEW</span>'
+             if d.get('normalization_status') == 'REVIEW_REQUIRED' else '')
           + '</td></tr>')
 
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
