@@ -39,10 +39,42 @@ BANDS = [(3.50,'SELL','p-sell'), (5.50,'HOLD NEG','p-hneg'), (7.00,'HOLD POS','p
 # [FIX 4] IBST is IBST.L and London quotes pence (GBp), not GBP.
 DATA = {
 'ADBE': dict(yf='ADBE',   fcf=9100,   shares=425.0,  r=.080, cur='USD', deliver=10.5, dl='ARR organic',      sub=None,                    pr=8.5, dil=9.5, clock='CONC', ins='MIXED',       held=False, sector='Software',      built='back-solved', sanity=(150,900), score_fixed=7.88, trap=True),
-'ASML': dict(yf='ASML.AS', fcf=10000, shares=383.0, r=.080, cur='EUR', deliver=35.0,
-    dl='FY26 revenue guidance vs FY25', sub=(9.5,9.5,5.5,7.5,4.5,8.0), pr=4.5, dil=8.0,
+'ASML': dict(yf='ASML.AS', fcf=10000, shares=383.0, r=.080, cur='EUR',
+    deliver=36.22184876007506,
+    dl='FY26 revenue guidance midpoint vs FY25 (2026-10-14)',
+    sub=(9.5,9.5,5.5,7.5,4.5,8.0), pr=4.5, dil=8.0,
     clock='CONC', ins='NOT CHECKED', held=False, sector='Semis', built='est',
-    sanity=(300,1600)),
+    sanity=(300,1600),
+    # Guidance is a dated revenue proxy. It does not establish a period or
+    # normalization contract for the separate, retained EUR10bn FCF estimate.
+    deliver_reconciliation=dict(
+        guidance_low=44000, guidance_high=45000, baseline_revenue=32667.3,
+        period='FY2026 vs FY2025', unit='EUR million', published_at='2026-10-14',
+        source_url='https://investor.asml.com/news-releases/news-release-details/asml-reports-eu11.7-billion-total-net-sales-and-eu5.0-billion-net-income-q3-2026',
+        baseline_source_url='https://www.investor.asml.com/static-files/f98553ea-bc52-49ed-ada0-8513a8a6fde5'),
+    # Issuer-defined reported FCF includes intangible purchases. These are
+    # comparison data, not an automatic substitution for sustainable cash flow.
+    reported_cash_flow=dict(
+        basis='OCF_MINUS_PPE_AND_INTANGIBLES', unit='EUR million',
+        period='TTM to 2026-09-27', published_at='2026-10-14',
+        fy2025=dict(ocf=12658.5, ppe_purchases=1573.6, intangible_purchases=57.6),
+        ytd2025_9m=dict(ocf=1248.2, ppe_purchases=1125.7, intangible_purchases=35.1),
+        ytd2026_9m=dict(ocf=11315.0, ppe_purchases=1115.1, intangible_purchases=140.4),
+        ttm_fcf=20999.4,
+        sources=[
+            dict(url='https://www.investor.asml.com/static-files/f98553ea-bc52-49ed-ada0-8513a8a6fde5',
+                 period='FY2025', printed_pages=[53,57]),
+            dict(url='https://investor.asml.com/static-files/d310262b-d037-485d-83b5-92c93cc462f0',
+                 period='9M2026 and 9M2025', printed_page=5)]),
+    normalization_status='REVIEW_REQUIRED',
+    boot_note='2026-10-14: FY26 revenue guide EUR44-45bn vs FY25 EUR32,667.3m; '
+              'midpoint growth 36.22% is a revenue proxy, not cash-flow-per-share growth. '
+              'Model FCF EUR10,000m and shares 383m remain undated unverified estimates. '
+              'Reported issuer FCF subtracts PPE and intangible purchases: 9M26 EUR10,059.5m, '
+              'TTM EUR20,999.4m; not normalized sustainable FCF. '
+              'Q3 OCF includes EUR7,009m changes in assets/liabilities; reconcile timing and capacity capex. '
+              'Mistral revaluation is already reversed in OCF; no second cash-flow deduction. '
+              'Subjective categories retained pending review; legacy valuation remains UNVERIFIED.'),
 'RIVN': dict(yf='RIVN', fcf=None, shares=1415.0, r=.080, cur='USD', deliver=27.0,
     dl='revenue growth', sub=(7,2,0.5,5.5,6.5,0.5), pr=None, dil=2.0, clock='CONC',
     ins='NOT CHECKED', held=False, sector='Automotive', built='exact', sanity=(3,60),
