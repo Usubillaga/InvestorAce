@@ -66,7 +66,11 @@ these workflow changes cannot enforce that policy for every repository writer.
 ## Validation executed
 
 - New basis/penalty/HTML/autoscore tests failed before the production fix and
-  passed afterward. The final full offline suite contains 116 passing tests.
+  passed afterward. The initial full offline suite contained 116 passing tests.
+  Integration with the subsequently merged ASML review retains its updated
+  guidance and source metadata, explicitly types it as `REVENUE_PROXY` and
+  replaces its obsolete numeric-cushion expectation with the unavailable
+  comparison. The combined suite contains 122 passing tests.
 - The 5,000-case frozen oracle still checks identical cash-flow arithmetic,
   score, risk, verdict and fit for explicitly typed cash-flow inputs. A separate
   legacy test permits only withdrawal of untyped growth penalties. Neither
