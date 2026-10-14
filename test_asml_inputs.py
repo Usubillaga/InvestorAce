@@ -55,11 +55,12 @@ class ASMLInputs(unittest.TestCase):
             engine.bootstrap_fundamentals()
         self.assertEqual(row, before)
 
-    def test_fixed_price_and_rate_change_cushion_without_decision_change(self):
+    def test_revenue_guidance_has_no_cashflow_cushion_or_decision_effect(self):
         after = dict(engine.DATA['ASML'], price=1509.6, r_wacc=0.1133827008662827)
         before = dict(after, deliver=35.0)
-        self.assertAlmostEqual(engine.cushion(after), 26.77651749875626)
-        self.assertGreater(engine.cushion(after), engine.cushion(before))
+        self.assertEqual(after['deliver_basis'], 'REVENUE_PROXY')
+        self.assertIsNone(engine.cushion(after))
+        self.assertIsNone(engine.cushion(before))
         for fn in (engine.ngv, engine.cover, engine.implied_growth, engine.priced_in_live,
                    engine.score, engine.risk, engine.regime_scores):
             self.assertEqual(fn(before), fn(after), fn.__name__)
@@ -81,6 +82,7 @@ class ASMLInputs(unittest.TestCase):
              patch.object(engine, 'forward_run', return_value={'ok': False, 'note': 'offline'}):
             html = engine.build_html(macro={'ok': False}, write=False)
         self.assertIn('NORMALIZATION REVIEW', html)
+        self.assertIn('GROWTH NOT COMPARABLE', html)
         self.assertIn('intangible', html)
         self.assertIn('undated', html)
 

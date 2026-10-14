@@ -107,6 +107,22 @@ def declared_perpetuity(cash_flow, shares, rate, basis, rate_basis, net_debt=Non
     raise ValueError('Declare matching cash flow/rate bases and the FCFF net-debt bridge')
 
 
+def growth_contract(row):
+    """Metric type is explicit; revenue/volume/earnings are not cash-flow growth.
+
+    CASH_FLOW describes the metric being compared, not source verification or
+    a forecast. The existing mid-cycle producer exclusion remains in force.
+    """
+    basis = row.get('deliver_basis') or 'UNSPECIFIED'
+    available = number(row.get('deliver')) is not None
+    comparable = available and basis == 'CASH_FLOW' and not row.get('midcycle')
+    return {'basis': basis, 'comparable': bool(comparable),
+            'status': ('MISSING' if not available else
+                       'COMPARABLE' if comparable else 'NOT_COMPARABLE'),
+            'note': 'Cushion requires explicitly declared cash-flow growth; '
+                    'production, revenue and other proxies do not enter the comparison.'}
+
+
 def row_diagnostics(row, weights):
     sub = row.get('sub')
     complete = bool(sub and len(sub) == 6 and all(number(x) is not None for x in sub))
@@ -124,7 +140,8 @@ def row_diagnostics(row, weights):
             'epv': status(row.get('epv_value')),
             'momentum': status(row.get('mom_12_1')),
             'regime_assumptions': [] if complete else ['balance=6', 'payout=6'],
-            'valuation_contract': valuation_contract(row)}
+            'valuation_contract': valuation_contract(row),
+            'growth_contract': growth_contract(row)}
 
 
 def create_record(rows, outputs, macro, models, source_hash, captured_at=None):

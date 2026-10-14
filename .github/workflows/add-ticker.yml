@@ -3,7 +3,8 @@ name: add-ticker
 # Triggered by an issue titled  add-ticker: MSFT
 # The gate is TITLE-based: labels are silently dropped on issues opened by
 # some clients, so a label gate skips runs with no visible reason.
-# Only repo owner/members/collaborators can trigger it: the job commits to main.
+# Only repo owner/members/collaborators can trigger it. The job proposes a
+# candidate on a new branch; it never updates main or generates a report.
 
 on:
   issues:
@@ -17,6 +18,8 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
+  actions: write                 # explicit CI dispatch for GITHUB_TOKEN pushes
 
 jobs:
   add:
@@ -27,13 +30,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
           cache: pip
 
       - name: Install
-        run: pip install -r requirements.txt
+        run: pip install -r requirements-research.txt pyflakes
 
       - name: Resolve ticker
         id: t
@@ -55,35 +60,86 @@ jobs:
           fi
           echo "sym=$sym" >> "$GITHUB_OUTPUT"
 
-      - name: Add and verify
+      - name: Draft ticker inputs
         env:
           SYM: ${{ steps.t.outputs.sym }}
         run: |
           python add_ticker.py "$SYM"
-          python -c "import ast;ast.parse(open('engine.py').read())"
-          python engine.py
 
-      - name: Commit
+      - name: Verify candidate before creating a branch
+        run: |
+          python -m pyflakes *.py
+          python -c "import engine, integrity, evidence, wacc, epv, forward, macro; print('Runtime imports OK')"
+          python -m unittest discover -p 'test_*.py' -v
+          python - <<'PY'
+          import engine
+          errors = engine.validate()
+          if errors:
+              raise SystemExit('VALIDATION FAILED: ' + '; '.join(errors))
+          PY
+
+      - name: Commit candidate to a new branch
+        id: candidate
         env:
           SYM: ${{ steps.t.outputs.sym }}
         run: |
+          if git diff --quiet -- engine.py; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          branch="auto/add-ticker-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch -c "$branch"
           git config user.name  "investorace-bot"
           git config user.email "investorace-bot@users.noreply.github.com"
-          git add -A
-          git diff --staged --quiet || git commit -m "add $SYM"
-          git push
+          git add -- engine.py
+          git commit -m "Draft $SYM inputs for review"
+          git push --set-upstream origin "$branch"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Open draft PR and run CI on its exact branch
+        id: pr
+        if: steps.candidate.outputs.changed == 'true'
+        uses: actions/github-script@v8
+        env:
+          SYM: ${{ steps.t.outputs.sym }}
+          CANDIDATE_BRANCH: ${{ steps.candidate.outputs.branch }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const branch = process.env.CANDIDATE_BRANCH;
+            const {data: pr} = await github.rest.pulls.create({
+              owner, repo, head: branch, base: process.env.BASE_BRANCH, draft: true,
+              title: `Review ${process.env.SYM} ticker inputs`,
+              body: [
+                'Yahoo supplied draft mechanical inputs; full offline tests and structural validation passed before this branch was pushed.',
+                'Review primary cash-flow sources, period/publication date, shares and share-count date, currency/units, normalization, subscores, sector and clock before merging.',
+                'Revenue growth is a descriptive proxy. A cushion requires explicitly sourced cash-flow growth with `deliver_basis=\'CASH_FLOW\'`.',
+                'No report, observation, model archive or current pointer was generated or committed by this workflow.'
+              ].join('\n\n')
+            });
+            core.setOutput('url', pr.html_url);
+            // GITHUB_TOKEN pushes do not trigger push CI; dispatch is explicit.
+            await github.rest.actions.createWorkflowDispatch({
+              owner, repo, workflow_id: 'test.yml', ref: branch
+            });
+            await core.summary.addLink('Review ticker draft', pr.html_url).write();
 
       - name: Report
         if: github.event_name == 'issues'
         uses: actions/github-script@v8
         env:
           SYM: ${{ steps.t.outputs.sym }}
+          PR_URL: ${{ steps.pr.outputs.url }}
         with:
           script: |
-            github.rest.issues.createComment({
+            const body = process.env.PR_URL
+              ? `Draft inputs for \`${process.env.SYM}\`: ${process.env.PR_URL}. Review and merge the PR before the ticker can enter a published report.`
+              : `\`${process.env.SYM}\` is already in the model. No candidate or report was changed.`;
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner, repo: context.repo.repo,
-              body: `Added \`${process.env.SYM}\` and rebuilt. Deploy runs on the next schedule, or trigger build-and-deploy manually.`
-
+              body
             })
 

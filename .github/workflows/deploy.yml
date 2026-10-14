@@ -13,7 +13,13 @@ name: build-and-deploy
 on:
   push:
     branches: [main]
-    paths: ['engine.py', 'monitoring_status.json']
+    paths:
+      - '*.py'
+      - 'regime_contract.json'
+      - 'monitoring_status.json'
+      - 'requirements*.txt'
+      - 'tests/**'
+      - '.github/workflows/*.yml'
   schedule:
     - cron: '0 23 * * 1-5'      # 23:00 UTC, weekdays
   workflow_dispatch:

@@ -196,7 +196,8 @@ def main(argv=None):
         print(f"  ! {warning}")
 
     print("\nHUMAN REVIEW STILL REQUIRED:")
-    print("  deliver  Replace the revenue-growth proxy with the company's own leading metric.")
+    print("  deliver  Revenue/operating proxies remain descriptive. A cushion requires")
+    print("           sourced cash-flow growth with deliver_basis='CASH_FLOW'.")
     print("  clock    Confirm CLOCK / CONC / DIV.")
     print("  special  REITs use AFFO; pipelines use DCF/distributable cash flow.")
     return 0

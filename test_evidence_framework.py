@@ -56,6 +56,7 @@ class LegacyEquivalence(unittest.TestCase):
                      shares=rng.uniform(1, 1000), r=rng.uniform(.04, .15),
                      sub=tuple(rng.uniform(0, 10) for _ in range(6)),
                      sector=rng.choice(sectors), deliver=rng.uniform(-20, 40),
+                     deliver_basis='CASH_FLOW',
                      dil=rng.uniform(0, 10))
             if rng.random() < .2:
                 d.update(sub=None, score_fixed=rng.uniform(0, 10))
@@ -63,12 +64,20 @@ class LegacyEquivalence(unittest.TestCase):
                 self.assertEqual(getattr(engine, name)(d), getattr(self.old, name)(d), name)
             self.assertEqual(engine.verdict('TEST', d), self.old.verdict('TEST', d))
 
-    def test_entire_stored_universe_identical_at_controlled_prices(self):
+    def test_untyped_universe_only_withdraws_growth_penalties(self):
         for ticker, original in self.old.DATA.items():
             d = copy.deepcopy(original)
             d['price'] = 100
-            for name in ('score', 'risk', 'ngv', 'regime_scores'):
+            for name in ('ngv', 'cover', 'implied_growth', 'regime_scores'):
                 self.assertEqual(getattr(engine, name)(d), getattr(self.old, name)(d), ticker)
+            # Old rows have no declared growth basis. Withdrawing that invalid
+            # comparison must be the only score/risk/verdict change. The frozen
+            # upstream source and the regime golden master remain untouched.
+            neutral = dict(d, deliver=None)
+            for name in ('score', 'risk', 'priced_in_live'):
+                self.assertEqual(getattr(engine, name)(d), getattr(self.old, name)(neutral), ticker)
+            self.assertIsNone(engine.cushion(d), ticker)
+            self.assertEqual(engine.verdict(ticker, d), self.old.verdict(ticker, neutral), ticker)
 
 
 class EvidenceContract(unittest.TestCase):

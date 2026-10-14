@@ -11,7 +11,7 @@ rebuilt nightly and published to GitHub Pages.
 | Nightly build (weekdays 23:00 UTC): tests, then `python engine.py` commits a report/evidence pair and deploys its verified report to Pages | `.github/workflows/deploy.yml` |
 | Tests + lint on every push / PR | `.github/workflows/test.yml` |
 | Friday research briefings and dated archives; publishes immediately when a new edition is committed | `.github/workflows/research-pages.yml`, `weekly-research/` |
-| Add a ticker: open an issue titled `add-ticker: MSFT` (owner/collaborators only) or run the workflow manually | `.github/workflows/add-ticker.yml` |
+| Add a ticker: an `add-ticker: MSFT` issue (owner/collaborators only) or manual run produces a tested draft PR for review; no direct main/report update | `.github/workflows/add-ticker.yml` |
 
 ## Local use
 
@@ -22,6 +22,35 @@ python engine.py                                  # fetches Yahoo data, writes i
 python add_ticker.py ASML.AS                      # add a ticker row to engine.py
 python reprice.py 4.40 5.04                       # NGV impact of a risk-free change
 ```
+
+## Growth comparisons and review status
+
+`deliver` is expressed in percentage points. Only an explicit
+`deliver_basis='CASH_FLOW'` permits `deliver - 100 * implied_growth` to enter
+the cushion and its existing penalties. Revenue, bookings, ARR, production,
+earnings and untyped metrics remain descriptive; they do not produce a
+cash-flow cushion. The existing mid-cycle producer exclusion and 0.5pp
+tolerance remain. Metric typing does not verify a source, establish the
+cash-flow/rate contract or certify normalization.
+
+The existing labels in `DATA` are typed without changing their numbers. ENB's
+declared DCF/share CAGR retains the cash-flow comparison; ambiguous PFE
+guidance remains `UNSPECIFIED`. NFLX retains its draft Yahoo inputs and is
+marked `REVIEW_REQUIRED`; its primary cash-flow bridge, period, publication
+date and share-count date still require review. Main-table badges expose
+unverified valuation contracts and noncomparable growth beside the signal.
+The growth contract and its model version are archived with each new build.
+Historical generations and the frozen regime contract are unchanged.
+
+Ticker automation tests and validates its candidate before pushing a new
+branch, opens a draft PR, and explicitly dispatches `test.yml` because a
+`GITHUB_TOKEN` push does not trigger push workflows. Enable **Allow GitHub
+Actions to create and approve pull requests** in the repository's Actions
+settings for this flow. Review and merge are separate human actions. Configure
+a main-branch ruleset requiring the `test` check and pull requests to enforce
+that policy for every writer; workflow changes alone cannot protect main.
+Model, rendering, dependency, fixture and workflow changes on main trigger the
+tested deployment; generated history-only commits do not retrigger it.
 
 ## Build integrity
 
