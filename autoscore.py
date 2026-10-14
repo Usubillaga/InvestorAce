@@ -247,13 +247,9 @@ def auto_row(symbol, r=0.080):
 
     ngv = (fcf_m / sh_m) / r
     cover = 100 * ngv / f["price"] if f["price"] else None
-    impl = (
-        100 * r * (1 - cover / 100) / (1 + (cover / 100) * r)
-        if cover is not None and (1 + (cover / 100) * r) != 0
-        else None
-    )
-    cush = rev_g - impl if rev_g is not None and impl is not None else None
-    pr = priced_in_from_cover(cover, cush)
+    # Revenue growth is descriptive, not a cash-flow-growth forecast. Do not
+    # persist a proxy-derived penalty that could survive a missing live quote.
+    pr = priced_in_from_cover(cover)
 
     if fcf_m <= 0:
         warn.append(
@@ -272,7 +268,8 @@ def auto_row(symbol, r=0.080):
         warn.append("no revenue history — growth scored at the 5.0 default")
     if nd_e is None:
         warn.append("no net-debt/EBITDA — balance sheet scored at the 5.0 default")
-    warn.append("deliver is REVENUE GROWTH, a proxy. Replace with the company's own leading metric.")
+    warn.append("deliver is a REVENUE_PROXY; no cash-flow cushion is computed. "
+                "Declare CASH_FLOW only for a sourced cash-flow-growth measure.")
     warn.append(f'clock guessed from sector "{f["sector"]}" — confirm CLOCK / CONC / DIV by hand.')
 
     row = dict(
@@ -282,6 +279,7 @@ def auto_row(symbol, r=0.080):
         r=r,
         cur=("GBp" if symbol.endswith(".L") and f["cur"].upper() == "GBP" else f["cur"] or "USD"),
         deliver=round(rev_g, 1) if rev_g is not None else None,
+        deliver_basis='REVENUE_PROXY',
         dl="revenue growth (PROXY)",
         sub=sub,
         pr=pr,
@@ -291,6 +289,7 @@ def auto_row(symbol, r=0.080):
         held=False,
         sector=f["sector"],
         built="auto",
+        normalization_status='REVIEW_REQUIRED',
         sanity=(round(f["lo"] * .5, 2), round(f["hi"] * 2, 2)) if f["lo"] is not None and f["hi"] is not None else None,
     )
     if na_reason:

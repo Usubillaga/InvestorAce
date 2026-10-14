@@ -21,7 +21,8 @@ def framework_panel(rows, weights, macro, proposal=None):
         d = row_diagnostics(row, weights)
         quality = '&mdash;' if d['business_quality'] is None else f"{d['business_quality']:.2f}"
         vals = [escape(ticker), quality, d['score_basis'], d['price'], d['fundamentals'],
-                d['ngv'], d['epv'], d['momentum'], d['valuation_contract']['status']]
+                d['ngv'], d['epv'], d['momentum'], d['valuation_contract']['status'],
+                escape(str(d['growth_contract']['basis'])), d['growth_contract']['status']]
         body.append('<tr>' + ''.join('<td>' + v + '</td>' for v in vals) + '</tr>')
     book = ''
     if proposal:
@@ -66,8 +67,11 @@ def framework_panel(rows, weights, macro, proposal=None):
             'cash-flow/discount-rate contract is unestablished. '
             'MISMATCH means the declared cash-flow and discount-rate bases disagree. '
             'AVAILABLE describes presence, not accuracy or freshness. Missing subscores retain '
-            'the legacy neutral balance/payout assumptions; Business Quality remains unavailable.</p>'
+            'the legacy neutral balance/payout assumptions; Business Quality remains unavailable. '
+            'Cushion compares only explicitly declared cash-flow growth. Revenue, earnings, '
+            'bookings and production proxies remain descriptive and cannot impose a cushion penalty.</p>'
             '<div class="tw"><table><thead><tr><th>Ticker</th><th>Business Quality</th>'
             '<th>Legacy Score basis</th><th>Price</th><th>Fundamentals</th><th>NGV</th>'
-            '<th>EPV</th><th>Momentum</th><th>Valuation basis</th></tr></thead><tbody>'
+            '<th>EPV</th><th>Momentum</th><th>Valuation basis</th><th>Growth basis</th>'
+            '<th>Growth comparison</th></tr></thead><tbody>'
             + ''.join(body) + '</tbody></table></div></details>' + book + '</section>')

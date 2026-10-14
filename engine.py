@@ -38,61 +38,61 @@ BANDS = [(3.50,'SELL','p-sell'), (5.50,'HOLD NEG','p-hneg'), (7.00,'HOLD POS','p
 # [FIX 3] ENB on NYSE quotes USD. The NGV of C$78.67 is CAD -> use ENB.TO.
 # [FIX 4] IBST is IBST.L and London quotes pence (GBp), not GBP.
 DATA = {
-'ADBE': dict(yf='ADBE',   fcf=9100,   shares=425.0,  r=.080, cur='USD', deliver=10.5, dl='ARR organic',      sub=None,                    pr=8.5, dil=9.5, clock='CONC', ins='MIXED',       held=False, sector='Software',      built='back-solved', sanity=(150,900), score_fixed=7.88, trap=True),
+'ADBE': dict(yf='ADBE',   fcf=9100,   shares=425.0,  r=.080, cur='USD', deliver=10.5, deliver_basis='OPERATING_PROXY', dl='ARR organic',      sub=None,                    pr=8.5, dil=9.5, clock='CONC', ins='MIXED',       held=False, sector='Software',      built='back-solved', sanity=(150,900), score_fixed=7.88, trap=True),
 'ASML': dict(yf='ASML.AS', fcf=10000, shares=383.0, r=.080, cur='EUR', deliver=35.0,
-    dl='FY26 revenue guidance vs FY25', sub=(9.5,9.5,5.5,7.5,4.5,8.0), pr=4.5, dil=8.0,
+    deliver_basis='REVENUE_PROXY', dl='FY26 revenue guidance vs FY25', sub=(9.5,9.5,5.5,7.5,4.5,8.0), pr=4.5, dil=8.0,
     clock='CONC', ins='NOT CHECKED', held=False, sector='Semis', built='est',
     sanity=(300,1600)),
 'RIVN': dict(yf='RIVN', fcf=None, shares=1415.0, r=.080, cur='USD', deliver=27.0,
-    dl='revenue growth', sub=(7,2,0.5,5.5,6.5,0.5), pr=None, dil=2.0, clock='CONC',
+    deliver_basis='REVENUE_PROXY', dl='revenue growth', sub=(7,2,0.5,5.5,6.5,0.5), pr=None, dil=2.0, clock='CONC',
     ins='NOT CHECKED', held=False, sector='Automotive', built='exact', sanity=(3,60),
     na='free cash flow -$1,924m in H1 2026; automotive gross profit still negative'),
 'ROAD': dict(yf='ROAD', fcf=150, shares=56.1, r=.090, cur='USD', deliver=14.3,
-    dl='backlog growth', sub=(8,6,4,4.5,4,1.5), pr=4.5, dil=5.5, clock='CONC',
+    deliver_basis='OPERATING_PROXY', dl='backlog growth', sub=(8,6,4,4.5,4,1.5), pr=4.5, dil=5.5, clock='CONC',
     ins='NOT CHECKED', held=False, sector='Industrials', built='est',
     sanity=(25,250)),
-'CRM' : dict(yf='CRM',    fcf=12700,  shares=950.0,  r=.080, cur='USD', deliver=14.0, dl='cRPO cc',          sub=(7,8,8,7.5,7.5,7),       pr=8.0, dil=9.0, clock='CONC', ins='AWARDS',      held=False, sector='Software',      built='exact', sanity=(120,450)),
-'NVDA': dict(yf='NVDA',   fcf=126900, shares=24285., r=.100, cur='USD', deliver=106.0,dl='revenue',          sub=(10,10,8,9,6,6),         pr=2.5, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Semis',         built='exact', sanity=(80,400), risk_floor=3.4),
-'SPGI': dict(yf='SPGI',   fcf=5200,   shares=293.3,  r=.075, cur='USD', deliver=7.0,  dl='organic cc',       sub=(8,9.5,9,6.5,4.5,9),     pr=6.0, dil=9.0, clock='CONC', ins='BUYING&middot;LILA', held=True, sector='Info Svcs',     built='exact', sanity=(200,700), weight=1.4),
-'SAN' : dict(yf='SAN.PA', fcf=6900,   shares=1215.0, r=.080, cur='EUR', deliver=10.0, dl='sales cc',         sub=(8,7,7,7,8,8),           pr=9.0, dil=8.0, clock='CLOCK',ins='AWARDS',      held=True,  sector='Pharma',        built='exact', sanity=(50,140), weight=5.7),
-'APP' : dict(yf='APP',    fcf=4000,   shares=335.29, r=.100, cur='USD', deliver=53.0, dl='revenue',          sub=(9,9.5,8,8.5,3.5,7.5),   pr=5.0, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Ad Tech',       built='exact', sanity=(100,700)),
-'ABT' : dict(yf='ABT',    fcf=7824,   shares=1746.0, r=.075, cur='USD', deliver=7.0,  dl='comparable sales', sub=(7,7.5,7,7.5,7.5,8.5),   pr=7.5, dil=7.0, clock='DIV',  ins='MIXED',       held=True,  sector='MedTech',       built='exact', sanity=(50,200), weight=1.8),
-'WKL' : dict(yf='WKL.AS', fcf=1250,   shares=232.52, r=.080, cur='EUR', deliver=5.0,  dl='organic revenue',  sub=(6,9,8,6,5,7),           pr=8.5, dil=7.5, clock='DIV',  ins='MIXED',       held=True,  sector='Info Svcs',     built='exact', sanity=(30,150), weight=23.2),
-'LVMH': dict(yf='MC.PA',  fcf=13100,  shares=500.0,  r=.080, cur='EUR', deliver=2.0,  dl='organic revenue',  sub=(5,8,8,7.5,7.5,6.5),                    pr=None, dil=6.5, clock='CONC', ins='BUYING&middot;LILA', held=True,  sector='Luxury',        built='exact', sanity=(300,900), weight=27.4, boot_note='rebuilt 2026-09-03 from H1: organic +2% (Q2 +3%), jewellery +11%, op margin 22.5%, recurring op profit EUR8.69bn -4%, FCF EUR13.1bn. Named risk not scored: France extending the corporate surcharge takes the FY27 effective tax rate to ~33% (Bernstein cut FY27 EPS 6.1%).'),
-'UBER': dict(yf='UBER',   fcf=10000,  shares=2100.0, r=.080, cur='USD', deliver=24.0, dl='gross bookings',   sub=(6,7,8,6,8,6),           pr=7.5, dil=9.0, clock='DIV',  ins='AWARDS',      held=True,  sector='Platform',      built='exact', sanity=(40,150), weight=3.8),
-'AVGO': dict(yf='AVGO',   fcf=35000,  shares=4757.0, r=.100, cur='USD', deliver=48.0, dl='revenue',          sub=(9.5,9.5,9.5,7.5,2.5,7), pr=2.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Semis',         built='exact', sanity=(100,1000)),
-'ONON': dict(yf='ONON',   fcf=437,    shares=416.0,  r=.090, cur='USD', deliver=21.6, dl='revenue cc',       sub=(8.5,8.5,7,9,3.5,1.5),   pr=6.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True, sector='Apparel',       built='est',   sanity=(10,120), weight=4.5),
-'VICI': dict(yf='VICI',   fcf=2480,   shares=1000.0, r=.075, cur='USD', deliver=3.3,  dl='AFFO/share',       sub=None,                    pr=8.0, dil=3.5, clock='CONC', ins='AWARDS',      held=True,  sector='REIT',          built='back-solved', sanity=(15,60), score_fixed=6.8, weight=1.9),
-'ENB' : dict(yf='ENB.TO', fcf=12900,  shares=2184.0, r=.075, cur='CAD', deliver=5.0,  dl='DCF/share CAGR',   sub=(5,6,5,3.5,6,8.5),       pr=8.5, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True,  sector='Midstream',     built='exact', sanity=(30,120), weight=4.1),
-'PFE' : dict(yf='PFE',    fcf=9480,   shares=5700.0, r=.080, cur='USD', deliver=-1.8, dl='FY guide vs FY25', sub=(4,6.5,5.5,4,8.5,7),     pr=6.5, dil=5.5, clock='CLOCK',ins='BUYING',      held=False,  sector='Pharma',        built='exact', sanity=(10,60)),
+'CRM' : dict(yf='CRM',    fcf=12700,  shares=950.0,  r=.080, cur='USD', deliver=14.0, deliver_basis='OPERATING_PROXY', dl='cRPO cc',          sub=(7,8,8,7.5,7.5,7),       pr=8.0, dil=9.0, clock='CONC', ins='AWARDS',      held=False, sector='Software',      built='exact', sanity=(120,450)),
+'NVDA': dict(yf='NVDA',   fcf=126900, shares=24285., r=.100, cur='USD', deliver=106.0,deliver_basis='REVENUE_PROXY', dl='revenue',          sub=(10,10,8,9,6,6),         pr=2.5, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Semis',         built='exact', sanity=(80,400), risk_floor=3.4),
+'SPGI': dict(yf='SPGI',   fcf=5200,   shares=293.3,  r=.075, cur='USD', deliver=7.0,  deliver_basis='OPERATING_PROXY', dl='organic cc',       sub=(8,9.5,9,6.5,4.5,9),     pr=6.0, dil=9.0, clock='CONC', ins='BUYING&middot;LILA', held=True, sector='Info Svcs',     built='exact', sanity=(200,700), weight=1.4),
+'SAN' : dict(yf='SAN.PA', fcf=6900,   shares=1215.0, r=.080, cur='EUR', deliver=10.0, deliver_basis='REVENUE_PROXY', dl='sales cc',         sub=(8,7,7,7,8,8),           pr=9.0, dil=8.0, clock='CLOCK',ins='AWARDS',      held=True,  sector='Pharma',        built='exact', sanity=(50,140), weight=5.7),
+'APP' : dict(yf='APP',    fcf=4000,   shares=335.29, r=.100, cur='USD', deliver=53.0, deliver_basis='REVENUE_PROXY', dl='revenue',          sub=(9,9.5,8,8.5,3.5,7.5),   pr=5.0, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Ad Tech',       built='exact', sanity=(100,700)),
+'ABT' : dict(yf='ABT',    fcf=7824,   shares=1746.0, r=.075, cur='USD', deliver=7.0,  deliver_basis='REVENUE_PROXY', dl='comparable sales', sub=(7,7.5,7,7.5,7.5,8.5),   pr=7.5, dil=7.0, clock='DIV',  ins='MIXED',       held=True,  sector='MedTech',       built='exact', sanity=(50,200), weight=1.8),
+'WKL' : dict(yf='WKL.AS', fcf=1250,   shares=232.52, r=.080, cur='EUR', deliver=5.0,  deliver_basis='REVENUE_PROXY', dl='organic revenue',  sub=(6,9,8,6,5,7),           pr=8.5, dil=7.5, clock='DIV',  ins='MIXED',       held=True,  sector='Info Svcs',     built='exact', sanity=(30,150), weight=23.2),
+'LVMH': dict(yf='MC.PA',  fcf=13100,  shares=500.0,  r=.080, cur='EUR', deliver=2.0,  deliver_basis='REVENUE_PROXY', dl='organic revenue',  sub=(5,8,8,7.5,7.5,6.5),                    pr=None, dil=6.5, clock='CONC', ins='BUYING&middot;LILA', held=True,  sector='Luxury',        built='exact', sanity=(300,900), weight=27.4, boot_note='rebuilt 2026-09-03 from H1: organic +2% (Q2 +3%), jewellery +11%, op margin 22.5%, recurring op profit EUR8.69bn -4%, FCF EUR13.1bn. Named risk not scored: France extending the corporate surcharge takes the FY27 effective tax rate to ~33% (Bernstein cut FY27 EPS 6.1%).'),
+'UBER': dict(yf='UBER',   fcf=10000,  shares=2100.0, r=.080, cur='USD', deliver=24.0, deliver_basis='OPERATING_PROXY', dl='gross bookings',   sub=(6,7,8,6,8,6),           pr=7.5, dil=9.0, clock='DIV',  ins='AWARDS',      held=True,  sector='Platform',      built='exact', sanity=(40,150), weight=3.8),
+'AVGO': dict(yf='AVGO',   fcf=35000,  shares=4757.0, r=.100, cur='USD', deliver=48.0, deliver_basis='REVENUE_PROXY', dl='revenue',          sub=(9.5,9.5,9.5,7.5,2.5,7), pr=2.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Semis',         built='exact', sanity=(100,1000)),
+'ONON': dict(yf='ONON',   fcf=437,    shares=416.0,  r=.090, cur='USD', deliver=21.6, deliver_basis='REVENUE_PROXY', dl='revenue cc',       sub=(8.5,8.5,7,9,3.5,1.5),   pr=6.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True, sector='Apparel',       built='est',   sanity=(10,120), weight=4.5),
+'VICI': dict(yf='VICI',   fcf=2480,   shares=1000.0, r=.075, cur='USD', deliver=3.3,  deliver_basis='OPERATING_PROXY', dl='AFFO/share',       sub=None,                    pr=8.0, dil=3.5, clock='CONC', ins='AWARDS',      held=True,  sector='REIT',          built='back-solved', sanity=(15,60), score_fixed=6.8, weight=1.9),
+'ENB' : dict(yf='ENB.TO', fcf=12900,  shares=2184.0, r=.075, cur='CAD', deliver=5.0,  deliver_basis='CASH_FLOW', dl='DCF/share CAGR',   sub=(5,6,5,3.5,6,8.5),       pr=8.5, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True,  sector='Midstream',     built='exact', sanity=(30,120), weight=4.1),
+'PFE' : dict(yf='PFE',    fcf=9480,   shares=5700.0, r=.080, cur='USD', deliver=-1.8, deliver_basis='UNSPECIFIED', dl='FY guide vs FY25', sub=(4,6.5,5.5,4,8.5,7),     pr=6.5, dil=5.5, clock='CLOCK',ins='BUYING',      held=False,  sector='Pharma',        built='exact', sanity=(10,60)),
 # [FIX 5] NGV inputs restored -- these were computed and then dropped back to None
-'ROL' : dict(yf='ROL',    fcf=502,    shares=475.3,  r=.075, cur='USD', deliver=5.7,  dl='organic revenue',  sub=None,                    pr=4.5, dil=6.0, clock='CONC', ins='SELLING',     held=False, sector='Services',      built='exact', sanity=(15,80), score_fixed=6.47),
-'LULU': dict(yf='LULU',   fcf=850,   shares=112.0,  r=.090, cur='USD', deliver=-6.0, dl='FY revenue guide',         sub=(1.5,7,6,9,8.5,5),         pr=None, dil=7.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Apparel',       built='exact',   sanity=(80,500), boot_note='Q2 FY2026 reported 3 Sep 2026. Revenue $2.42bn -4% and MISSED. Comps -9%, Americas comps -12%, womens leggings -20%. FY guide cut to $10.35-10.5bn and EPS to $9.48-9.73. The $2.92 EPS beat is $0.86 of TARIFF REFUND; ex-refund it missed both lines. FCF normalised to $850m excluding the one-off $134.5m refund.'),
-'PL'  : dict(yf='PL',     fcf=52.9,   shares=356.0,  r=.100, cur='USD', deliver=58.0, dl='revenue growth',          sub=(9.5,4,5,8.5,1.5,1),       pr=None, dil=2.5, clock='CONC', ins='SELLING',     held=True, sector='Space',         built='exact', sanity=(2,80), boot_note='Q2 FY2027 reported 3 Sep 2026: revenue $116.1m beat the $102-107m guide, +58% YoY accelerating from +42%, backlog ~$1bn +72%, first adjusted-profitable quarter, FY27 guide raised to $430-441m, cash $730.8m. FCF is the problem: +$52.9m FY26 then -$2.5m in Q1 FY27, so the NGV rests on a lumpy prepayment-driven number.', weight=1.7),
+'ROL' : dict(yf='ROL',    fcf=502,    shares=475.3,  r=.075, cur='USD', deliver=5.7,  deliver_basis='REVENUE_PROXY', dl='organic revenue',  sub=None,                    pr=4.5, dil=6.0, clock='CONC', ins='SELLING',     held=False, sector='Services',      built='exact', sanity=(15,80), score_fixed=6.47),
+'LULU': dict(yf='LULU',   fcf=850,   shares=112.0,  r=.090, cur='USD', deliver=-6.0, deliver_basis='REVENUE_PROXY', dl='FY revenue guide',         sub=(1.5,7,6,9,8.5,5),         pr=None, dil=7.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Apparel',       built='exact',   sanity=(80,500), boot_note='Q2 FY2026 reported 3 Sep 2026. Revenue $2.42bn -4% and MISSED. Comps -9%, Americas comps -12%, womens leggings -20%. FY guide cut to $10.35-10.5bn and EPS to $9.48-9.73. The $2.92 EPS beat is $0.86 of TARIFF REFUND; ex-refund it missed both lines. FCF normalised to $850m excluding the one-off $134.5m refund.'),
+'PL'  : dict(yf='PL',     fcf=52.9,   shares=356.0,  r=.100, cur='USD', deliver=58.0, deliver_basis='REVENUE_PROXY', dl='revenue growth',          sub=(9.5,4,5,8.5,1.5,1),       pr=None, dil=2.5, clock='CONC', ins='SELLING',     held=True, sector='Space',         built='exact', sanity=(2,80), boot_note='Q2 FY2027 reported 3 Sep 2026: revenue $116.1m beat the $102-107m guide, +58% YoY accelerating from +42%, backlog ~$1bn +72%, first adjusted-profitable quarter, FY27 guide raised to $430-441m, cash $730.8m. FCF is the problem: +$52.9m FY26 then -$2.5m in Q1 FY27, so the NGV rests on a lumpy prepayment-driven number.', weight=1.7),
 # --- NGV N/A by judgement. reason recorded; these will never take a price. -------
-'MSFT': dict(yf='MSFT', fcf=66987.0, shares=7425.55, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,9.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(174.6,1107.44)),
-'AAPL': dict(yf='AAPL', fcf=136683.0, shares=14594.18, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(112.97,689.14)),
-'KO': dict(yf='KO', fcf=14297.0, shares=4302.55, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,7.0,5.0,6.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(32.67,184.98)),
-'CVX': dict(yf='CVX', fcf=27012.0, shares=1961.6, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,7.5), pr=None, dil=0.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Energy', built='auto', sanity=(73.25,429.42)),
-'AMAT': dict(yf='AMAT', fcf=5343.0, shares=793.6, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(77.24,1479.34)),
-'PHR': dict(yf='PHR', fcf=63.3, shares=61.77, r=0.08, cur='USD', deliver=None, dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,1.0), pr=None, dil=3.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(3.88,63.66)),
+'MSFT': dict(yf='MSFT', fcf=66987.0, shares=7425.55, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,9.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(174.6,1107.44)),
+'AAPL': dict(yf='AAPL', fcf=136683.0, shares=14594.18, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(112.97,689.14)),
+'KO': dict(yf='KO', fcf=14297.0, shares=4302.55, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,7.0,5.0,6.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(32.67,184.98)),
+'CVX': dict(yf='CVX', fcf=27012.0, shares=1961.6, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,7.5), pr=None, dil=0.5, clock='DIV', ins='NOT CHECKED', held=False, sector='Energy', built='auto', sanity=(73.25,429.42)),
+'AMAT': dict(yf='AMAT', fcf=5343.0, shares=793.6, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(77.24,1479.34)),
+'PHR': dict(yf='PHR', fcf=63.3, shares=61.77, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,1.0), pr=None, dil=3.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(3.88,63.66)),
 'RCAT': dict(yf='RCAT', fcf=None, shares=152.71, r=0.08, cur='USD', deliver=None, dl='', sub=(5.0,5.0,5.0,6.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(2.88,37.56), na='free cash flow -157.7m -- a NEGATIVE fcf was written straight into the row, which makes NGV negative'),
-'ADSK': dict(yf='ADSK', fcf=2694.0, shares=211.15, r=0.08, cur='USD', deliver=22.4, dl='revenue growth (PROXY)', sub=(8.5,7.5,9.5,8.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(92.75,658.18)),
-'GOOG': dict(yf='GOOG', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, dl='revenue growth (PROXY)', sub=(8.5,9.0,6.0,8.0,5.0,9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(103.48,808.94)),
-'GILD': dict(yf='GILD', fcf=12943.0, shares=1239.96, r=0.08, cur='USD', deliver=5.9, dl='revenue growth (PROXY)', sub=(5.5,9.0,9.5,5.0,5.0,6.0), pr=None, dil=7.0, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(54.23,314.58), boot_note='balance sheet auto-scored 1.5 (net debt/EBITDA >5x); Gilead runs nearer 1.5-2x -- reset to 5.0 until EBITDA is verified'),
+'ADSK': dict(yf='ADSK', fcf=2694.0, shares=211.15, r=0.08, cur='USD', deliver=22.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5,7.5,9.5,8.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(92.75,658.18)),
+'GOOG': dict(yf='GOOG', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5,9.0,6.0,8.0,5.0,9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(103.48,808.94)),
+'GILD': dict(yf='GILD', fcf=12943.0, shares=1239.96, r=0.08, cur='USD', deliver=5.9, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,9.0,9.5,5.0,5.0,6.0), pr=None, dil=7.0, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(54.23,314.58), boot_note='balance sheet auto-scored 1.5 (net debt/EBITDA >5x); Gilead runs nearer 1.5-2x -- reset to 5.0 until EBITDA is verified'),
 'AG'  : dict(yf='AG', fcf=180, fcf_ttm=614, shares=492.91, r=.11, cur='USD', deliver=None, dl='n/a - see note', sub=(9,8,7,9,5,7), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Materials', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='silver; the most cyclical row in the table | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
-'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, dl='revenue growth (PROXY)', sub=(4.0,4.0,1.5,7.0,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99,385.34), na='Yahoo returned FCF of -50,724m, not credible for Alibaba. Treated as a bad pull, NOT as evidence of cash burn.'),
-'BYRN': dict(yf='BYRN', fcf=None, shares=22.8, r=0.08, cur='USD', deliver=26.9, dl='revenue growth (PROXY)', sub=(8.5,2.0,1.5,6.0,5.0,1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(1.59,61.24), na='free cash flow non-positive (-0.5m)'),
+'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(4.0,4.0,1.5,7.0,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99,385.34), na='Yahoo returned FCF of -50,724m, not credible for Alibaba. Treated as a bad pull, NOT as evidence of cash burn.'),
+'BYRN': dict(yf='BYRN', fcf=None, shares=22.8, r=0.08, cur='USD', deliver=26.9, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5,2.0,1.5,6.0,5.0,1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(1.59,61.24), na='free cash flow non-positive (-0.5m)'),
 'FSLR': dict(yf='FSLR', fcf=None, shares=107.0, r=.090, cur='USD', deliver=-4.0,
-    dl='net sales YoY', sub=(4,8.5,1,7.5,7.5,1), pr=None, dil=6.5, clock='CLOCK',
+    deliver_basis='REVENUE_PROXY', dl='net sales YoY', sub=(4,8.5,1,7.5,7.5,1), pr=None, dil=6.5, clock='CLOCK',
     ins='NOT CHECKED', held=False, sector='Semis', built='exact', sanity=(60,600),
     na='H1 2026 free cash flow -$640m (OCF -$360m, capex -$280m). And the margin is policy: Section 45X credits decline after 2029.'),
-'SITE': dict(yf='SITE', fcf=250.2, shares=43.66, r=.080, cur='USD', deliver=5.2, dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,6.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=True, sector='Industrials', built='auto', sanity=(45.03,337.12), weight=2.0),
-'TSLA': dict(yf='TSLA', fcf=5755.0, shares=3949.55, r=0.08, cur='USD', deliver=6.1, dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,8.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(148.69,997.66)),
-'PG'  : dict(yf='PG', fcf=15147.0, shares=2324.43, r=0.08, cur='USD', deliver=3.3, dl='revenue growth (PROXY)', sub=(4.0,7.5,7.5,7.0,5.0,7.5), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(68.81,334.5)),
-'CSGP': dict(yf='CSGP', fcf=227.0, shares=405.2, r=0.08, cur='USD', deliver=30.0, dl='revenue growth (PROXY)', sub=(8.5,4.0,6.0,9.5,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', sanity=(12.94,183.78)),
+'SITE': dict(yf='SITE', fcf=250.2, shares=43.66, r=.080, cur='USD', deliver=5.2, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,6.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=True, sector='Industrials', built='auto', sanity=(45.03,337.12), weight=2.0),
+'TSLA': dict(yf='TSLA', fcf=5755.0, shares=3949.55, r=0.08, cur='USD', deliver=6.1, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,8.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(148.69,997.66)),
+'PG'  : dict(yf='PG', fcf=15147.0, shares=2324.43, r=0.08, cur='USD', deliver=3.3, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(4.0,7.5,7.5,7.0,5.0,7.5), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(68.81,334.5)),
+'CSGP': dict(yf='CSGP', fcf=227.0, shares=405.2, r=0.08, cur='USD', deliver=30.0, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5,4.0,6.0,9.5,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', sanity=(12.94,183.78)),
 'OXY' : dict(yf='OXY', fcf=3900, fcf_ttm=4793, shares=999.64, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(2,7.5,7,6,6,6), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='oil and gas; heavy post-CrownRock leverage | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
-'SPCX': dict(yf='SPCX', fcf=None, shares=13181.78, r=0.08, cur='USD', deliver=47.3, dl='revenue growth (PROXY)', sub=(9.5,2.0,1.5,9.5,5.0,1.0), pr=None, dil=5.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(52.42,451.28), na='Yahoo returned FCF of -32,522m on 13.2bn shares. Not credible -- a bad pull, not evidence of cash burn. Verify what this symbol actually is before trusting any of it.'),
+'SPCX': dict(yf='SPCX', fcf=None, shares=13181.78, r=0.08, cur='USD', deliver=47.3, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(9.5,2.0,1.5,9.5,5.0,1.0), pr=None, dil=5.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(52.42,451.28), na='Yahoo returned FCF of -32,522m on 13.2bn shares. Not credible -- a bad pull, not evidence of cash burn. Verify what this symbol actually is before trusting any of it.'),
 'JEQE': dict(yf='JEQE.DE', fcf=None, shares=None, r=.080, cur='EUR', deliver=None,
     dl='', sub=None, pr=None, dil=6.0, clock='CONC', ins='N/A - FUND', held=True,
     sector='Technology', built='fund', sanity=(8,60), weight=2.1,
@@ -105,12 +105,12 @@ DATA = {
     midcycle=True, sanity=(4,60),
     boot_note='mid-cycle FCF EUR1.8bn against H1-2026 annualised EUR2.6bn. Brent averaged $104 in Q2, up 53% YoY, and adjusted net income rose 135% on production up 4% q/q -- a price event, not a business event. Spanish withholding 19% on a 4.8% yield = 0.91%/yr unrecoverable, on top of ENG.'),
 'AWK' : dict(yf='AWK', fcf=None, shares=194.0, r=.070, cur='USD', deliver=7.6,
-    dl='adj. EPS guide vs FY25', sub=(6.5,6,2,4.5,5.5,6.5), pr=None, dil=3.5,
+    deliver_basis='EARNINGS_PROXY', dl='adj. EPS guide vs FY25', sub=(6.5,6,2,4.5,5.5,6.5), pr=None, dil=3.5,
     clock='DIV', ins='NOT CHECKED', held=False, sector='Utilities', built='exact',
     sanity=(40,320),
     na='regulated water utility. 2025 operating cash flow $2.06bn against $3.13bn capex, so free cash flow is negative and stays negative BY PLAN: $19-20bn of investment 2026-2030. NGV cannot be built from a cash line the business is designed not to produce. Value here is rate base times allowed return, which this framework does not compute. Same structural problem as ENG.'),
 'MRVL': dict(yf='MRVL', fcf=2100, shares=921.0, r=.100, cur='USD', deliver=37.0,
-    dl='revenue growth', sub=(9.5,5.5,7.5,6.5,1.5,2), pr=None, dil=3.0, clock='CONC',
+    deliver_basis='REVENUE_PROXY', dl='revenue growth', sub=(9.5,5.5,7.5,6.5,1.5,2), pr=None, dil=3.0, clock='CONC',
     ins='NOT CHECKED', held=False, sector='Semis', built='est', sanity=(40,500),
     boot_note='Q2 FY2027 reported 27 Aug 2026. Revenue $2.739bn +37%, Data Center +46% and 79% of the mix, guidance raised twice for FY27 AND FY28. GAAP net income $308m vs non-GAAP $866m -- a $558m gap, mostly stock comp and amortisation. Google warrant for up to 7% of shares is the dilution risk. $120bn Google deal produces material revenue only from FY2029.'),
 'AR'  : dict(yf='AR', fcf=520, fcf_ttm=340, shares=310.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=True, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='mid-cycle FCF across four reported years; natural gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction', weight=2.5),
@@ -161,7 +161,7 @@ DATA = {
               'score_fixed 6.35 retained, category review pending.'),
 'CMCSA':dict(yf='CMCSA',  fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=9.5, dil=6.0, clock='CLOCK',ins='SELLING', held=False, sector='Media',      built='back-solved', score_fixed=6.25),
 'NVO' : dict(yf='NVO',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Pharma',     built='back-solved', score_fixed=6.15),
-'ENG' : dict(yf='ENG.MC', fcf=None, shares=None, r=.075, cur='EUR', deliver=-8.6,dl='recurring net profit', sub=None, pr=8.0, dil=6.0, clock='CLOCK', ins='BUYING', held=True, sector='Utilities', built='back-solved', sanity=(5,40), score_fixed=6.0, na='regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB', weight=2.8),
+'ENG' : dict(yf='ENG.MC', fcf=None, shares=None, r=.075, cur='EUR', deliver=-8.6,deliver_basis='EARNINGS_PROXY', dl='recurring net profit', sub=None, pr=8.0, dil=6.0, clock='CLOCK', ins='BUYING', held=True, sector='Utilities', built='back-solved', sanity=(5,40), score_fixed=6.0, na='regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB', weight=2.8),
 'META': dict(yf='META',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=3.0, dil=8.0, clock='CONC', ins='SELLING', held=False, sector='AdTech',     built='back-solved', score_fixed=5.83),
 'DIS' : dict(yf='DIS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.0, dil=9.0, clock='DIV',  ins='AWARDS',  held=False, sector='Media',      built='back-solved', score_fixed=5.62),
 'PEP' : dict(yf='PEP',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.0, dil=7.0, clock='DIV',  ins='SELLING', held=False, sector='Staples',    built='back-solved', score_fixed=5.5),
@@ -174,7 +174,11 @@ DATA = {
 'NKE' : dict(yf='NKE',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=7.0, clock='DIV',  ins='BUYING',  held=False, sector='Apparel',    built='exact', score_fixed=4.6),
 'ZTS' : dict(yf='ZTS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=6.0, clock='CLOCK',ins='BUYING',  held=False, sector='Animal Health', built='exact', score_fixed=4.55),
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
-'NFLX': dict(yf='NFLX', fcf=11152.0, shares=4163.94, r=0.08, cur='USD', deliver=24.0, dl='revenue growth (PROXY)', sub=(8.5, 7.5, 9.0, 8.0, 5.0, 6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(32.54, 249.72)),
+'NFLX': dict(yf='NFLX', fcf=11152.0, shares=4163.94, r=0.08, cur='USD', deliver=24.0, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5, 7.5, 9.0, 8.0, 5.0, 6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(32.54, 249.72),
+    normalization_status='REVIEW_REQUIRED', financial_unit='USD million',
+    boot_note='Automated Yahoo draft: FCF 11,152m, shares 4,163.94m and subscores retained without '
+              'a verified primary-source bridge, financial period, publication date or share-count date. '
+              'The 24% revenue proxy is not cash-flow growth. Valuation remains UNVERIFIED.'),
 }
 
 # ---------------- engine ----------------
@@ -208,13 +212,12 @@ def implied_growth(d):
     return None if c is None else r*(1-c)/(1+c*r)
 
 def cushion(d):
-    """[FIX] A mid-cycle producer row carries deliver = PRODUCTION growth, which
-       is a VOLUME rate. implied_growth is a CASH FLOW rate. A gas producer can
-       grow volume 3% while cash flow doubles on price, so subtracting one from
-       the other is a category error -- it was manufacturing negative cushions
-       for AR, DVN, OXY and CNX out of nothing. NGV and cover are unaffected and
-       stay; only the comparison is withdrawn."""
-    if d.get('midcycle'): return None
+    """Compare cash-flow growth only; untyped and proxy metrics stay descriptive.
+
+    A revenue, bookings, earnings or production growth rate cannot be subtracted
+    from reverse-DCF cash-flow growth. Retain the mid-cycle producer exclusion.
+    """
+    if not EVIDENCE.growth_contract(d)['comparable']: return None
     g, dv = implied_growth(d), d.get('deliver')
     return None if (g is None or dv is None) else dv - 100*g
 
@@ -1047,8 +1050,9 @@ def observation(macro, bundle, captured_at=None):
     regime = macro.get('regime') if macro.get('ok') else None
     rec['_portfolio_proposal'] = (portfolio_proposal(regime)
                                   if regime in REGIMES else None)
-    rec['_models'] = dict(engine='v15.3-evidence', regime=REGIME_MODEL_VERSION,
+    rec['_models'] = dict(engine='v15.4-growth-basis', regime=REGIME_MODEL_VERSION,
                           regime_spec_sha256=regime_spec_sha256(),
+                          growth='explicit-cash-flow-growth-v1',
                           ngv='fcf-per-share-capitalised', epv='greenwald-template-lens-v1')
     return EVIDENCE.create_record(DATA, rec, macro, rec['_models'], bundle['sha256'], captured_at)
 
@@ -1287,6 +1291,36 @@ def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdict
 # ---------------- render ----------------
 def fmt(x, spec, dash='&mdash;'):  return dash if x is None else format(x, spec)
 
+
+def growth_comparison_badge(d):
+    """Explain a withdrawn comparison beside the absent cushion."""
+    contract = EVIDENCE.growth_contract(d)
+    if contract['status'] != 'NOT_COMPARABLE':
+        return ''
+    detail = (f'{d["deliver"]:+.1f}% {d.get("dl") or "untyped growth"}; '
+              f'basis: {contract["basis"]}. {contract["note"]}')
+    return ('<br><span class="pill x-appr" title="' + escape(detail, quote=True)
+            + '">GROWTH NOT COMPARABLE</span>')
+
+
+def valuation_review_badge(d):
+    """Expose the existing valuation contract beside the action, without scoring it."""
+    if ngv(d) is None:
+        return ''
+    contract = EVIDENCE.valuation_contract(d)
+    if contract['status'] == 'DECLARED':
+        return ''
+    names = {'financial_period': 'financial period',
+             'financial_published_at': 'publication date',
+             'cur': 'currency', 'shares': 'share count'}
+    missing = ', '.join(names[k] for k in contract['missing']) or 'none'
+    detail = (f'Cash-flow basis: {contract["cash_flow_basis"]}; '
+              f'discount-rate basis: {contract["discount_rate_basis"]}; '
+              f'missing: {missing}. {contract["note"]}')
+    return ('<br><span class="pill x-appr" title="' + escape(detail, quote=True)
+            + '">VALUATION ' + contract['status'] + '</span>')
+
+
 def cls(x, good, bad, invert=False):
     if x is None: return 'pr na'
     if invert: return 'pr pos' if x <= good else ('pr neg' if x >= bad else 'pr mid')
@@ -1406,8 +1440,9 @@ function addTicker(){
     'Auto-add ' + t + '.', '',
     'Do not edit the title -- the workflow reads the ticker from it.', '',
     'It fetches price, shares and TTM free cash flow from Yahoo, drafts the',
-    'mechanical fields, commits and redeploys. Two fields still need a human:',
-    '  deliver : the company own leading metric (revenue growth fills as a proxy)',
+    'mechanical fields and opens a tested draft PR for review.',
+    '  deliver : revenue/operating proxies stay descriptive; a cushion requires',
+    '            sourced cash-flow growth and deliver_basis=CASH_FLOW',
     '  clock   : CLOCK / CONC / DIV', '',
     'Negative free cash flow is written as na= with no NGV, by design.'
   ].join('\\n');
@@ -1659,9 +1694,9 @@ def build_html(macro=None, write=True, monitoring=None):
           + f'<td class="sc">{fmt(s,".2f")}</td>'
           + f'<td><span class="pill {bc}">{bn}</span></td>'
           + f'<td class="{cls(rk,2.4,3.3,invert=True)}">{fmt(rk,".1f")}</td>'
-          + f'<td><span class="pill {vc}">{vn}</span></td>'
+          + f'<td><span class="pill {vc}">{vn}</span>{valuation_review_badge(d)}</td>'
           + f'<td class="{cls(None if c is None else c*100,60,35)}">{fmt(None if c is None else c*100,".0f")}%</td>'
-          + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}</td>'
+          + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}{growth_comparison_badge(d)}</td>'
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
           + f'<td><span class="pill {CLOCK_CSS.get(d.get("clock"),"s-conc")}">{d.get("clock","")}</span></td>'
           + f'<td class="in">{d.get("ins","")}</td>'
@@ -1922,7 +1957,8 @@ def build_html(macro=None, write=True, monitoring=None):
     adder = ('<div class="box"><h2>Add a ticker</h2>'
              '<div class="lede" style="margin-bottom:10px">Yahoo can supply the mechanical half &mdash; price, shares, '
              'cash flow, currency. It cannot supply subscores, the delivering metric or the clock classification. '
-             'This opens a pre-filled GitHub issue; the workflow does the rest and comments back with the result.</div>'
+             'This opens a pre-filled GitHub issue; the workflow returns a tested draft PR for review. '
+             'The ticker enters the report after that PR is reviewed and merged.</div>'
              '<input id="newTicker" placeholder="e.g. ASML.AS" style="width:220px">&nbsp;'
              '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
@@ -1939,7 +1975,9 @@ def build_html(macro=None, write=True, monitoring=None):
 
     foot = (f'<div class="foot">Snapshot written to history/. NGV capitalises the row FCF; EPV normalises operating earning power and subtracts net debt. '
             f'Neither valuation gap nor EPV confidence changes Score or Regime Fit. Regime model {REGIME_MODEL_VERSION}. '
-            f'Negative cushion forces DO NOT ADD at every band. Last pull {stamp}.<br>Not financial advice</div>')
+            f'Cushion requires declared cash-flow growth; revenue and operating proxies are not comparable. '
+            f'A cash-flow cushion below -0.5pp adds a penalty and a caution verdict. '
+            f'Last pull {stamp}.<br>Not financial advice</div>')
     import base64
     ziel_payload = base64.b64encode((port_box + chart_box).encode('utf-8')).decode('ascii')
     js_z = ZIEL_JS.replace('__ZIELPAYLOAD__', ziel_payload)
