@@ -82,7 +82,8 @@ class ASMLInputs(unittest.TestCase):
              patch.object(engine, 'forward_run', return_value={'ok': False, 'note': 'offline'}):
             html = engine.build_html(macro={'ok': False}, write=False)
         self.assertIn('NORMALIZATION REVIEW', html)
-        self.assertIn('GROWTH NOT COMPARABLE', html)
+        self.assertIn('Revenue +36.2%', html)
+        self.assertIn('No comparable cash-flow forecast', html)
         self.assertIn('intangible', html)
         self.assertIn('undated', html)
 

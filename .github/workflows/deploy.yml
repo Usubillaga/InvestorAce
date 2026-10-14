@@ -17,6 +17,7 @@ on:
       - '*.py'
       - 'regime_contract.json'
       - 'monitoring_status.json'
+      - 'source_reviews.json'
       - 'requirements*.txt'
       - 'tests/**'
       - '.github/workflows/*.yml'

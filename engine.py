@@ -15,6 +15,7 @@ from pathlib import Path
 from html import escape
 from urllib.parse import urlsplit
 import evidence as EVIDENCE
+import source_review as SOURCE_REVIEW
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
                        numeric_input_faults, risk_free_faults, clamp_saturation_faults)
 from framework_view import framework_panel
@@ -84,22 +85,221 @@ DATA = {
     ins='NOT CHECKED', held=False, sector='Industrials', built='est',
     sanity=(25,250)),
 'CRM' : dict(yf='CRM',    fcf=12700,  shares=950.0,  r=.080, cur='USD', deliver=14.0, deliver_basis='OPERATING_PROXY', dl='cRPO cc',          sub=(7,8,8,7.5,7.5,7),       pr=8.0, dil=9.0, clock='CONC', ins='AWARDS',      held=False, sector='Software',      built='exact', sanity=(120,450)),
-'NVDA': dict(yf='NVDA',   fcf=126900, shares=24285., r=.100, cur='USD', deliver=106.0,deliver_basis='REVENUE_PROXY', dl='revenue',          sub=(10,10,8,9,6,6),         pr=2.5, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Semis',         built='exact', sanity=(80,400), risk_floor=3.4),
+'NVDA': dict(yf='NVDA',   fcf=126886, shares=24147, r=.100, cur='USD', deliver=106.0,deliver_basis='REVENUE_PROXY', dl='revenue',          sub=(10,10,8,9,6,6),         pr=2.5, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Semis',         built='exact', sanity=(80,400), risk_floor=3.4,
+    fcf_ttm=126886,
+    financial_period='2025-07-28/2026-07-26',
+    financial_published_at='2026-08-26',
+    financial_unit='USD million',
+    cash_flow_basis='ISSUER_FCF_OCF_MINUS_CAPEX_AND_PRINCIPAL',
+    fcf_reconciliation={'fy2026': {'ocf': 102718, 'capex': 6042, 'principal': 101, 'fcf': 96575},
+     'ytd2026_6m': {'ocf': 42779, 'capex': 3122, 'principal': 73, 'fcf': 39584},
+     'ytd2027_6m': {'ocf': 74421, 'capex': 4434, 'principal': 92, 'fcf': 69895}},
+    shares_source_precision='MILLION_ROUNDED',
+    shares_asof='2026-07-26',
+    shares_basis='ISSUED_AND_OUTSTANDING',
+    shares_source_url='https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm',
+    normalization_status='REVIEW_REQUIRED',
+    financial_sources=[{'url': 'https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm',
+      'title': 'FY2026 Form 10-K',
+      'published_at': '2026-02-25',
+      'period': 'FY ended2026-01-25'},
+     {'url': 'https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm',
+      'title': 'Q2 FY2027 Form 10-Q',
+      'published_at': '2026-08-26',
+      'period': 'H1 ended2026-07-26 and2025-07-27'},
+     {'url': 'https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Second-Quarter-Fiscal-2027/',
+      'title': 'Q2 FY2027 earnings release and FCF definition',
+      'published_at': '2026-08-26',
+      'period': 'Q2 andH1 FY2027'}],
+    boot_note=('2026-10-14 source review: issuer-defined TTM FCF USD126,886m = FY2026 96,575 minus prior6M39,584 '
+     'plus current6M69,895. Definition deducts capex and related principal payments. Shares24,147m are '
+     'outstanding at2026-07-26, not Q2 diluted weighted-average24,285m. No normalized FCFE/FCFF or '
+     'matching-rate certification is claimed.'),
+),
 'SPGI': dict(yf='SPGI',   fcf=5200,   shares=293.3,  r=.075, cur='USD', deliver=7.0,  deliver_basis='OPERATING_PROXY', dl='organic cc',       sub=(8,9.5,9,6.5,4.5,9),     pr=6.0, dil=9.0, clock='CONC', ins='BUYING&middot;LILA', held=True, sector='Info Svcs',     built='exact', sanity=(200,700), weight=1.4),
-'SAN' : dict(yf='SAN.PA', fcf=6900,   shares=1215.0, r=.080, cur='EUR', deliver=10.0, deliver_basis='REVENUE_PROXY', dl='sales cc',         sub=(8,7,7,7,8,8),           pr=9.0, dil=8.0, clock='CLOCK',ins='AWARDS',      held=True,  sector='Pharma',        built='exact', sanity=(50,140), weight=5.7),
+'SAN' : dict(yf='SAN.PA', fcf=6900,   shares=1215.0, r=.080, cur='EUR', deliver=10.0, deliver_basis='REVENUE_PROXY', dl='sales cc',         sub=(8,7,7,7,8,8),           pr=9.0, dil=8.0, clock='CLOCK',ins='AWARDS',      held=True,  sector='Pharma',        built='exact', sanity=(50,140), weight=5.7,
+    normalization_status='REVIEW_REQUIRED',
+    reported_cash_flow={'basis': 'ISSUER_NON_IFRS_ADJUSTED_FCF',
+     'unit': 'EUR million',
+     'period': 'H1 to 2026-06-30',
+     'fcf': 3724,
+     'ocf_per_statements': 4643,
+     'ppe_and_software_acquisitions': 967,
+     'broader_ppe_and_intangible_acquisitions_in_cash_flow_statement': 1296,
+     'source_bridge_warning': 'Printed FCF table transposes current/prior OCF; total ties using '
+                              'statement OCF 4,643, not printed bridge 3,555.'},
+    reported_share_observation={'period': 'H1 to 2026-06-30',
+     'basic_weighted_average_m': 1200.4,
+     'diluted_weighted_average_m': 1205.5},
+    reported_net_debt_observation={'date': '2026-06-30',
+     'unit': 'EUR million',
+     'net_debt_excluding_leases': 15513,
+     'lease_liabilities_excluded': 1904},
+    boot_note=('2026-10-14 source review: EUR6,900m remains an undated sustainable assumption. H1 issuer '
+     'adjusted FCF EUR3,724m differs from OCF-minus-total-capex; normalization, shares and debt '
+     'definitions need reconciliation. Dated primary observations and the source-table inconsistency '
+     'are in the source review.'),
+),
 'APP' : dict(yf='APP',    fcf=4000,   shares=335.29, r=.100, cur='USD', deliver=53.0, deliver_basis='REVENUE_PROXY', dl='revenue',          sub=(9,9.5,8,8.5,3.5,7.5),   pr=5.0, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Ad Tech',       built='exact', sanity=(100,700)),
 'ABT' : dict(yf='ABT',    fcf=7824,   shares=1746.0, r=.075, cur='USD', deliver=7.0,  deliver_basis='REVENUE_PROXY', dl='comparable sales', sub=(7,7.5,7,7.5,7.5,8.5),   pr=7.5, dil=7.0, clock='DIV',  ins='MIXED',       held=True,  sector='MedTech',       built='exact', sanity=(50,200), weight=1.8),
-'WKL' : dict(yf='WKL.AS', fcf=1250,   shares=232.52, r=.080, cur='EUR', deliver=5.0,  deliver_basis='REVENUE_PROXY', dl='organic revenue',  sub=(6,9,8,6,5,7),           pr=8.5, dil=7.5, clock='DIV',  ins='MIXED',       held=True,  sector='Info Svcs',     built='exact', sanity=(30,150), weight=23.2),
-'LVMH': dict(yf='MC.PA',  fcf=13100,  shares=500.0,  r=.080, cur='EUR', deliver=2.0,  deliver_basis='REVENUE_PROXY', dl='organic revenue',  sub=(5,8,8,7.5,7.5,6.5),                    pr=None, dil=6.5, clock='CONC', ins='BUYING&middot;LILA', held=True,  sector='Luxury',        built='exact', sanity=(300,900), weight=27.4, boot_note='rebuilt 2026-09-03 from H1: organic +2% (Q2 +3%), jewellery +11%, op margin 22.5%, recurring op profit EUR8.69bn -4%, FCF EUR13.1bn. Named risk not scored: France extending the corporate surcharge takes the FY27 effective tax rate to ~33% (Bernstein cut FY27 EPS 6.1%).'),
+'WKL' : dict(yf='WKL.AS', fcf=1250,   shares=222.439643, r=.080, cur='EUR', deliver=5.0,  deliver_basis='REVENUE_PROXY', dl='organic revenue',  sub=(6,9,8,6,5,7),           pr=8.5, dil=7.5, clock='DIV',  ins='MIXED',       held=True,  sector='Info Svcs',     built='exact', sanity=(30,150), weight=23.2,
+    normalization_status='REVIEW_REQUIRED',
+    reported_cash_flow={'basis': 'ISSUER_ADJUSTED_FCF_AFTER_LEASE_PRINCIPAL',
+     'period': 'H1 to 2026-06-30',
+     'unit': 'EUR million',
+     'ocf': 694,
+     'net_capex': 143,
+     'lease_principal': 28,
+     'addbacks_acquisition_and_divestment_costs': 10,
+     'adjusted_fcf': 533,
+     'fy2025_adjusted_fcf': 1348,
+     'fy2026_guidance_constant_currency': [1300, 1350]},
+    share_count_reconciliation={'date': '2026-09-18',
+     'unit': 'shares',
+     'old_issued': 232516153,
+     'treasury_shares_cancelled': 7800000,
+     'issued_after_cancellation': 224716153,
+     'treasury_after_cancellation': 2276510,
+     'outstanding_ex_treasury_derived': 222439643,
+     'current_diluted_as_of_review': None,
+     'limitation': 'Later Sep17–23 release reports2534 total weekly repurchases, overlapping '
+                   'cancellation date. Cannot add all2534 to Sep18 treasury without trade-by-trade '
+                   'timing. Later weekly listing returned dynamic placeholders; October count not '
+                   'verified.'},
+    reported_net_debt_observation={'date': '2026-06-30',
+     'unit': 'EUR million',
+     'gross_debt': 5548,
+     'net_debt': 4024,
+     'includes_leases': True},
+    shares_asof='2026-09-18',
+    shares_basis='OUTSTANDING_EX_TREASURY_DERIVED',
+    shares_source_url='https://www.wolterskluwer.com/en/news/wolters-kluwer-completes-capital-reduction-2026',
+    boot_note=('2026-10-14 source review: EUR1,250m remains an undated sustainable adjusted-FCF assumption. H1 '
+     'issuer adjusted FCF EUR533m deducts lease principal and adds acquisition/divestment costs. '
+     'Dated2026-09-18 denominator222.439643m =224.716153m issued less2.276510m treasury; later '
+     'buybacks/issuance and dilution are not reconciled. This is a dated outstanding count, not an '
+     'exactOct14 diluted count.'),
+),
+'LVMH': dict(yf='MC.PA',  fcf=13100,  shares=500.0,  r=.080, cur='EUR', deliver=2.0,  deliver_basis='REVENUE_PROXY', dl='organic revenue',  sub=(5,8,8,7.5,7.5,6.5),                    pr=None, dil=6.5, clock='CONC', ins='BUYING&middot;LILA', held=True,  sector='Luxury',        built='exact', sanity=(300,900), weight=27.4, boot_note='2026-10-14 source review: H1 2026 operating free cash flow was EUR4,100m (H1 2025 EUR4,032m), not EUR13.1bn. FY2025 EUR11,333m implies reported TTM to June30,2026 EUR11,401m. Model EUR13,100m remains an unverified sustainable estimate. H1 organic revenue+2%, Q2+3%, recurring operating profit EUR8,691m and22.5% margin. Latest9M organic revenue+2%, Q3+1%, releasedOct12. Insider evidence must be dated and checked separately.',
+    normalization_status='REVIEW_REQUIRED',
+    reported_cash_flow={'basis': 'OCF_MINUS_NET_OPERATING_INVESTMENT_AND_LEASE_PRINCIPAL',
+     'unit': 'EUR million',
+     'fy2025_ocf': 18874,
+     'fy2025_net_operating_investment': 4567,
+     'fy2025_lease_principal': 2974,
+     'fy2025_operating_fcf': 11333,
+     'h1_2025_operating_fcf': 4032,
+     'h1_2026_operating_fcf': 4100,
+     'ttm_to_2026_06_30': 11401},
+    share_count_observation={'date': '2026-09-30',
+     'issued_shares': 494606080,
+     'treasury_shares': None,
+     'current_diluted_shares': None},
+    reported_net_debt_observation={'date': '2026-06-30', 'unit': 'EUR million', 'net_financial_debt_excluding_leases': 8245},
+    deliver_period='9M2026 organic revenue vs9M2025',
+),
 'UBER': dict(yf='UBER',   fcf=10000,  shares=2100.0, r=.080, cur='USD', deliver=24.0, deliver_basis='OPERATING_PROXY', dl='gross bookings',   sub=(6,7,8,6,8,6),           pr=7.5, dil=9.0, clock='DIV',  ins='AWARDS',      held=True,  sector='Platform',      built='exact', sanity=(40,150), weight=3.8),
 'AVGO': dict(yf='AVGO',   fcf=35000,  shares=4757.0, r=.100, cur='USD', deliver=48.0, deliver_basis='REVENUE_PROXY', dl='revenue',          sub=(9.5,9.5,9.5,7.5,2.5,7), pr=2.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Semis',         built='exact', sanity=(100,1000)),
 'ONON': dict(yf='ONON',   fcf=437,    shares=416.0,  r=.090, cur='USD', deliver=21.6, deliver_basis='REVENUE_PROXY', dl='revenue cc',       sub=(8.5,8.5,7,9,3.5,1.5),   pr=6.0, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True, sector='Apparel',       built='est',   sanity=(10,120), weight=4.5),
 'VICI': dict(yf='VICI',   fcf=2480,   shares=1000.0, r=.075, cur='USD', deliver=3.3,  deliver_basis='OPERATING_PROXY', dl='AFFO/share',       sub=None,                    pr=8.0, dil=3.5, clock='CONC', ins='AWARDS',      held=True,  sector='REIT',          built='back-solved', sanity=(15,60), score_fixed=6.8, weight=1.9),
-'ENB' : dict(yf='ENB.TO', fcf=12900,  shares=2184.0, r=.075, cur='CAD', deliver=5.0,  deliver_basis='CASH_FLOW', dl='DCF/share CAGR',   sub=(5,6,5,3.5,6,8.5),       pr=8.5, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True,  sector='Midstream',     built='exact', sanity=(30,120), weight=4.1),
-'PFE' : dict(yf='PFE',    fcf=9480,   shares=5700.0, r=.080, cur='USD', deliver=-1.8, deliver_basis='UNSPECIFIED', dl='FY guide vs FY25', sub=(4,6.5,5.5,4,8.5,7),     pr=6.5, dil=5.5, clock='CLOCK',ins='BUYING',      held=False,  sector='Pharma',        built='exact', sanity=(10,60)),
+'ENB' : dict(yf='ENB.TO', fcf=12900,  shares=2184.0, r=.075, cur='CAD', deliver=5.0,  deliver_basis='CASH_FLOW', dl='DCF/share CAGR',   sub=(5,6,5,3.5,6,8.5),       pr=8.5, dil=6.0, clock='CONC', ins='NOT CHECKED', held=True,  sector='Midstream',     built='exact', sanity=(30,120), weight=4.1,
+    normalization_status='REVIEW_REQUIRED',
+    cash_flow_basis='ISSUER_DISTRIBUTABLE_CASH_FLOW_TO_COMMON_EQUITY',
+    reported_cash_flow={'currency': 'CAD',
+     'unit': 'million',
+     'period': 'H1 to 2026-06-30',
+     'ocf': 6453,
+     'capital_expenditures': 5414,
+     'intangible_additions': 135,
+     'ocf_minus_capex_and_intangibles_derived': 904,
+     'distributable_cash_flow': 6799,
+     'maintenance_capital': 445},
+    guidance_reconciliation={'period': 'FY2026',
+     'dcf_per_share_low_CAD': 5.7,
+     'dcf_per_share_high_CAD': 6.1,
+     'dcf_per_share_midpoint_CAD': 5.9,
+     'model_fcf_per_share_CAD': 5.906593406593407,
+     'midpoint_times_Q2_basic_shares_CAD_m': 12885.6,
+     'evidence_label': 'derived_calculation_not_reported_total_cashflow'},
+    share_count_reconciliation={'unit': 'million shares',
+     'date': '2026-06-30',
+     'reported_point_in_time_rounded': 2184,
+     'q2_basic_weighted_average': 2184,
+     'q2_diluted_weighted_average': 2190,
+     'september14_new_common_shares': 44.735,
+     'rounded_June_base_plus_new_issue_derived': 2228.735,
+     'current_diluted_shares': None,
+     'limitation': '2,228.735m is a mechanical bridge from roundedJune shares, not an exactOct14 '
+                   'count. Add subsequent options/RSU issuance and dilution.'},
+    reported_net_debt_components={'date': '2026-06-30',
+     'unit': 'CAD million',
+     'short_term_borrowings': 1569,
+     'current_long_term_debt': 6711,
+     'long_term_debt': 103852,
+     'cash_and_equivalents': 2012,
+     'simple_debt_less_cash_derived': 110120,
+     'preferred_share_capital': 6818,
+     'noncontrolling_interests': 2760,
+     'redeemable_noncontrolling_interest': 736,
+     'limitation': 'Simple110,120m debt-less-cash is not a completed EV/equity bridge; '
+                   'financelease/operatinglease, hybrid, pension, restrictedcash and otherclaims '
+                   'policy must align. Sep equity proceeds and acquisitions need proforma bridge.'},
+    boot_note=('2026-10-14 source review: CAD12,900m is a DCF-based underwriting assumption, not reported '
+     'OCF-minus-total-capex. Guidance midpoint CAD5.90/share times the old2,184m base gives '
+     'CAD12,885.6m. Sep14 issuance added44.735m common shares; current post-offering share, '
+     'acquisition and net-debt bridge remains open. This levered common-equity DCF must not be labeled '
+     'FCFF.'),
+),
+'PFE' : dict(yf='PFE',    fcf=10985,   shares=5699.673589, r=.080, cur='USD', deliver=-1.8, deliver_basis='UNSPECIFIED', dl='FY guide vs FY25', sub=(4,6.5,5.5,4,8.5,7),     pr=6.5, dil=5.5, clock='CLOCK',ins='BUYING',      held=False,  sector='Pharma',        built='exact', sanity=(10,60),
+    fcf_ttm=10985,
+    financial_period='2025-06-30/2026-06-28',
+    financial_published_at='2026-08-04',
+    financial_unit='USD million',
+    cash_flow_basis='OCF_MINUS_CAPEX',
+    fcf_reconciliation={'fy2025': {'ocf': 11704, 'capex': 2629},
+     'ytd2025_6m': {'ocf': 1753, 'capex': 1182},
+     'ytd2026_6m': {'ocf': 3450, 'capex': 969}},
+    shares_asof='2026-07-29',
+    shares_basis='ISSUED_AND_OUTSTANDING',
+    shares_source_url='https://www.sec.gov/Archives/edgar/data/78003/000007800326000095/pfe-20260628.htm',
+    normalization_status='REVIEW_REQUIRED',
+    financial_sources=[{'url': 'https://www.sec.gov/Archives/edgar/data/78003/000007800326000026/pfe-20251231.htm',
+      'title': 'FY2025 Form 10-K',
+      'published_at': '2026-02-26',
+      'period': 'FY2025'},
+     {'url': 'https://www.sec.gov/Archives/edgar/data/78003/000007800326000095/pfe-20260628.htm',
+      'title': 'Q2 2026 Form 10-Q',
+      'published_at': '2026-08-04',
+      'period': 'H1 ended2026-06-28 and2025-06-29; shares2026-07-29'}],
+    boot_note=('2026-10-14 source review: reported TTM OCF-minus-PPE USD10,985m = FY2025 9,075 minus H1 2025 571 '
+     'plus H1 2026 2,481. This replaces the undated USD9,480m draft with a reported proxy, not '
+     'normalized cash flow. Shares5,699.673589m outstanding2026-07-29. Sustainable normalization and '
+     'the cash-flow/rate contract need review.'),
+),
 # [FIX 5] NGV inputs restored -- these were computed and then dropped back to None
 'ROL' : dict(yf='ROL',    fcf=502,    shares=475.3,  r=.075, cur='USD', deliver=5.7,  deliver_basis='REVENUE_PROXY', dl='organic revenue',  sub=None,                    pr=4.5, dil=6.0, clock='CONC', ins='SELLING',     held=False, sector='Services',      built='exact', sanity=(15,80), score_fixed=6.47),
-'LULU': dict(yf='LULU',   fcf=850,   shares=112.0,  r=.090, cur='USD', deliver=-6.0, deliver_basis='REVENUE_PROXY', dl='FY revenue guide',         sub=(1.5,7,6,9,8.5,5),         pr=None, dil=7.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Apparel',       built='exact',   sanity=(80,500), boot_note='Q2 FY2026 reported 3 Sep 2026. Revenue $2.42bn -4% and MISSED. Comps -9%, Americas comps -12%, womens leggings -20%. FY guide cut to $10.35-10.5bn and EPS to $9.48-9.73. The $2.92 EPS beat is $0.86 of TARIFF REFUND; ex-refund it missed both lines. FCF normalised to $850m excluding the one-off $134.5m refund.'),
+'LULU': dict(yf='LULU',   fcf=850,   shares=110.710025,  r=.090, cur='USD', deliver=-6.0, deliver_basis='REVENUE_PROXY', dl='FY revenue guide',         sub=(1.5,7,6,9,8.5,5),         pr=None, dil=7.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Apparel',       built='exact',   sanity=(80,500), boot_note='2026-10-14 source review: USD850m remains a selected sustainable assumption without a completed normalization bridge. Reported TTM OCF-minus-PPE is USD1,354.336m; H1 includes USD134.5m tariff refund plus USD4.1m interest. Do not subtract pre-tax receipts mechanically without cash-tax reconciliation. Shares110.710025m at2026-08-28 include common plus exchangeable shares; special voting shares are not counted again.',
+    shares_asof='2026-08-28',
+    shares_basis='COMMON_PLUS_EXCHANGEABLE_OUTSTANDING',
+    shares_source_url='https://www.sec.gov/Archives/edgar/data/1397187/000139718726000127/lulu-20260802.htm',
+    reported_fcf_ttm=1354.336,
+    reported_fcf_period='2025-08-04/2026-08-02',
+    reported_fcf_published_at='2026-09-03',
+    reported_fcf_basis='OCF_MINUS_CAPEX',
+    reported_fcf_reconciliation={'fy2025': {'ocf': 1602.477, 'capex': 680.802},
+     'ytd2025_6m': {'ocf': 209.722, 'capex': 330.161},
+     'ytd2026_6m': {'ocf': 589.278, 'capex': 277.056}},
+    cash_flow_basis='SELECTED_NORMALIZED_ASSUMPTION',
+    normalization_status='REVIEW_REQUIRED',
+    financial_sources=[{'url': 'https://www.sec.gov/Archives/edgar/data/1397187/000139718726000020/lulu-20260201.htm',
+      'title': 'FY2025 Form 10-K',
+      'published_at': '2026-03-17',
+      'period': 'FY ended2026-02-01'},
+     {'url': 'https://www.sec.gov/Archives/edgar/data/1397187/000139718726000127/lulu-20260802.htm',
+      'title': 'Q2 FY2026 Form 10-Q',
+      'published_at': '2026-09-03',
+      'period': 'H1 ended2026-08-02 and2025-08-03; shares2026-08-28'}],
+),
 'PL'  : dict(yf='PL',     fcf=52.9,   shares=356.0,  r=.100, cur='USD', deliver=58.0, deliver_basis='REVENUE_PROXY', dl='revenue growth',          sub=(9.5,4,5,8.5,1.5,1),       pr=None, dil=2.5, clock='CONC', ins='SELLING',     held=True, sector='Space',         built='exact', sanity=(2,80), boot_note='Q2 FY2027 reported 3 Sep 2026: revenue $116.1m beat the $102-107m guide, +58% YoY accelerating from +42%, backlog ~$1bn +72%, first adjusted-profitable quarter, FY27 guide raised to $430-441m, cash $730.8m. FCF is the problem: +$52.9m FY26 then -$2.5m in Q1 FY27, so the NGV rests on a lumpy prepayment-driven number.', weight=1.7),
 # --- NGV N/A by judgement. reason recorded; these will never take a price. -------
 'MSFT': dict(yf='MSFT', fcf=66987.0, shares=7425.55, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,9.0), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(174.6,1107.44)),
@@ -208,9 +408,26 @@ DATA = {
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
 'NFLX': dict(yf='NFLX', fcf=11152.0, shares=4163.94, r=0.08, cur='USD', deliver=24.0, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5, 7.5, 9.0, 8.0, 5.0, 6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(32.54, 249.72),
     normalization_status='REVIEW_REQUIRED', financial_unit='USD million',
-    boot_note='Automated Yahoo draft: FCF 11,152m, shares 4,163.94m and subscores retained without '
-              'a verified primary-source bridge, financial period, publication date or share-count date. '
-              'The 24% revenue proxy is not cash-flow growth. Valuation remains UNVERIFIED.'),
+    boot_note='2026-10-14 source review: USD11,152m is rounded reported TTM OCF minus PPE to2026-06-30, not normalized FCF. It includes a USD2,800m WBD termination receipt; H1 also includes USD729m non-routine Brazil non-income-tax payments. Cash-tax and sustainable normalization remain unresolved. 4,163.94m shares rounds the June30 outstanding count. Revenue24% is not a cash-flow forecast.',
+    financial_period='2025-07-01/2026-06-30',
+    financial_published_at='2026-07-17',
+    cash_flow_basis='OCF_MINUS_CAPEX',
+    fcf_ttm=11152.005,
+    fcf_reconciliation={'fy2025': {'ocf': 10149.273, 'capex': 688.22},
+     'ytd2025_6m': {'ocf': 5212.457, 'capex': 284.166},
+     'ytd2026_6m': {'ocf': 7034.017, 'capex': 414.774}},
+    shares_asof='2026-06-30',
+    shares_basis='ISSUED_AND_OUTSTANDING',
+    shares_source_url='https://www.sec.gov/Archives/edgar/data/1065280/000106528026000212/nflx-20260630.htm',
+    financial_sources=[{'url': 'https://www.sec.gov/Archives/edgar/data/1065280/000106528026000034/nflx-20251231.htm',
+      'title': 'FY2025 Form 10-K',
+      'published_at': '2026-01-23',
+      'period': 'FY2025'},
+     {'url': 'https://www.sec.gov/Archives/edgar/data/1065280/000106528026000212/nflx-20260630.htm',
+      'title': 'Q2 2026 Form 10-Q',
+      'published_at': '2026-07-17',
+      'period': 'H1 2026 andH1 2025; shares2026-06-30'}],
+),
 }
 
 # ---------------- engine ----------------
@@ -1054,6 +1271,8 @@ def observation(macro, bundle, captured_at=None):
         raise ValueError('VALIDATION FAILED: ' + '; '.join(errors))
     monitoring = filing_monitoring(bundle['sources'].get('monitoring_status.json',
                                    '{"schema":"filing-monitoring-v1","entries":{}}'))
+    reviews = (SOURCE_REVIEW.load(bundle['sources']['source_reviews.json'])
+               if 'source_reviews.json' in bundle['sources'] else SOURCE_REVIEW.empty())
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
                    score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
                    regime=regime_scores(d), weight=d.get('weight'),
@@ -1076,6 +1295,7 @@ def observation(macro, bundle, captured_at=None):
     rec['_portfolio'] = portfolio_regime()
     rec['_data_quality'] = data_quality()
     rec['_filing_monitoring'] = monitoring
+    rec['_source_reviews'] = reviews
     for ticker, entry in monitoring['entries'].items():
         if ticker in DATA:
             rec[ticker]['filing_coverage'] = entry
@@ -1160,6 +1380,7 @@ def run_build():
         faults = numeric_input_faults(DATA)
         if faults:
             raise ValueError('VALIDATION FAILED: ' + '; '.join(faults))
+        SOURCE_REVIEW.load()  # reject malformed review data before fetching or publishing
         sync_risk_free()
         bootstrap_fundamentals()
         fetch_prices()
@@ -1171,7 +1392,8 @@ def run_build():
             previous = EVIDENCE.current_build()['record'].get('_filing_monitoring', {})
             validate_filing_transition(record['_filing_monitoring'], previous)
         # Rendering can fail without publishing an observation or changing index.html.
-        html = build_html(macro=macro, write=False, monitoring=record['_filing_monitoring'])
+        html = build_html(macro=macro, write=False, monitoring=record['_filing_monitoring'],
+                          reviews=record['_source_reviews'])
         published = EVIDENCE.publish_build(record, bundle, html)
         for note in published['compatibility_warnings']:
             print('   ~ ' + note, file=sys.stderr)
@@ -1331,8 +1553,15 @@ def growth_comparison_badge(d):
         return ''
     detail = (f'{d["deliver"]:+.1f}% {d.get("dl") or "untyped growth"}; '
               f'basis: {contract["basis"]}. {contract["note"]}')
-    return ('<br><span class="pill x-appr" title="' + escape(detail, quote=True)
-            + '">GROWTH NOT COMPARABLE</span>')
+    metric = {'REVENUE_PROXY': 'Revenue', 'OPERATING_PROXY': 'Operating metric',
+              'EARNINGS_PROXY': 'Earnings', 'PRODUCTION': 'Production'}.get(contract['basis'], 'Growth metric')
+    required = implied_growth(d)
+    hurdle = (f'Required cash-flow growth: {100 * required:.1f}%.' if required is not None
+              else 'Required cash-flow growth unavailable.')
+    return ('<br><small class="review-note">' + escape(metric) + f' {d["deliver"]:+.1f}%<br>'
+            + escape(hurdle) + '</small><details class="review-note"><summary>No CF comparison</summary>'
+            + '<small>' + escape(detail)
+            + '<br>No comparable cash-flow forecast: no cushion is calculated.</small></details>')
 
 
 def valuation_review_badge(d):
@@ -1340,7 +1569,7 @@ def valuation_review_badge(d):
     if ngv(d) is None:
         return ''
     contract = EVIDENCE.valuation_contract(d)
-    if contract['status'] == 'DECLARED':
+    if contract['status'] == 'DECLARED' and not contract['issues']:
         return ''
     names = {'financial_period': 'financial period',
              'financial_published_at': 'publication date',
@@ -1348,9 +1577,17 @@ def valuation_review_badge(d):
     missing = ', '.join(names[k] for k in contract['missing']) or 'none'
     detail = (f'Cash-flow basis: {contract["cash_flow_basis"]}; '
               f'discount-rate basis: {contract["discount_rate_basis"]}; '
-              f'missing: {missing}. {contract["note"]}')
-    return ('<br><span class="pill x-appr" title="' + escape(detail, quote=True)
-            + '">VALUATION ' + contract['status'] + '</span>')
+              f'missing: {missing}. Financial period: {d.get("financial_period") or "not established"}; '
+              f'publication date: {d.get("financial_published_at") or "not established"}; '
+              f'shares as of: {d.get("shares_asof") or "not established"}. {contract["note"]}')
+    reasons = ' '.join(contract['issues'])
+    label = ('cash-flow / rate mismatch' if contract['status'] == 'MISMATCH' else
+             'equity bridge missing' if contract['equity_bridge_required'] else
+             'source dates missing' if contract['missing'] else
+             'normalization review' if d.get('normalization_status') == 'REVIEW_REQUIRED' else
+             'cash-flow basis review')
+    return ('<br><details class="review-note"><summary>Valuation: ' + label + '</summary>'
+            '<small>' + escape(reasons) + '<br>' + escape(detail) + '</small></details>')
 
 
 def cls(x, good, bad, invert=False):
@@ -1398,6 +1635,8 @@ thead .tk,th:nth-child(2){z-index:3}
 .pr{font-family:var(--mono);font-size:12px;white-space:nowrap}
 .pr.pos{color:var(--green)}.pr.mid{color:var(--amber)}.pr.neg{color:var(--red)}.pr.na{color:#6b7183}
 .in{font-family:var(--mono);font-size:10.5px;color:var(--mu);white-space:nowrap}
+.review-note{display:block;white-space:normal;min-width:140px;max-width:240px;font-size:10px;line-height:1.5;color:var(--mu)}
+details>summary{cursor:pointer}details[open]>summary{margin-bottom:8px}
 .pv{font-family:var(--mono);font-size:10.5px;white-space:nowrap}
 .pv.exact{color:#4a5165}.pv.back-solved{color:#a07f45}.pv.est{color:#b96565}
 .pv.auto{color:#5f7fa8}.pv.fund{color:#8a6ab0}.pv.mid-cycle{color:#c08a4a}
@@ -1703,7 +1942,7 @@ window.drawRegimeHistory = function(){
 };
 """
 
-def build_html(macro=None, write=True, monitoring=None):
+def build_html(macro=None, write=True, monitoring=None, reviews=None):
     errors, warnings = validate_full()
     for w_ in warnings:
         print('   ~ ' + w_, file=sys.stderr)
@@ -1712,6 +1951,7 @@ def build_html(macro=None, write=True, monitoring=None):
         for p_ in errors: print('   ! ' + p_, file=sys.stderr)
         raise SystemExit(1)
     monitoring = filing_monitoring() if monitoring is None else monitoring
+    reviews = SOURCE_REVIEW.load() if reviews is None else reviews
     rows = []
     ranked = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
     for i,(t,d) in enumerate(ranked, 1):
@@ -1731,7 +1971,7 @@ def build_html(macro=None, write=True, monitoring=None):
           + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}{growth_comparison_badge(d)}</td>'
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
           + f'<td><span class="pill {CLOCK_CSS.get(d.get("clock"),"s-conc")}">{d.get("clock","")}</span></td>'
-          + f'<td class="in">{d.get("ins","")}</td>'
+          + f'<td class="in">{SOURCE_REVIEW.insider_cell(t, reviews)}</td>'
           + (lambda mm, fh: '<td class="mono">'
              + (f'<span class="{cls(mm,10,-15)}">{mm:+.0f}%</span>' if mm is not None else '<span class="pr na">&mdash;</span>')
              + (f'<br><span style="font-size:10px;color:#7b8195">{fh:+.0f}% off high</span>' if fh is not None else '')
@@ -2028,7 +2268,7 @@ def build_html(macro=None, write=True, monitoring=None):
                     + ('<p>Manual discount-rate fallbacks: '
                        + escape('; '.join(f'{t}: {note}' for t, note in quality['wacc_fallbacks'].items()))
                        + '</p>' if quality['wacc_fallbacks'] else '') + '</div>')
-    html = (head + hdr + coverage_box + filing_monitoring_box(monitoring) + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
+    html = (head + hdr + coverage_box + filing_monitoring_box(monitoring) + SOURCE_REVIEW.panel(DATA, reviews) + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
             + regime_book_box + issue_box + adder + tbl + foot
             + '<script>' + js + js_z + '</script></body></html>')
     if write:
