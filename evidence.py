@@ -43,9 +43,10 @@ def model_bundle(root):
                for p in sorted(Path(root).glob('*.py')) if not p.name.startswith('test_')}
     for p in sorted(Path(root).glob('requirements*.txt')):
         sources[p.name] = p.read_text(encoding='utf-8')
-    monitoring = Path(root) / 'monitoring_status.json'
-    if monitoring.exists():
-        sources[monitoring.name] = monitoring.read_text(encoding='utf-8')
+    for name in ('monitoring_status.json', 'source_reviews.json'):
+        register = Path(root) / name
+        if register.exists():
+            sources[register.name] = register.read_text(encoding='utf-8')
     return {'sha256': digest(sources), 'sources': sources}
 
 
@@ -78,18 +79,35 @@ def business_quality(row, weights):
 def valuation_contract(row):
     """Require a declared cash-flow basis; do not reinterpret legacy FCF."""
     basis = row.get('cash_flow_basis', 'UNSPECIFIED')
-    rate_basis = row.get('discount_rate_basis', 'WACC' if row.get('r_wacc') else 'UNSPECIFIED')
+    # engine.rate_used() prioritizes r_wacc. A metadata declaration cannot turn
+    # that actual WACC into cost of equity without changing the calculation.
+    rate_basis = 'WACC' if row.get('r_wacc') else row.get('discount_rate_basis', 'UNSPECIFIED')
     expected = {'FCFE': 'COST_OF_EQUITY', 'FCFF': 'WACC'}.get(basis)
     missing = [k for k in ('financial_period', 'financial_published_at', 'cur', 'shares')
-               if row.get(k) is None]
+               if row.get(k) is None or row.get(k) == '']
+    issues = []
+    names = {'financial_period': 'financial period', 'financial_published_at': 'publication date',
+             'cur': 'currency', 'shares': 'share count'}
+    if missing:
+        issues.append('Missing ' + ', '.join(names[k] for k in missing) + '.')
+    if not expected:
+        issues.append('Cash-flow definition and a matching discount-rate basis are not established.')
+    elif rate_basis != expected:
+        issues.append('Declared cash-flow and discount-rate bases disagree.')
+    if not (row.get('shares_asof') or row.get('share_count_date')):
+        issues.append('Share count needs a dated source and a corporate-action bridge.')
+    if row.get('normalization_status') == 'REVIEW_REQUIRED' or row.get('built') in ('est', 'back-solved'):
+        issues.append('Sustainable cash-flow normalization needs an explicit bridge from reported figures.')
+    if basis == 'FCFF':
+        issues.append('Legacy NGV does not subtract net debt; an FCFF equity bridge is required.')
     status = 'UNVERIFIED'
     if expected and rate_basis != expected:
         status = 'MISMATCH'
-    elif expected and not missing:
+    elif expected and not missing and basis != 'FCFF':
         status = 'DECLARED'
     return {'status': status, 'cash_flow_basis': basis, 'discount_rate_basis': rate_basis,
             'missing': missing, 'legacy_formula': '(fcf / shares) / rate',
-            'equity_bridge_required': basis == 'FCFF',
+            'equity_bridge_required': basis == 'FCFF', 'issues': issues,
             'note': 'Legacy NGV is retained; a declared basis does not certify its inputs.'}
 
 

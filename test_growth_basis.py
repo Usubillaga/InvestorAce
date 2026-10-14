@@ -106,10 +106,13 @@ class GrowthBasis(unittest.TestCase):
              patch.object(engine, 'forward_run', return_value={'ok': False, 'note': 'offline'}):
             html = engine.build_html(macro={'ok': False}, write=False)
         main_row = html.split('<td class="tk">NFLX', 1)[1].split('</tr>', 1)[0]
-        self.assertIn('VALUATION UNVERIFIED', main_row)
-        self.assertIn('GROWTH NOT COMPARABLE', main_row)
-        self.assertIn('financial period', main_row)
+        self.assertIn('Valuation: normalization review', main_row)
+        self.assertIn('Revenue +24.0%', main_row)
+        self.assertIn('Required cash-flow growth: 8.3%', main_row)
+        self.assertIn('No comparable cash-flow forecast', main_row)
+        self.assertIn('Financial period: 2025-07-01/2026-06-30', main_row)
         self.assertIn('publication date', main_row)
+        self.assertIn('2026-07-17', main_row)
         self.assertIn('NORMALIZATION REVIEW', main_row)
         self.assertNotIn('+15.7', main_row)
 
