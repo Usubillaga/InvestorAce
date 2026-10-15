@@ -396,5 +396,80 @@ class ResearchPublicationTests(unittest.TestCase):
             self.assertTrue((self.output / research.page_path('market', '2026-10-12', lang)).exists())
 
 
+    def test_scoreboard_languages_derive_from_verified_report_without_changing_facts(self):
+        self.require_languages()
+        (self.root / 'history').mkdir()
+        (self.root / 'history' / '_current.json').write_text('{}')
+        verified = self.root / 'history' / 'verified.html'
+        source = ('<!DOCTYPE html><html lang="en"><head><title>InvestorAce · Master Scoreboard</title>'
+                  '</head><body><h1>Master Scoreboard</h1><table><tbody>'
+                  '<tr data-ticker="ASML"><td class="tk">ASML</td><td class="num">123.45</td>'
+                  '<td class="num">-2.42%</td></tr></tbody></table>'
+                  '<a href="https://example.org/filing?x=1&amp;y=2">Original source</a>'
+                  '<p>Verified generation</p></body></html>')
+        verified.write_text(source, encoding='utf-8')
+        with patch('evidence.current_build', return_value={'report_path': verified}) as resolve:
+            research.build_site(self.root, self.output)
+        resolve.assert_called_once_with(self.root / 'history')
+        for language, filename in [('en', 'index.html'), ('de', 'index.de.html'),
+                                   ('es', 'index.es.html')]:
+            page = (self.output / filename).read_text(encoding='utf-8')
+            with self.subTest(language=language):
+                self.assertIn(f'<html lang="{language}">', page)
+                self.assertEqual(page.count('id="investorace-language-nav"'), 1)
+                self.assertIn('data-ticker="ASML"', page)
+                self.assertIn('>ASML</td>', page)
+                self.assertIn('>123.45</td>', page)
+                self.assertIn('>-2.42%</td>', page)
+                self.assertIn('https://example.org/filing?x=1&amp;y=2', page)
+                self.assertIn('Verified generation', page)
+                for destination in ('index.html', 'index.de.html', 'index.es.html'):
+                    self.assertIn(f'href="{destination}"', page)
+                if language != 'en':
+                    self.assertNotIn('Master Scoreboard', page)
+                    self.assertIn(f'href="research-{language}.html"', page)
+        self.assertEqual(verified.read_text(encoding='utf-8'), source)
+        self.assertEqual((self.root / 'index.html').read_text(), self.html)
+
+    def test_language_render_failure_keeps_existing_published_pages(self):
+        import i18n
+        self.output.mkdir()
+        for filename in ('index.html', 'index.de.html', 'index.es.html'):
+            (self.output / filename).write_text('previous ' + filename)
+        original = i18n.localize
+
+        def render(html, language='en'):
+            if language == 'es':
+                raise ValueError('translation failed')
+            return original(html, language)
+
+        with patch('i18n.localize', side_effect=render):
+            with self.assertRaisesRegex(ValueError, 'translation failed'):
+                research.build_site(self.root, self.output)
+        for filename in ('index.html', 'index.de.html', 'index.es.html'):
+            self.assertEqual((self.output / filename).read_text(), 'previous ' + filename)
+        self.assertFalse((self.output / 'research.html').exists())
+
+    def test_research_and_market_back_links_keep_scoreboard_language(self):
+        self.require_languages()
+        self.write('2026-10-16.json', multilingual(example()))
+        self.write_market(multilingual(example('2026-10-12')))
+        path = self.root / 'market-briefings' / 'config.json'
+        config = json.loads(path.read_text())
+        config.update(languages=['es', 'en', 'de'], default_language='de',
+                      schedule_labels={'es': 'Lunes', 'de': 'Montags'})
+        path.write_text(json.dumps(config))
+        research.build_site(self.root, self.output)
+        for language, home in [('en', 'index.html'), ('de', 'index.de.html'),
+                               ('es', 'index.es.html')]:
+            for series, stamp in [('research', '2026-10-16'), ('market', '2026-10-12')]:
+                latest = (self.output / research.page_path(series, language=language)).read_text()
+                old = (self.output / research.page_path(series, stamp, language)).read_text()
+                with self.subTest(language=language, series=series):
+                    self.assertIn(f'href="{home}"', latest)
+                    self.assertIn(f'href="../{home}"', old)
+        self.assertIn('href="index.de.html"', (self.output / 'market.html').read_text())
+
+
 if __name__ == '__main__':
     unittest.main()
