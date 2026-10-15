@@ -54,6 +54,36 @@ tested deployment; generated history-only commits do not retrigger it.
 
 ## Build integrity
 
+### Score explanations and experimental entry observations
+
+The report has a separate, collapsed inspection view for the eight existing
+score categories, nominal/effective weights, contributions and all five regime
+component sums. Published-total fallbacks disclose that category splits are
+unavailable. Missing priced-in expectations expose the existing 0.85
+renormalisation. These explanations do not validate the underlying financial
+assessments or change their formulas.
+
+`timing.py` consumes the existing adjusted 13-month daily momentum history
+request. It records SMA(200), SMA-seeded EMA(21), Wilder ATR(14), distance from
+SMA(200), and `(adjusted close - EMA21) / ATR14`. EMA21 is the extension
+reference, not another trend vote. No technical score, entry gate, automatic
+sale, stop or allocation rule is introduced; legacy momentum remains unchanged.
+
+Timing uses only dates strictly before the calculation's exchange-local date,
+even after today's market close. This conservative policy can lag one completed
+session. It requires 200 valid bars; it never fills invalid prices or reuses
+the last successful run. Zero ATR leaves extension unavailable and more than
+7 calendar days of lag is flagged stale. These are availability policies, not
+calibrated trading thresholds. Source, price basis, parameters, timestamps,
+raw indicator values and the eligible-input hash are frozen in each new paired
+observation. Raw OHLC is not archived and provider adjustments may change on
+refetch. Existing immutable history is not backfilled.
+
+The timing view is descriptive and experimental. Adoption requires separate
+point-in-time research comparing current decisions with simple-trend and
+Supertrend candidates, delayed fills, costs/tax/cash-yield scenarios, untouched
+test periods and exposure-matched benchmarks. No return improvement is claimed.
+
 Required modules import normally: a missing module, missing export or broken
 implementation stops the build with its original traceback. Numeric row inputs
 are checked before valuation arithmetic. Missing data remains missing; a row
@@ -100,6 +130,7 @@ The build lock must be held when calling `evidence.publish_build()` directly.
 | `wacc.py`, `epv.py`, `forward.py` | Discount rate, earnings power value, forward estimates |
 | `macro.py`, `regime_contract.json` | Macro regime classifier and its frozen contract |
 | `evidence.py`, `path_features.py`, `portfolio.py`, `framework_view.py` | Evidence/path diagnostics and portfolio proposal |
+| `timing.py`, `decision_view.py` | Observation-only daily timing and exact score/regime explanations |
 | `autoscore.py`, `add_ticker.py`, `verify_tickers.py`, `tickers.js` | Ticker onboarding and the ticker library |
 | `integrity.py`, `reprice.py` | Build integrity checks, risk-free repricing tool |
 | `research.py` | Offline feature research (not part of the build) |
