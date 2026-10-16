@@ -177,6 +177,38 @@ class Localization(unittest.TestCase):
             self.assertNotIn('Held positions missing quotes:', result)
             self.assertNotIn('Manual discount-rate fallbacks:', result)
 
+    def test_manual_fallback_reasons_translate_after_leading_whitespace(self):
+        for whitespace in ('', ' ', '   ', '\n  '):
+            body = ('<p>Manual discount-rate fallbacks:' + whitespace
+                    + 'BUY: manual rate fallback: no valid beta inputs; '
+                    'SELL: manual rate fallback: no valid beta inputs; '
+                    'HOLD: manual rate fallback: no valid beta inputs</p>')
+            for language, reason in (
+                    ('de', 'manueller Ersatzsatz: keine gültigen Beta-Eingaben'),
+                    ('es', 'tasa manual de respaldo: no hay datos beta válidos')):
+                with self.subTest(language=language, whitespace=repr(whitespace)):
+                    result = module().localize(document(body), language)
+                    for ticker in ('BUY', 'SELL', 'HOLD'):
+                        self.assertIn(ticker + ': ' + reason, result)
+                    self.assertEqual(result.count(reason), 3)
+                    self.assertNotIn('manual rate fallback:', result)
+        unknown = document('<p>Manual discount-rate fallbacks:   BUY: '
+                           'manual rate fallback: unrecognized explanation</p>')
+        self.assertTrue(module().translation_gaps(unknown),
+                        'The first fallback explanation must be included in the coverage inventory')
+
+    def test_manual_fallback_exception_prefix_translates_and_preserves_types(self):
+        body = ('<p>Manual discount-rate fallbacks: BUY: manual rate fallback: RuntimeError; '
+                'SELL: manual rate fallback: ValueError; '
+                'HOLD: manual rate fallback: TypeError</p>')
+        for language, prefix in (('de', 'manueller Ersatzsatz:'),
+                                 ('es', 'tasa manual de respaldo:')):
+            result = module().localize(document(body), language)
+            for ticker, error in (('BUY', 'RuntimeError'), ('SELL', 'ValueError'), ('HOLD', 'TypeError')):
+                self.assertIn(ticker + ': ' + prefix + ' ' + error, result)
+            self.assertNotIn('manual rate fallback:', result)
+            self.assertEqual(module().translation_gaps(document(body)), [])
+
     def test_disclosed_codes_and_market_identifiers_have_complete_ui_coverage(self):
         body = ('<p>VIX</p><details id="review-TEST"><summary>TEST · Issuer · PARTIAL</summary>'
                 '<table><thead><tr><th>Disclosed type</th></tr></thead><tbody>'

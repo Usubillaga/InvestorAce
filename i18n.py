@@ -209,7 +209,7 @@ class _Report(HTMLParser):
                 if missing:
                     self.gaps.add(match.group(4))
                 return match.group(1) + match.group(2) + match.group(3) + note
-            tail = re.sub(r'(^|;\s*)([A-Za-z0-9.^=_-]+)(:\s*)([^;]*)', fallback, tail)
+            tail = re.sub(r'(^\s*|;\s*)([A-Za-z0-9.^=_-]+)(:\s*)([^;]*)', fallback, tail)
             self.parts.append(escape(prefix + TRANSLATIONS[self.language][fallback_label] + tail,
                                      quote=False))
             return
