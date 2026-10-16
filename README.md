@@ -79,6 +79,18 @@ raw indicator values and the eligible-input hash are frozen in each new paired
 observation. Raw OHLC is not archived and provider adjustments may change on
 refetch. Existing immutable history is not backfilled.
 
+The experiment also displays dated technical BUY/SELL events. A BUY requires
+previous close <= previous EMA21, current close > current EMA21, and current
+close > current SMA200. A SELL requires previous close >= previous SMA200 and
+current close < current SMA200. Crossings use completed bars and require 201
+valid bars; 200 bars still permit the existing indicator observations. No new
+crossing is shown as a distinct status rather than repeating an older signal.
+The most recent event within 20 completed sessions is labelled separately as
+history, with its date and age. Stale, partial or unavailable inputs suppress
+current signals. Archived v1 observations are not reconstructed or backfilled.
+These alerts do not place trades, resize positions or alter the fundamental
+verdict, score, regime fit or portfolio rules.
+
 The timing view is descriptive and experimental. Adoption requires separate
 point-in-time research comparing current decisions with simple-trend and
 Supertrend candidates, delayed fills, costs/tax/cash-yield scenarios, untouched
@@ -122,6 +134,23 @@ explicitly and may leave that mirror stale; deployment and the forward harness
 use the committed generation instead. Run the build from the repository root.
 The build lock must be held when calling `evidence.publish_build()` directly.
 
+## Interface languages
+
+The scoreboard has English, German and Spanish variants at `index.html`,
+`index.de.html` and `index.es.html`. The language control uses ordinary links,
+so selection works without JavaScript. Briefing and research pages link back
+to the scoreboard in their selected language. Interface text, experimental
+signal labels, tooltips and chart labels are translated. Original issuer
+source wording remains identified as original text; ticker symbols, source
+URLs, financial values, quote units and calculation contracts are preserved.
+
+`i18n.py` and its `i18n_data.py` catalog apply presentation-only translations to
+the canonical English HTML.
+`weekly_research.py` derives all three scoreboards from the same verified
+report and prepares every translation before writing the site. Translation
+does not fetch market data, recalculate a score or modify archived evidence.
+The English report/evidence pair remains the build's verified source.
+
 ## Layout
 
 | File | Role |
@@ -130,7 +159,8 @@ The build lock must be held when calling `evidence.publish_build()` directly.
 | `wacc.py`, `epv.py`, `forward.py` | Discount rate, earnings power value, forward estimates |
 | `macro.py`, `regime_contract.json` | Macro regime classifier and its frozen contract |
 | `evidence.py`, `path_features.py`, `portfolio.py`, `framework_view.py` | Evidence/path diagnostics and portfolio proposal |
-| `timing.py`, `decision_view.py` | Observation-only daily timing and exact score/regime explanations |
+| `timing.py`, `decision_view.py` | Experimental dated timing alerts and exact score/regime explanations |
+| `i18n.py`, `i18n_data.py` | English, German and Spanish interface and language navigation |
 | `autoscore.py`, `add_ticker.py`, `verify_tickers.py`, `tickers.js` | Ticker onboarding and the ticker library |
 | `integrity.py`, `reprice.py` | Build integrity checks, risk-free repricing tool |
 | `research.py` | Offline feature research (not part of the build) |

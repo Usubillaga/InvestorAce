@@ -18,6 +18,7 @@ import evidence as EVIDENCE
 import source_review as SOURCE_REVIEW
 import timing as TIMING
 import decision_view as DECISION_VIEW
+import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
                        numeric_input_faults, risk_free_faults, clamp_saturation_faults)
 from framework_view import framework_panel
@@ -2322,6 +2323,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
             + DECISION_VIEW.panel(DATA, explanations, cur_reg) + sec_box + fw_box + gate + zin + fit_box
             + regime_book_box + issue_box + adder + tbl + foot
             + '<script>' + js + js_z + '</script></body></html>')
+    html = i18n.localize(html, 'en')
     if write:
         atomic_text('index.html', html)
     return html

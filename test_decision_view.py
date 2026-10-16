@@ -12,7 +12,7 @@ import decision_view
 import evidence
 import timing
 from test_framework_contract import engine
-from test_timing import AS_OF, history
+from test_timing import AS_OF, history, price_history
 
 
 def row(**changes):
@@ -92,6 +92,65 @@ class DecisionView(unittest.TestCase):
             self.assertIn(text, html)
         self.assertNotIn('BUY NOW', html)
         self.assertNotIn('SELL 25%', html)
+
+
+
+    def test_current_alert_overview_is_visible_and_only_contains_latest_events(self):
+        rows = {'BUY': row(timing=timing.calculate(price_history([100.] * 219 + [120.]), AS_OF)),
+                'SELL': row(timing=timing.calculate(price_history([100.] * 219 + [80.]), AS_OF)),
+                'HIST': row(timing=timing.calculate(price_history([100.] * 218 + [120., 120.]), AS_OF))}
+        html = decision_view.panel(rows, explanations(rows), None)
+        overview = html.split('<details', 1)[0]
+        self.assertIn('Current experimental BUY/SELL alerts', overview)
+        self.assertIn('EXPERIMENTAL BUY · BUY · 2026-10-14', overview)
+        self.assertIn('EXPERIMENTAL SELL · SELL · 2026-10-14', overview)
+        self.assertNotIn('· HIST ·', overview)
+        self.assertNotIn('2026-10-13', overview)
+        self.assertIn('No automatic trades', overview)
+
+    def test_no_new_signal_and_recent_historical_event_have_distinct_dated_labels(self):
+        observed = timing.calculate(price_history([100.] * 218 + [120., 120.]), AS_OF)
+        rows = {'TEST': row(timing=observed)}
+        html = decision_view.panel(rows, explanations(rows), None)
+        self.assertIn('Current signal: NO_NEW_SIGNAL · 2026-10-14', html)
+        self.assertIn('Latest historical event (last 20 completed sessions): '
+                      'EXPERIMENTAL BUY · 2026-10-13 · 1 completed session ago', html)
+        self.assertIn('No current BUY/SELL alerts.', html.split('<details', 1)[0])
+
+    def test_old_timing_without_signal_contract_stays_explicitly_unavailable(self):
+        old = timing.calculate(history(), AS_OF)
+        old['schema'] = 'observational-timing-v1'
+        old.pop('signal', None)
+        rows = {'TEST': row(timing=old)}
+        html = decision_view.panel(rows, explanations(rows), None)
+        self.assertIn('Current signal: UNAVAILABLE', html)
+        self.assertIn('No signal contract archived; no signal is inferred.', html)
+        self.assertNotIn('NO_NEW_SIGNAL', html)
+        self.assertIn('observational-timing-v1', html)
+
+    def test_renderer_suppresses_current_alerts_when_observation_is_not_available(self):
+        for state in ('STALE', 'PARTIAL', 'UNAVAILABLE'):
+            with self.subTest(state=state):
+                observed = timing.calculate(price_history([100.] * 219 + [120.]), AS_OF)
+                observed['status'] = state
+                rows = {'TEST': row(timing=observed)}
+                html = decision_view.panel(rows, explanations(rows), None)
+                self.assertIn('Current signal: UNAVAILABLE', html)
+                self.assertNotIn('EXPERIMENTAL BUY', html.split('<details', 1)[0])
+        warmup = timing.calculate(price_history([100.] * 199 + [120.]), AS_OF)
+        rows = {'TEST': row(timing=warmup)}
+        html = decision_view.panel(rows, explanations(rows), None)
+        self.assertIn('Current signal: UNAVAILABLE', html)
+        self.assertIn('Latest historical event (last 20 completed sessions): UNAVAILABLE.', html)
+
+    def test_signal_contract_version_and_crossing_rules_are_visible(self):
+        rows = {'TEST': row(timing=timing.calculate(history(), AS_OF))}
+        html = decision_view.panel(rows, explanations(rows), None)
+        self.assertIn('experimental-timing-v2', html)
+        self.assertIn('Signal rule contract: close-crossings-v1', html)
+        self.assertIn('Signal comparisons need at least 201 valid completed bars.', html)
+        self.assertIn('previous close ≤ previous EMA 21', html)
+        self.assertIn('previous close ≥ previous SMA 200', html)
 
     def test_missing_timing_and_published_total_remain_explicit(self):
         rows = {'TEST': row(sub=None, score_fixed=7.88)}

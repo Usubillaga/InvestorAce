@@ -17,6 +17,13 @@ def history(count=220, end='2026-10-14', tz='UTC', price=100.0):
     return pd.DataFrame({'High': price + 1, 'Low': price - 1, 'Close': price}, index=index)
 
 
+def price_history(closes, **kwargs):
+    bars = history(len(closes), **kwargs)
+    bars['Close'] = closes
+    bars['High'], bars['Low'] = bars['Close'] + 1, bars['Close'] - 1
+    return bars
+
+
 class TimingCalculation(unittest.TestCase):
     def test_known_sma_seeded_ema_and_wilder_atr(self):
         bars = history()
@@ -88,6 +95,118 @@ class TimingCalculation(unittest.TestCase):
         self.assertEqual(result['trend'], 'AT_SMA200')
         self.assertIsNone(result['extension_atr'])
         self.assertIn('ATR', result['reason'])
+
+
+class ExperimentalSignals(unittest.TestCase):
+    def test_latest_close_crossing_above_ema_in_uptrend_is_buy(self):
+        result = timing.calculate(price_history([100.] * 219 + [120.]), AS_OF)
+        signal = result.get('signal') or {}
+        self.assertEqual(signal.get('event'), 'BUY')
+        self.assertEqual(signal['status'], 'AVAILABLE')
+        self.assertEqual(signal['date'], '2026-10-14')
+        event = signal['latest_event']
+        self.assertEqual(event['age_sessions'], 0)
+        self.assertEqual(event['event'], 'BUY')
+        self.assertEqual(event['previous_close'], event['previous_ema21'])
+        self.assertGreater(event['close'], event['ema21'])
+        self.assertGreater(event['close'], event['sma200'])
+
+    def test_latest_close_crossing_below_sma_is_sell(self):
+        result = timing.calculate(price_history([100.] * 219 + [80.]), AS_OF)
+        signal = result.get('signal') or {}
+        self.assertEqual(signal.get('event'), 'SELL')
+        event = signal['latest_event']
+        self.assertEqual(event['previous_close'], event['previous_sma200'])
+        self.assertLess(event['close'], event['sma200'])
+
+    def test_merely_staying_above_or_below_is_no_new_signal(self):
+        for close, event in ((120., 'BUY'), (80., 'SELL')):
+            with self.subTest(close=close):
+                result = timing.calculate(price_history([100.] * 218 + [close, close]), AS_OF)
+                signal = result.get('signal') or {}
+                self.assertEqual(signal.get('event'), 'NO_NEW_SIGNAL')
+                self.assertEqual(signal['latest_event']['event'], event)
+                self.assertEqual(signal['latest_event']['date'], '2026-10-13')
+                self.assertEqual(signal['latest_event']['age_sessions'], 1)
+        flat = timing.calculate(history(), AS_OF)
+        self.assertEqual(flat['signal']['event'], 'NO_NEW_SIGNAL')
+        self.assertIsNone(flat['signal']['latest_event'])
+
+    def test_rebound_crossing_ema_during_long_downtrend_is_not_buy(self):
+        closes = [500. - i for i in range(220)]
+        closes[-1] = 300.
+        result = timing.calculate(price_history(closes), AS_OF)
+        self.assertGreater(result['close'], result['ema21'])
+        self.assertLess(result['close'], result['sma200'])
+        self.assertEqual((result.get('signal') or {}).get('event'), 'NO_NEW_SIGNAL')
+
+    def test_metrics_warm_up_at_200_but_crossings_require_201_bars(self):
+        observed = timing.calculate(price_history([100.] * 199 + [120.]), AS_OF)
+        self.assertEqual(observed['status'], 'AVAILABLE')
+        signal = observed.get('signal') or {}
+        self.assertEqual(signal.get('status'), 'UNAVAILABLE')
+        self.assertIsNone(signal['event'])
+        self.assertIn('201', signal['reason'])
+        ready = timing.calculate(price_history([100.] * 200 + [120.]), AS_OF)
+        self.assertEqual(ready['signal']['event'], 'BUY')
+
+    def test_stale_missing_invalid_and_zero_atr_suppress_current_signal(self):
+        stale = timing.calculate(price_history([100.] * 219 + [120.], end='2026-09-30'), AS_OF)
+        flat = history()
+        flat[['High', 'Low', 'Close']] = 100.
+        invalid = history()
+        invalid.iloc[-1, invalid.columns.get_loc('Close')] = float('nan')
+        cases = [stale, timing.calculate(None, AS_OF), timing.calculate(flat, AS_OF),
+                 timing.calculate(invalid, AS_OF)]
+        for observed in cases:
+            with self.subTest(status=observed['status']):
+                signal = observed.get('signal') or {}
+                self.assertEqual(signal.get('status'), 'UNAVAILABLE')
+                self.assertIsNone(signal['event'])
+                self.assertTrue(signal['reason'])
+                json.dumps(observed, allow_nan=False)
+        self.assertEqual(stale['signal']['latest_event']['event'], 'BUY')
+        self.assertEqual(stale['signal']['latest_event']['date'], '2026-09-30')
+
+    def test_recent_event_window_includes_age_19_and_excludes_age_20(self):
+        for age in (19, 20):
+            with self.subTest(age=age):
+                result = timing.calculate(price_history([100.] * 201 + [120.] * (age + 1)), AS_OF)
+                signal = result.get('signal') or {}
+                self.assertEqual(signal.get('event'), 'NO_NEW_SIGNAL')
+                if age == 19:
+                    self.assertEqual(signal['latest_event']['event'], 'BUY')
+                    self.assertEqual(signal['latest_event']['age_sessions'], 19)
+                else:
+                    self.assertIsNone(signal['latest_event'])
+
+    def test_latest_historical_event_uses_only_its_causal_prefix(self):
+        closes = [100.] * 205 + [120.] * 10 + [80.] * 12 + [120.] * 13
+        bars = price_history(closes)
+        full = timing.calculate(bars, AS_OF)
+        signal = full.get('signal') or {}
+        self.assertEqual(signal.get('event'), 'NO_NEW_SIGNAL')
+        event = signal['latest_event']
+        self.assertEqual(event['event'], 'BUY')
+        self.assertEqual(event['age_sessions'], 12)
+        prefix = bars.iloc[:228]
+        prefix_as_of = (prefix.index[-1] + pd.Timedelta(days=1)).isoformat()
+        at_event = timing.calculate(prefix, prefix_as_of)
+        self.assertEqual(at_event['signal']['event'], 'BUY')
+        for key in ('date', 'event', 'close', 'ema21', 'sma200',
+                    'previous_close', 'previous_ema21', 'previous_sma200'):
+            self.assertEqual(event[key], at_event['signal']['latest_event'][key])
+        self.assertEqual(event['ema21'], at_event['ema21'])
+        self.assertEqual(event['sma200'], at_event['sma200'])
+        future = price_history([999., 999.], end='2026-10-16')
+        self.assertEqual(full, timing.calculate(pd.concat([bars, future]), AS_OF))
+
+    def test_versions_are_explicit_and_legacy_metric_parameters_stay_exact(self):
+        result = timing.calculate(history(), AS_OF)
+        self.assertEqual(result['schema'], 'experimental-timing-v2')
+        self.assertEqual((result.get('signal') or {}).get('schema'), 'close-crossings-v1')
+        self.assertEqual(result['signal']['lookback_sessions'], 20)
+        self.assertEqual(result['parameters'], {'sma': 200, 'ema': 21, 'atr': 14})
 
 
 class TimingIntegration(unittest.TestCase):

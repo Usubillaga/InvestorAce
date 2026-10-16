@@ -2,6 +2,7 @@
 from html import escape
 
 from evidence import number
+import timing as TIMING
 
 CSS = """
 #decision-observations .decision-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0}
@@ -18,6 +19,10 @@ CSS = """
 #decision-observations .decision-facts>span{font-size:12px}
 #decision-observations .decision-flag{color:var(--amber);font-family:var(--mono);font-size:11px}
 #decision-observations .decision-current{background:#14202a}
+#decision-observations .decision-alerts{border:1px solid var(--amber);border-radius:8px;padding:12px;margin:14px 0}
+#decision-observations .decision-alert{display:inline-block;font-family:var(--mono);font-size:12px;margin:8px 18px 0 0}
+#decision-observations .decision-buy{color:#86efac}
+#decision-observations .decision-sell{color:#fca5a5}
 #decision-observations .tw{margin-bottom:10px}
 @media(max-width:600px){#decision-observations .decision-guide{grid-template-columns:1fr}
 #decision-observations .decision-summary{display:block;margin-left:17px}
@@ -84,9 +89,55 @@ def regime_table(components, regime):
             + table(['Regime', 'Base', 'Sector', 'Duration', 'Balance sheet', 'Payout', 'Raw sum', 'Reported fit'], rows))
 
 
+def _signal_record(observed):
+    signal = observed.get('signal')
+    return (signal if observed.get('schema') == TIMING.VERSION and isinstance(signal, dict)
+            and signal.get('schema') == TIMING.SIGNAL_VERSION else None)
+
+
+def _current_signal(observed):
+    signal = _signal_record(observed)
+    return (signal if signal and observed.get('status') == 'AVAILABLE'
+            and signal.get('status') == 'AVAILABLE' and signal.get('date')
+            and signal.get('event') in ('BUY', 'SELL', 'NO_NEW_SIGNAL') else None)
+
+
+def signal_labels(observed):
+    """Use archived signal contracts; never infer events from metric snapshots."""
+    signal = _signal_record(observed)
+    current = _current_signal(observed)
+    if current:
+        event = current['event']
+        label = ('EXPERIMENTAL ' + event) if event in ('BUY', 'SELL') else event
+        current_label = 'Current signal: ' + label + ' · ' + str(current['date'])
+    else:
+        if signal is None:
+            reason = 'No signal contract archived; no signal is inferred.'
+        elif observed.get('status') != 'AVAILABLE':
+            reason = 'Current signal suppressed because timing is ' + str(observed.get('status')) + '.'
+        else:
+            reason = signal.get('reason') or 'No signal contract archived; no signal is inferred.'
+        current_label = 'Current signal: UNAVAILABLE · ' + reason
+    prefix = 'Latest historical event (last 20 completed sessions): '
+    if (signal is None or observed.get('status') == 'UNAVAILABLE'
+            or (number(observed.get('bars')) or 0) < TIMING.SIGNAL_MIN_BARS):
+        return current_label, prefix + 'UNAVAILABLE.'
+    event = signal.get('latest_event')
+    if not isinstance(event, dict):
+        return current_label, prefix + 'none.'
+    age = event.get('age_sessions')
+    if (event.get('event') not in ('BUY', 'SELL') or not event.get('date')
+            or type(age) is not int or not 0 <= age < TIMING.SIGNAL_LOOKBACK_SESSIONS):
+        return current_label, prefix + 'UNAVAILABLE.'
+    age_label = str(age) + (' completed session ago' if age == 1 else ' completed sessions ago')
+    return (current_label, prefix + 'EXPERIMENTAL ' + event['event'] + ' · '
+            + str(event['date']) + ' · ' + age_label)
+
+
 def timing_detail(observed, currency):
     status = observed.get('status', 'UNAVAILABLE')
     reason = observed.get('reason') or ''
+    current_label, historical_label = signal_labels(observed)
     facts = [('Adjusted close', numeric(observed.get('close')) + ' ' + text(currency)),
              ('SMA 200', numeric(observed.get('sma200'))),
              ('Distance from SMA 200', numeric(observed.get('distance_sma_pct'), '+.2f') + '%'),
@@ -94,7 +145,8 @@ def timing_detail(observed, currency):
              ('ATR 14', numeric(observed.get('atr14'))),
              ('Extension', numeric(observed.get('extension_atr'), '+.2f') + ' ATR')]
     return ('<p><span class="decision-flag">Experimental · ' + text(status) + '</span> '
-            + text(reason) + '</p><div class="decision-facts">'
+            + text(reason) + '</p><p>' + text(current_label) + '</p><p class="decision-meta">'
+            + text(historical_label) + '</p><div class="decision-facts">'
             + ''.join('<span>' + text(label) + ': <b>' + value + '</b></span>' for label, value in facts)
             + '</div><p class="decision-meta">Last eligible bar: ' + text(observed.get('last_bar'))
             + ' · Calculated: ' + text(observed.get('calculated_at'))
@@ -102,6 +154,7 @@ def timing_detail(observed, currency):
             + ' · Eligible bars: ' + text(observed.get('bars'))
             + '<br>Source: ' + text(observed.get('source') or 'No history captured')
             + ' · Timing contract: ' + text(observed.get('schema'))
+            + ' · Signal rule contract: ' + text((observed.get('signal') or {}).get('schema') or 'unavailable')
             + ' · Price basis: ' + text(observed.get('price_basis') or 'unavailable')
             + '<br>Input window: ' + text(observed.get('history_start')) + ' → ' + text(observed.get('last_bar'))
             + '<br>Input SHA-256: ' + text(observed.get('input_sha256')) + '</p>')
@@ -109,7 +162,7 @@ def timing_detail(observed, currency):
 
 def panel(rows, explanations, regime):
     """All strings are escaped; input rows and explanations are never mutated."""
-    stocks = []
+    stocks, alerts = [], []
     available = sum((d.get('timing') or {}).get('status') == 'AVAILABLE' for d in rows.values())
     ranked = sorted(rows, key=lambda t: (-(explanations[t]['score']['total']
                                           if explanations[t]['score']['total'] is not None else -1), t))
@@ -118,6 +171,12 @@ def panel(rows, explanations, regime):
         observed = row.get('timing') or {'status': 'UNAVAILABLE', 'reason': 'No timing history captured.'}
         state = {'ABOVE_SMA200': 'above SMA 200', 'BELOW_SMA200': 'below SMA 200',
                  'AT_SMA200': 'at SMA 200'}.get(observed.get('trend'), 'trend unavailable')
+        current_label, historical_label = signal_labels(observed)
+        current = _current_signal(observed)
+        if current and current['event'] in ('BUY', 'SELL'):
+            alerts.append('<span class="decision-alert decision-' + current['event'].lower() + '">'
+                          + text('EXPERIMENTAL ' + current['event'] + ' · ' + ticker + ' · '
+                                 + str(current['date'])) + '</span>')
         fit = explained['regimes'].get(regime, {}).get('total')
         facts = [('NGV', numeric(explained['ngv'])),
                  ('Cover', numeric(explained['cover'], '.1%', 1)),
@@ -127,7 +186,8 @@ def panel(rows, explanations, regime):
                       + '</b><span class="decision-summary">Score '
                       + numeric(explained['score']['total'], '.2f') + ' · Current fit '
                       + numeric(fit, '.1f') + ' · ' + text(state) + ' · '
-                      + text(observed['status']) + '</span></summary>'
+                      + text(observed['status']) + '<br>' + text(current_label) + '<br>'
+                      + text(historical_label) + '</span></summary>'
                       + '<h3>Existing fundamental score</h3>' + score_table(explained['score'])
                       + '<div class="decision-facts">'
                       + ''.join('<span>' + text(label) + ': <b>' + value + '</b></span>' for label, value in facts)
@@ -140,6 +200,10 @@ def panel(rows, explanations, regime):
             '<p><span class="decision-flag">Experimental timing · observation only</span><br>'
             'No automatic trades, entry gates, technical score points or allocation changes. '
             'Existing scores, regime fit and portfolio rules retain their own meanings.</p>'
+            '<div class="decision-alerts"><strong>Current experimental BUY/SELL alerts</strong><p>'
+            + (''.join(alerts) if alerts else 'No current BUY/SELL alerts.')
+            + '</p><small class="decision-meta">Only latest completed-bar events appear here. '
+            'Historical events are listed separately.</small></div>'
             '<div class="decision-guide"><div><strong>SMA 200 · slow trend</strong>'
             '<small>Describes the adjusted close relative to its 200-session average.</small></div>'
             '<div><strong>Extension · ATR units</strong>'
@@ -150,7 +214,12 @@ def panel(rows, explanations, regime):
             + ''.join(stocks) + '</details>'
             '<p class="decision-meta">Only dates strictly before the current exchange-local date are used, '
             'even after today’s close. This conservative policy can lag one completed session. '
-            'At least 200 valid bars are required. EMA 21 uses an initial 21-close mean; ATR 14 uses '
+            'At least 200 valid bars are required for metrics. '
+            'Signal comparisons need at least 201 valid completed bars. '
+            'BUY: previous close ≤ previous EMA 21, latest close &gt; EMA 21 and SMA 200. '
+            'SELL: previous close ≥ previous SMA 200, latest close &lt; SMA 200. '
+            'Events are labels for review; existing verdicts and actions are unchanged. '
+            'EMA 21 uses an initial 21-close mean; ATR 14 uses '
             'a 14-true-range mean followed by Wilder smoothing (first TR = High − Low). '
             'More than 7 calendar days of lag is flagged STALE. The adjusted historical close can differ '
             'from the current quote. Values and an input-window hash are archived as observed; raw OHLC '

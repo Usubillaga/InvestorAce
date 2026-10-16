@@ -17,6 +17,7 @@ from html import escape
 from pathlib import Path
 from urllib.parse import urlsplit
 
+import i18n
 from integrity import atomic_text
 
 TOPICS = {
@@ -385,7 +386,7 @@ def render_page(issue, issues, config, archived=False, series='research', langua
             f'<title>InvestorAce · {e(title)}</title><meta name="description" '
             f'content="{e(labels["description"], quote=True)}">'
             f'<style>{CSS}</style></head><body><main><nav aria-label="{e(labels["navigation"])}">'
-            f'<strong>InvestorAce</strong><a href="{prefix}index.html">{e(labels["scoreboard"])}</a>'
+            f'<strong>InvestorAce</strong><a href="{prefix}{i18n.homepage(language)}">{e(labels["scoreboard"])}</a>'
             f'{navigation}</nav><header><div class="eyebrow">{e(labels["eyebrow"])}</div>'
             f'<h1>{e(labels["heading"])}</h1><p>{e(labels["description"])}</p>'
             f'<div class="topics">{topics}</div>{language_links}</header><div class="layout"><section '
@@ -456,6 +457,10 @@ def build_site(root, output, require_committed=False):
         report = root / 'index.html'
         print('Using the legacy scoreboard; no paired generation exists yet.')
     scoreboard = add_research_link(report.read_text(encoding='utf-8'))
+    # Translate the verified canonical report; never re-fetch or recalculate it.
+    # Prepare every variant before replacing any previously published page.
+    scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language))
+                   for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
     pages = []
     multilingual_series = {series for series, cfg, _ in collections
@@ -476,8 +481,7 @@ def build_site(root, output, require_committed=False):
     if market_folder.exists():
         pages.extend(market_redirects(market_config, market_issues, issues))
     output.mkdir(parents=True, exist_ok=True)
-    atomic_text(output / 'index.html', scoreboard)
-    for path, page in pages:
+    for path, page in scoreboards + pages:
         atomic_text(output / path, page)
     if (root / 'tickers.js').exists():
         shutil.copyfile(root / 'tickers.js', output / 'tickers.js')
