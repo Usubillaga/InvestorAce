@@ -137,6 +137,11 @@ class DecisionView(unittest.TestCase):
                 html = decision_view.panel(rows, explanations(rows), None)
                 self.assertIn('Current signal: UNAVAILABLE', html)
                 self.assertNotIn('EXPERIMENTAL BUY', html.split('<details', 1)[0])
+        warmup = timing.calculate(price_history([100.] * 199 + [120.]), AS_OF)
+        rows = {'TEST': row(timing=warmup)}
+        html = decision_view.panel(rows, explanations(rows), None)
+        self.assertIn('Current signal: UNAVAILABLE', html)
+        self.assertIn('Latest historical event (last 20 completed sessions): UNAVAILABLE.', html)
 
     def test_signal_contract_version_and_crossing_rules_are_visible(self):
         rows = {'TEST': row(timing=timing.calculate(history(), AS_OF))}

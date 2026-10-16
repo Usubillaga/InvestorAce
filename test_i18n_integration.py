@@ -46,7 +46,7 @@ class FullReportLanguages(unittest.TestCase):
         for ticker, close in [('BUY', 120.0), ('SELL', 80.0), ('HOLD', 100.0)]:
             bars = history()
             bars.iloc[-1] = [close + 1, close - 1, close]
-            rows[ticker] = row(timing=timing.calculate(bars, AS_OF))
+            rows[ticker] = row(yf=ticker, timing=timing.calculate(bars, AS_OF))
         before = copy.deepcopy(rows)
         with patch.object(engine, 'DATA', rows), \
              patch.object(engine, 'sector_performance', return_value={'ok': False}), \

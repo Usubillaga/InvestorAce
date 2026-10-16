@@ -1,4 +1,4 @@
-"""Descriptive daily trend/extension observations; never a trading rule."""
+"""Daily trend/extension metrics and experimental display-only crossing events."""
 from datetime import datetime, timezone
 
 import pandas as pd
@@ -6,9 +6,57 @@ import pandas as pd
 from evidence import digest
 from integrity import positive_number
 
-VERSION = 'observational-timing-v1'
+VERSION = 'experimental-timing-v2'
+SIGNAL_VERSION = 'close-crossings-v1'
+SIGNAL_LOOKBACK_SESSIONS = 20
+SIGNAL_MIN_BARS = 201
 PARAMETERS = {'sma': 200, 'ema': 21, 'atr': 14}
 STALE_AFTER_CALENDAR_DAYS = 7
+
+
+def _signal_observation():
+    return dict(schema=SIGNAL_VERSION, status='UNAVAILABLE', event=None, date=None,
+                reason='Timing is unavailable; no current signal can be computed.',
+                lookback_sessions=SIGNAL_LOOKBACK_SESSIONS, latest_event=None)
+
+
+def _calculate_signals(result, values, emas):
+    """Versioned display events evaluated from causal indicator prefixes only."""
+    signal = result['signal']
+    signal['date'] = values[-1][0][:10]
+    if len(values) < SIGNAL_MIN_BARS:
+        signal['reason'] = 'At least 201 valid completed daily bars are required for signal comparisons.'
+        return
+    closes = [row[3] for row in values]
+
+    def event_at(index):
+        close, previous = closes[index], closes[index - 1]
+        sma = sum(closes[index - 199:index + 1]) / 200
+        previous_sma = sum(closes[index - 200:index]) / 200
+        event = None
+        if previous <= emas[index - 1] and close > emas[index] and close > sma:
+            event = 'BUY'
+        elif previous >= previous_sma and close < sma:
+            event = 'SELL'
+        if event is None:
+            return None
+        return dict(event=event, date=values[index][0][:10],
+                    age_sessions=len(values) - index - 1,
+                    close=close, ema21=emas[index], sma200=sma,
+                    previous_close=previous, previous_ema21=emas[index - 1],
+                    previous_sma200=previous_sma)
+
+    latest = event_at(len(values) - 1)
+    first = max(SIGNAL_MIN_BARS - 1, len(values) - SIGNAL_LOOKBACK_SESSIONS)
+    for index in range(len(values) - 1, first - 1, -1):
+        event = latest if index == len(values) - 1 else event_at(index)
+        if event is not None:
+            signal['latest_event'] = event
+            break
+    if result['status'] != 'AVAILABLE':
+        signal['reason'] = 'Current signal suppressed because timing is ' + result['status'] + '.'
+        return
+    signal.update(status='AVAILABLE', event=latest['event'] if latest else 'NO_NEW_SIGNAL', reason='')
 
 
 def unavailable(reason, as_of=None):
@@ -20,7 +68,8 @@ def unavailable(reason, as_of=None):
                 cutoff_policy='Strictly before the current exchange-local date',
                 history_start=None, last_bar=None, bars=0, age_calendar_days=None,
                 input_sha256=None, close=None, sma200=None, ema21=None,
-                atr14=None, trend=None, distance_sma_pct=None, extension_atr=None)
+                atr14=None, trend=None, distance_sma_pct=None, extension_atr=None,
+                signal=_signal_observation())
 
 
 def calculate(history, as_of=None):
@@ -72,8 +121,10 @@ def calculate(history, as_of=None):
     closes = [row[3] for row in values]
     sma = sum(closes[-200:]) / 200
     ema = sum(closes[:21]) / 21
+    emas = [None] * 20 + [ema]
     for close in closes[21:]:
         ema += (close - ema) * (2 / 22)
+        emas.append(ema)
     ranges = []
     for i, (_, high, low, _) in enumerate(values):
         ranges.append(high - low if i == 0 else
@@ -91,4 +142,5 @@ def calculate(history, as_of=None):
     if result['age_calendar_days'] > STALE_AFTER_CALENDAR_DAYS:
         result.update(status='STALE', reason=('Last bar is more than 7 calendar days old. '
                                             + result['reason']).strip())
+    _calculate_signals(result, values, emas)
     return result

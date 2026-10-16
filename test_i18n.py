@@ -151,6 +151,47 @@ class Localization(unittest.TestCase):
             self.assertIn('Quarterly Results 2026', result)
             self.assertIn(label, result)
 
+    def test_source_record_words_and_document_titles_are_not_ui_labels(self):
+        body = ('<div id="filing-BUY"><b>BUY · PARTIAL</b><p>Growth</p></div>'
+                '<details id="review-BUY"><summary>BUY · Growth · PARTIAL</summary>'
+                '<p><a href="https://issuer.example/report">Growth</a></p>'
+                '<table><thead><tr><th>Transaction</th><th>Filed</th>'
+                '<th>Owner / role</th><th>Disclosed type</th></tr></thead>'
+                '<tbody><tr><td>2026-10-14</td><td>2026-10-15</td>'
+                '<td>HOLD</td><td>Gift [G]</td></tr></tbody></table></details>')
+        for language in ('de', 'es'):
+            result = module().localize(document(body), language)
+            self.assertIn('BUY · ', result)
+            self.assertIn('<p>Growth</p>', result)
+            self.assertIn('>Growth</a>', result)
+            self.assertIn('<td>HOLD</td>', result)
+            self.assertNotIn('>Gift [G]</td>', result)
+
+    def test_inline_ticker_lists_are_preserved_when_the_labels_translate(self):
+        body = ('<p>Held positions missing quotes: BUY, SELL, HOLD</p>'
+                '<p>Manual discount-rate fallbacks: BUY: manual rate fallback: no valid beta inputs</p>')
+        for language in ('de', 'es'):
+            result = module().localize(document(body), language)
+            self.assertIn('BUY, SELL, HOLD', result)
+            self.assertIn('BUY: ', result)
+            self.assertNotIn('Held positions missing quotes:', result)
+            self.assertNotIn('Manual discount-rate fallbacks:', result)
+
+    def test_disclosed_codes_and_market_identifiers_have_complete_ui_coverage(self):
+        body = ('<p>VIX</p><details id="review-TEST"><summary>TEST · Issuer · PARTIAL</summary>'
+                '<table><thead><tr><th>Disclosed type</th></tr></thead><tbody>'
+                '<tr><td>Employee fund subscription [AMF_ACQUISITION_EMPLOYEE_FCPE_SUBSCRIPTION]</td></tr>'
+                '<tr><td>Sale of shares from a prior award plan [AMF_DISPOSAL_SHARE_PLAN_ORIGIN]</td></tr>'
+                '</tbody></table></details>')
+        self.assertEqual(module().translation_gaps(document(body)), [])
+        for language in ('de', 'es'):
+            result = module().localize(document(body), language)
+            self.assertIn('VIX', result)
+            self.assertIn('[AMF_ACQUISITION_EMPLOYEE_FCPE_SUBSCRIPTION]', result)
+            self.assertIn('[AMF_DISPOSAL_SHARE_PLAN_ORIGIN]', result)
+            self.assertNotIn('Employee fund subscription', result)
+            self.assertNotIn('Sale of shares from a prior award plan', result)
+
     def test_full_report_first_party_text_inventory_has_no_gaps(self):
         # Uses actual renderers and model rows; network entry points are inert.
         i18n = module()
