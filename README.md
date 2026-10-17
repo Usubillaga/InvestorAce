@@ -167,6 +167,11 @@ before adding a dated JSON edition. All four sections, evidence links,
 timezone-aware cut-off, three translations and reading budget are validated
 before deployment. Until a real edition exists, the page shows the schedule.
 
+A second daily edition written by Claude is published beside it at
+`claude-daily.html` (`claude-daily-es.html`, `-en`, `-de`) so the two can be
+compared. It follows the same four-section contract without the word limit;
+see [claude-briefings/README.md](claude-briefings/README.md).
+
 ## Layout
 
 | File | Role |
@@ -181,7 +186,7 @@ before deployment. Until a real edition exists, the page shows the schedule.
 | `integrity.py`, `reprice.py` | Build integrity checks, risk-free repricing tool |
 | `research.py` | Offline feature research (not part of the build) |
 | `weekly_research.py`, `weekly-research/` | Published research briefings, schema and dated archives |
-| `market-briefings/`, `daily-briefings/` | Separate Monday market and daily politics/economy editions |
+| `market-briefings/`, `daily-briefings/`, `claude-briefings/` | Separate Monday market and daily politics/economy editions (ChatGPT and Claude) |
 | `test_*.py`, `tests/fixtures/` | Contract and regression tests |
 | `history/` | Daily observations committed by the build bot — do not edit by hand |
 | `docs/` | Framework spec, implementation notes, ten-stock plan |
