@@ -6,6 +6,7 @@ on:
     paths:
       - 'weekly-research/**'
       - 'market-briefings/**'
+      - 'daily-briefings/**'
       - 'weekly_research.py'
       - '.github/workflows/research-pages.yml'
   workflow_dispatch:
@@ -35,7 +36,7 @@ jobs:
           python-version: '3.11'
       - name: Validate and build research pages
         run: |
-          python -m unittest test_weekly_research -v
+          python -m unittest test_weekly_research test_daily_briefing -v
           python weekly_research.py --output public
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5

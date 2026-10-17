@@ -151,6 +151,22 @@ report and prepares every translation before writing the site. Translation
 does not fetch market data, recalculate a score or modify archived evidence.
 The English report/evidence pair remains the build's verified source.
 
+## Daily politics and economy
+
+The daily briefing is a separate series at `daily.html`, with complete Spanish,
+English and German editions at `daily-es.html`, `daily-en.html` and
+`daily-de.html`. It covers regime impact, the United States, the European Union
+and Colombia, including politics, employment, risks and dated FX observations.
+Each language targets a 3–5 minute read. Dated archives preserve the selected
+language. The scheduled task starts on 2026-10-18, around 08:00 Europe/Berlin,
+including weekends. Monday's market briefing and Friday's research keep their
+own pages and archives.
+
+Read [the daily editorial and publication contract](daily-briefings/README.md)
+before adding a dated JSON edition. All four sections, evidence links,
+timezone-aware cut-off, three translations and reading budget are validated
+before deployment. Until a real edition exists, the page shows the schedule.
+
 ## Layout
 
 | File | Role |
@@ -165,6 +181,7 @@ The English report/evidence pair remains the build's verified source.
 | `integrity.py`, `reprice.py` | Build integrity checks, risk-free repricing tool |
 | `research.py` | Offline feature research (not part of the build) |
 | `weekly_research.py`, `weekly-research/` | Published research briefings, schema and dated archives |
+| `market-briefings/`, `daily-briefings/` | Separate Monday market and daily politics/economy editions |
 | `test_*.py`, `tests/fixtures/` | Contract and regression tests |
 | `history/` | Daily observations committed by the build bot — do not edit by hand |
 | `docs/` | Framework spec, implementation notes, ten-stock plan |
