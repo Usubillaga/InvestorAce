@@ -431,6 +431,7 @@ DATA = {
       'published_at': '2026-07-17',
       'period': 'H1 2026 andH1 2025; shares2026-06-30'}],
 ),
+'GOOGL': dict(yf='GOOGL', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5, 9.0, 6.0, 8.0, 5.0, 9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(122.07, 817.22)),
 }
 
 # ---------------- engine ----------------
