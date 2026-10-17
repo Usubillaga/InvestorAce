@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "first_issue_date": "2026-10-18",
+  "timezone": "Europe/Berlin",
+  "schedule_label": "Every day, around 08:00 Europe/Berlin",
+  "languages": ["es", "en", "de"],
+  "default_language": "de",
+  "verify_translation_claims": true,
+  "schedule_labels": {
+    "es": "Todos los días, alrededor de las 08:00, hora de Berlín",
+    "de": "Täglich, gegen 08:00 Uhr, Berliner Zeit"
+  }
+}
