@@ -431,6 +431,7 @@ DATA = {
       'published_at': '2026-07-17',
       'period': 'H1 2026 andH1 2025; shares2026-06-30'}],
 ),
+'AMD': dict(yf='AMD', fcf=8403.0, shares=1632.48, r=0.08, cur='USD', deliver=60.2, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(9.5, 6.0, 9.0, 9.5, 5.0, 1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(94.11, 1317.04)),
 }
 
 # ---------------- engine ----------------
