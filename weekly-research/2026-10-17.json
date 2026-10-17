@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-17",
+  "period_start": "2026-10-12",
+  "period_end": "2026-10-16",
+  "summary": "[Sicher] Delayed Friday edition for 12–16 October; researched on 17 October 2026 at 01:49 UTC. Three new preprints warrant review of information timing, regime-declaration decisions and portfolio cost accounting. No new valuation/reverse-DCF evidence passed this screen. These are proposals, not verified implementation findings or changes to investment rules.",
+  "items": [
+    {
+      "title": "When Does \"Post-Call\" Begin? An Availability Contract for Earnings-Call NLP Benchmarks",
+      "authors": "Xiaoyu Ma, Kelvin J.L. Koa, Yuncong Liu and Ke-Wei Huang",
+      "publication_date": "15 October 2026 · arXiv v1",
+      "source_url": "https://arxiv.org/html/2610.21659v1",
+      "topics": [
+        "stock_selection"
+      ],
+      "what_changed": "[Sicher] Across 552 calls from 24 firms, replacing call-start with reconstructed completion plus a stipulated 15-minute allowance flips 9.4% of return signs and 28.3% of quintiles with fixed completion-clock cutpoints.",
+      "investorace_implication": "[Wahrscheinlich] Inference: a chronological split alone cannot establish point-in-time validity for systematic signals; complete-input availability must precede the return window.",
+      "review": "both",
+      "review_question": "Audit timestamp provenance, input/checkpoint readiness and market calendars; freeze signals, shift outcome starts beyond verified availability, and retest forward performance after costs with multiple-testing control.",
+      "limitations": "[Sicher] Retrospective proxies, not observed model/order/execution readiness; a stipulated allowance is not measured latency. One earnings-call setting; no independent replication or InvestorAce alpha evidence.",
+      "confidence": "Sicher"
+    },
+    {
+      "title": "Regime Detection in Latent Factor Models -- A Bayesian Decision-Theoretic Approach",
+      "authors": "Karl Kristian Engelund",
+      "publication_date": "14 October 2026 · arXiv v1",
+      "source_url": "https://arxiv.org/html/2610.20366v1",
+      "topics": [
+        "macro_regimes"
+      ],
+      "what_changed": "[Sicher] Separates filtering regime probabilities from deciding when to declare a change. Particle filtering plus Monte Carlo decision optimization trades false alarms, delay and misclassification; simulated Heston/Vasicek examples outperform feasible plug-in rules.",
+      "investorace_implication": "[Wahrscheinlich] Inference: evaluate the growth/inflation classifier's declaration policy separately from its estimates. Preserve unweighted regime fit outside the score, avoiding duplicate exposures.",
+      "review": "framework",
+      "review_question": "Predefine false-alarm/delay losses; replay vintage growth/inflation releases against a frozen simple classifier, report declaration lag and reversals, and reserve forward data before considering code.",
+      "limitations": "[Sicher] Preprint with model-based numerical experiments, not empirical growth/inflation classification or equity-return validation. Results depend on assumed transitions, loss weights and filtering approximations.",
+      "confidence": "Sicher"
+    },
+    {
+      "title": "Data-Driven Dynamic Portfolio Selection with Vine Copula Simulation and Reinforcement Learning",
+      "authors": "Gabriël M.J. Gelissen and Fengyi Yuan",
+      "publication_date": "14 October 2026 · arXiv v1",
+      "source_url": "https://arxiv.org/html/2610.20037v1",
+      "topics": [
+        "portfolio_construction"
+      ],
+      "what_changed": "[Sicher] A seven-asset, ten-policy ensemble reports 34.13% CAGR and 2.309 Sharpe over 22 retained monthly periods. Mixed simulated/historical training reduces target-to-target turnover 41.5% versus historical-only training.",
+      "investorace_implication": "[Wahrscheinlich] Inference: portfolio comparisons should reconcile holdings drift and costs before crediting a complex allocator; constant target weights can still require trading.",
+      "review": "both",
+      "review_question": "Recompute all methods with drift-aware executable turnover, common financing/transaction costs and all 24 periods; compare frozen simple baselines using untouched forward data and multiplicity control.",
+      "limitations": "[Sicher] Preprint; US indices/Chinese ETFs/gold, short sample and two omitted periods. Reported evaluation uses target-to-target turnover; equal weight records zero. Seed-level CE contrasts lose significance after Holm adjustment. No independent replication.",
+      "confidence": "Sicher"
+    }
+  ],
+  "priority_review": "[Wahrscheinlich] First audit point-in-time availability; then cost comparability and regime-declaration losses. Any implementation requires a separate decision after controlled forward tests; structural, quality and duration screens remain review context.",
+  "translations": {
+    "es": {
+      "summary": "[Sicher] Edición del viernes recuperada para el 12–16 de octubre; investigada el 17 de octubre de 2026 a las 01:49 UTC. Tres prepublicaciones nuevas justifican revisar disponibilidad de información, declaración de regímenes y costes de cartera. Ninguna evidencia nueva de valoración/DCF inverso superó esta selección. Son propuestas, no hallazgos sobre la implementación ni cambios de reglas.",
+      "priority_review": "[Wahrscheinlich] Primero auditar disponibilidad de información; después comparabilidad de costes y pérdidas por declaración de régimen. Cualquier implementación requiere una decisión separada tras pruebas prospectivas controladas; filtros estructurales, de calidad y duración siguen como contexto de revisión.",
+      "items": [
+        {
+          "source_url": "https://arxiv.org/html/2610.21659v1",
+          "title": "¿Cuándo empieza «después de la conferencia»? Un contrato de disponibilidad para evaluar NLP de conferencias de resultados",
+          "publication_date": "15 de octubre de 2026 · arXiv v1",
+          "what_changed": "[Sicher] En 552 conferencias de 24 empresas, sustituir el inicio por la finalización reconstruida más un margen estipulado de 15 minutos cambia el signo del 9,4% de las rentabilidades y el quintil del 28,3%, con límites fijos del reloj de finalización.",
+          "investorace_implication": "[Wahrscheinlich] Inferencia: separar cronológicamente las muestras no basta para validar señales disponibles entonces; la información completa debe preceder la ventana de rentabilidad.",
+          "review_question": "Auditar procedencia de marcas temporales, disponibilidad de entradas/modelos y calendarios; fijar señales, desplazar inicios más allá de disponibilidad verificada y repetir pruebas prospectivas netas de costes, controlando pruebas múltiples.",
+          "limitations": "[Sicher] Proxies retrospectivos, sin observar disponibilidad real del modelo, órdenes o ejecución; el margen no mide latencia. Un contexto de conferencias; sin réplica independiente ni evidencia de alfa en InvestorAce."
+        },
+        {
+          "source_url": "https://arxiv.org/html/2610.20366v1",
+          "title": "Detección de regímenes en modelos de factores latentes: un enfoque bayesiano de decisión",
+          "publication_date": "14 de octubre de 2026 · arXiv v1",
+          "what_changed": "[Sicher] Separa filtrar probabilidades de régimen de decidir cuándo declarar un cambio. Filtros de partículas y optimización Monte Carlo equilibran falsas alarmas, retraso y clasificación errónea; simulaciones Heston/Vasicek superan reglas factibles basadas en estimaciones.",
+          "investorace_implication": "[Wahrscheinlich] Inferencia: evaluar por separado estimaciones y política de declaración del clasificador de crecimiento/inflación. Mantener ajuste al régimen sin ponderar, fuera de la puntuación y sin duplicar exposiciones.",
+          "review_question": "Predefinir pérdidas por falsas alarmas/retraso; reproducir publicaciones históricas de crecimiento/inflación con sus datos disponibles entonces, frente a un clasificador simple fijado; medir retraso y reversiones y reservar datos futuros antes de considerar código.",
+          "limitations": "[Sicher] Prepublicación con experimentos numéricos modelizados; sin clasificación empírica de crecimiento/inflación ni validación de rentabilidades. Depende de transiciones, pesos de pérdidas y aproximaciones del filtro."
+        },
+        {
+          "source_url": "https://arxiv.org/html/2610.20037v1",
+          "title": "Selección dinámica de carteras mediante simulación de cópulas vine y aprendizaje por refuerzo",
+          "publication_date": "14 de octubre de 2026 · arXiv v1",
+          "what_changed": "[Sicher] Un conjunto de diez políticas sobre siete activos reporta CAGR del 34,13% y Sharpe 2,309 en 22 periodos mensuales retenidos. Entrenar con datos simulados e históricos reduce la rotación entre pesos objetivo un 41,5% frente a usar solo históricos.",
+          "investorace_implication": "[Wahrscheinlich] Inferencia: conciliar deriva de posiciones y costes antes de atribuir ventajas a un asignador complejo; pesos objetivo constantes pueden exigir operaciones.",
+          "review_question": "Recalcular métodos con rotación ejecutable que incluya deriva, financiación/costes comunes y los 24 periodos; comparar referencias simples fijadas con datos prospectivos intactos y control de multiplicidad.",
+          "limitations": "[Sicher] Prepublicación; índices estadounidenses, ETF chinos y oro, muestra corta y dos periodos omitidos. La evaluación usa rotación entre objetivos; igual ponderación registra cero. Contrastes de equivalente cierto por semilla pierden significación con Holm. Sin réplica independiente."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Nachgeholte Freitagsausgabe für den 12.–16. Oktober; recherchiert am 17. Oktober 2026 um 01:49 UTC. Drei neue Preprints begründen Prüfungen von Informationsverfügbarkeit, Regimedeklaration und Portfoliokosten. Keine neue Bewertungs-/Reverse-DCF-Evidenz bestand diese Auswahl. Es sind Vorschläge, keine bestätigten Implementierungsbefunde oder Regeländerungen.",
+      "priority_review": "[Wahrscheinlich] Zuerst Informationsverfügbarkeit prüfen, danach Kostenvergleichbarkeit und Verluste durch Regimedeklarationen. Jede Umsetzung erfordert nach kontrollierten Vorwärtstests eine eigene Entscheidung; Struktur-, Qualitäts- und Durationfilter bleiben Prüfungskontext.",
+      "items": [
+        {
+          "source_url": "https://arxiv.org/html/2610.21659v1",
+          "title": "Wann beginnt „nach der Konferenz“? Ein Verfügbarkeitsvertrag für NLP-Benchmarks zu Ergebniskonferenzen",
+          "publication_date": "15. Oktober 2026 · arXiv v1",
+          "what_changed": "[Sicher] Bei 552 Konferenzen von 24 Unternehmen verändert der Wechsel vom Beginn zum rekonstruierten Ende plus angenommenen 15 Minuten das Vorzeichen von 9,4% der Renditen und bei festen Grenzen der Endzeitmessung das Quintil von 28,3%.",
+          "investorace_implication": "[Wahrscheinlich] Schlussfolgerung: Eine chronologische Stichprobentrennung allein belegt keine zeitgerechte Signalverfügbarkeit; vollständige Eingaben müssen vor dem Renditefenster verfügbar sein.",
+          "review_question": "Zeitstempelherkunft, Eingabe-/Modellverfügbarkeit und Handelskalender prüfen; Signale einfrieren, Zielstarts hinter belegte Verfügbarkeit verschieben und Vorwärtsleistung nach Kosten mit Kontrolle multipler Tests neu prüfen.",
+          "limitations": "[Sicher] Retrospektive Näherungen statt beobachteter Modell-, Order- oder Ausführungsbereitschaft; angenommene Pufferzeit ist keine gemessene Latenz. Ein Konferenzkontext; keine unabhängige Replikation oder InvestorAce-Alpha-Evidenz."
+        },
+        {
+          "source_url": "https://arxiv.org/html/2610.20366v1",
+          "title": "Regimeerkennung in latenten Faktormodellen: ein bayesianischer entscheidungstheoretischer Ansatz",
+          "publication_date": "14. Oktober 2026 · arXiv v1",
+          "what_changed": "[Sicher] Trennt das Filtern von Regimewahrscheinlichkeiten von der Entscheidung, wann ein Wechsel erklärt wird. Partikelfilter und Monte-Carlo-Entscheidungsoptimierung wägen Fehlalarme, Verzögerung und Fehlklassifikation ab; simulierte Heston-/Vasicek-Beispiele übertreffen praktikable Plug-in-Regeln.",
+          "investorace_implication": "[Wahrscheinlich] Schlussfolgerung: Deklarationsregel und Schätzungen des Wachstums-/Inflationsklassifikators getrennt bewerten. Regime-Fit ungewichtet außerhalb des Scores halten und Exponierungen nicht doppelt zählen.",
+          "review_question": "Fehlalarm-/Verzögerungsverluste vorab festlegen; historische Wachstums-/Inflationsmeldungen mit damaligem Datenstand gegen einen fixierten einfachen Klassifikator abspielen, Deklarationsverzug und Rücknahmen messen und Vorwärtsdaten vor Codeüberlegungen reservieren.",
+          "limitations": "[Sicher] Preprint mit modellbasierten Zahlenexperimenten, ohne empirische Wachstums-/Inflationsklassifikation oder Aktienrenditevalidierung. Abhängig von Übergängen, Verlustgewichten und Filterapproximationen."
+        },
+        {
+          "source_url": "https://arxiv.org/html/2610.20037v1",
+          "title": "Datengetriebene dynamische Portfolioauswahl mit Vine-Copula-Simulation und Reinforcement Learning",
+          "publication_date": "14. Oktober 2026 · arXiv v1",
+          "what_changed": "[Sicher] Ein Ensemble aus zehn Regeln für sieben Anlagen berichtet 34,13% CAGR und Sharpe 2,309 über 22 beibehaltene Monatsperioden. Gemischtes simuliertes/historisches Training senkt Zielgewicht-zu-Zielgewicht-Umschlag um 41,5% gegenüber rein historischem Training.",
+          "investorace_implication": "[Wahrscheinlich] Schlussfolgerung: Bestandsdrift und Kosten abstimmen, bevor Vorteile einem komplexen Allokator zugeschrieben werden; konstante Zielgewichte können Handel erfordern.",
+          "review_question": "Alle Methoden mit driftgerechtem ausführbarem Umschlag, gleichen Finanzierungs-/Transaktionskosten und allen 24 Perioden neu berechnen; fixierte einfache Referenzen mit unberührten Vorwärtsdaten und Multiplikitätskontrolle vergleichen.",
+          "limitations": "[Sicher] Preprint; US-Indizes/chinesische ETFs/Gold, kurze Stichprobe und zwei ausgelassene Perioden. Zielgewicht-Umschlag in der Auswertung; Gleichgewichtung verbucht null. Seed-basierte Sicherheitsäquivalent-Kontraste verlieren nach Holm Signifikanz. Keine unabhängige Replikation."
+        }
+      ]
+    }
+  }
+}
