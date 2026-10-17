@@ -431,6 +431,7 @@ DATA = {
       'published_at': '2026-07-17',
       'period': 'H1 2026 andH1 2025; shares2026-06-30'}],
 ),
+'O': dict(yf='O', fcf=4166.2, shares=946.22, r=0.08, cur='USD', deliver=13.3, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(7.0, 9.5, 9.5, 1.5, 5.0, 9.0), pr=None, dil=3.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(26.58, 135.88)),
 }
 
 # ---------------- engine ----------------
