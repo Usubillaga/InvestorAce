@@ -1,4 +1,5 @@
-"""Build separate Friday research, Monday market and daily politics briefings.
+"""Build separate Friday research, Monday market and daily politics briefings
+(ChatGPT and Claude editions side by side).
 
 No market requests, model changes or credentials are needed. The nightly build
 requires a verified report; research-only releases also support the legacy
@@ -113,6 +114,9 @@ SERIES = {
     'daily': {
         'folder': 'daily-briefings', 'page': 'daily.html', 'archive': 'daily', 'lang': 'de',
     },
+    'claude': {
+        'folder': 'claude-briefings', 'page': 'claude-daily.html', 'archive': 'claude-daily', 'lang': 'de',
+    },
 }
 
 MARKET_LOCALES = {
@@ -128,6 +132,23 @@ MARKET_LOCALES = {
 }
 
 DAILY_SECTIONS = ('regime', 'usa', 'eu', 'colombia')
+# Both daily feeds share the four-section contract; only the ChatGPT feed has a word budget.
+DAILY_SERIES = ('daily', 'claude')
+DAILY_WORD_LIMIT = {'daily': 900, 'claude': None}
+CLAUDE_LOCALES = {
+    'en': {'title': 'Claude Daily', 'daily': 'Claude daily',
+           'eyebrow': 'Daily · Claude edition', 'heading': 'The same four questions, a second analyst.',
+           'description': 'A Claude-written daily edition with the same four sections as the daily briefing, published alongside it for comparison.',
+           'policy': 'Same evidence contract as the daily briefing, without a word limit. Dated sources, clear FX units, facts separated from scenarios.'},
+    'de': {'title': 'Claude-Tagesbericht', 'daily': 'Claude-Tagesbericht',
+           'eyebrow': 'Täglich · Claude-Ausgabe', 'heading': 'Dieselben vier Fragen, ein zweiter Analyst.',
+           'description': 'Eine von Claude geschriebene Tagesausgabe mit denselben vier Teilen wie der Tagesbericht, zum Vergleich daneben veröffentlicht.',
+           'policy': 'Derselbe Evidenzvertrag wie beim Tagesbericht, ohne Wortgrenze. Datierte Quellen, eindeutige Währungseinheiten, Fakten und Szenarien getrennt.'},
+    'es': {'title': 'Informe diario de Claude', 'daily': 'Informe diario de Claude',
+           'eyebrow': 'Diario · Edición de Claude', 'heading': 'Las mismas cuatro preguntas, un segundo analista.',
+           'description': 'Una edición diaria escrita por Claude con las mismas cuatro partes que el informe diario, publicada a su lado para comparar.',
+           'policy': 'El mismo contrato de evidencia que el informe diario, sin límite de palabras. Fuentes fechadas, unidades de divisas explícitas, hechos y escenarios separados.'},
+}
 DAILY_LOCALES = {
     'en': {
         'title': 'Daily Politics & Economy', 'daily': 'Daily briefing',
@@ -339,7 +360,7 @@ def daily_word_count(issue):
     return len(' '.join(texts).split())
 
 
-def validate_daily(config, issues):
+def validate_daily(config, issues, max_words=900):
     """Daily editions reuse the checked translations and add four-section evidence."""
     if (set(config.get('languages', [])) != set(LANGUAGES)
             or config.get('verify_translation_claims') is not True):
@@ -373,8 +394,8 @@ def validate_daily(config, issues):
             if item['source_url'] not in urls:
                 raise ValueError('The leading daily source must be in the source notes')
         for language in LANGUAGES:
-            if daily_word_count(localized_issue(issue, language)) > 900:
-                raise ValueError(f'Daily {language} text exceeds the 900-word reading budget')
+            if max_words and daily_word_count(localized_issue(issue, language)) > max_words:
+                raise ValueError(f'Daily {language} text exceeds the {max_words}-word reading budget')
 
 
 def display_text(value, language):
@@ -443,12 +464,14 @@ def render_page(issue, issues, config, archived=False, series='research', langua
     path_language = language
     language = language or config.get('default_language', settings['lang'])
     labels = {**LOCALES[language], **(MARKET_LOCALES[language] if series == 'market' else {})}
-    if series == 'daily':
+    if series in DAILY_SERIES:
         labels.update(DAILY_LOCALES[language])
+    if series == 'claude':
+        labels.update(CLAUDE_LOCALES[language])
     if series == 'research' or (issue and issue.get('translations')):
         issue = localized_issue(issue, language)
     prefix = '../' if archived else ''
-    header_topics = labels['sections'] if series == 'daily' else labels['topics'].values()
+    header_topics = labels['sections'] if series in DAILY_SERIES else labels['topics'].values()
     topics = ''.join(f'<span class="topic">{e(t)}</span>' for t in header_topics)
     archive = ''.join(f'<li><a href="{prefix}{page_path(series, x["issue_date"], path_language)}">'
                       f'{e(x["issue_date"])}</a><br><span class="meta">'
@@ -462,7 +485,7 @@ def render_page(issue, issues, config, archived=False, series='research', langua
                    f'<p>{e(labels["unpublished"])}</p></div>')
     else:
         daily_meta = ''
-        if series == 'daily':
+        if series in DAILY_SERIES:
             words = daily_word_count(issue)
             minutes = max(1, (words + 199) // 200)
             daily_meta = (f'<p class="meta">{e(labels["cutoff"])}: {e(issue["data_cutoff"])} · '
@@ -471,15 +494,16 @@ def render_page(issue, issues, config, archived=False, series='research', langua
                    f'<p class="meta">{e(labels["coverage"])}: {e(issue["period_start"])} → {e(issue["period_end"])}</p>'
                    + daily_meta
                    + f'<p class="summary">{display_text(issue["summary"], language)}</p>'
-                   + ''.join(card(item, i, language, daily=series == 'daily') for i, item in enumerate(issue['items'], 1))
+                   + ''.join(card(item, i, language, daily=series in DAILY_SERIES) for i, item in enumerate(issue['items'], 1))
                    + ('' if issue['items'] else f'<div class="empty">{e(labels["empty"])}</div>')
                    + f'<div class="priority"><h2>{e(labels["priority"])}</h2><div>{display_text(issue["priority_review"], language)}</div></div>')
     title = labels['title'] + (f' · {issue["issue_date"]}' if issue else '')
     navigation = ''
     for key in SERIES:
-        if key == 'daily' and key not in multilingual_series:
+        if key in DAILY_SERIES and key not in multilingual_series:
             continue
         label = (labels['nav'] if key == 'research' else labels['market'] if key == 'market'
+                 else CLAUDE_LOCALES[language]['daily'] if key == 'claude'
                  else DAILY_LOCALES[language]['daily'])
         current = ' aria-current="page"' if key == series else ''
         nav_language = path_language if key == series else language if key in multilingual_series else None
@@ -506,12 +530,14 @@ def render_page(issue, issues, config, archived=False, series='research', langua
             f'<p>{e(labels["policy"])}</p></aside></div><footer>{e(labels["footer"])}</footer></main></body></html>')
 
 
-def add_research_link(html, include_daily=False):
+def add_research_link(html, include_daily=False, include_claude=False):
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
     daily_link = ('<a href="daily.html" style="color:#c1d98b;font-weight:700">Daily briefing ↗</a>'
                   if include_daily else '')
+    daily_link += ('<a href="claude-daily.html" style="color:#c1d98b;font-weight:700">Claude daily ↗</a>'
+                   if include_claude else '')
     nav = ('<nav id="investorace-research-nav" aria-label="Research" '
            'style="margin:0 0 22px;padding:12px 16px;border:1px solid #2a3040;'
            'border-radius:10px;background:#141821;display:flex;gap:16px;flex-wrap:wrap">'
@@ -553,7 +579,8 @@ def market_redirects(config, market_issues, research_issues):
 def build_site(root, output, require_committed=False):
     root, output = Path(root).resolve(), Path(output).resolve()
     if output == root or output in (root / 'history', root / 'weekly-research',
-                                   root / 'market-briefings', root / 'daily-briefings'):
+                                   root / 'market-briefings', root / 'daily-briefings',
+                                   root / 'claude-briefings'):
         raise ValueError('Use a separate site output directory')
     config, issues = load_research(root / 'weekly-research')
     collections = [('research', config, issues)]
@@ -561,11 +588,13 @@ def build_site(root, output, require_committed=False):
     if market_folder.exists():
         market_config, market_issues = load_research(market_folder)
         collections.append(('market', market_config, market_issues))
-    daily_folder = root / 'daily-briefings'
-    if daily_folder.exists():
-        daily_config, daily_issues = load_research(daily_folder)
-        validate_daily(daily_config, daily_issues)
-        collections.append(('daily', daily_config, daily_issues))
+    for series in DAILY_SERIES:
+        folder = root / SERIES[series]['folder']
+        if folder.exists():
+            series_config, series_issues = load_research(folder)
+            validate_daily(series_config, series_issues, DAILY_WORD_LIMIT[series])
+            collections.append((series, series_config, series_issues))
+    present = {series for series, _, _ in collections}
     pointer = root / 'history' / '_current.json'
     if pointer.exists() or require_committed:
         from evidence import current_build
@@ -573,7 +602,8 @@ def build_site(root, output, require_committed=False):
     else:
         report = root / 'index.html'
         print('Using the legacy scoreboard; no paired generation exists yet.')
-    scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily=daily_folder.exists())
+    scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in present,
+                                   include_claude='claude' in present)
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
     scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language))

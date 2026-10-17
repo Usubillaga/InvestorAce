@@ -338,7 +338,7 @@ class _Report(HTMLParser):
         if tag == 'html':
             raw = _attribute(raw, 'lang', self.language)
         if tag == 'a' and self._research():
-            match = re.fullmatch(r'(market|research|daily)(?:-(?:en|de|es))?\.html', attrs.get('href', ''))
+            match = re.fullmatch(r'(market|research|daily|claude-daily)(?:-(?:en|de|es))?\.html', attrs.get('href', ''))
             if match:
                 series = match.group(1)
                 suffix = '' if series == 'research' and self.language == 'en' else '-' + self.language
