@@ -85,7 +85,12 @@
                 ['Nach Qualitätsfiltern', num(market.funnel?.[1]?.count ?? null, 0)],
                 ['Neue Ideen mit Score ≥ 7', candidates.filter(c => !c.in_universe && c.score >= 7).length],
                 ['Kandidaten gespeichert', candidates.length]]);
-      $('notice').innerHTML = (market.note ? `<b>${esc(market.note)}</b> ` : '') + '<b>Vorscore, keine Kaufempfehlung:</b> Der Screening-Score rechnet mechanisch aus SEC-Daten und einem Schlusskurs. Eine Bewertung entsteht erst, wenn ein Kandidat per add-ticker ins Modell kommt und gegengeprüft wird.';
+      const cal = market.calibration;
+      const pts = v => (v > 0 ? '+' : '') + num(v, 1);
+      const calText = cal && cal.n >= 3
+        ? ` <b>Abgleich:</b> Bei ${cal.n} Titeln, die auch in deinem Universum stehen, liegt der Vorscore im Mittel ${num(Math.abs(cal.mean_diff), 1)} Punkte ${cal.mean_diff >= 0 ? 'über' : 'unter'} deinem Modellscore (Spanne ${pts(cal.min_diff)} bis ${pts(cal.max_diff)}). Ein Vorscore-„Buy“ ist also kein Modell-Buy.`
+        : '';
+      $('notice').innerHTML = (market.note ? `<b>${esc(market.note)}</b> ` : '') + '<b>Vorscore, keine Kaufempfehlung:</b> Der Screening-Score rechnet mechanisch aus SEC-Daten und einem Schlusskurs. Eine Bewertung entsteht erst, wenn ein Kandidat per add-ticker ins Modell kommt und gegengeprüft wird.' + calText;
       $('list-eyebrow').textContent = 'VOM MARKT ZUR AUSWAHL';
       $('list-title').textContent = 'Neue Aktienideen';
       $('table-note').textContent = `Reihenfolge nach ungerundetem Screening-Score. Regime-Fit bleibt separat und ändert die Reihenfolge nicht. Aktuelles Regime laut Engine: ${regime}. Sektor aus dem SEC-SIC-Code abgeleitet.`;

@@ -193,6 +193,19 @@ class MarketSectionTests(unittest.TestCase):
         self.assertTrue(new['add_url'].startswith('https://github.com/'))
         self.assertIn('add-ticker%3A%20NEWCO', new['add_url'])
 
+    def test_calibration_compares_screening_and_model_scores(self):
+        record = observation()
+        none = scanner.build_scan(record, as_of=ASOF, market=market_payload())['market']
+        self.assertIsNone(none['calibration'])                     # no overlap, no claim
+        market = market_payload(ticker='EX', in_universe=False)
+        joined = scanner.build_scan(record, as_of=ASOF, market=market)['market']
+        row = joined['candidates'][0]
+        cal = joined['calibration']
+        self.assertEqual(cal['n'], 1)
+        self.assertAlmostEqual(cal['mean_diff'], row['score'] - 7.6)
+        self.assertEqual(cal['min_diff'], cal['max_diff'])
+        self.assertIsNone(scanner.build_scan(record, as_of=ASOF)['market']['calibration'])
+
     def test_market_rows_never_change_universe_ranking(self):
         record = observation()
         plain = scanner.build_scan(record, as_of=ASOF)

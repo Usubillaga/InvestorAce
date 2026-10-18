@@ -94,7 +94,8 @@ def add_ticker_url(ticker, repository=None):
 
 def market_section(market, record, as_of, repository=None):
     """Validate the weekly scan and join today's universe membership and engine score."""
-    empty = dict(candidates=[], funnel=[], coverage='', generated_at=None, as_of=None, method={})
+    empty = dict(candidates=[], funnel=[], coverage='', generated_at=None, as_of=None, method={},
+                 calibration=None)
     if market is None:
         return dict(empty, status='MISSING', note='Noch kein Marktscan gespeichert.')
     errors = market_universe.validate_payload(market, now=as_of)
@@ -115,7 +116,17 @@ def market_section(market, record, as_of, repository=None):
                                universe_score=number((record.get(key) or {}).get('score')) if key else None,
                                add_url=None if key else add_ticker_url(item['ticker'], repository)))
     status = 'STALE' if age > timedelta(days=market_universe.MAX_SCAN_AGE_DAYS) else 'OK'
-    return dict(status=status, age_days=round(age.total_seconds() / 86400, 1),
+    # How far the mechanical screening score sits from the curated model score on the
+    # tickers present in both lists (first live scan: +1.2 points on average, n=16).
+    diffs = sorted(c['score'] - c['universe_score'] for c in candidates
+                   if c['in_universe'] and number(c['score']) is not None and c['universe_score'] is not None)
+    calibration = None
+    if diffs:
+        mid = len(diffs) // 2
+        calibration = dict(n=len(diffs), mean_diff=sum(diffs) / len(diffs),
+                           median_diff=diffs[mid] if len(diffs) % 2 else (diffs[mid - 1] + diffs[mid]) / 2,
+                           min_diff=diffs[0], max_diff=diffs[-1])
+    return dict(status=status, age_days=round(age.total_seconds() / 86400, 1), calibration=calibration,
                 note=('Marktscan älter als 14 Tage; Kurse und Zahlen nicht mehr aktuell.'
                       if status == 'STALE' else ''),
                 generated_at=market['generated_at'], as_of=market['as_of'],
