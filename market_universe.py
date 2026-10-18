@@ -999,12 +999,65 @@ def validate_payload(payload, now=None, max_age_days=None):
     return errors
 
 
+def _fmt(value, digits=1, suffix=''):
+    value = _num(value)
+    return '—' if value is None else f'{value:,.{digits}f}{suffix}'.replace(',', ' ')
+
+
+def report_markdown(payload_path, log_path=None, outcome='success', rows=40):
+    """Pull-request summary: funnel, new ideas, overlaps and the log tail."""
+    lines = [f'### Marktscan · Live-Lauf: `{outcome}`', '']
+    payload = None
+    if payload_path and Path(payload_path).exists():
+        try:
+            payload = json.loads(Path(payload_path).read_text(encoding='utf-8'))
+        except ValueError:
+            payload = None
+    if payload:
+        errors = validate_payload(payload)
+        lines += [f'Stand {payload.get("as_of")} · SEC-Anfragen {payload.get("requests", {}).get("sec")} '
+                  f'(fehlgeschlagen {payload.get("requests", {}).get("sec_failures")}) · '
+                  f'Validierung: {"ok" if not errors else "; ".join(errors[:3])}', '',
+                  '| Stufe | Anzahl |', '|---|---:|']
+        lines += [f'| {s["stage"]} | {s["count"]} |' for s in payload.get('funnel', [])]
+        rejected = payload.get('rejected') or {}
+        if rejected:
+            lines += ['', 'Ausgeschieden: ' + ', '.join(f'{k} {v}' for k, v in sorted(rejected.items()))]
+        fresh = [c for c in payload.get('candidates', []) if not c.get('in_universe')]
+        held = [c for c in payload.get('candidates', []) if c.get('in_universe')]
+        lines += ['', f'**Neue Ideen (Top {min(rows, len(fresh))} von {len(fresh)})**', '',
+                  '| # | Ticker | Unternehmen | Sektor | Score | Band | Umsatz | Op.-Marge | FCF-Rendite | NGV-Deckung | Basis | Kurs |',
+                  '|---:|---|---|---|---:|---|---:|---:|---:|---:|---|---|']
+        for i, c in enumerate(fresh[:rows], 1):
+            m = c.get('metrics') or {}
+            lines.append(f'| {i} | {c["ticker"]} | {c.get("name", "")[:28]} | {c.get("sector")} | '
+                         f'{_fmt(c.get("score"), 2)} | {c.get("band")} | {_fmt(m.get("growth_pct"), 1, " %")} | '
+                         f'{_fmt(m.get("operating_margin_pct"), 1, " %")} | {_fmt(m.get("fcf_yield_pct"), 1, " %")} | '
+                         f'{_fmt(m.get("cover_pct"), 0, " %")} | {c.get("basis")} bis {c.get("period_end")} | '
+                         f'{_fmt(c.get("price"), 2)} ({c.get("price_date")}) |')
+        if held:
+            lines += ['', 'Schon im Universum: ' + ', '.join(f'{c["ticker"]} {_fmt(c.get("score"), 2)}' for c in held)]
+    else:
+        lines.append('Kein gültiges Ergebnis geschrieben.')
+    if log_path and Path(log_path).exists():
+        tail = Path(log_path).read_text(encoding='utf-8', errors='replace').splitlines()
+        tail = tail[-(60 if outcome != 'success' else 12):]
+        lines += ['', '<details><summary>Log (Ende)</summary>', '', '```', *tail, '```', '</details>']
+    return '\n'.join(lines) + '\n'
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--output', type=Path, default=Path('market-scan'))
     parser.add_argument('--shortlist', type=int, default=SHORTLIST)
     parser.add_argument('--keep', type=int, default=KEEP)
+    parser.add_argument('--report', type=Path, help='print a Markdown summary of this scan file and exit')
+    parser.add_argument('--log', type=Path, help='log file whose tail the report includes')
+    parser.add_argument('--outcome', default='success')
     args = parser.parse_args(argv)
+    if args.report:
+        sys.stdout.write(report_markdown(args.report, args.log, args.outcome))
+        return 0
     from integrity import atomic_text
     payload = run(shortlist=args.shortlist, keep=args.keep)
     args.output.mkdir(parents=True, exist_ok=True)
