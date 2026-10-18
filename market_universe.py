@@ -262,7 +262,9 @@ class SecClient:
                 if status == 403:
                     # SEC answers 403 for an undeclared agent or a rate breach;
                     # retrying only extends the block.
-                    raise RuntimeError(f'SEC refused {url} (403). Check SEC_USER_AGENT and the request rate.')
+                    excerpt = ' '.join(str(getattr(response, 'text', ''))[:300].split())
+                    raise RuntimeError(f'SEC refused {url} (403): {excerpt or "no body"}. '
+                                       'Check SEC_USER_AGENT and the request rate.')
             if attempt + 1 < tries:
                 time.sleep(2 ** (attempt + 1))
         self.failures += 1

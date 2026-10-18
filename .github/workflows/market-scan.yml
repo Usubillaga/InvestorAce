@@ -56,13 +56,28 @@ jobs:
       - name: Offline contract tests
         run: python -m unittest test_market_universe test_market_scanner -v
 
+      - name: SEC reachability
+        env:
+          SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT }}
+        run: |
+          default="InvestorAce market scanner investorace-bot@users.noreply.github.com"
+          for ua in "${SEC_USER_AGENT:-$default}" "InvestorAce/1.0 (research; contact investorace-bot@users.noreply.github.com)"; do
+            for url in https://www.sec.gov/files/company_tickers_exchange.json \
+                       https://data.sec.gov/api/xbrl/frames/us-gaap/Revenues/USD/CY2025.json \
+                       https://data.sec.gov/submissions/CIK0000320193.json; do
+              code=$(curl -s -o body.bin -w '%{http_code}' --compressed -A "$ua" "$url" || true)
+              echo "SEC $code [$ua] $url :: $(head -c 300 body.bin | tr -cd '[:print:]' | cut -c1-160)"
+              sleep 1
+            done
+          done | tee market-scan.log
+
       - name: Scan the market
         id: scan
         env:
           SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT }}
         run: |
           set -o pipefail
-          python -u market_universe.py --output market-scan 2>&1 | tee market-scan.log
+          python -u market_universe.py --output market-scan 2>&1 | tee -a market-scan.log
 
       - name: Commit the scan
         if: steps.scan.outcome == 'success'
