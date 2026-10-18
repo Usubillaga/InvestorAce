@@ -71,6 +71,28 @@ jobs:
             done
           done | tee market-scan.log
 
+      - name: Yahoo screener probe
+        continue-on-error: true
+        run: |
+          python - <<'EOF' 2>&1 | tee -a market-scan.log
+          import json, yfinance as yf
+          print('yfinance', yf.__version__)
+          q = yf.EquityQuery('and', [yf.EquityQuery('eq', ['region', 'us']),
+                                     yf.EquityQuery('gt', ['intradaymarketcap', 2e10])])
+          r = yf.screen(q, size=3, sortField='intradaymarketcap', sortAsc=False)
+          print('YAHOO total', r.get('total'), 'count', len(r.get('quotes', [])))
+          print('YAHOO quote', json.dumps(r['quotes'][0])[:2500])
+          print('YAHOO fields', json.dumps(q.valid_fields)[:9000])
+          EOF
+
+      - name: SEC retry after cooldown
+        continue-on-error: true
+        run: |
+          sleep 660
+          ua="InvestorAce market scanner investorace-bot@users.noreply.github.com"
+          code=$(curl -s -o body.bin -w '%{http_code}' --compressed -A "$ua" https://data.sec.gov/submissions/CIK0000320193.json || true)
+          echo "SEC-RETRY $code :: $(head -c 300 body.bin | tr -cd '[:print:]' | cut -c1-120)" | tee -a market-scan.log
+
       - name: Scan the market
         id: scan
         env:
