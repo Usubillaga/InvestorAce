@@ -1,6 +1,6 @@
 {
  "schema": "market-scan-v1",
- "generated_at": "2026-10-18T21:31:18.792006+00:00",
+ "generated_at": "2026-10-18T21:40:39.646832+00:00",
  "as_of": "2026-10-18",
  "coverage": "USA: an NYSE oder Nasdaq notierte US-GAAP-Berichterstatter mit SEC-XBRL-Daten. Ohne Banken, Versicherer und REITs. Europa ist noch nicht abgedeckt.",
  "funnel": [
@@ -14,7 +14,7 @@
   },
   {
    "stage": "Mit datiertem Schlusskurs",
-   "count": 1167
+   "count": 1166
   },
   {
    "stage": "Vorauswahl nach vorläufigem Score, ohne Banken, Versicherer und REITs (SIC 6000–6799; 118 übersprungen)",
