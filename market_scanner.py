@@ -121,7 +121,7 @@ def market_section(market, record, as_of, repository=None):
                 generated_at=market['generated_at'], as_of=market['as_of'],
                 coverage=market['coverage'], funnel=market['funnel'], method=market['method'],
                 rejected=market.get('rejected', {}), sources=market.get('sources', {}),
-                candidates=candidates)
+                implausible=market.get('implausible', []), candidates=candidates)
 
 
 def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repository=None):

@@ -56,6 +56,11 @@
   if (market.funnel?.length) {
     $('funnel-steps').innerHTML = market.funnel.map(s => `<li><strong>${num(s.count, 0)}</strong><span>${esc(s.stage)}</span></li>`).join('');
     $('funnel-note').textContent = market.method?.note || '';
+    const aside = market.implausible || [];
+    $('funnel-aside').innerHTML = aside.length
+      ? `<b>Beiseitegelegt, weil die Zahlen nicht zu einem operativen Unternehmen passen:</b> ` + aside.map(x =>
+          `<a href="${esc(x.source_url)}" target="_blank" rel="noopener noreferrer">${esc(x.ticker)}</a> (${esc((x.reasons || []).join('; '))})`).join(' · ')
+      : '';
   } else {
     $('funnel').hidden = true;
   }

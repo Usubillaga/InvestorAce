@@ -76,7 +76,13 @@ PRETAX_INCOME = ('IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordina
                  'IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments')
 OPERATING_CASH = ('NetCashProvidedByUsedInOperatingActivities',
                   'NetCashProvidedByUsedInOperatingActivitiesContinuingOperations')
-CAPEX = ('PaymentsToAcquirePropertyPlantAndEquipment', 'PaymentsToAcquireProductiveAssets')
+# Capex: the LARGEST tagged figure per window is used, so a small corporate PP&E
+# line never stands in for an oil producer's well spending (first live scan:
+# EOG, COP, FANG and others reported none of the first two tags).
+CAPEX = ('PaymentsToAcquirePropertyPlantAndEquipment', 'PaymentsToAcquireProductiveAssets',
+         'PaymentsToAcquireOilAndGasPropertyAndEquipment', 'PaymentsToAcquireOilAndGasProperty',
+         'PaymentsToExploreAndDevelopOilAndGasProperties', 'PaymentsToAcquireEquipmentOnLease',
+         'PaymentsToAcquireOtherPropertyPlantAndEquipment')
 DEPRECIATION = ('DepreciationDepletionAndAmortization', 'DepreciationAndAmortization',
                 'DepreciationAmortizationAndAccretionNet', 'Depreciation')
 DIVIDENDS = ('PaymentsOfDividends', 'PaymentsOfDividendsCommonStock')
@@ -92,7 +98,14 @@ SECURITIES = ('ShortTermInvestments', 'MarketableSecuritiesCurrent',
               'AvailableForSaleSecuritiesDebtSecuritiesCurrent')
 
 FLAG_TEXT = {
-    'CAPEX_NOT_TAGGED': 'Keine Investitionsausgaben getaggt; FCF = operativer Cashflow (prüfen).',
+    'CAPEX_NOT_TAGGED': 'Keine Investitionsausgaben getaggt; ersatzweise die Abschreibungen als '
+                        'Erhaltungsinvestition abgezogen (prüfen).',
+    'CAPEX_AND_DA_MISSING': 'Weder Investitionen noch Abschreibungen getaggt; FCF = operativer Cashflow (prüfen).',
+    'SHARES_SCALE_FIXED': 'Verwässerte Aktienzahl in den XBRL-Daten um Faktor 1.000/1.000.000 falsch skaliert; '
+                          'Deckblattangabe verwendet.',
+    'GROWTH_OUTLIER': 'Umsatzsprung über +100 % oder unter −50 %: Übernahme, Abspaltung, aufgegebene '
+                      'Geschäftsbereiche oder echter Boom? Wachstumskategorie prüfen.',
+    'SHARES_JUMP': 'Aktienzahl um mehr als 25 % verändert (Übernahme, Spin-off oder Split prüfen).',
     'DEBT_NOT_TAGGED': 'Keine Finanzschulden getaggt; als schuldenfrei gerechnet (prüfen).',
     'NO_DEPRECIATION': 'Keine Abschreibungen getaggt; EBITDA = operatives Ergebnis.',
     'OPERATING_INCOME_PROXY': 'Kein operatives Ergebnis getaggt; Vorsteuerergebnis als Ersatz.',
@@ -113,7 +126,8 @@ SIC_SECTORS = (
     (2000, 2199, 'Staples'), (2200, 2399, 'Apparel'), (2400, 2499, 'Materials'),
     (2500, 2599, 'Consumer Cyclical'), (2600, 2699, 'Materials'), (2700, 2799, 'Media'),
     (2833, 2834, 'Pharma'), (2835, 2835, 'MedTech'), (2836, 2836, 'Biotech'),
-    (2840, 2844, 'Staples'), (2800, 2899, 'Materials'), (3000, 3099, 'Materials'),
+    (2840, 2844, 'Staples'), (2800, 2899, 'Materials'), (3021, 3021, 'Apparel'),   # rubber footwear
+    (3000, 3099, 'Materials'),
     (3100, 3199, 'Apparel'), (3200, 3399, 'Materials'), (3400, 3499, 'Industrials'),
     (3570, 3579, 'Technology'), (3500, 3599, 'Industrials'), (3674, 3674, 'Semis'),
     (3661, 3679, 'Technology'), (3630, 3639, 'Consumer Cyclical'), (3651, 3652, 'Consumer Cyclical'),
@@ -471,11 +485,11 @@ def stage_one(listing, frames, today):
             if operating is not None:
                 flags.append('OPERATING_INCOME_PROXY')
         cash_flow = _frame_value(frames, OPERATING_CASH, 'USD', period, cik)
-        capex = _frame_value(frames, CAPEX, 'USD', period, cik)
-        if capex is None:
-            capex = 0.0
-            flags.append('CAPEX_NOT_TAGGED')
         depreciation = _frame_value(frames, DEPRECIATION[:2], 'USD', period, cik)
+        capex = _max_frame_value(frames, CAPEX, 'USD', period, cik)
+        if capex is None:
+            capex = abs(depreciation) if depreciation else 0.0
+            flags.append('CAPEX_NOT_TAGGED' if depreciation else 'CAPEX_AND_DA_MISSING')
         dividends = _frame_value(frames, DIVIDENDS, 'USD', period, cik)
         shares = _frame_value(frames, DILUTED_SHARES, 'shares', period, cik)
         shares_prior = _frame_value(frames, DILUTED_SHARES, 'shares', f'CY{latest - 1}', cik)
@@ -535,13 +549,16 @@ def _units(companyfacts, tag, unit, taxonomy='us-gaap'):
         return []
 
 
-def _durations(companyfacts, tags, unit, today):
-    """Merged duration facts: for each window, the first tag that reports it."""
+def _durations(companyfacts, tags, unit, today, largest=False):
+    """Merged duration facts: per window the first tag that reports it, or the largest value."""
     merged = {}
     for tag in tags:
         for fact in _clean(_units(companyfacts, tag, unit), today):
-            if fact['start'] is not None:
-                merged.setdefault((fact['start'], fact['end']), dict(fact, tag=tag))
+            if fact['start'] is None:
+                continue
+            key = (fact['start'], fact['end'])
+            if key not in merged or (largest and abs(fact['val']) > abs(merged[key]['val'])):
+                merged[key] = dict(fact, tag=tag)
     return list(merged.values())
 
 
@@ -636,15 +653,18 @@ def _flows(companyfacts, revenue_facts, w, today):
         if operating is not None:
             flags.append('OPERATING_INCOME_PROXY')
     cash_flow = measure(OPERATING_CASH)
-    capex = measure(CAPEX)
-    reports_capex = bool(_durations(companyfacts, CAPEX, 'USD', today))
-    if operating is None or cash_flow is None or (capex is None and reports_capex):
+    capex_facts = _durations(companyfacts, CAPEX, 'USD', today, largest=True)
+    capex = ttm(capex_facts, w)
+    capex = capex if capex is not None and capex['basis'] == basis else None
+    if operating is None or cash_flow is None or (capex is None and capex_facts):
         return None
-    if capex is None:
-        flags.append('CAPEX_NOT_TAGGED')
     depreciation = measure(DEPRECIATION)
     if depreciation is None:
         flags.append('NO_DEPRECIATION')
+    if capex is None:
+        # Untagged capex is not zero capex: depreciation stands in as maintenance spend.
+        capex = depreciation
+        flags.append('CAPEX_NOT_TAGGED' if depreciation is not None else 'CAPEX_AND_DA_MISSING')
     return dict(revenue=revenue, basis=basis, operating=operating, cash_flow=cash_flow,
                 capex=capex, depreciation=depreciation, dividends=measure(DIVIDENDS), flags=flags)
 
@@ -701,9 +721,14 @@ def company_metrics(companyfacts, today):
     cover = _instants(companyfacts, ('EntityCommonStockSharesOutstanding',), 'shares', today, 'dei')
     cover_latest = cover[max(cover)] if cover else None
     shares, shares_basis = None, None
-    if cover_latest is not None and latest_diluted is not None and \
-            0.7 <= cover_latest['val'] / latest_diluted['val'] <= 1.4:
+    ratio = (cover_latest['val'] / latest_diluted['val']
+             if cover_latest is not None and latest_diluted is not None and latest_diluted['val'] > 0 else None)
+    if ratio is not None and 0.7 <= ratio <= 1.4:
         shares, shares_basis = cover_latest['val'], 'COVER_PAGE'
+    elif ratio is not None and any(0.7 <= ratio / scale <= 1.4 for scale in (1e3, 1e6)):
+        # First live scan: McDonald's tagged 711.1 diluted shares (millions meant).
+        shares, shares_basis = cover_latest['val'], 'COVER_PAGE'
+        flags.append('SHARES_SCALE_FIXED')
     elif latest_diluted is not None:
         shares, shares_basis = latest_diluted['val'], 'DILUTED_AVG'
         flags.append('SHARES_DILUTED_AVG')
@@ -711,7 +736,10 @@ def company_metrics(companyfacts, today):
         return None
     change = None
     if prior_diluted is not None and prior_diluted['val'] > 0:
-        change = 100 * (latest_diluted['val'] / prior_diluted['val'] - 1)
+        step = latest_diluted['val'] / prior_diluted['val']
+        # A thousandfold jump between two diluted averages is a tagging scale error, not dilution.
+        if 1e-2 < step < 1e2:
+            change = 100 * (step - 1)
 
     # Balance sheet: every tag on the latest cash date only.
     cash_dates = _instants(companyfacts, CASH, 'USD', today)
@@ -760,8 +788,12 @@ def score_metrics(m, price, bands=None, discount=DISCOUNT):
     if nd_ebitda is None:
         flags.append('BALANCE_DEFAULT')
     change = m.get('share_change_pct')
-    if change is None and m.get('shares_prior'):
+    if change is None and m.get('shares_prior') and 1e-2 < shares / m['shares_prior'] < 1e2:
         change = 100 * (shares / m['shares_prior'] - 1)
+    if growth is not None and not -50 <= growth <= 100:
+        flags.append('GROWTH_OUTLIER')
+    if change is not None and abs(change) > 25:
+        flags.append('SHARES_JUMP')
     price = _num(price)
     market_cap = price * shares if price and shares else None
     fcf_yield = 100 * fcf / market_cap if market_cap else None
@@ -791,6 +823,29 @@ def score_metrics(m, price, bands=None, discount=DISCOUNT):
                        contribution=values[k] * w, input=inputs[k]) for k, w in WEIGHTS.items()]
     sub = (values['g'], values['p'], values['c'], values['b'], values['v'], values['r'])
     return dict(score=total, components=components, metrics=metrics, flags=flags, sub=sub)
+
+
+MAX_FCF_YIELD = 50.0     # % of market value
+MIN_PRICE_TO_SALES = 0.05
+
+
+def implausible(row, metrics):
+    """Reasons a scored row cannot be a real operating company's numbers.
+
+    First live scan: McDonald's and Nutanix showed FCF yields above 4,000 %
+    (share counts tagged in millions/thousands), Wise and Royalty Pharma
+    showed free cash flow above revenue (customer funds and royalty receipts
+    in operating cash flow). Such rows leave the ranking and are listed apart.
+    """
+    reasons = []
+    revenue, fcf, market_cap = row.get('revenue'), row.get('fcf'), metrics.get('market_cap')
+    if market_cap and revenue and market_cap / revenue < MIN_PRICE_TO_SALES:
+        reasons.append('Marktwert unter 5 % des Umsatzes: Aktienzahl vermutlich falsch skaliert')
+    if fcf is not None and revenue and fcf > revenue:
+        reasons.append('Free Cashflow über dem Umsatz: Kundengelder oder Sonderzahlungen im operativen Cashflow')
+    if (metrics.get('fcf_yield_pct') or 0) > MAX_FCF_YIELD:
+        reasons.append(f'FCF-Rendite über {MAX_FCF_YIELD:.0f} % des Marktwerts')
+    return reasons
 
 
 def regime_fit(row, sub):
@@ -951,7 +1006,7 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
         short.append(row)
     log(f'Stage 1: {len(priced)} priced, {excluded_financial} financials skipped, {len(short)} shortlisted')
 
-    refined, candidates = 0, []
+    refined, candidates, set_aside = 0, [], []
     for row in short:
         info = infos[row['cik']]
         facts = sec.get_json(companyfacts_url(row['cik']))
@@ -970,11 +1025,17 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
         if scored['score'] is None or row.get('fcf') is None or row['fcf'] <= 0 \
                 or row.get('operating_income') is None or row['operating_income'] <= 0:
             continue
+        reasons = implausible(row, scored['metrics'])
+        if reasons:
+            set_aside.append(dict(ticker=row['ticker'], name=info.get('name') or row['name'],
+                                  reasons=reasons, source_url=companyfacts_url(row['cik'])))
+            continue
         row['regime_fit'] = regime_fit(row, scored['sub'])
         candidates.append(_candidate(row, scored, info, universe))
     candidates.sort(key=lambda c: (-(c['score'] or 0), c['ticker']))
     kept = candidates[:keep]
-    log(f'Stage 2: {refined} with TTM, {len(candidates)} still positive, {len(kept)} kept')
+    log(f'Stage 2: {refined} with TTM, {len(set_aside)} implausible set aside, '
+        f'{len(candidates)} still positive, {len(kept)} kept')
 
     payload = dict(
         schema=VERSION, generated_at=now.isoformat(), as_of=today.isoformat(),
@@ -987,8 +1048,11 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
                 dict(stage=f'Vorauswahl nach vorläufigem Score, ohne Banken, Versicherer und REITs '
                            f'(SIC 6000–6799; {excluded_financial} übersprungen)', count=len(short)),
                 dict(stage='Mit TTM-Werten aus den Einreichungen', count=refined),
+                dict(stage=f'Ohne unplausible Datensätze ({len(set_aside)} beiseitegelegt)',
+                     count=len(candidates)),
                 dict(stage='Gespeicherte Kandidaten (Top nach Screening-Score)', count=len(kept))],
         excluded_financials=excluded_financial,
+        implausible=set_aside,
         rejected=rejected,
         method=dict(weights=WEIGHTS, discount_rate=DISCOUNT, min_revenue_usd=MIN_REVENUE,
                     shortlist=shortlist, keep=keep, bands=[dict(upper_exclusive=c, label=l) for c, l in BANDS],
@@ -1056,6 +1120,12 @@ def validate_payload(payload, now=None, max_age_days=None):
         for source in c.get('sources') or []:
             if not str(source.get('url', '')).startswith('https://'):
                 errors.append(f'{ticker}: non-https source')
+    for item in payload.get('implausible') or []:
+        if not isinstance(item, dict) or not isinstance(item.get('reasons'), list) or not item['reasons'] \
+                or not str(item.get('source_url', '')).startswith('https://'):
+            errors.append('implausible entries need reasons and an https source')
+        elif item.get('ticker') in seen:
+            errors.append(f'{item.get("ticker")}: both ranked and set aside')
     try:
         json.dumps(payload, allow_nan=False)
     except ValueError:
@@ -1091,17 +1161,22 @@ def report_markdown(payload_path, log_path=None, outcome='success', rows=40):
         fresh = [c for c in payload.get('candidates', []) if not c.get('in_universe')]
         held = [c for c in payload.get('candidates', []) if c.get('in_universe')]
         lines += ['', f'**Neue Ideen (Top {min(rows, len(fresh))} von {len(fresh)})**', '',
-                  '| # | Ticker | Unternehmen | Sektor | Score | Band | Umsatz | Op.-Marge | FCF-Rendite | NGV-Deckung | Basis | Kurs |',
-                  '|---:|---|---|---|---:|---|---:|---:|---:|---:|---|---|']
+                  '| # | Ticker | Unternehmen | Sektor | Score | Band | Umsatzwachstum | Op.-Marge | FCF-Rendite '
+                  '| NGV-Deckung | Basis | Kurs | Hinweise |',
+                  '|---:|---|---|---|---:|---|---:|---:|---:|---:|---|---|---|']
         for i, c in enumerate(fresh[:rows], 1):
             m = c.get('metrics') or {}
             lines.append(f'| {i} | {c["ticker"]} | {c.get("name", "")[:28]} | {c.get("sector")} | '
                          f'{_fmt(c.get("score"), 2)} | {c.get("band")} | {_fmt(m.get("growth_pct"), 1, " %")} | '
                          f'{_fmt(m.get("operating_margin_pct"), 1, " %")} | {_fmt(m.get("fcf_yield_pct"), 1, " %")} | '
                          f'{_fmt(m.get("cover_pct"), 0, " %")} | {c.get("basis")} bis {c.get("period_end")} | '
-                         f'{_fmt(c.get("price"), 2)} ({c.get("price_date")}) |')
+                         f'{_fmt(c.get("price"), 2)} ({c.get("price_date")}) | {", ".join(c.get("flags") or [])} |')
         if held:
             lines += ['', 'Schon im Universum: ' + ', '.join(f'{c["ticker"]} {_fmt(c.get("score"), 2)}' for c in held)]
+        aside = payload.get('implausible') or []
+        if aside:
+            lines += ['', 'Beiseitegelegt (unplausibel): ' + '; '.join(
+                f'{x.get("ticker")} – {" / ".join(x.get("reasons") or [])}' for x in aside)]
     else:
         lines.append('Kein gültiges Ergebnis geschrieben.')
     if log_path and Path(log_path).exists():

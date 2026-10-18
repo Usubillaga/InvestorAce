@@ -175,6 +175,44 @@ class CompanyFacts(unittest.TestCase):
         self.assertEqual((m['basis'], m['period_end']), ('FY', '2025-12-31'))
         self.assertNotIn('FISCAL_YEAR_ONLY', m['flags'])
 
+    def test_capex_uses_the_largest_tag_per_window(self):
+        doc = calendar_company()
+        flow = lambda fy24, fy25, h124, h125, h126: [   # noqa: E731
+            fact('2024-01-01', '2024-12-31', fy24, '2025-02-10', '0000000001-25-000002', '10-K'),
+            fact('2025-01-01', '2025-12-31', fy25, '2026-02-10', '0000000001-26-000002', '10-K'),
+            fact('2024-01-01', '2024-06-30', h124, '2025-08-01'), fact('2025-01-01', '2025-06-30', h125),
+            fact('2026-01-01', '2026-06-30', h126)]
+        doc['facts']['us-gaap']['PaymentsToAcquireOilAndGasPropertyAndEquipment'] = {
+            'units': {'USD': flow(900e6, 1000e6, 450e6, 500e6, 600e6)}}   # wells, larger than PP&E
+        m = mu.company_metrics(doc, TODAY)
+        self.assertAlmostEqual(m['capex'], 1100e6)                      # 1000 + 600 - 500
+        self.assertAlmostEqual(m['fcf'], 3300e6 - 1100e6)
+        self.assertNotIn('CAPEX_NOT_TAGGED', m['flags'])
+
+    def test_untagged_capex_falls_back_to_depreciation_not_zero(self):
+        doc = calendar_company()
+        del doc['facts']['us-gaap']['PaymentsToAcquirePropertyPlantAndEquipment']
+        m = mu.company_metrics(doc, TODAY)
+        self.assertAlmostEqual(m['capex'], 420e6)                       # TTM D&A: 400 + 220 - 200
+        self.assertAlmostEqual(m['fcf'], 3300e6 - 420e6)
+        self.assertIn('CAPEX_NOT_TAGGED', m['flags'])
+        del doc['facts']['us-gaap']['DepreciationDepletionAndAmortization']
+        m = mu.company_metrics(doc, TODAY)
+        self.assertAlmostEqual(m['fcf'], 3300e6)
+        self.assertIn('CAPEX_AND_DA_MISSING', m['flags'])
+
+    def test_misscaled_diluted_shares_fall_back_to_the_cover_page(self):
+        doc = calendar_company()
+        shares = doc['facts']['us-gaap']['WeightedAverageNumberOfDilutedSharesOutstanding']['units']['shares']
+        for item in shares:
+            item['val'] /= 1e6                                           # 98 instead of 98 million
+        m = mu.company_metrics(doc, TODAY)
+        self.assertEqual((m['shares'], m['shares_basis']), (97e6, 'COVER_PAGE'))
+        self.assertIn('SHARES_SCALE_FIXED', m['flags'])
+        self.assertAlmostEqual(m['share_change_pct'], -2.0)             # same scale on both sides
+        shares[1]['val'] *= 1e6                                         # only the latest corrected
+        self.assertIsNone(mu.company_metrics(doc, TODAY)['share_change_pct'])
+
     def test_company_without_annual_revenue_is_not_guessed(self):
         self.assertIsNone(mu.company_metrics(facts_doc({}), TODAY))
 
@@ -191,6 +229,14 @@ class Scoring(unittest.TestCase):
         self.assertAlmostEqual(engine.score(draft), result['score'])
         self.assertAlmostEqual(sum(c['contribution'] for c in result['components']), result['score'])
         self.assertEqual(mu.model_band(result['score']), 'Strong Buy')
+
+    def test_outliers_are_flagged_not_hidden(self):
+        m = dict(self.metrics(), revenue_prior=4000e6, share_change_pct=30.0)
+        result = mu.score_metrics(m, 100.0)
+        self.assertIn('GROWTH_OUTLIER', result['flags'])                # +175 %, e.g. Micron FY2026
+        self.assertIn('SHARES_JUMP', result['flags'])
+        self.assertEqual(result['components'][0]['value'], 9.5)       # the band itself is unchanged
+        self.assertEqual(mu.implausible(m, result['metrics']), [])
 
     def test_without_price_there_is_no_score(self):
         result = mu.score_metrics(self.metrics(), None)
@@ -270,8 +316,9 @@ class EndToEnd(unittest.TestCase):
     def test_funnel_filters_prices_and_excludes_financials(self):
         payload = self.run_scan()
         counts = [stage['count'] for stage in payload['funnel']]
-        self.assertEqual(counts, [5, 3, 3, 2, 1, 2])
+        self.assertEqual(counts, [5, 3, 3, 2, 1, 2, 2])
         self.assertEqual(payload['excluded_financials'], 1)
+        self.assertEqual(payload['implausible'], [])
         self.assertEqual(payload['rejected'], {'REVENUE_BELOW_1BN': 1, 'NO_OPERATING_PROFIT': 1})
         tickers = [c['ticker'] for c in payload['candidates']]
         self.assertNotIn('BNKX', tickers)
@@ -320,6 +367,33 @@ class EndToEnd(unittest.TestCase):
         self.assertIn('ADS', alpha['flag_text']['FOREIGN_FILER'])
         model = next(c for c in payload['candidates'] if c['ticker'] == 'ADBE')
         self.assertNotIn('FOREIGN_FILER', model['flags'])
+
+    def test_implausible_rows_leave_the_ranking_with_reasons(self):
+        # Live 2026-10-18: McDonald's tagged 711.1 diluted shares and no usable
+        # cover page here, so its FCF yield read 4.5 million percent.
+        routes = market_routes()
+        doc = routes[mu.companyfacts_url(1)]
+        doc['facts']['dei'] = {}
+        for item in doc['facts']['us-gaap']['WeightedAverageNumberOfDilutedSharesOutstanding']['units']['shares']:
+            item['val'] /= 1e6
+        payload = mu.run(sec=FakeSec(routes), prices=fake_prices, universe={'ADBE'}, today=TODAY, now=NOW,
+                         log=lambda *_: None)
+        self.assertNotIn('ALFA', [c['ticker'] for c in payload['candidates']])
+        [aside] = payload['implausible']
+        self.assertEqual(aside['ticker'], 'ALFA')
+        self.assertTrue(any('Aktienzahl' in r for r in aside['reasons']))
+        self.assertTrue(aside['source_url'].startswith('https://data.sec.gov/'))
+        self.assertIn('1 beiseitegelegt', payload['funnel'][-2]['stage'])
+        self.assertEqual(mu.validate_payload(payload, now=NOW), [])
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'latest.json'
+            path.write_text(json.dumps(payload), encoding='utf-8')
+            self.assertIn('Beiseitegelegt (unplausibel): ALFA', mu.report_markdown(path))
+        broken = copy.deepcopy(payload)
+        broken['implausible'][0]['source_url'] = 'http://x'
+        self.assertTrue(mu.validate_payload(broken, now=NOW))
 
     def test_annual_form_is_the_latest_annual_report(self):
         doc = {'sic': '3571', 'filings': {'recent': {'form': ['8-K', '10-Q', '10-K/A', '20-F']}}}
