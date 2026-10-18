@@ -538,7 +538,7 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                   if include_daily else '')
     daily_link += ('<a href="claude-daily.html" style="color:#c1d98b;font-weight:700">Claude daily ↗</a>'
                    if include_claude else '')
-    scanner_link = ('<a href="scanner.html" style="color:#c1d98b;font-weight:700">Aktien-Scanner ↗</a>'
+    scanner_link = ('<a href="scanner.html" style="color:#c1d98b;font-weight:700">Stock scanner ↗</a>'
                     if include_scanner else '')
     nav = ('<nav id="investorace-research-nav" aria-label="Research" '
            'style="margin:0 0 22px;padding:12px 16px;border:1px solid #2a3040;'
