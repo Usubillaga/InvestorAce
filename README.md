@@ -25,8 +25,28 @@ python reprice.py 4.40 5.04                       # NGV impact of a risk-free ch
 
 ## Aktien-Scanner
 
-`scanner.html` filters the **existing InvestorAce universe**, not the entire
-listed market. It ranks the unrounded, archived engine score and keeps regime
+`scanner.html` has two lists that are never mixed:
+
+- **Gesamtmarkt USA** (default tab): `market-scan/latest.json`, written every
+  Saturday by `.github/workflows/market-scan.yml` (`market_universe.py`). It
+  starts from every NYSE/Nasdaq company in the SEC ticker list, applies hard
+  filters on SEC XBRL frames (revenue >= 1 bn USD, operating profit, positive
+  FCF), prices the survivors with dated Yahoo closes, removes banks, insurers
+  and REITs (SIC 6000–6799) and rebuilds trailing twelve months per company
+  from SEC companyfacts (last fiscal year + current YTD − prior YTD, identical
+  windows for every measure). The screening score uses autoscore's bands and
+  the engine's eight weights with a flat 8 % rate: a mechanical draft for the
+  research list, not an InvestorAce model score. Candidates already in
+  `engine.py` are marked; new ones link to the existing `add-ticker` issue
+  workflow. Europe is not covered yet. Offline contracts:
+  `python -m unittest test_market_universe -v`; a manual live run:
+  `python market_universe.py --output market-scan` (set `SEC_USER_AGENT`).
+- **Mein Universum**: the existing InvestorAce universe as before.
+
+The regime column defaults to the regime the engine read at capture time
+(`_evidence.macro.regime`), not to a fixed choice.
+
+The universe list ranks the unrounded, archived engine score and keeps regime
 fit separate. The five unchanged model bands are Strong Buy (>=8.50), Buy
 (>=7.00), Hold positiv (>=5.50), Hold negativ (>=3.50) and Sell (<3.50).
 Missing scores are never classified as Sell. These are provisional model bands,

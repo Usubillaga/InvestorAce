@@ -8,6 +8,7 @@ on:
       - 'market-briefings/**'
       - 'daily-briefings/**'
       - 'claude-briefings/**'
+      - 'market-scan/**'
       - 'weekly_research.py'
       - '.github/workflows/research-pages.yml'
   workflow_dispatch:
