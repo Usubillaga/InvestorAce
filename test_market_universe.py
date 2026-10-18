@@ -166,6 +166,15 @@ class CompanyFacts(unittest.TestCase):
         self.assertAlmostEqual(m['revenue_prior'], 8000e6)
         self.assertIn('FISCAL_YEAR_ONLY', m['flags'])
 
+    def test_fresh_annual_report_is_not_flagged_as_fiscal_year_only(self):
+        doc = calendar_company()
+        for tag in doc['facts']['us-gaap'].values():      # as if the 10-K were the latest filing
+            for unit in tag['units'].values():
+                unit[:] = [f for f in unit if 'start' not in f or f['end'] <= '2025-12-31']
+        m = mu.company_metrics(doc, TODAY)
+        self.assertEqual((m['basis'], m['period_end']), ('FY', '2025-12-31'))
+        self.assertNotIn('FISCAL_YEAR_ONLY', m['flags'])
+
     def test_company_without_annual_revenue_is_not_guessed(self):
         self.assertIsNone(mu.company_metrics(facts_doc({}), TODAY))
 
@@ -261,7 +270,8 @@ class EndToEnd(unittest.TestCase):
     def test_funnel_filters_prices_and_excludes_financials(self):
         payload = self.run_scan()
         counts = [stage['count'] for stage in payload['funnel']]
-        self.assertEqual(counts, [5, 3, 3, 3, 2, 1, 2])
+        self.assertEqual(counts, [5, 3, 3, 2, 1, 2])
+        self.assertEqual(payload['excluded_financials'], 1)
         self.assertEqual(payload['rejected'], {'REVENUE_BELOW_1BN': 1, 'NO_OPERATING_PROFIT': 1})
         tickers = [c['ticker'] for c in payload['candidates']]
         self.assertNotIn('BNKX', tickers)
@@ -283,6 +293,38 @@ class EndToEnd(unittest.TestCase):
     def test_shortlist_and_keep_limits(self):
         payload = self.run_scan(shortlist=1, keep=1)
         self.assertEqual(len(payload['candidates']), 1)
+
+    def test_financials_do_not_take_shortlist_places(self):
+        # By pre-score the bank ranks second (ALFA > BNKX > ADBE). Two places must
+        # go to the two non-financials; the bank is skipped before companyfacts.
+        sec = FakeSec(market_routes())
+        seen = []
+        original = sec.get_json
+        sec.get_json = lambda url: seen.append(url) or original(url)
+        payload = mu.run(sec=sec, prices=fake_prices, universe={'ADBE'}, today=TODAY, now=NOW,
+                         log=lambda *_: None, shortlist=2)
+        self.assertEqual(sorted(c['ticker'] for c in payload['candidates']), ['ADBE', 'ALFA'])
+        self.assertEqual(payload['excluded_financials'], 1)
+        self.assertIn(mu.submissions_url(2), seen)          # considered for the shortlist ...
+        self.assertNotIn(mu.companyfacts_url(2), seen)      # ... and skipped as a bank
+        self.assertLess(seen.index(mu.submissions_url(2)), seen.index(mu.submissions_url(6)))
+
+    def test_foreign_filer_flag_survives_companyfacts(self):
+        routes = market_routes()
+        routes[mu.submissions_url(1)]['filings'] = {'recent': {'form': ['6-K', '20-F/A', '6-K']}}
+        payload = mu.run(sec=FakeSec(routes), prices=fake_prices, universe=set(), today=TODAY, now=NOW,
+                         log=lambda *_: None)
+        alpha = next(c for c in payload['candidates'] if c['ticker'] == 'ALFA')
+        self.assertEqual(alpha['source'], 'companyfacts')
+        self.assertIn('FOREIGN_FILER', alpha['flags'])
+        self.assertIn('ADS', alpha['flag_text']['FOREIGN_FILER'])
+        model = next(c for c in payload['candidates'] if c['ticker'] == 'ADBE')
+        self.assertNotIn('FOREIGN_FILER', model['flags'])
+
+    def test_annual_form_is_the_latest_annual_report(self):
+        doc = {'sic': '3571', 'filings': {'recent': {'form': ['8-K', '10-Q', '10-K/A', '20-F']}}}
+        self.assertEqual(mu.parse_submission(doc)['annual_form'], '10-K')
+        self.assertIsNone(mu.parse_submission({'sic': '3571'})['annual_form'])
 
     def test_thin_frames_refuse_to_publish(self):
         class Broken(FakeSec):
@@ -330,12 +372,51 @@ class Client(unittest.TestCase):
             def get(self, url, timeout):
                 return Response(self.status)
 
-        self.assertIsNone(mu.SecClient(session=Session(404), rate=1000).get_json('https://x'))
-        self.assertEqual(mu.SecClient(session=Session(200), rate=1000).get_json('https://x'), {'ok': True})
-        with self.assertRaises(RuntimeError):
-            mu.SecClient(session=Session(403), rate=1000).get_json('https://x')
-        client = mu.SecClient(session=Session(200), rate=1000)
-        self.assertIn('@', client.session.headers['User-Agent'])
+        agent = 'InvestorAce Test Owner owner@investorace-test.org'
+        self.assertIsNone(mu.SecClient(agent, session=Session(404), rate=1000).get_json('https://x'))
+        self.assertEqual(mu.SecClient(agent, session=Session(200), rate=1000).get_json('https://x'), {'ok': True})
+        with self.assertRaises(RuntimeError) as refused:
+            mu.SecClient(agent, session=Session(403), rate=1000).get_json('https://x')
+        self.assertIn('SEC_USER_AGENT', str(refused.exception))
+        self.assertNotIn(agent, str(refused.exception))          # the contact never reaches public logs
+        client = mu.SecClient(agent, session=Session(200), rate=1000)
+        self.assertEqual(client.session.headers['User-Agent'], agent)
+
+    def test_agent_needs_a_real_contact_address(self):
+        for bad in (None, '', '   ', 'InvestorAce', 'InvestorAce bot@users.noreply.github.com',
+                    'X no-reply@firma.de', 'Sample Company Name AdminContact@samplecompany.com',
+                    'InvestorAce Vorname Nachname name@beispiel.de', 'A a@example.com'):
+            with self.subTest(agent=bad):
+                with self.assertRaises(RuntimeError) as stop:
+                    mu.sec_agent(bad)
+                self.assertIn('Secrets and variables', str(stop.exception))
+        self.assertEqual(mu.sec_agent('  InvestorAce  Ana Ruiz\tana.ruiz@mail.es '),
+                         'InvestorAce Ana Ruiz ana.ruiz@mail.es')
+
+    def test_scan_stops_before_any_request_without_agent(self):
+        import os
+        from unittest import mock
+        with mock.patch.dict(os.environ, {'SEC_USER_AGENT': ''}), \
+                mock.patch('requests.Session.get', side_effect=AssertionError('network')):
+            with self.assertRaises(RuntimeError):
+                mu.run(prices=fake_prices, universe=set(), today=TODAY, now=NOW, log=lambda *_: None)
+
+
+class Report(unittest.TestCase):
+    def test_failed_run_never_shows_the_previous_scan(self):
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as tmp:
+            scan, log = Path(tmp) / 'latest.json', Path(tmp) / 'scan.log'
+            scan.write_text(json.dumps(EndToEnd().run_scan()), encoding='utf-8')
+            log.write_text('Marktscan abgebrochen: SEC_USER_AGENT fehlt\n', encoding='utf-8')
+            failed = mu.report_markdown(scan, log, 'failure')
+            self.assertIn('Kein gültiges Ergebnis', failed)
+            self.assertIn('Aktion nötig', failed)
+            self.assertNotIn('ALFA', failed)
+            ok = mu.report_markdown(scan, log, 'success')
+            self.assertIn('ALFA', ok)
+            self.assertNotIn('Aktion nötig', ok)
 
 
 if __name__ == '__main__':

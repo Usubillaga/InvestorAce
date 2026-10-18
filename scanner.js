@@ -93,7 +93,7 @@
       $('notice').innerHTML = '<b>Forschungsliste:</b> Ein Modellband ist eine vorläufige Einordnung. Offene wesentliche Einwände verhindern eine belastbare aktuelle Einstufung.';
       $('list-eyebrow').textContent = 'VOM UNIVERSUM ZUR AUSWAHL';
       $('list-title').textContent = 'Mein Universum';
-      $('table-note').textContent = `Reihenfolge nach ungerundetem Modellscore. Regime-Fit bleibt separat. Aktuelles Regime laut Engine: ${regime}. „Neue Ideen“ blendet nur die im gespeicherten Datensatz gehaltenen Positionen aus.`;
+      $('table-note').textContent = `Reihenfolge nach ungerundetem Modellscore. Regime-Fit bleibt separat. Aktuelles Regime laut Engine: ${regime}. „Nicht im Bestand“ blendet nur die im gespeicherten Datensatz gehaltenen Positionen aus; neue Aktien findet der Tab „Gesamtmarkt USA“.`;
       $('scanner-head').innerHTML = '<tr><th scope="col">Unternehmen</th><th scope="col">Modellscore / Band</th><th scope="col">Kurs im Datensatz</th><th scope="col">Prüfung / Einwände</th><th scope="col">Regime-Fit</th><th scope="col">Analyse</th></tr>';
     }
     render();

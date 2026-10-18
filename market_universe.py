@@ -10,11 +10,15 @@ Two stages keep the load polite (SEC asks for at most 10 requests/second):
    every filer, so ~60 requests cover ~5,000 companies. Hard filters (revenue
    >= 1 bn USD, operating profit, positive free cash flow) and a dated Yahoo
    daily close give a first score for each survivor.
-2. For the best-ranked shortlist only: SEC submissions (SIC code -> sector,
-   banks/insurers/REITs removed because FCF and net debt do not describe them)
-   and SEC companyfacts (every reported fact). Trailing twelve months are
-   rebuilt per company as last fiscal year + current year-to-date - prior
-   year-to-date, all on identical reporting windows.
+2. Down the pre-score ranking, SEC submissions give the SIC code (-> sector).
+   Banks, insurers and REITs are skipped until the shortlist is full, because
+   FCF and net debt do not describe them. 20-F/40-F filers are flagged (ADS).
+3. For the shortlist only: SEC companyfacts (every reported fact). Trailing
+   twelve months are rebuilt per company as last fiscal year + current
+   year-to-date - prior year-to-date, all on identical reporting windows.
+
+The SEC agent comes from the SEC_USER_AGENT secret and must carry a real
+contact address; without one the scan stops before the first request.
 
 The score reuses autoscore's bands and the engine's eight weights (Growth 15,
 Profitability 20, Cash Generation 15, Balance Sheet 15, Valuation 10,
@@ -23,7 +27,7 @@ draft: revenue growth is a proxy, the discount rate is a flat 8 %, nothing is
 normalised. It never enters engine.py, never changes an InvestorAce score and
 never places a trade. A candidate becomes a model row only through add-ticker.
 
-Run:   python market_universe.py --output market-scan
+Run:   SEC_USER_AGENT="InvestorAce Name name@domain" python market_universe.py --output market-scan
 Test:  python -m unittest test_market_universe -v      (offline)
 """
 from __future__ import annotations
@@ -41,9 +45,13 @@ from pathlib import Path
 VERSION = 'market-scan-v1'
 SEC_DATA = 'https://data.sec.gov'
 TICKERS_URL = 'https://www.sec.gov/files/company_tickers_exchange.json'
-# SEC fair access needs a declared agent with a contact address. The repository
-# bot address is used by default; override with the SEC_USER_AGENT variable.
-DEFAULT_AGENT = 'InvestorAce market scanner investorace-bot@users.noreply.github.com'
+# SEC fair access needs a declared agent with a reachable contact address. On
+# 2026-10-18 every agent with a users.noreply.github.com address got 403 from
+# GitHub runners while a plain company-style agent got 200, so there is no
+# default: the repository secret SEC_USER_AGENT must name the owner.
+AGENT_HELP = ('Lege in GitHub unter Settings → Secrets and variables → Actions das Secret '
+              'SEC_USER_AGENT an, z. B. "InvestorAce Vorname Nachname name@beispiel.de". '
+              'Die SEC verlangt eine echte Kontaktadresse; noreply-Adressen lehnt sie mit 403 ab.')
 EXCHANGES = ('NYSE', 'Nasdaq')
 MIN_REVENUE = 1e9
 SHORTLIST = 300
@@ -94,6 +102,8 @@ FLAG_TEXT = {
     'FRAMES_ONLY': 'Companyfacts nicht nutzbar; Werte aus den SEC-Jahresframes.',
     'SHARES_DILUTED_AVG': 'Aktienzahl = verwässerter Durchschnitt (keine Deckblattangabe nutzbar).',
     'NO_PRICE': 'Kein datierter Schlusskurs; Bewertung und Rang ausgesetzt.',
+    'FOREIGN_FILER': 'Auslandsemittent (Jahresbericht 20-F/40-F): Die SEC-Aktienzahl zählt Stammaktien, '
+                     'gehandelt werden oft ADS in anderem Verhältnis. Marktwert und FCF-Rendite prüfen.',
 }
 
 SIC_SECTORS = (
@@ -228,13 +238,30 @@ def quarter_label(end):
 
 
 # ---------------------------------------------------------------- SEC client
+_EMAIL = re.compile(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9\-]+(?:\.[A-Za-z0-9\-]+)+')
+_PLACEHOLDERS = ('noreply', 'no-reply', 'donotreply', 'do-not-reply', '@example.', '@beispiel.',
+                 '@samplecompany.')
+
+
+def sec_agent(value):
+    """The declared SEC agent: a real contact address, never a placeholder or noreply."""
+    agent = ' '.join(str(value or '').split())
+    match = _EMAIL.search(agent)
+    if not match:
+        raise RuntimeError('SEC_USER_AGENT fehlt oder enthält keine E-Mail-Adresse. ' + AGENT_HELP)
+    address = match.group(0).lower()
+    if any(marker in address for marker in _PLACEHOLDERS):
+        raise RuntimeError('SEC_USER_AGENT nutzt eine Platzhalter- oder noreply-Adresse. ' + AGENT_HELP)
+    return agent
+
+
 class SecClient:
     """Small SEC client: declared agent, rate limit, bounded retries."""
 
-    def __init__(self, agent=None, rate=REQUESTS_PER_SECOND, session=None, log=print):
+    def __init__(self, agent, rate=REQUESTS_PER_SECOND, session=None, log=print):
         import requests
         self.session = session or requests.Session()
-        self.session.headers.update({'User-Agent': agent or DEFAULT_AGENT,
+        self.session.headers.update({'User-Agent': sec_agent(agent),
                                      'Accept-Encoding': 'gzip, deflate'})
         self.interval = 1.0 / rate
         self.last = 0.0
@@ -260,11 +287,13 @@ class SecClient:
                 if status == 404:
                     return None
                 if status == 403:
-                    # SEC answers 403 for an undeclared agent or a rate breach;
-                    # retrying only extends the block.
-                    excerpt = ' '.join(str(getattr(response, 'text', ''))[:300].split())
-                    raise RuntimeError(f'SEC refused {url} (403): {excerpt or "no body"}. '
-                                       'Check SEC_USER_AGENT and the request rate.')
+                    # SEC answers 403 for a rejected agent or a rate breach;
+                    # retrying only extends the block. The agent is never logged.
+                    title = re.search(r'<title>(.*?)</title>', str(getattr(response, 'text', '')), re.S)
+                    reason = ' '.join(title.group(1).split()) if title else 'ohne Begründung'
+                    raise RuntimeError(f'SEC lehnt {url} ab (403: {reason}) nach {self.calls} Anfragen. '
+                                       'Meist ist die Kontaktadresse in SEC_USER_AGENT nicht akzeptiert '
+                                       'oder das Limit von 10 Anfragen/s überschritten. ' + AGENT_HELP)
             if attempt + 1 < tries:
                 time.sleep(2 ** (attempt + 1))
         self.failures += 1
@@ -337,15 +366,25 @@ def parse_frame(payload):
     return result
 
 
+ANNUAL_FORMS = ('10-K', '20-F', '40-F')
+
+
 def parse_submission(payload):
     if not isinstance(payload, dict):
         return None
     sic = _num(payload.get('sic'))
+    try:
+        forms = [str(f).split('/')[0] for f in payload['filings']['recent']['form']]
+    except (KeyError, TypeError):
+        forms = []
+    # Most recent annual report decides: a 20-F/40-F filer usually trades as ADS.
+    annual = next((f for f in forms if f in ANNUAL_FORMS), None)
     return dict(sic=int(sic) if sic is not None else None,
                 sic_description=str(payload.get('sicDescription') or ''),
                 name=str(payload.get('name') or ''),
                 fiscal_year_end=str(payload.get('fiscalYearEnd') or ''),
-                tickers=[str(t).upper() for t in payload.get('tickers') or []])
+                tickers=[str(t).upper() for t in payload.get('tickers') or []],
+                annual_form=annual)
 
 
 # ---------------------------------------------------------------- stage 1: frames
@@ -639,7 +678,9 @@ def company_metrics(companyfacts, today):
         current, prior = _at(revenue_facts, *w['ytd']), _at(revenue_facts, *w['ytd_prior'])
         if current and prior and prior['val'] > 0 and current['val'] > 0:
             revenue_prior, growth_basis = prior['val'] * revenue['value'] / current['val'], 'YTD'
-    if basis == 'FY':
+    if basis == 'FY' and any(f['end'] > w['fy'][1] for f in revenue_facts):
+        # A newer quarter exists but could not be used on identical windows.
+        # Right after a 10-K the fiscal year simply is the latest twelve months.
         flags.append('FISCAL_YEAR_ONLY')
 
     # Shares: cover-page count if consistent with the latest diluted average.
@@ -856,7 +897,7 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
         keep=KEEP, log=print):
     now = now or datetime.now(timezone.utc)
     today = today or now.date()
-    sec = sec or SecClient(os.environ.get('SEC_USER_AGENT') or DEFAULT_AGENT, log=log)
+    sec = sec or SecClient(os.environ.get('SEC_USER_AGENT'), log=log)
     prices = prices or (lambda symbols: fetch_prices(symbols, log=log))
     universe = universe_tickers() if universe is None else set(universe)
     bands = _bands()
@@ -885,23 +926,38 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
             row['pre_score'] = score_metrics(row, row['price'], bands)['score']
             priced.append(row)
     priced.sort(key=lambda r: (-r['pre_score'], -r['revenue'], r['ticker']))
-    short = priced[:shortlist]
-    log(f'Stage 1: {len(priced)} priced, {len(short)} shortlisted')
 
-    excluded_financial, refined, candidates = 0, 0, []
-    for row in short:
+    # Banks, insurers and REITs report cash flows that FCF does not describe;
+    # their frame "FCF" yields look spectacular and would crowd the shortlist.
+    # Walk the pre-score ranking and skip them until the shortlist is full.
+    short, infos, excluded_financial = [], {}, 0
+    for row in priced:
+        if len(short) >= shortlist:
+            break
         info = parse_submission(sec.get_json(submissions_url(row['cik']))) or {}
         if is_financial(info.get('sic')):
             excluded_financial += 1
             continue
+        infos[row['cik']] = info
         row['sector'] = sector_from_sic(info.get('sic'))
+        if info.get('annual_form') in ('20-F', '40-F'):
+            row['flags'] = list(dict.fromkeys(row['flags'] + ['FOREIGN_FILER']))
+        short.append(row)
+    log(f'Stage 1: {len(priced)} priced, {excluded_financial} financials skipped, {len(short)} shortlisted')
+
+    refined, candidates = 0, []
+    for row in short:
+        info = infos[row['cik']]
         facts = sec.get_json(companyfacts_url(row['cik']))
         metrics = company_metrics(facts, today) if facts else None
         if metrics:
             refined += 1
             # Replace every frame figure; the frame-based prior share count would
-            # otherwise mix an annual average with the cover-page count.
+            # otherwise mix an annual average with the cover-page count. Flags
+            # about the filer itself survive the replacement.
+            keep_flags = [f for f in row['flags'] if f == 'FOREIGN_FILER']
             row.update(metrics, shares_prior=None)
+            row['flags'] = list(dict.fromkeys(keep_flags + row['flags']))
         else:
             row['flags'] = list(dict.fromkeys(row['flags'] + ['FRAMES_ONLY']))
         scored = score_metrics(row, row['price'], bands)
@@ -912,7 +968,7 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
         candidates.append(_candidate(row, scored, info, universe))
     candidates.sort(key=lambda c: (-(c['score'] or 0), c['ticker']))
     kept = candidates[:keep]
-    log(f'Stage 2: {excluded_financial} financials removed, {refined} with TTM, {len(kept)} kept')
+    log(f'Stage 2: {refined} with TTM, {len(candidates)} still positive, {len(kept)} kept')
 
     payload = dict(
         schema=VERSION, generated_at=now.isoformat(), as_of=today.isoformat(),
@@ -922,11 +978,11 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
                 dict(stage='Umsatz ≥ 1 Mrd. USD, operativer Gewinn und positiver FCF (letztes GJ)',
                      count=len(passed)),
                 dict(stage='Mit datiertem Schlusskurs', count=len(priced)),
-                dict(stage='Vorauswahl nach vorläufigem Score', count=len(short)),
-                dict(stage='Ohne Banken, Versicherer und REITs (SIC 6000–6799)',
-                     count=len(short) - excluded_financial),
+                dict(stage=f'Vorauswahl nach vorläufigem Score, ohne Banken, Versicherer und REITs '
+                           f'(SIC 6000–6799; {excluded_financial} übersprungen)', count=len(short)),
                 dict(stage='Mit TTM-Werten aus den Einreichungen', count=refined),
                 dict(stage='Gespeicherte Kandidaten (Top nach Screening-Score)', count=len(kept))],
+        excluded_financials=excluded_financial,
         rejected=rejected,
         method=dict(weights=WEIGHTS, discount_rate=DISCOUNT, min_revenue_usd=MIN_REVENUE,
                     shortlist=shortlist, keep=keep, bands=[dict(upper_exclusive=c, label=l) for c, l in BANDS],
@@ -1010,7 +1066,8 @@ def report_markdown(payload_path, log_path=None, outcome='success', rows=40):
     """Pull-request summary: funnel, new ideas, overlaps and the log tail."""
     lines = [f'### Marktscan · Live-Lauf: `{outcome}`', '']
     payload = None
-    if payload_path and Path(payload_path).exists():
+    # After a failed run the file on disk is the previous scan; never present it as this one.
+    if payload_path and outcome == 'success' and Path(payload_path).exists():
         try:
             payload = json.loads(Path(payload_path).read_text(encoding='utf-8'))
         except ValueError:
@@ -1042,8 +1099,10 @@ def report_markdown(payload_path, log_path=None, outcome='success', rows=40):
     else:
         lines.append('Kein gültiges Ergebnis geschrieben.')
     if log_path and Path(log_path).exists():
-        tail = Path(log_path).read_text(encoding='utf-8', errors='replace').splitlines()
-        tail = tail[-(60 if outcome != 'success' else 12):]
+        text = Path(log_path).read_text(encoding='utf-8', errors='replace')
+        if outcome != 'success' and 'SEC_USER_AGENT' in text:
+            lines += ['', '**Aktion nötig:** ' + AGENT_HELP]
+        tail = text.splitlines()[-(60 if outcome != 'success' else 12):]
         lines += ['', '<details><summary>Log (Ende)</summary>', '', '```', *tail, '```', '</details>']
     return '\n'.join(lines) + '\n'
 
@@ -1061,7 +1120,11 @@ def main(argv=None):
         sys.stdout.write(report_markdown(args.report, args.log, args.outcome))
         return 0
     from integrity import atomic_text
-    payload = run(shortlist=args.shortlist, keep=args.keep)
+    try:
+        payload = run(shortlist=args.shortlist, keep=args.keep)
+    except RuntimeError as exc:      # deliberate stops: agent, SEC refusal, thin frames
+        print(f'Marktscan abgebrochen: {exc}', file=sys.stderr)
+        return 1
     args.output.mkdir(parents=True, exist_ok=True)
     atomic_text(args.output / 'latest.json',
                 json.dumps(payload, ensure_ascii=False, indent=1, allow_nan=False) + '\n')

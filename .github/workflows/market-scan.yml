@@ -9,9 +9,11 @@ name: market-scan
 # and a summary with the log tail is posted as a PR comment, so a change meets
 # real data before it reaches main.
 #
-# SEC fair access needs a declared User-Agent with a contact address. The
-# default is the repository bot's noreply address; set the repository
-# variable SEC_USER_AGENT to use another one.
+# SEC fair access needs a declared User-Agent with a REAL contact address.
+# GitHub noreply addresses are refused with 403. Store it as the repository
+# secret SEC_USER_AGENT (masked in the public logs), e.g.
+#   InvestorAce Firstname Lastname name@domain.tld
+# A repository variable of the same name works too but is not masked.
 
 on:
   schedule:
@@ -33,7 +35,7 @@ concurrency:
 
 jobs:
   scan:
-    # Forks get a read-only token; they cannot commit or comment.
+    # Forks get no secrets and a read-only token; they cannot scan, commit or comment.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -56,49 +58,13 @@ jobs:
       - name: Offline contract tests
         run: python -m unittest test_market_universe test_market_scanner -v
 
-      - name: SEC reachability
-        env:
-          SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT }}
-        run: |
-          default="InvestorAce market scanner investorace-bot@users.noreply.github.com"
-          for ua in "${SEC_USER_AGENT:-$default}" "InvestorAce Research usubillaga@users.noreply.github.com" "Sample Company Name AdminContact@samplecompany.com"; do
-            for url in https://www.sec.gov/files/company_tickers_exchange.json \
-                       https://data.sec.gov/submissions/CIK0000320193.json; do
-              code=$(curl -s -o body.bin -w '%{http_code}' --compressed -A "$ua" "$url" || true)
-              echo "SEC $code [$ua] $url :: $(head -c 300 body.bin | tr -cd '[:print:]' | cut -c1-160)"
-              sleep 1
-            done
-          done | tee market-scan.log
-
-      - name: Yahoo screener probe
-        continue-on-error: true
-        run: |
-          python - <<'EOF' 2>&1 | tee -a market-scan.log
-          import json, yfinance as yf
-          print('yfinance', yf.__version__)
-          q = yf.EquityQuery('and', [yf.EquityQuery('eq', ['region', 'us']),
-                                     yf.EquityQuery('gt', ['intradaymarketcap', 2e10])])
-          r = yf.screen(q, size=3, sortField='intradaymarketcap', sortAsc=False)
-          print('YAHOO total', r.get('total'), 'count', len(r.get('quotes', [])))
-          print('YAHOO quote', json.dumps(r['quotes'][0])[:2500])
-          print('YAHOO fields', json.dumps(q.valid_fields)[:9000])
-          EOF
-
-      - name: SEC retry after cooldown
-        continue-on-error: true
-        run: |
-          sleep 660
-          ua="InvestorAce market scanner investorace-bot@users.noreply.github.com"
-          code=$(curl -s -o body.bin -w '%{http_code}' --compressed -A "$ua" https://data.sec.gov/submissions/CIK0000320193.json || true)
-          echo "SEC-RETRY $code :: $(head -c 300 body.bin | tr -cd '[:print:]' | cut -c1-120)" | tee -a market-scan.log
-
       - name: Scan the market
         id: scan
         env:
-          SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT || vars.SEC_USER_AGENT }}
         run: |
           set -o pipefail
-          python -u market_universe.py --output market-scan 2>&1 | tee -a market-scan.log
+          python -u market_universe.py --output market-scan 2>&1 | tee market-scan.log
 
       - name: Commit the scan
         if: steps.scan.outcome == 'success'
