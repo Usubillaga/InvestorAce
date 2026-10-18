@@ -316,7 +316,7 @@ class EndToEnd(unittest.TestCase):
     def test_funnel_filters_prices_and_excludes_financials(self):
         payload = self.run_scan()
         counts = [stage['count'] for stage in payload['funnel']]
-        self.assertEqual(counts, [5, 3, 3, 2, 1, 2, 2])
+        self.assertEqual(counts, [5, 3, 3, 2, 2, 2])
         self.assertEqual(payload['excluded_financials'], 1)
         self.assertEqual(payload['implausible'], [])
         self.assertEqual(payload['rejected'], {'REVENUE_BELOW_1BN': 1, 'NO_OPERATING_PROFIT': 1})
@@ -383,7 +383,7 @@ class EndToEnd(unittest.TestCase):
         self.assertEqual(aside['ticker'], 'ALFA')
         self.assertTrue(any('Aktienzahl' in r for r in aside['reasons']))
         self.assertTrue(aside['source_url'].startswith('https://data.sec.gov/'))
-        self.assertIn('1 beiseitegelegt', payload['funnel'][-2]['stage'])
+        self.assertIn('1 unplausibel beiseitegelegt', payload['funnel'][-2]['stage'])
         self.assertEqual(mu.validate_payload(payload, now=NOW), [])
         import tempfile
         from pathlib import Path

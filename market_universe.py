@@ -1047,9 +1047,8 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
                 dict(stage='Mit datiertem Schlusskurs', count=len(priced)),
                 dict(stage=f'Vorauswahl nach vorläufigem Score, ohne Banken, Versicherer und REITs '
                            f'(SIC 6000–6799; {excluded_financial} übersprungen)', count=len(short)),
-                dict(stage='Mit TTM-Werten aus den Einreichungen', count=refined),
-                dict(stage=f'Ohne unplausible Datensätze ({len(set_aside)} beiseitegelegt)',
-                     count=len(candidates)),
+                dict(stage=f'Nach Prüfung der Einreichungen weiter profitabel und plausibel ({refined} mit '
+                           f'TTM-Werten, {len(set_aside)} unplausibel beiseitegelegt)', count=len(candidates)),
                 dict(stage='Gespeicherte Kandidaten (Top nach Screening-Score)', count=len(kept))],
         excluded_financials=excluded_financial,
         implausible=set_aside,
