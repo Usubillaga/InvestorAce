@@ -61,9 +61,8 @@ jobs:
           SEC_USER_AGENT: ${{ vars.SEC_USER_AGENT }}
         run: |
           default="InvestorAce market scanner investorace-bot@users.noreply.github.com"
-          for ua in "${SEC_USER_AGENT:-$default}" "InvestorAce/1.0 (research; contact investorace-bot@users.noreply.github.com)"; do
+          for ua in "${SEC_USER_AGENT:-$default}" "InvestorAce Research usubillaga@users.noreply.github.com" "Sample Company Name AdminContact@samplecompany.com"; do
             for url in https://www.sec.gov/files/company_tickers_exchange.json \
-                       https://data.sec.gov/api/xbrl/frames/us-gaap/Revenues/USD/CY2025.json \
                        https://data.sec.gov/submissions/CIK0000320193.json; do
               code=$(curl -s -o body.bin -w '%{http_code}' --compressed -A "$ua" "$url" || true)
               echo "SEC $code [$ua] $url :: $(head -c 300 body.bin | tr -cd '[:print:]' | cut -c1-160)"
