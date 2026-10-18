@@ -18,6 +18,29 @@ const {chromium} = require('playwright');
     const file = path.resolve(process.env.SCANNER_PAGE || 'research-output/scanner/scanner.html');
     await page.goto(pathToFileURL(file).href);
     const data = await page.locator('#scanner-data').textContent().then(JSON.parse);
+    const market = data.market || {candidates: []};
+    if (data.current_regime) assert.equal(await page.locator('#regime').inputValue(), data.current_regime);
+    if (market.candidates.length) {
+      // The market tab is the default view and shows only new Buy/Strong Buy ideas.
+      const fresh = market.candidates.filter(c => c.score >= 7 && !c.in_universe).length;
+      assert.equal(await page.locator('#scanner-rows tr').count(), fresh);
+      if (data.current_regime) assert.equal(await page.locator('#m-regime').inputValue(), data.current_regime);
+      await page.selectOption('#m-band', 'all');
+      await page.selectOption('#m-holdings', 'all');
+      assert.equal(await page.locator('#scanner-rows tr').count(), market.candidates.length);
+      const first = market.candidates[0];
+      await page.click(`button[data-ticker="${first.ticker}"]`);
+      const detail = await page.locator('#detail').innerText();
+      assert.ok(detail.includes('Scorebeiträge') && detail.includes('Quellen') && detail.includes(first.ticker));
+      await page.click('#close-detail');
+      const marketCsv = page.waitForEvent('download');
+      await page.click('#export');
+      const marketText = await fs.readFile(await (await marketCsv).path(), 'utf8');
+      assert.equal(marketText.trim().split('\r\n').length, market.candidates.length + 1);
+      await page.click('#m-reset');
+      assert.equal(await page.locator('#scanner-rows tr').count(), fresh);
+    }
+    await page.click('#tab-universe');
     const expected = data.rows.filter(r => r.model_score >= 7 && !r.held_in_snapshot).length;
     assert.equal(await page.locator('#scanner-rows tr').count(), expected);
     const order = await page.locator('#scanner-rows .ticker').allTextContents();

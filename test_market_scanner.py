@@ -143,5 +143,90 @@ class ScannerTests(unittest.TestCase):
             self.assertIn('href="scanner.html"', (output / 'index.html').read_text())
 
 
+def market_payload(generated='2026-10-17T07:00:00+00:00', **candidate):
+    """Minimal valid weekly scan (built by hand: this module must not need yfinance)."""
+    base = dict(ticker='NEWCO', yahoo='NEWCO', cik=1, name='New Co', exchange='NYSE', sic=7372,
+                sic_description='Software', sector='Software', in_universe=False, price=50.0,
+                price_date='2026-10-16', currency='USD', basis='TTM', period_start='2025-07-01',
+                period_end='2026-06-30', growth_basis='TTM', shares_basis='COVER_PAGE',
+                balance_date='2026-06-30', source='companyfacts', metrics=dict(revenue=2e9, market_cap=5e9),
+                score=7.5, band='Buy', components=[dict(key='g', label='Growth', value=7.5, weight=1.0,
+                                                         contribution=7.5, input=12.0)],
+                regime_fit={'REFLATION': 55.0}, flags=[], flag_text={},
+                sources=[dict(title='SEC', url='https://data.sec.gov/api/xbrl/companyfacts/CIK0000000001.json')])
+    base.update(candidate)
+    return dict(schema='market-scan-v1', generated_at=generated, as_of=generated[:10],
+                coverage='USA', funnel=[dict(stage='Liste', count=5000)], method={}, rejected={},
+                sources={}, candidates=[base])
+
+
+class MarketSectionTests(unittest.TestCase):
+    def test_regime_column_defaults_to_the_engine_reading(self):
+        record = observation()
+        self.assertIsNone(scanner.build_scan(record, as_of=ASOF)['current_regime'])
+        record['_evidence']['macro'] = dict(ok=True, regime='REFLATION')
+        self.assertEqual(scanner.build_scan(record, as_of=ASOF)['current_regime'], 'REFLATION')
+        record['_evidence']['macro'] = dict(ok=False, regime='REFLATION')
+        self.assertIsNone(scanner.build_scan(record, as_of=ASOF)['current_regime'])
+
+    def test_market_scan_states(self):
+        record = observation()
+        self.assertEqual(scanner.build_scan(record, as_of=ASOF)['market']['status'], 'MISSING')
+        ok = scanner.build_scan(record, as_of=ASOF, market=market_payload())['market']
+        self.assertEqual((ok['status'], len(ok['candidates'])), ('OK', 1))
+        stale = scanner.build_scan(record, as_of=ASOF, market=market_payload('2026-09-20T07:00:00+00:00'))
+        self.assertEqual(stale['market']['status'], 'STALE')
+        broken = market_payload(); broken['candidates'][0]['band'] = 'Sell'   # noqa: E702
+        bad = scanner.build_scan(record, as_of=ASOF, market=broken)['market']
+        self.assertEqual((bad['status'], bad['candidates']), ('INVALID', []))
+        future = scanner.build_scan(record, as_of=ASOF, market=market_payload('2026-10-20T07:00:00+00:00'))
+        self.assertEqual(future['market']['status'], 'INVALID')
+
+    def test_universe_membership_comes_from_the_current_record(self):
+        record = observation()
+        market = market_payload(ticker='EX', in_universe=False)
+        row = scanner.build_scan(record, as_of=ASOF, market=market)['market']['candidates'][0]
+        self.assertEqual((row['in_universe'], row['universe_key'], row['universe_score']), (True, 'EX', 7.6))
+        self.assertIsNone(row['add_url'])
+        new = scanner.build_scan(record, as_of=ASOF, market=market_payload())['market']['candidates'][0]
+        self.assertFalse(new['in_universe'])
+        self.assertTrue(new['add_url'].startswith('https://github.com/'))
+        self.assertIn('add-ticker%3A%20NEWCO', new['add_url'])
+
+    def test_calibration_compares_screening_and_model_scores(self):
+        record = observation()
+        none = scanner.build_scan(record, as_of=ASOF, market=market_payload())['market']
+        self.assertIsNone(none['calibration'])                     # no overlap, no claim
+        market = market_payload(ticker='EX', in_universe=False)
+        joined = scanner.build_scan(record, as_of=ASOF, market=market)['market']
+        row = joined['candidates'][0]
+        cal = joined['calibration']
+        self.assertEqual(cal['n'], 1)
+        self.assertAlmostEqual(cal['mean_diff'], row['score'] - 7.6)
+        self.assertEqual(cal['min_diff'], cal['max_diff'])
+        self.assertIsNone(scanner.build_scan(record, as_of=ASOF)['market']['calibration'])
+
+    def test_market_rows_never_change_universe_ranking(self):
+        record = observation()
+        plain = scanner.build_scan(record, as_of=ASOF)
+        joined = scanner.build_scan(record, as_of=ASOF, market=market_payload(score=9.9, band='Strong Buy'))
+        self.assertEqual(plain['rows'], joined['rows'])
+
+    def test_market_text_is_escaped_in_the_page(self):
+        market = market_payload(name='</script><script>alert(1)</script>')
+        html = scanner.render_scan(scanner.build_scan(observation(), as_of=ASOF, market=market))
+        self.assertNotIn('</script><script>alert(1)</script>', html)
+        self.assertIn('NEWCO', html)
+        self.assertIn('id="tab-market"', html)
+
+    def test_committed_market_scan_is_valid(self):
+        path = Path(scanner.__file__).parent / 'market-scan' / 'latest.json'
+        if not path.exists():
+            self.skipTest('no committed market scan yet')
+        payload = json.loads(path.read_text(encoding='utf-8'))
+        import market_universe
+        self.assertEqual(market_universe.validate_payload(payload), [])
+
+
 if __name__ == '__main__':
     unittest.main()
