@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-18",
+  "period_start": "2026-10-17",
+  "period_end": "2026-10-18",
+  "data_cutoff": "2026-10-18T08:30:00+02:00",
+  "summary": "[Sicher] The stagflation tilt sharpened over the weekend baseline: US producer prices jumped 1.3% in September while the Nasdaq Composite fell about 4.5% in the week to 16 October. [Wahrscheinlich] Cost pressure is spreading from energy into the pipeline just as AI financing worries hit equity valuations; Colombia adds a growth cost, with unemployment at 9.4% in August. [Sicher] Markets are closed on 17 and 18 October, so all quotes are the last observation of 16 October. Checkpoints: FOMC 27–28 October, ECB 29 October, Banco de la República 30 October.",
+  "priority_review": "1) Does the regime classifier read a 1.3% jump in producer prices as a stagflation signal before it shows up in consumer prices? 2) Are discount-rate inputs and equity valuations refreshed after the Nasdaq fall of 16 October? 3) Are EUR and COP conversions tied to dated observations (1.1253 USD per EUR, 3170.46 COP per USD on 16 October)?",
+  "items": [
+    {
+      "section": "regime",
+      "title": "Producer prices jump 1.3% and tech sells off: the stagflation tilt sharpens",
+      "authors": "BLS; market reporting",
+      "publication_date": "14 to 17 October 2026",
+      "source_url": "https://www.bls.gov/news.release/archives/ppi_10152026.htm",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Producer Price Index News Release – September 2026",
+          "url": "https://www.bls.gov/news.release/archives/ppi_10152026.htm",
+          "publication_date": "2026-10-15"
+        },
+        {
+          "title": "Why Wall Street Fell, and What Investors Are Watching Before Monday",
+          "url": "https://www.yoopya.com/business/markets/wall-street-today-october-17-2026",
+          "publication_date": "2026-10-17"
+        },
+        {
+          "title": "Consumer Price Index – September 2026",
+          "url": "https://www.bls.gov/cpi/",
+          "publication_date": "2026-10-14"
+        }
+      ],
+      "what_changed": "[Sicher] The US producer price index for final demand rose 1.3% in September (BLS, released 15 October 2026), the largest monthly rise since March 2022, and 6.3% year on year; goods prices rose 2.6% and services 0.8%. August was revised to 0.5%. [Wahrscheinlich] On Friday 16 October the S&P 500 closed at 7659.44 (down 1.09%) and the Nasdaq Composite at 26140.03 (down about 2.1%), a weekly fall of about 4.5% for the Nasdaq, its worst week since June; the VIX rose above 22 for the first time in four months, and CoreWeave fell about 12% on debt and financing worries. Brent settled at 109.86 USD and WTI at 101.41 USD per barrel. These come from one market report and were not cross-checked against exchange data.",
+      "investorace_implication": "[Wahrscheinlich] Producer prices are an upstream cost: a 2.6% jump in goods prices can be passed on to consumers or absorbed in margins. If passed on, consumer inflation (3.7% in September) stays high and rates stay restrictive; if absorbed, earnings fall. Both paths lower valuations, which is the stagflation channel, not reflation. [Vermutung] The AI financing stress is a separate valuation shock that coincides with, but is not proven to be caused by, higher rates and oil. A single week does not establish a regime change.",
+      "review_question": "Which weight does the classifier give to upstream price data versus consumer data? Next data: US October CPI on 10 November 2026 and PPI on 13 November 2026; first market session after the weekend is Monday 19 October.",
+      "limitations": "Market levels come from one report dated 17 October. The 10-year Treasury yield and the current federal funds futures pricing could not be confirmed and are not quoted. Producer prices are volatile month to month and often revised."
+    },
+    {
+      "section": "usa",
+      "title": "The Fed meets on 27–28 October with producer prices hot and equities falling",
+      "authors": "Federal Reserve; BLS; UOB; press reporting",
+      "publication_date": "16 September to 17 October 2026",
+      "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Federal Reserve issues FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        },
+        {
+          "title": "Federal Reserve: More hikes ahead after October pause – UOB",
+          "url": "https://www.fxstreet.com/news/federal-reserve-more-hikes-ahead-after-october-pause-uob-202610081303",
+          "publication_date": "2026-10-08"
+        },
+        {
+          "title": "US extends sanctions waiver for Russian oil giant Lukoil until 2027",
+          "url": "https://www.euronews.com/2026/10/15/us-extends-sanctions-waiver-for-russian-oil-giant-lukoil-until-2027",
+          "publication_date": "2026-10-15"
+        },
+        {
+          "title": "Producer Price Index News Release – September 2026",
+          "url": "https://www.bls.gov/news.release/archives/ppi_10152026.htm",
+          "publication_date": "2026-10-15"
+        },
+        {
+          "title": "Why Wall Street Fell, and What Investors Are Watching Before Monday",
+          "url": "https://www.yoopya.com/business/markets/wall-street-today-october-17-2026",
+          "publication_date": "2026-10-17"
+        },
+        {
+          "title": "Active Presidential Tariff Actions in 2026: Fact Sheet (CRS R49481)",
+          "url": "https://www.everycrsreport.com/reports/R49481.html",
+          "publication_date": "2026-10-08"
+        }
+      ],
+      "what_changed": "[Sicher] The FOMC raised the federal funds target range by 25 basis points to 3.75% to 4% on 16 September 2026; the next meeting is 27–28 October, shortly before the midterm elections on 3 November. [Wahrscheinlich] UOB (8 October) does not expect a second consecutive hike in October but sees more hikes later; published market-implied odds for October conflict between sources and are not quoted. [Wahrscheinlich] Euronews reports that the Treasury extended a waiver for Lukoil retail stations outside Russia until 24 April 2027, an enacted administrative measure whose price effect is small. [Sicher] On trade, the Supreme Court struck down the IEEPA tariffs in February 2026 (Learning Resources v. Trump); tariffs under Section 232 and other statutes remain, while sources disagree on whether the Section 122 replacement tariff is still collected. [Wahrscheinlich] Meanwhile, proposals by Democrats to roll back remaining tariffs and by some Republicans to limit presidential tariff powers are campaign statements, not law.",
+      "investorace_implication": "[Wahrscheinlich] On the same criteria, a tariff rollback would lower goods prices and the inflation the Fed must offset, but would cut customs revenue and protection for some domestic producers; keeping tariffs does the reverse. A hot producer price report raises the risk that the Fed tightens further, which pressures long-duration growth stocks already falling. [Vermutung] A pause on 28 October with a hawkish statement would affect valuations similarly to a hike, because the market looks at the expected path.",
+      "review_question": "Will the FOMC hike again or pause on 28 October, and has the 10-year risk-free input in InvestorAce been refreshed since the September hike?",
+      "limitations": "I could not verify a Russia-related sanctions waiver that one report says came after Friday's close; it is not treated as fact. Which tariffs are collected on 18 October could not be confirmed from customs guidance; refund proceedings for IEEPA duties are ongoing. The Fed chair and committee composition were not re-checked for this edition."
+    },
+    {
+      "section": "eu",
+      "title": "Euro firm at 1.1253 USD while a Wall Street tech sell-off looms over Monday",
+      "authors": "European Central Bank; Eurostat",
+      "publication_date": "10 September to 17 October 2026",
+      "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Sicher",
+      "sources": [
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Annual inflation up to 3.8% in the euro area",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-16102026-ap",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+          "publication_date": "2026-09-10"
+        }
+      ],
+      "what_changed": "[Sicher] The ECB reference rate on 16 October 2026 was 1 EUR = 1.1253 USD, versus 1.1208 on 15 October (previous edition), so the euro appreciated by about 0.4%; there is no new ECB fixing on 17 or 18 October. [Sicher] Euro area inflation was 3.8% in September (Eurostat, 16 October) and the ECB deposit facility rate is 2.50% after the 25 basis point hike of 10 September; the next ECB decision is on 29 October. I found no new EU fiscal, energy or trade decision confirmed since the previous edition.",
+      "investorace_implication": "[Wahrscheinlich] A firm euro lowers the euro value of dollar revenue of European exporters, while higher ECB rates and energy costs weigh on valuations. [Vermutung] The Nasdaq fall and an eighth straight decline of the US semiconductor index (down 3.8% on 16 October) may spill over to European technology and chip equipment stocks on Monday, but the European close of 16 October was not confirmed, so the size of any effect is unknown.",
+      "review_question": "Next checkpoints: the ECB decision on 29 October and flash inflation for October on 4 November. Are dollar earnings of European holdings translated at a dated EUR/USD rate?",
+      "limitations": "The ECB rate is a reference fixing around 16:00 CET, not a transaction rate. European equity closes, gas prices and bond yields for 16 October could not be confirmed and are omitted. Energy supply risks from the war are not quantified."
+    },
+    {
+      "section": "colombia",
+      "title": "Unemployment at 9.4% adds a growth cost to the 12.25% policy rate",
+      "authors": "DANE; Banco de la República; Colombian press",
+      "publication_date": "30 September to 17 October 2026",
+      "source_url": "https://www.infobae.com/colombia/2026/09/30/subio-el-desempleo-en-colombia-subio-mas-del-9-en-agosto-hubo-126000-ocupados-menos-que-en-el-mismo-mes-de-2025-segun-el-dane/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Subió el desempleo en Colombia subió más del 9% en agosto: hubo 126.000 ocupados menos que en el mismo mes de 2025, según el Dane",
+          "url": "https://www.infobae.com/colombia/2026/09/30/subio-el-desempleo-en-colombia-subio-mas-del-9-en-agosto-hubo-126000-ocupados-menos-que-en-el-mismo-mes-de-2025-segun-el-dane/",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "Banco de la República se refirió al desempleo en Colombia: “El final de esos impulsos tan fuertes que se apoyaban en gasto público y déficit fiscal”",
+          "url": "https://www.infobae.com/colombia/2026/10/13/banco-de-la-republica-se-refirio-al-desempleo-en-colombia-el-final-de-esos-impulsos-tan-fuertes-que-se-apoyaban-en-gasto-publico-y-deficit-fiscal/",
+          "publication_date": "2026-10-13"
+        },
+        {
+          "title": "Dólar hoy 15 de octubre de 2026: así está la TRM este jueves",
+          "url": "https://www.noticiascaracol.com/economia/dolar-hoy-15-de-octubre-de-2026-asi-esta-la-trm-este-jueves-so35",
+          "publication_date": "2026-10-15"
+        },
+        {
+          "title": "Precio del dólar para este viernes 16 de octubre de 2026",
+          "url": "https://elheraldo.co/economia/2026/10/16/precio-del-dolar-para-este-viernes-16-de-octubre-de-2026",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-16"
+        }
+      ],
+      "what_changed": "[Sicher] DANE reported on 30 September 2026 that unemployment was 9.4% in August, up 0.8 percentage points from a year earlier and the highest in 20 months; employment was 23685000, or 126000 fewer than a year earlier, with manufacturing hit hardest. [Wahrscheinlich] The seasonally adjusted rate was reported at 9.7% against 8.3% in July, and DANE adjusted survey weights because of the earthquake of 10 August. On 13 October governor Leonardo Villar linked the weakness to the end of demand driven by public spending and deficits. Policy rate 12.25% and September inflation of 6.29% are unchanged; the next decision is on 30 October. FX: TRM of 16 October 1 USD = 3170.46 COP, versus 3197.65 on 15 October, a peso appreciation of about 0.85%; derived from the ECB rate, 1 EUR = 3567.7 COP (15 October: 3583.9), about 0.45% stronger peso. The 16 October TRM is carried from the previous edition.",
+      "investorace_implication": "[Wahrscheinlich] A policy rate of 12.25% with unemployment rising shows the squeeze: inflation of 6.29% argues for tight policy while jobs and manufacturing weaken, which cuts household demand and domestic earnings. The stronger peso eases imported inflation. [Vermutung] If unemployment keeps rising, pressure for easier policy will grow, but fiscal credibility, not growth alone, will decide the COP and sovereign spreads.",
+      "review_question": "Next checkpoints: the Banco de la República decision on 30 October, the September unemployment release by DANE, and whether the rescue law reaches Congress with quantified measures.",
+      "limitations": "No new information on the rescue law was found. A headline says the IMF sees unemployment returning to 10% next year; the report was not verified. The EUR/COP rate is derived from the ECB fixing and the TRM and is not a quote. No weekend TRM or fixing exists; all values date from 16 October."
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] La inclinación hacia la estanflación se acentuó: los precios al productor de EE. UU. subieron 1.3% en septiembre y el Nasdaq Composite cayó cerca de 4.5% en la semana al 16 de octubre. [Wahrscheinlich] La presión de costos pasa de la energía a la cadena de precios justo cuando las dudas sobre la financiación de la IA golpean las valoraciones; Colombia añade un costo de crecimiento, con un desempleo de 9.4% en agosto. [Sicher] Los mercados están cerrados el 17 y el 18 de octubre, así que todas las cotizaciones son la última observación del 16 de octubre. Próximos hitos: FOMC 27–28 de octubre, BCE 29 de octubre, Banco de la República 30 de octubre.",
+      "priority_review": "1) ¿Lee el clasificador de regímenes un salto de 1.3% en los precios al productor como señal de estanflación antes de que aparezca en los precios al consumidor? 2) ¿Se actualizaron las tasas de descuento y las valoraciones tras la caída del Nasdaq del 16 de octubre? 3) ¿Las conversiones de EUR y COP usan observaciones fechadas (1.1253 USD por EUR, 3170.46 COP por USD el 16 de octubre)?",
+      "items": [
+        {
+          "title": "Los precios al productor suben 1.3% y la tecnología cae: se acentúa la inclinación hacia la estanflación",
+          "publication_date": "14 al 17 de octubre de 2026",
+          "what_changed": "[Sicher] El índice de precios al productor de EE. UU. para la demanda final subió 1.3% en septiembre (BLS, publicado el 15 de octubre de 2026), el mayor aumento mensual desde marzo de 2022, y 6.3% interanual; los bienes subieron 2.6% y los servicios 0.8%. Agosto se revisó a 0.5%. [Wahrscheinlich] El viernes 16 de octubre el S&P 500 cerró en 7659.44 (baja de 1.09%) y el Nasdaq Composite en 26140.03 (baja de cerca de 2.1%), una caída semanal de cerca de 4.5% del Nasdaq, su peor semana desde junio; el VIX superó 22 por primera vez en cuatro meses y CoreWeave cayó cerca de 12% por temores de deuda y financiación. El Brent cerró en 109.86 USD y el WTI en 101.41 USD por barril. Los datos provienen de un solo informe de mercado y no se contrastaron con datos de bolsa.",
+          "investorace_implication": "[Wahrscheinlich] Los precios al productor son un costo previo: un salto de 2.6% en bienes puede trasladarse al consumidor o absorberse en márgenes. Si se traslada, la inflación al consumidor (3.7% en septiembre) sigue alta y las tasas siguen restrictivas; si se absorbe, caen las ganancias. Ambos caminos reducen las valoraciones, que es el canal de la estanflación y no el de la reflación. [Vermutung] El estrés de financiación de la IA es un choque de valoración aparte que coincide con tasas y petróleo más altos, sin que esté probado que lo causen. Una sola semana no establece un cambio de régimen.",
+          "review_question": "¿Qué peso da el clasificador a los datos de precios previos frente a los del consumidor? Próximos datos: IPC de octubre de EE. UU. el 10 de noviembre de 2026 e IPP el 13 de noviembre de 2026; la primera sesión tras el fin de semana es el lunes 19 de octubre.",
+          "limitations": "Los niveles de mercado provienen de un solo informe del 17 de octubre. No se pudieron confirmar el rendimiento del bono del Tesoro a 10 años ni el precio actual de los futuros de fondos federales, por lo que no se citan. Los precios al productor son volátiles de un mes a otro y se revisan a menudo.",
+          "source_url": "https://www.bls.gov/news.release/archives/ppi_10152026.htm"
+        },
+        {
+          "title": "La Fed se reúne el 27–28 de octubre con precios al productor altos y acciones a la baja",
+          "publication_date": "16 de septiembre al 17 de octubre de 2026",
+          "what_changed": "[Sicher] El FOMC subió el rango objetivo de los fondos federales en 25 puntos básicos a 3.75% a 4% el 16 de septiembre de 2026; la próxima reunión es el 27–28 de octubre, poco antes de las elecciones legislativas del 3 de noviembre. [Wahrscheinlich] UOB (8 de octubre) no espera una segunda subida consecutiva en octubre pero ve más subidas después; las probabilidades de mercado publicadas para octubre se contradicen entre fuentes y no se citan. [Wahrscheinlich] Euronews informa que el Tesoro prorrogó hasta el 24 de abril de 2027 una exención para las estaciones de servicio de Lukoil fuera de Rusia, una medida administrativa vigente cuyo efecto en precios es pequeño. [Sicher] En comercio, la Corte Suprema anuló los aranceles IEEPA en febrero de 2026 (Learning Resources contra Trump); siguen vigentes los aranceles de la Sección 232 y de otras leyes, mientras las fuentes discrepan sobre si el arancel sustitutivo de la Sección 122 aún se cobra. [Wahrscheinlich] Entretanto, las propuestas demócratas de revertir los aranceles restantes y de algunos republicanos de limitar los poderes arancelarios presidenciales son declaraciones de campaña, no ley.",
+          "investorace_implication": "[Wahrscheinlich] Con los mismos criterios, revertir aranceles bajaría los precios de bienes y la inflación que la Fed debe compensar, pero recortaría ingresos aduaneros y la protección de algunos productores nacionales; mantenerlos hace lo contrario. Un dato de precios al productor alto aumenta el riesgo de más alzas de la Fed, lo que presiona las acciones de crecimiento de larga duración que ya caen. [Vermutung] Una pausa el 28 de octubre con un comunicado restrictivo afectaría a las valoraciones de forma parecida a una subida, porque el mercado mira la trayectoria esperada.",
+          "review_question": "¿Subirá la Fed otra vez o hará una pausa el 28 de octubre, y se actualizó en InvestorAce la entrada libre de riesgo a 10 años desde la subida de septiembre?",
+          "limitations": "No pude verificar una exención de sanciones a Rusia que un informe sitúa tras el cierre del viernes; no se trata como hecho. No se pudo confirmar con la guía aduanera qué aranceles se cobran el 18 de octubre; los reembolsos de los aranceles IEEPA siguen en trámite. No se volvió a comprobar quién preside la Fed ni la composición del comité.",
+          "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm"
+        },
+        {
+          "title": "Euro firme en 1.1253 USD mientras una caída tecnológica en Wall Street se cierne sobre el lunes",
+          "publication_date": "10 de septiembre al 17 de octubre de 2026",
+          "what_changed": "[Sicher] El tipo de referencia del BCE del 16 de octubre de 2026 fue 1 EUR = 1.1253 USD, frente a 1.1208 el 15 de octubre (edición anterior), por lo que el euro se apreció cerca de 0.4%; no hay nuevo fixing del BCE el 17 ni el 18 de octubre. [Sicher] La inflación de la zona euro fue 3.8% en septiembre (Eurostat, 16 de octubre) y la tasa de depósito del BCE es 2.50% tras la subida de 25 puntos básicos del 10 de septiembre; la próxima decisión del BCE es el 29 de octubre. No encontré ninguna decisión fiscal, energética o comercial nueva de la UE confirmada desde la edición anterior.",
+          "investorace_implication": "[Wahrscheinlich] Un euro firme reduce el valor en euros de los ingresos en dólares de los exportadores europeos, mientras tasas del BCE más altas y costos de energía pesan sobre las valoraciones. [Vermutung] La caída del Nasdaq y el octavo descenso seguido del índice de semiconductores de EE. UU. (baja de 3.8% el 16 de octubre) podrían contagiar el lunes a las acciones europeas de tecnología y equipos de chips, pero no se confirmó el cierre europeo del 16 de octubre, así que se desconoce la magnitud.",
+          "review_question": "Próximos hitos: la decisión del BCE el 29 de octubre y la inflación adelantada de octubre el 4 de noviembre. ¿Se convierten las ganancias en dólares de las posiciones europeas a un tipo EUR/USD fechado?",
+          "limitations": "El tipo del BCE es un fixing de referencia alrededor de las 16:00 CET, no un tipo de transacción. No se pudieron confirmar los cierres bursátiles europeos, los precios del gas ni los rendimientos de bonos del 16 de octubre, y se omiten. Los riesgos de suministro energético por la guerra no se cuantifican.",
+          "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
+        },
+        {
+          "title": "El desempleo de 9.4% añade un costo de crecimiento a la tasa de política de 12.25%",
+          "publication_date": "30 de septiembre al 17 de octubre de 2026",
+          "what_changed": "[Sicher] El DANE informó el 30 de septiembre de 2026 que el desempleo fue 9.4% en agosto, 0.8 puntos porcentuales más que un año antes y el más alto en 20 meses; el empleo fue de 23685000 personas, 126000 menos que un año antes, con la industria manufacturera como la más afectada. [Wahrscheinlich] La tasa desestacionalizada se reportó en 9.7% frente a 8.3% en julio, y el DANE ajustó los factores de expansión por el terremoto del 10 de agosto. El 13 de octubre el gerente Leonardo Villar vinculó la debilidad con el fin de la demanda impulsada por gasto público y déficit. La tasa de política de 12.25% y la inflación de septiembre de 6.29% no cambian; la próxima decisión es el 30 de octubre. Divisas: TRM del 16 de octubre 1 USD = 3170.46 COP, frente a 3197.65 el 15 de octubre, una apreciación del peso de cerca de 0.85%; derivado del tipo del BCE, 1 EUR = 3567.7 COP (15 de octubre: 3583.9), un peso cerca de 0.45% más fuerte. La TRM del 16 de octubre se toma de la edición anterior.",
+          "investorace_implication": "[Wahrscheinlich] Una tasa de política de 12.25% con desempleo al alza muestra la presión: la inflación de 6.29% pide una política restrictiva mientras el empleo y la manufactura se debilitan, lo que reduce la demanda de los hogares y las ganancias internas. El peso más fuerte alivia la inflación importada. [Vermutung] Si el desempleo sigue subiendo, crecerá la presión por una política más laxa, pero la credibilidad fiscal, no solo el crecimiento, decidirá el COP y los diferenciales soberanos.",
+          "review_question": "Próximos hitos: la decisión del Banco de la República el 30 de octubre, la publicación del desempleo de septiembre por el DANE y si la ley de rescate llega al Congreso con medidas cuantificadas.",
+          "limitations": "No se encontró información nueva sobre la ley de rescate. Un titular dice que el FMI ve el desempleo de vuelta en 10% el próximo año; el informe no se verificó. El tipo EUR/COP es derivado del fixing del BCE y la TRM y no es una cotización. No hay TRM ni fixing de fin de semana; todos los valores son del 16 de octubre.",
+          "source_url": "https://www.infobae.com/colombia/2026/09/30/subio-el-desempleo-en-colombia-subio-mas-del-9-en-agosto-hubo-126000-ocupados-menos-que-en-el-mismo-mes-de-2025-segun-el-dane/"
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Die Stagflationsneigung hat sich verschärft: Die US-Erzeugerpreise stiegen im September um 1,3 %, und der Nasdaq Composite fiel in der Woche bis 16. Oktober um rund 4,5 %. [Wahrscheinlich] Der Kostendruck wandert von der Energie in die Preiskette, gerade wenn Zweifel an der KI-Finanzierung die Bewertungen treffen; Kolumbien bringt mit einer Arbeitslosigkeit von 9,4 % im August Wachstumskosten hinzu. [Sicher] Die Märkte sind am 17. und 18. Oktober geschlossen, alle Kurse sind daher die letzte Beobachtung vom 16. Oktober. Prüfpunkte: FOMC 27–28. Oktober, EZB 29. Oktober, Banco de la República 30. Oktober.",
+      "priority_review": "1) Liest der Regime-Klassifikator einen Sprung der Erzeugerpreise um 1,3 % als Stagflationssignal, bevor er bei den Verbraucherpreisen ankommt? 2) Wurden Diskontsätze und Bewertungen nach dem Nasdaq-Rückgang vom 16. Oktober aktualisiert? 3) Beruhen EUR- und COP-Umrechnungen auf datierten Beobachtungen (1,1253 USD je EUR, 3170,46 COP je USD am 16. Oktober)?",
+      "items": [
+        {
+          "title": "Erzeugerpreise springen um 1,3 %, Technologiewerte fallen: Die Stagflationsneigung verschärft sich",
+          "publication_date": "14. bis 17. Oktober 2026",
+          "what_changed": "[Sicher] Der US-Erzeugerpreisindex für die Endnachfrage stieg im September um 1,3 % (BLS, veröffentlicht am 15. Oktober 2026), der größte Monatsanstieg seit März 2022, und um 6,3 % zum Vorjahr; Güterpreise stiegen um 2,6 %, Dienstleistungen um 0,8 %. August wurde auf 0,5 % revidiert. [Wahrscheinlich] Am Freitag, 16. Oktober, schloss der S&P 500 bei 7659,44 (minus 1,09 %) und der Nasdaq Composite bei 26140,03 (minus rund 2,1 %), ein Wochenverlust des Nasdaq von rund 4,5 %, seine schwächste Woche seit Juni; der VIX stieg erstmals seit vier Monaten über 22, und CoreWeave verlor rund 12 % wegen Schulden- und Finanzierungssorgen. Brent schloss bei 109,86 USD und WTI bei 101,41 USD je Barrel. Die Angaben stammen aus einem einzigen Marktbericht und wurden nicht mit Börsendaten abgeglichen.",
+          "investorace_implication": "[Wahrscheinlich] Erzeugerpreise sind ein vorgelagerter Kostenfaktor: Ein Sprung der Güterpreise um 2,6 % kann an Verbraucher weitergegeben oder in den Margen aufgefangen werden. Bei Weitergabe bleibt die Verbraucherinflation (3,7 % im September) hoch und die Zinsen restriktiv; bei Absorption sinken die Gewinne. Beide Wege senken Bewertungen, das ist der Stagflationskanal und nicht der Reflationskanal. [Vermutung] Der Finanzierungsstress bei KI ist ein eigener Bewertungsschock, der mit höheren Zinsen und Ölpreisen zusammenfällt, ohne dass bewiesen ist, dass diese ihn auslösen. Eine einzelne Woche belegt keinen Regimewechsel.",
+          "review_question": "Welches Gewicht gibt der Klassifikator vorgelagerten Preisdaten gegenüber Verbraucherdaten? Nächste Daten: US-Verbraucherpreise für Oktober am 10. November 2026 und Erzeugerpreise am 13. November 2026; die erste Handelssitzung nach dem Wochenende ist Montag, der 19. Oktober.",
+          "limitations": "Die Marktstände stammen aus einem einzigen Bericht vom 17. Oktober. Die Rendite von US-Staatsanleihen mit 10 Jahren Laufzeit und die aktuelle Preisbildung der Fed-Funds-Futures konnten nicht bestätigt werden und werden nicht genannt. Erzeugerpreise sind von Monat zu Monat volatil und werden oft revidiert.",
+          "source_url": "https://www.bls.gov/news.release/archives/ppi_10152026.htm"
+        },
+        {
+          "title": "Die Fed tagt am 27–28. Oktober bei heißen Erzeugerpreisen und fallenden Aktien",
+          "publication_date": "16. September bis 17. Oktober 2026",
+          "what_changed": "[Sicher] Der FOMC erhöhte die Zielspanne der Fed Funds am 16. September 2026 um 25 Basispunkte auf 3,75 % bis 4 %; die nächste Sitzung ist am 27–28. Oktober, kurz vor den Zwischenwahlen am 3. November. [Wahrscheinlich] UOB (8. Oktober) erwartet im Oktober keine zweite Anhebung in Folge, sieht aber später weitere Anhebungen; veröffentlichte marktimplizite Wahrscheinlichkeiten für Oktober widersprechen sich zwischen Quellen und werden nicht genannt. [Wahrscheinlich] Euronews berichtet, das Finanzministerium habe eine Ausnahmegenehmigung für Lukoil-Tankstellen außerhalb Russlands bis 24. April 2027 verlängert, eine geltende Verwaltungsmaßnahme mit geringer Preiswirkung. [Sicher] Im Handel hat der Supreme Court die IEEPA-Zölle im Februar 2026 gekippt (Learning Resources gegen Trump); Zölle nach Section 232 und anderen Gesetzen bleiben bestehen, während Quellen uneins sind, ob der Ersatzzoll nach Section 122 noch erhoben wird. [Wahrscheinlich] Unterdessen sind Vorschläge der Demokraten zur Rücknahme der übrigen Zölle und einiger Republikaner zur Begrenzung der präsidentiellen Zollbefugnisse Wahlkampfaussagen, kein Gesetz.",
+          "investorace_implication": "[Wahrscheinlich] Nach denselben Kriterien würde eine Zollrücknahme die Güterpreise und die von der Fed auszugleichende Inflation senken, aber Zolleinnahmen und den Schutz einiger heimischer Produzenten verringern; das Beibehalten der Zölle wirkt umgekehrt. Ein heißer Erzeugerpreisbericht erhöht das Risiko weiterer Fed-Anhebungen, was bereits fallende Wachstumsaktien mit langer Duration belastet. [Vermutung] Eine Pause am 28. Oktober mit restriktiver Erklärung würde Bewertungen ähnlich wie eine Anhebung treffen, weil der Markt den erwarteten Pfad betrachtet.",
+          "review_question": "Erhöht der FOMC am 28. Oktober erneut oder pausiert er, und wurde der risikofreie 10-Jahres-Input in InvestorAce seit der Septemberanhebung aktualisiert?",
+          "limitations": "Eine Russland-Sanktionsausnahme, die ein Bericht nach dem Freitagsschluss ansiedelt, konnte ich nicht verifizieren; sie wird nicht als Tatsache behandelt. Welche Zölle am 18. Oktober erhoben werden, ließ sich nicht anhand der Zollbehörde bestätigen; Erstattungsverfahren für IEEPA-Zölle laufen noch. Wer die Fed leitet und wie das Komitee besetzt ist, wurde nicht erneut geprüft.",
+          "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm"
+        },
+        {
+          "title": "Euro fest bei 1,1253 USD, während ein Technologie-Ausverkauf an der Wall Street auf Montag wirkt",
+          "publication_date": "10. September bis 17. Oktober 2026",
+          "what_changed": "[Sicher] Der EZB-Referenzkurs vom 16. Oktober 2026 lag bei 1 EUR = 1,1253 USD, nach 1,1208 am 15. Oktober (vorige Ausgabe); der Euro wertete also um rund 0,4 % auf; am 17. und 18. Oktober gibt es kein neues EZB-Fixing. [Sicher] Die Inflation im Euroraum lag im September bei 3,8 % (Eurostat, 16. Oktober), und der Einlagensatz der EZB beträgt 2,50 % nach der Anhebung um 25 Basispunkte vom 10. September; die nächste EZB-Entscheidung ist am 29. Oktober. Ich fand keine neue, seit der vorigen Ausgabe bestätigte fiskalische, energie- oder handelspolitische EU-Entscheidung.",
+          "investorace_implication": "[Wahrscheinlich] Ein fester Euro senkt den Euro-Wert der Dollar-Umsätze europäischer Exporteure, während höhere EZB-Zinsen und Energiekosten die Bewertungen belasten. [Vermutung] Der Nasdaq-Rückgang und der achte Rückgang in Folge des US-Halbleiterindex (minus 3,8 % am 16. Oktober) könnten am Montag auf europäische Technologie- und Chipausrüster-Aktien übergreifen, doch der europäische Schluss vom 16. Oktober wurde nicht bestätigt, daher ist das Ausmaß unbekannt.",
+          "review_question": "Nächste Prüfpunkte: die EZB-Entscheidung am 29. Oktober und die Inflations-Schnellschätzung für Oktober am 4. November. Werden Dollar-Gewinne europäischer Positionen zu einem datierten EUR/USD-Kurs umgerechnet?",
+          "limitations": "Der EZB-Kurs ist ein Referenzfixing um etwa 16:00 MEZ, kein Transaktionskurs. Europäische Börsenschlusskurse, Gaspreise und Anleiherenditen vom 16. Oktober konnten nicht bestätigt werden und fehlen. Energieversorgungsrisiken durch den Krieg werden nicht beziffert.",
+          "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
+        },
+        {
+          "title": "Arbeitslosigkeit von 9,4 % fügt dem Leitzins von 12,25 % Wachstumskosten hinzu",
+          "publication_date": "30. September bis 17. Oktober 2026",
+          "what_changed": "[Sicher] Das DANE meldete am 30. September 2026, die Arbeitslosigkeit habe im August 9,4 % betragen, 0,8 Prozentpunkte mehr als ein Jahr zuvor und der höchste Wert seit 20 Monaten; die Beschäftigung lag bei 23685000, das sind 126000 weniger als ein Jahr zuvor, am stärksten betroffen war das verarbeitende Gewerbe. [Wahrscheinlich] Die saisonbereinigte Rate wurde mit 9,7 % nach 8,3 % im Juli gemeldet, und das DANE passte wegen des Erdbebens vom 10. August die Hochrechnungsfaktoren an. Am 13. Oktober führte Notenbankchef Leonardo Villar die Schwäche auf das Ende der von Staatsausgaben und Defiziten getragenen Nachfrage zurück. Der Leitzins von 12,25 % und die Septemberinflation von 6,29 % sind unverändert; die nächste Entscheidung ist am 30. Oktober. Devisen: TRM vom 16. Oktober 1 USD = 3170,46 COP, nach 3197,65 am 15. Oktober, eine Peso-Aufwertung von rund 0,85 %; abgeleitet aus dem EZB-Kurs 1 EUR = 3567,7 COP (15. Oktober: 3583,9), ein um rund 0,45 % stärkerer Peso. Die TRM vom 16. Oktober ist aus der vorigen Ausgabe übernommen.",
+          "investorace_implication": "[Wahrscheinlich] Ein Leitzins von 12,25 % bei steigender Arbeitslosigkeit zeigt die Klemme: Die Inflation von 6,29 % spricht für straffe Politik, während Beschäftigung und Industrie schwächeln, was die Haushaltsnachfrage und die Inlandsgewinne senkt. Der stärkere Peso mindert die importierte Inflation. [Vermutung] Steigt die Arbeitslosigkeit weiter, wächst der Druck zu lockererer Politik, doch die fiskalische Glaubwürdigkeit, nicht allein das Wachstum, entscheidet über den COP und die Staatsanleihe-Spreads.",
+          "review_question": "Nächste Prüfpunkte: die Entscheidung der Banco de la República am 30. Oktober, die Veröffentlichung der Septemberarbeitslosigkeit durch das DANE und ob das Rettungsgesetz mit bezifferten Maßnahmen in den Kongress gelangt.",
+          "limitations": "Zum Rettungsgesetz wurden keine neuen Informationen gefunden. Eine Schlagzeile besagt, der IWF sehe die Arbeitslosigkeit nächstes Jahr wieder bei 10 %; der Bericht wurde nicht verifiziert. Der EUR/COP-Kurs ist aus EZB-Fixing und TRM abgeleitet und keine Notierung. Es gibt am Wochenende weder TRM noch Fixing; alle Werte stammen vom 16. Oktober.",
+          "source_url": "https://www.infobae.com/colombia/2026/09/30/subio-el-desempleo-en-colombia-subio-mas-del-9-en-agosto-hubo-126000-ocupados-menos-que-en-el-mismo-mes-de-2025-segun-el-dane/"
+        }
+      ]
+    }
+  }
+}
