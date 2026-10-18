@@ -246,9 +246,15 @@ _PLACEHOLDERS = ('noreply', 'no-reply', 'donotreply', 'do-not-reply', '@example.
 def sec_agent(value):
     """The declared SEC agent: a real contact address, never a placeholder or noreply."""
     agent = ' '.join(str(value or '').split())
+    if not agent:
+        raise RuntimeError('SEC_USER_AGENT ist in diesem Lauf leer: Das Secret fehlt oder ist kein '
+                           'Repository-Secret unter "Actions" (Environment-, Codespaces- und '
+                           'Dependabot-Secrets sieht dieser Job nicht). ' + AGENT_HELP)
     match = _EMAIL.search(agent)
     if not match:
-        raise RuntimeError('SEC_USER_AGENT fehlt oder enthält keine E-Mail-Adresse. ' + AGENT_HELP)
+        # Length and '@' count only: the value itself never reaches the public log.
+        raise RuntimeError(f'SEC_USER_AGENT ist gesetzt ({len(agent)} Zeichen, {agent.count("@")}× "@"), '
+                           'enthält aber keine gültige E-Mail-Adresse. ' + AGENT_HELP)
     address = match.group(0).lower()
     if any(marker in address for marker in _PLACEHOLDERS):
         raise RuntimeError('SEC_USER_AGENT nutzt eine Platzhalter- oder noreply-Adresse. ' + AGENT_HELP)
