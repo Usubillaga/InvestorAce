@@ -151,6 +151,16 @@ class Localization(unittest.TestCase):
             self.assertIn('Quarterly Results 2026', result)
             self.assertIn(label, result)
 
+    def test_scanner_navigation_label_is_localized(self):
+        from weekly_research import add_research_link
+        source = add_research_link(document('<p>Report</p>'), include_scanner=True)
+        for language, label in [('en', 'Stock scanner ↗'), ('de', 'Aktien-Scanner ↗'),
+                                ('es', 'Escáner de acciones ↗')]:
+            with self.subTest(language=language):
+                result = module().localize(source, language)
+                self.assertIn('href="scanner.html"', result)
+                self.assertIn(label, result)
+
     def test_source_record_words_and_document_titles_are_not_ui_labels(self):
         body = ('<div id="filing-BUY"><b>BUY · PARTIAL</b><p>Growth</p></div>'
                 '<details id="review-BUY"><summary>BUY · Growth · PARTIAL</summary>'

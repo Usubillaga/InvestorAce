@@ -125,7 +125,10 @@ class ResearchPublicationTests(unittest.TestCase):
         (self.root / 'history' / '_current.json').write_text('{}')
         verified = self.root / 'history' / 'verified.html'
         verified.write_text(self.html.replace('Master Scoreboard', 'Verified report'))
-        with patch('evidence.current_build', return_value={'report_path': verified}) as resolve:
+        with patch('evidence.current_build', return_value={
+                'report_path': verified, 'record': {'_evidence': {
+                    'captured_at': '2026-10-17T00:00:00Z', 'inputs': {}}},
+                'manifest': {'run_id': 'fixture'}}) as resolve:
             research.build_site(self.root, self.output)
         resolve.assert_called_once_with(self.root / 'history')
         self.assertIn('Verified report', (self.output / 'index.html').read_text())
@@ -408,7 +411,10 @@ class ResearchPublicationTests(unittest.TestCase):
                   '<a href="https://example.org/filing?x=1&amp;y=2">Original source</a>'
                   '<p>Verified generation</p></body></html>')
         verified.write_text(source, encoding='utf-8')
-        with patch('evidence.current_build', return_value={'report_path': verified}) as resolve:
+        with patch('evidence.current_build', return_value={
+                'report_path': verified, 'record': {'_evidence': {
+                    'captured_at': '2026-10-17T00:00:00Z', 'inputs': {}}},
+                'manifest': {'run_id': 'fixture'}}) as resolve:
             research.build_site(self.root, self.output)
         resolve.assert_called_once_with(self.root / 'history')
         for language, filename in [('en', 'index.html'), ('de', 'index.de.html'),

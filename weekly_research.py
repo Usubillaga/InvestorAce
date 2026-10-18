@@ -530,7 +530,7 @@ def render_page(issue, issues, config, archived=False, series='research', langua
             f'<p>{e(labels["policy"])}</p></aside></div><footer>{e(labels["footer"])}</footer></main></body></html>')
 
 
-def add_research_link(html, include_daily=False, include_claude=False):
+def add_research_link(html, include_daily=False, include_claude=False, include_scanner=False):
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
@@ -538,10 +538,12 @@ def add_research_link(html, include_daily=False, include_claude=False):
                   if include_daily else '')
     daily_link += ('<a href="claude-daily.html" style="color:#c1d98b;font-weight:700">Claude daily ↗</a>'
                    if include_claude else '')
+    scanner_link = ('<a href="scanner.html" style="color:#c1d98b;font-weight:700">Stock scanner ↗</a>'
+                    if include_scanner else '')
     nav = ('<nav id="investorace-research-nav" aria-label="Research" '
            'style="margin:0 0 22px;padding:12px 16px;border:1px solid #2a3040;'
            'border-radius:10px;background:#141821;display:flex;gap:16px;flex-wrap:wrap">'
-           + daily_link + '<a href="market.html" style="color:#c1d98b;font-weight:700">Montagsbriefing ↗</a>'
+           + scanner_link + daily_link + '<a href="market.html" style="color:#c1d98b;font-weight:700">Montagsbriefing ↗</a>'
            '<a href="research.html" style="color:#c1d98b;font-weight:700">Friday research ↗</a></nav>')
     # Upgrade the old one-link navigation too; repeated builds stay idempotent.
     pattern = r'<nav\b[^>]*\bid=["\']investorace-research-nav["\'][^>]*>.*?</nav>'
@@ -596,20 +598,25 @@ def build_site(root, output, require_committed=False):
             collections.append((series, series_config, series_issues))
     present = {series for series, _, _ in collections}
     pointer = root / 'history' / '_current.json'
+    committed_build = None
     if pointer.exists() or require_committed:
         from evidence import current_build
-        report = current_build(root / 'history')['report_path']
+        committed_build = current_build(root / 'history')
+        report = committed_build['report_path']
     else:
         report = root / 'index.html'
         print('Using the legacy scoreboard; no paired generation exists yet.')
     scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in present,
-                                   include_claude='claude' in present)
+                                   include_claude='claude' in present, include_scanner=committed_build is not None)
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
     scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language))
                    for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
     pages = []
+    if committed_build is not None:
+        from market_scanner import site_pages
+        pages.extend(site_pages(root, committed_build))
     multilingual_series = {series for series, cfg, _ in collections
                            if len(cfg.get('languages', ['en'])) > 1}
     for series, series_config, series_issues in collections:
