@@ -23,6 +23,47 @@ python add_ticker.py ASML.AS                      # add a ticker row to engine.p
 python reprice.py 4.40 5.04                       # NGV impact of a risk-free change
 ```
 
+## Aktien-Scanner
+
+`scanner.html` filters the **existing InvestorAce universe**, not the entire
+listed market. It ranks the unrounded, archived engine score and keeps regime
+fit separate. The five unchanged model bands are Strong Buy (>=8.50), Buy
+(>=7.00), Hold positiv (>=5.50), Hold negativ (>=3.50) and Sell (<3.50).
+Missing scores are never classified as Sell. These are provisional model bands,
+not completed investment-committee ratings.
+
+The scanner reads only the hash-verified committed generation resolved by
+`evidence.current_build()`; it does not import/fetch live engine data, rewrite
+inputs, recalculate scores or use a potentially stale root HTML mirror.
+Source status, quote timestamp, fixed-total provenance, valuation-basis gaps,
+normalization and recorded analyst objections are visible for each candidate.
+`scanner_notes.json` holds dated research theses, counterarguments and unresolved
+objections; these notes do not change the scores. The CSV export contains only
+the current filtered selection and marks every model band as unreviewed.
+
+A fetched quote with an unknown exchange timestamp cannot pass the 96-calendar-
+hour freshness policy. Retrieval time is not substituted for market time. A
+source marked `SOURCE_CHECKED` does not certify normalized FCF or a completed
+cross-review. Current ratings and valuation outputs remain null until a
+subsequent explicit, evidenced cross-review supports them; archived model
+calculations are separately inspectable. This version deliberately produces
+research candidates, not automatic purchase approvals.
+
+The normal Pages build creates `scanner.html` and `scanner.json`, adds a
+scoreboard navigation link, and includes future notes/assets changes in its
+deployment trigger. For an offline standalone copy:
+
+```console
+python market_scanner.py --output research-output/scanner
+python -m unittest test_market_scanner -v
+```
+
+The optional `node tests/scanner_browser.cjs` check requires Playwright and a
+Chromium installation. It checks filters, stable ordering when the regime
+changes, WKL/DIS objections and responses, filtered CSV, standalone JSON,
+form reset and mobile overflow. `SCANNER_BROWSER_EXECUTABLE` can select an
+existing browser; `SCANNER_PAGE` can select another generated HTML file.
+
 ## Growth comparisons and review status
 
 `deliver` is expressed in percentage points. Only an explicit

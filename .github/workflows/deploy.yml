@@ -18,6 +18,7 @@ on:
       - 'regime_contract.json'
       - 'monitoring_status.json'
       - 'source_reviews.json'
+      - 'scanner*'
       - 'requirements*.txt'
       - 'tests/**'
       - '.github/workflows/*.yml'
