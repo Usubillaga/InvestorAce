@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-19",
+  "period_start": "2026-10-18",
+  "period_end": "2026-10-19",
+  "data_cutoff": "2026-10-19T08:45:00+02:00",
+  "summary": "[Sicher] On 16 October President Trump waived the new Russia tariffs and the penalties on buyers of Russian oil and gas two days before they were due to take effect; on Monday 19 October crude eased and Asian shares slipped on AI funding worries. [Wahrscheinlich] This trims the energy-inflation impulse at the margin but does not reverse the stagflation tilt: US producer prices rose 1.3% in September and consumer inflation is 3.7%. Week ahead: French budget revenue vote and Chinese third-quarter GDP on 20 October, FOMC 27–28 October.",
+  "priority_review": "1) Does the regime classifier treat a policy-driven oil dip as a regime signal or as noise? 2) Is the risk-free input current before the FOMC on 27–28 October? 3) Should Colombian exposures carry an explicit fiscal-risk flag after the IMF assessment?",
+  "items": [
+    {
+      "section": "regime",
+      "authors": "White House reporting; Reuters market report; BLS",
+      "source_url": "https://www.cnbc.com/2026/10/17/trump-waives-russia-related-sanctions-tariffs-before-they-take-effect-.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Trump waives broad new Russia sanctions, Zelenskyy condemns it as wrong",
+          "url": "https://www.cnbc.com/2026/10/17/trump-waives-russia-related-sanctions-tariffs-before-they-take-effect-.html",
+          "publication_date": "2026-10-17"
+        },
+        {
+          "title": "Asian Stocks Skid, Wall Street and Bonds Aided by Oil Slip",
+          "url": "https://money.usnews.com/investing/news/articles/2026-10-18/asian-stocks-skid-wall-street-and-bonds-aided-by-oil-slip",
+          "publication_date": "2026-10-18"
+        },
+        {
+          "title": "Brent crude falls to 107.92 USD in Monday morning trading after Russian sanctions waiver (live blog)",
+          "url": "https://sundayguardianlive.com/world/us-israel-iran-war-live-news-brent-crude-oil-prices-continue-to-fall-by-more-than-15-to-10792-barrel-in-monday-morning-trading-after-donald-trump-waives-russian-sanctions-308333/",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "Producer Price Index News Release – September 2026",
+          "url": "https://www.bls.gov/news.release/archives/ppi_10152026.htm",
+          "publication_date": "2026-10-15"
+        }
+      ],
+      "title": "Russia waiver eases oil at the margin; the stagflation tilt stays",
+      "publication_date": "15–19 October 2026",
+      "what_changed": "[Sicher] On 16 October President Trump signed an executive order waiving two parts of the Lindsey O. Graham Sanctioning Russia and Iran Act of 2026: tariffs on Russian goods and penalties on countries that buy Russian oil and gas. Existing Russia sanctions under earlier orders remain. [Wahrscheinlich] In Asian trading on Monday 19 October crude eased, Asian shares slipped on worries about AI funding needs, and US stock futures rose (S&P 500 futures up 0.7%); one live report put Brent near 107.92 USD, about 1.5% lower. The baseline is unchanged: US producer prices up 1.3% in September, US consumer inflation 3.7%, euro area inflation 3.8%.",
+      "investorace_implication": "[Wahrscheinlich] Keeping Russian barrels flowing to large buyers removes a supply shock that would have pushed energy prices higher, which slightly lowers the headline-inflation impulse behind the stagflation reading. It does not change the cost pipeline: a 1.3% monthly jump in producer prices still points to elevated goods inflation in the coming months. [Vermutung] The equity weakness tied to AI financing is a valuation and credit story, not yet a growth signal; it matters more for long-duration growth names than for the regime itself.",
+      "review_question": "Does the regime classifier react to oil moves of this size, or only to sustained changes? Next: Chinese third-quarter GDP on 20 October, FOMC on 27–28 October.",
+      "limitations": "Reports conflict on whether the waiver is final: Trump was quoted both defending it and saying no final decision had been made. Monday price levels come from live reports during Asian trading and were not checked against exchange data."
+    },
+    {
+      "section": "usa",
+      "authors": "Federal Reserve; press reporting",
+      "source_url": "https://www.axios.com/2026/10/16/warsh-federal-reserve-interest-rates",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Warsh signals steady Fed outlook despite inflation jump",
+          "url": "https://www.axios.com/2026/10/16/warsh-federal-reserve-interest-rates",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Analysis: Everyone expects the Fed to hold rates in October. Kevin Warsh could surprise us all",
+          "url": "https://www.cnbc.com/2026/10/16/kevin-warsh-fed-october-rate-hike-interest-rates-markets.html",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Federal Reserve issues FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        },
+        {
+          "title": "Trump signs executive order waiving new Russia sanctions package",
+          "url": "https://www.euronews.com/2026/10/17/trump-signs-executive-order-waiving-new-russia-sanctions-package",
+          "publication_date": "2026-10-17"
+        }
+      ],
+      "title": "Waiver splits Republicans; Fed Chair Warsh keeps October open",
+      "publication_date": "16 September to 17 October 2026",
+      "what_changed": "[Sicher] Fed Chair Kevin Warsh said on 16 October, at the IMF meetings in Bangkok, that he does not prejudge meetings, giving no signal for the decision on 27–28 October; the target range is 3.75% to 4% after the September hike. [Wahrscheinlich] Futures priced about a 15% chance of an October hike on 16 October, while the minutes show most officials expect another hike by year end. The Russia waiver drew criticism from Republicans such as Senator Ted Cruz, from Democrats and from Ukrainian President Zelenskyy; the administration links it to lowering diesel prices during the Iran war. The midterm elections are on 3 November.",
+      "investorace_implication": "[Wahrscheinlich] On the same criteria: the waiver eases fuel-price pressure on consumers and on the inflation the Fed is fighting, at the cost of weaker sanctions leverage on Russia; critics in both parties argue the strategic cost outweighs a modest price effect. For markets, a low October hike probability supports bonds, but hot producer prices keep a December hike plausible. [Vermutung] A pause in October with hawkish guidance is the base case implied by pricing, not a certainty.",
+      "review_question": "Is the InvestorAce risk-free input refreshed before the FOMC on 27–28 October? Next labour data: the October jobs report on 6 November.",
+      "limitations": "The hike probability comes from a single report on 16 October and moves daily. No source quantifies the diesel price effect of the waiver."
+    },
+    {
+      "section": "eu",
+      "authors": "European Council reporting; Reuters market report; ECB",
+      "source_url": "https://www.euronews.com/2026/10/15/eu-summit-leaders-seek-fast-solutions-to-spiralling-energy-prices",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "EU summit: Costa takes charge of budget talks as leaders stick to red lines",
+          "url": "https://www.euronews.com/2026/10/15/eu-summit-leaders-seek-fast-solutions-to-spiralling-energy-prices",
+          "publication_date": "2026-10-15"
+        },
+        {
+          "title": "Asian Stocks Skid, Wall Street and Bonds Aided by Oil Slip",
+          "url": "https://money.usnews.com/investing/news/articles/2026-10-18/asian-stocks-skid-wall-street-and-bonds-aided-by-oil-slip",
+          "publication_date": "2026-10-18"
+        },
+        {
+          "title": "France's government could fall over the budget. Here's what that would actually mean for the Euro",
+          "url": "https://www.fxstreet.com/analysis/frances-government-could-fall-over-the-budget-heres-what-that-would-actually-mean-for-the-euro-202610061801",
+          "publication_date": "2026-10-06"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-16"
+        }
+      ],
+      "title": "France's budget vote on 20 October tests a softer euro",
+      "publication_date": "6 to 18 October 2026",
+      "what_changed": "[Sicher] The European Council of 15–16 October centred on energy prices and competitiveness and ended without a budget agreement; Council President António Costa now leads the budget talks. [Wahrscheinlich] In Asian trading on Monday the euro eased about 0.2% to 1.1212 USD, near last week’s 16-month low of 1.1113, with French political uncertainty cited. The National Assembly votes on the revenue part of the French budget on 20 October; the government targets a deficit of 5.0% of GDP in 2027 after 5.4% in 2026. Last ECB fixing: 1 EUR = 1.1253 USD on 16 October.",
+      "investorace_implication": "[Wahrscheinlich] A French budget defeat would widen French spreads and weigh on the euro, French banks and domestic cyclicals; a pass would remove a tail risk before the ECB meeting on 29 October. Energy support without new debt is unlikely to be large, so energy-intensive industry stays exposed. [Vermutung] A softer euro helps exporters a little but raises the euro cost of imported energy.",
+      "review_question": "Next: French revenue vote on 20 October, ECB decision on 29 October, euro area flash inflation on 4 November.",
+      "limitations": "The Monday euro quote is an intraday market level, not an ECB fixing. No EU energy support measure was agreed at the summit, so its size is unknown."
+    },
+    {
+      "section": "colombia",
+      "authors": "IMF via Colombian press; Superintendencia Financiera via press; ECB",
+      "source_url": "https://www.eluniversal.com.co/colombia/2026/10/16/fmi-advierte-que-la-situacion-fiscal-de-colombia-es-insostenible/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "FMI advierte que la situación fiscal de Colombia es insostenible",
+          "url": "https://www.eluniversal.com.co/colombia/2026/10/16/fmi-advierte-que-la-situacion-fiscal-de-colombia-es-insostenible/",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "El FMI prevé que la economía colombiana crezca 2,2% en 2026",
+          "url": "https://www.infobae.com/colombia/2026/10/14/el-fmi-preve-que-la-economia-colombiana-crezca-22-en-2026-y-se-desacelere-frente-a-2025-planteo-una-dificil-realidad-para-2027/",
+          "publication_date": "2026-10-14"
+        },
+        {
+          "title": "Precio del dólar para este viernes 16 de octubre de 2026",
+          "url": "https://elheraldo.co/economia/2026/10/16/precio-del-dolar-para-este-viernes-16-de-octubre-de-2026",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-16"
+        }
+      ],
+      "title": "IMF calls Colombia's fiscal path unsustainable; rescue law still not filed",
+      "publication_date": "14 to 16 October 2026",
+      "what_changed": "[Sicher] The IMF cut its 2026 growth forecast for Colombia to 2.2% (2027: 2.3%), projects inflation of 6.0% and unemployment of 9% for 2026, and on 16 October called the fiscal situation unsustainable. [Wahrscheinlich] Finance Minister Miguel Gómez Martínez says his measures will bring the 2026 deficit down to 7.2% from an estimated 8.2%. The rescue law announced on 30 September had not been filed in Congress according to reporting available on 19 October; an IMF technical mission is expected in early November. FX: latest TRM found 1 USD = 3170.46 COP (16 October; prior 3197.65); derived with the ECB fixing of 16 October, 1 EUR = 3567.7 COP.",
+      "investorace_implication": "[Wahrscheinlich] An IMF verdict of unsustainable raises the bar for the rescue law: markets will want quantified spending cuts, not announcements, and each delay keeps the sovereign risk premium high even though the peso has strengthened. With the policy rate at 12.25% and growth near 2.2%, domestic earnings face tight credit and weak demand at the same time.",
+      "review_question": "Next: Banco de la República on 30 October, and whether the rescue law is filed with a quantified adjustment.",
+      "limitations": "The filing status rests on press reports; no official record of Congress was checked. The reported size of the planned adjustment (about 2.2% of GDP, about 40 trillion pesos) is not official. The TRM valid for 19 October was not found."
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] El 16 de octubre el presidente Trump suspendió los nuevos aranceles a Rusia y las sanciones a los compradores de petróleo y gas ruso dos días antes de su entrada en vigor; el lunes 19 de octubre el crudo cedió y las bolsas asiáticas bajaron por dudas sobre la financiación de la IA. [Wahrscheinlich] Esto reduce algo el impulso de la inflación energética, pero no revierte el sesgo de estanflación: los precios al productor de EE. UU. subieron 1,3 % en septiembre y la inflación al consumidor es de 3,7 %. Semana próxima: votación de ingresos del presupuesto francés y PIB chino del tercer trimestre el 20 de octubre, FOMC 27–28 de octubre.",
+      "priority_review": "1) ¿Trata el clasificador de régimen una baja del petróleo por decisión política como señal o como ruido? 2) ¿Está al día la tasa libre de riesgo antes del FOMC del 27–28 de octubre? 3) ¿Deben las posiciones colombianas llevar una alerta explícita de riesgo fiscal tras la evaluación del FMI?",
+      "items": [
+        {
+          "source_url": "https://www.cnbc.com/2026/10/17/trump-waives-russia-related-sanctions-tariffs-before-they-take-effect-.html",
+          "title": "La exención a Rusia alivia algo el petróleo; el sesgo de estanflación sigue",
+          "publication_date": "15–19 de octubre de 2026",
+          "what_changed": "[Sicher] El 16 de octubre el presidente Trump firmó una orden ejecutiva que suspende dos partes de la Ley Lindsey O. Graham de sanciones a Rusia e Irán de 2026: los aranceles a bienes rusos y las sanciones a los países que compran petróleo y gas ruso. Las sanciones existentes a Rusia por órdenes anteriores siguen vigentes. [Wahrscheinlich] En la sesión asiática del lunes 19 de octubre el crudo cedió, las bolsas asiáticas bajaron por la preocupación sobre las necesidades de financiación de la IA y los futuros de EE. UU. subieron (futuros del S&P 500 +0,7 %); un informe en vivo situó el Brent cerca de 107,92 USD, alrededor de 1,5 % menos. La base no cambia: precios al productor de EE. UU. +1,3 % en septiembre, inflación al consumidor 3,7 %, inflación de la eurozona 3,8 %.",
+          "investorace_implication": "[Wahrscheinlich] Mantener el flujo de barriles rusos hacia los grandes compradores elimina un choque de oferta que habría encarecido la energía, lo que reduce un poco el impulso de la inflación general detrás de la lectura de estanflación. No cambia la cadena de costos: un salto mensual de 1,3 % en los precios al productor sigue apuntando a una inflación de bienes elevada en los próximos meses. [Vermutung] La debilidad bursátil ligada a la financiación de la IA es un tema de valoración y crédito, todavía no una señal de crecimiento; pesa más en las acciones de crecimiento de larga duración que en el régimen.",
+          "review_question": "¿Reacciona el clasificador de régimen a movimientos del petróleo de este tamaño o solo a cambios sostenidos? Próximo: PIB chino del tercer trimestre el 20 de octubre, FOMC el 27–28 de octubre.",
+          "limitations": "Los reportes discrepan sobre si la exención es definitiva: se citó a Trump defendiéndola y también diciendo que no había decisión final. Los precios del lunes provienen de informes en vivo de la sesión asiática y no se cotejaron con datos de bolsa."
+        },
+        {
+          "source_url": "https://www.axios.com/2026/10/16/warsh-federal-reserve-interest-rates",
+          "title": "La exención divide a los republicanos; el presidente de la Fed, Warsh, deja abierto octubre",
+          "publication_date": "16 de septiembre a 17 de octubre de 2026",
+          "what_changed": "[Sicher] El presidente de la Fed, Kevin Warsh, dijo el 16 de octubre en las reuniones del FMI en Bangkok que no prejuzga las reuniones, sin dar señal para la decisión del 27–28 de octubre; el rango objetivo es de 3,75 % a 4 % tras la subida de septiembre. [Wahrscheinlich] Los futuros asignaban el 16 de octubre cerca de 15 % de probabilidad a una subida en octubre, mientras las actas muestran que la mayoría espera otra subida antes de fin de año. La exención a Rusia recibió críticas de republicanos como el senador Ted Cruz, de demócratas y del presidente ucraniano Zelenski; el gobierno la vincula a bajar el precio del diésel durante la guerra con Irán. Las elecciones de medio mandato son el 3 de noviembre.",
+          "investorace_implication": "[Wahrscheinlich] Con los mismos criterios: la exención alivia el precio del combustible para los consumidores y la inflación que combate la Fed, a costa de debilitar la presión de las sanciones sobre Rusia; críticos de ambos partidos sostienen que el costo estratégico supera un efecto de precios modesto. Para los mercados, una baja probabilidad de subida en octubre apoya a los bonos, pero los precios al productor elevados mantienen plausible una subida en diciembre. [Vermutung] Una pausa en octubre con un mensaje restrictivo es el escenario base implícito en los precios, no una certeza.",
+          "review_question": "¿Se actualiza en InvestorAce la tasa libre de riesgo antes del FOMC del 27–28 de octubre? Próximo dato laboral: el informe de empleo de octubre el 6 de noviembre.",
+          "limitations": "La probabilidad de subida proviene de un solo informe del 16 de octubre y cambia a diario. Ninguna fuente cuantifica el efecto de la exención en el precio del diésel."
+        },
+        {
+          "source_url": "https://www.euronews.com/2026/10/15/eu-summit-leaders-seek-fast-solutions-to-spiralling-energy-prices",
+          "title": "La votación presupuestaria francesa del 20 de octubre pone a prueba un euro más débil",
+          "publication_date": "6 a 18 de octubre de 2026",
+          "what_changed": "[Sicher] El Consejo Europeo del 15–16 de octubre se centró en los precios de la energía y la competitividad y terminó sin acuerdo presupuestario; el presidente del Consejo, António Costa, dirige ahora las negociaciones. [Wahrscheinlich] En la sesión asiática del lunes el euro cedió cerca de 0,2 % a 1,1212 USD, cerca del mínimo de 16 meses de la semana pasada, 1,1113, con la incertidumbre política francesa como factor. La Asamblea Nacional vota el 20 de octubre la parte de ingresos del presupuesto francés; el gobierno apunta a un déficit de 5,0 % del PIB en 2027 tras 5,4 % en 2026. Última fijación del BCE: 1 EUR = 1,1253 USD el 16 de octubre.",
+          "investorace_implication": "[Wahrscheinlich] Una derrota del presupuesto francés ampliaría los diferenciales franceses y pesaría sobre el euro, los bancos franceses y los cíclicos domésticos; su aprobación eliminaría un riesgo extremo antes de la reunión del BCE del 29 de octubre. Un apoyo energético sin nueva deuda difícilmente será grande, así que la industria intensiva en energía sigue expuesta. [Vermutung] Un euro más débil ayuda algo a los exportadores pero encarece en euros la energía importada.",
+          "review_question": "Próximo: votación de ingresos en Francia el 20 de octubre, decisión del BCE el 29 de octubre, inflación preliminar de la eurozona el 4 de noviembre.",
+          "limitations": "La cotización del euro del lunes es un nivel de mercado intradía, no una fijación del BCE. La cumbre no acordó ninguna medida de apoyo energético, así que su tamaño es desconocido."
+        },
+        {
+          "source_url": "https://www.eluniversal.com.co/colombia/2026/10/16/fmi-advierte-que-la-situacion-fiscal-de-colombia-es-insostenible/",
+          "title": "El FMI califica de insostenible la senda fiscal de Colombia; la ley de rescate sigue sin radicarse",
+          "publication_date": "14 a 16 de octubre de 2026",
+          "what_changed": "[Sicher] El FMI rebajó su pronóstico de crecimiento de Colombia para 2026 a 2,2 % (2027: 2,3 %), proyecta inflación de 6,0 % y desempleo de 9 % en 2026, y el 16 de octubre calificó la situación fiscal de insostenible. [Wahrscheinlich] El ministro de Hacienda, Miguel Gómez Martínez, afirma que sus medidas reducirán el déficit de 2026 a 7,2 % desde un estimado de 8,2 %. La ley de rescate anunciada el 30 de septiembre no se había radicado en el Congreso según los reportes disponibles al 19 de octubre; se espera una misión técnica del FMI a comienzos de noviembre. Divisas: última TRM encontrada 1 USD = 3170,46 COP (16 de octubre; anterior 3197,65); derivado con la fijación del BCE del 16 de octubre, 1 EUR = 3567,7 COP.",
+          "investorace_implication": "[Wahrscheinlich] Un veredicto de insostenibilidad del FMI eleva la exigencia para la ley de rescate: los mercados querrán recortes de gasto cuantificados, no anuncios, y cada retraso mantiene alta la prima de riesgo soberano aunque el peso se haya fortalecido. Con la tasa de política en 12,25 % y un crecimiento cercano a 2,2 %, las ganancias internas enfrentan a la vez crédito caro y demanda débil.",
+          "review_question": "Próximo: Banco de la República el 30 de octubre y si la ley de rescate se radica con un ajuste cuantificado.",
+          "limitations": "El estado de la radicación se basa en reportes de prensa; no se consultó un registro oficial del Congreso. El tamaño reportado del ajuste previsto (cerca de 2,2 % del PIB, unos 40 billones de pesos) no es oficial. No se encontró la TRM vigente para el 19 de octubre."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Am 16. Oktober setzte Präsident Trump die neuen Russland-Zölle und die Strafen für Käufer russischen Öls und Gases zwei Tage vor ihrem Inkrafttreten aus; am Montag, 19. Oktober, gab Rohöl nach und Asiens Börsen fielen wegen Sorgen um die KI-Finanzierung. [Wahrscheinlich] Das dämpft den Energie-Inflationsimpuls etwas, kehrt die stagflationäre Tendenz aber nicht um: Die US-Erzeugerpreise stiegen im September um 1,3 %, die Verbraucherinflation liegt bei 3,7 %. Die Woche: Abstimmung über die Einnahmen des französischen Haushalts und chinesisches BIP des dritten Quartals am 20. Oktober, FOMC am 27.–28. Oktober.",
+      "priority_review": "1) Behandelt der Regime-Klassifikator einen politisch ausgelösten Ölpreisrückgang als Regime-Signal oder als Rauschen? 2) Ist der risikofreie Zins vor dem FOMC am 27.–28. Oktober aktuell? 3) Sollen kolumbianische Positionen nach der IWF-Einschätzung einen ausdrücklichen Fiskalrisiko-Hinweis tragen?",
+      "items": [
+        {
+          "source_url": "https://www.cnbc.com/2026/10/17/trump-waives-russia-related-sanctions-tariffs-before-they-take-effect-.html",
+          "title": "Russland-Ausnahme entlastet Öl etwas; die stagflationäre Tendenz bleibt",
+          "publication_date": "15.–19. Oktober 2026",
+          "what_changed": "[Sicher] Am 16. Oktober unterzeichnete Präsident Trump eine Verfügung, die zwei Teile des Lindsey O. Graham Sanctioning Russia and Iran Act of 2026 aussetzt: Zölle auf russische Waren und Strafen für Länder, die russisches Öl und Gas kaufen. Bestehende Russland-Sanktionen aus früheren Verfügungen bleiben. [Wahrscheinlich] Im asiatischen Handel am Montag, 19. Oktober, gab Rohöl nach, Asiens Aktien fielen wegen Sorgen um den Finanzierungsbedarf der KI, und US-Aktienfutures stiegen (S&P-500-Futures +0,7 %); ein Live-Bericht nannte Brent bei etwa 107,92 USD, rund 1,5 % tiefer. Die Basis bleibt: US-Erzeugerpreise im September +1,3 %, US-Verbraucherinflation 3,7 %, Inflation im Euroraum 3,8 %.",
+          "investorace_implication": "[Wahrscheinlich] Wenn russische Barrel weiter zu großen Käufern fließen, entfällt ein Angebotsschock, der die Energiepreise erhöht hätte; das senkt den Impuls der Gesamtinflation hinter der Stagflations-Einschätzung leicht. An der Kostenkette ändert es nichts: Ein Monatsanstieg der Erzeugerpreise um 1,3 % deutet weiter auf hohe Güterinflation in den kommenden Monaten. [Vermutung] Die Aktienschwäche wegen der KI-Finanzierung ist ein Bewertungs- und Kreditthema, noch kein Wachstumssignal; sie trifft langlaufende Wachstumswerte stärker als das Regime selbst.",
+          "review_question": "Reagiert der Regime-Klassifikator auf Ölbewegungen dieser Größe oder nur auf anhaltende Veränderungen? Als Nächstes: chinesisches BIP des dritten Quartals am 20. Oktober, FOMC am 27.–28. Oktober.",
+          "limitations": "Berichte widersprechen sich, ob die Ausnahme endgültig ist: Trump wurde sowohl mit Verteidigung der Entscheidung als auch mit der Aussage zitiert, es gebe noch keine endgültige Entscheidung. Die Montagskurse stammen aus Live-Berichten des asiatischen Handels und wurden nicht mit Börsendaten abgeglichen."
+        },
+        {
+          "source_url": "https://www.axios.com/2026/10/16/warsh-federal-reserve-interest-rates",
+          "title": "Ausnahme spaltet Republikaner; Fed-Chef Warsh lässt den Oktober offen",
+          "publication_date": "16. September bis 17. Oktober 2026",
+          "what_changed": "[Sicher] Fed-Chef Kevin Warsh sagte am 16. Oktober bei den IWF-Tagungen in Bangkok, er nehme Sitzungen nicht vorweg, und gab kein Signal für die Entscheidung am 27.–28. Oktober; das Zielband liegt nach der Erhöhung im September bei 3,75 % bis 4 %. [Wahrscheinlich] Futures preisten am 16. Oktober rund 15 % Wahrscheinlichkeit für eine Erhöhung im Oktober ein, während das Protokoll zeigt, dass die meisten Mitglieder bis Jahresende eine weitere Erhöhung erwarten. Die Russland-Ausnahme stieß auf Kritik von Republikanern wie Senator Ted Cruz, von Demokraten und vom ukrainischen Präsidenten Selenskyj; die Regierung begründet sie mit niedrigeren Dieselpreisen während des Iran-Kriegs. Die Zwischenwahlen sind am 3. November.",
+          "investorace_implication": "[Wahrscheinlich] Nach denselben Kriterien: Die Ausnahme senkt den Kraftstoffpreisdruck für Verbraucher und die Inflation, die die Fed bekämpft, auf Kosten eines schwächeren Sanktionsdrucks auf Russland; Kritiker beider Parteien halten die strategischen Kosten für größer als den bescheidenen Preiseffekt. Für die Märkte stützt eine geringe Erhöhungswahrscheinlichkeit im Oktober die Anleihen, doch die hohen Erzeugerpreise halten eine Erhöhung im Dezember plausibel. [Vermutung] Eine Pause im Oktober mit straffer Botschaft ist das von den Preisen implizierte Basisszenario, keine Gewissheit.",
+          "review_question": "Wird der risikofreie Zins in InvestorAce vor dem FOMC am 27.–28. Oktober aktualisiert? Nächste Arbeitsmarktdaten: der Oktober-Bericht am 6. November.",
+          "limitations": "Die Erhöhungswahrscheinlichkeit stammt aus einem einzigen Bericht vom 16. Oktober und schwankt täglich. Keine Quelle beziffert den Effekt der Ausnahme auf den Dieselpreis."
+        },
+        {
+          "source_url": "https://www.euronews.com/2026/10/15/eu-summit-leaders-seek-fast-solutions-to-spiralling-energy-prices",
+          "title": "Frankreichs Haushaltsabstimmung am 20. Oktober testet einen schwächeren Euro",
+          "publication_date": "6. bis 18. Oktober 2026",
+          "what_changed": "[Sicher] Der Europäische Rat vom 15.–16. Oktober drehte sich um Energiepreise und Wettbewerbsfähigkeit und endete ohne Haushaltseinigung; Ratspräsident António Costa leitet nun die Haushaltsgespräche. [Wahrscheinlich] Im asiatischen Handel am Montag gab der Euro um etwa 0,2 % auf 1,1212 USD nach, nahe dem 16-Monats-Tief der Vorwoche von 1,1113; als Grund wurde die politische Unsicherheit in Frankreich genannt. Die Nationalversammlung stimmt am 20. Oktober über den Einnahmenteil des französischen Haushalts ab; die Regierung peilt 2027 ein Defizit von 5,0 % des BIP an nach 5,4 % im Jahr 2026. Letztes EZB-Fixing: 1 EUR = 1,1253 USD am 16. Oktober.",
+          "investorace_implication": "[Wahrscheinlich] Eine Niederlage des französischen Haushalts würde französische Spreads ausweiten und Euro, französische Banken und binnenwirtschaftliche Zykliker belasten; eine Annahme würde ein Extremrisiko vor der EZB-Sitzung am 29. Oktober beseitigen. Energiehilfen ohne neue Schulden dürften klein ausfallen, energieintensive Industrie bleibt also exponiert. [Vermutung] Ein schwächerer Euro hilft Exporteuren etwas, verteuert aber importierte Energie in Euro.",
+          "review_question": "Als Nächstes: Einnahmenabstimmung in Frankreich am 20. Oktober, EZB-Entscheidung am 29. Oktober, Schnellschätzung der Inflation im Euroraum am 4. November.",
+          "limitations": "Der Euro-Kurs vom Montag ist ein Intraday-Marktkurs, kein EZB-Fixing. Der Gipfel beschloss keine Energiehilfe, ihr Umfang ist daher unbekannt."
+        },
+        {
+          "source_url": "https://www.eluniversal.com.co/colombia/2026/10/16/fmi-advierte-que-la-situacion-fiscal-de-colombia-es-insostenible/",
+          "title": "IWF nennt Kolumbiens Fiskalpfad nicht tragfähig; Rettungsgesetz weiter nicht eingereicht",
+          "publication_date": "14. bis 16. Oktober 2026",
+          "what_changed": "[Sicher] Der IWF senkte seine Wachstumsprognose für Kolumbien für 2026 auf 2,2 % (2027: 2,3 %), erwartet für 2026 eine Inflation von 6,0 % und eine Arbeitslosigkeit von 9 % und nannte die Haushaltslage am 16. Oktober nicht tragfähig. [Wahrscheinlich] Finanzminister Miguel Gómez Martínez sagt, seine Maßnahmen senkten das Defizit 2026 auf 7,2 % von geschätzten 8,2 %. Das am 30. September angekündigte Rettungsgesetz war laut den am 19. Oktober verfügbaren Berichten noch nicht im Kongress eingereicht; eine technische IWF-Mission wird Anfang November erwartet. Devisen: zuletzt gefundene TRM 1 USD = 3170,46 COP (16. Oktober; zuvor 3197,65); abgeleitet mit dem EZB-Fixing vom 16. Oktober 1 EUR = 3567,7 COP.",
+          "investorace_implication": "[Wahrscheinlich] Das IWF-Urteil nicht tragfähig legt die Messlatte für das Rettungsgesetz höher: Märkte wollen bezifferte Ausgabenkürzungen statt Ankündigungen, und jede Verzögerung hält die Länderrisikoprämie hoch, obwohl der Peso aufgewertet hat. Mit einem Leitzins von 12,25 % und Wachstum um 2,2 % treffen teure Kredite und schwache Nachfrage die Inlandsgewinne gleichzeitig.",
+          "review_question": "Als Nächstes: Banco de la República am 30. Oktober und ob das Rettungsgesetz mit einer bezifferten Anpassung eingereicht wird.",
+          "limitations": "Der Einreichungsstand stützt sich auf Presseberichte; ein offizielles Kongressregister wurde nicht geprüft. Der berichtete Umfang der geplanten Anpassung (etwa 2,2 % des BIP, rund 40 Billionen Pesos) ist nicht offiziell. Die für den 19. Oktober gültige TRM wurde nicht gefunden."
+        }
+      ]
+    }
+  }
+}
