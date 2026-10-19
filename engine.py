@@ -432,6 +432,7 @@ DATA = {
       'period': 'H1 2026 andH1 2025; shares2026-06-30'}],
 ),
 'INTU': dict(yf='INTU', fcf=8617.0, shares=267.24, r=0.08, cur='USD', deliver=13.9, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(7.0, 7.5, 9.5, 8.0, 5.0, 9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(126.42, 1378.34)),
+'CLX': dict(yf='CLX', fcf=405.0, shares=120.94, r=0.08, cur='USD', deliver=-5.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(2.0, 6.0, 6.0, 3.0, 5.0, 9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(39.56, 257.8)),
 }
 
 # ---------------- engine ----------------
