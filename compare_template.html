@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Compare the financial statements, debt, cash flow and share supply of two stocks in the InvestorAce universe.">
+  <title>InvestorAce · Compare stocks</title>
+  <style>__STYLE__</style>
+</head>
+<body>
+<main>
+  <nav class="top-nav" aria-label="InvestorAce">
+    <a class="brand" href="index.html"><span class="brand-mark">IA</span> InvestorAce</a>
+    <div class="nav-links"><a id="scoreboard-link" href="index.html" data-i18n="scoreboard">Scoreboard</a><a href="scanner.html" data-i18n="scanner">Stock scanner</a><span class="active" data-i18n="compare">Compare stocks</span></div>
+    <label class="language-label"><span data-i18n="language">Language</span><select id="language" aria-label="Language"><option value="en">EN</option><option value="de">DE</option><option value="es">ES</option></select></label>
+  </nav>
+  <header class="hero">
+    <div><div class="eyebrow" data-i18n="eyebrow">UNIVERSE / FUNDAMENTALS</div><h1 data-i18n="compare">Compare stocks</h1><p class="intro" data-i18n="intro">Look beneath the ticker. Compare earnings, cash generation, debt and share supply.</p></div>
+    <div class="universe-badge"><span class="dot"></span><strong id="universe-count">—</strong><span data-i18n="trackedStocks">universe stocks</span></div>
+  </header>
+  <section class="controls" aria-label="Comparison controls">
+    <div class="selectors"><label class="stock-field left"><span><b>A</b> <span data-i18n="firstStock">First stock</span></span><select id="left" aria-label="First stock"></select></label><button id="swap" class="swap" type="button" aria-label="Swap stocks" title="Swap stocks">⇄</button><label class="stock-field right"><span><b>B</b> <span data-i18n="secondStock">Second stock</span></span><select id="right" aria-label="Second stock"></select></label></div>
+    <div class="toolbar"><label class="period-label"><span data-i18n="period">Statement period</span><select id="period" aria-label="Statement period"></select></label><span class="toolbar-note" data-i18n="annualOnly">Annual statements · up to 4 fiscal years</span><div class="actions"><button id="share" type="button" data-i18n="share">Copy link</button><button id="export" type="button" class="primary" data-i18n="export">Export CSV ↓</button></div></div>
+  </section>
+  <div id="announcements" class="sr-only" role="status" aria-live="polite"></div>
+  <div id="warnings" class="warnings" aria-live="polite"></div>
+  <section class="stock-cards" id="stock-cards" aria-label="Selected stocks"></section>
+  <section class="metrics-panel">
+    <div class="metrics-heading"><div><h2 data-i18n="financials">Financial comparison</h2><p data-i18n="units">Amounts and shares in millions; currencies stay separate. Ratios use % or ×.</p></div><span class="neutral-tag" data-i18n="noRanking">Descriptive comparison</span></div>
+    <div class="tabs" role="group" aria-label="Metric categories"><button class="selected" data-group="all" data-i18n="all">All metrics</button><button data-group="income" data-i18n="income">Income</button><button data-group="cash" data-i18n="cashFlow">Cash flow</button><button data-group="balance" data-i18n="balanceSheet">Balance sheet</button><button data-group="shares" data-i18n="shareSupply">Share supply</button></div>
+    <div class="table-wrap"><table><thead id="metric-head"></thead><tbody id="metric-rows"></tbody></table></div>
+    <p class="table-footnote" data-i18n="marketNote">Outstanding shares and free float are provider snapshots at retrieval, not fiscal-year averages. Their source observation dates are not supplied.</p>
+  </section>
+  <details class="methodology"><summary data-i18n="methodTitle">Definitions, limitations & sources</summary><div class="method-grid"><div><h3 data-i18n="definitions">Definitions</h3><p data-i18n="methodCash">Free cash flow = operating cash flow − absolute capital expenditure, using the same fiscal year. Net debt = total debt − cash and short-term investments (cash equivalents if investments are unavailable). Debt and lease coverage follow the provider.</p><p data-i18n="methodDilution">Dilution = year-over-year change in diluted weighted-average shares. A negative value means net contraction of that average, not proof of gross buybacks. Splits, acquisitions and ADR or share-class differences need review. Stock compensation is shown separately.</p></div><div><h3 data-i18n="limits">Interpretation</h3><p data-i18n="methodLimits">Yahoo Finance aggregates reported data; these figures have not received a complete primary-source review. Fiscal years can end on different dates. Historical data may be restated. This page does not convert currencies or estimate missing values.</p><p data-i18n="methodFramework">Reported FCF here is separate from InvestorAce sustainable FCF, AFFO, distributable cash flow or mid-cycle assumptions. Regime fit and the fundamental score remain separate. No scores or portfolio weights change.</p></div></div><div id="sources" class="sources"></div></details>
+  <footer><span>InvestorAce <span class="footer-separator">/</span> <span data-i18n="footer">Know what you are comparing.</span></span><span id="snapshot-time"></span></footer>
+  <noscript><p>JavaScript is required for stock selection. The complete universe-only data is available in <a href="compare.json">compare.json</a>.</p></noscript>
+</main>
+<script id="comparison-data" type="application/json">__DATA__</script>
+<script>__SCRIPT__</script>
+</body>
+</html>
