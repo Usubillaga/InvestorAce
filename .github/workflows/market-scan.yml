@@ -18,7 +18,14 @@ name: market-scan
 on:
   schedule:
     - cron: '23 6 * * 6'        # Saturdays 06:23 UTC, after Friday's close
+    - cron: '13 23 * * 1-5'     # Weekday price refresh; full SEC scan stays weekly
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Full SEC scan or refresh saved candidate prices only'
+        type: choice
+        default: full
+        options: [full, quotes]
   pull_request:
     paths:
       - 'market_universe.py'
@@ -62,9 +69,14 @@ jobs:
         id: scan
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT || vars.SEC_USER_AGENT }}
+          QUOTES_ONLY: ${{ github.event.schedule == '13 23 * * 1-5' || inputs.mode == 'quotes' }}
         run: |
           set -o pipefail
-          python -u market_universe.py --output market-scan 2>&1 | tee market-scan.log
+          if [ "$QUOTES_ONLY" = "true" ]; then
+            python -u market_scanner.py --refresh-market-quotes 2>&1 | tee market-scan.log
+          else
+            python -u market_universe.py --output market-scan 2>&1 | tee market-scan.log
+          fi
 
       - name: Commit the scan
         if: steps.scan.outcome == 'success'

@@ -149,7 +149,11 @@ def market_payload(generated='2026-10-17T07:00:00+00:00', **candidate):
                 sic_description='Software', sector='Software', in_universe=False, price=50.0,
                 price_date='2026-10-16', currency='USD', basis='TTM', period_start='2025-07-01',
                 period_end='2026-06-30', growth_basis='TTM', shares_basis='COVER_PAGE',
-                balance_date='2026-06-30', source='companyfacts', metrics=dict(revenue=2e9, market_cap=5e9),
+                balance_date='2026-06-30', source='companyfacts', metrics=dict(
+                    revenue=2e9, revenue_prior=1.8e9, operating_income=600e6,
+                    operating_cash_flow=800e6, capex=100e6, fcf=700e6, depreciation=100e6,
+                    dividends=10e6, shares=100e6, net_debt=-100e6, debt=200e6, cash=300e6,
+                    share_change_pct=-2, market_cap=5e9),
                 score=7.5, band='Buy', components=[dict(key='g', label='Growth', value=7.5, weight=1.0,
                                                          contribution=7.5, input=12.0)],
                 regime_fit={'REFLATION': 55.0}, flags=[], flag_text={},
@@ -161,6 +165,111 @@ def market_payload(generated='2026-10-17T07:00:00+00:00', **candidate):
 
 
 class MarketSectionTests(unittest.TestCase):
+    def audited_market(self, ticker='EX'):
+        raw = dict(revenue=2e9, revenue_prior=1.8e9, operating_income=600e6,
+            operating_cash_flow=800e6, capex=100e6, fcf=700e6, depreciation=100e6,
+            dividends=10e6, shares=100e6, net_debt=-100e6, debt=200e6, cash=300e6,
+            share_change_pct=-2)
+        import market_universe
+        calc = market_universe.score_metrics(dict(raw, sic=7372), 50)
+        return market_payload(ticker=ticker, yahoo=ticker, metrics=raw, score=calc['score'],
+            band=market_universe.model_band(calc['score']), components=calc['components'])
+
+    def test_cache_scores_are_recomputed_from_inputs(self):
+        doc = self.audited_market()
+        # A self-consistent stored total is still not a recalculation.
+        doc['candidates'][0].update(score=1, band='Sell', components=[])
+        row = scanner.build_scan(observation(), as_of=ASOF, market=doc)['market']['candidates'][0]
+        self.assertGreater(row['score'], 7)
+        self.assertEqual(row['archived_screen']['score'], 1)
+        self.assertEqual(len(row['components']), 8)
+
+    def test_old_quote_suppresses_current_valuation_but_keeps_research(self):
+        doc = self.audited_market()
+        doc['candidates'][0]['price_date'] = '2026-10-10'
+        row = scanner.build_scan(observation(), as_of=ASOF, market=doc)['market']['candidates'][0]
+        self.assertEqual(row['quote_status'], 'STALE')
+        self.assertIsNone(row['score'])
+        self.assertIsNone(row['band'])
+        self.assertIsNone(row['metrics']['fcf_yield_pct'])
+        self.assertIsNotNone(row['components'][0]['value'])
+        self.assertFalse(row['rank_eligible'])
+        self.assertIsNotNone(row['archived_screen']['score'])
+
+    def test_future_quote_blocks_one_name_without_discarding_other_names(self):
+        doc = self.audited_market()
+        other = copy.deepcopy(doc['candidates'][0])
+        other.update(ticker='OTHER', price_date='2026-10-19')
+        doc['candidates'].append(other)
+        section = scanner.build_scan(observation(), as_of=ASOF, market=doc)['market']
+        self.assertEqual(len(section['candidates']), 2)
+        by = {c['ticker']: c for c in section['candidates']}
+        self.assertIsNotNone(by['EX']['score'])
+        self.assertIsNone(by['OTHER']['score'])
+        self.assertEqual(by['OTHER']['quote_status'], 'FUTURE')
+
+    def test_unknown_or_invalid_quote_blocks_only_its_issuer(self):
+        for change in (dict(price_date=None), dict(price_date='bad'), dict(price=-1), dict(price=None)):
+            doc = self.audited_market()
+            other = copy.deepcopy(doc['candidates'][0])
+            other.update(ticker='OTHER', yahoo='OTHER', **change)
+            doc['candidates'].append(other)
+            section = scanner.build_scan(observation(), as_of=ASOF, market=doc)['market']
+            self.assertEqual(len(section['candidates']), 2)
+            by = {c['ticker']: c for c in section['candidates']}
+            self.assertIsNotNone(by['EX']['score'])
+            self.assertIsNone(by['OTHER']['score'])
+
+    def test_missing_debt_and_ads_stay_visible_without_a_current_band(self):
+        for flag in ('DEBT_NOT_TAGGED', 'FOREIGN_FILER'):
+            doc = self.audited_market()
+            doc['candidates'][0]['flags'] = [flag]
+            row = scanner.build_scan(observation(), as_of=ASOF, market=doc)['market']['candidates'][0]
+            self.assertIsNone(row['score'])
+            self.assertIsNone(row['band'])
+            self.assertTrue(row['issues'])
+            self.assertLess(row['coverage_weight'], 1)
+
+    def test_scenario_is_not_a_verified_rating_and_fixed_weights_remain(self):
+        row = scanner.build_scan(observation(), as_of=ASOF,
+            market=self.audited_market())['market']['candidates'][0]
+        self.assertIsNone(row['rating'])
+        self.assertEqual(row['review_status'], 'REVIEW_PENDING')
+        self.assertEqual([c['weight'] for c in row['components']], [.15,.20,.15,.15,.10,.15,.05,.05])
+
+    def test_refresh_preserves_full_scan_date_and_marks_missing_quote(self):
+        doc = self.audited_market()
+        old = copy.deepcopy(doc)
+        updated = scanner.refresh_market_prices(doc, {}, as_of=ASOF)
+        self.assertEqual(updated['generated_at'], old['generated_at'])
+        self.assertEqual(doc, old)
+        self.assertIsNone(updated['candidates'][0]['score'])
+        self.assertIsNone(updated['candidates'][0]['price'])
+        self.assertTrue(updated['quote_refresh']['failures'])
+        import market_universe
+        self.assertEqual(market_universe.validate_payload(updated), [])
+        self.assertEqual(updated['candidates'][0]['archived_screen']['price'], 50)
+
+    def test_quote_recovery_clears_prior_failure_without_changing_financial_inputs(self):
+        doc = self.audited_market()
+        missing = scanner.refresh_market_prices(doc, {}, as_of=ASOF)
+        recovered = scanner.refresh_market_prices(missing, {'EX': dict(price=51, date='2026-10-16')}, as_of=ASOF)
+        row = recovered['candidates'][0]
+        self.assertEqual(row['quote_status'], 'DATED')
+        self.assertIsNotNone(row['score'])
+        self.assertNotIn('QUOTE_MISSING', row['flags'])
+        self.assertNotIn('NO_PRICE', row['flags'])
+        self.assertEqual(recovered['generated_at'], doc['generated_at'])
+        self.assertEqual(row['archived_screen']['price'], 50)
+
+    def test_refresh_archives_price_before_replacing_it(self):
+        doc = self.audited_market()
+        updated = scanner.refresh_market_prices(doc, {'EX': dict(price=51, date='2026-10-16')}, as_of=ASOF)
+        row = updated['candidates'][0]
+        self.assertEqual(row['price'], 51)
+        self.assertEqual(row['archived_screen']['price'], 50)
+        self.assertEqual(row['archived_screen']['score'], doc['candidates'][0]['score'])
+
     def test_regime_column_defaults_to_the_engine_reading(self):
         record = observation()
         self.assertIsNone(scanner.build_scan(record, as_of=ASOF)['current_regime'])

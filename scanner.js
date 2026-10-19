@@ -21,7 +21,7 @@
   const currentRegime = data.current_regime;
   const candidates = market.candidates || [];
   const universeControls = ['query','band','sector','currency','holdings','minimum','review','regime'];
-  const marketControls = ['m-query','m-band','m-sector','m-holdings','m-cap','m-minimum','m-regime'];
+  const marketControls = ['m-query','m-band','m-sector','m-quality','m-holdings','m-cap','m-minimum','m-regime'];
   let view = candidates.length ? 'market' : 'universe';
   let selected = [];
 
@@ -66,7 +66,8 @@
   }
   $('audit-meta').innerHTML = `<p>Scanner erstellt: ${esc(date(data.generated_at))}<br>Modellaufnahme: ${esc(date(data.captured_at))}<br>Run: <code>${esc(data.run_id || 'nicht hinterlegt')}</code><br>Modell-Hash: <code>${esc(data.model_source_sha256)}</code></p>`
     + `<p>Marktscan: ${esc(market.generated_at ? date(market.generated_at) : 'nicht vorhanden')} · Status ${esc(market.status)}${market.note ? ' · ' + esc(market.note) : ''}<br>Quellen: SEC EDGAR (Tickerliste, XBRL-Frames, Companyfacts, Submissions), Yahoo-Tagesschlusskurse.</p>`
-    + `<p>Kursprüfung Universum: ${esc(data.quote_policy.note)}</p>`;
+    + `<p>Kursprüfung Universum: ${esc(data.quote_policy.note)}<br>Marktscan: ${esc(market.quote_policy?.note || '')}</p>`
+    + `<p>Letzter Kursabruf: ${esc(market.quote_refresh?.attempted_at ? date(market.quote_refresh.attempted_at) : 'im vollständigen Marktscan')} · Ausfälle: ${esc((market.quote_refresh?.failures || []).join(', ') || 'keine gemeldet')}. Finanzprüfung behält ihr ursprüngliches Datum.</p>`;
 
   // ---------- views
   function setStats(items) {
@@ -84,17 +85,17 @@
       setStats([['Geprüfte US-Unternehmen', num(market.funnel?.[0]?.count ?? null, 0)],
                 ['Nach Qualitätsfiltern', num(market.funnel?.[1]?.count ?? null, 0)],
                 ['Neue Ideen mit Score ≥ 7', candidates.filter(c => !c.in_universe && c.score >= 7).length],
-                ['Kandidaten gespeichert', candidates.length]]);
+                ['Score wegen Datenlücken ausgesetzt', candidates.filter(c=>!c.rank_eligible).length]]);
       const cal = market.calibration;
       const pts = v => (v > 0 ? '+' : '') + num(v, 1);
       const calText = cal && cal.n >= 3
         ? ` <b>Abgleich:</b> Bei ${cal.n} Titeln, die auch in deinem Universum stehen, liegt der Vorscore im Mittel ${num(Math.abs(cal.mean_diff), 1)} Punkte ${cal.mean_diff >= 0 ? 'über' : 'unter'} deinem Modellscore (Spanne ${pts(cal.min_diff)} bis ${pts(cal.max_diff)}). Ein Vorscore-„Buy“ ist also kein Modell-Buy.`
         : '';
-      $('notice').innerHTML = (market.note ? `<b>${esc(market.note)}</b> ` : '') + '<b>Vorscore, keine Kaufempfehlung:</b> Der Screening-Score rechnet mechanisch aus SEC-Daten und einem Schlusskurs. Eine Bewertung entsteht erst, wenn ein Kandidat per add-ticker ins Modell kommt und gegengeprüft wird.' + calText;
+      $('notice').innerHTML = (market.note ? `<b>${esc(market.note)}</b> ` : '') + '<b>Vorscore mit Datenprüfung:</b> Fehlende Kennzahlen erhalten keine neutralen Punkte. Nur acht berechenbare Kategorien ergeben ein Band; offene Datenlücken findest du unter „Datenprüfung“. Die Gewichte bleiben unverändert. Vollständige Rechenbarkeit ersetzt keine Gegenprüfung.' + calText;
       $('list-eyebrow').textContent = 'VOM MARKT ZUR AUSWAHL';
       $('list-title').textContent = 'Neue Aktienideen';
       $('table-note').textContent = `Reihenfolge nach ungerundetem Screening-Score. Regime-Fit bleibt separat und ändert die Reihenfolge nicht. Aktuelles Regime laut Engine: ${regime}. Sektor aus dem SEC-SIC-Code abgeleitet.`;
-      $('scanner-head').innerHTML = '<tr><th scope="col">Unternehmen</th><th scope="col">Screening-Score</th><th scope="col">Kurs &amp; Marktwert</th><th scope="col">Kennzahlen (TTM)</th><th scope="col">Regime-Fit</th><th scope="col">Analyse</th></tr>';
+      $('scanner-head').innerHTML = '<tr><th scope="col">Unternehmen</th><th scope="col">Screening-Score / Datenprüfung</th><th scope="col">Kurs &amp; Marktwert</th><th scope="col">Berichtete Kennzahlen</th><th scope="col">Regime-Fit</th><th scope="col">Analyse</th></tr>';
     } else {
       setStats([['Aktien im Universum', data.universe_count],
                 ['Buy / Strong Buy im Modell', data.rows.filter(r => r.model_score !== null && r.model_score >= 7).length],
@@ -121,6 +122,10 @@
       if (sector !== 'all' && c.sector !== sector) return false;
       if (holdings === 'new' && c.in_universe) return false;
       if (holdings === 'held' && !c.in_universe) return false;
+      const quality = $('m-quality').value;
+      if (quality === 'complete' && !c.rank_eligible) return false;
+      if (quality === 'blocked' && c.rank_eligible) return false;
+      if (quality === 'commodity' && !c.flags.includes('COMMODITY_MIDCYCLE_REQUIRED')) return false;
       if (cap > 0 && !(c.metrics.market_cap >= cap)) return false;
       if (minimum > 0 && (c.score === null || c.score < minimum)) return false;
       return true;
@@ -131,9 +136,9 @@
     const held = c.in_universe ? ` · im Universum${c.universe_score !== null && c.universe_score !== undefined ? ' (Modell ' + num(c.universe_score) + ')' : ''}` : '';
     return `<tr>
       <td><span class="ticker">${esc(c.ticker)}</span><span class="subline">${esc(c.name)}</span><span class="subline">${esc(c.sector)} · ${esc(c.exchange)}${esc(held)}</span></td>
-      <td><span class="score">${num(c.score)}</span> / 10<br>${badge(c.band)}<span class="subline">Vorscore · ungeprüft</span></td>
-      <td>${num(c.price)} USD<span class="subline">Schluss ${esc(day(c.price_date))}</span><span class="subline">Marktwert ${esc(money(c.metrics.market_cap))}</span></td>
-      <td><span class="kv">Umsatz ${esc(signed(c.metrics.growth_pct))}</span><span class="kv">Op.-Marge ${esc(pct(c.metrics.operating_margin_pct))}</span><span class="kv">FCF-Rendite ${esc(pct(c.metrics.fcf_yield_pct))}</span><span class="kv">NGV-Deckung ${esc(pct(c.metrics.cover_pct, 0))}</span></td>
+      <td><span class="score">${num(c.score)}</span> / 10<br>${badge(c.band)}<span class="subline">${c.rank_eligible ? 'Vorscore · Gegenprüfung offen' : 'Score ausgesetzt · Daten prüfen'}</span><span class="subline">${num(c.coverage_weight*100,0)} % Scoregewicht berechenbar</span></td>
+      <td>${num(c.price)} USD<span class="subline">${c.quote_status === 'DATED' ? 'Schluss ' + esc(day(c.price_date)) : esc({STALE:'Kurs veraltet',FUTURE:'Zukünftiges Kursdatum',TIME_UNKNOWN:'Kursdatum fehlt',MISSING:'Kurs fehlt'}[c.quote_status] || c.quote_status)}</span><span class="subline">Marktwert ${esc(money(c.metrics.market_cap))}</span></td>
+      <td><span class="kv">Umsatz ${esc(signed(c.metrics.growth_pct))}</span><span class="kv">Op.-Marge ${esc(pct(c.metrics.operating_margin_pct))}</span><span class="kv">FCF-Rendite ${esc(pct(c.metrics.fcf_yield_pct))}</span><span class="kv">8%-Szenario/Kurs ${esc(pct(c.metrics.cover_pct, 0))}</span><span class="subline">${esc(c.basis)} bis ${esc(day(c.period_end))}</span></td>
       <td><span class="fit">${num(c.regime_fit?.[regime], 1)}</span><span class="subline">/ 100 · ${esc(regimeName[regime])}<br>ohne Scoregewicht</span></td>
       <td><button class="open-detail" data-ticker="${esc(c.ticker)}" aria-label="Analyse zu ${esc(c.ticker)} öffnen">Prüfen ↗</button></td></tr>`;
   }
@@ -143,14 +148,14 @@
     c: () => 'FCF-Marge ' + pct(x.input),
     b: () => x.input === null ? 'Nettoverschuldung/EBITDA nicht berechenbar' : 'Nettoverschuldung/EBITDA ' + num(x.input, 1) + '×',
     v: () => 'FCF-Rendite ' + pct(x.input),
-    pr: () => 'NGV-Deckung ' + pct(x.input, 0),
-    r: () => 'Dividenden- plus Rückkaufrendite ' + pct(x.input),
+    pr: () => '8%-FCF-Szenario/Kurs ' + pct(x.input, 0),
+    r: () => (x.input_basis === 'SATURATED_LOWER_BOUND' ? 'Bekannte Untergrenze (Kurve bereits bei 9 Punkten): ' : 'Dividenden- plus Aktienrückgangs-Proxy ') + pct(x.input),
     d: () => x.input === null ? 'Aktienzahl ohne Vorjahreswert' : 'Aktienzahl ' + signed(x.input) + ' gg. Vorjahr',
   }[x.key] || (() => ''))();
   function marketDetail(c) {
     const m = c.metrics;
-    const strong = c.components.filter(x => x.value >= 8).sort((a, b) => b.value - a.value).slice(0, 3);
-    const weak = c.components.filter(x => x.value < 5.5).sort((a, b) => a.value - b.value).slice(0, 3);
+    const strong = c.components.filter(x => x.value !== null && x.value >= 8).sort((a, b) => b.value - a.value).slice(0, 3);
+    const weak = c.components.filter(x => x.value !== null && x.value < 5.5).sort((a, b) => a.value - b.value).slice(0, 3);
     const line = x => `<li><b>${esc(x.label)} ${num(x.value, 1)}</b> · ${esc(inputText(x))}</li>`;
     const basis = c.basis === 'TTM' ? `Letzte zwölf Monate bis ${day(c.period_end)} (letztes Geschäftsjahr + laufendes YTD − Vorjahres-YTD)` : `Geschäftsjahr bis ${day(c.period_end)}`;
     const growthBasis = {TTM:'TTM gegen Vorjahres-TTM', YTD:'laufendes YTD gegen Vorjahres-YTD', FY:'Geschäftsjahr gegen Vorjahr'}[c.growth_basis] || 'kein Vorjahreswert';
@@ -161,13 +166,13 @@
     const rows = [
       ['Umsatz', money(m.revenue)], ['Umsatz Vorjahreszeitraum', money(m.revenue_prior)], ['Umsatzwachstum', signed(m.growth_pct) + ' · ' + growthBasis],
       ['Operatives Ergebnis', money(m.operating_income)], ['Operative Marge', pct(m.operating_margin_pct)],
-      ['Operativer Cashflow', money(m.operating_cash_flow)], ['Investitionen (Capex)', money(m.capex)], ['Free Cashflow', money(m.fcf)], ['FCF-Marge', pct(m.fcf_margin_pct)],
+      ['Operativer Cashflow', money(m.operating_cash_flow)], [c.flags.includes('CAPEX_NOT_TAGGED') ? 'Capex-Proxy: Abschreibungen, keine belegten Investitionen' : 'Investitionen (Capex)', money(m.capex)], ['FCF-Rechnung (Cashflow minus Capex)', money(m.fcf)], ['FCF-Marge', pct(m.fcf_margin_pct)],
       ['Abschreibungen', money(m.depreciation)], ['EBITDA (op. Ergebnis + Abschreibungen)', money(m.ebitda)],
       ['Finanzschulden', money(m.debt)], ['Liquidität', money(m.cash)], ['Nettoverschuldung (ohne Leasing)', money(m.net_debt)],
       ['Nettoverschuldung / EBITDA', m.nd_ebitda === null ? '—' : num(m.nd_ebitda, 2) + '×'], ['Bilanzstichtag', day(c.balance_date)],
       ['Aktien', num(m.shares === null ? null : m.shares / 1e6, 1) + ' Mio. · ' + shares], ['Aktienzahl gg. Vorjahr', signed(m.share_change_pct)],
-      ['Marktwert', money(m.market_cap)], ['FCF-Rendite', pct(m.fcf_yield_pct)], ['Dividendenrendite', pct(m.dividend_yield_pct)], ['Rückkaufrendite (Aktienrückgang)', pct(m.buyback_yield_pct)],
-      ['NGV je Aktie (FCF ÷ 8 %)', num(m.ngv_per_share) + ' USD'], ['NGV-Deckung des Kurses', pct(m.cover_pct, 0)],
+      ['Marktwert', money(m.market_cap)], ['FCF-Rendite', pct(m.fcf_yield_pct)], ['Dividendenrendite', pct(m.dividend_yield_pct)], ['Aktienrückgang (Proxy, keine Cash-Rückkaufrendite)', pct(m.buyback_yield_pct)],
+      ['FCF-Rechenszenario je Aktie (÷ 8 %, keine bestätigte NGV)', num(m.ngv_per_share) + ' USD'], ['Szenario / Kurs', pct(m.cover_pct, 0)],
     ];
     return `<div class="detail-head"><div><p class="eyebrow">MARKTSCAN · VORSCORE</p><h2 id="detail-title">${esc(c.name)} <span class="small">${esc(c.ticker)} · ${esc(c.exchange)}</span></h2>${badge(c.band)} <span class="small">Screening-Score ${num(c.score)} · mechanisch, ungeprüft</span></div><button id="close-detail" aria-label="Analyse schließen">Schließen ×</button></div>
       <div class="detail-grid"><div><h3>Warum auf der Liste?</h3>${strong.length ? '<ul>' + strong.map(line).join('') + '</ul>' : '<p>Keine Kategorie erreicht 8 Punkte; der Rang kommt aus einem breiten Mittelfeld.</p>'}
@@ -176,8 +181,9 @@
       ${c.flags.length ? '<h3>Hinweise zur Datenqualität</h3><ul>' + c.flags.map(f => `<li><span class="issue-code">${esc(f)}</span><br>${esc(c.flag_text?.[f] || f)}</li>`).join('') + '</ul>' : ''}</div>
       <div><h3>Nächster Schritt</h3>${next}
       <h3>Kennzahlen</h3><table class="score-table"><tbody>${rows.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</tbody></table></div></div>
-      <details open><summary>Scorebeiträge der acht Kategorien</summary><table class="score-table"><thead><tr><th>Kategorie</th><th>Kennzahl</th><th>Wert</th><th>Gewicht</th><th>Beitrag</th></tr></thead><tbody>${c.components.map(x => `<tr><td>${esc(x.label)}</td><td>${esc(inputText(x))}</td><td>${num(x.value,1)}</td><td>${num(x.weight*100,0)} %</td><td>${num(x.contribution,3)}</td></tr>`).join('')}</tbody></table></details>
-      <h3>Quellen & Herkunft</h3><ul class="sources">${c.sources.map(s => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a></li>`).join('')}</ul>`;
+      <details open><summary>Scorebeiträge der acht Kategorien</summary><p>${c.rank_eligible ? 'Summe aller acht Beiträge: ' + num(c.score,3) : 'Kein Gesamtscore: fehlende Beiträge bleiben leer; Gewichte werden nicht umverteilt.'} · ${num(c.coverage_weight*100,0)} % berechenbar.</p><div class="table-scroll"><table class="score-table"><thead><tr><th>Kategorie</th><th>Kennzahl</th><th>Wert</th><th>Gewicht</th><th>Beitrag</th></tr></thead><tbody>${c.components.map(x => `<tr><td>${esc(x.label)}${x.reason ? '<span class="subline">' + esc(x.reason) + '</span>' : ''}</td><td>${esc(inputText(x))}</td><td>${num(x.value,1)}</td><td>${num(x.weight*100,0)} %</td><td>${num(x.contribution,3)}</td></tr>`).join('')}</tbody></table></div></details>
+      <details><summary>Archivierter Vorscore vor der Gegenprüfung</summary><p>Historischer Rechenstand ${num(c.archived_screen?.score)} / 10 · ${esc(c.archived_screen?.band || 'ohne Band')}. Wegen möglicher Datenfehler keine aktuelle Einstufung.</p></details>
+      <h3>Quellen & Herkunft</h3><p class="small">${esc(c.source_limit)}</p><ul class="sources">${c.sources.map(s => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a></li>`).join('')}</ul>`;
   }
 
   // ---------- universe list (unchanged logic)
@@ -199,9 +205,10 @@
     });
   }
   function universeRow(r) {
+    const fresh = candidates.find(c => c.universe_key === r.ticker);
     return `<tr>
       <td><span class="ticker">${esc(r.ticker)}</span><span class="subline">${esc(r.issuer)}</span><span class="subline">${esc(r.listing)} · ${esc(r.sector)}${r.held_in_snapshot ? ' · Bestand im Datensatz' : ''}</span></td>
-      <td><span class="score">${num(r.model_score)}</span> / 10<br>${badge(r.model_band)}<span class="subline">${r.score_basis === 'PUBLISHED_TOTAL' ? 'Fester Gesamtscore' : 'Modell · ungeprüft'}</span></td>
+      <td><span class="score">${num(r.model_score)}</span> / 10<br>${badge(r.model_band)}<span class="subline">${r.score_basis === 'PUBLISHED_TOTAL' ? 'Fester Gesamtscore' : 'Modell · ungeprüft'}</span>${fresh ? '<span class="subline">Neuer Marktscreen: ' + (fresh.score === null ? 'Datenprüfung offen' : num(fresh.score) + ' · andere Methode') + '</span>' : ''}</td>
       <td>${num(r.price)} ${esc(r.currency)}<span class="subline">${r.quote_status === 'DATED' ? esc(date(r.quote_observed_at)) : 'Kursdatum: ' + esc({TIME_UNKNOWN:'unbekannt',STALE:'veraltet',MISSING:'fehlend',FUTURE:'ungültig'}[r.quote_status])}</span></td>
       <td><span class="pending">${status(r)}</span><span class="subline">${r.issues.length} offene Prüfpunkte</span><span class="subline">Quelle: ${r.source_status === 'SOURCE_CHECKED' ? 'geprüft, Bewertung offen' : 'Prüfung unvollständig'}</span></td>
       <td><span class="fit">${num(r.regime_fit[$('regime').value],1)}</span><span class="subline">/ 100 · ${esc(regimeName[$('regime').value])}<br>ohne Scoregewicht</span></td>
@@ -243,7 +250,12 @@
     $('detail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   $('scanner-rows').addEventListener('click', e => { const button = e.target.closest('button[data-ticker]'); if (button) detail(button.dataset.ticker); });
-  for (const id of universeControls.concat(marketControls)) $(id).addEventListener(['query','minimum','m-query','m-minimum'].includes(id) ? 'input' : 'change', render);
+  for (const id of universeControls.concat(marketControls)) $(id).addEventListener(['query','minimum','m-query','m-minimum'].includes(id) ? 'input' : 'change', () => {
+    if (id === 'm-quality' && ['blocked','commodity'].includes($(id).value)) {
+      $('m-band').value = 'all'; $('m-minimum').value = 0;
+    }
+    render();
+  });
   $('tab-market').onclick = () => setView('market');
   $('tab-universe').onclick = () => setView('universe');
   for (const [button, form, select] of [['reset-filters','filters','regime'], ['m-reset','market-filters','m-regime']]) {
@@ -257,8 +269,8 @@
   $('export').onclick = () => {
     let header, rows, name;
     if (view === 'market') {
-      header = ['Ticker','Unternehmen','Sektor','Börse','Screening-Score','Band (ungeprüft)','Kurs USD','Kursdatum','Marktwert USD','Umsatzwachstum %','Op.-Marge %','FCF-Marge %','FCF-Rendite %','NGV-Deckung %','Nettoverschuldung/EBITDA','Im Universum','Basis','Periodenende','Scan'];
-      rows = selected.map(c => [c.ticker,c.name,c.sector,c.exchange,c.score,c.band,c.price,c.price_date,c.metrics.market_cap,c.metrics.growth_pct,c.metrics.operating_margin_pct,c.metrics.fcf_margin_pct,c.metrics.fcf_yield_pct,c.metrics.cover_pct,c.metrics.nd_ebitda,c.in_universe ? 'ja' : 'nein',c.basis,c.period_end,market.as_of]);
+      header = ['Ticker','Unternehmen','Sektor','Börse','Screening-Score','Band (ungeprüft)','Kurs USD','Kursdatum','Marktwert USD','Umsatzwachstum %','Op.-Marge %','FCF-Marge %','FCF-Rendite %','8%-Szenario/Kurs %','Nettoverschuldung/EBITDA','Im Universum','Basis','Periodenende','Scan','Prüfstatus','Abdeckung Gewicht','Kursstatus','Offene Prüfpunkte'];
+      rows = selected.map(c => [c.ticker,c.name,c.sector,c.exchange,c.score,c.band,c.price,c.price_date,c.metrics.market_cap,c.metrics.growth_pct,c.metrics.operating_margin_pct,c.metrics.fcf_margin_pct,c.metrics.fcf_yield_pct,c.metrics.cover_pct,c.metrics.nd_ebitda,c.in_universe ? 'ja' : 'nein',c.basis,c.period_end,market.as_of,c.review_status,c.coverage_weight,c.quote_status,c.flags.join(' | ')]);
       name = 'InvestorAce_Marktscan.csv';
     } else {
       header = ['Ticker','Listing','Unternehmen','Modellscore','Modellband ungeprüft','Aktuelle Einstufung','Währung','Sektor','Prüfstatus','Offene Prüfpunkte','Datenaufnahme'];

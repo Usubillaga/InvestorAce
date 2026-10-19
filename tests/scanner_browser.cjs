@@ -37,6 +37,26 @@ const {chromium} = require('playwright');
       await page.click('#export');
       const marketText = await fs.readFile(await (await marketCsv).path(), 'utf8');
       assert.equal(marketText.trim().split('\r\n').length, market.candidates.length + 1);
+      const order = await page.locator('#scanner-rows .ticker').allTextContents();
+      await page.selectOption('#m-regime', 'GOLDILOCKS');
+      assert.deepEqual(await page.locator('#scanner-rows .ticker').allTextContents(),order);
+      await page.selectOption('#m-quality', 'blocked');
+      assert.equal(await page.locator('#scanner-rows tr').count(),market.candidates.filter(c=>!c.rank_eligible).length);
+      if (market.candidates.some(c=>c.ticker==='DBX' && !c.rank_eligible)) {
+        await page.fill('#m-query','DBX');
+        await page.click('button[data-ticker="DBX"]');
+        const detail = await page.locator('#detail').innerText();
+        assert.ok(detail.includes('DEBT_NOT_TAGGED') && detail.includes('Kein Gesamtscore'));
+        const balance = page.locator('#detail .score-table tr').filter({hasText:'Balance Sheet'});
+        assert.equal(await balance.locator('td').nth(2).innerText(),'—');
+        await page.setViewportSize({width:390,height:844});
+        assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+        await page.setViewportSize({width:1440,height:1080});
+        await page.click('#close-detail');
+        await page.fill('#m-query','');
+      }
+      await page.selectOption('#m-quality', 'commodity');
+      assert.equal(await page.locator('#scanner-rows tr').count(),market.candidates.filter(c=>c.flags.includes('COMMODITY_MIDCYCLE_REQUIRED')).length);
       await page.click('#m-reset');
       assert.equal(await page.locator('#scanner-rows tr').count(), fresh);
     }
