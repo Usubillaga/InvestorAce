@@ -16,6 +16,9 @@ from html import escape
 from urllib.parse import urlsplit
 import evidence as EVIDENCE
 import source_review as SOURCE_REVIEW
+import timing as TIMING
+import decision_view as DECISION_VIEW
+import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
                        numeric_input_faults, risk_free_faults, clamp_saturation_faults)
 from framework_view import framework_panel
@@ -429,6 +432,8 @@ DATA = {
       'period': 'H1 2026 andH1 2025; shares2026-06-30'}],
 ),
 'AMD': dict(yf='AMD', fcf=8403.0, shares=1632.48, r=0.08, cur='USD', deliver=60.2, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(9.5, 6.0, 9.0, 9.5, 5.0, 1.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(94.11, 1317.04)),
+'INTU': dict(yf='INTU', fcf=8617.0, shares=267.24, r=0.08, cur='USD', deliver=13.9, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(7.0, 7.5, 9.5, 8.0, 5.0, 9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(126.42, 1378.34)),
+'GIS': dict(yf='GIS', fcf=1626.3, shares=534.69, r=0.08, cur='USD', deliver=-5.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(2.0, 6.0, 6.0, 9.5, 5.0, 9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(15.59, 99.42)),
 }
 
 # ---------------- engine ----------------
@@ -551,6 +556,40 @@ def score(d):
     dil = d.get('dil', 6.0)
     pr = priced_in_live(d)                     # live, not the stored constant
     return (core + dil*W['d'])/(1-W['pr']) if pr is None else core + pr*W['pr'] + dil*W['d']
+
+
+def score_components(d):
+    """Explain the existing arithmetic without changing score() or its inputs."""
+    total = score(d)
+    result = dict(schema='score-explanation-v1', total=total, components=[],
+                  denominator=None, sum_contributions=None, reconciles=None,
+                  status='UNAVAILABLE' if total is None else 'PUBLISHED_TOTAL')
+    sub = d.get('sub')
+    if not sub or len(sub) != 6:
+        return result
+    values = dict(zip(('g', 'p', 'c', 'b', 'v', 'r'), sub))
+    values.update(pr=priced_in_live(d), d=d.get('dil', 6.0))
+    labels = dict(g='Growth', p='Profitability', c='Cash Generation', b='Balance Sheet',
+                  v='Valuation', pr='Priced-In Expectations', r='Shareholder Returns', d='Dilution')
+    denominator = 1 - W['pr'] if values['pr'] is None else 1.0
+    for key, weight in W.items():
+        value = values[key]
+        effective = 0.0 if value is None else weight / denominator
+        source = 'Stored category assessment'
+        if key == 'pr':
+            source = ('Live Cover mapping; cash-flow cushion penalty if applicable'
+                      if cover(d) is not None else 'Stored fallback; no usable Cover')
+        elif key == 'd':
+            source = 'Stored dilution assessment' if 'dil' in d else 'Legacy neutral default: 6'
+        result['components'].append(dict(key=key, label=labels[key], value=value,
+                                         nominal_weight=weight, effective_weight=effective,
+                                         contribution=value * effective if value is not None else 0.0,
+                                         source=source))
+    contributions = sum(c['contribution'] for c in result['components'])
+    result.update(status='DECOMPOSED', denominator=denominator,
+                  sum_contributions=contributions,
+                  reconciles=math.isclose(contributions, total, rel_tol=0, abs_tol=1e-12))
+    return result
 
 def risk(d):
     s = score(d)
@@ -862,9 +901,15 @@ def divergence(d):
     return c >= 0.60 and mm <= -20.0
 
 def _fetch_momentum(tk, d):
-    """12-1 return and distance from the 52-week high, from one history pull."""
+    """Legacy momentum and separate timing diagnostics from one history pull."""
+    d['timing'] = TIMING.unavailable('Adjusted daily history is unavailable.')
     try:
         h = tk.history(period='13mo', auto_adjust=True)
+        try:
+            d['timing'] = TIMING.calculate(h)
+        except Exception as exc:
+            # An optional diagnostic failure must not suppress legacy momentum.
+            d['timing'] = TIMING.unavailable('Timing calculation failed: ' + type(exc).__name__)
         if h is None or h.empty or 'Close' not in h: return
         c = h['Close'].dropna()
         if len(c) < 60: return
@@ -877,8 +922,8 @@ def _fetch_momentum(tk, d):
             if start: d['mom_12_1'] = round(100 * (end / start - 1), 1)
         hi = float(c.max())
         if hi: d['from_high'] = round(100 * (last / hi - 1), 1)
-    except Exception:
-        pass
+    except Exception as exc:
+        d['timing'] = TIMING.unavailable('History request or calculation failed: ' + type(exc).__name__)
 
 # ---------------- prices ----------------
 
@@ -1023,6 +1068,7 @@ def fetch_prices():
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     for t, d in DATA.items():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
+        d['timing'] = TIMING.unavailable('History not requested: no accepted quote.')
         ser = None
         d['quote_observed_at'], d['quote_time_status'] = None, 'UNKNOWN'
         for field in ('mom_12_1', 'from_high', 'r_wacc', 'beta', 'wacc_inputs', 'wacc_details',
@@ -1278,6 +1324,8 @@ def observation(macro, bundle, captured_at=None):
                    score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
                    regime=regime_scores(d), weight=d.get('weight'),
                    momentum=d.get('mom_12_1'), from_high=d.get('from_high'),
+                   timing=d.get('timing') or TIMING.unavailable('No timing history was captured.'),
+                   score_explanation=score_components(d), regime_components=regime_fit_components(d),
                    epv=epv(d), epv_cover=epv_cover(d), valuation_gap=valuation_gap(d),
                    valuation_read=valuation_read(d), epv_confidence=d.get('epv_confidence'),
                     ts=d.get('price_ts'), note=d.get('price_note'),
@@ -1306,6 +1354,8 @@ def observation(macro, bundle, captured_at=None):
     rec['_models'] = dict(engine='v15.4-growth-basis', regime=REGIME_MODEL_VERSION,
                           regime_spec_sha256=regime_spec_sha256(),
                           growth='explicit-cash-flow-growth-v1',
+                          timing=TIMING.VERSION,
+                          explanations='score-explanation-v1',
                           ngv='fcf-per-share-capitalised', epv='greenwald-template-lens-v1')
     return EVIDENCE.create_record(DATA, rec, macro, rec['_models'], bundle['sha256'], captured_at)
 
@@ -2218,7 +2268,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
             'family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">'
             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>'
-            '<style>' + CSS + '</style></head><body>')
+            '<style>' + CSS + DECISION_VIEW.CSS + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce &middot; Live &middot; {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
            f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{sum(1 for d in DATA.values() if epv(d) is not None)}</b> with EPV &middot; <b>{priced}</b> priced this run &middot; '
@@ -2269,9 +2319,14 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
                     + ('<p>Manual discount-rate fallbacks: '
                        + escape('; '.join(f'{t}: {note}' for t, note in quality['wacc_fallbacks'].items()))
                        + '</p>' if quality['wacc_fallbacks'] else '') + '</div>')
-    html = (head + hdr + coverage_box + filing_monitoring_box(monitoring) + SOURCE_REVIEW.panel(DATA, reviews) + macro_box + framework_panel(DATA, W, M, proposal) + sec_box + fw_box + gate + zin + fit_box
+    explanations = {t: dict(score=score_components(d), regimes=regime_fit_components(d),
+                            ngv=ngv(d), cover=cover(d), implied_growth=implied_growth(d),
+                            cushion=cushion(d)) for t, d in DATA.items()}
+    html = (head + hdr + coverage_box + filing_monitoring_box(monitoring) + SOURCE_REVIEW.panel(DATA, reviews) + macro_box + framework_panel(DATA, W, M, proposal)
+            + DECISION_VIEW.panel(DATA, explanations, cur_reg) + sec_box + fw_box + gate + zin + fit_box
             + regime_book_box + issue_box + adder + tbl + foot
             + '<script>' + js + js_z + '</script></body></html>')
+    html = i18n.localize(html, 'en')
     if write:
         atomic_text('index.html', html)
     return html

@@ -1,0 +1,106 @@
+name: market-scan
+
+# Weekly market-wide idea scan: every NYSE/Nasdaq US-GAAP filer from SEC
+# XBRL data, priced with dated Yahoo daily closes. It commits
+# market-scan/latest.json to main and republishes the Pages site.
+#
+# On a pull request that changes the scan, the same live scan runs against the
+# PR branch: the result is committed to that branch (it lands with the merge)
+# and a summary with the log tail is posted as a PR comment, so a change meets
+# real data before it reaches main.
+#
+# SEC fair access needs a declared User-Agent with a REAL contact address.
+# GitHub noreply addresses are refused with 403. Store it as the repository
+# secret SEC_USER_AGENT (masked in the public logs), e.g.
+#   InvestorAce Firstname Lastname name@domain.tld
+# A repository variable of the same name works too but is not masked.
+
+on:
+  schedule:
+    - cron: '23 6 * * 6'        # Saturdays 06:23 UTC, after Friday's close
+    - cron: '13 23 * * 1-5'     # Weekday price refresh; full SEC scan stays weekly
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Full SEC scan or refresh saved candidate prices only'
+        type: choice
+        default: full
+        options: [full, quotes]
+  pull_request:
+    paths:
+      - 'market_universe.py'
+      - '.github/workflows/market-scan.yml'
+
+permissions:
+  contents: write               # commit market-scan/latest.json
+  actions: write                # dispatch the Pages republish (GITHUB_TOKEN pushes trigger nothing)
+  pull-requests: write          # post the PR summary
+
+concurrency:
+  group: market-scan-${{ github.head_ref || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    # Forks get no secrets and a read-only token; they cannot scan, commit or comment.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      TARGET: ${{ github.event_name == 'pull_request' && github.head_ref || 'main' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install
+        run: pip install -r requirements-research.txt
+
+      - name: Offline contract tests
+        run: python -m unittest test_market_universe test_market_scanner -v
+
+      - name: Scan the market
+        id: scan
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT || vars.SEC_USER_AGENT }}
+          QUOTES_ONLY: ${{ github.event.schedule == '13 23 * * 1-5' || inputs.mode == 'quotes' }}
+        run: |
+          set -o pipefail
+          if [ "$QUOTES_ONLY" = "true" ]; then
+            python -u market_scanner.py --refresh-market-quotes 2>&1 | tee market-scan.log
+          else
+            python -u market_universe.py --output market-scan 2>&1 | tee market-scan.log
+          fi
+
+      - name: Commit the scan
+        if: steps.scan.outcome == 'success'
+        run: |
+          git config user.name  "investorace-bot"
+          git config user.email "investorace-bot@users.noreply.github.com"
+          git add market-scan/latest.json
+          if git diff --staged --quiet; then exit 0; fi
+          git commit -m "market-scan: $(date -u +%F)"
+          git pull --rebase origin "$TARGET"
+          git push origin HEAD:"$TARGET"
+
+      - name: Summarise on the pull request
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          OUTCOME: ${{ steps.scan.outcome }}
+        run: |
+          python market_universe.py --report market-scan/latest.json --log market-scan.log --outcome "$OUTCOME" > summary.md
+          gh pr comment "$PR" --body-file summary.md
+
+      - name: Republish the site
+        if: steps.scan.outcome == 'success' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run research-pages.yml --ref main
