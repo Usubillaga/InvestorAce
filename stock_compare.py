@@ -240,7 +240,9 @@ def load_snapshot(path):
 
 def site_pages(root, build, *, now=None):
     now = now or datetime.now(timezone.utc)
-    inputs = build['record'].get('_evidence', {}).get('inputs', {})
+    record = build['record']
+    evidence = record.get('_evidence', {})
+    inputs = evidence.get('inputs', {})
     saved = load_snapshot(Path(root) / 'comparison' / 'latest.json')
     cache = _cache_rows(saved)
     rows = []
@@ -249,14 +251,24 @@ def site_pages(root, build, *, now=None):
         row = copy.deepcopy(cache.get(key))
         if not row or row.get('listing') != (model.get('yf') or key):
             row = empty_row(key, model)
+        output = record.get(key) or {}
+        score = number(output.get('score'))
+        row['model'] = dict(score=score if score is not None and 0 <= score <= 10 else None,
+            score_status=(output.get('score_explanation') or {}).get('status') or 'UNAVAILABLE',
+            captured_at=evidence.get('captured_at'),
+            review_required=model.get('normalization_status') == 'REVIEW_REQUIRED' or
+                model.get('built') in ('auto', 'est', 'back-solved', 'yahoo-draft'))
         rows.append(row)
     payload = dict(schema=VERSION, generated_at=now.isoformat(),
-        snapshot_at=(saved or {}).get('generated_at'), universe_count=len(rows), rows=rows)
+        snapshot_at=(saved or {}).get('generated_at'), universe_count=len(rows), rows=rows,
+        duel_policy='finance-duel-v1')
     raw = json.dumps(payload, ensure_ascii=False, allow_nan=False, indent=2) + '\n'
     safe = raw.replace('<', '\\u003c').replace('&', '\\u0026')
     template = (ASSETS / 'compare_template.html').read_text(encoding='utf-8')
-    page = template.replace('__STYLE__', (ASSETS / 'compare.css').read_text(encoding='utf-8'))
-    page = page.replace('__DATA__', safe).replace('__SCRIPT__', (ASSETS / 'compare.js').read_text(encoding='utf-8'))
+    styles = (ASSETS / 'compare.css').read_text(encoding='utf-8') + '\n' + (ASSETS / 'compare_duel.css').read_text(encoding='utf-8')
+    page = template.replace('__STYLE__', styles)
+    page = page.replace('__DUEL__', (ASSETS / 'compare_duel.js').read_text(encoding='utf-8'))
+    page = page.replace('__SCRIPT__', (ASSETS / 'compare.js').read_text(encoding='utf-8')).replace('__DATA__', safe)
     return [(Path('compare.html'), page), (Path('compare.json'), raw)]
 
 

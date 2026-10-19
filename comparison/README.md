@@ -5,6 +5,46 @@ English/German/Spanish controls, 29 metrics, annual history, shareable URLs and 
 export. The published selectors and JSON are projected onto the **frozen universe
 of the paired scoreboard build**. Market-scanner candidates never enter it.
 
+## Financial duel
+
+The fight has five equally weighted rounds, with one point per round won:
+
+| Round | Metric | Winning direction |
+| --- | --- | --- |
+| Growth | Annual revenue growth | Higher |
+| Profitability | Operating margin | Higher |
+| Cash generation | OCF-minus-Capex margin | Higher |
+| Debt burden | Net debt / EBITDA | Lower, with positive EBITDA |
+| Share dilution | YoY diluted-average-share change | Lower |
+
+The judge is a pure, tested function in `compare_duel.js`. It uses the selected
+annual periods and compares values at their displayed precision: percentages to
+one decimal, multiples to two decimals. Equal displayed values are draws. Missing,
+non-numeric or non-finite data gives neither side a point. The same stock cannot
+defeat itself. Financial statement amounts, currency, float and regime fit do not
+award points.
+
+The UI shows the points winner, each round's actual values, all winning-round
+reasons and an opposing advantage. If the opponent has no round win, a lower
+debt/equity ratio can be shown as an **outside-round counterargument**, never as
+an extra point. If neither exists, price, sector economics and one-off effects
+remain explicit questions for further review.
+
+Incomplete rounds, fiscal-year ends over 183 days apart, snapshots over 14 days
+old, failed-refresh caches, unknown source timestamps or material provider flags
+qualify a lead as provisional. Latest annual periods over 550 days old also
+qualify the lead. Future-dated periods or retrievals are excluded. A complete
+points tie is a draw; an incomplete tie remains open.
+
+This is a **financial-ratio duel**, not an investment rating or a replacement
+InvestorAce score. It does not include valuation or establish expected returns.
+The current model scores are copied from the paired frozen report, never
+recomputed from this duel or taken from the financial cache. Historical period
+selection does not change those model scores. Disagreement between the duel
+leader and the model-score leader is visibly flagged; existing model ranks,
+regime fit, scorecard weights and portfolio rules are unchanged. Dataset exports
+declare `duel_policy: finance-duel-v1`; CSV exports include points and verdict.
+
 ## Data and definitions
 
 `stock_compare.py --refresh` fetches Yahoo Finance through the project's pinned
@@ -57,6 +97,7 @@ unreported values are not estimated.
 
 ```bash
 python -m unittest discover -p 'test_*.py'
+node tests/comparison_duel.cjs
 node --check compare.js
 python weekly_research.py --output research-output/comparison --require-committed-report
 node tests/comparison_browser.cjs

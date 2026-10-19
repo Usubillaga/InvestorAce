@@ -223,6 +223,34 @@ class ComparisonTests(unittest.TestCase):
             self.assertIn('href="compare.html?lang=' + language + '"', page)
             self.assertIn(label, page)
 
+    def test_comparison_uses_frozen_model_score_instead_of_a_cached_or_recomputed_score(self):
+        row = self.normalize()
+        row['model'] = {'score': 10}
+        record = {'_evidence': {'captured_at': NOW.isoformat(), 'inputs': {
+            'TEST': {'yf': 'TEST', 'built': 'auto', 'normalization_status': 'REVIEW_REQUIRED'}}},
+            'TEST': {'score': 5.62, 'score_explanation': {'status': 'PUBLISHED_TOTAL'}}}
+        original = copy.deepcopy(record)
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'comparison').mkdir()
+            (root / 'comparison/latest.json').write_text(json.dumps({
+                'schema': self.compare.VERSION, 'rows': [row]}))
+            pages = dict(self.compare.site_pages(root, {'record': record}, now=NOW))
+        data = json.loads(pages[Path('compare.json')])
+        self.assertEqual(data['rows'][0]['model']['score'], 5.62)
+        self.assertEqual(data['rows'][0]['model']['score_status'], 'PUBLISHED_TOTAL')
+        self.assertTrue(data['rows'][0]['model']['review_required'])
+        self.assertEqual(data['rows'][0]['model']['captured_at'], NOW.isoformat())
+        self.assertEqual(data['duel_policy'], 'finance-duel-v1')
+        self.assertEqual(record, original)
+
+    def test_nonfinite_and_out_of_range_frozen_scores_are_withheld(self):
+        for score in (float('nan'), float('inf'), True, -1, 11):
+            record = {'_evidence': {'inputs': {'TEST': {'yf': 'TEST'}}}, 'TEST': {'score': score}}
+            with tempfile.TemporaryDirectory() as temp:
+                pages = dict(self.compare.site_pages(Path(temp), {'record': record}, now=NOW))
+            self.assertIsNone(json.loads(pages[Path('compare.json')])['rows'][0]['model']['score'])
+
 
 if __name__ == '__main__':
     unittest.main()

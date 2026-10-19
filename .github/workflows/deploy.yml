@@ -48,6 +48,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
@@ -60,6 +64,7 @@ jobs:
         # Contract tests must pass before fetching or publishing observations.
         run: |
           python -m unittest discover -p 'test_*.py' -v
+          node tests/comparison_duel.cjs
           python engine.py
           python stock_compare.py --refresh
           python weekly_research.py --output public --require-committed-report
