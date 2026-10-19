@@ -1,4 +1,5 @@
-"""Build separate Friday research and Monday market briefing pages.
+"""Build separate Friday research, Monday market and daily politics briefings
+(ChatGPT and Claude editions side by side).
 
 No market requests, model changes or credentials are needed. The nightly build
 requires a verified report; research-only releases also support the legacy
@@ -11,12 +12,14 @@ import json
 import re
 import shutil
 from collections import Counter
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
 from html import escape
 from pathlib import Path
 from urllib.parse import urlsplit
+from zoneinfo import ZoneInfo
 
+import i18n
 from integrity import atomic_text
 
 TOPICS = {
@@ -108,6 +111,12 @@ SERIES = {
         'eyebrow': 'Montag · Marktbriefing', 'heading': 'Die Marktwoche im Blick.',
         'description': 'Makro-Regime, Bewertung, Sektoren und Gewinne: Was hat sich verändert und was sollte InvestorAce überprüfen?',
     },
+    'daily': {
+        'folder': 'daily-briefings', 'page': 'daily.html', 'archive': 'daily', 'lang': 'de',
+    },
+    'claude': {
+        'folder': 'claude-briefings', 'page': 'claude-daily.html', 'archive': 'claude-daily', 'lang': 'de',
+    },
 }
 
 MARKET_LOCALES = {
@@ -120,6 +129,63 @@ MARKET_LOCALES = {
     'de': {'title': 'Montagsbriefing', 'eyebrow': 'Montag · Marktbriefing',
            'heading': 'Die Marktwoche im Blick.',
            'description': 'Makro-Regime, Bewertung, Sektoren und Gewinne: Was hat sich verändert und was sollte InvestorAce überprüfen?'},
+}
+
+DAILY_SECTIONS = ('regime', 'usa', 'eu', 'colombia')
+# Both daily feeds share the four-section contract; only the ChatGPT feed has a word budget.
+DAILY_SERIES = ('daily', 'claude')
+DAILY_WORD_LIMIT = {'daily': 900, 'claude': None}
+CLAUDE_LOCALES = {
+    'en': {'title': 'Claude Daily', 'daily': 'Claude daily',
+           'eyebrow': 'Daily · Claude edition', 'heading': 'The same four questions, a second analyst.',
+           'description': 'A Claude-written daily edition with the same four sections as the daily briefing, published alongside it for comparison.',
+           'policy': 'Same evidence contract as the daily briefing, without a word limit. Dated sources, clear FX units, facts separated from scenarios.'},
+    'de': {'title': 'Claude-Tagesbericht', 'daily': 'Claude-Tagesbericht',
+           'eyebrow': 'Täglich · Claude-Ausgabe', 'heading': 'Dieselben vier Fragen, ein zweiter Analyst.',
+           'description': 'Eine von Claude geschriebene Tagesausgabe mit denselben vier Teilen wie der Tagesbericht, zum Vergleich daneben veröffentlicht.',
+           'policy': 'Derselbe Evidenzvertrag wie beim Tagesbericht, ohne Wortgrenze. Datierte Quellen, eindeutige Währungseinheiten, Fakten und Szenarien getrennt.'},
+    'es': {'title': 'Informe diario de Claude', 'daily': 'Informe diario de Claude',
+           'eyebrow': 'Diario · Edición de Claude', 'heading': 'Las mismas cuatro preguntas, un segundo analista.',
+           'description': 'Una edición diaria escrita por Claude con las mismas cuatro partes que el informe diario, publicada a su lado para comparar.',
+           'policy': 'El mismo contrato de evidencia que el informe diario, sin límite de palabras. Fuentes fechadas, unidades de divisas explícitas, hechos y escenarios separados.'},
+}
+DAILY_LOCALES = {
+    'en': {
+        'title': 'Daily Politics & Economy', 'daily': 'Daily briefing',
+        'eyebrow': 'Daily · Politics and markets', 'heading': 'Policy, evidence, market impact.',
+        'description': 'Four sections in 3–5 minutes per language: regime impact, the United States, the European Union and Colombia.',
+        'sections': ('Regime impact', 'United States', 'European Union', 'Colombia'),
+        'fields': ('Data and policy', 'Market transmission', 'Next checkpoint', 'Evidence limits'),
+        'sources': ('section', 'sections'), 'source_notes': 'Sources',
+        'cutoff': 'Research cut-off', 'reading': 'Estimated reading time', 'words': 'words',
+        'intro': 'Inflation and recession signals; US policy, jobs and competing proposals; European growth, war and EUR/USD; Colombian policy, risks and COP exchange rates.',
+        'policy': 'About 600–900 words per language; quieter days may be shorter. Dated sources, clear FX units, facts separated from scenarios. Published daily, including weekends.',
+        'footer': 'Policy proposals and enacted measures are distinguished. Regime commentary is separate from the fundamental score. No automatic portfolio changes.',
+    },
+    'de': {
+        'title': 'Politik & Wirtschaft täglich', 'daily': 'Tagesbericht',
+        'eyebrow': 'Täglich · Politik und Märkte', 'heading': 'Politik, Fakten, Marktwirkung.',
+        'description': 'Vier Teile in 3–5 Minuten je Sprache: Regime-Einfluss, USA, Europäische Union und Kolumbien.',
+        'sections': ('Regime-Einfluss', 'USA', 'Europäische Union', 'Kolumbien'),
+        'fields': ('Daten und Politik', 'Übertragung auf die Märkte', 'Nächster Prüfpunkt', 'Grenzen der Evidenz'),
+        'sources': ('Teil', 'Teile'), 'source_notes': 'Quellen',
+        'cutoff': 'Recherchestand', 'reading': 'Geschätzte Lesezeit', 'words': 'Wörter',
+        'intro': 'Inflation und Rezessionssignale; US-Politik, Arbeitsmarkt und konkurrierende Vorschläge; Europas Wachstum, Krieg und EUR/USD; Kolumbiens Politik, Risiken und COP-Wechselkurse.',
+        'policy': 'Etwa 600–900 Wörter je Sprache; ruhige Tage dürfen kürzer bleiben. Datierte Quellen, eindeutige Währungseinheiten, Fakten und Szenarien getrennt. Täglich, auch am Wochenende.',
+        'footer': 'Politische Vorschläge und beschlossene Maßnahmen werden unterschieden. Der Regime-Kommentar bleibt vom Fundamental-Score getrennt. Keine automatischen Portfolioänderungen.',
+    },
+    'es': {
+        'title': 'Política y economía diaria', 'daily': 'Informe diario',
+        'eyebrow': 'Diario · Política y mercados', 'heading': 'Política, evidencia e impacto de mercado.',
+        'description': 'Cuatro partes en 3–5 minutos por idioma: impacto en el régimen, Estados Unidos, Unión Europea y Colombia.',
+        'sections': ('Impacto en el régimen', 'Estados Unidos', 'Unión Europea', 'Colombia'),
+        'fields': ('Datos y política', 'Transmisión a los mercados', 'Próximo punto de revisión', 'Límites de la evidencia'),
+        'sources': ('parte', 'partes'), 'source_notes': 'Fuentes',
+        'cutoff': 'Cierre de investigación', 'reading': 'Tiempo de lectura estimado', 'words': 'palabras',
+        'intro': 'Inflación y señales de recesión; política estadounidense, empleo y propuestas alternativas; crecimiento europeo, guerra y EUR/USD; política colombiana, riesgos y tipos de cambio del COP.',
+        'policy': 'Unas 600–900 palabras por idioma; los días tranquilos pueden ser más breves. Fuentes fechadas, unidades de divisas explícitas, hechos y escenarios separados. Todos los días, incluidos fines de semana.',
+        'footer': 'Se distinguen propuestas políticas y medidas aprobadas. El comentario sobre el régimen está separado de la puntuación fundamental. Sin cambios automáticos de cartera.',
+    },
 }
 
 CSS = """
@@ -286,6 +352,52 @@ def load_research(folder):
     return config, issues
 
 
+def daily_word_count(issue):
+    texts = [issue['summary'], issue['priority_review']]
+    for item in issue['items']:
+        texts.extend(item[key] for key in ('title', 'what_changed', 'investorace_implication',
+                                          'review_question', 'limitations'))
+    return len(' '.join(texts).split())
+
+
+def validate_daily(config, issues, max_words=900):
+    """Daily editions reuse the checked translations and add four-section evidence."""
+    if (set(config.get('languages', [])) != set(LANGUAGES)
+            or config.get('verify_translation_claims') is not True):
+        raise ValueError('Daily briefings require en/es/de and verified translations')
+    for issue in issues:
+        if tuple(item.get('section') for item in issue['items']) != DAILY_SECTIONS:
+            raise ValueError('Daily sections must be regime, usa, eu, colombia, in that order')
+        cutoff = datetime.fromisoformat(text_field(issue, 'data_cutoff'))
+        if (cutoff.utcoffset() is None
+                or cutoff.astimezone(ZoneInfo('Europe/Berlin')).date().isoformat() != issue['issue_date']
+                or issue['period_end'] != issue['issue_date']):
+            raise ValueError('Daily cut-off must have a timezone and match the local issue date')
+        for item in issue['items']:
+            sources = item.get('sources')
+            if not isinstance(sources, list) or not 1 <= len(sources) <= 8:
+                raise ValueError('Each daily section needs one to eight dated sources')
+            urls = set()
+            for source in sources:
+                if not isinstance(source, dict):
+                    raise ValueError('Daily sources must be objects')
+                text_field(source, 'title')
+                url = text_field(source, 'url')
+                parsed = urlsplit(url)
+                if (parsed.scheme not in ('https', 'http') or not parsed.hostname
+                        or parsed.username or parsed.password or re.search(r'\s', url)
+                        or url in urls):
+                    raise ValueError('Daily sources need distinct public HTTP(S) URLs')
+                urls.add(url)
+                if date.fromisoformat(text_field(source, 'publication_date')) > date.fromisoformat(issue['issue_date']):
+                    raise ValueError('Daily sources cannot have future publication dates')
+            if item['source_url'] not in urls:
+                raise ValueError('The leading daily source must be in the source notes')
+        for language in LANGUAGES:
+            if max_words and daily_word_count(localized_issue(issue, language)) > max_words:
+                raise ValueError(f'Daily {language} text exceeds the {max_words}-word reading budget')
+
+
 def display_text(value, language):
     for label, translated in (LOCALES[language]['confidence'].items() if language else ()):
         value = value.replace(f'[{label}]', f'[{translated}]')
@@ -316,9 +428,9 @@ def page_path(series, stamp=None, language='en'):
             else f'{Path(settings["page"]).stem}{suffix}.html')
 
 
-def card(item, index, language='en', translate_confidence=True):
+def card(item, index, language='en', translate_confidence=True, daily=False):
     e = escape
-    labels = LOCALES[language]
+    labels = {**LOCALES[language], **(DAILY_LOCALES[language] if daily else {})}
     topics = ''.join(f'<span class="topic">{e(labels["topics"][t])}</span>' for t in item['topics'])
     fields = zip(labels['fields'], ('what_changed', 'investorace_implication',
                                    'review_question', 'limitations'))
@@ -327,15 +439,22 @@ def card(item, index, language='en', translate_confidence=True):
         style = ' class="limitations"' if key == 'limitations' else ''
         detail += f'<dt>{e(label)}</dt><dd{style}>{display_text(item[key], language if translate_confidence else None)}</dd>'
     original = (f'<p class="meta">{e(labels["original"])}: {e(item["original_title"])}</p>'
-                if item.get('original_title') else '')
+                if item.get('original_title') and not daily else '')
+    title = f'{labels["sections"][index - 1]} · {item["title"]}' if daily else item['title']
+    sources = ''
+    if daily:
+        links = ''.join(f'<li><a href="{e(source["url"], quote=True)}" target="_blank" '
+                        f'rel="noopener noreferrer">{e(source["title"])}</a> · '
+                        f'{e(source["publication_date"])}</li>' for source in item['sources'])
+        sources = f'<div class="meta"><strong>{e(labels["source_notes"])}</strong><ul>{links}</ul></div>'
     confidence = labels['confidence'][item['confidence']] if translate_confidence else item['confidence']
     return (f'<article><div class="card-top"><span class="number">{index:02d}</span>'
             f'<span class="pill">{e(labels["reviews"][item["review"]])}</span>'
             f'<span class="meta">[{e(confidence)}]</span></div>'
             f'<h2><a class="source" href="{e(item["source_url"], quote=True)}" '
-            f'target="_blank" rel="noopener noreferrer">{e(item["title"])}</a></h2>'
+            f'target="_blank" rel="noopener noreferrer">{e(title)}</a></h2>'
             f'{original}<p class="meta">{e(item["authors"])} · {e(labels["published"])} {e(item["publication_date"])}</p>'
-            f'<div class="topics">{topics}</div><dl>{detail}</dl></article>')
+            f'<div class="topics">{topics}</div><dl>{detail}</dl>{sources}</article>')
 
 
 def render_page(issue, issues, config, archived=False, series='research', language=None,
@@ -345,10 +464,15 @@ def render_page(issue, issues, config, archived=False, series='research', langua
     path_language = language
     language = language or config.get('default_language', settings['lang'])
     labels = {**LOCALES[language], **(MARKET_LOCALES[language] if series == 'market' else {})}
+    if series in DAILY_SERIES:
+        labels.update(DAILY_LOCALES[language])
+    if series == 'claude':
+        labels.update(CLAUDE_LOCALES[language])
     if series == 'research' or (issue and issue.get('translations')):
         issue = localized_issue(issue, language)
     prefix = '../' if archived else ''
-    topics = ''.join(f'<span class="topic">{e(t)}</span>' for t in labels['topics'].values())
+    header_topics = labels['sections'] if series in DAILY_SERIES else labels['topics'].values()
+    topics = ''.join(f'<span class="topic">{e(t)}</span>' for t in header_topics)
     archive = ''.join(f'<li><a href="{prefix}{page_path(series, x["issue_date"], path_language)}">'
                       f'{e(x["issue_date"])}</a><br><span class="meta">'
                       f'{len(x["items"])} {e(labels["sources"][len(x["items"]) != 1])}'
@@ -360,16 +484,27 @@ def render_page(issue, issues, config, archived=False, series='research', langua
                    f'<h2>{e(labels["scheduled"])} {e(first)}</h2><p>{e(labels["intro"])}</p>'
                    f'<p>{e(labels["unpublished"])}</p></div>')
     else:
+        daily_meta = ''
+        if series in DAILY_SERIES:
+            words = daily_word_count(issue)
+            minutes = max(1, (words + 199) // 200)
+            daily_meta = (f'<p class="meta">{e(labels["cutoff"])}: {e(issue["data_cutoff"])} · '
+                          f'{e(labels["reading"])}: {minutes} min ({words} {e(labels["words"])})</p>')
         content = (f'<h2 class="issue-heading">{e(labels["edition"])} · {e(issue["issue_date"])}</h2>'
                    f'<p class="meta">{e(labels["coverage"])}: {e(issue["period_start"])} → {e(issue["period_end"])}</p>'
-                   f'<p class="summary">{display_text(issue["summary"], language)}</p>'
-                   + ''.join(card(item, i, language) for i, item in enumerate(issue['items'], 1))
+                   + daily_meta
+                   + f'<p class="summary">{display_text(issue["summary"], language)}</p>'
+                   + ''.join(card(item, i, language, daily=series in DAILY_SERIES) for i, item in enumerate(issue['items'], 1))
                    + ('' if issue['items'] else f'<div class="empty">{e(labels["empty"])}</div>')
                    + f'<div class="priority"><h2>{e(labels["priority"])}</h2><div>{display_text(issue["priority_review"], language)}</div></div>')
     title = labels['title'] + (f' · {issue["issue_date"]}' if issue else '')
     navigation = ''
     for key in SERIES:
-        label = labels['nav'] if key == 'research' else labels['market']
+        if key in DAILY_SERIES and key not in multilingual_series:
+            continue
+        label = (labels['nav'] if key == 'research' else labels['market'] if key == 'market'
+                 else CLAUDE_LOCALES[language]['daily'] if key == 'claude'
+                 else DAILY_LOCALES[language]['daily'])
         current = ' aria-current="page"' if key == series else ''
         nav_language = path_language if key == series else language if key in multilingual_series else None
         navigation += f'<a href="{prefix}{page_path(key, language=nav_language)}"{current}>{e(label)}</a>'
@@ -385,7 +520,7 @@ def render_page(issue, issues, config, archived=False, series='research', langua
             f'<title>InvestorAce · {e(title)}</title><meta name="description" '
             f'content="{e(labels["description"], quote=True)}">'
             f'<style>{CSS}</style></head><body><main><nav aria-label="{e(labels["navigation"])}">'
-            f'<strong>InvestorAce</strong><a href="{prefix}index.html">{e(labels["scoreboard"])}</a>'
+            f'<strong>InvestorAce</strong><a href="{prefix}{i18n.homepage(language)}">{e(labels["scoreboard"])}</a>'
             f'{navigation}</nav><header><div class="eyebrow">{e(labels["eyebrow"])}</div>'
             f'<h1>{e(labels["heading"])}</h1><p>{e(labels["description"])}</p>'
             f'<div class="topics">{topics}</div>{language_links}</header><div class="layout"><section '
@@ -395,14 +530,23 @@ def render_page(issue, issues, config, archived=False, series='research', langua
             f'<p>{e(labels["policy"])}</p></aside></div><footer>{e(labels["footer"])}</footer></main></body></html>')
 
 
-def add_research_link(html):
+def add_research_link(html, include_daily=False, include_claude=False, include_scanner=False,
+                      include_comparison=False):
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
+    daily_link = ('<a href="daily.html" style="color:#c1d98b;font-weight:700">Daily briefing ↗</a>'
+                  if include_daily else '')
+    daily_link += ('<a href="claude-daily.html" style="color:#c1d98b;font-weight:700">Claude daily ↗</a>'
+                   if include_claude else '')
+    scanner_link = ('<a href="scanner.html" style="color:#c1d98b;font-weight:700">Stock scanner ↗</a>'
+                    if include_scanner else '')
+    comparison_link = ('<a href="compare.html" style="color:#c1d98b;font-weight:700">Compare stocks ↗</a>'
+                       if include_comparison else '')
     nav = ('<nav id="investorace-research-nav" aria-label="Research" '
            'style="margin:0 0 22px;padding:12px 16px;border:1px solid #2a3040;'
            'border-radius:10px;background:#141821;display:flex;gap:16px;flex-wrap:wrap">'
-           '<a href="market.html" style="color:#c1d98b;font-weight:700">Montagsbriefing ↗</a>'
+           + scanner_link + comparison_link + daily_link + '<a href="market.html" style="color:#c1d98b;font-weight:700">Montagsbriefing ↗</a>'
            '<a href="research.html" style="color:#c1d98b;font-weight:700">Friday research ↗</a></nav>')
     # Upgrade the old one-link navigation too; repeated builds stay idempotent.
     pattern = r'<nav\b[^>]*\bid=["\']investorace-research-nav["\'][^>]*>.*?</nav>'
@@ -440,7 +584,8 @@ def market_redirects(config, market_issues, research_issues):
 def build_site(root, output, require_committed=False):
     root, output = Path(root).resolve(), Path(output).resolve()
     if output == root or output in (root / 'history', root / 'weekly-research',
-                                   root / 'market-briefings'):
+                                   root / 'market-briefings', root / 'daily-briefings',
+                                   root / 'claude-briefings'):
         raise ValueError('Use a separate site output directory')
     config, issues = load_research(root / 'weekly-research')
     collections = [('research', config, issues)]
@@ -448,16 +593,36 @@ def build_site(root, output, require_committed=False):
     if market_folder.exists():
         market_config, market_issues = load_research(market_folder)
         collections.append(('market', market_config, market_issues))
+    for series in DAILY_SERIES:
+        folder = root / SERIES[series]['folder']
+        if folder.exists():
+            series_config, series_issues = load_research(folder)
+            validate_daily(series_config, series_issues, DAILY_WORD_LIMIT[series])
+            collections.append((series, series_config, series_issues))
+    present = {series for series, _, _ in collections}
     pointer = root / 'history' / '_current.json'
+    committed_build = None
     if pointer.exists() or require_committed:
         from evidence import current_build
-        report = current_build(root / 'history')['report_path']
+        committed_build = current_build(root / 'history')
+        report = committed_build['report_path']
     else:
         report = root / 'index.html'
         print('Using the legacy scoreboard; no paired generation exists yet.')
-    scoreboard = add_research_link(report.read_text(encoding='utf-8'))
+    scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in present,
+                                   include_claude='claude' in present, include_scanner=committed_build is not None,
+                                   include_comparison=committed_build is not None)
+    # Translate the verified canonical report; never re-fetch or recalculate it.
+    # Prepare every variant before replacing any previously published page.
+    scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language))
+                   for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
     pages = []
+    if committed_build is not None:
+        from market_scanner import site_pages
+        pages.extend(site_pages(root, committed_build))
+        from stock_compare import site_pages as comparison_pages
+        pages.extend(comparison_pages(root, committed_build))
     multilingual_series = {series for series, cfg, _ in collections
                            if len(cfg.get('languages', ['en'])) > 1}
     for series, series_config, series_issues in collections:
@@ -476,8 +641,7 @@ def build_site(root, output, require_committed=False):
     if market_folder.exists():
         pages.extend(market_redirects(market_config, market_issues, issues))
     output.mkdir(parents=True, exist_ok=True)
-    atomic_text(output / 'index.html', scoreboard)
-    for path, page in pages:
+    for path, page in scoreboards + pages:
         atomic_text(output / path, page)
     if (root / 'tickers.js').exists():
         shutil.copyfile(root / 'tickers.js', output / 'tickers.js')

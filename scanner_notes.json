@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-18",
+  "entries": {
+    "ADBE": {
+      "issuer": "Adobe",
+      "thesis": "[Sicher] Q3 FY2026: Umsatz 6,76 Mrd. USD, +13 % berichtet, und operativer Cashflow 2,52 Mrd. USD. [Wahrscheinlich] Wiederkehrende Kreativitäts- und Produktivitätsumsätze machen Adobe zu einer prüfenswerten Cashflow-Idee.",
+      "counterargument": "[Wahrscheinlich] KI-Wettbewerb kann Zahlungsbereitschaft und Wachstum schwächen. Der gespeicherte Score 7,88 ist ein fester Gesamtscore; daraus lässt sich noch keine bestätigte günstige Bewertung ableiten.",
+      "next_check": "Acht Scorekategorien aus dem aktuellen Bericht rekonstruieren; nachhaltigen Cashflow, Aktienvergütung und aktuelle Verwässerung statt älterer Aktienzahlen abstimmen. Umsatzwachstum nicht als Cashflow-Cushion behandeln.",
+      "sources": [{"title": "Adobe Q3 FY2026 earnings release", "published_at": "2026-09-10", "url": "https://www.adobe.com/cc-shared/assets/investor-relations/pdfs/01906202/au56y4ter.pdf"}],
+      "objections": []
+    },
+    "NVDA": {
+      "issuer": "NVIDIA",
+      "thesis": "[Sicher] Q2 FY2027: Umsatz 96,2 Mrd. USD, +106 % gegenüber Vorjahr; Data Center 89,0 Mrd. USD. [Wahrscheinlich] Die hohe Profitabilität macht NVIDIA zu einer Wachstums-Idee für eine vertiefte Bewertung.",
+      "counterargument": "[Sicher] Die nächste Quartalsprognose sieht 74 % Bruttomarge gegenüber 75 % im berichteten Quartal vor. [Wahrscheinlich] Hohe KI-Investitionen der Kunden und bereits eingepreistes Wachstum schaffen Enttäuschungsrisiko; historischer Rekord-FCF ist keine nachhaltige Prognose.",
+      "next_check": "Aus dem berichteten TTM-FCF eine nachhaltige Eigentümer-Cashflow-Spanne bilden; aktuellen Aktienbestand, Verwässerung und passenden Diskontsatz prüfen. Wachstumseinbruch und Margendruck gemeinsam stressen.",
+      "sources": [{"title": "NVIDIA Q2 FY2027 earnings release", "published_at": "2026-08-26", "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Second-Quarter-Fiscal-2027/"}],
+      "objections": []
+    },
+    "SAN": {
+      "issuer": "Sanofi",
+      "thesis": "[Sicher] Sanofi Paris (SAN.PA), nicht Banco Santander. H1 2026: Umsatz 22,106 Mrd. EUR, +11,1 % berichtet; Dupixent-Umsatz 9,324 Mrd. EUR. [Wahrscheinlich] Das Pharmageschäft ist eine mögliche Alternative zu den Technologie-Ideen.",
+      "counterargument": "[Sicher] Dupixent ist ein wesentlicher Wachstumstreiber; die Pipeline enthält auch gescheiterte Studien. Der bereinigte H1-FCF von 3,724 Mrd. EUR bestätigt den nachhaltigen Modell-FCF von 6,9 Mrd. EUR nicht. [Wahrscheinlich] Produktkonzentration und Normalisierung können den vermeintlichen Bewertungspuffer deutlich verändern.",
+      "next_check": "FCF-Überleitung einschließlich der im Quellenregister dokumentierten vertauschten OCF-Zeile nachvollziehen; aktuelle Aktienzahl, Schulden einschließlich Leasing und FCFE/FCFF-Basis abstimmen. Pipeline-Szenario separat rechnen.",
+      "sources": [{"title": "Sanofi Half-year financial report 2026", "published_at": "2026-07-30", "url": "https://www.sanofi.com/assets/dotcom/content-app/publications/half-year-financial-reports/half-year-financial-report-2026.pdf"}],
+      "objections": []
+    },
+    "ADSK": {
+      "issuer": "Autodesk",
+      "thesis": "[Sicher] Q2 FY2027: Umsatz 2,046 Mrd. USD, +16 % berichtet, und FCF 561 Mio. USD, +24 %. [Wahrscheinlich] Die Design- und Konstruktionssoftware ist eine Idee für die Prüfung wiederkehrender Softwareerlöse; der gespeicherte Modellscore bleibt ungeprüft.",
+      "counterargument": "[Sicher] Die Jahresprognose enthält die MaintainX-Übernahme und rund 45 Mio. USD Transaktionsaufwand im FCF. [Wahrscheinlich] Änderungen im Vertriebs- und Abrechnungsmodell können Umsatzwachstum und Cashflow zeitlich verschieben. Ein mechanisch erzeugter Score belegt keinen günstigen Preis.",
+      "next_check": "Wachstum und Cashflow auf vergleichbarer Vertriebs- und Abrechnungsbasis rekonstruieren; Aktienvergütung und nachhaltige Cashflow-Marge prüfen. Die automatisch erzeugten Kategorien mit dem Bericht abstimmen.",
+      "sources": [{"title": "Autodesk Q2 FY2027 results", "published_at": "2026-08-27", "url": "https://investors.autodesk.com/index.php/news-releases/news-release-details/autodesk-inc-announces-fiscal-2027-second-quarter-results"}],
+      "objections": []
+    },
+    "SPGI": {
+      "issuer": "S&P Global",
+      "thesis": "[Sicher] Q2 2026: Pro-forma-Umsatz ohne Mobility 3,678 Mrd. USD, +11 %. Ratings und Indices erzielten laut Emittent Rekordergebnisse. [Wahrscheinlich] Das Daten-, Rating- und Indexgeschäft ist eine Qualitätsidee für die Prüfliste.",
+      "counterargument": "[Sicher] Mobility wurde am 01.07.2026 abgespalten; frühere Konzernzahlen und die neue Prognose sind nicht unmittelbar vergleichbar. [Wahrscheinlich] Weniger Anleiheemissionen, schwächere Märkte und KI-Wettbewerb können das Wachstum belasten.",
+      "next_check": "Nach der Abspaltung vergleichbaren fortgeführten Cashflow, Schulden, Aktienzahl und Kursbasis herstellen. Den Modell-FCF und die Bewertung nicht unverändert aus dem alten Konsolidierungskreis übernehmen.",
+      "sources": [{"title": "S&P Global Q2 2026 earnings release (SEC Exhibit 99.1)", "published_at": "2026-07-28", "url": "https://www.sec.gov/Archives/edgar/data/64040/000006404026000040/spgi2q2026-earningsrelease.htm"}],
+      "objections": [{"id": "SPGI-SCOPE", "severity": "major", "status": "open", "message": "Die Vergleichbarkeit des gespeicherten FCF und der Bewertung nach der Mobility-Abspaltung ist nicht belegt. Eine Pro-forma-Überleitung ist erforderlich."}]
+    },
+    "CRM": {
+      "issuer": "Salesforce",
+      "thesis": "[Sicher] Q2 FY2027: cRPO 33,5 Mrd. USD, +14 % auch währungsbereinigt; Quartals-FCF 1,1 Mrd. USD. [Wahrscheinlich] Wiederkehrende Kundenbeziehungen und steigende KI-/Datenumsätze rechtfertigen eine vertiefte Prüfung.",
+      "counterargument": "[Sicher] Vom Quartalsumsatz stammen 456 Mio. USD aus Informatica. Die Jahresprognose sieht nur rund 4–5 % FCF-Wachstum vor. [Wahrscheinlich] Akquisitionen, Aktienvergütung und Beteiligungsgewinne können die wahrgenommene operative Dynamik überzeichnen.",
+      "next_check": "Organisches Wachstum isolieren; neuen Aktienbestand nach dem beschleunigten Rückkauf und nachhaltigen FCF einschließlich Aktienvergütung abstimmen. 14 % cRPO-Wachstum nicht als Cashflow-Wachstum verwenden.",
+      "sources": [{"title": "Salesforce Q2 FY2027 earnings release (SEC Exhibit 99.1)", "published_at": "2026-08-26", "url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852426000187/crm-q2fy27xexhibit991.htm"}],
+      "objections": []
+    },
+    "WKL": {
+      "issuer": "Wolters Kluwer",
+      "thesis": "[Sicher] H1 2026: 85 % wiederkehrende Erlöse, organisches Wachstum 5 %, bereinigte operative Marge 29,4 %. [Wahrscheinlich] Das stützt die Qualitätsthese; eine bestätigte Kaufbewertung steht aus.",
+      "counterargument": "[Wahrscheinlich] KI-Nutzung allein belegt keinen zusätzlichen Eigentümer-Cashflow. Entwicklungsausgaben, Währungseffekte und die Normalisierung des bereinigten FCF können den Bewertungspuffer verändern.",
+      "next_check": "Nachhaltigen Eigentümer-Cashflow, passenden Kapitalkostensatz und aktuelle verwässerte Aktienzahl gemeinsam dokumentieren; danach Bewertung und alle betroffenen Scorekategorien erneut gegenprüfen.",
+      "sources": [{"title": "Wolters Kluwer H1 2026 results", "published_at": "2026-08-05", "url": "https://www.wolterskluwer.com/en/news/wolters-kluwer-2026-half-year-report"}],
+      "objections": [
+        {"id": "RATE-WKL", "severity": "major", "status": "responded", "message": "Cashflow nach Finanzierung und gemischter WACC sind nicht durch eine konsistente FCFE/Eigenkapitalkosten- oder FCFF/WACC-Überleitung verbunden.", "response": "Die bestehende Berechnung bleibt als ungeprüftes Modell sichtbar; kein Ersatzdiskontsatz wurde als verifiziert behauptet.", "resolution_required": "Konsistente Cashflow-/Diskontsatzbasis einschließlich eventueller Schuldenbrücke belegen."},
+        {"id": "SCORE-WKL", "severity": "major", "status": "responded", "message": "Der Gesamtscore ist zerlegbar, aber die Quellen- und Rubrikbelege je Kategorie sind unvollständig.", "response": "Es wird kein neuer Gesamtscore erfunden.", "resolution_required": "Versionierte Belege je Kategorie und vollständigen Scoreabgleich vorlegen."},
+        {"id": "BUILD-WKL", "severity": "major", "status": "responded", "message": "Die frühere Review bezog sich auf einen älteren Root-HTML-Bericht. Der Scanner verwendet nun die hashgeprüfte Generation vom 17.10.2026: WKL 81,52 EUR, Score 7,45; der darin gespeicherte NGV lässt sich aus den eingefrorenen Eingaben reproduzieren. Die öffentlich ausgelieferte Seite wurde hier nicht abgeglichen.", "response": "Der Scanner umgeht den veralteten Kompatibilitätsspiegel; diese Korrektur bestätigt die Bewertungsannahmen nicht.", "resolution_required": "Öffentlich ausgelieferten Report und aktuellen gespeicherten Lauf abgleichen, bevor der ursprüngliche Publikationseinwand geschlossen wird."},
+        {"id": "NORM-WKL", "severity": "major", "status": "responded", "message": "1.250 Mio. EUR Modell-FCF sind eine undatierte nachhaltige Annahme. Der Aktienbestand vom 18.09.2026 ist keine bestätigte aktuelle verwässerte Aktienzahl.", "response": "H1-Arithmetik und September-Aktienbestand sind nachvollzogen; TTM-FCF und Prognose in konstanten Wechselkursen bestätigen die Normalisierung nicht.", "resolution_required": "Berichtswährungs-Cashflow, Addbacks, Entwicklungsausgaben sowie spätere Rückkäufe und Vergütungsaktien überleiten."},
+        {"id": "THESIS-WKL", "severity": "minor", "status": "open", "message": "Bezahlte KI-Monetarisierung, zusätzliche Margen und H2-Entwicklungsausgaben bleiben Prognoserisiken.", "response": "Wiederkehrende Erlöse und Nutzung stützen die Qualitätsthese.", "resolution_required": "Verlängerungen, zusätzliche KI-Erlöse und Eigentümer-Cashflow über weitere Berichte verfolgen."}
+      ]
+    },
+    "DIS": {
+      "issuer": "The Walt Disney Company",
+      "thesis": "[Sicher] Q3 FY2026: SVOD-Marge 12,9 %; 9M-FCF 5,735 Mrd. USD. [Wahrscheinlich] Streaming- und Erlebnisgeschäft bieten eine mögliche Ergebnisverbesserung, deren nachhaltiger Cashflow noch zu prüfen ist.",
+      "counterargument": "[Sicher] Der 9M-FCF sank gegenüber Vorjahr; Segmententwicklung enthält Timingeffekte und einen Zollrückerstattungseffekt. [Wahrscheinlich] Rechtekosten, Investitionen und Minderheitsansprüche können den den Stammaktionären zustehenden Cashflow begrenzen.",
+      "next_check": "Steuer- und Investitionstiming, Minderheiten, Finanzierung der Ausschüttungen und aktuellen verwässerten Aktienbestand abstimmen. Eine grobe Guidance-Rechnung ist kein nachhaltiger FCF-Nachweis.",
+      "sources": [{"title": "Disney Q3 FY2026 earnings release", "published_at": "2026-08-05", "url": "https://s206.q4cdn.com/979796730/files/doc_financials/2026/q3/q3-fy26-earnings.pdf"}],
+      "objections": [
+        {"id": "RATE-DIS", "severity": "major", "status": "responded", "message": "Der Cashflow ist nicht konsistent zwischen Stammaktionären, Minderheiten, Finanzierung und dem verwendeten WACC übergeleitet.", "response": "Szenariodiskontsätze sind Annahmen, keine verifizierte Ersatzbewertung.", "resolution_required": "Eigentümer-Cashflow mit Eigenkapitalkosten oder FCFF mit vollständiger Schulden- und Minderheitenbrücke belegen."},
+        {"id": "SCORE-DIS", "severity": "major", "status": "responded", "message": "5,62 ist ein fester Gesamtscore ohne nachvollziehbare Aufteilung und Belege für die acht Kategorien.", "response": "Fehlende Kategorien werden nicht durch Analystenmittelwerte ersetzt.", "resolution_required": "Alle Kategorien mit aktuellen, datierten Quellen rekonstruieren und den Gesamtscore neu abstimmen."},
+        {"id": "BUILD-DIS", "severity": "major", "status": "responded", "message": "Die frühere Review verwendete einen älteren Root-HTML-Bericht. Der Scanner nutzt die hashgeprüfte Generation vom 17.10.2026 mit DIS 110,59 USD und Modellscore 5,62. Der Abgleich mit der öffentlich ausgelieferten Seite steht aus.", "response": "Der aktuelle gespeicherte Lauf ersetzt im Scanner den veralteten Kompatibilitätsspiegel.", "resolution_required": "Öffentlich ausgelieferten Report und gespeicherten Lauf abgleichen; die separate feste Score-Provenienz bleibt offen."},
+        {"id": "NORM-DIS", "severity": "major", "status": "responded", "message": "Berichteter bzw. prognostizierter Konzern-FCF ist nicht auf nachhaltigen Cashflow für die aktuellen Stammaktionäre übergeleitet.", "response": "9M-FCF 5,735 Mrd. USD ist berichtet. Rund 10 Mrd. USD aus der Guidance sind nur eine grobe Szenariorechnung, keine sichere Untergrenze.", "resolution_required": "Steuertiming, Reinvestition, Minderheiten und Verwässerung beziffern; Rückkäufe und Dividenden oberhalb des berichteten FCF samt Finanzierung erklären."},
+        {"id": "THESIS-DIS", "severity": "minor", "status": "open", "message": "Margenverbesserung muss sich nach Timingeffekten, Änderungen des Konsolidierungskreises, Rückerstattungen und der 53. Woche bewähren.", "response": "Die berichtete Verbesserung wird nicht als ewiges organisches Wachstum fortgeschrieben.", "resolution_required": "Vergleichbare Segment- und Eigentümer-Cashflows, Sports-Ökonomie, Nachfrage und Kapitalrückflüsse über weitere Berichte prüfen."}
+      ]
+    }
+  }
+}
