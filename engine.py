@@ -432,7 +432,9 @@ DATA = {
       'period': 'H1 2026 andH1 2025; shares2026-06-30'}],
 ),
 'O': dict(yf='O', fcf=4166.2, shares=946.22, r=0.08, cur='USD', deliver=13.3, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(7.0, 9.5, 9.5, 1.5, 5.0, 9.0), pr=None, dil=3.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(26.58, 135.88)),
+'GOOGL': dict(yf='GOOGL', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5, 9.0, 6.0, 8.0, 5.0, 9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(122.07, 817.22)),
 'INTU': dict(yf='INTU', fcf=8617.0, shares=267.24, r=0.08, cur='USD', deliver=13.9, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(7.0, 7.5, 9.5, 8.0, 5.0, 9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(126.42, 1378.34)),
+'CLX': dict(yf='CLX', fcf=405.0, shares=120.94, r=0.08, cur='USD', deliver=-5.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(2.0, 6.0, 6.0, 3.0, 5.0, 9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(39.56, 257.8)),
 'GIS': dict(yf='GIS', fcf=1626.3, shares=534.69, r=0.08, cur='USD', deliver=-5.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(2.0, 6.0, 6.0, 9.5, 5.0, 9.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(15.59, 99.42)),
 }
 
