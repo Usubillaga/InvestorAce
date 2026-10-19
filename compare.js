@@ -69,6 +69,42 @@
     currentNote:['Provider snapshot · retrieval date below','Anbieter-Snapshot · Abrufdatum unten','Datos del proveedor · fecha de descarga debajo'],
     dilutionNote:['Change in diluted average shares; review splits','Änderung verwässerter Durchschnittsaktien; Splits prüfen','Cambio de promedio diluido; revisar splits'],
     percentage:['Percent','Prozent','Porcentaje'], multiple:['Multiple','Vielfaches','Múltiplo'], metric:['Metric','Kennzahl','Métrica'], source:['Source','Quelle','Fuente'],
+    duelEyebrow:['THE FINANCIAL DUEL','DAS FINANZDUELL','EL DUELO FINANCIERO'],
+    duelTitle:['Two challengers. Five rounds.','Zwei Kontrahenten. Fünf Runden.','Dos rivales. Cinco asaltos.'],
+    duelRuleShort:['1 point per round won','1 Punkt pro gewonnener Runde','1 punto por asalto ganado'],
+    duelWinner:['Winner on points: {ticker}','Punktsieger: {ticker}','Ganador por puntos: {ticker}'],
+    duelProvisional:['Provisional lead: {ticker}','Vorläufig vorn: {ticker}','Ventaja provisional: {ticker}'],
+    duelDraw:['Draw — no winner','Unentschieden — kein Sieger','Empate — sin ganador'],
+    duelOpen:['The fight is undecided','Das Duell ist noch offen','El duelo sigue abierto'],
+    duelSame:['Choose two different challengers','Wähle zwei verschiedene Kontrahenten','Elige dos rivales distintos'],
+    comparableRounds:['comparable rounds','vergleichbare Runden','asaltos comparables'],
+    drawnRounds:['drawn','unentschieden','empatados'],
+    roundGrowth:['Growth','Wachstum','Crecimiento'], roundProfit:['Profitability','Profitabilität','Rentabilidad'],
+    roundCash:['Cash generation','Cash-Generierung','Generación de caja'], roundDebt:['Debt burden','Verschuldung','Endeudamiento'],
+    roundDilution:['Share dilution','Verwässerung','Dilución'],
+    higherWins:['Higher wins','Höher gewinnt','Gana el mayor'], lowerWins:['Lower wins','Niedriger gewinnt','Gana el menor'],
+    roundDraw:['Draw','Remis','Empate'], roundMissing:['No point · data missing','Kein Punkt · Daten fehlen','Sin punto · faltan datos'],
+    whyLeads:['Why {ticker} leads','Warum {ticker} vorn liegt','Por qué {ticker} va por delante'],
+    noEdge:['No points advantage in the comparable rounds.','Kein Punktevorsprung in den vergleichbaren Runden.','Sin ventaja de puntos en los asaltos comparables.'],
+    counterTitle:['An advantage for {ticker}','Ein Vorteil für {ticker}','Una ventaja para {ticker}'],
+    counterGeneralTitle:['The counterargument','Der Einwand','El contraargumento'],
+    counterOutside:['A useful counterpoint outside the five scored rounds.','Ein relevanter Einwand außerhalb der fünf bewerteten Runden.','Un contraargumento relevante fuera de los cinco asaltos puntuados.'],
+    counterGeneral:['Price, sector economics and one-off effects still need separate review. A financial lead does not settle those questions.','Aktienpreis, Branchenökonomie und Einmaleffekte sind separat zu prüfen. Ein Finanzvorsprung beantwortet diese Fragen nicht.','El precio, la economía sectorial y los efectos extraordinarios requieren revisión aparte. Una ventaja financiera no resuelve esas cuestiones.'],
+    duelLimits:['The duel judges these five reported financial ratios. Valuation and business risks need a separate assessment.','Das Duell bewertet diese fünf gemeldeten Finanzkennzahlen. Bewertung und Geschäftsrisiken benötigen eine eigene Prüfung.','El duelo evalúa estos cinco ratios financieros publicados. La valoración y los riesgos del negocio necesitan una evaluación propia.'],
+    duelRules:['How the referee decides','So entscheidet der Ringrichter','Cómo decide el árbitro'],
+    duelRulesText:['One point per round won, all five rounds have equal weight. Equal displayed values are draws (percentages: 1 decimal; multiples: 2). Missing figures give neither side a point. Lower net debt / EBITDA wins only with positive EBITDA; lower net dilution wins the share round.','Ein Punkt je Rundensieg; alle fünf Runden zählen gleich viel. Gleich dargestellte Werte sind remis (%: 1 Dezimalstelle; Vielfache: 2). Fehlende Werte geben keiner Seite einen Punkt. Nettoschulden / EBITDA zählen nur bei positivem EBITDA; geringere Nettoverwässerung gewinnt die Aktienrunde.','Un punto por asalto ganado, con igual peso para los cinco. Valores iguales en pantalla son empate (%: 1 decimal; múltiplos: 2). Los datos ausentes no dan puntos. Deuda neta / EBITDA solo cuenta con EBITDA positivo; menor dilución neta gana el asalto de acciones.'],
+    modelScore:['Current InvestorAce score','Aktueller InvestorAce-Score','Score actual de InvestorAce'],
+    modelUnverified:['review pending','Prüfung offen','revisión pendiente'],
+    duelModelNote:['The InvestorAce rank and portfolio rules continue to use the existing model score, independently of the selected fiscal year.','Für InvestorAce-Rang und Portfolioregeln gilt weiterhin der bestehende Modellscore, unabhängig vom ausgewählten Geschäftsjahr.','El ranking y las reglas de cartera siguen usando el score del modelo, independientemente del ejercicio seleccionado.'],
+    rankDisagreement:['The financial duel and the InvestorAce model score favor different stocks. Valuation and other model categories can change the ranking.','Finanzduell und InvestorAce-Modellscore bevorzugen unterschiedliche Aktien. Bewertung und weitere Modellkategorien können die Rangfolge ändern.','El duelo financiero y el score de InvestorAce favorecen acciones distintas. La valoración y otras categorías del modelo pueden cambiar el ranking.'],
+    duelFlag_PERIOD_MISMATCH:['Year ends are more than 183 days apart: the leader is provisional.','Die Geschäftsjahresenden liegen mehr als 183 Tage auseinander: Die Führung ist vorläufig.','Los cierres anuales distan más de 183 días: la ventaja es provisional.'],
+    duelFlag_STALE_DATA:['A snapshot is older than 14 days.','Ein Daten-Snapshot ist älter als 14 Tage.','Una descarga de datos tiene más de 14 días.'],
+    duelFlag_CACHED_DATA:['A failed refresh retained an earlier snapshot.','Nach einem fehlgeschlagenen Abruf wird ein früherer Snapshot verwendet.','Tras una actualización fallida se conservan datos anteriores.'],
+    duelFlag_SOURCE_TIME_UNKNOWN:['A retrieval timestamp is unknown.','Ein Abrufzeitpunkt ist unbekannt.','Se desconoce una fecha de descarga.'],
+    duelFlag_FUTURE_DATA:['Future-dated data is excluded from the fight.','Zukünftig datierte Daten sind vom Duell ausgeschlossen.','Se excluyen del duelo los datos con fecha futura.'],
+    duelFlag_OLD_FINANCIALS:['The latest annual period is more than 550 days old.','Der letzte Jahresabschluss ist älter als 550 Tage.','El último periodo anual tiene más de 550 días.'],
+    duelFlag_DATA_REVIEW:['Currency or security-type data needs review.','Währungs- oder Wertpapierdaten benötigen eine Prüfung.','La moneda o el tipo de valor requieren revisión.'],
+    duelIncomplete:['Some rounds lack comparable data; the lead is provisional.','Für einige Runden fehlen vergleichbare Daten; die Führung ist vorläufig.','Faltan datos comparables en algunos asaltos; la ventaja es provisional.'],
   };
   let language = ['en','de','es'].includes(params.get('lang')) ? params.get('lang') : 'en';
   let group = 'all';
@@ -92,6 +128,7 @@
   const fiscal = row => row?.annual?.[Number($('period').value)] ?? {};
   const value = (row, metric) => (metric[4] ? row?.market : fiscal(row))?.[metric[0]];
   const option = row => `<option value="${esc(row.ticker)}">${esc(row.ticker)} · ${esc(row.name)}</option>`;
+  const phrase = (key,ticker) => t(key).replace('{ticker}',ticker ?? '—');
   $('left').innerHTML = $('right').innerHTML = rows.map(option).join('');
   $('left').value = byTicker.has(params.get('a')) ? params.get('a') : byTicker.has('WKL') ? 'WKL' : rows[0]?.ticker ?? '';
   $('right').value = byTicker.has(params.get('b')) ? params.get('b') : byTicker.has('DIS') ? 'DIS' : rows[1]?.ticker ?? rows[0]?.ticker ?? '';
@@ -129,8 +166,39 @@
     try { history.replaceState(null,'',url); } catch { /* file previews may restrict history */ }
   }
 
+  function renderDuel(chosen) {
+    const result=InvestorAceDuel.judge(chosen[0],chosen[1],{period:Number($('period').value)});
+    const index=result.leader==='b'?1:0;
+    const leading=chosen[index];
+    const title=result.status==='WINNER'?phrase('duelWinner',leading?.ticker):
+      result.status==='PROVISIONAL'?phrase('duelProvisional',leading?.ticker):
+      t({DRAW:'duelDraw',OPEN:'duelOpen',SAME_STOCK:'duelSame'}[result.status]);
+    const fact=(round,names=false)=>`${names?esc(chosen[0]?.ticker ?? '')+' ':''}${fmt(round.left,round.unit)} <span class="duel-versus">vs</span> ${names?esc(chosen[1]?.ticker ?? '')+' ':''}${fmt(round.right,round.unit)}`;
+    const wins=result.rounds.filter(r=>r.winner===result.leader);
+    const why=result.leader ? wins.map(round=>`<li><strong>${esc(t(round.label))}</strong><span>${fact(round)} · ${esc(t(round.direction>0?'higherWins':'lowerWins'))}</span></li>`).join('') : `<li>${esc(t('noEdge'))}</li>`;
+    const counter=result.counterargument;
+    const counterStock=counter?.side==='a'?chosen[0]:chosen[1];
+    const counterText=counter ? `<strong>${esc(t(counter.metric))}</strong><p>${fact(counter,true)} · ${esc(t(counter.direction>0?'higherWins':'lowerWins'))}</p>${counter.outsideRounds?`<small>${esc(t('counterOutside'))}</small>`:''}` : `<p>${esc(t('counterGeneral'))}</p>`;
+    const notes=[...result.flags.map(flag=>t('duelFlag_'+flag))];
+    if (result.missing) notes.unshift(t('duelIncomplete'));
+    $('duel').dataset.status=result.status;
+    $('duel').dataset.winner=result.winner ? chosen[result.winner==='a'?0:1]?.ticker ?? '' : '';
+    $('duel').innerHTML=`<div class="duel-head"><div><div class="eyebrow">${esc(t('duelEyebrow'))}</div><h2>${esc(t('duelTitle'))}</h2></div><span class="duel-rule-tag">${esc(t('duelRuleShort'))}</span></div>
+      <div class="duel-fighters">${chosen.map((row,i)=>`${i?'<div class="duel-vs" aria-hidden="true">VS</div>':''}<div class="duel-fighter ${i?'b':'a'} ${result.winner===(i?'b':'a')?'champion':''}"><div class="fighter-info"><span class="fighter-corner">${i?'B':'A'}</span><strong>${esc(row?.ticker ?? '—')}</strong><span class="fighter-name">${esc(row?.name ?? '')}</span><small class="fighter-date">${esc(fiscal(row).period_end ?? '—')}</small></div><span class="fighter-points" data-duel-points="${i?'b':'a'}">${i?result.rightPoints:result.leftPoints}</span></div>`).join('')}</div>
+      <div class="duel-result ${result.status==='WINNER'?'decided':''}" role="status" aria-live="polite"><span class="duel-medal" aria-hidden="true">${result.status==='WINNER'?'★':'◇'}</span><div><h3 id="duel-verdict">${esc(title)}</h3><p>${5-result.missing}/5 ${esc(t('comparableRounds'))} · ${result.tied} ${esc(t('drawnRounds'))}</p></div></div>
+      <div class="duel-rounds" role="list">${result.rounds.map((round,i)=>`<div class="duel-round" role="listitem" data-duel-round="${round.metric}"><div class="round-label"><span class="round-number">${String(i+1).padStart(2,'0')}</span><div><strong>${esc(t(round.label))}</strong><small>${esc(t(round.metric))} · ${esc(t(round.direction>0?'higherWins':'lowerWins'))}</small></div></div><span class="round-value a ${round.winner==='a'?'round-win':''}">${fmt(round.left,round.unit)}</span><span class="round-call ${round.winner}">${round.winner==='a'||round.winner==='b'?esc(chosen[round.winner==='a'?0:1]?.ticker ?? '')+' +1':esc(t(round.winner==='tie'?'roundDraw':'roundMissing'))}</span><span class="round-value b ${round.winner==='b'?'round-win':''}">${fmt(round.right,round.unit)}</span></div>`).join('')}</div>
+      <div class="duel-explanation"><div class="duel-why"><h3>${esc(result.leader?phrase('whyLeads',leading?.ticker):t('financials'))}</h3><p class="duel-fact-order">${esc(chosen[0]?.ticker ?? '—')} <span class="duel-versus">vs</span> ${esc(chosen[1]?.ticker ?? '—')}</p><ul>${why}</ul></div><aside class="duel-counter"><h3>${esc(counter?phrase('counterTitle',counterStock?.ticker):t('counterGeneralTitle'))}</h3>${counterText}<p class="duel-limit">${esc(t('duelLimits'))}</p></aside></div>
+      ${notes.length?`<div class="duel-notes">${notes.map(note=>`<p>${esc(note)}</p>`).join('')}</div>`:''}
+      ${result.rankDisagreement?`<p class="duel-rank-disagreement">${esc(t('rankDisagreement'))}</p>`:''}
+      <div class="duel-model"><strong>${esc(t('modelScore'))}</strong><div>${chosen.map(row=>`<span>${esc(row?.ticker ?? '—')} <b>${finite(row?.model?.score)?n(row.model.score,2)+'/10':'—'}</b>${row?.model?.review_required?` <small>${esc(t('modelUnverified'))}</small>`:''}</span>`).join('')}</div><p>${esc(t('duelModelNote'))}</p><small>${esc(t('snapshot'))}: ${esc(date(chosen[0]?.model?.captured_at))}</small></div>
+      <details class="duel-rules"><summary>${esc(t('duelRules'))}</summary><p>${esc(t('duelRulesText'))}</p></details>`;
+    $('duel').setAttribute('aria-label',t('duelEyebrow'));
+    return result;
+  }
+
   function render() {
     const chosen = selected();
+    renderDuel(chosen);
     $('universe-count').textContent = data.universe_count;
     $('stock-cards').innerHTML = chosen.map(card).join('');
     const warnings = [];
@@ -204,6 +272,10 @@
       ...chosen.flatMap(r=>[value(r,m),m[4]?'provider snapshot':fiscal(r).period_end,m[4]?r.market?.retrieved_at:r.retrieved_at])
     ])];
     lines.push(['financial_currency','',...chosen.flatMap(r=>[r.financial_currency,'',''])]);
+    const duel=InvestorAceDuel.judge(chosen[0],chosen[1],{period:Number($('period').value)});
+    lines.push(['duel_round_wins','points',duel.leftPoints,fiscal(chosen[0]).period_end,chosen[0].retrieved_at,
+      duel.rightPoints,fiscal(chosen[1]).period_end,chosen[1].retrieved_at]);
+    lines.push(['duel_status',duel.policy,duel.status,'','',duel.status,'','']);
     const content='\uFEFF'+lines.map(line=>line.map(csvCell).join(',')).join('\r\n');
     const url=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'}));
     const link=document.createElement('a');link.href=url;link.download=`InvestorAce_${chosen.map(r=>r.ticker).join('_vs_')}.csv`;

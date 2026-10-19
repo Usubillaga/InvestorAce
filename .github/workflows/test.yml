@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
@@ -30,5 +33,7 @@ jobs:
         run: python -c "import engine, integrity, evidence, wacc, epv, forward, macro; print('Runtime imports OK')"
       - name: Unit tests
         run: python -m unittest discover -p 'test_*.py' -v
+      - name: Financial duel rules
+        run: node tests/comparison_duel.cjs
       - name: WACC workbook reproduction
         run: python wacc.py
