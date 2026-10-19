@@ -1,0 +1,259 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-17",
+  "period_start": "2026-10-16",
+  "period_end": "2026-10-17",
+  "data_cutoff": "2026-10-17T15:00:00+02:00",
+  "summary": "[Sicher] Energy-led inflation has pushed the Fed, the ECB and Banco de la República to tighten at the same time, while US hiring has stalled. [Wahrscheinlich] The dominant regime signal is stagflation-tinged: headline inflation of 3.7% in the US, 3.8% in the euro area and 6.29% in Colombia, combined with weak job creation. This first edition uses the past 24 hours plus clearly dated baseline data. Checkpoints: FOMC 27–28 October, ECB 29 October, Banco de la República 30 October.",
+  "priority_review": "1) Does the regime classifier treat an energy-led inflation shock with weak hiring as stagflation rather than reflation? 2) Is the 10-year risk-free input current after the Fed hike? 3) Are EUR and COP translations based on dated observations?",
+  "items": [
+    {
+      "section": "regime",
+      "title": "Energy shock keeps inflation above target while hiring stalls",
+      "authors": "BLS; Eurostat; market reporting",
+      "publication_date": "2–16 October 2026",
+      "source_url": "https://www.bls.gov/cpi/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Consumer Price Index – September 2026",
+          "url": "https://www.bls.gov/cpi/",
+          "publication_date": "2026-10-14"
+        },
+        {
+          "title": "Employment Situation Summary – September 2026",
+          "url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+          "publication_date": "2026-10-02"
+        },
+        {
+          "title": "Annual inflation up to 3.8% in the euro area",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-16102026-ap",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Markets today: U.S. stocks weighed down by extended tech sell-off",
+          "url": "https://bnnbloomberg.ca/markets/dow-jones/2026/10/16/us-markets-weighed-down-by-extended-sell-off-in-the-tech-sector",
+          "publication_date": "2026-10-16"
+        }
+      ],
+      "what_changed": "[Sicher] US CPI rose 0.6% in September and 3.7% year on year (BLS, released 14 October 2026); core CPI rose 2.6%. Euro area inflation was 3.8% in September, up from 3.2% in August, with energy at 18.8% and core at 2.5% (Eurostat, 16 October 2026). US payrolls rose only 29000 in September and unemployment was 4.2% (BLS, 2 October 2026). [Wahrscheinlich] Brent settled near 109.86 USD per barrel on 16 October; other reports put it at 105 to 106 USD, so the level is approximate.",
+      "investorace_implication": "[Wahrscheinlich] Energy-driven headline inflation, rising policy rates and slowing employment fit a stagflation tilt, not reflation. Transmission runs through higher discount rates, squeezed real incomes and pressure on margins of energy-intensive companies. [Vermutung] Core inflation of 2.5% to 2.6% suggests second-round effects are still limited; if oil falls, the regime could move back towards disinflation quickly.",
+      "review_question": "Does the regime classifier weight the energy-led headline signal or the core signal more heavily? Next data: US October CPI on 10 November 2026, US October jobs report on 6 November 2026.",
+      "limitations": "Oil price levels differ between sources. Monthly data refer to September. A headline alone does not establish a regime change; this assessment is commentary, not a model output."
+    },
+    {
+      "section": "usa",
+      "title": "Fed signals more hikes as tariffs become a midterm fault line",
+      "authors": "Federal Reserve; BLS; press reporting",
+      "publication_date": "16 September to 16 October 2026",
+      "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Federal Reserve issues FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        },
+        {
+          "title": "Speech by Governor Waller on the economic outlook",
+          "url": "https://www.federalreserve.gov/newsevents/speech/waller20261008a.htm",
+          "publication_date": "2026-10-08"
+        },
+        {
+          "title": "Employment Situation Summary – September 2026",
+          "url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+          "publication_date": "2026-10-02"
+        },
+        {
+          "title": "The Iran war is costing American households $2,000 each, Moody’s estimates",
+          "url": "https://www.cnn.com/2026/10/13/economy/iran-war-oil-gas-prices-inflation",
+          "publication_date": "2026-10-13"
+        },
+        {
+          "title": "US midterms 2026: What is at stake for Trump, Republicans and Democrats",
+          "url": "https://www.business-standard.com/amp/world-news/us-midterm-elections-2026-donald-trump-democrats-republicans-congress-senate-126101600193_1.html",
+          "publication_date": "2026-10-16"
+        }
+      ],
+      "what_changed": "[Sicher] On 16 September 2026 the FOMC raised the federal funds target range by 25 basis points to 3.75% to 4%, its first hike since 2023, by unanimous vote. Governor Waller said on 8 October that 16 of 18 participants expect at least one more hike this year. Wage growth slowed to 3.0% year on year in September. [Wahrscheinlich] Moody’s estimates the Iran war costs each US household about 2000 USD; AAA put regular gasoline at 4.33 USD per gallon on 16 October. Before the midterm elections on 3 November, Democrats campaign against tariffs as a cost-of-living burden, while several Republicans in competitive races have distanced themselves from President Trump on trade.",
+      "investorace_implication": "[Wahrscheinlich] Real wages are now falling (3.0% wage growth versus 3.7% inflation), which weighs on discretionary spending, while higher rates compress valuations of long-duration growth stocks. On the same criteria: tariffs raise import prices and protect some domestic producers but add to the inflation the Fed is fighting; removing them would lower goods prices but reduce customs revenue. [Vermutung] Proposals to require congressional approval for tariffs are not enacted law; their status should be checked before treating them as policy.",
+      "review_question": "Will the FOMC hike again on 27–28 October or pause? Has the risk-free input (10-year Treasury yield) in InvestorAce been refreshed since the September hike?",
+      "limitations": "Political assessments rely on press reporting, and poll figures vary by source. The Moody’s figure is a model estimate, not an official statistic. Court rulings on earlier tariffs were not verified for this edition."
+    },
+    {
+      "section": "eu",
+      "title": "ECB rates at 2.50% while the euro firms to 1.1253 USD",
+      "authors": "European Central Bank; Eurostat; market commentary",
+      "publication_date": "10 September to 16 October 2026",
+      "source_url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Sicher",
+      "sources": [
+        {
+          "title": "Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+          "publication_date": "2026-09-10"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Annual inflation up to 3.8% in the euro area",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-16102026-ap",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "IC Markets Europe fundamental forecast, 16 October 2026",
+          "url": "https://www.icmarkets.com.au/blog/ic-markets-europe-fundamental-forecast-16-october-2026/",
+          "publication_date": "2026-10-16"
+        }
+      ],
+      "what_changed": "[Sicher] On 10 September 2026 the ECB raised its three key rates by 25 basis points; the deposit facility rate has been 2.50% since 16 September. Euro area inflation reached 3.8% in September, driven by energy, while core inflation was 2.5%. ECB reference rate on 16 October 2026: 1 EUR = 1.1253 USD, versus 1.1208 on 15 October, so the euro appreciated by about 0.4% against the dollar. [Wahrscheinlich] Market commentary names French public debt and the Middle East conflict as the main risks.",
+      "investorace_implication": "[Wahrscheinlich] An ECB tightening into an energy shock raises discount rates for European equities and weighs on energy-intensive industry, while banks benefit from wider interest margins. A stronger euro lowers the euro value of dollar earnings for European exporters and slightly reduces imported energy costs.",
+      "review_question": "Next checkpoints: ECB decision on 29 October and the October flash inflation estimate on 4 November. Are dollar earnings of European holdings translated at a dated EUR/USD rate?",
+      "limitations": "The reference rate is an ECB fixing published around 16:00 CET, not a transaction rate. Effects of the war on European gas supply are not quantified here."
+    },
+    {
+      "section": "colombia",
+      "title": "Policy rate at 12.25% as the fiscal rescue law is delayed",
+      "authors": "Banco de la República; DANE; Colombian press",
+      "publication_date": "30 September to 16 October 2026",
+      "source_url": "https://diariolalibertad.com/2026/09/30/banco-de-la-republica-sube-la-tasa-de-interes-a-1225-por-repunte-de-la-inflacion/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Banco de la República sube la tasa de interés a 12,25 % por repunte de la inflación",
+          "url": "https://diariolalibertad.com/2026/09/30/banco-de-la-republica-sube-la-tasa-de-interes-a-1225-por-repunte-de-la-inflacion/",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "Gerente del Banco de la República confirmó que en 2026 tampoco se cumplirá la meta de inflación",
+          "url": "https://www.infobae.com/colombia/2026/10/13/gerente-del-banco-de-la-republica-confirmo-que-en-2026-tampoco-se-cumplira-la-meta-de-inflacion-responsabilizo-al-salario-minimo-de-gustavo-petro/",
+          "publication_date": "2026-10-13"
+        },
+        {
+          "title": "ADLE se reúne con su equipo para revisar la Ley de Rescate Económico",
+          "url": "https://www.elheraldo.co/politica/2026/10/14/adle-se-reune-con-su-equipo-para-revisar-la-ley-de-rescate-economico-a-presentarse-en-los-proximos-dias/",
+          "publication_date": "2026-10-14"
+        },
+        {
+          "title": "Precio del dólar para este viernes 16 de octubre de 2026",
+          "url": "https://elheraldo.co/economia/2026/10/16/precio-del-dolar-para-este-viernes-16-de-octubre-de-2026",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-16"
+        }
+      ],
+      "what_changed": "[Sicher] Banco de la República raised its policy rate from 12% to 12.25% in a split vote (4 for 25 basis points, 2 to hold, 1 for 50), effective 1 October 2026. Annual inflation was 6.29% in September (DANE), against a 3% target; on 13 October governor Leonardo Villar told the Senate the target will be missed again in 2026. [Wahrscheinlich] President Abelardo De la Espriella’s government plans to send a rescue law to Congress, later than the 10 to 12 days announced on 30 September; an IMF mission is expected in November. FX: TRM for 16 October 1 USD = 3170.46 COP, versus 3197.65 on 15 October, so the peso appreciated by about 0.85%. Derived from the ECB rate and the TRM: 1 EUR = 3567.7 COP (15 October: 3583.9), a peso appreciation of about 0.45%.",
+      "investorace_implication": "[Wahrscheinlich] A real policy rate of about 6 percentage points keeps credit expensive and slows domestic demand, while the stronger peso helps contain imported inflation. Fiscal credibility is the main risk premium: the content of the rescue law and IMF support will drive sovereign spreads and the COP.",
+      "review_question": "Next checkpoints: the Banco de la República decision on 30 October and whether the rescue law reaches Congress with quantified measures.",
+      "limitations": "Details of the rescue law (revenue versus spending, permanent or temporary) are not yet public. The EUR/COP rate is derived and combines the ECB fixing (16:00 CET) with the TRM valid for 16 October; spot quotes ranged from 3551 to 3570."
+    }
+  ],
+  "translations": {
+    "de": {
+      "summary": "[Sicher] Energiegetriebene Inflation hat Fed, EZB und Banco de la República gleichzeitig zu Zinserhöhungen gebracht, während der US-Stellenaufbau stockt. [Wahrscheinlich] Das dominierende Regime-Signal hat stagflationäre Züge: Gesamtinflation von 3,7 % in den USA, 3,8 % im Euroraum und 6,29 % in Kolumbien bei schwacher Beschäftigungsentwicklung. Diese erste Ausgabe nutzt die letzten 24 Stunden plus klar datierte Basisdaten. Prüfpunkte: FOMC 27.–28. Oktober, EZB 29. Oktober, Banco de la República 30. Oktober.",
+      "priority_review": "1) Stuft der Regime-Klassifikator einen energiegetriebenen Inflationsschock mit schwachem Stellenaufbau als Stagflation statt Reflation ein? 2) Ist der risikofreie Zins (10-jährige Rendite) nach der Fed-Erhöhung aktuell? 3) Beruhen EUR- und COP-Umrechnungen auf datierten Beobachtungen?",
+      "items": [
+        {
+          "title": "Energieschock hält Inflation über dem Ziel, während der Stellenaufbau stockt",
+          "publication_date": "2.–16. Oktober 2026",
+          "what_changed": "[Sicher] Der US-Verbraucherpreisindex stieg im September um 0,6 % und um 3,7 % gegenüber dem Vorjahr (BLS, veröffentlicht am 14. Oktober 2026); die Kerninflation lag bei 2,6 %. Die Inflation im Euroraum betrug im September 3,8 % nach 3,2 % im August, Energie 18,8 %, Kern 2,5 % (Eurostat, 16. Oktober 2026). Die US-Beschäftigung stieg im September nur um 29000 Stellen, die Arbeitslosenquote lag bei 4,2 % (BLS, 2. Oktober 2026). [Wahrscheinlich] Brent schloss am 16. Oktober bei etwa 109,86 USD je Barrel; andere Berichte nennen 105 bis 106 USD, das Niveau ist daher nur ungefähr.",
+          "investorace_implication": "[Wahrscheinlich] Energiegetriebene Gesamtinflation, steigende Leitzinsen und nachlassende Beschäftigung passen zu einer stagflationären Tendenz, nicht zu Reflation. Die Übertragung läuft über höhere Diskontsätze, sinkende Realeinkommen und Margendruck bei energieintensiven Unternehmen. [Vermutung] Eine Kerninflation von 2,5 % bis 2,6 % deutet darauf hin, dass Zweitrundeneffekte noch begrenzt sind; fällt der Ölpreis, könnte das Regime schnell in Richtung Disinflation zurückkehren.",
+          "review_question": "Gewichtet der Regime-Klassifikator das energiegetriebene Gesamtsignal oder das Kernsignal stärker? Nächste Daten: US-Verbraucherpreise für Oktober am 10. November 2026, US-Arbeitsmarktbericht für Oktober am 6. November 2026.",
+          "limitations": "Die Ölpreisniveaus unterscheiden sich je nach Quelle. Die Monatsdaten beziehen sich auf September. Eine Schlagzeile allein begründet keinen Regimewechsel; diese Einschätzung ist Kommentar, kein Modellergebnis.",
+          "source_url": "https://www.bls.gov/cpi/"
+        },
+        {
+          "title": "Fed signalisiert weitere Erhöhungen, Zölle werden zur Bruchlinie vor den Zwischenwahlen",
+          "publication_date": "16. September bis 16. Oktober 2026",
+          "what_changed": "[Sicher] Am 16. September 2026 erhöhte das FOMC das Zielband der Federal Funds Rate um 25 Basispunkte auf 3,75 % bis 4 %, die erste Erhöhung seit 2023, einstimmig. Gouverneur Waller sagte am 8. Oktober, dass 16 von 18 Teilnehmern in diesem Jahr mindestens eine weitere Erhöhung erwarten. Das Lohnwachstum verlangsamte sich im September auf 3,0 % gegenüber dem Vorjahr. [Wahrscheinlich] Moody’s schätzt, dass der Iran-Krieg jeden US-Haushalt etwa 2000 USD kostet; AAA meldete am 16. Oktober 4,33 USD je Gallone Normalbenzin. Vor den Zwischenwahlen am 3. November machen die Demokraten Wahlkampf gegen Zölle als Belastung der Lebenshaltungskosten, während sich mehrere Republikaner in umkämpften Rennen in der Handelspolitik von Präsident Trump distanzieren.",
+          "investorace_implication": "[Wahrscheinlich] Die Reallöhne sinken nun (3,0 % Lohnwachstum gegenüber 3,7 % Inflation), was den zyklischen Konsum belastet, während höhere Zinsen die Bewertungen langlaufender Wachstumsaktien drücken. Nach denselben Kriterien: Zölle erhöhen Importpreise und schützen einige heimische Produzenten, verstärken aber die Inflation, die die Fed bekämpft; ihre Abschaffung würde Güterpreise senken, aber Zolleinnahmen verringern. [Vermutung] Vorschläge, Zölle an eine Zustimmung des Kongresses zu binden, sind kein geltendes Recht; ihr Status sollte geprüft werden, bevor man sie als Politik behandelt.",
+          "review_question": "Erhöht das FOMC am 27.–28. Oktober erneut oder pausiert es? Wurde der risikofreie Zins (10-jährige Treasury-Rendite) in InvestorAce seit der Erhöhung im September aktualisiert?",
+          "limitations": "Politische Einschätzungen stützen sich auf Presseberichte, Umfragewerte unterscheiden sich je nach Quelle. Die Moody’s-Zahl ist eine Modellschätzung, keine amtliche Statistik. Gerichtsurteile zu früheren Zöllen wurden für diese Ausgabe nicht geprüft.",
+          "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm"
+        },
+        {
+          "title": "EZB-Zinsen bei 2,50 %, der Euro festigt sich auf 1,1253 USD",
+          "publication_date": "10. September bis 16. Oktober 2026",
+          "what_changed": "[Sicher] Am 10. September 2026 erhöhte die EZB ihre drei Leitzinsen um 25 Basispunkte; der Einlagesatz liegt seit dem 16. September bei 2,50 %. Die Inflation im Euroraum erreichte im September energiegetrieben 3,8 %, die Kerninflation lag bei 2,5 %. EZB-Referenzkurs am 16. Oktober 2026: 1 EUR = 1,1253 USD, nach 1,1208 am 15. Oktober; der Euro wertete also um etwa 0,4 % gegenüber dem Dollar auf. [Wahrscheinlich] Marktkommentare nennen die französische Staatsverschuldung und den Nahost-Konflikt als Hauptrisiken.",
+          "investorace_implication": "[Wahrscheinlich] Eine EZB, die in einen Energieschock hinein strafft, erhöht die Diskontsätze für europäische Aktien und belastet energieintensive Industrie, während Banken von breiteren Zinsmargen profitieren. Ein stärkerer Euro senkt den Euro-Wert von Dollar-Erträgen europäischer Exporteure und verringert leicht die Kosten importierter Energie.",
+          "review_question": "Nächste Prüfpunkte: EZB-Entscheidung am 29. Oktober und die Schnellschätzung der Oktober-Inflation am 4. November. Werden Dollar-Erträge europäischer Positionen zu einem datierten EUR/USD-Kurs umgerechnet?",
+          "limitations": "Der Referenzkurs ist ein EZB-Fixing, veröffentlicht gegen 16:00 MEZ, kein Transaktionskurs. Auswirkungen des Krieges auf die europäische Gasversorgung werden hier nicht beziffert.",
+          "source_url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html"
+        },
+        {
+          "title": "Leitzins bei 12,25 %, das fiskalische Rettungsgesetz verzögert sich",
+          "publication_date": "30. September bis 16. Oktober 2026",
+          "what_changed": "[Sicher] Die Banco de la República erhöhte den Leitzins in einer geteilten Abstimmung von 12 % auf 12,25 % (4 für 25 Basispunkte, 2 für Beibehaltung, 1 für 50), gültig ab 1. Oktober 2026. Die Jahresinflation lag im September bei 6,29 % (DANE) bei einem Ziel von 3 %; am 13. Oktober sagte Notenbankchef Leonardo Villar vor dem Senat, das Ziel werde auch 2026 verfehlt. [Wahrscheinlich] Die Regierung von Präsident Abelardo De la Espriella will ein Rettungsgesetz in den Kongress einbringen, später als die am 30. September angekündigten 10 bis 12 Tage; eine IWF-Mission wird im November erwartet. Devisen: TRM für den 16. Oktober 1 USD = 3170,46 COP, nach 3197,65 am 15. Oktober; der Peso wertete also um etwa 0,85 % auf. Abgeleitet aus EZB-Kurs und TRM: 1 EUR = 3567,7 COP (15. Oktober: 3583,9), eine Peso-Aufwertung um etwa 0,45 %.",
+          "investorace_implication": "[Wahrscheinlich] Ein realer Leitzins von etwa 6 Prozentpunkten hält Kredite teuer und bremst die Binnennachfrage, während der stärkere Peso die importierte Inflation dämpft. Die fiskalische Glaubwürdigkeit ist die wichtigste Risikoprämie: Inhalt des Rettungsgesetzes und IWF-Unterstützung bestimmen Staatsanleihe-Spreads und den COP.",
+          "review_question": "Nächste Prüfpunkte: die Entscheidung der Banco de la República am 30. Oktober und ob das Rettungsgesetz mit bezifferten Maßnahmen in den Kongress gelangt.",
+          "limitations": "Details des Rettungsgesetzes (Einnahmen gegenüber Ausgaben, dauerhaft oder befristet) sind noch nicht öffentlich. Der EUR/COP-Kurs ist abgeleitet und kombiniert das EZB-Fixing (16:00 MEZ) mit der für den 16. Oktober gültigen TRM; Kassakurse lagen zwischen 3551 und 3570.",
+          "source_url": "https://diariolalibertad.com/2026/09/30/banco-de-la-republica-sube-la-tasa-de-interes-a-1225-por-repunte-de-la-inflacion/"
+        }
+      ]
+    },
+    "es": {
+      "summary": "[Sicher] La inflación impulsada por la energía ha llevado a la Fed, al BCE y al Banco de la República a endurecer su política al mismo tiempo, mientras la creación de empleo en EE. UU. se estanca. [Wahrscheinlich] La señal de régimen dominante tiene rasgos de estanflación: inflación general de 3,7 % en EE. UU., 3,8 % en la eurozona y 6,29 % en Colombia, con un empleo débil. Esta primera edición usa las últimas 24 horas más datos de referencia claramente fechados. Próximos puntos: FOMC 27–28 de octubre, BCE 29 de octubre, Banco de la República 30 de octubre.",
+      "priority_review": "1) ¿Clasifica el modelo de régimen un choque de inflación energética con empleo débil como estanflación y no como reflación? 2) ¿Está actualizada la tasa libre de riesgo a 10 años tras la subida de la Fed? 3) ¿Se basan las conversiones de EUR y COP en observaciones fechadas?",
+      "items": [
+        {
+          "title": "El choque energético mantiene la inflación sobre la meta mientras el empleo se estanca",
+          "publication_date": "2–16 de octubre de 2026",
+          "what_changed": "[Sicher] El IPC de EE. UU. subió 0,6 % en septiembre y 3,7 % interanual (BLS, publicado el 14 de octubre de 2026); el IPC subyacente subió 2,6 %. La inflación de la eurozona fue de 3,8 % en septiembre, frente a 3,2 % en agosto, con energía en 18,8 % y la subyacente en 2,5 % (Eurostat, 16 de octubre de 2026). Las nóminas de EE. UU. aumentaron solo 29000 en septiembre y el desempleo fue de 4,2 % (BLS, 2 de octubre de 2026). [Wahrscheinlich] El Brent cerró cerca de 109,86 USD por barril el 16 de octubre; otros informes lo sitúan en 105 a 106 USD, así que el nivel es aproximado.",
+          "investorace_implication": "[Wahrscheinlich] Inflación general impulsada por la energía, tasas al alza y empleo en desaceleración encajan con un sesgo de estanflación, no de reflación. La transmisión opera mediante tasas de descuento más altas, ingresos reales comprimidos y presión sobre los márgenes de empresas intensivas en energía. [Vermutung] Una inflación subyacente de 2,5 % a 2,6 % sugiere que los efectos de segunda ronda aún son limitados; si el petróleo baja, el régimen podría volver rápido hacia la desinflación.",
+          "review_question": "¿Pondera el clasificador de régimen más la señal general energética o la subyacente? Próximos datos: IPC de octubre de EE. UU. el 10 de noviembre de 2026 e informe de empleo de octubre el 6 de noviembre de 2026.",
+          "limitations": "Los niveles del petróleo difieren entre fuentes. Los datos mensuales se refieren a septiembre. Un titular no establece por sí solo un cambio de régimen; esta evaluación es un comentario, no un resultado del modelo.",
+          "source_url": "https://www.bls.gov/cpi/"
+        },
+        {
+          "title": "La Fed anticipa más subidas y los aranceles dividen la campaña de medio mandato",
+          "publication_date": "16 de septiembre a 16 de octubre de 2026",
+          "what_changed": "[Sicher] El 16 de septiembre de 2026 el FOMC subió el rango objetivo de los fondos federales en 25 puntos básicos a 3,75 % a 4 %, su primera subida desde 2023, por unanimidad. El gobernador Waller dijo el 8 de octubre que 16 de 18 participantes esperan al menos una subida más este año. El crecimiento salarial se moderó a 3,0 % interanual en septiembre. [Wahrscheinlich] Moody’s estima que la guerra con Irán cuesta a cada hogar estadounidense unos 2000 USD; AAA situó la gasolina regular en 4,33 USD por galón el 16 de octubre. Antes de las elecciones de medio mandato del 3 de noviembre, los demócratas hacen campaña contra los aranceles por el costo de vida, mientras varios republicanos en contiendas reñidas se distancian del presidente Trump en comercio.",
+          "investorace_implication": "[Wahrscheinlich] Los salarios reales ya caen (3,0 % de alza salarial frente a 3,7 % de inflación), lo que pesa sobre el consumo discrecional, mientras tasas más altas comprimen las valoraciones de acciones de crecimiento de larga duración. Con los mismos criterios: los aranceles elevan los precios de importación y protegen a algunos productores locales, pero suman a la inflación que combate la Fed; eliminarlos bajaría los precios de bienes pero reduciría el recaudo aduanero. [Vermutung] Las propuestas para exigir aprobación del Congreso a los aranceles no son ley vigente; conviene verificar su estado antes de tratarlas como política.",
+          "review_question": "¿Volverá a subir el FOMC el 27–28 de octubre o hará una pausa? ¿Se ha actualizado en InvestorAce la tasa libre de riesgo (rendimiento del Tesoro a 10 años) desde la subida de septiembre?",
+          "limitations": "Las evaluaciones políticas se basan en reportes de prensa y las encuestas varían según la fuente. La cifra de Moody’s es una estimación de modelo, no una estadística oficial. No se verificaron para esta edición los fallos judiciales sobre aranceles anteriores.",
+          "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm"
+        },
+        {
+          "title": "Tasas del BCE en 2,50 % y el euro se fortalece a 1,1253 USD",
+          "publication_date": "10 de septiembre a 16 de octubre de 2026",
+          "what_changed": "[Sicher] El 10 de septiembre de 2026 el BCE subió sus tres tasas clave en 25 puntos básicos; la facilidad de depósito está en 2,50 % desde el 16 de septiembre. La inflación de la eurozona llegó a 3,8 % en septiembre, impulsada por la energía, y la subyacente fue de 2,5 %. Tipo de referencia del BCE el 16 de octubre de 2026: 1 EUR = 1,1253 USD, frente a 1,1208 el 15 de octubre, es decir, el euro se apreció cerca de 0,4 % frente al dólar. [Wahrscheinlich] Comentarios de mercado señalan la deuda pública francesa y el conflicto en Oriente Medio como los principales riesgos.",
+          "investorace_implication": "[Wahrscheinlich] Un BCE que endurece en medio de un choque energético eleva las tasas de descuento de las acciones europeas y pesa sobre la industria intensiva en energía, mientras los bancos se benefician de márgenes de interés más amplios. Un euro más fuerte reduce el valor en euros de las ganancias en dólares de los exportadores europeos y abarata levemente la energía importada.",
+          "review_question": "Próximos puntos: decisión del BCE el 29 de octubre y estimación preliminar de inflación de octubre el 4 de noviembre. ¿Se convierten las ganancias en dólares de posiciones europeas a un tipo EUR/USD fechado?",
+          "limitations": "El tipo de referencia es una fijación del BCE publicada hacia las 16:00 CET, no un tipo de transacción. No se cuantifican aquí los efectos de la guerra sobre el suministro europeo de gas.",
+          "source_url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html"
+        },
+        {
+          "title": "Tasa de política en 12,25 % mientras se retrasa la ley de rescate fiscal",
+          "publication_date": "30 de septiembre a 16 de octubre de 2026",
+          "what_changed": "[Sicher] El Banco de la República subió su tasa de política de 12 % a 12,25 % en una votación dividida (4 por 25 puntos básicos, 2 por mantener, 1 por 50), vigente desde el 1 de octubre de 2026. La inflación anual fue de 6,29 % en septiembre (DANE), frente a una meta de 3 %; el 13 de octubre el gerente Leonardo Villar dijo ante el Senado que la meta se incumplirá de nuevo en 2026. [Wahrscheinlich] El gobierno del presidente Abelardo De la Espriella prevé llevar una ley de rescate al Congreso, más tarde que los 10 a 12 días anunciados el 30 de septiembre; se espera una misión del FMI en noviembre. Divisas: TRM del 16 de octubre 1 USD = 3170,46 COP, frente a 3197,65 el 15 de octubre, es decir, el peso se apreció cerca de 0,85 %. Derivado del tipo del BCE y la TRM: 1 EUR = 3567,7 COP (15 de octubre: 3583,9), una apreciación del peso de cerca de 0,45 %.",
+          "investorace_implication": "[Wahrscheinlich] Una tasa de política real de unos 6 puntos porcentuales mantiene caro el crédito y frena la demanda interna, mientras el peso más fuerte ayuda a contener la inflación importada. La credibilidad fiscal es la principal prima de riesgo: el contenido de la ley de rescate y el apoyo del FMI determinarán los diferenciales soberanos y el COP.",
+          "review_question": "Próximos puntos: la decisión del Banco de la República el 30 de octubre y si la ley de rescate llega al Congreso con medidas cuantificadas.",
+          "limitations": "Los detalles de la ley de rescate (ingresos frente a gasto, permanente o temporal) aún no son públicos. El tipo EUR/COP es derivado y combina la fijación del BCE (16:00 CET) con la TRM vigente para el 16 de octubre; las cotizaciones spot oscilaron entre 3551 y 3570.",
+          "source_url": "https://diariolalibertad.com/2026/09/30/banco-de-la-republica-sube-la-tasa-de-interes-a-1225-por-repunte-de-la-inflacion/"
+        }
+      ]
+    }
+  }
+}

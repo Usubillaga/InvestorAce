@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-18",
+  "period_start": "2026-10-17",
+  "period_end": "2026-10-18",
+  "data_cutoff": "2026-10-18T08:53:24+02:00",
+  "summary": "[Sicher] A political review is not a legal expiry date. [Wahrscheinlich] The sanctions announcement keeps the energy-policy path uncertain; it guarantees neither cheaper fuel nor a new macro regime. [Sicher] This edition covers developments after 2026-10-17T13:28:00+02:00, with older evidence explicitly dated.",
+  "priority_review": "[Wahrscheinlich] Are physical fuel deliveries and company input costs improving? Do weaker orders outweigh inflation relief in margins and refinancing capacity? Has Colombia's budget vote secured credible financing? Keep these checks separate from fundamental scores, unweighted regime fit and portfolio sizing; no automatic changes or trades.",
+  "items": [
+    {
+      "section": "regime",
+      "title": "Energy-policy uncertainty does not establish a regime switch",
+      "authors": "BLS; White House; InvestorAce analysis",
+      "publication_date": "Baseline releases: 2026-10-14 and 2026-10-02; order: 2026-10-16",
+      "source_url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] The US evidence remains September CPI inflation of 3.7% year on year, core inflation of 2.6%, and weak payroll growth. These are dated baselines, not Sunday releases. The sanctions waiver itself was already covered yesterday.",
+      "investorace_implication": "[Wahrscheinlich] Avoiding an additional energy-supply shock could restrain input prices and support purchasing power. Persistent inflation can instead keep financing expensive, compress margins and lower valuations. Weak hiring is an early growth warning; it does not confirm recession. This combination keeps stagflation risk relevant.",
+      "review_question": "[Vermutung] Better supply with resilient demand would favour disinflation/Goldilocks. Stronger demand with renewed price pressure would resemble reflation. Falling orders alongside sticky costs would strengthen stagflation or recession risk; lower inflation alone would not guarantee better earnings.",
+      "limitations": "[Sicher] Neither a political statement nor this dated evidence confirms a regime transition. No regime probabilities, score changes or portfolio actions are inferred.",
+      "sources": [
+        {
+          "title": "BLS: Consumer Price Index — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+          "publication_date": "2026-10-14"
+        },
+        {
+          "title": "BLS: Employment Situation — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/empsit_10022026.htm",
+          "publication_date": "2026-10-02"
+        },
+        {
+          "title": "White House: Implementing the Lindsey O. Graham Sanctioning Russia and Iran Act of 2026",
+          "url": "https://www.whitehouse.gov/presidential-actions/2026/10/implementing-the-lindsey-o-graham-sanctioning-russia-and-iran-act-of-2026/",
+          "publication_date": "2026-10-16"
+        }
+      ]
+    },
+    {
+      "section": "usa",
+      "title": "An announced review is not a fixed sanctions deadline",
+      "authors": "Reuters; White House; U.S. Senate; BLS; Federal Reserve; InvestorAce analysis",
+      "publication_date": "Statement: 2026-10-17; Reuters publication: 2026-10-18; baseline releases: 2026-10-02, 2026-10-16 and 2026-09-16",
+      "source_url": "https://www.reuters.com/world/us/rubio-says-trump-take-up-60-days-weigh-russia-sanctions-2026-10-18/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] On 2026-10-17 Rubio described up to 60 days to assess waived Russia sanctions and tariffs, Reuters reports. The 2026-10-16 order keeps waivers effective until further presidential or Secretary of State action, without automatic expiry. Specified earlier Russia sanctions remain intact.",
+      "investorace_implication": "[Sicher] Democratic and Republican senators' 2026-10-13 letter requests reversal of the Russian-diesel deal and sanctions enforcement. [Wahrscheinlich] Compare that proposal with Trump's enacted waiver on the same criteria: fuel affordability, supply security and sanctions leverage. Divisions cross conservative/liberal labels. Neither position establishes its claimed economic benefit without delivery and cost evidence.",
+      "review_question": "[Sicher] Dated context: September unemployment was 4.2%, payroll growth 29 000, manufacturing output growth 0.3% month on month. The Fed's 2026-09-16 decision raised its target to 3.75%–4.00%. [Wahrscheinlich] Cost relief must reach consumers and company margins before supporting higher valuations.",
+      "limitations": "[Sicher] Manufacturing is not aggregate GDP. No new fiscal, debt or regulatory outcome is established here; the announcement is neither a Fed decision nor scheduled sanctions reinstatement.",
+      "sources": [
+        {
+          "title": "Reuters: Rubio says Trump to take up to 60 days to weigh Russia sanctions",
+          "url": "https://www.reuters.com/world/us/rubio-says-trump-take-up-60-days-weigh-russia-sanctions-2026-10-18/",
+          "publication_date": "2026-10-18"
+        },
+        {
+          "title": "White House: Implementing the Lindsey O. Graham Sanctioning Russia and Iran Act of 2026",
+          "url": "https://www.whitehouse.gov/presidential-actions/2026/10/implementing-the-lindsey-o-graham-sanctioning-russia-and-iran-act-of-2026/",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "U.S. Senate: Bipartisan senators request reversal of Russian diesel deal and sanctions enforcement",
+          "url": "https://www.blumenthal.senate.gov/newsroom/press/release/bipartisan-senators-call-on-trump-to-rescind-russian-diesel-deal-and-implement-sanctions-authorized-by-congress-last-month-on-enablers-of-putins-war-against-ukraine",
+          "publication_date": "2026-10-13"
+        },
+        {
+          "title": "BLS: Employment Situation — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/empsit_10022026.htm",
+          "publication_date": "2026-10-02"
+        },
+        {
+          "title": "Federal Reserve: Industrial Production — September 2026",
+          "url": "https://www.federalreserve.gov/releases/g17/20261016/default.htm",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Federal Reserve: FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        }
+      ]
+    },
+    {
+      "section": "eu",
+      "title": "French unrest adds operating risk to costly credit",
+      "authors": "Reuters; Financial Times; Eurostat; ECB; InvestorAce analysis",
+      "publication_date": "Protests: 2026-10-17; inflation and FX: 2026-10-16; rate decision: 2026-09-10",
+      "source_url": "https://www.reuters.com/world/students-trade-unions-yellow-vests-set-protest-across-france-2026-10-17/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] France's 2026-10-17 cost-of-living demonstrations included arson and looting, Reuters and the Financial Times report. Dated baselines: September inflation was 3.8% in both EU and euro area; the ECB's deposit rate is 2.50%.",
+      "investorace_implication": "[Wahrscheinlich] Damaged stores and interrupted trading can hurt retailers and insurers; loss size remains unquantified. Dearer credit can weaken investment and household purchasing power. War-related energy and trade disruptions remain risks for manufacturers; lower cost inflation cannot automatically offset fewer orders.",
+      "review_question": "[Sicher] ECB reference: 1 EUR = 1.1253 USD on 2026-10-16, versus 1.1208 on 2026-10-15; the euro appreciated 0.40% over those observations. [Wahrscheinlich] A stronger euro may ease dollar-priced inputs but reduce translated US earnings for euro-reporting companies.",
+      "limitations": "[Sicher] This establishes neither a new ECB decision, enacted aid nor an EU-wide downturn. No weekend FX observation or individual fixing time is displayed; Friday's euro appreciation is not a Sunday move.",
+      "sources": [
+        {
+          "title": "Reuters: Mass protests in France spiral into worst riots in years",
+          "url": "https://www.reuters.com/world/students-trade-unions-yellow-vests-set-protest-across-france-2026-10-17/",
+          "publication_date": "2026-10-17"
+        },
+        {
+          "title": "Financial Times: Protests across France spiral into riots and looting",
+          "url": "https://www.ft.com/content/bcb6c27a-f082-4867-ade4-ae6eb757b780",
+          "publication_date": "2026-10-17"
+        },
+        {
+          "title": "Eurostat: Annual inflation up to 3.8% in the euro area — September 2026",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-16102026-ap",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "ECB: Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+          "publication_date": "2026-09-10"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations — 15 and 16 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-16"
+        }
+      ]
+    },
+    {
+      "section": "colombia",
+      "title": "Budget approval and financing remain the next checkpoint",
+      "authors": "DANE; Banco de la República; Senado de Colombia; EFE; ECB; InvestorAce analysis",
+      "publication_date": "Employment: 2026-09-30; inflation: 2026-10-07; budget and protection review: 2026-10-16; TRM: 2026-10-17",
+      "source_url": "https://www.senado.gov.co/index.php/el-senado/noticias/7652-presupuesto-de-2027-sera-debatido-el-proximo-lunes-en-el-senado-anuncia-honorio-henriquez",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] No material new policy or security decision was verified in this review window. Dated baselines: August national unemployment was 9.4%, versus 8.6% a year earlier; September inflation was 6.29%. Banrep's policy rate is 12.25%, effective since 2026-10-01.",
+      "investorace_implication": "[Sicher] The cited Senate announcement schedules the 2027 budget debate for 2026-10-19; committee approval is not final passage. [Wahrscheinlich] Financing costs and uncertain budget execution can restrain investment and growth. The previously reported protection review establishes neither lower violence nor quantified savings.",
+      "review_question": "[Sicher] Last displayed Banrep TRM: 1 USD = 3174.67 COP, dated 2026-10-17, the same reference used yesterday. Derived 1 EUR = 3572.46 COP combines that TRM with the ECB's 1.1253 USD/EUR dated 2026-10-16: 3174.67 × 1.1253, rounded. No Sunday currency change is calculated.",
+      "limitations": "[Sicher] Both Banrep language pages now agree; no intraday timestamp is provided. The cross-rate combines disclosed reference dates, not simultaneous tradable quotes. [Wahrscheinlich] Actual budget approval, financing terms and protection-program implementation remain necessary evidence.",
+      "sources": [
+        {
+          "title": "Senado de Colombia: Presupuesto de 2027 será debatido el próximo lunes",
+          "url": "https://www.senado.gov.co/index.php/el-senado/noticias/7652-presupuesto-de-2027-sera-debatido-el-proximo-lunes-en-el-senado-anuncia-honorio-henriquez",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "DANE: Employment and unemployment — August 2026",
+          "url": "https://www.dane.gov.co/estadisticas-por-tema/mercado-laboral/empleo-y-desempleo",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "DANE: IPC — September 2026",
+          "url": "https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/indice-de-precios-al-consumidor-ipc/ipc-informacion-tecnica",
+          "publication_date": "2026-10-07"
+        },
+        {
+          "title": "Banrep Spanish homepage: policy rate and TRM observation dated 17 October 2026",
+          "url": "https://www.banrep.gov.co/es",
+          "publication_date": "2026-10-17"
+        },
+        {
+          "title": "Banrep English homepage: TRM observation dated 17 October 2026",
+          "url": "https://www.banrep.gov.co/en",
+          "publication_date": "2026-10-17"
+        },
+        {
+          "title": "EFE: De la Espriella ordena reducir los esquemas de protección personal",
+          "url": "https://efe.com/mundo/2026-10-16/colombia-de-la-espriella-reducir-esquemas-proteccion/",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "ECB: USD per EUR reference observation — 16 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-16"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] Una revisión política no equivale a una fecha legal de vencimiento. [Wahrscheinlich] El anuncio sobre sanciones mantiene incierta la política energética; no garantiza combustibles más baratos ni un nuevo régimen macroeconómico. [Sicher] Esta edición cubre novedades posteriores a 2026-10-17T13:28:00+02:00, con las pruebas anteriores expresamente fechadas.",
+      "priority_review": "[Wahrscheinlich] ¿Mejoran las entregas físicas de combustible y los costes de insumos empresariales? ¿Pesan más los pedidos débiles que el alivio inflacionario sobre márgenes y capacidad de refinanciación? ¿Ha asegurado financiación creíble la votación presupuestaria colombiana? Separar estas comprobaciones de puntuaciones fundamentales, adecuación no ponderada al régimen y dimensionamiento de cartera; sin cambios ni operaciones automáticos.",
+      "items": [
+        {
+          "source_url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+          "title": "La incertidumbre de política energética no demuestra un cambio de régimen",
+          "publication_date": "Publicaciones de referencia: 2026-10-14 y 2026-10-02; orden: 2026-10-16",
+          "what_changed": "[Sicher] Los datos estadounidenses siguen siendo inflación interanual del IPC de septiembre de 3.7%, subyacente de 2.6% y escaso crecimiento del empleo asalariado. Son referencias fechadas, no publicaciones dominicales. La exención de sanciones ya se trató ayer.",
+          "investorace_implication": "[Wahrscheinlich] Evitar otro choque de suministro energético podría contener precios de insumos y sostener el poder adquisitivo. Una inflación persistente puede, en cambio, mantener cara la financiación, comprimir márgenes y reducir valoraciones. La contratación débil alerta tempranamente sobre el crecimiento; no confirma recesión. Esta combinación mantiene relevante el riesgo de estanflación.",
+          "review_question": "[Vermutung] Mejor suministro con demanda resistente favorecería desinflación/Goldilocks. Una demanda más fuerte con renovadas presiones de precios se asemejaría a reflación. Pedidos decrecientes con costes persistentes reforzarían el riesgo de estanflación o recesión; una menor inflación no garantizaría por sí sola mejores beneficios.",
+          "limitations": "[Sicher] Ni una declaración política ni estos datos fechados confirman una transición de régimen. No se deducen probabilidades de regímenes, cambios de puntuación ni acciones de cartera."
+        },
+        {
+          "source_url": "https://www.reuters.com/world/us/rubio-says-trump-take-up-60-days-weigh-russia-sanctions-2026-10-18/",
+          "title": "La revisión anunciada no fija un plazo para las sanciones",
+          "publication_date": "Declaración: 2026-10-17; publicación de Reuters: 2026-10-18; referencias: 2026-10-02, 2026-10-16 y 2026-09-16",
+          "what_changed": "[Sicher] El 2026-10-17 Rubio habló de hasta 60 días para evaluar las sanciones y aranceles contra Rusia eximidos de aplicación, informa Reuters. La orden del 2026-10-16 mantiene las exenciones hasta nuevas actuaciones presidenciales o del secretario de Estado, sin vencimiento automático. Determinadas sanciones anteriores contra Rusia siguen intactas.",
+          "investorace_implication": "[Sicher] La carta del 2026-10-13 de senadores demócratas y republicanos solicita revocar el acuerdo sobre diésel ruso y aplicar sanciones. [Wahrscheinlich] Comparar esa propuesta con la exención promulgada por Trump usando iguales criterios: combustibles asequibles, seguridad de suministro y capacidad de presión de las sanciones. Las divisiones atraviesan etiquetas conservadoras/liberales. Ninguna postura demuestra los beneficios económicos que atribuye sin pruebas de entregas y costes.",
+          "review_question": "[Sicher] Contexto fechado: desempleo de septiembre, 4.2%; crecimiento del empleo asalariado, 29 000; crecimiento de la producción manufacturera, 0.3% mensual. La decisión de la Fed del 2026-09-16 elevó su objetivo a 3.75%–4.00%. [Wahrscheinlich] El alivio de costes debe alcanzar a consumidores y márgenes empresariales antes de respaldar valoraciones mayores.",
+          "limitations": "[Sicher] La manufactura no equivale al PIB agregado. Aquí no se demuestra ningún nuevo resultado fiscal, de deuda o regulatorio; el anuncio no constituye una decisión de la Fed ni un restablecimiento programado de sanciones."
+        },
+        {
+          "source_url": "https://www.reuters.com/world/students-trade-unions-yellow-vests-set-protest-across-france-2026-10-17/",
+          "title": "Los disturbios en Francia suman riesgo operativo al crédito caro",
+          "publication_date": "Protestas: 2026-10-17; inflación y divisas: 2026-10-16; decisión de tipos: 2026-09-10",
+          "what_changed": "[Sicher] Las manifestaciones por el coste de vida en Francia del 2026-10-17 incluyeron incendios provocados y saqueos, informan Reuters y el Financial Times. Referencias fechadas: inflación de septiembre de 3.8% tanto en UE como en eurozona; tipo de depósito del BCE de 2.50%.",
+          "investorace_implication": "[Wahrscheinlich] Tiendas dañadas e interrupciones comerciales pueden perjudicar a minoristas y aseguradoras; la magnitud de pérdidas sigue sin cuantificarse. El crédito más caro puede debilitar inversión y poder adquisitivo de hogares. Las perturbaciones energéticas y comerciales derivadas de la guerra siguen amenazando a fabricantes; menor inflación de costes no compensa automáticamente menos pedidos.",
+          "review_question": "[Sicher] Referencia del BCE: 1 EUR = 1.1253 USD el 2026-10-16, frente a 1.1208 el 2026-10-15; el euro se apreció 0.40% entre esas observaciones. [Wahrscheinlich] Un euro más fuerte puede abaratar insumos cotizados en dólares, pero reducir beneficios estadounidenses convertidos a euros para empresas que presentan cuentas en euros.",
+          "limitations": "[Sicher] Esto no demuestra una nueva decisión del BCE, ayudas aprobadas ni un deterioro económico generalizado en la UE. No se muestran observaciones cambiarias de fin de semana ni hora individual de fijación; la apreciación del euro del viernes no es un movimiento dominical."
+        },
+        {
+          "source_url": "https://www.senado.gov.co/index.php/el-senado/noticias/7652-presupuesto-de-2027-sera-debatido-el-proximo-lunes-en-el-senado-anuncia-honorio-henriquez",
+          "title": "Aprobación y financiación presupuestarias: próxima comprobación",
+          "publication_date": "Empleo: 2026-09-30; inflación: 2026-10-07; presupuesto y revisión de protección: 2026-10-16; TRM: 2026-10-17",
+          "what_changed": "[Sicher] No se verificó ninguna nueva decisión sustancial de política o seguridad en este periodo. Referencias fechadas: desempleo nacional de agosto, 9.4%, frente a 8.6% un año antes; inflación de septiembre, 6.29%. El tipo de política monetaria de Banrep es 12.25%, efectivo desde 2026-10-01.",
+          "investorace_implication": "[Sicher] El anuncio citado del Senado programa el debate presupuestario de 2027 para 2026-10-19; la aprobación en comisión no es aprobación definitiva. [Wahrscheinlich] Costes financieros y ejecución presupuestaria incierta pueden frenar inversión y crecimiento. La revisión de protección anteriormente comunicada no demuestra menor violencia ni ahorros cuantificados.",
+          "review_question": "[Sicher] Última TRM mostrada por Banrep: 1 USD = 3174.67 COP, fechada 2026-10-17, la misma referencia utilizada ayer. El cálculo derivado 1 EUR = 3572.46 COP combina esa TRM con los 1.1253 USD/EUR del BCE, fechados 2026-10-16: 3174.67 × 1.1253, redondeado. No se calcula ningún cambio cambiario dominical.",
+          "limitations": "[Sicher] Ambas páginas lingüísticas de Banrep coinciden ahora; no proporcionan hora intradía. El tipo cruzado combina fechas de referencia declaradas, no cotizaciones negociables simultáneas. [Wahrscheinlich] Aprobación presupuestaria efectiva, condiciones de financiación y ejecución del programa de protección siguen siendo pruebas necesarias."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Aus einer politischen Überprüfung ergibt sich kein rechtliches Ablaufdatum. [Wahrscheinlich] Die Ankündigung zu den Sanktionen lässt den energiepolitischen Kurs ungewiss; sie garantiert weder günstigeren Kraftstoff noch ein neues Makroregime. [Sicher] Diese Ausgabe erfasst Entwicklungen nach 2026-10-17T13:28:00+02:00; ältere Belege sind ausdrücklich datiert.",
+      "priority_review": "[Wahrscheinlich] Verbessern sich die tatsächlichen Kraftstofflieferungen und die Vorleistungskosten der Unternehmen? Wiegen schwächere Auftragseingänge bei Margen und Refinanzierungsfähigkeit schwerer als die Inflationsentlastung? Hat Kolumbiens Haushaltsabstimmung eine glaubwürdige Finanzierung gesichert? Diese Prüfungen von Fundamentalscores, ungewichteter Passung zum Marktregime und Positionsgrößen im Portfolio getrennt halten; keine automatischen Änderungen oder Transaktionen.",
+      "items": [
+        {
+          "source_url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+          "title": "Energiepolitische Unsicherheit belegt keinen Regimewechsel",
+          "publication_date": "Veröffentlichung der Ausgangsdaten: 2026-10-14 und 2026-10-02; Anordnung: 2026-10-16",
+          "what_changed": "[Sicher] Die US-Datenbasis bleibt die jährliche Verbraucherpreisinflation im September von 3,7%, eine Kerninflation von 2,6% und ein schwacher Stellenzuwachs. Dies sind datierte Ausgangsdaten, keine Sonntagsveröffentlichungen. Die Sanktionsaussetzung selbst wurde bereits gestern behandelt.",
+          "investorace_implication": "[Wahrscheinlich] Die Vermeidung eines zusätzlichen Energieversorgungsschocks könnte Vorleistungspreise dämpfen und die Kaufkraft stützen. Anhaltende Inflation kann dagegen Finanzierungen teuer halten, Margen drücken und Bewertungen senken. Schwache Beschäftigungszuwächse sind ein frühes Warnsignal für das Wachstum; sie bestätigen keine Rezession. Diese Kombination hält das Stagflationsrisiko relevant.",
+          "review_question": "[Vermutung] Ein besseres Angebot bei widerstandsfähiger Nachfrage würde Disinflation beziehungsweise Goldilocks begünstigen. Stärkere Nachfrage bei erneutem Preisdruck entspräche eher Reflation. Sinkende Auftragseingänge bei hartnäckigem Kostendruck würden das Stagflations- oder Rezessionsrisiko erhöhen; niedrigere Inflation allein würde keine besseren Gewinne garantieren.",
+          "limitations": "[Sicher] Weder eine politische Erklärung noch diese datierten Belege bestätigen einen Regimewechsel. Daraus werden keine Regimewahrscheinlichkeiten, Scoreänderungen oder Portfolioaktionen abgeleitet."
+        },
+        {
+          "source_url": "https://www.reuters.com/world/us/rubio-says-trump-take-up-60-days-weigh-russia-sanctions-2026-10-18/",
+          "title": "Eine angekündigte Überprüfung setzt keine feste Sanktionsfrist",
+          "publication_date": "Erklärung: 2026-10-17; Reuters-Veröffentlichung: 2026-10-18; Veröffentlichung der Ausgangsdaten: 2026-10-02, 2026-10-16 und 2026-09-16",
+          "what_changed": "[Sicher] Laut Reuters nannte Rubio am 2026-10-17 bis zu 60 Tage für die Bewertung der ausgesetzten Russland-Sanktionen und Zölle. Die Anordnung vom 2026-10-16 lässt die Aussetzungen bis zu einer weiteren Entscheidung des Präsidenten oder Außenministers gelten, ohne automatisches Ablaufdatum. Bestimmte frühere Russland-Sanktionen bleiben unverändert bestehen.",
+          "investorace_implication": "[Sicher] Das Schreiben demokratischer und republikanischer Senatoren vom 2026-10-13 fordert die Rücknahme des Abkommens über russischen Diesel und die Durchsetzung der Sanktionen. [Wahrscheinlich] Diesen Vorschlag und Trumps in Kraft gesetzte Aussetzung anhand derselben Kriterien vergleichen: Bezahlbarkeit von Kraftstoff, Versorgungssicherheit und Druckmittel durch Sanktionen. Die Unterschiede verlaufen quer zu konservativen und liberalen Zuordnungen. Ohne Belege zu Lieferungen und Kosten weist keine Position ihren beanspruchten wirtschaftlichen Nutzen nach.",
+          "review_question": "[Sicher] Datierter Kontext: Im September betrug die Arbeitslosenquote 4,2%, der Stellenzuwachs 29 000 und das monatliche Produktionswachstum im verarbeitenden Gewerbe 0,3%. Die Fed erhöhte ihr Zinsziel mit der Entscheidung vom 2026-09-16 auf 3,75%–4,00%. [Wahrscheinlich] Kostenentlastungen müssen Verbraucher und Unternehmensmargen erreichen, bevor sie höhere Bewertungen stützen können.",
+          "limitations": "[Sicher] Das verarbeitende Gewerbe entspricht nicht dem gesamten BIP. Hier ist kein neues Ergebnis bei Haushaltspolitik, Verschuldung oder Regulierung belegt; die Ankündigung ist weder eine Fed-Entscheidung noch eine terminierte Wiedereinsetzung der Sanktionen."
+        },
+        {
+          "source_url": "https://www.reuters.com/world/students-trade-unions-yellow-vests-set-protest-across-france-2026-10-17/",
+          "title": "Ausschreitungen in Frankreich: Zu teuren Krediten kommen Betriebsrisiken",
+          "publication_date": "Proteste: 2026-10-17; Inflation und Wechselkurse: 2026-10-16; Zinsentscheidung: 2026-09-10",
+          "what_changed": "[Sicher] Bei den französischen Protesten gegen hohe Lebenshaltungskosten am 2026-10-17 kam es auch zu Brandstiftung und Plünderungen, berichten Reuters und die Financial Times. Datierte Ausgangsdaten: Die Septemberinflation lag in EU und Euroraum jeweils bei 3,8%; der EZB-Einlagenzins beträgt 2,50%.",
+          "investorace_implication": "[Wahrscheinlich] Beschädigte Geschäfte und unterbrochener Geschäftsbetrieb können Einzelhändler und Versicherer belasten; das Schadensausmaß bleibt unbeziffert. Teurere Kredite können Investitionen und die Kaufkraft privater Haushalte schwächen. Kriegsbedingte Störungen bei Energieversorgung und Handel bleiben Risiken für Hersteller; eine geringere Kosteninflation gleicht weniger Aufträge nicht automatisch aus.",
+          "review_question": "[Sicher] EZB-Referenzkurs: 1 EUR = 1,1253 USD am 2026-10-16, gegenüber 1,1208 am 2026-10-15; zwischen diesen Beobachtungen wertete der Euro um 0,40% auf. [Wahrscheinlich] Ein stärkerer Euro kann in Dollar bepreiste Vorleistungen verbilligen, zugleich aber die umgerechneten US-Gewinne von Unternehmen mit Euro-Berichtswährung mindern.",
+          "limitations": "[Sicher] Dies belegt weder eine neue EZB-Entscheidung noch beschlossene Hilfen oder einen EU-weiten Abschwung. Weder eine Wechselkursbeobachtung vom Wochenende noch eine konkrete Fixing-Uhrzeit wird angezeigt; die Euroaufwertung vom Freitag ist keine Sonntagsbewegung."
+        },
+        {
+          "source_url": "https://www.senado.gov.co/index.php/el-senado/noticias/7652-presupuesto-de-2027-sera-debatido-el-proximo-lunes-en-el-senado-anuncia-honorio-henriquez",
+          "title": "Haushaltsverabschiedung und Finanzierung bleiben der nächste Prüfpunkt",
+          "publication_date": "Beschäftigung: 2026-09-30; Inflation: 2026-10-07; Haushalt und Überprüfung der Schutzprogramme: 2026-10-16; TRM: 2026-10-17",
+          "what_changed": "[Sicher] Im betrachteten Zeitraum wurde keine wesentliche neue politische oder sicherheitspolitische Entscheidung verifiziert. Datierte Ausgangsdaten: Die nationale Arbeitslosenquote lag im August bei 9,4%, gegenüber 8,6% im Vorjahr; die Septemberinflation betrug 6,29%. Banreps Leitzins liegt bei 12,25%, wirksam seit 2026-10-01.",
+          "investorace_implication": "[Sicher] Die zitierte Senatsankündigung setzt die Debatte über den Haushalt 2027 für den 2026-10-19 an; die Zustimmung der Ausschüsse ist keine endgültige Verabschiedung. [Wahrscheinlich] Finanzierungskosten und ungewisse Haushaltsumsetzung können Investitionen und Wachstum bremsen. Die zuvor gemeldete Überprüfung der Schutzprogramme belegt weder weniger Gewalt noch bezifferte Einsparungen.",
+          "review_question": "[Sicher] Zuletzt angezeigter Banrep-TRM: 1 USD = 3174,67 COP, datiert auf 2026-10-17; derselbe Referenzkurs wie gestern. Der abgeleitete Kurs von 1 EUR = 3572,46 COP kombiniert diesen TRM mit dem EZB-Kurs von 1,1253 USD/EUR vom 2026-10-16: 3174,67 × 1,1253, gerundet. Eine Währungsveränderung am Sonntag wird nicht berechnet.",
+          "limitations": "[Sicher] Beide Sprachversionen der Banrep-Seite stimmen inzwischen überein; eine Uhrzeit innerhalb des Tages wird nicht angegeben. Der Kreuzkurs kombiniert offengelegte Referenzdaten, keine gleichzeitig handelbaren Kurse. [Wahrscheinlich] Die tatsächliche Haushaltsverabschiedung, Finanzierungsbedingungen und Umsetzung der Schutzprogramme bleiben notwendige Belege."
+        }
+      ]
+    }
+  }
+}
