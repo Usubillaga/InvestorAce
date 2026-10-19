@@ -1,6 +1,6 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-10-19T11:53:33.215749+00:00",
+ "generated_at": "2026-10-19T12:01:05.474408+00:00",
  "universe_count": 76,
  "rows": [
   {
@@ -5194,6 +5194,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
+   "attempted_at": "2026-10-19T12:01:05.474408+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
