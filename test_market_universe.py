@@ -103,7 +103,17 @@ class Helpers(unittest.TestCase):
                       CashAndCashEquivalentsAtCarryingValue=200, MarketableSecuritiesCurrent=30)
         self.assertEqual(mu.net_debt_from(get)[:3], (920, 1150, 230))
         values = dict(CashAndCashEquivalentsAtCarryingValue=200)
-        self.assertEqual(mu.net_debt_from(get), (-200, 0.0, 200, ['DEBT_NOT_TAGGED']))
+        self.assertEqual(mu.net_debt_from(get), (None, None, 200, ['DEBT_NOT_TAGGED']))
+
+    def test_partial_debt_is_not_a_complete_balance_sheet(self):
+        for values in (dict(LongTermDebtNoncurrent=900), dict(DebtCurrent=150)):
+            values['CashAndCashEquivalentsAtCarryingValue'] = 200
+            get = lambda tags: next((values[t] for t in tags if t in values), None)  # noqa: E731
+            net, debt, cash, flags = mu.net_debt_from(get)
+            self.assertIsNone(net)
+            self.assertIsNone(debt)
+            self.assertEqual(cash, 200)
+            self.assertIn('DEBT_PARTIAL', flags)
 
 
 class CompanyFacts(unittest.TestCase):
@@ -130,6 +140,13 @@ class CompanyFacts(unittest.TestCase):
         doc['facts']['us-gaap']['Revenues']['units']['USD'].append(
             fact('2025-01-01', '2025-06-30', 4500e6, filed='2026-08-15'))   # later restatement
         self.assertAlmostEqual(mu.company_metrics(doc, TODAY)['revenue'], 11100e6)
+
+    def test_future_and_undated_filings_do_not_replace_available_facts(self):
+        doc = calendar_company()
+        items = doc['facts']['us-gaap']['Revenues']['units']['USD']
+        items.append(fact('2025-01-01', '2025-06-30', 1, filed='2026-10-19'))
+        items.append(fact('2025-01-01', '2025-06-30', 2, filed=None))
+        self.assertAlmostEqual(mu.company_metrics(doc, TODAY)['revenue'], 11000e6)
 
     def test_non_calendar_fiscal_year_uses_its_own_windows(self):
         def flow(fy24, fy25, ytd24, ytd25, ytd26):
@@ -198,7 +215,8 @@ class CompanyFacts(unittest.TestCase):
         self.assertIn('CAPEX_NOT_TAGGED', m['flags'])
         del doc['facts']['us-gaap']['DepreciationDepletionAndAmortization']
         m = mu.company_metrics(doc, TODAY)
-        self.assertAlmostEqual(m['fcf'], 3300e6)
+        self.assertIsNone(m['capex'])
+        self.assertIsNone(m['fcf'])
         self.assertIn('CAPEX_AND_DA_MISSING', m['flags'])
 
     def test_misscaled_diluted_shares_fall_back_to_the_cover_page(self):
@@ -219,7 +237,10 @@ class CompanyFacts(unittest.TestCase):
 
 class Scoring(unittest.TestCase):
     def metrics(self):
-        return mu.company_metrics(calendar_company(), TODAY)
+        return dict(mu.company_metrics(calendar_company(), TODAY), sic=7372)
+
+    def values(self, result):
+        return {c['key']: c['value'] for c in result['components']}
 
     def test_score_matches_engine_arithmetic_for_the_same_categories(self):
         result = mu.score_metrics(self.metrics(), 100.0)
@@ -242,6 +263,122 @@ class Scoring(unittest.TestCase):
         result = mu.score_metrics(self.metrics(), None)
         self.assertIsNone(result['score'])
         self.assertIn('NO_PRICE', result['flags'])
+
+    def test_missing_inputs_keep_fixed_weight_bounds_without_default_points(self):
+        m = dict(self.metrics(), revenue_prior=None, net_debt=None, share_change_pct=None)
+        result = mu.score_metrics(m, 100.0)
+        self.assertEqual(len(result['components']), 8)
+        self.assertIsNone(result['score'])
+        self.assertEqual(result['status'], 'PARTIAL')
+        for key in ('g', 'b', 'r', 'd'):
+            self.assertIsNone(self.values(result)[key])
+            component = next(c for c in result['components'] if c['key'] == key)
+            self.assertIsNone(component['contribution'])
+        self.assertAlmostEqual(result['coverage_weight'], .6)
+        subtotal = sum(c['contribution'] for c in result['components'] if c['contribution'] is not None)
+        self.assertAlmostEqual(result['selection_score'], subtotal)
+        self.assertAlmostEqual(result['score_bounds']['lower'], subtotal)
+        self.assertAlmostEqual(result['score_bounds']['upper'], subtotal + 4)
+
+    def test_legacy_flags_invalidate_cached_numeric_values(self):
+        cases = {
+            'DEBT_NOT_TAGGED': ('b',), 'BALANCE_DEFAULT': ('b',),
+            'CAPEX_AND_DA_MISSING': ('c', 'v', 'pr'),
+            'CAPEX_NOT_TAGGED': ('c', 'v', 'pr'),
+            'SHARES_DILUTED_AVG': ('v', 'pr', 'r'),
+            'FOREIGN_FILER': ('v', 'pr', 'r'),
+            'OPERATING_INCOME_PROXY': ('p', 'b'),
+        }
+        for flag, missing in cases.items():
+            with self.subTest(flag=flag):
+                result = mu.score_metrics(dict(self.metrics(), flags=[flag]), 100)
+                self.assertIsNone(result['score'])
+                for key in missing:
+                    self.assertIsNone(self.values(result)[key])
+
+    def test_missing_depreciation_does_not_assume_zero_for_ebitda(self):
+        result = mu.score_metrics(dict(self.metrics(), depreciation=None), 100)
+        self.assertIsNone(result['metrics']['ebitda'])
+        self.assertIsNone(self.values(result)['b'])
+
+    def test_legacy_zero_dividends_are_unknown_without_a_verified_tag(self):
+        m = dict(self.metrics(), dividends=0, share_change_pct=-2)
+        m.pop('dividends_verified', None)
+        result = mu.score_metrics(m, 100)
+        self.assertIsNone(result['metrics']['dividend_yield_pct'])
+        self.assertIsNone(self.values(result)['r'])
+        self.assertIsNone(result['score'])
+        self.assertIn('DIVIDENDS_NOT_TAGGED', result['flags'])
+        verified = mu.score_metrics(dict(m, dividends_verified=True), 100)
+        self.assertEqual(verified['metrics']['dividend_yield_pct'], 0)
+        self.assertIsNotNone(self.values(verified)['r'])
+
+    def test_saturated_shareholder_return_uses_a_lower_bound_without_inventing_dividends(self):
+        m = dict(self.metrics(), dividends=None, share_change_pct=-6.74)
+        result = mu.score_metrics(m, 100)
+        returns = next(c for c in result['components'] if c['key'] == 'r')
+        self.assertEqual(returns['value'], 9.0)
+        self.assertEqual(returns['input'], 6.74)
+        self.assertEqual(returns['input_basis'], 'SATURATED_LOWER_BOUND')
+        self.assertIsNotNone(returns['reason'])
+        self.assertIsNone(result['metrics']['dividend_yield_pct'])
+        for payout in (0, 100e6, 1e9):
+            known = mu.score_metrics(dict(m, dividends=payout, dividends_verified=True), 100)
+            self.assertEqual(self.values(known)['r'], returns['value'])
+        self.assertIsNone(self.values(mu.score_metrics(dict(m, dividends=-1), 100))['r'])
+        self.assertIsNone(self.values(mu.score_metrics(dict(m, flags=['FOREIGN_FILER']), 100))['r'])
+
+    def test_unknown_sic_retains_analysis_but_blocks_valuation(self):
+        result = mu.score_metrics(dict(self.metrics(), sic=None), 100)
+        self.assertIsNone(result['score'])
+        self.assertIsNone(self.values(result)['v'])
+        self.assertIsNone(self.values(result)['pr'])
+        self.assertIsNotNone(self.values(result)['g'])
+        self.assertIn('CLASSIFICATION_MISSING', result['flags'])
+
+    def test_producers_need_midcycle_including_fertilizer(self):
+        for sic in (1040, 1221, 1311, 2911, 2870, 2873, 2879):
+            with self.subTest(sic=sic):
+                result = mu.score_metrics(dict(self.metrics(), sic=sic), 100)
+                self.assertEqual(result['valuation_status'], 'PENDING_MIDCYCLE')
+                self.assertIsNone(self.values(result)['v'])
+                self.assertIsNone(self.values(result)['pr'])
+                self.assertIsNotNone(self.values(result)['c'])
+                self.assertIsNone(result['metrics']['ngv_per_share'])
+
+    def test_verified_normalization_clears_producer_without_changing_reported_cashgen(self):
+        m = dict(self.metrics(), sic=1040, normalized_fcf=0, normalization_status='VERIFIED',
+                 normalization_sources=['https://www.sec.gov/Archives/edgar/data/1/filing.htm'])
+        result = mu.score_metrics(m, 100)
+        self.assertEqual(result['valuation_status'], 'VERIFIED_NORMALIZED_FCF')
+        self.assertIsNotNone(result['score'])
+        self.assertEqual(result['metrics']['ngv_per_share'], 0)
+        self.assertEqual(result['metrics']['cover_pct'], 0)
+        self.assertEqual(self.values(result)['c'], 9.0)
+        self.assertEqual(self.values(result)['v'], 1.5)
+        for sources in ([], ['TODO']):
+            result = mu.score_metrics(dict(m, normalization_sources=sources), 100)
+            self.assertIsNone(self.values(result)['v'])
+
+    def test_reported_fcf_is_explicitly_a_discount_rate_scenario(self):
+        result = mu.score_metrics(self.metrics(), 100)
+        self.assertEqual(result['valuation_status'], 'SCENARIO_REPORTED_FCF')
+        self.assertEqual(result['status'], 'COMPLETE')
+        self.assertAlmostEqual(result['coverage_weight'], 1)
+        self.assertAlmostEqual(result['selection_score'], result['score'])
+
+    def test_dated_denomination_and_ads_bridge_restore_only_supported_valuation(self):
+        m = dict(self.metrics(), flags=['SHARES_DILUTED_AVG', 'FOREIGN_FILER'],
+                 denominator_status='VERIFIED', denominator_date='2026-07-25',
+                 denominator_sources=['https://www.sec.gov/Archives/edgar/data/1/filing.htm'],
+                 valuation_shares=97e6, ads_status='VERIFIED', ads_ratio=2,
+                 ads_sources=['https://www.sec.gov/Archives/edgar/data/1/depositary.htm'])
+        result = mu.score_metrics(m, 100)
+        self.assertIsNotNone(self.values(result)['v'])
+        self.assertAlmostEqual(result['metrics']['market_cap'], 100 * 97e6 / 2)
+        self.assertIsNotNone(result['score'])
+        result = mu.score_metrics(dict(m, denominator_date=None), 100)
+        self.assertIsNone(self.values(result)['v'])
 
     def test_regime_fit_uses_the_unchanged_engine_formula(self):
         m = dict(self.metrics(), price=100.0, sector='Software')
@@ -327,13 +464,17 @@ class EndToEnd(unittest.TestCase):
         self.assertAlmostEqual(alpha['score'], 8.525)
         self.assertFalse(alpha['in_universe'])
         self.assertEqual(alpha['price_date'], '2026-10-16')
+        self.assertEqual(alpha['status'], 'COMPLETE')
+        self.assertIn('input_metadata', alpha)
         self.assertTrue(all(s['url'].startswith('https://') for s in alpha['sources']))
         model = next(c for c in payload['candidates'] if c['ticker'] == 'ADBE')
         self.assertTrue(model['in_universe'])
         self.assertIn('FRAMES_ONLY', model['flags'])
         self.assertEqual(model['basis'], 'FY')
-        self.assertEqual(tickers, sorted(tickers, key=lambda t: -next(
-            c['score'] for c in payload['candidates'] if c['ticker'] == t)))
+        self.assertEqual(model['status'], 'PARTIAL')
+        self.assertIsNone(model['score'])
+        self.assertIsNone(model['band'])
+        self.assertEqual(tickers[0], 'ALFA')
         self.assertEqual(mu.validate_payload(payload, now=NOW), [])
         json.dumps(payload, allow_nan=False)
 
@@ -342,9 +483,12 @@ class EndToEnd(unittest.TestCase):
         self.assertEqual(len(payload['candidates']), 1)
 
     def test_financials_do_not_take_shortlist_places(self):
-        # By pre-score the bank ranks second (ALFA > BNKX > ADBE). Two places must
+        # Put the bank first on supported growth/profit/cash contributions. Two places must
         # go to the two non-financials; the bank is skipped before companyfacts.
-        sec = FakeSec(market_routes())
+        routes = market_routes()
+        prior = routes[mu.frame_url('Revenues', 'USD', 'CY2024')]['data']
+        next(item for item in prior if item['cik'] == 2)['val'] = 1000e6
+        sec = FakeSec(routes)
         seen = []
         original = sec.get_json
         sec.get_json = lambda url: seen.append(url) or original(url)
@@ -367,6 +511,31 @@ class EndToEnd(unittest.TestCase):
         self.assertIn('ADS', alpha['flag_text']['FOREIGN_FILER'])
         model = next(c for c in payload['candidates'] if c['ticker'] == 'ADBE')
         self.assertNotIn('FOREIGN_FILER', model['flags'])
+
+    def test_missing_classification_or_capex_stays_visible_for_source_review(self):
+        for missing in ('classification', 'capex'):
+            with self.subTest(missing=missing):
+                routes = market_routes()
+                if missing == 'classification':
+                    routes[mu.submissions_url(1)] = {}
+                else:
+                    facts = routes[mu.companyfacts_url(1)]['facts']['us-gaap']
+                    del facts['PaymentsToAcquirePropertyPlantAndEquipment']
+                    del facts['DepreciationDepletionAndAmortization']
+                payload = mu.run(sec=FakeSec(routes), prices=fake_prices, universe=set(),
+                                 today=TODAY, now=NOW, log=lambda *_: None)
+                alpha = next(c for c in payload['candidates'] if c['ticker'] == 'ALFA')
+                self.assertIsNone(alpha['score'])
+                self.assertEqual(alpha['status'], 'PARTIAL')
+                self.assertEqual(mu.validate_payload(payload, now=NOW), [])
+
+    def test_future_missing_and_old_quote_dates_are_not_preselected(self):
+        for stamp in ('2026-10-19', '2026-10-13', None):
+            with self.subTest(stamp=stamp):
+                prices = lambda symbols: {s: dict(q, date=stamp) for s, q in fake_prices(symbols).items()}
+                payload = mu.run(sec=FakeSec(market_routes()), prices=prices, universe=set(),
+                                 today=TODAY, now=NOW, log=lambda *_: None)
+                self.assertEqual(payload['candidates'], [])
 
     def test_implausible_rows_leave_the_ranking_with_reasons(self):
         # Live 2026-10-18: McDonald's tagged 711.1 diluted shares and no usable
@@ -428,6 +597,18 @@ class Validation(unittest.TestCase):
                 self.assertTrue(mu.validate_payload(case, now=NOW))
         self.assertIn('scan is stale', mu.validate_payload(good, now=datetime(2026, 11, 30, tzinfo=timezone.utc),
                                                            max_age_days=14))
+
+    def test_partial_rows_cannot_be_given_a_fabricated_composite(self):
+        good = self.payload()
+        partial = next(c for c in good['candidates'] if c['status'] == 'PARTIAL')
+        self.assertEqual(mu.validate_payload(good, now=NOW), [])
+        partial.update(score=partial['selection_score'], band=mu.model_band(partial['selection_score']))
+        self.assertTrue(mu.validate_payload(good, now=NOW))
+
+    def test_legacy_frozen_packet_still_loads_for_guarded_replay(self):
+        from pathlib import Path
+        packet = json.loads((Path(__file__).parent / 'market-scan/latest.json').read_text())
+        self.assertEqual(mu.validate_payload(packet), [])
 
 
 class Client(unittest.TestCase):

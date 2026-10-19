@@ -7,9 +7,9 @@ looks at the whole US listing and proposes companies that are NOT yet there.
 Two stages keep the load polite (SEC asks for at most 10 requests/second):
 
 1. SEC XBRL frames. One request per concept and period returns that concept for
-   every filer, so ~60 requests cover ~5,000 companies. Hard filters (revenue
-   >= 1 bn USD, operating profit, positive free cash flow) and a dated Yahoo
-   daily close give a first score for each survivor.
+   every filer, so ~60 requests cover ~5,000 companies. Revenue >= 1 bn USD,
+   no known nonpositive operating profit/FCF, and a recent dated Yahoo daily
+   close give a supported-contribution subtotal. Missing inputs remain open.
 2. Down the pre-score ranking, SEC submissions give the SIC code (-> sector).
    Banks, insurers and REITs are skipped until the shortlist is full, because
    FCF and net debt do not describe them. 20-F/40-F filers are flagged (ADS).
@@ -23,8 +23,9 @@ contact address; without one the scan stops before the first request.
 The score reuses autoscore's bands and the engine's eight weights (Growth 15,
 Profitability 20, Cash Generation 15, Balance Sheet 15, Valuation 10,
 Priced-in 15, Shareholder Returns 5, Dilution 5). It is a mechanical screening
-draft: revenue growth is a proxy, the discount rate is a flat 8 %, nothing is
-normalised. It never enters engine.py, never changes an InvestorAce score and
+draft: revenue growth is a proxy and the flat 8 % discount rate is a scenario.
+Producer valuation needs explicitly sourced normalized FCF. Missing categories
+have no composite score. It never enters engine.py, never changes an InvestorAce score and
 never places a trade. A candidate becomes a model row only through add-ticker.
 
 Run:   SEC_USER_AGENT="InvestorAce Name name@domain" python market_universe.py --output market-scan
@@ -43,6 +44,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 VERSION = 'market-scan-v1'
+SCORING_VERSION = 'market-screen-evidence-gates-v2'
 SEC_DATA = 'https://data.sec.gov'
 TICKERS_URL = 'https://www.sec.gov/files/company_tickers_exchange.json'
 # SEC fair access needs a declared agent with a reachable contact address. On
@@ -100,21 +102,33 @@ SECURITIES = ('ShortTermInvestments', 'MarketableSecuritiesCurrent',
 FLAG_TEXT = {
     'CAPEX_NOT_TAGGED': 'Keine Investitionsausgaben getaggt; ersatzweise die Abschreibungen als '
                         'Erhaltungsinvestition abgezogen (prüfen).',
-    'CAPEX_AND_DA_MISSING': 'Weder Investitionen noch Abschreibungen getaggt; FCF = operativer Cashflow (prüfen).',
+    'CAPEX_AND_DA_MISSING': 'Weder Investitionen noch Abschreibungen getaggt; FCF und betroffene Kategorien ausgesetzt.',
     'SHARES_SCALE_FIXED': 'Verwässerte Aktienzahl in den XBRL-Daten um Faktor 1.000/1.000.000 falsch skaliert; '
                           'Deckblattangabe verwendet.',
     'GROWTH_OUTLIER': 'Umsatzsprung über +100 % oder unter −50 %: Übernahme, Abspaltung, aufgegebene '
                       'Geschäftsbereiche oder echter Boom? Wachstumskategorie prüfen.',
     'SHARES_JUMP': 'Aktienzahl um mehr als 25 % verändert (Übernahme, Spin-off oder Split prüfen).',
-    'DEBT_NOT_TAGGED': 'Keine Finanzschulden getaggt; als schuldenfrei gerechnet (prüfen).',
-    'NO_DEPRECIATION': 'Keine Abschreibungen getaggt; EBITDA = operatives Ergebnis.',
+    'DEBT_NOT_TAGGED': 'Keine vollständigen Finanzschulden getaggt; Bilanzkategorie ausgesetzt.',
+    'DEBT_PARTIAL': 'Nur Teile der Finanzschulden getaggt; kein vollständiger Schuldenstand und keine Bilanzwertung.',
+    'CASH_NOT_TAGGED': 'Keine Zahlungsmittel getaggt; Nettoverschuldung und Bilanzwertung ausgesetzt.',
+    'NO_DEPRECIATION': 'Keine Abschreibungen getaggt; EBITDA und Bilanzkategorie nicht berechenbar.',
     'OPERATING_INCOME_PROXY': 'Kein operatives Ergebnis getaggt; Vorsteuerergebnis als Ersatz.',
-    'GROWTH_DEFAULT': 'Kein Vorjahreswert; Growth mit dem neutralen Standard 5,0 bewertet.',
-    'BALANCE_DEFAULT': 'Nettoverschuldung/EBITDA nicht berechenbar; Bilanz mit 5,0 bewertet.',
+    'GROWTH_DEFAULT': 'Kein Vorjahreswert; Wachstumskategorie ausgesetzt.',
+    'BALANCE_DEFAULT': 'Nettoverschuldung/EBITDA nicht berechenbar; Bilanzkategorie ausgesetzt.',
     'FISCAL_YEAR_ONLY': 'Kein passendes Quartals-YTD; Kennzahlen auf Basis des letzten Geschäftsjahres.',
     'FRAMES_ONLY': 'Companyfacts nicht nutzbar; Werte aus den SEC-Jahresframes.',
     'SHARES_DILUTED_AVG': 'Aktienzahl = verwässerter Durchschnitt (keine Deckblattangabe nutzbar).',
     'NO_PRICE': 'Kein datierter Schlusskurs; Bewertung und Rang ausgesetzt.',
+    'CLASSIFICATION_MISSING': 'Keine belastbare SIC-Klassifikation; Bewertungs- und Gesamtscore ausgesetzt.',
+    'COMMODITY_MIDCYCLE_REQUIRED': 'Rohstoffproduzent: Bewertung erst mit belegtem normalisiertem Mid-Cycle-FCF.',
+    'DENOMINATOR_UNVERIFIED': 'Aktien-/ADS-Basis nicht datiert übergeleitet; Bewertung und Aktionärsrendite ausgesetzt.',
+    'DILUTION_MISSING': 'Kein vergleichbarer Vorjahres-Aktienstand; Verwässerung und Rückkaufrendite ausgesetzt.',
+    'DIVIDENDS_NOT_TAGGED': 'Keine belegte Dividendenzahlung; Aktionärsrendite unvollständig.',
+    'DIVIDENDS_INVALID': 'Negative Dividendenzahlung nicht als Ausschüttung verwendbar; Quellenprüfung erforderlich.',
+    'FCF_INCOMPLETE': 'FCF nicht vollständig belegt; betroffene Kategorien bleiben offen.',
+    'OPERATING_INCOME_MISSING': 'Kein operatives Ergebnis verfügbar; betroffene Kategorien bleiben offen.',
+    'REPORTED_FCF_SCENARIO': 'Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value.',
+    'NORMALIZED_FCF_VERIFIED': 'Normalisierter FCF mit Quellenstatus VERIFIED; Diskontsatz bleibt eine Annahme.',
     'FOREIGN_FILER': 'Auslandsemittent (Jahresbericht 20-F/40-F): Die SEC-Aktienzahl zählt Stammaktien, '
                      'gehandelt werden oft ADS in anderem Verhältnis. Marktwert und FCF-Rendite prüfen.',
 }
@@ -189,7 +203,7 @@ def _date(value):
         return None
 
 
-def _band(value, table, default=5.0):
+def _band(value, table, default=None):
     value = _num(value)
     if value is None:
         return default
@@ -226,6 +240,13 @@ def sector_from_sic(sic):
 def is_financial(sic):
     sic = _num(sic)
     return sic is not None and FINANCIAL_SIC[0] <= int(sic) <= FINANCIAL_SIC[1]
+
+
+def is_commodity_producer(sic):
+    """Raw mining, upstream/refining and fertilizer, rather than all Materials."""
+    sic = _num(sic)
+    return sic is not None and any(lo <= int(sic) <= hi for lo, hi in (
+        (1000, 1299), (1300, 1379), (1400, 1499), (2910, 2919), (2870, 2879)))
 
 
 def yahoo_symbol(ticker):
@@ -441,24 +462,33 @@ def _max_frame_value(frames, tags, unit, period, cik):
 
 
 def net_debt_from(get):
-    """Combine debt tags without double counting. `get(tags)` returns a value or None."""
+    """Require a complete debt bridge; an absent component is not zero debt."""
     flags = []
     total = get(DEBT_TOTAL)
     current_total = get(('DebtCurrent',))
+    noncurrent, long_current = get(DEBT_NONCURRENT), get(('LongTermDebtCurrent',))
+    short = [x for x in (get(('ShortTermBorrowings',)), get(('CommercialPaper',))) if x is not None]
+    any_debt = total is not None or noncurrent is not None or current_total is not None \
+        or long_current is not None or bool(short)
+    if noncurrent is not None and current_total is not None:
+        total = noncurrent + current_total  # DebtCurrent already includes short borrowings.
+    elif total is not None and current_total is not None:
+        # LongTermDebt includes its current maturities. Without that bridge,
+        # adding all DebtCurrent could count the same debt twice.
+        total = total + current_total - long_current if long_current is not None else None
+    elif total is not None:
+        total += sum(short)
+    elif noncurrent is not None and long_current is not None:
+        total = noncurrent + long_current + sum(short)
     if total is None:
-        noncurrent = get(DEBT_NONCURRENT)
-        current = get(('LongTermDebtCurrent',)) if current_total is None else current_total
-        parts = [x for x in (noncurrent, current) if x is not None]
-        total = sum(parts) if parts else None
-    if current_total is None or get(DEBT_TOTAL) is not None:
-        short = [x for x in (get(('ShortTermBorrowings',)), get(('CommercialPaper',))) if x is not None]
-        if short:
-            total = (total or 0.0) + sum(short)
-    if total is None:
-        total = 0.0
-        flags.append('DEBT_NOT_TAGGED')
-    cash = (get(CASH) or 0.0) + (get(SECURITIES) or 0.0)
-    return total - cash, total, cash, flags
+        flags.append('DEBT_PARTIAL' if any_debt else 'DEBT_NOT_TAGGED')
+    cash = get(CASH)
+    if cash is None:
+        flags.append('CASH_NOT_TAGGED')
+    else:
+        cash += get(SECURITIES) or 0.0
+    net = total - cash if total is not None and cash is not None else None
+    return net, total, cash, flags
 
 
 def stage_one(listing, frames, today):
@@ -487,10 +517,14 @@ def stage_one(listing, frames, today):
         cash_flow = _frame_value(frames, OPERATING_CASH, 'USD', period, cik)
         depreciation = _frame_value(frames, DEPRECIATION[:2], 'USD', period, cik)
         capex = _max_frame_value(frames, CAPEX, 'USD', period, cik)
+        capex_basis = 'REPORTED'
         if capex is None:
-            capex = abs(depreciation) if depreciation else 0.0
-            flags.append('CAPEX_NOT_TAGGED' if depreciation else 'CAPEX_AND_DA_MISSING')
+            capex = abs(depreciation) if depreciation is not None else None
+            capex_basis = 'DEPRECIATION_PROXY' if depreciation is not None else None
+            flags.append('CAPEX_NOT_TAGGED' if depreciation is not None else 'CAPEX_AND_DA_MISSING')
         dividends = _frame_value(frames, DIVIDENDS, 'USD', period, cik)
+        if dividends is None:
+            flags.append('DIVIDENDS_NOT_TAGGED')
         shares = _frame_value(frames, DILUTED_SHARES, 'shares', period, cik)
         shares_prior = _frame_value(frames, DILUTED_SHARES, 'shares', f'CY{latest - 1}', cik)
         balance = None
@@ -509,20 +543,24 @@ def stage_one(listing, frames, today):
                    period_start=revenue_fact.get('start'),
                    period_end=revenue_fact.get('end'), revenue=revenue, revenue_prior=revenue_prior,
                    growth_basis='FY' if revenue_prior else None,
-                   operating_income=operating, operating_cash_flow=cash_flow, capex=abs(capex),
-                   fcf=None if cash_flow is None else cash_flow - abs(capex),
-                   depreciation=depreciation, dividends=abs(dividends) if dividends else 0.0,
+                   operating_income=operating, operating_cash_flow=cash_flow,
+                   capex=abs(capex) if capex is not None else None, capex_basis=capex_basis,
+                   fcf=None if cash_flow is None or capex is None else cash_flow - abs(capex),
+                   depreciation=depreciation, dividends=dividends,
+                   dividends_verified=dividends is not None and dividends >= 0,
                    shares=shares, shares_prior=shares_prior, shares_basis='DILUTED_AVG_FY',
                    net_debt=net_debt, debt=debt, cash=cash,
                    balance_date=balance[1].isoformat() if balance else None)
         if revenue < MIN_REVENUE:
             row['rejected'] = 'REVENUE_BELOW_1BN'
-        elif operating is None or operating <= 0:
+        elif operating is not None and operating <= 0:
             row['rejected'] = 'NO_OPERATING_PROFIT'
-        elif row['fcf'] is None or row['fcf'] <= 0:
+        elif row['fcf'] is not None and row['fcf'] <= 0:
             row['rejected'] = 'NO_POSITIVE_FCF'
-        elif not shares or shares <= 0:
-            row['rejected'] = 'NO_SHARE_COUNT'
+        if operating is None:
+            flags.append('OPERATING_INCOME_MISSING')
+        if row['fcf'] is None:
+            flags.append('FCF_INCOMPLETE')
     return rows
 
 
@@ -532,9 +570,9 @@ def _clean(facts, today):
     best = {}
     for fact in facts or []:
         end, start, value = _date(fact.get('end')), _date(fact.get('start')), _num(fact.get('val'))
-        if end is None or value is None or end > today:
+        filed = _date(fact.get('filed'))
+        if end is None or value is None or end > today or filed is None or filed > today:
             continue
-        filed = _date(fact.get('filed')) or date.min
         key = (start, end)
         if key not in best or filed >= best[key]['filed']:
             best[key] = dict(start=start, end=end, val=value, filed=filed,
@@ -698,6 +736,8 @@ def company_metrics(companyfacts, today):
     revenue, basis = flows['revenue'], flows['basis']
     operating, cash_flow, capex = flows['operating'], flows['cash_flow'], flows['capex']
     depreciation, dividends = flows['depreciation'], flows['dividends']
+    if dividends is None:
+        flags.append('DIVIDENDS_NOT_TAGGED')
     revenue_prior = prior_ttm(revenue_facts, w, basis)
     growth_basis = basis if revenue_prior else None
     if revenue_prior is None and basis == 'TTM':
@@ -758,71 +798,220 @@ def company_metrics(companyfacts, today):
                 period_end=revenue['end'].isoformat(), revenue_tag=revenue_tag,
                 revenue=revenue['value'], revenue_prior=revenue_prior, growth_basis=growth_basis,
                 operating_income=operating['value'], operating_cash_flow=cash_flow['value'],
-                capex=abs(capex['value']) if capex else 0.0,
-                fcf=cash_flow['value'] - (abs(capex['value']) if capex else 0.0),
+                capex=abs(capex['value']) if capex else None,
+                capex_basis='DEPRECIATION_PROXY' if 'CAPEX_NOT_TAGGED' in flags else 'REPORTED' if capex else None,
+                fcf=cash_flow['value'] - abs(capex['value']) if capex else None,
                 depreciation=depreciation['value'] if depreciation else None,
-                dividends=abs(dividends['value']) if dividends else 0.0,
+                dividends=dividends['value'] if dividends else None,
+                dividends_verified=dividends is not None and dividends['value'] >= 0,
                 shares=shares, shares_basis=shares_basis, share_change_pct=change,
+                shares_date=(cover_latest['end'].isoformat() if shares_basis == 'COVER_PAGE'
+                             else latest_diluted['end'].isoformat()),
                 net_debt=net_debt, debt=debt, cash=cash,
                 balance_date=balance_date.isoformat() if balance_date else None,
                 accns=accns, flags=flags, source='companyfacts')
 
 
 # ---------------------------------------------------------------- scoring
+INPUT_METADATA_KEYS = (
+    'sic', 'flags', 'basis', 'period_start', 'period_end', 'growth_basis', 'balance_date',
+    'shares_basis', 'shares_date', 'capex_basis', 'dividends_verified', 'source', 'normalization_status',
+    'normalization_sources', 'normalization_date', 'normalized_fcf', 'denominator_status',
+    'denominator_date', 'denominator_sources', 'valuation_shares', 'ads_status', 'ads_ratio',
+    'ads_sources', 'as_of',
+)
+
+
+def _sourced(sources):
+    """Require usable evidence locators, not a placeholder or a status alone.
+
+    VERIFIED is a reviewer assertion, not something a URL can authenticate.
+    The input ledger retains those assertions and locators for source review.
+    """
+    if not isinstance(sources, (list, tuple)) or not sources:
+        return False
+    return all(isinstance(url := s.get('url') if isinstance(s, dict) else s, str)
+               and url.startswith('https://') and len(url.split('/')) > 3
+               and not any(p in url.lower() for p in ('example.', 'placeholder', 'todo'))
+               for s in sources)
+
+
 def score_metrics(m, price, bands=None, discount=DISCOUNT):
-    """Eight categories with autoscore's bands and engine weights; None without price."""
+    """The existing eight curves, with unsupported categories left unavailable.
+
+    Partial selection uses known fixed-weight contributions; it never rescales
+    them into a composite. Reported FCF/rate valuation is a scenario. A producer
+    needs a separately sourced VERIFIED normalized_fcf (zero is valid), while
+    Cash Generation continues to describe supported reported FCF.
+    """
     bands = bands or _bands()
-    flags = []
-    revenue, fcf, shares = m.get('revenue'), m.get('fcf'), m.get('shares')
-    growth = None
-    if m.get('revenue_prior') and m['revenue_prior'] > 0:
-        growth = 100 * (revenue / m['revenue_prior'] - 1)
-    else:
+    flags = list(dict.fromkeys(m.get('flags') or []))
+    revenue, fcf, shares = (_num(m.get(k)) for k in ('revenue', 'fcf', 'shares'))
+    operating, depreciation = (_num(m.get(k)) for k in ('operating_income', 'depreciation'))
+    price, discount = _num(price), _num(discount)
+    price = price if price is not None and price > 0 else None
+    shares = shares if shares is not None and shares > 0 else None
+
+    def ratio(numerator, denominator, scale=1):
+        return _num(scale * numerator / denominator) if numerator is not None and denominator else None
+
+    prior = _num(m.get('revenue_prior'))
+    growth = 100 * (revenue / prior - 1) if revenue is not None and prior is not None and prior > 0 else None
+    if growth is None or 'GROWTH_DEFAULT' in flags:
+        growth = None
         flags.append('GROWTH_DEFAULT')
-    op_margin = 100 * m['operating_income'] / revenue
-    fcf_margin = 100 * fcf / revenue
-    ebitda = m['operating_income'] + (m.get('depreciation') or 0.0)
-    if not m.get('depreciation'):
+    op_margin = ratio(operating, revenue, 100) if revenue is not None and revenue > 0 else None
+    fcf_margin = ratio(fcf, revenue, 100) if revenue is not None and revenue > 0 else None
+    ebitda = operating + depreciation if operating is not None and depreciation is not None else None
+    if depreciation is None or 'NO_DEPRECIATION' in flags:
+        ebitda = None
         flags.append('NO_DEPRECIATION')
-    nd_ebitda = m['net_debt'] / ebitda if m.get('net_debt') is not None and ebitda > 0 else None
+    if 'OPERATING_INCOME_PROXY' in flags:
+        ebitda = None
+    nd_ebitda = ratio(_num(m.get('net_debt')), ebitda) if ebitda is not None and ebitda > 0 else None
+    if any(f in flags for f in ('DEBT_NOT_TAGGED', 'DEBT_PARTIAL', 'CASH_NOT_TAGGED', 'BALANCE_DEFAULT')):
+        nd_ebitda = None
     if nd_ebitda is None:
         flags.append('BALANCE_DEFAULT')
-    change = m.get('share_change_pct')
-    if change is None and m.get('shares_prior') and 1e-2 < shares / m['shares_prior'] < 1e2:
-        change = 100 * (shares / m['shares_prior'] - 1)
+    change, shares_prior = _num(m.get('share_change_pct')), _num(m.get('shares_prior'))
+    if change is None and shares is not None and shares_prior is not None and shares_prior > 0 \
+            and 1e-2 < shares / shares_prior < 1e2:
+        change = 100 * (shares / shares_prior - 1)
+    if change is None:
+        flags.append('DILUTION_MISSING')
     if growth is not None and not -50 <= growth <= 100:
         flags.append('GROWTH_OUTLIER')
     if change is not None and abs(change) > 25:
         flags.append('SHARES_JUMP')
-    price = _num(price)
-    market_cap = price * shares if price and shares else None
-    fcf_yield = 100 * fcf / market_cap if market_cap else None
-    dividend_yield = 100 * (m.get('dividends') or 0.0) / market_cap if market_cap else None
-    buyback_yield = max(0.0, -(change or 0.0))
-    ngv = fcf / shares / discount if shares else None
-    cover_pct = 100 * ngv / price if ngv is not None and price else None
+
+    # Diluted averages and foreign ordinary-share counts require a dated bridge
+    # to the units actually priced. ads_ratio is ordinary shares per traded ADS.
+    average = 'SHARES_DILUTED_AVG' in flags or str(m.get('shares_basis', '')).startswith('DILUTED_AVG')
+    foreign = 'FOREIGN_FILER' in flags
+    bridge_date = _date(m.get('denominator_date'))
+    cutoff = _date(m.get('as_of'))
+    bridge = (m.get('denominator_status') == 'VERIFIED' and bridge_date is not None
+              and (cutoff is None or bridge_date <= cutoff) and _sourced(m.get('denominator_sources')))
+    valuation_shares = shares
+    if average and not bridge:
+        valuation_shares = None
+    elif average:
+        valuation_shares = _num(m.get('valuation_shares'))
+        valuation_shares = valuation_shares if valuation_shares is not None and valuation_shares > 0 else None
+    if foreign:
+        ads_ratio = _num(m.get('ads_ratio'))
+        if not bridge or m.get('ads_status') != 'VERIFIED' or not _sourced(m.get('ads_sources')) \
+                or ads_ratio is None or ads_ratio <= 0:
+            valuation_shares = None
+        elif valuation_shares is not None:
+            valuation_shares /= ads_ratio
+    denominator_ok = valuation_shares is not None
+    if not denominator_ok:
+        flags.append('DENOMINATOR_UNVERIFIED')
+
+    sic = _num(m.get('sic'))
+    classified = sic is not None and 100 <= sic <= 9999 and sic.is_integer()
+    if not classified:
+        flags.append('CLASSIFICATION_MISSING')
+    producer = is_commodity_producer(sic)
+    normalized = _num(m.get('normalized_fcf'))
+    normalized_ok = (normalized is not None and normalized >= 0
+                     and m.get('normalization_status') == 'VERIFIED'
+                     and _sourced(m.get('normalization_sources')))
+    capex_unknown = any(f in flags for f in ('CAPEX_NOT_TAGGED', 'CAPEX_AND_DA_MISSING'))
+    reported_ok = fcf is not None and not capex_unknown
+    valuation_fcf = normalized if normalized_ok else fcf if reported_ok and not producer else None
+    valuation_issues = []
+    if not classified:
+        valuation_issues.append('CLASSIFICATION_MISSING')
+    if producer and not normalized_ok:
+        valuation_issues.append('COMMODITY_MIDCYCLE_REQUIRED')
+        flags.append('COMMODITY_MIDCYCLE_REQUIRED')
+    if not denominator_ok:
+        valuation_issues.append('DENOMINATOR_UNVERIFIED')
+    if valuation_fcf is None:
+        valuation_issues.append('FCF_INCOMPLETE')
+    if price is None:
+        flags.append('NO_PRICE')
+        valuation_issues.append('NO_PRICE')
+    if discount is None or discount <= 0:
+        valuation_issues.append('DISCOUNT_INVALID')
+    valuation_ok = not valuation_issues
+    raw_market_cap = price * shares if price is not None and shares is not None else None
+    market_cap = price * valuation_shares if price is not None and denominator_ok else None
+    fcf_yield = ratio(valuation_fcf, market_cap, 100) if valuation_ok else None
+    ngv = ratio(ratio(valuation_fcf, valuation_shares), discount) if valuation_ok else None
+    cover_pct = ratio(ngv, price, 100)
+    raw_dividends = _num(m.get('dividends'))
+    invalid_dividends = raw_dividends is not None and raw_dividends < 0
+    dividends = raw_dividends
+    if invalid_dividends or (raw_dividends == 0 and m.get('dividends_verified') is not True):
+        dividends = None
+    if invalid_dividends:
+        flags.append('DIVIDENDS_INVALID')
+    elif dividends is None:
+        flags.append('DIVIDENDS_NOT_TAGGED')
+    dividend_yield = ratio(dividends, market_cap, 100)
+    buyback_yield = max(0.0, -change) if change is not None else None
+    shareholder_yield = dividend_yield + buyback_yield \
+        if dividend_yield is not None and buyback_yield is not None else None
+    saturated_returns = (not invalid_dividends and shareholder_yield is None and market_cap is not None
+                         and buyback_yield is not None
+                         and _band(buyback_yield, bands['RETURNS']) == bands['RETURNS'][-1][1])
+    if saturated_returns:
+        # Every possible nonnegative dividend leaves the category at its top
+        # band. This proves a category bound without inventing a zero payout.
+        shareholder_yield = buyback_yield
     inputs = dict(g=growth, p=op_margin, c=fcf_margin, b=nd_ebitda, v=fcf_yield,
-                  r=None if dividend_yield is None else dividend_yield + buyback_yield,
-                  pr=cover_pct, d=change)
+                  r=shareholder_yield, pr=cover_pct, d=change)
     values = dict(g=_band(growth, bands['GROWTH']), p=_band(op_margin, bands['PROFIT']),
                   c=_band(fcf_margin, bands['CASHGEN']), b=_band(nd_ebitda, bands['BALANCE']),
-                  d=_band(change, bands['DILUTION']))
-    if market_cap:
-        values.update(v=_band(fcf_yield, bands['VALUE']), r=_band(inputs['r'], bands['RETURNS']),
-                      pr=priced_in(cover_pct))
-    values = {k: round(v, 1) for k, v in values.items()}
+                  d=_band(change, bands['DILUTION']), v=_band(fcf_yield, bands['VALUE']),
+                  r=_band(shareholder_yield, bands['RETURNS']), pr=priced_in(cover_pct))
+    if 'OPERATING_INCOME_PROXY' in flags:
+        values['p'] = values['b'] = None
+    if not reported_ok:
+        values['c'] = None
+        flags.append('FCF_INCOMPLETE')
+    values = {k: round(v, 1) if v is not None else None for k, v in values.items()}
+    if not classified:
+        valuation_status = 'BLOCKED_CLASSIFICATION'
+    elif producer and not normalized_ok:
+        valuation_status = 'PENDING_MIDCYCLE'
+    elif not denominator_ok:
+        valuation_status = 'BLOCKED_DENOMINATOR'
+    elif not valuation_ok:
+        valuation_status = 'BLOCKED_DATA'
+    else:
+        valuation_status = 'VERIFIED_NORMALIZED_FCF' if normalized_ok else 'SCENARIO_REPORTED_FCF'
+        flags.append('NORMALIZED_FCF_VERIFIED' if normalized_ok else 'REPORTED_FCF_SCENARIO')
     metrics = dict(growth_pct=growth, operating_margin_pct=op_margin, fcf_margin_pct=fcf_margin,
                    ebitda=ebitda, nd_ebitda=nd_ebitda, share_change_pct=change, market_cap=market_cap,
                    fcf_yield_pct=fcf_yield, dividend_yield_pct=dividend_yield,
-                   buyback_yield_pct=buyback_yield if market_cap else None,
-                   ngv_per_share=ngv, cover_pct=cover_pct)
-    if not market_cap:
-        return dict(score=None, components=[], metrics=metrics, flags=flags + ['NO_PRICE'], sub=None)
-    total = sum(values[k] * w for k, w in WEIGHTS.items())
+                   buyback_yield_pct=buyback_yield if market_cap is not None else None,
+                   ngv_per_share=ngv, cover_pct=cover_pct, valuation_fcf=valuation_fcf,
+                   valuation_shares=valuation_shares, discount_rate=discount,
+                   raw_market_cap=raw_market_cap, raw_fcf_yield_pct=ratio(fcf, raw_market_cap, 100))
+    reasons = dict(g='GROWTH_DEFAULT', p='OPERATING_INCOME_MISSING', c='FCF_INCOMPLETE',
+                   b='BALANCE_DEFAULT', v=valuation_status, pr=valuation_status,
+                   r='DENOMINATOR_OR_RETURNS_INCOMPLETE', d='DILUTION_MISSING')
     components = [dict(key=k, label=LABELS[k], value=values[k], weight=w,
-                       contribution=values[k] * w, input=inputs[k]) for k, w in WEIGHTS.items()]
-    sub = (values['g'], values['p'], values['c'], values['b'], values['v'], values['r'])
-    return dict(score=total, components=components, metrics=metrics, flags=flags, sub=sub)
+                       contribution=values[k] * w if values[k] is not None else None,
+                       input=inputs[k], supported=values[k] is not None,
+                       input_basis='SATURATED_LOWER_BOUND' if k == 'r' and saturated_returns else 'MEASURED_INPUT',
+                       reason=('DIVIDEND_UNVERIFIED_SATURATED_BY_BUYBACK_PROXY' if k == 'r' and saturated_returns
+                               else None if values[k] is not None else reasons[k])) for k, w in WEIGHTS.items()]
+    coverage = round(sum(c['weight'] for c in components if c['supported']), 12)
+    selection = sum(c['contribution'] for c in components if c['supported'])
+    complete = all(c['supported'] for c in components)
+    total = selection if complete else None
+    sub = tuple(values[k] for k in ('g', 'p', 'c', 'b', 'v', 'r'))
+    return dict(score=total, band=model_band(total), components=components, metrics=metrics,
+                flags=list(dict.fromkeys(flags)), sub=sub if all(v is not None for v in sub) else None,
+                coverage_weight=coverage, selection_score=selection,
+                score_bounds=dict(lower=selection, upper=selection + 10 * (1 - coverage)),
+                status='COMPLETE' if complete else 'PARTIAL', valuation_status=valuation_status,
+                valuation_issues=valuation_issues)
 
 
 MAX_FCF_YIELD = 50.0     # % of market value
@@ -838,12 +1027,13 @@ def implausible(row, metrics):
     in operating cash flow). Such rows leave the ranking and are listed apart.
     """
     reasons = []
-    revenue, fcf, market_cap = row.get('revenue'), row.get('fcf'), metrics.get('market_cap')
+    revenue, fcf = row.get('revenue'), row.get('fcf')
+    market_cap = metrics.get('market_cap') or metrics.get('raw_market_cap')
     if market_cap and revenue and market_cap / revenue < MIN_PRICE_TO_SALES:
         reasons.append('Marktwert unter 5 % des Umsatzes: Aktienzahl vermutlich falsch skaliert')
     if fcf is not None and revenue and fcf > revenue:
         reasons.append('Free Cashflow über dem Umsatz: Kundengelder oder Sonderzahlungen im operativen Cashflow')
-    if (metrics.get('fcf_yield_pct') or 0) > MAX_FCF_YIELD:
+    if (metrics.get('fcf_yield_pct') or metrics.get('raw_fcf_yield_pct') or 0) > MAX_FCF_YIELD:
         reasons.append(f'FCF-Rendite über {MAX_FCF_YIELD:.0f} % des Marktwerts')
     return reasons
 
@@ -854,7 +1044,13 @@ def regime_fit(row, sub):
         from engine import regime_scores
     except Exception:   # pragma: no cover - engine import needs yfinance
         return {}
-    draft = dict(fcf=row['fcf'] / 1e6, shares=row['shares'] / 1e6, r=DISCOUNT,
+    if sub is None:
+        return {}
+    scored = score_metrics(row, row.get('price'))
+    m = scored['metrics']
+    if m['cover_pct'] is None:
+        return {}
+    draft = dict(fcf=m['valuation_fcf'] / 1e6, shares=m['valuation_shares'] / 1e6, r=DISCOUNT,
                  price=row.get('price'), sector=row.get('sector', ''), sub=sub)
     return regime_scores(draft) if draft['price'] else {}
 
@@ -948,7 +1144,12 @@ def _candidate(row, scored, info, universe):
         basis=row.get('basis'), period_start=row.get('period_start'), period_end=row.get('period_end'),
         growth_basis=row.get('growth_basis'), shares_basis=row.get('shares_basis'),
         balance_date=row.get('balance_date'), source=row.get('source'),
+        input_metadata={k: row[k] for k in INPUT_METADATA_KEYS if k in row},
+        normalization_status=row.get('normalization_status') or 'UNREVIEWED',
         metrics=metrics, score=_finite_or_none(scored['score']), band=model_band(scored['score']),
+        coverage_weight=scored['coverage_weight'], selection_score=scored['selection_score'],
+        score_bounds=scored['score_bounds'], status=scored['status'],
+        valuation_status=scored['valuation_status'], valuation_issues=scored['valuation_issues'],
         components=[dict(c, input=_finite_or_none(c['input'])) for c in scored['components']],
         regime_fit=row.get('regime_fit') or {}, flags=flags,
         flag_text={f: FLAG_TEXT.get(f, f) for f in flags}, sources=sources)
@@ -983,10 +1184,15 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
     for row in passed:
         quote = quotes.get(row['yahoo'])
         if quote:
-            row.update(price=quote['price'], price_date=quote['date'])
-            row['pre_score'] = score_metrics(row, row['price'], bands)['score']
+            price, stamp = _num(quote.get('price')), _date(quote.get('date'))
+            # Daily dates only: never future-dated, and at most four calendar
+            # days old (weekends/holidays included). The page has its own gate.
+            if price is None or price <= 0 or stamp is None or not 0 <= (today - stamp).days <= 4:
+                continue
+            row.update(price=price, price_date=stamp.isoformat(), as_of=today.isoformat())
+            row['pre_selection_score'] = score_metrics(row, row['price'], bands)['selection_score']
             priced.append(row)
-    priced.sort(key=lambda r: (-r['pre_score'], -r['revenue'], r['ticker']))
+    priced.sort(key=lambda r: (-r['pre_selection_score'], -r['revenue'], r['ticker']))
 
     # Banks, insurers and REITs report cash flows that FCF does not describe;
     # their frame "FCF" yields look spectacular and would crowd the shortlist.
@@ -1000,7 +1206,7 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
             excluded_financial += 1
             continue
         infos[row['cik']] = info
-        row['sector'] = sector_from_sic(info.get('sic'))
+        row.update(sic=info.get('sic'), sector=sector_from_sic(info.get('sic')))
         if info.get('annual_form') in ('20-F', '40-F'):
             row['flags'] = list(dict.fromkeys(row['flags'] + ['FOREIGN_FILER']))
         short.append(row)
@@ -1022,8 +1228,8 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
         else:
             row['flags'] = list(dict.fromkeys(row['flags'] + ['FRAMES_ONLY']))
         scored = score_metrics(row, row['price'], bands)
-        if scored['score'] is None or row.get('fcf') is None or row['fcf'] <= 0 \
-                or row.get('operating_income') is None or row['operating_income'] <= 0:
+        if (row.get('fcf') is not None and row['fcf'] <= 0) \
+                or (row.get('operating_income') is not None and row['operating_income'] <= 0):
             continue
         reasons = implausible(row, scored['metrics'])
         if reasons:
@@ -1032,7 +1238,8 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
             continue
         row['regime_fit'] = regime_fit(row, scored['sub'])
         candidates.append(_candidate(row, scored, info, universe))
-    candidates.sort(key=lambda c: (-(c['score'] or 0), c['ticker']))
+    candidates.sort(key=lambda c: (c['score'] is None,
+                                   -(c['score'] if c['score'] is not None else c['selection_score']), c['ticker']))
     kept = candidates[:keep]
     log(f'Stage 2: {refined} with TTM, {len(set_aside)} implausible set aside, '
         f'{len(candidates)} still positive, {len(kept)} kept')
@@ -1042,22 +1249,25 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
         coverage='USA: an NYSE oder Nasdaq notierte US-GAAP-Berichterstatter mit SEC-XBRL-Daten. '
                  'Ohne Banken, Versicherer und REITs. Europa ist noch nicht abgedeckt.',
         funnel=[dict(stage='NYSE/Nasdaq-Unternehmen in der SEC-Liste', count=len(listing)),
-                dict(stage='Umsatz ≥ 1 Mrd. USD, operativer Gewinn und positiver FCF (letztes GJ)',
+                dict(stage='Umsatz ≥ 1 Mrd. USD; kein belegter negativer Gewinn/FCF (offene Daten bleiben sichtbar)',
                      count=len(passed)),
                 dict(stage='Mit datiertem Schlusskurs', count=len(priced)),
                 dict(stage=f'Vorauswahl nach vorläufigem Score, ohne Banken, Versicherer und REITs '
                            f'(SIC 6000–6799; {excluded_financial} übersprungen)', count=len(short)),
-                dict(stage=f'Nach Prüfung der Einreichungen weiter profitabel und plausibel ({refined} mit '
+                dict(stage=f'Nach Prüfung der Einreichungen plausibel, offene Kategorien separat ({refined} mit '
                            f'TTM-Werten, {len(set_aside)} unplausibel beiseitegelegt)', count=len(candidates)),
-                dict(stage='Gespeicherte Kandidaten (Top nach Screening-Score)', count=len(kept))],
+                dict(stage='Gespeicherte Kandidaten (vollständige Scores, dann fixe Teilbeiträge)', count=len(kept))],
         excluded_financials=excluded_financial,
         implausible=set_aside,
         rejected=rejected,
-        method=dict(weights=WEIGHTS, discount_rate=DISCOUNT, min_revenue_usd=MIN_REVENUE,
+        method=dict(scoring_version=SCORING_VERSION, weights=WEIGHTS, discount_rate=DISCOUNT, min_revenue_usd=MIN_REVENUE,
+                    score_contract='fixed-weight-coverage-v2',
+                    quote_date_policy='Datumsgranularität: kein Zukunftskurs, höchstens 4 Kalendertage alt.',
                     shortlist=shortlist, keep=keep, bands=[dict(upper_exclusive=c, label=l) for c, l in BANDS],
                     ttm='Letztes Geschäftsjahr + laufendes YTD − Vorjahres-YTD, alle Werte auf identischen Berichtsfenstern.',
-                    note='Mechanischer Vorscore wie autoscore: Umsatzwachstum als Proxy, pauschal 8 % Diskontsatz, '
-                         'keine Normalisierung. Kein InvestorAce-Modellscore und keine Kaufempfehlung.'),
+                    note='Mechanischer Vorscore wie autoscore: Umsatzwachstum als Proxy, pauschal 8 % als '
+                         'Szenario-Diskontsatz. Unbelegte Kategorien bleiben offen; Produzentenbewertung '
+                         'erfordert belegten Mid-Cycle-FCF. Kein InvestorAce-Modellscore und keine Kaufempfehlung.'),
         sources=dict(universe=TICKERS_URL, frames=f'{SEC_DATA}/api/xbrl/frames/',
                      companyfacts=f'{SEC_DATA}/api/xbrl/companyfacts/',
                      prices='Yahoo Finance, Tagesschlusskurs mit Datum'),
@@ -1070,8 +1280,76 @@ def run(sec=None, prices=None, universe=None, today=None, now=None, shortlist=SH
 
 
 # ---------------------------------------------------------------- validation
-def validate_payload(payload, now=None, max_age_days=None):
-    """Shared contract for the writer and the page builder. Returns error strings."""
+def _guarded_errors(c, *, allow_quote_gaps=False):
+    """Validate the new partial-score contract without rejecting old snapshots."""
+    ticker, errors = c.get('ticker'), []
+    components = c.get('components')
+    if not isinstance(components, list) or len(components) != len(WEIGHTS) \
+            or not all(isinstance(x, dict) for x in components) \
+            or [x.get('key') for x in components] != list(WEIGHTS):
+        return [f'{ticker}: guarded score needs all eight fixed-weight components']
+    coverage, subtotal, complete = 0.0, 0.0, True
+    for component in components:
+        key = component['key']
+        weight, value, contribution = (_num(component.get(k)) for k in ('weight', 'value', 'contribution'))
+        if weight is None or not math.isclose(weight, WEIGHTS[key], abs_tol=1e-12):
+            errors.append(f'{ticker}: {key} weight differs from the fixed framework')
+        if component.get('value') is None:
+            complete = False
+            if component.get('contribution') is not None:
+                errors.append(f'{ticker}: {key} unavailable value has a contribution')
+        elif value is None or not 0 <= value <= 10 or contribution is None \
+                or not math.isclose(contribution, value * WEIGHTS[key], abs_tol=1e-9):
+            errors.append(f'{ticker}: {key} invalid value or fixed-weight contribution')
+        else:
+            coverage += WEIGHTS[key]
+            subtotal += contribution
+    declared_coverage, declared_subtotal = _num(c.get('coverage_weight')), _num(c.get('selection_score'))
+    if declared_coverage is None or not math.isclose(declared_coverage, coverage, abs_tol=1e-9):
+        errors.append(f'{ticker}: coverage_weight does not match supported categories')
+    if declared_subtotal is None or not math.isclose(declared_subtotal, subtotal, abs_tol=1e-9):
+        errors.append(f'{ticker}: selection_score must be the fixed-weight subtotal')
+    bounds = c.get('score_bounds') or {}
+    for key, expected in (('lower', subtotal), ('upper', subtotal + 10 * (1 - coverage))):
+        value = _num(bounds.get(key)) if isinstance(bounds, dict) else None
+        if value is None or not math.isclose(value, expected, abs_tol=1e-9):
+            errors.append(f'{ticker}: score_bounds.{key} does not match coverage')
+    if c.get('status') != ('COMPLETE' if complete else 'PARTIAL'):
+        errors.append(f'{ticker}: score status does not match category coverage')
+    score = _num(c.get('score'))
+    if not complete and c.get('score') is not None:
+        errors.append(f'{ticker}: incomplete categories cannot have a composite score')
+    elif complete and (score is None or not math.isclose(score, subtotal, abs_tol=1e-9)):
+        errors.append(f'{ticker}: complete score does not match fixed-weight contributions')
+    # New rows retain enough inputs to detect flags that would otherwise be
+    # ignored by a coherent-looking but fabricated complete score. Legacy rows
+    # are intentionally left structurally loadable for guarded replay.
+    metadata = c.get('input_metadata')
+    if isinstance(metadata, dict):
+        inputs = dict(c.get('metrics') or {})
+        inputs.update(metadata)
+        inputs.update(sic=c.get('sic'), flags=c.get('flags') or [])
+        expected = score_metrics(inputs, c.get('price'), discount=inputs.get('discount_rate', DISCOUNT))
+        price = _num(c.get('price'))
+        quote_gap = price is None or price <= 0 or _date(c.get('price_date')) is None
+        for actual, recomputed in zip(components, expected['components']):
+            if allow_quote_gaps and quote_gap and actual['key'] in ('v', 'pr', 'r'):
+                # The page withdraws these outputs per issuer after loading.
+                # All fixed weights, ties and nonquote inputs remain checked.
+                continue
+            actual_value, expected_value = _num(actual.get('value')), recomputed['value']
+            if (actual_value is None) != (expected_value is None) or (actual_value is not None
+                    and not math.isclose(actual_value, expected_value, abs_tol=1e-9)):
+                errors.append(f'{ticker}: {actual["key"]} does not match guarded inputs')
+    return errors
+
+
+def validate_payload(payload, now=None, max_age_days=None, *, allow_quote_gaps=False):
+    """Validate structure; the page may quarantine quote gaps per issuer.
+
+    Writers use strict validation. The loader's explicit opt-in permits quote
+    gaps only so its mandatory per-name audit can withdraw those outputs.
+    """
     errors = []
     if not isinstance(payload, dict) or payload.get('schema') != VERSION:
         return ['schema must be ' + VERSION]
@@ -1106,16 +1384,18 @@ def validate_payload(payload, now=None, max_age_days=None):
         if c.get('band') != model_band(score):
             errors.append(f'{ticker}: band does not match score')
         price = c.get('price')
-        if price is not None and (_num(price) is None or price <= 0):
+        if not allow_quote_gaps and price is not None and (_num(price) is None or price <= 0):
             errors.append(f'{ticker}: price must be positive')
-        if price is not None and _date(c.get('price_date')) is None:
+        if not allow_quote_gaps and price is not None and _date(c.get('price_date')) is None:
             errors.append(f'{ticker}: price without date')
         for key, value in (c.get('metrics') or {}).items():
             if value is not None and _num(value) is None:
                 errors.append(f'{ticker}: metric {key} not finite')
-        total = sum(x.get('contribution', 0) for x in c.get('components') or [])
+        total = sum(_num(x.get('contribution')) or 0 for x in c.get('components') or [] if isinstance(x, dict))
         if score is not None and c.get('components') and not math.isclose(total, score, abs_tol=1e-9):
             errors.append(f'{ticker}: components do not add up to the score')
+        if any(k in c for k in ('coverage_weight', 'selection_score', 'score_bounds', 'status')):
+            errors.extend(_guarded_errors(c, allow_quote_gaps=allow_quote_gaps))
         for source in c.get('sources') or []:
             if not str(source.get('url', '')).startswith('https://'):
                 errors.append(f'{ticker}: non-https source')

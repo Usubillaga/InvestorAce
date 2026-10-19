@@ -12,15 +12,16 @@ Run: python market_scanner.py --output research-output/scanner
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from html import escape
 from pathlib import Path
 from urllib.parse import quote, urlsplit
 
 from evidence import current_build, number
-from integrity import atomic_text
+from integrity import atomic_json, atomic_text
 import market_universe
 
 
@@ -92,16 +93,119 @@ def add_ticker_url(ticker, repository=None):
     return f'https://github.com/{repository}/issues/new?title=' + quote(f'add-ticker: {ticker}')
 
 
+MARKET_QUOTE_POLICY = dict(max_age_hours=QUOTE_MAX_AGE_HOURS,
+    basis='DAILY_CLOSE_DATE_UTC_MIDNIGHT',
+    note='96 Stunden ab 00:00 UTC des Schlusskurstages: konservative Datumsprüfung, '
+         'kein behaupteter Börsenzeitstempel. Abrufzeit ersetzt keinen Kurszeitpunkt.')
+QUOTE_MESSAGES = dict(MISSING='Kein positiver datierter Kurs verfügbar.',
+    TIME_UNKNOWN='Datum des Schlusskurses fehlt oder ist ungültig.',
+    STALE='Schlusskurs außerhalb der 96-Stunden-Grenze; aktuelle Bewertungsbeiträge ausgesetzt.',
+    FUTURE='Kursdatum liegt nach dem Analysezeitpunkt.')
+
+
+def market_quote(row, as_of):
+    price = number(row.get('price'))
+    if price is None or price <= 0:
+        return 'MISSING', None
+    try:
+        day = date.fromisoformat(row.get('price_date', ''))
+        stamp = datetime.combine(day, datetime.min.time(), tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        return 'TIME_UNKNOWN', None
+    age = (as_of - stamp).total_seconds() / 3600
+    return ('FUTURE' if age < 0 else 'STALE' if age > QUOTE_MAX_AGE_HOURS else 'DATED'), age
+
+
+def audit_market_candidate(item, as_of):
+    """Replay the numerical packet; cached totals never certify current inputs."""
+    row = copy.deepcopy(item)
+    archived = row.get('archived_screen') or {key: copy.deepcopy(row.get(key)) for key in
+        ('score', 'band', 'components', 'metrics', 'price', 'price_date')}
+    row['flags'] = [f for f in row.get('flags') or [] if not f.startswith('QUOTE_') and f != 'NO_PRICE']
+    quote_status, quote_age = market_quote(row, as_of)
+    raw = dict(row.get('metrics') or {})
+    raw.update(row.get('input_metadata') or {})
+    raw.update(sic=row.get('sic'), flags=list(row.get('flags') or []),
+               shares_basis=row.get('shares_basis'), as_of=as_of.date().isoformat())
+    calc = market_universe.score_metrics(raw, row.get('price') if quote_status == 'DATED' else None)
+    flags = list(dict.fromkeys(list(row.get('flags') or []) + calc['flags'] +
+                              (['QUOTE_' + quote_status] if quote_status != 'DATED' else [])))
+    metrics = dict(row.get('metrics') or {})
+    metrics.update(calc['metrics'])
+    if 'DEBT_NOT_TAGGED' in flags:
+        metrics.update(debt=None, net_debt=None)
+    if 'CAPEX_AND_DA_MISSING' in flags:
+        metrics.update(capex=None, fcf=None)
+    if 'DIVIDENDS_NOT_TAGGED' in flags:
+        metrics['dividends'] = None
+    texts = dict(market_universe.FLAG_TEXT, **{key: val for key, val in (row.get('flag_text') or {}).items()
+                                             if key not in market_universe.FLAG_TEXT})
+    texts.update({'QUOTE_' + key: val for key, val in QUOTE_MESSAGES.items()})
+    issues = [dict(code=flag, severity='info' if flag == 'REPORTED_FCF_SCENARIO' else
+        'major' if any(tag in flag for tag in ('MISSING', 'NOT_TAGGED', 'DENOMINATOR', 'MIDCYCLE', 'INCOMPLETE', 'QUOTE_'))
+        else 'minor', status='open', message=texts.get(flag, flag)) for flag in flags]
+    if any(c.get('input_basis') == 'SATURATED_LOWER_BOUND' for c in calc['components']):
+        for issue in issues:
+            if issue['code'] == 'DIVIDENDS_NOT_TAGGED':
+                issue.update(severity='minor', message=issue['message'] +
+                    ' Die belegte Untergrenze erreicht bereits die oberste Rendite-Stufe; '
+                    'zusätzliche nichtnegative Dividenden ändern diese Kategorie nicht.')
+    row.update(score=calc['score'], band=model_band(calc['score']), components=calc['components'],
+        metrics=metrics, flags=flags, flag_text={f: texts.get(f, f) for f in flags}, issues=issues,
+        coverage_weight=calc['coverage_weight'], score_bounds=calc['score_bounds'],
+        calculation_version=market_universe.SCORING_VERSION,
+        selection_score=calc['selection_score'], status=calc['status'], calculation_status=calc['status'],
+        valuation_status=calc['valuation_status'], rank_eligible=calc['score'] is not None,
+        rating=None, review_status='REVIEW_PENDING' if calc['score'] is not None else 'BLOCKED_BY_DATA',
+        quote_status=quote_status, quote_age_hours=quote_age, quote_policy=MARKET_QUOTE_POLICY,
+        archived_screen=archived, source_limit='Numerische Eingaben reproduzierbar; vollständige historische XBRL-Faktbelege und wirtschaftliche Normalisierung nicht bestätigt.',
+        sources=_safe_sources(row.get('sources', [])))
+    if calc['sub'] is None:
+        row['regime_fit'] = {}
+    else:
+        row['regime_fit'] = market_universe.regime_fit(dict(raw, sector=row.get('sector', ''),
+            price=row.get('price')), calc['sub'])
+    if quote_status != 'DATED':
+        row['price'] = None
+    return row
+
+
+def refresh_market_prices(document, quotes, *, as_of=None):
+    """Replace prices and replay scores without re-dating the financial scan."""
+    as_of = as_of or datetime.now(timezone.utc)
+    result = copy.deepcopy(document)
+    failures = []
+    for row in result['candidates']:
+        if not isinstance(row.get('archived_screen'), dict):
+            row['archived_screen'] = {key: copy.deepcopy(row.get(key)) for key in
+                ('score', 'band', 'components', 'metrics', 'price', 'price_date')}
+        quote = quotes.get(row.get('yahoo') or row['ticker'])
+        if quote:
+            row.update(price=quote.get('price'), price_date=quote.get('date'))
+        else:
+            failures.append(row['ticker'])
+            row.update(price=None, price_date=None)
+        row.update(audit_market_candidate(row, as_of))
+    result['candidates'].sort(key=lambda r: (r['score'] is None, -(r['score'] or 0),
+                                           -(r['selection_score'] or 0), r['ticker']))
+    result['quote_refresh'] = dict(attempted_at=as_of.isoformat(), failures=failures,
+        policy=MARKET_QUOTE_POLICY, note='Finanzdaten behalten das Datum des vollständigen Marktscans.')
+    return result
+
+
 def market_section(market, record, as_of, repository=None):
     """Validate the weekly scan and join today's universe membership and engine score."""
     empty = dict(candidates=[], funnel=[], coverage='', generated_at=None, as_of=None, method={},
                  calibration=None)
     if market is None:
         return dict(empty, status='MISSING', note='Noch kein Marktscan gespeichert.')
-    errors = market_universe.validate_payload(market, now=as_of)
+    # Structural validation first; quote failures are isolated below per issuer.
+    errors = market_universe.validate_payload(market, allow_quote_gaps=True)
+    generated = _timestamp(market.get('generated_at'))
+    if generated is None or generated > as_of:
+        errors.append('generated_at is missing or in the future')
     if errors:
         return dict(empty, status='INVALID', note='Marktscan verworfen: ' + '; '.join(errors[:3]))
-    generated = datetime.fromisoformat(market['generated_at'].replace('Z', '+00:00'))
     age = as_of - generated
     inputs = (record.get('_evidence') or {}).get('inputs') or {}
     universe = {}
@@ -110,11 +214,14 @@ def market_section(market, record, as_of, repository=None):
         if '.' not in symbol:          # exchange-suffixed listings are other companies
             universe[symbol] = key
     candidates = []
-    for item in market['candidates']:
+    for saved in market['candidates']:
+        item = audit_market_candidate(saved, as_of)
         key = universe.get(item['ticker'])
         candidates.append(dict(item, universe_key=key, in_universe=key is not None,
                                universe_score=number((record.get(key) or {}).get('score')) if key else None,
                                add_url=None if key else add_ticker_url(item['ticker'], repository)))
+    candidates.sort(key=lambda r: (r['score'] is None, -(r['score'] or 0),
+                                   -(r['selection_score'] or 0), r['ticker']))
     status = 'STALE' if age > timedelta(days=market_universe.MAX_SCAN_AGE_DAYS) else 'OK'
     # How far the mechanical screening score sits from the curated model score on the
     # tickers present in both lists (first live scan: +1.2 points on average, n=16).
@@ -127,12 +234,16 @@ def market_section(market, record, as_of, repository=None):
                            median_diff=diffs[mid] if len(diffs) % 2 else (diffs[mid - 1] + diffs[mid]) / 2,
                            min_diff=diffs[0], max_diff=diffs[-1])
     return dict(status=status, age_days=round(age.total_seconds() / 86400, 1), calibration=calibration,
-                note=('Marktscan älter als 14 Tage; Kurse und Zahlen nicht mehr aktuell.'
+                note=('Finanzprüfung älter als 14 Tage; vollständigen Marktscan erneuern. Kursstand wird separat geprüft.'
                       if status == 'STALE' else ''),
                 generated_at=market['generated_at'], as_of=market['as_of'],
                 coverage=market['coverage'], funnel=market['funnel'], method=market['method'],
                 rejected=market.get('rejected', {}), sources=market.get('sources', {}),
-                implausible=market.get('implausible', []), candidates=candidates)
+                implausible=market.get('implausible', []), candidates=candidates,
+                quote_refresh=market.get('quote_refresh'), quote_policy=MARKET_QUOTE_POLICY,
+                audit=dict(complete=sum(c['rank_eligible'] for c in candidates),
+                           blocked=sum(not c['rank_eligible'] for c in candidates),
+                           stale_quotes=sum(c['quote_status'] != 'DATED' for c in candidates)))
 
 
 def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repository=None):
@@ -286,8 +397,23 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=ASSETS)
     parser.add_argument('--output', type=Path, default=Path('research-output/scanner'))
+    parser.add_argument('--refresh-market-quotes', action='store_true',
+                        help='Refresh only prices of saved candidates; no SEC requests.')
     args = parser.parse_args()
     root, output = args.root.resolve(), args.output.resolve()
+    if args.refresh_market_quotes:
+        market = load_market(root)
+        if not market or market_universe.validate_payload(market, allow_quote_gaps=True):
+            raise ValueError('A valid stored full market scan is required before refreshing quotes')
+        quotes = market_universe.fetch_prices([c.get('yahoo') or c['ticker'] for c in market['candidates']])
+        updated = refresh_market_prices(market, quotes)
+        errors = market_universe.validate_payload(updated)
+        if errors:
+            raise ValueError('Invalid refreshed scan: ' + '; '.join(errors[:5]))
+        atomic_json(root / 'market-scan' / 'latest.json', updated)
+        print(f'Quote refresh: {len(quotes)} received, '
+              f'{len(updated["quote_refresh"]["failures"])} missing; financial scan date preserved.')
+        return
     if output == root or root / 'history' == output or root / 'history' in output.parents:
         raise ValueError('Use a separate output directory outside history')
     build = current_build(root / 'history')

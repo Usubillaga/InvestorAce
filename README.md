@@ -43,6 +43,34 @@ python reprice.py 4.40 5.04                       # NGV impact of a risk-free ch
   yet. Offline contracts: `python -m unittest test_market_universe -v`.
 - **Mein Universum**: the existing InvestorAce universe as before.
 
+The existing lists now replay the saved numerical inputs through
+`market-screen-evidence-gates-v2`. Unknown debt, capex, growth, D&A or dilution
+does not become zero or five points. All eight components remain visible;
+missing contributions are null, their weights are not redistributed, and no
+composite/band is assigned until every category is supported. The data-review
+filter exposes partial rows rather than calling them Sell. Prior draft scores
+remain separately archived; existing engine scores and WKL/DIS objections are
+not overwritten. A complete mechanical screen still has no approved rating.
+
+SIC classification, a documented ADS/diluted-share bridge and commodity
+mid-cycle normalization gate the affected valuation categories. An explicit
+`VERIFIED` normalized FCF (including zero), evidence URLs and corresponding
+denominator metadata support a reviewed input path; a URL alone does not
+authenticate that assertion. Reported FCF capitalized at 8% is labeled a
+scenario rather than verified NGV. Untagged dividends stay unknown. Where the
+known share-reduction proxy already reaches the top Returns curve, that
+category is proven invariant to any additional nonnegative dividend rather
+than assuming a zero dividend. It is not a cash-buyback measurement.
+
+Each page build checks market quotes against 96 hours, conservatively from
+00:00 UTC on the daily close date; no exact exchange timestamp is invented.
+Missing, future or expired quotes withdraw current price-dependent categories
+per company. A weekday 23:13 UTC quote-only run updates saved candidates and
+replays their scores without re-dating the weekly financial scan. Failed
+quotes are recorded, and a successful later refresh clears that quote failure.
+Run it with `python market_scanner.py --refresh-market-quotes`; no SEC calls
+are made. The full SEC discovery scan remains weekly.
+
 **One-time setup:** the SEC requires a real contact address in the
 User-Agent and refuses GitHub noreply addresses with 403. Add the repository
 secret `SEC_USER_AGENT` (Settings → Secrets and variables → Actions), e.g.
