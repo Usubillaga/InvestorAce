@@ -76,6 +76,28 @@ def extract_data_row(text):
     return close + 1
 
 
+AUTO_SECTION = "# --- added by add_ticker.py: alphabetical, so parallel additions rarely conflict ---"
+
+
+def insertion_point(text, key):
+    """Return (position, prefix) for a new DATA row.
+
+    New rows live in their own section at the end of DATA, ordered by key.
+    Appending every row just before the closing brace made any two pending
+    add-ticker branches conflict; sorted positions keep them apart. The
+    curated sections above the marker (and their comments) are never touched.
+    """
+    close = extract_data_row(text)
+    marker = text.rfind(AUTO_SECTION, 0, close)
+    if marker < 0:
+        return close, AUTO_SECTION + "\n"
+    section = text.index("\n", marker) + 1
+    for match in re.finditer(r"(?m)^['\"]([^'\"]+)['\"]\s*:", text[section:close]):
+        if match.group(1).upper() > key.upper():
+            return section + match.start(), ""
+    return close, ""
+
+
 def has_ticker(text, key):
     return re.search(rf"(?m)^\s*['\"]{re.escape(key)}['\"]\s*:", text) is not None
 
@@ -176,7 +198,8 @@ def main(argv=None):
 
     # Defensive compile check before touching the real engine.py.
     entry = format_dict_as_python(row)
-    candidate = source[:extract_data_row(source)] + entry + source[extract_data_row(source):]
+    position, prefix = insertion_point(source, key)
+    candidate = source[:position] + prefix + entry + source[position:]
 
     try:
         compile(candidate, str(TARGET), "exec")
