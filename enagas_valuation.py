@@ -363,7 +363,9 @@ def render(doc, model, language):
                    '<p>' + ref('EV-9M') + ' · ' + ref('EV-FY') + ' · ' + ref('EV-QUOTE') + '</p>')
     bridge_rows = []
     for key, label in [('ffo', 'FFO'), ('capex', text['capex']),
-                       ('working_capital', text['wc']), ('lease_principal', text['lease']),
+                       ('working_capital', {'en': 'Assumed working-capital outflow',
+                                            'de': 'Angenommener Working-Capital-Abfluss',
+                                            'es': 'Salida de circulante supuesta'}[language]), ('lease_principal', text['lease']),
                        ('other_cash_reserve', text['other'])]:
         bridge_rows.append([label] + [fmt(doc['cases'][name][key]) for name in ('bear', 'base', 'bull')])
     bridge_rows.append([text['cash']] + [fmt(model['cases'][name]['starting_cash']) for name in ('bear', 'base', 'bull')])
