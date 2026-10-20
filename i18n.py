@@ -143,6 +143,10 @@ class _Report(HTMLParser):
         if not self.stack:
             return False
         current = self.stack[-1]
+        if (current['tag'] == 'a' and re.fullmatch(r'[A-Z][A-Z0-9.^=_-]{0,14}', text)
+                and any(frame['tag'] == 'td' and ('tk' in frame['attrs'].get('class', '').split()
+                            or frame.get('ticker')) for frame in self.stack[:-1])):
+            return True
         if current['tag'] == 'td' and (
                 'tk' in current['attrs'].get('class', '').split() or current.get('ticker')):
             return text not in {'score', 'cover', 'cushion', 'momentum'}
@@ -337,6 +341,9 @@ class _Report(HTMLParser):
         raw = self.get_starttag_text()
         if tag == 'html':
             raw = _attribute(raw, 'lang', self.language)
+        if tag == 'a' and re.fullmatch(r'enagas(?:\.(?:de|es))?\.html', attrs.get('href', '')):
+            suffix = '' if self.language == 'en' else '.' + self.language
+            raw = _attribute(raw, 'href', 'enagas' + suffix + '.html')
         if tag == 'a' and self._research():
             if re.fullmatch(r'compare\.html(?:\?lang=(?:en|de|es))?', attrs.get('href', '')):
                 raw = _attribute(raw, 'href', 'compare.html?lang=' + self.language)

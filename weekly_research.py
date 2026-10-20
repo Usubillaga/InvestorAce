@@ -611,17 +611,18 @@ def build_site(root, output, require_committed=False):
     else:
         report = root / 'index.html'
         print('Using the legacy scoreboard; no paired generation exists yet.')
+    from enagas_valuation import site_pages as enagas_pages
+    enagas_review_pages = enagas_pages(root, build=committed_build)
     scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in present,
                                    include_claude='claude' in present, include_scanner=committed_build is not None,
                                    include_comparison=committed_build is not None,
-                                   include_enagas=(root / 'enagas_review.json').exists())
+                                   include_enagas=bool(enagas_review_pages))
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
     scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language))
                    for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
-    from enagas_valuation import site_pages as enagas_pages
-    pages = enagas_pages(root)
+    pages = list(enagas_review_pages)
     if committed_build is not None:
         from market_scanner import site_pages
         pages.extend(site_pages(root, committed_build))

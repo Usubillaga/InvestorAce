@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 from datetime import datetime, timezone
@@ -78,13 +79,16 @@ def reverse_growth(price, cash, cost_of_equity, terminal_growth, shares, *,
     return (low + high) / 2
 
 
-def load(path=None):
-    path = Path(path) if path else Path(__file__).with_name('enagas_review.json')
-    doc = json.loads(path.read_text(encoding='utf-8'))
+def load(path=None, *, payload=None):
+    if payload is None:
+        path = Path(path) if path else Path(__file__).with_name('enagas_review.json')
+        payload = path.read_text(encoding='utf-8')
+    doc = json.loads(payload)
     json.dumps(doc, allow_nan=False)
     if doc.get('schema') != 'enagas-valuation-v1' or doc.get('currency') != 'EUR':
         raise ValueError('Unsupported Enagas valuation schema or currency')
-    _time(doc['as_of'])
+    if _time(doc['quote']['as_of']) > _time(doc['as_of']):
+        raise ValueError('The quote postdates the review cutoff')
     if doc['quote']['currency'] != doc['currency']:
         raise ValueError('Quote and valuation currency mismatch')
     if doc['review']['approved_rating'] is not None or doc['review']['fundamental_score'] is not None:
@@ -103,6 +107,8 @@ def build_model(doc, now=None):
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None:
         raise ValueError('Build time requires a timezone')
+    if now < _time(doc['as_of']):
+        raise ValueError('The review source cutoff postdates the build time')
     facts = doc['facts']
     ttm = facts['ffo_fy2025'] - facts['ffo_9m2025'] + facts['ffo_9m2026']
     wc_ttm = (facts['wc_outflow_fy2025'] - facts['wc_outflow_9m2025']
@@ -156,7 +162,7 @@ def build_model(doc, now=None):
                 rate_sensitivity=sensitivity, ngv=None, cover=None, cushion=None,
                 fundamental_score=None, approved_rating=None,
                 research_view='WATCH', review_status='blocked_data', readiness='screen-grade',
-                scenario_rating=doc['review']['conditional_scenario_stance'] if fresh else None,
+                scenario_rating=None,  # Static publications never expose a live rating.
                 historical_scenario_rating=doc['review']['conditional_scenario_stance'],
                 sources=doc['sources'], issues=doc['issues'])
 
@@ -168,12 +174,35 @@ def _table(headers, rows):
     return '<div class="scroll"><table><thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody></table></div>'
 
 
-def site_pages(root, now=None):
-    path = Path(root) / 'enagas_review.json'
-    if not path.exists():
-        return []
-    doc = load(path)
+def site_pages(root, now=None, *, build=None):
+    root = Path(root)
+    binding = {'mode': 'standalone_dated_research'}
+    if build is not None:
+        from evidence import digest
+        manifest = build['manifest']
+        model_hash = manifest.get('model_source_sha256')
+        if model_hash is None:
+            return []
+        if len(model_hash) != 64 or any(c not in '0123456789abcdef' for c in model_hash):
+            raise ValueError('Invalid frozen model hash')
+        bundle = json.loads((root / 'history' / 'models' / (model_hash + '.json')).read_text(encoding='utf-8'))
+        if bundle['sha256'] != model_hash or digest(bundle['sources']) != model_hash:
+            raise ValueError('Enagas model-source archive hash mismatch')
+        payload = bundle['sources'].get('enagas_review.json')
+        if payload is None:
+            return []
+        binding = dict(mode='verified_build', run_id=manifest['run_id'],
+                       model_source_sha256=model_hash,
+                       input_sha256=hashlib.sha256(payload.encode('utf-8')).hexdigest())
+    else:
+        path = root / 'enagas_review.json'
+        if not path.exists():
+            return []
+        payload = path.read_text(encoding='utf-8')
+        binding['input_sha256'] = hashlib.sha256(payload.encode('utf-8')).hexdigest()
+    doc = load(payload=payload)
     model = build_model(doc, now=now)
+    model['provenance'] = binding
     pages = [(Path(name), render(doc, model, language))
              for language, name in (('en', 'enagas.html'), ('de', 'enagas.de.html'),
                                     ('es', 'enagas.es.html'))]
@@ -197,10 +226,10 @@ def main():
 COPY = {
 'en': {
 'title': 'Enagas: DCF and reverse DCF', 'back': 'Scoreboard', 'headline': 'Income is visible. Funding remains the test.',
-'stance': 'Conditional scenario stance', 'pending': 'Approved rating: pending', 'watch': 'Watch / wait for proof',
+'stance': 'Historical conditional view · 20 Oct 2026', 'pending': 'Approved rating: pending', 'watch': 'Watch / wait for proof',
 'hero': 'The continuity case offers no clear margin of safety at the reference quote. Cash normalisation and the hydrogen funding plan remain unresolved. The displayed HOLD NEG is an assumption-led scenario view, not an approved investment rating.',
 'price': 'Reference quote', 'fair': 'Conditional base DCF', 'reverse': 'Required five-year cash CAGR',
-'dated': 'Dated snapshot; quote', 'stale': 'Quote outside the 24-hour policy: current scenario stance withdrawn. Historical calculations remain dated to the recorded quote.',
+'dated': 'Dated snapshot; quote', 'stale': 'Historical snapshot only: all prices, valuations and the scenario view refer to 20 October 2026. This static page provides no live rating; refresh price and evidence before a new decision.',
 'facts': 'Reported evidence', 'metric': 'Measure', 'value': 'EUR million unless stated', 'source': 'Source',
 'ffo': 'Rolling 12-month FFO', 'wc': 'Rolling working-capital cash outflow', 'profit': '9M recurring net profit',
 'debt': 'Net debt / reported leverage', 'dividend': 'Annual dividend policy / gross yield',
@@ -225,10 +254,10 @@ COPY = {
 },
 'de': {
 'title': 'Enagas: DCF und Reverse DCF', 'back': 'Scoreboard', 'headline': 'Die Dividende ist sichtbar. Die Finanzierung bleibt offen.',
-'stance': 'Bedingte Szenario-Einstufung', 'pending': 'Freigegebenes Rating: ausstehend', 'watch': 'Beobachten / Nachweise abwarten',
+'stance': 'Datierte Szenario-Einstufung · 20.10.2026', 'pending': 'Freigegebenes Rating: ausstehend', 'watch': 'Beobachten / Nachweise abwarten',
 'hero': 'Das Fortführungsszenario bietet beim Referenzkurs keine klare Sicherheitsmarge. Cashflow-Normalisierung und Wasserstofffinanzierung bleiben ungeklärt. HOLD NEG ist eine annahmebasierte Szenario-Einschätzung, kein freigegebenes Investmentrating.',
 'price': 'Referenzkurs', 'fair': 'Bedingter Basis-DCF', 'reverse': 'Erforderliches Cashflow-Wachstum über fünf Jahre',
-'dated': 'Datierter Stand; Kurs', 'stale': 'Kurs außerhalb der 24-Stunden-Regel: aktuelle Szenario-Einstufung zurückgezogen. Die historischen Rechnungen behalten ihren ausgewiesenen Kursstand.',
+'dated': 'Datierter Stand; Kurs', 'stale': 'Historischer Stand: Kurs, Bewertung und Szenario-Einstufung beziehen sich auf den 20. Oktober 2026. Diese statische Seite enthält kein aktuelles automatisches Rating. Vor einer neuen Entscheidung Kurs und Quellen aktualisieren.',
 'facts': 'Veröffentlichte Grundlagen', 'metric': 'Kennzahl', 'value': 'Mio. EUR, sofern nicht anders angegeben', 'source': 'Quelle',
 'ffo': 'FFO der letzten zwölf Monate', 'wc': 'Working-Capital-Abfluss der letzten zwölf Monate', 'profit': 'Bereinigter Neunmonatsgewinn',
 'debt': 'Nettoschulden / ausgewiesene Verschuldung', 'dividend': 'Jährliche Dividendenpolitik / Bruttorendite',
@@ -253,10 +282,10 @@ COPY = {
 },
 'es': {
 'title': 'Enagas: DCF y DCF inverso', 'back': 'Scoreboard', 'headline': 'El dividendo es visible. La financiación sigue abierta.',
-'stance': 'Opinión condicional del escenario', 'pending': 'Rating aprobado: pendiente', 'watch': 'Observar / esperar pruebas',
+'stance': 'Opinión histórica condicional · 20-10-2026', 'pending': 'Rating aprobado: pendiente', 'watch': 'Observar / esperar pruebas',
 'hero': 'El escenario de continuidad no ofrece un margen de seguridad claro al precio de referencia. La normalización de caja y la financiación del hidrógeno siguen abiertas. HOLD NEG es una opinión basada en supuestos, no un rating de inversión aprobado.',
 'price': 'Precio de referencia', 'fair': 'DCF base condicional', 'reverse': 'Crecimiento de caja exigido durante cinco años',
-'dated': 'Análisis fechado; cotización', 'stale': 'Cotización fuera del límite de24 horas: se retira la opinión actual. Los cálculos históricos mantienen su fecha de referencia.',
+'dated': 'Análisis fechado; cotización', 'stale': 'Análisis histórico: precio, valoración y opinión corresponden al 20 de octubre de 2026. No ofrece un rating actual automático; actualizar precio y fuentes antes de decidir.',
 'facts': 'Datos publicados', 'metric': 'Indicador', 'value': 'Millones de EUR salvo indicación', 'source': 'Fuente',
 'ffo': 'FFO de los últimos doce meses', 'wc': 'Salida de circulante de los últimos doce meses', 'profit': 'Beneficio recurrente de nueve meses',
 'debt': 'Deuda neta / apalancamiento publicado', 'dividend': 'Política anual de dividendo / rentabilidad bruta',
@@ -305,7 +334,7 @@ def render(doc, model, language):
     ref = lambda value: '<a href="#' + value + '">' + value + '</a>'
     section = lambda title, body: '<section><h2>' + escape(title) + '</h2>' + body + '</section>'
     paragraph = lambda value: '<p>' + escape(value) + '</p>'
-    stance = model['scenario_rating'] or text['watch']
+    stance = model['historical_scenario_rating']
     nav = ('<nav><a href="' + ('index.html' if language == 'en' else 'index.' + language + '.html') +
            '">' + escape(text['back']) + '</a><span><a href="enagas.html">EN</a> · '
            '<a href="enagas.de.html">DE</a> · <a href="enagas.es.html">ES</a></span></nav>')
@@ -315,8 +344,8 @@ def render(doc, model, language):
             '</p><p class="muted">' + escape(text['pending']) + ' · screen-grade</p>')
     quote = doc['quote']
     hero += paragraph(text['dated'] + ': ' + quote['as_of'] + ' · EUR ' + fmt(quote['value']))
-    if not model['quote_fresh']:
-        hero += '<p class="warning">' + escape(text['stale']) + '</p>'
+    # The date warning stays visible even if deployment outlives the quote.
+    hero += '<p class="warning">' + escape(text['stale']) + '</p>'
     cards = '<div class="cards">' + ''.join(
         '<div class="card"><small>' + escape(label) + '</small><div class="big">' + escape(value) +
         '</div><small>' + escape(detail) + '</small></div>' for label, value, detail in [
