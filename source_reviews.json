@@ -1,9 +1,154 @@
 {
   "schema": "source-reviews-v1",
-  "as_of": "2026-10-14",
+  "as_of": "2026-10-20",
   "window_start": "2026-07-16",
   "window_end": "2026-10-14",
   "entries": {
+    "CRM": {
+      "issuer": "Salesforce, Inc.",
+      "listing": "CRM / NYSE / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Conditional DCF and reverse DCF reviewed on 2026-10-20 using FY2026 reported FCF, FY2027 guidance and the 2026-07-31 balance sheet. The 242.45 USD reference is the 2026-10-19 close before the Braze announcement, not a live quote. Current capital structure, acquisition cash uses, final ASR and diluted spot shares are unresolved. Braze is a definitive agreement, not a completed acquisition: 47.50 USD cash per share, announced EV 5,660m USD, expected close Salesforce FY2028 subject to approvals and conditions. Zero incremental deal NPV is a modeling assumption, not a finding. The legacy 12,700m FCF / 950m-share NGV inputs remain flagged for normalization review; this separate DCF does not validate those inputs or change Score, NGV or Regime Fit.",
+        "sources": [
+          {
+            "url": "https://investor.salesforce.com/news/news-details/2026/Salesforce-Delivers-Record-Second-Quarter-Fiscal-2027-Results/default.aspx",
+            "title": "Salesforce FY2027 Q2 results and FY2027 guidance",
+            "published_at": "2026-08-26",
+            "period": "Q2/H1 FY2027; FY2027 and Q3 guidance",
+            "supports": "FCF growth 4–5%; revenue 46,100–46,400m; SBC 9.0%; tax 22.3%; Q3 diluted weighted-average share guidance 827m."
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852426000190/crm-20260731.htm",
+            "title": "Salesforce Form 10-Q to 2026-07-31",
+            "period": "Q2/H1 FY2027",
+            "printed_pages": [
+              3,
+              7,
+              8
+            ],
+            "supports": "Cash 8,310m; marketable securities 3,093m; debt principal 39,500m; strategic investments 11,324m; quarterly interest 473m; half-year other income 214m; half-year financing principal 306m."
+          },
+          {
+            "url": "https://investor.salesforce.com/news/news-details/2026/Salesforce-Delivers-Record-Fourth-Quarter-Fiscal-2026-Results/default.aspx",
+            "title": "Salesforce FY2026 full-year results",
+            "published_at": "2026-02-25",
+            "period": "FY2026",
+            "supports": "Reported FCF 14,996m operating cash flow less 594m capex = 14,402m."
+          },
+          {
+            "url": "https://investor.salesforce.com/stock-info/default.aspx",
+            "title": "Salesforce historical reference quote: 2026-10-19 16:00 ET",
+            "period": "2026-10-19T20:00:00Z",
+            "supports": "Dated 242.45 USD reference frozen in this review; not a live price feed."
+          },
+          {
+            "url": "https://investor.salesforce.com/news/news-details/2026/Salesforce-Signs-Definitive-Agreement-to-Acquire-Braze/default.aspx",
+            "title": "Salesforce definitive agreement to acquire Braze",
+            "published_at": "2026-10-20",
+            "supports": "47.50 USD cash per share; announced EV 5,660m USD; expected Salesforce FY2028 closing subject to approvals and customary conditions."
+          }
+        ],
+        "dcf": {
+          "schema": "equity-dcf-review-v1",
+          "status": "CONDITIONAL",
+          "as_of": "2026-10-20",
+          "currency": "USD",
+          "cash_flow_basis": "NORMALIZED_FCFF_PROXY",
+          "financial_unit": "USD million",
+          "share_unit": "million shares",
+          "forecast_basis": "Ten future 12-month periods from the guided run-rate; year-end discounting; growth applied from year 1.",
+          "normalization": {
+            "reported_fy_fcf": 14402,
+            "guided_fcf_growth_low": 0.04,
+            "guided_fcf_growth_high": 0.05,
+            "guided_revenue": 46250,
+            "sbc_share": 0.09,
+            "quarterly_interest": 473,
+            "half_year_other_income": 214,
+            "half_year_financing_principal": 306,
+            "tax_rate": 0.223
+          },
+          "capital_bridge": {
+            "as_of": "2026-07-31",
+            "cash": 8310,
+            "marketable_securities": 3093,
+            "financial_debt": 39500,
+            "strategic_investments": 11324,
+            "strategic_value_fraction": 0.5,
+            "diluted_shares": 827,
+            "shares_basis": "Q3 FY2027 guided diluted weighted-average proxy"
+          },
+          "reference_quote": {
+            "price": 242.45,
+            "as_of": "2026-10-19T20:00:00Z",
+            "purpose": "DATED_REFERENCE_NOT_LIVE",
+            "source_url": "https://investor.salesforce.com/stock-info/default.aspx"
+          },
+          "scenarios": {
+            "downside": {
+              "growth_first5": 0.04,
+              "growth_second5": 0.025,
+              "discount_rate": 0.11,
+              "terminal_growth": 0.02
+            },
+            "base": {
+              "growth_first5": 0.08,
+              "growth_second5": 0.04,
+              "discount_rate": 0.1,
+              "terminal_growth": 0.025
+            },
+            "upside": {
+              "growth_first5": 0.11,
+              "growth_second5": 0.06,
+              "discount_rate": 0.09,
+              "terminal_growth": 0.03
+            }
+          },
+          "reverse": {
+            "discount_rates": [
+              0.09,
+              0.1,
+              0.11
+            ],
+            "terminal_growth": 0.025
+          },
+          "braze": {
+            "enterprise_value": 5660,
+            "assumed_incremental_npv": 0,
+            "status": "DEFINITIVE_AGREEMENT_NOT_COMPLETED",
+            "consideration_per_share": 47.5,
+            "expected_close": "Salesforce FY2028, subject to approvals and customary conditions"
+          },
+          "input_provenance": {
+            "reported_fy_fcf": "FY2026 results: operating cash flow 14,996 less capex 594 = 14,402.",
+            "guidance": "FY2027 Q2 release, 2026-08-26: FCF growth 4–5%, revenue 46,100–46,400 midpoint 46,250; SBC 9.0% of revenue; tax 22.3%; Q3 guided diluted weighted-average shares 827.",
+            "balance_and_adjustments": "2026-07-31 Form 10-Q: cash 8,310, marketable securities 3,093, borrowing principal 39,500 (not carrying amount 39,288), strategic investments 11,324; quarterly interest 473; half-year other income 214; half-year financing principal 306.",
+            "analyst_assumptions": "Interest annualized ×4 after tax; other income annualized ×2 after tax as an uncertain nonoperating cash-income proxy; financing principal annualized ×2 as replacement cash cost; full SBC deducted with fixed shares. Strategic investments at 50% carrying value; scenario growth, WACC, terminal growth and incremental Braze NPV are analyst assumptions."
+          },
+          "unresolved": [
+            "Current cash/debt bridge after 2026-07-31 and Fin/Contentful acquisitions.",
+            "Final accelerated share repurchase settlement and current diluted share roll-forward; 827 is a guided weighted-average proxy.",
+            "Other-income cash/noncash composition and finance-lease interest within the total interest addback.",
+            "Braze funding, closing adjustments, acquired cash flows, integration costs and synergies; zero incremental NPV is an assumption."
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reviewed_at": "2026-10-20",
+        "reason": "This valuation update did not perform a new Salesforce insider filing review. No verified activity conclusion is available from this entry.",
+        "coverage": {
+          "complete": false,
+          "checked_through": null
+        },
+        "sources": [],
+        "limitations": [
+          "The register-wide transaction window remains 2026-07-16 to 2026-10-14. No CRM coverage is certified for that window or for subsequent dates; an empty transaction list is not evidence of no activity."
+        ],
+        "transactions": []
+      }
+    },
     "ASML": {
       "issuer": "ASML Holding N.V.",
       "listing": "ASML.AS / Euronext Amsterdam / EUR",
