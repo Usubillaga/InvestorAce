@@ -1,0 +1,275 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-20",
+  "period_start": "2026-10-18",
+  "period_end": "2026-10-20",
+  "data_cutoff": "2026-10-20T08:45:17+02:00",
+  "summary": "[Sicher] New German producer-price data show persistent cost pressure, while Colombia's August activity contracted. [Wahrscheinlich] Promised fuel relief does not yet justify a Goldilocks call. [Sicher] Coverage starts after 2026-10-18T08:53:24+02:00; older observations are labelled.",
+  "priority_review": "[Wahrscheinlich] Can energy-intensive companies protect margins without losing orders? Do trade and support announcements become implemented measures and cash flows? Does Colombia complete budget approval with credible financing? Keep fundamental scores, unweighted regime fit and portfolio sizing separate; no model changes or trades.",
+  "items": [
+    {
+      "section": "regime",
+      "title": "Factory-gate inflation challenges an easy disinflation narrative",
+      "authors": "Destatis; White House; InvestorAce analysis",
+      "publication_date": "New release: 2026-10-20; September 2026 observations; policy baseline: 2026-10-16",
+      "source_url": "https://www.destatis.de/EN/Press/2026/10/PE26_373_61241.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] Released on 2026-10-20: German September industrial producer prices rose 6.7% year on year and 1.9% month on month. Energy rose 14.9% year on year; excluding energy, prices rose 3.2% annually and 0.1% monthly.",
+      "investorace_implication": "[Wahrscheinlich] Supply relief from Trump's sanctions waivers could reduce fuel costs. Continued disruption instead squeezes chemicals, transport and retail margins. Passing costs to customers can sustain inflation and restrictive interest rates, weighing on earnings and valuations; absorbing them directly reduces margins.",
+      "review_question": "[Vermutung] Better supply with resilient demand favours disinflation/Goldilocks; stronger demand with renewed price pressure, reflation. Falling demand with sticky costs strengthens stagflation risk; wider contraction raises recession risk.",
+      "limitations": "[Sicher] Producer prices are not consumer inflation. These German data do not establish a global regime switch; no regime probabilities are assigned.",
+      "sources": [
+        {
+          "title": "Destatis: Producer prices in September 2026: +6.7% on September 2025",
+          "url": "https://www.destatis.de/EN/Press/2026/10/PE26_373_61241.html",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "White House: Implementing the Lindsey O. Graham Sanctioning Russia and Iran Act of 2026",
+          "url": "https://www.whitehouse.gov/presidential-actions/2026/10/implementing-the-lindsey-o-graham-sanctioning-russia-and-iran-act-of-2026/",
+          "publication_date": "2026-10-16"
+        }
+      ]
+    },
+    {
+      "section": "usa",
+      "title": "Trade optimism is not an implemented tariff cut",
+      "authors": "Reuters; ABC News; U.S. Senate; BLS; BEA; Federal Reserve; CBO; InvestorAce analysis",
+      "publication_date": "Statements: 2026-10-18 and 2026-10-19; baseline releases: 2026-10-02, 2026-10-14, 2026-09-30, 2026-09-16 and 2026-10-08",
+      "source_url": "https://www.investing.com/news/economy-news/trumps-russia-sanctions-waiver-eases-indias-energy-woes-lifts-trade-deal-chances-4957111",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] On 2026-10-19 Rubio described US–India trade talks as near completion; Reuters still reported unfinished Section 301 work. On 2026-10-18 Wright defended diesel-sanctions relief as an incentive for peace. These statements document neither a signed trade deal nor an observed fuel-price benefit.",
+      "investorace_implication": "[Sicher] Republican Tillis and Democrat Blumenthal's 2026-10-13 bipartisan proposal seeks reversal of the diesel agreement. [Wahrscheinlich] Compare that with the administration's supply-relief policy on fuel costs, supply security and war-financing risk. Conservative/liberal labels do not capture the split.",
+      "review_question": "[Sicher] Baselines: September unemployment 4.2%, payroll gain 29 000, CPI inflation 3.7% year on year; Q2 real GDP growth 2.2% annualised. The Fed's September decision set 3.75%–4.00%. [Wahrscheinlich] Weak hiring alongside positive historical growth requires earnings checks, not an automatic recession call.",
+      "limitations": "[Sicher] CBO's 2026-10-08 estimate put the FY2026 deficit at USD 2.0 trillion; this is older context. [Wahrscheinlich] Sustained borrowing needs can keep refinancing risky even if fuel costs ease.",
+      "sources": [
+        {
+          "title": "Reuters: Trump's Russia sanctions waiver eases India's energy woes, lifts trade deal chances",
+          "url": "https://www.investing.com/news/economy-news/trumps-russia-sanctions-waiver-eases-indias-energy-woes-lifts-trade-deal-chances-4957111",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "ABC News: This Week transcript — Energy Secretary Chris Wright",
+          "url": "https://abcnews.com/amp/Politics/week-transcript-10-18-26-energy-secretary-chris/story?id=137345780",
+          "publication_date": "2026-10-18"
+        },
+        {
+          "title": "U.S. Senate: Tillis, colleagues urge reversal of Russian diesel deal",
+          "url": "https://www.tillis.senate.gov/2026/10/tillis-colleagues-urge-president-trump-to-rescind-russian-diesel-deal",
+          "publication_date": "2026-10-13"
+        },
+        {
+          "title": "BLS: Employment Situation — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/empsit_10022026.htm",
+          "publication_date": "2026-10-02"
+        },
+        {
+          "title": "BLS: Consumer Price Index — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+          "publication_date": "2026-10-14"
+        },
+        {
+          "title": "BEA: GDP third estimate — Q2 2026",
+          "url": "https://www.bea.gov/news/2026/gdp-third-estimate-industries-corporate-profits-state-gdp-and-state-personal-income-2nd",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "Federal Reserve: FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        },
+        {
+          "title": "CBO: Monthly Budget Review — September 2026",
+          "url": "https://www.cbo.gov/publication/61985",
+          "publication_date": "2026-10-08"
+        }
+      ]
+    },
+    {
+      "section": "eu",
+      "title": "French support plans cushion employment, not lost sales",
+      "authors": "French Government; ECB; Eurostat; InvestorAce analysis",
+      "publication_date": "Support announcement: 2026-10-19; FX reference: 2026-10-19; baseline releases: 2026-10-16 and 2026-09-10",
+      "source_url": "https://www.info.gouv.fr/actualite/prise-de-parole-du-premier-ministre",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] On 2026-10-19 Lecornu announced expanded short-time-work support from 2026-10-20 for businesses hit by unrest, via ministerial instruction. A dedicated fund was still being designed; payments and full funding were not verified.",
+      "investorace_implication": "[Wahrscheinlich] Protecting jobs can preserve household income and retail capacity, while public support adds budget pressure. Damage and war-related energy/trade disruption remain risks to earnings. Announcements do not restore lost sales or prove that equity markets have priced all losses.",
+      "review_question": "[Sicher] ECB reference on 2026-10-19: 1 EUR = 1.1225 USD, versus 1.1253 on 2026-10-16; EUR depreciated 0.25%, USD strengthened. [Wahrscheinlich] Dollar inputs become costlier in EUR, while translated dollar profits may rise.",
+      "limitations": "[Sicher] September euro-area inflation of 3.8% and the ECB deposit rate of 2.50% are baselines. FX is a reference, not a live quote; an individual fixing time is not provided.",
+      "sources": [
+        {
+          "title": "French Government: Crisis meeting — Prime Minister's situation report",
+          "url": "https://www.info.gouv.fr/actualite/prise-de-parole-du-premier-ministre",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations — 16 and 19 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "Eurostat: Annual inflation up to 3.8% in the euro area — September 2026",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-16102026-ap",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "ECB: Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+          "publication_date": "2026-09-10"
+        }
+      ]
+    },
+    {
+      "section": "colombia",
+      "title": "Activity weakens as budget approval remains incomplete",
+      "authors": "DANE; El País; Presidencia de Colombia; Banco de la República; La República; ECB; InvestorAce analysis",
+      "publication_date": "ISE release and security order: 2026-10-19; Senate vote: 2026-10-19 Bogotá; budget report: 2026-10-20; TRM reference dates: 2026-10-19 and 2026-10-20",
+      "source_url": "https://www.dane.gov.co/files/operaciones/ISE/bol-ISE-ago2026.pdf",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] DANE's 2026-10-19 release shows preliminary August ISE down 0.04% year on year in the original series and 3.11% month on month after seasonal/calendar adjustment. This is August activity, not October GDP or proof of recession.",
+      "investorace_implication": "[Sicher] El País reports Senate approval on 2026-10-19 of the 2027 budget; Cámara approval remains pending. The presidency announced an Arauca offensive on 2026-10-19, not verified safer conditions. [Wahrscheinlich] Spending authorisation alone secures neither financing nor stronger investment.",
+      "review_question": "[Sicher] La República, citing Superfinanciera: TRM valid 2026-10-20, 1 USD = 3156.32 COP; versus Banrep's 3174.67 dated 2026-10-19, USD fell 0.58%, so COP appreciated. Derived 1 EUR = 3542.97 COP uses 3156.32 × ECB 1.1225 USD/EUR from 2026-10-19.",
+      "limitations": "[Sicher] The newer TRM is secondary evidence; Banrep still displays the older date. Individual FX times are unavailable; the mixed-date cross is not a simultaneous tradable quote. Baselines remain August unemployment 9.4%, September inflation 6.29%, Banrep rate 12.25%.",
+      "sources": [
+        {
+          "title": "DANE: ISE technical bulletin — August 2026, preliminary",
+          "url": "https://www.dane.gov.co/files/operaciones/ISE/bol-ISE-ago2026.pdf",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "El País: Senate approves Colombia's proposed 2027 budget",
+          "url": "https://elpais.com/america-colombia/2026-10-20/el-senado-de-colombia-aprueba-el-presupuesto-para-2027-propuesto-por-gobierno-de-abelardo-de-la-espriella.html",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Presidencia de Colombia: President orders Arauca offensive",
+          "url": "https://www.presidencia.gov.co/prensa/Paginas/Presidente-Abelardo-De-La-Espriella-ordeno-ofensiva-total-contra-el-Eln-261019.aspx",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "La República: TRM reference snapshot valid 20 October 2026",
+          "url": "https://www.larepublica.co/indicadores-economicos/mercado-cambiario/dolar",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Banco de la República: Policy, CPI and TRM snapshot dated 19 October 2026",
+          "url": "https://www.banrep.gov.co/es",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "ECB: USD per EUR reference observation — 19 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "DANE: Employment and unemployment — August 2026",
+          "url": "https://www.dane.gov.co/estadisticas-por-tema/mercado-laboral/empleo-y-desempleo",
+          "publication_date": "2026-09-30"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] Los nuevos datos alemanes de precios de producción muestran presión persistente sobre los costes, mientras la actividad colombiana se contrajo en agosto. [Wahrscheinlich] El alivio prometido para los combustibles aún no justifica un diagnóstico Goldilocks. [Sicher] La cobertura comienza después de 2026-10-18T08:53:24+02:00; se identifican las observaciones anteriores.",
+      "priority_review": "[Wahrscheinlich] ¿Pueden las empresas intensivas en energía proteger márgenes sin perder pedidos? ¿Se convierten los anuncios comerciales y de apoyo en medidas aplicadas y flujos de caja? ¿Completa Colombia la aprobación presupuestaria con financiación creíble? Separar puntuaciones fundamentales, adecuación no ponderada al régimen y dimensionamiento de cartera; sin cambios del modelo ni operaciones.",
+      "items": [
+        {
+          "source_url": "https://www.destatis.de/EN/Press/2026/10/PE26_373_61241.html",
+          "title": "Los precios de producción cuestionan una desinflación sencilla",
+          "publication_date": "Nueva publicación: 2026-10-20; observaciones de septiembre de 2026; referencia de política: 2026-10-16",
+          "what_changed": "[Sicher] Publicado el 2026-10-20: los precios alemanes de producción industrial de septiembre subieron 6.7% interanual y 1.9% mensual. La energía aumentó 14.9% interanual; excluida la energía, los precios subieron 3.2% anual y 0.1% mensual.",
+          "investorace_implication": "[Wahrscheinlich] El alivio del suministro derivado de las exenciones de sanciones de Trump podría reducir costes de combustible. Las perturbaciones continuadas, en cambio, comprimen márgenes en química, transporte y comercio minorista. Trasladar costes a clientes puede mantener inflación y tipos restrictivos, lastrando beneficios y valoraciones; absorberlos reduce directamente los márgenes.",
+          "review_question": "[Vermutung] Mejor suministro con demanda resistente favorece desinflación/Goldilocks; demanda más fuerte con nuevas presiones de precios, reflación. Demanda decreciente con costes persistentes refuerza el riesgo de estanflación; una contracción más amplia eleva el riesgo de recesión.",
+          "limitations": "[Sicher] Los precios de producción no equivalen a inflación de consumo. Estos datos alemanes no demuestran un cambio de régimen global; no se asignan probabilidades a los regímenes."
+        },
+        {
+          "source_url": "https://www.investing.com/news/economy-news/trumps-russia-sanctions-waiver-eases-indias-energy-woes-lifts-trade-deal-chances-4957111",
+          "title": "El optimismo comercial no equivale a una rebaja arancelaria aplicada",
+          "publication_date": "Declaraciones: 2026-10-18 y 2026-10-19; publicaciones de referencia: 2026-10-02, 2026-10-14, 2026-09-30, 2026-09-16 y 2026-10-08",
+          "what_changed": "[Sicher] El 2026-10-19 Rubio describió las negociaciones comerciales entre EEUU e India como próximas a concluir; Reuters aún informaba de trabajos pendientes sobre la Sección 301. El 2026-10-18 Wright defendió el alivio de sanciones sobre diésel como incentivo para la paz. Estas declaraciones no documentan un acuerdo comercial firmado ni un beneficio observado en precios de combustible.",
+          "investorace_implication": "[Sicher] La propuesta bipartidista del 2026-10-13 del republicano Tillis y el demócrata Blumenthal solicita revocar el acuerdo sobre diésel. [Wahrscheinlich] Compararla con la política gubernamental de alivio del suministro según costes de combustible, seguridad de suministro y riesgo de financiar la guerra. Las etiquetas conservador/liberal no reflejan esta división.",
+          "review_question": "[Sicher] Referencias: desempleo de septiembre, 4.2%; aumento del empleo asalariado, 29 000; inflación interanual del IPC, 3.7%; crecimiento real del PIB del Q2, 2.2% anualizado. La decisión de septiembre de la Fed fijó 3.75%–4.00%. [Wahrscheinlich] Contratación débil con crecimiento histórico positivo exige comprobar beneficios, sin diagnosticar automáticamente una recesión.",
+          "limitations": "[Sicher] La estimación de la CBO del 2026-10-08 situó el déficit del ejercicio FY2026 en USD 2.0 billones; es contexto anterior. [Wahrscheinlich] Necesidades persistentes de endeudamiento pueden mantener riesgos de refinanciación aunque bajen los costes de combustible."
+        },
+        {
+          "source_url": "https://www.info.gouv.fr/actualite/prise-de-parole-du-premier-ministre",
+          "title": "Los planes de apoyo franceses protegen empleo, sin recuperar ventas perdidas",
+          "publication_date": "Anuncio de apoyo: 2026-10-19; referencia cambiaria: 2026-10-19; publicaciones de referencia: 2026-10-16 y 2026-09-10",
+          "what_changed": "[Sicher] El 2026-10-19 Lecornu anunció ampliar las ayudas por reducción de jornada desde 2026-10-20 para empresas afectadas por los disturbios, mediante instrucción ministerial. Seguía diseñándose un fondo específico; no se verificaron pagos ni financiación completa.",
+          "investorace_implication": "[Wahrscheinlich] Proteger empleos puede preservar ingresos familiares y capacidad minorista, mientras el apoyo público añade presión presupuestaria. Los daños y las perturbaciones energéticas/comerciales derivadas de la guerra siguen amenazando beneficios. Los anuncios no recuperan ventas perdidas ni demuestran que los mercados bursátiles hayan descontado todas las pérdidas.",
+          "review_question": "[Sicher] Referencia del BCE del 2026-10-19: 1 EUR = 1.1225 USD, frente a 1.1253 el 2026-10-16; el EUR se depreció 0.25% y el USD se fortaleció. [Wahrscheinlich] Los insumos en dólares se encarecen en EUR, mientras los beneficios en dólares convertidos a euros podrían aumentar.",
+          "limitations": "[Sicher] La inflación de septiembre de la eurozona de 3.8% y el tipo de depósito del BCE de 2.50% son referencias. El cambio es una referencia, no una cotización en directo; no se proporciona hora individual de fijación."
+        },
+        {
+          "source_url": "https://www.dane.gov.co/files/operaciones/ISE/bol-ISE-ago2026.pdf",
+          "title": "La actividad se debilita con la aprobación presupuestaria aún incompleta",
+          "publication_date": "Publicación del ISE y orden de seguridad: 2026-10-19; votación del Senado: 2026-10-19 Bogotá; informe presupuestario: 2026-10-20; fechas de referencia de TRM: 2026-10-19 y 2026-10-20",
+          "what_changed": "[Sicher] La publicación del DANE del 2026-10-19 muestra un descenso del ISE preliminar de agosto de 0.04% interanual en la serie original y de 3.11% mensual tras ajustes estacionales y de calendario. Es actividad de agosto, no PIB de octubre ni prueba de recesión.",
+          "investorace_implication": "[Sicher] El País informa de la aprobación en el Senado, el 2026-10-19, del presupuesto de 2027; sigue pendiente la aprobación de la Cámara. La presidencia anunció una ofensiva en Arauca el 2026-10-19, sin verificarse una mejora de seguridad. [Wahrscheinlich] Autorizar gasto no asegura por sí solo financiación ni mayor inversión.",
+          "review_question": "[Sicher] La República, citando a la Superfinanciera: TRM vigente el 2026-10-20, 1 USD = 3156.32 COP; frente a los 3174.67 de Banrep fechados 2026-10-19, el USD cayó 0.58%, por lo que el COP se apreció. El cálculo derivado 1 EUR = 3542.97 COP utiliza 3156.32 × la referencia del BCE de 1.1225 USD/EUR del 2026-10-19.",
+          "limitations": "[Sicher] La TRM más reciente es evidencia secundaria; Banrep aún muestra la fecha anterior. No constan horas individuales de las referencias cambiarias; el cruce de fechas distintas no es una cotización negociable simultánea. Siguen como referencias: desempleo de agosto, 9.4%; inflación de septiembre, 6.29%; tipo de Banrep, 12.25%."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Neue deutsche Erzeugerpreisdaten zeigen anhaltenden Kostendruck, während Kolumbiens Wirtschaftsaktivität im August sank. [Wahrscheinlich] Versprochene Entlastungen bei Kraftstoff rechtfertigen noch keine Goldilocks-Einschätzung. [Sicher] Der Berichtszeitraum beginnt nach 2026-10-18T08:53:24+02:00; ältere Beobachtungen sind gekennzeichnet.",
+      "priority_review": "[Wahrscheinlich] Können energieintensive Unternehmen ihre Margen schützen, ohne Aufträge zu verlieren? Werden Handels- und Unterstützungsankündigungen zu umgesetzten Maßnahmen und Cashflows? Schließt Kolumbien die Haushaltsverabschiedung mit glaubwürdiger Finanzierung ab? Fundamentalscores, ungewichtete Passung zum Marktregime und Positionsgrößen im Portfolio getrennt halten; keine Modelländerungen oder Transaktionen.",
+      "items": [
+        {
+          "source_url": "https://www.destatis.de/EN/Press/2026/10/PE26_373_61241.html",
+          "title": "Erzeugerpreisinflation stellt eine mühelose Disinflation infrage",
+          "publication_date": "Neue Veröffentlichung: 2026-10-20; Beobachtungen für September 2026; politischer Ausgangsstand: 2026-10-16",
+          "what_changed": "[Sicher] Veröffentlicht am 2026-10-20: Die deutschen Erzeugerpreise gewerblicher Produkte stiegen im September um 6,7% gegenüber dem Vorjahr und 1,9% gegenüber dem Vormonat. Energiepreise stiegen jährlich um 14,9%; ohne Energie erhöhten sich die Preise jährlich um 3,2% und monatlich um 0,1%.",
+          "investorace_implication": "[Wahrscheinlich] Eine Angebotsentlastung durch Trumps Sanktionsaussetzungen könnte Kraftstoffkosten senken. Anhaltende Störungen drücken dagegen auf Margen in Chemie, Transport und Einzelhandel. Die Weitergabe von Kosten an Kunden kann Inflation und restriktive Zinsen aufrechterhalten und damit Gewinne sowie Bewertungen belasten; tragen Unternehmen die Kosten selbst, sinken ihre Margen unmittelbar.",
+          "review_question": "[Vermutung] Ein besseres Angebot bei widerstandsfähiger Nachfrage begünstigt Disinflation beziehungsweise Goldilocks; stärkere Nachfrage bei erneutem Preisdruck begünstigt Reflation. Sinkende Nachfrage bei hartnäckigem Kostendruck erhöht das Stagflationsrisiko; ein breiterer Rückgang erhöht das Rezessionsrisiko.",
+          "limitations": "[Sicher] Erzeugerpreise sind keine Verbraucherpreisinflation. Diese deutschen Daten belegen keinen globalen Regimewechsel; es werden keine Regimewahrscheinlichkeiten zugewiesen."
+        },
+        {
+          "source_url": "https://www.investing.com/news/economy-news/trumps-russia-sanctions-waiver-eases-indias-energy-woes-lifts-trade-deal-chances-4957111",
+          "title": "Handelsoptimismus ist noch keine umgesetzte Zollsenkung",
+          "publication_date": "Erklärungen: 2026-10-18 und 2026-10-19; Veröffentlichung der Ausgangsdaten: 2026-10-02, 2026-10-14, 2026-09-30, 2026-09-16 und 2026-10-08",
+          "what_changed": "[Sicher] Am 2026-10-19 bezeichnete Rubio die Handelsgespräche zwischen USA und Indien als nahezu abgeschlossen; Reuters berichtete weiterhin über ausstehende Arbeiten nach Section 301. Am 2026-10-18 verteidigte Wright die Lockerung der Dieselsanktionen als Friedensanreiz. Diese Aussagen belegen weder ein unterzeichnetes Handelsabkommen noch einen beobachteten Vorteil bei Kraftstoffpreisen.",
+          "investorace_implication": "[Sicher] Der parteiübergreifende Vorschlag des Republikaners Tillis und des Demokraten Blumenthal vom 2026-10-13 fordert die Rücknahme des Dieselabkommens. [Wahrscheinlich] Diesen Vorschlag mit der auf Angebotsentlastung gerichteten Regierungspolitik anhand von Kraftstoffkosten, Versorgungssicherheit und Kriegsfinanzierungsrisiken vergleichen. Die Einteilung in konservativ und liberal erfasst den Konflikt nicht.",
+          "review_question": "[Sicher] Ausgangsdaten: Arbeitslosenquote im September 4,2%, Stellenzuwachs 29 000, jährliche Verbraucherpreisinflation 3,7%; reales BIP-Wachstum in Q2 annualisiert 2,2%. Die Fed legte mit ihrer Septemberentscheidung 3,75%–4,00% fest. [Wahrscheinlich] Schwache Beschäftigungszuwächse bei positivem historischem Wachstum erfordern Gewinnprüfungen, keine automatische Rezessionseinschätzung.",
+          "limitations": "[Sicher] Die CBO-Schätzung vom 2026-10-08 bezifferte das Defizit im Haushaltsjahr FY2026 auf USD 2,0 Billionen; dies ist älterer Kontext. [Wahrscheinlich] Anhaltender Kreditbedarf kann die Refinanzierung riskant halten, selbst wenn Kraftstoffkosten sinken."
+        },
+        {
+          "source_url": "https://www.info.gouv.fr/actualite/prise-de-parole-du-premier-ministre",
+          "title": "Frankreichs Unterstützungspläne stützen Beschäftigung, gleichen aber keine Umsatzausfälle aus",
+          "publication_date": "Unterstützungsankündigung: 2026-10-19; Wechselkursreferenz: 2026-10-19; Veröffentlichung der Ausgangsdaten: 2026-10-16 und 2026-09-10",
+          "what_changed": "[Sicher] Am 2026-10-19 kündigte Lecornu eine erweiterte Kurzarbeitsförderung ab 2026-10-20 für von Ausschreitungen betroffene Unternehmen per ministerieller Weisung an. Ein eigener Fonds war noch in Ausarbeitung; Auszahlungen und vollständige Finanzierung waren nicht bestätigt.",
+          "investorace_implication": "[Wahrscheinlich] Arbeitsplatzschutz kann Haushaltseinkommen und Kapazitäten im Einzelhandel erhalten, während staatliche Hilfen den Haushalt zusätzlich belasten. Schäden und kriegsbedingte Störungen bei Energieversorgung und Handel bleiben Gewinnrisiken. Ankündigungen stellen entgangene Umsätze nicht wieder her und beweisen nicht, dass Aktienmärkte sämtliche Verluste eingepreist haben.",
+          "review_question": "[Sicher] EZB-Referenzkurs am 2026-10-19: 1 EUR = 1,1225 USD, gegenüber 1,1253 am 2026-10-16; EUR wertete um 0,25% ab, USD wertete auf. [Wahrscheinlich] In Dollar bepreiste Vorleistungen werden in EUR teurer, während umgerechnete Dollargewinne steigen können.",
+          "limitations": "[Sicher] Die Septemberinflation im Euroraum von 3,8% und der EZB-Einlagenzins von 2,50% sind Ausgangsdaten. Der Wechselkurs ist ein Referenzkurs, keine Echtzeitnotierung; eine konkrete Fixing-Uhrzeit wird nicht angegeben."
+        },
+        {
+          "source_url": "https://www.dane.gov.co/files/operaciones/ISE/bol-ISE-ago2026.pdf",
+          "title": "Wirtschaftsaktivität schwächt sich ab; Haushaltsverabschiedung bleibt unvollständig",
+          "publication_date": "ISE-Veröffentlichung und Sicherheitsanordnung: 2026-10-19; Senatsabstimmung: 2026-10-19 Bogotá; Haushaltsbericht: 2026-10-20; TRM-Referenzdaten: 2026-10-19 und 2026-10-20",
+          "what_changed": "[Sicher] DANE meldet in der Veröffentlichung vom 2026-10-19 für den vorläufigen August-ISE einen Rückgang um 0,04% gegenüber dem Vorjahr in der Originalreihe und um 3,11% gegenüber dem Vormonat nach Saison- und Kalenderbereinigung. Dies beschreibt die Augustaktivität, weder das Oktober-BIP noch einen Rezessionsnachweis.",
+          "investorace_implication": "[Sicher] El País berichtet über die Senatszustimmung am 2026-10-19 zum Haushalt 2027; die Zustimmung der Cámara steht noch aus. Die Präsidentschaft kündigte am 2026-10-19 eine Offensive in Arauca an; eine verbesserte Sicherheitslage ist nicht bestätigt. [Wahrscheinlich] Eine Ausgabenermächtigung allein sichert weder Finanzierung noch stärkere Investitionen.",
+          "review_question": "[Sicher] La República unter Berufung auf Superfinanciera: TRM gültig am 2026-10-20, 1 USD = 3156,32 COP; gegenüber Banreps 3174,67 vom 2026-10-19 fiel USD um 0,58%, COP wertete also auf. Der abgeleitete Kurs von 1 EUR = 3542,97 COP verwendet 3156,32 × EZB 1,1225 USD/EUR vom 2026-10-19.",
+          "limitations": "[Sicher] Der neuere TRM ist ein Sekundärbeleg; Banrep zeigt weiterhin das ältere Datum. Die genauen Uhrzeiten der Wechselkursfeststellungen sind nicht verfügbar; der aus unterschiedlichen Referenzdaten berechnete Kreuzkurs ist kein gleichzeitig handelbarer Kurs. Ausgangsdaten bleiben die August-Arbeitslosenquote von 9,4%, die Septemberinflation von 6,29% und Banreps Leitzins von 12,25%."
+        }
+      ]
+    }
+  }
+}
+
