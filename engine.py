@@ -87,7 +87,7 @@ DATA = {
     deliver_basis='OPERATING_PROXY', dl='backlog growth', sub=(8,6,4,4.5,4,1.5), pr=4.5, dil=5.5, clock='CONC',
     ins='NOT CHECKED', held=False, sector='Industrials', built='est',
     sanity=(25,250)),
-'CRM' : dict(yf='CRM',    fcf=12700,  shares=950.0,  r=.080, cur='USD', deliver=14.0, deliver_basis='OPERATING_PROXY', dl='cRPO cc',          sub=(7,8,8,7.5,7.5,7),       pr=8.0, dil=9.0, clock='CONC', ins='AWARDS',      held=False, sector='Software',      built='exact', sanity=(120,450)),
+'CRM' : dict(yf='CRM',    normalization_status='REVIEW_REQUIRED', fcf=12700,  shares=950.0,  r=.080, cur='USD', deliver=14.0, deliver_basis='OPERATING_PROXY', dl='cRPO cc',          sub=(7,8,8,7.5,7.5,7),       pr=8.0, dil=9.0, clock='CONC', ins='AWARDS',      held=False, sector='Software',      built='exact', sanity=(120,450)),
 'NVDA': dict(yf='NVDA',   fcf=126886, shares=24147, r=.100, cur='USD', deliver=106.0,deliver_basis='REVENUE_PROXY', dl='revenue',          sub=(10,10,8,9,6,6),         pr=2.5, dil=8.0, clock='CONC', ins='SELLING',     held=False, sector='Semis',         built='exact', sanity=(80,400), risk_floor=3.4,
     fcf_ttm=126886,
     financial_period='2025-07-28/2026-07-26',
@@ -2013,7 +2013,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
         rows.append(
           '<tr%s>' % (' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
-          + f'<td class="tk">{t}{filing_badge(t, monitoring)}</td>'
+          + f'<td class="tk">{t}{filing_badge(t, monitoring)}{SOURCE_REVIEW.dcf_badge(t, reviews)}</td>'
           + f'<td class="se">{d.get("sector","")}</td>'
           + f'<td class="sc">{fmt(s,".2f")}</td>'
           + f'<td><span class="pill {bc}">{bn}</span></td>'
