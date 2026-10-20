@@ -53,15 +53,21 @@ class EnagasValuationTests(unittest.TestCase):
         self.assertAlmostEqual(model['reverse_growth'], .021531461443651145, places=9)
         for key in ('ngv', 'cover', 'cushion', 'fundamental_score', 'approved_rating'):
             self.assertIsNone(model[key], key)
-        self.assertEqual(model['scenario_rating'], 'HOLD NEG')
+        self.assertIsNone(model['scenario_rating'])
+        self.assertEqual(model['historical_scenario_rating'], 'HOLD NEG')
 
-    def test_stale_or_future_quote_withdraws_current_stance(self):
+    def test_published_stance_is_historical_even_when_built_with_a_fresh_quote(self):
         module = self.module()
-        for now in ('2026-10-22T18:20:00+02:00', '2026-10-20T16:00:00+02:00'):
-            model = module.build_model(module.load(), now=datetime.fromisoformat(now))
+        for stamp in ('2026-10-20T20:20:00+02:00', '2026-10-22T18:20:00+02:00'):
+            model = module.build_model(module.load(), now=datetime.fromisoformat(stamp))
             self.assertIsNone(model['scenario_rating'])
-            self.assertFalse(model['quote_fresh'])
             self.assertEqual(model['historical_scenario_rating'], 'HOLD NEG')
+            self.assertIn('Historical conditional view', module.render(module.load(), model, 'en'))
+
+    def test_a_future_source_cutoff_cannot_be_published(self):
+        module = self.module()
+        with self.assertRaises(ValueError):
+            module.build_model(module.load(), now=datetime.fromisoformat('2026-10-20T16:00:00+02:00'))
 
     def test_model_inputs_are_archived_with_executable_source(self):
         import evidence
@@ -98,12 +104,70 @@ class EnagasValuationTests(unittest.TestCase):
 
     def test_publication_build_includes_the_review_and_navigation(self):
         import weekly_research
+        module = self.module()
         with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp) / 'repo'
+            folder = root / 'weekly-research'
+            folder.mkdir(parents=True)
+            (folder / 'config.json').write_text(json.dumps({
+                'schema_version': 1, 'first_issue_date': '2026-10-16',
+                'schedule_label': 'Fridays'}))
+            (root / 'index.html').write_text('<!doctype html><html><body><h1>InvestorAce</h1></body></html>')
+            (root / 'enagas_review.json').write_text(json.dumps(module.load()))
             output = Path(temp) / 'public'
-            weekly_research.build_site(Path(__file__).parent, output)
+            weekly_research.build_site(root, output)
             self.assertTrue((output / 'enagas.de.html').exists())
             self.assertTrue((output / 'enagas-review.json').exists())
             self.assertIn('enagas.html', (output / 'index.html').read_text())
+
+    def test_replay_uses_archived_inputs_despite_working_copy_changes(self):
+        import evidence
+        module = self.module()
+        sources = {'enagas_review.json': json.dumps(module.load())}
+        digest = evidence.digest(sources)
+        build = {'manifest': {'model_source_sha256': digest, 'run_id': 'test-run'}}
+        now = datetime.fromisoformat('2026-10-20T20:20:00+02:00')
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            folder = root / 'history' / 'models'
+            folder.mkdir(parents=True)
+            archive = folder / (digest + '.json')
+            archive.write_text(json.dumps({'sha256': digest, 'sources': sources}))
+            before = dict(module.site_pages(root, build=build, now=now))
+            (root / 'enagas_review.json').write_text('untrusted changed working copy')
+            after = dict(module.site_pages(root, build=build, now=now))
+            self.assertEqual(before, after)
+            result = json.loads(after[Path('enagas-review.json')])
+            self.assertEqual(result['provenance']['model_source_sha256'], digest)
+            self.assertEqual(result['provenance']['run_id'], 'test-run')
+            corrupted = dict(sources, **{'enagas_review.json': '{}'})
+            archive.write_text(json.dumps({'sha256': digest, 'sources': corrupted}))
+            with self.assertRaises(ValueError):
+                module.site_pages(root, build=build, now=now)
+
+    def test_older_verified_model_cannot_publish_working_copy_research(self):
+        import evidence
+        module = self.module()
+        sources = {'engine.py': 'old model without an Enagas review'}
+        digest = evidence.digest(sources)
+        build = {'manifest': {'model_source_sha256': digest, 'run_id': 'old-run'}}
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            folder = root / 'history' / 'models'
+            folder.mkdir(parents=True)
+            (folder / (digest + '.json')).write_text(json.dumps({'sha256': digest, 'sources': sources}))
+            (root / 'enagas_review.json').write_text(json.dumps(module.load()))
+            self.assertEqual(module.site_pages(root, build=build), [])
+
+    def test_scoreboard_navigation_and_ticker_links_follow_language(self):
+        import i18n
+        import weekly_research
+        html = '<!doctype html><html><body><a href="enagas.html">ENG</a></body></html>'
+        html = weekly_research.add_research_link(html, include_enagas=True)
+        for language in ('de', 'es'):
+            localized = i18n.localize(html, language)
+            self.assertEqual(localized.count('href="enagas.' + language + '.html"'), 2)
+            self.assertNotIn('href="enagas.html"', localized)
 
 
 if __name__ == '__main__':
