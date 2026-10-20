@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-20",
+  "period_start": "2026-10-19",
+  "period_end": "2026-10-20",
+  "data_cutoff": "2026-10-20T08:40:00+02:00",
+  "summary": "[Wahrscheinlich] The oil relief seen early on Monday reversed: Brent settled near 109.55 USD on 19 October after a five-month high of 110.70, as Houthi forces claimed strikes on Saudi Aramco sites and the US 10-year yield rose to about 5.1%. [Sicher] China grew 4.5% year on year in the third quarter, above the expected 4.4%. Energy-led inflation with firm global growth keeps the stagflation tilt in place. Today: French budget revenue vote; FOMC 27–28 October.",
+  "priority_review": "1) Does a renewed oil spike above 109 USD change the regime reading, or is it already priced in the energy-led tilt? 2) Is the 10-year risk-free input near 5.1% reflected in InvestorAce valuations? 3) Should the COP exposure flag stay on while the rescue law is unfiled?",
+  "items": [
+    {
+      "section": "regime",
+      "authors": "Market reporting; Xinhua (NBS data)",
+      "source_url": "https://www.agbi.com/oil-and-gas/2026/10/oil-close-to-110-after-houthi-attack-claims-and-iranian-threats/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Oil near $110 after Houthi attack claims and Iranian threats",
+          "url": "https://www.agbi.com/oil-and-gas/2026/10/oil-close-to-110-after-houthi-attack-claims-and-iranian-threats/",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Brent oil tops $109 after Houthi militants claim they attacked Saudi airports and Aramco facilities",
+          "url": "https://www.cnbc.com/2026/10/18/oil-price-today-ukraine-russia-iran-strait-hormuz.html",
+          "publication_date": "2026-10-18"
+        },
+        {
+          "title": "China's GDP expands 4.5 pct year on year in Q3",
+          "url": "https://english.news.cn/20261019/6c02c8b4fcdb48f9b6a043076673c046/c.html",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "China's GDP expands by 4.5% YoY in Q3, vs 4.4% expected",
+          "url": "https://www.fxstreet.com/news/breaking-chinas-gdp-expands-by-45-yoy-in-q3-vs-44-expected-202610190200",
+          "publication_date": "2026-10-19"
+        }
+      ],
+      "title": "Oil back near 110 USD on Saudi attack claims; China beats at 4.5%",
+      "publication_date": "18–20 October 2026",
+      "what_changed": "[Sicher] The Saudi Energy Ministry said an Aramco administrative building in Dhahran was attacked overnight, without injuries; Houthi claims of strikes on the Shaybah field and Yanbu facilities are not confirmed by Riyadh. [Wahrscheinlich] Brent settled near 109.55 USD on 19 October after touching 110.70, a five-month high, reversing the brief dip after the US waiver on Russian energy buyers. [Sicher] China reported third-quarter GDP growth of 4.5% year on year (expected 4.4%) and 4.6% for the first three quarters; industrial output rose 5.3% while fixed-asset investment fell 7.2% in the first nine months.",
+      "investorace_implication": "[Wahrscheinlich] Oil near 110 USD feeds directly into headline inflation and keeps central banks hawkish, while Chinese growth near target rules out a global demand collapse; that combination is stagflation-tilted, not recessionary. [Vermutung] The policy-driven oil dip on Monday morning was noise; the supply risk in the Gulf dominates the price, so the regime reading should rest on sustained levels, not single sessions.",
+      "review_question": "Does the classifier use a multi-week oil average rather than daily moves? Next: FOMC on 27–28 October, euro area flash inflation on 4 November.",
+      "limitations": "Oil levels come from market reports, not exchange data. The scale of physical damage at Aramco sites beyond the Dhahran building is unconfirmed. Chinese figures come from Xinhua and market wires reporting the NBS release."
+    },
+    {
+      "section": "usa",
+      "authors": "Market reporting; Federal Reserve",
+      "source_url": "https://www.thestreet.com/stock-market-today/stock-market-today-oct-19-2026-nasdaq-futures-climb-as-tech-rebound-from-sell-off",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Stock Market Today (Oct. 19, 2026): Nasdaq climbs as tech rebounds from sell-off",
+          "url": "https://www.thestreet.com/stock-market-today/stock-market-today-oct-19-2026-nasdaq-futures-climb-as-tech-rebound-from-sell-off",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "Stock market news for Oct. 19, 2026",
+          "url": "https://www.cnbc.com/2026/10/18/stock-market-today-live-updates.html",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "Federal Reserve issues FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        }
+      ],
+      "title": "Tech rebounds while the 10-year yield climbs toward 5.1%",
+      "publication_date": "16 September to 19 October 2026",
+      "what_changed": "[Wahrscheinlich] On 19 October the Nasdaq Composite rose about 1.1% to 26430.89 and the S&P 500 0.41% to 7690.73, led by chipmakers after last week’s sell-off, while the Dow slipped 0.07%; utilities, real estate and banks fell as yields rose. The 10-year Treasury yield was reported between about 5.09% and 5.15%. [Sicher] The federal funds target range is 3.75% to 4% after the September hike; the next decision is on 27–28 October and the midterm elections are on 3 November. No new enacted fiscal or trade measure was verified since the previous edition.",
+      "investorace_implication": "[Wahrscheinlich] A 10-year yield near 5.1% raises the discount rate for every perpetuity-style valuation and is the main headwind for long-duration names even when tech rallies. Rate-sensitive sectors falling while chips rebound shows the market separating AI earnings from duration risk. [Vermutung] Higher oil plus higher yields make a December hike more plausible than futures implied on 16 October.",
+      "review_question": "Is the InvestorAce risk-free input updated to the current 10-year level before the FOMC on 27–28 October?",
+      "limitations": "Index closes and yields come from market news sites and differ slightly between sources; the yield range is shown instead of one figure. No political development since 19 October was verified for this edition."
+    },
+    {
+      "section": "eu",
+      "authors": "ECB; press reporting",
+      "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "France hit by worst unrest in years as attempts to rein in government spending meet citizen ire",
+          "url": "https://www.cnbc.com/2026/10/19/france-protests-worst-in-years-unrest-macron-.html",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "In charts: How one of the world's biggest economies got trapped by debt",
+          "url": "https://www.cnbc.com/2026/10/13/france-2027-budget-debt.html",
+          "publication_date": "2026-10-13"
+        }
+      ],
+      "title": "Euro slips to 1.1225 USD as France votes on budget revenue today",
+      "publication_date": "13 to 19 October 2026",
+      "what_changed": "[Sicher] ECB reference rate on 19 October 2026: 1 EUR = 1.1225 USD, versus 1.1253 on 16 October, so the euro weakened by about 0.25% against the dollar. [Wahrscheinlich] The National Assembly votes today, 20 October, on the revenue part of the French budget, which includes lowering the cap on the 10% pension tax allowance from 4439 to 3000 EUR, worth about 1.4 billion EUR; the government targets a deficit of 5.0% of GDP in 2027 after 5.4% in 2026. Press reports describe the worst unrest in years over spending restraint. The vote on the full bill is due on 17 November.",
+      "investorace_implication": "[Wahrscheinlich] A failed revenue vote would push French spreads and the euro lower and hurt French banks and domestic cyclicals; a pass would ease a tail risk before the ECB meeting on 29 October. Higher oil weighs on European energy importers more than on the US. [Vermutung] Even a pass leaves the full-bill vote and possible use of Article 49.3 ahead, so the risk only moves, it does not disappear.",
+      "review_question": "Next: result of the French revenue vote today, ECB decision on 29 October, euro area flash inflation on 4 November.",
+      "limitations": "The vote result was not available at the cut-off. The size and scope of the protests rest on press reporting."
+    },
+    {
+      "section": "colombia",
+      "authors": "Superintendencia Financiera via press; Colombian press; ECB",
+      "source_url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Precio del dólar hoy en Colombia (TRM)",
+          "url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "Indicadores económicos",
+          "url": "https://www.radiosantafe.com/2026/10/19/indicadores-economicos-3337/",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "Gobierno De la Espriella dio más detalles sobre la ley con la que busca rescatar la economía",
+          "url": "https://www.infobae.com/colombia/2026/10/13/gobierno-de-la-espriella-dio-mas-detalles-sobre-la-ley-con-la-que-busca-rescatar-la-economia-estamos-comprometidos-con-cerrar-el-grifo-del-derroche/",
+          "publication_date": "2026-10-13"
+        },
+        {
+          "title": "FMI advierte que la situación fiscal de Colombia es insostenible",
+          "url": "https://www.eluniversal.com.co/colombia/2026/10/16/fmi-advierte-que-la-situacion-fiscal-de-colombia-es-insostenible/",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-19"
+        }
+      ],
+      "title": "Peso steady near 3175 per dollar; rescue law still not filed",
+      "publication_date": "13 to 19 October 2026",
+      "what_changed": "[Wahrscheinlich] The TRM valid from 17 to 19 October was 1 USD = 3174.67 COP, versus 3170.46 on 16 October, a slight peso depreciation of about 0.13%. Derived with the ECB rate of 19 October: 1 EUR = 3563.6 COP (previous edition: 3567.7), a peso appreciation of about 0.12% against the euro. One source reports a TRM of 3156.32 for 20 October; it is not confirmed. [Sicher] The policy rate is 12.25% and September inflation was 6.29%. [Wahrscheinlich] On 13 October Deputy Finance Minister Juan Sebastián Betancur told the Senate the rescue law was in the final phase before filing; reporting available on 20 October does not show it filed. The planned adjustment is reported at more than 40 trillion pesos, about 2.2% of GDP.",
+      "investorace_implication": "[Wahrscheinlich] The peso holding its October gains despite oil near 110 USD shows that markets still give the new government credit; each delay of the rescue law tests that credit, and the IMF assessment of 16 October raised the bar. With real rates near 6 percentage points, domestic demand stays weak until fiscal clarity allows easing.",
+      "review_question": "Next: Banco de la República on 30 October; IMF mission in early November; filing of the rescue law.",
+      "limitations": "The TRM for 20 October rests on one unconfirmed source. Filing status and the size of the adjustment rest on press reports, not official records. Whether Congress approved the 2027 budget by 20 October was not verified."
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Wahrscheinlich] El alivio del petróleo del lunes temprano se revirtió: el Brent cerró cerca de 109,55 USD el 19 de octubre tras un máximo de cinco meses de 110,70, mientras los hutíes reivindicaban ataques contra instalaciones de Saudi Aramco y el rendimiento del Tesoro a 10 años subía a cerca de 5,1 %. [Sicher] China creció 4,5 % interanual en el tercer trimestre, por encima del 4,4 % esperado. La inflación impulsada por la energía con un crecimiento mundial firme mantiene el sesgo de estanflación. Hoy: votación de ingresos del presupuesto francés; FOMC 27–28 de octubre.",
+      "priority_review": "1) ¿Cambia un nuevo repunte del petróleo por encima de 109 USD la lectura del régimen, o ya está incluido en el sesgo energético? 2) ¿Se refleja en las valoraciones de InvestorAce una tasa libre de riesgo a 10 años cercana a 5,1 %? 3) ¿Debe mantenerse la alerta sobre el COP mientras la ley de rescate no se radique?",
+      "items": [
+        {
+          "source_url": "https://www.agbi.com/oil-and-gas/2026/10/oil-close-to-110-after-houthi-attack-claims-and-iranian-threats/",
+          "title": "El petróleo vuelve cerca de 110 USD por ataques en Arabia Saudita; China supera con 4,5 %",
+          "publication_date": "18–20 de octubre de 2026",
+          "what_changed": "[Sicher] El Ministerio de Energía saudí informó que un edificio administrativo de Aramco en Dhahran fue atacado durante la noche, sin heridos; Riad no confirma las afirmaciones hutíes de ataques contra el campo de Shaybah y las instalaciones de Yanbu. [Wahrscheinlich] El Brent cerró cerca de 109,55 USD el 19 de octubre tras tocar 110,70, un máximo de cinco meses, revirtiendo la breve baja tras la exención de EE. UU. a los compradores de energía rusa. [Sicher] China informó un crecimiento del PIB del tercer trimestre de 4,5 % interanual (esperado 4,4 %) y de 4,6 % en los tres primeros trimestres; la producción industrial subió 5,3 % y la inversión en activos fijos cayó 7,2 % en los nueve primeros meses.",
+          "investorace_implication": "[Wahrscheinlich] Un petróleo cerca de 110 USD alimenta directamente la inflación general y mantiene restrictivos a los bancos centrales, mientras un crecimiento chino cerca de la meta descarta un colapso de la demanda mundial; esa combinación apunta a estanflación, no a recesión. [Vermutung] La baja del petróleo del lunes por la mañana por una decisión política fue ruido; el riesgo de oferta en el Golfo domina el precio, así que la lectura del régimen debe basarse en niveles sostenidos, no en sesiones aisladas.",
+          "review_question": "¿Usa el clasificador un promedio del petróleo de varias semanas en lugar de movimientos diarios? Próximo: FOMC el 27–28 de octubre, inflación preliminar de la eurozona el 4 de noviembre.",
+          "limitations": "Los niveles del petróleo provienen de informes de mercado, no de datos de bolsa. No está confirmado el alcance del daño físico en instalaciones de Aramco más allá del edificio de Dhahran. Las cifras chinas provienen de Xinhua y agencias que reportan el comunicado de la NBS."
+        },
+        {
+          "source_url": "https://www.thestreet.com/stock-market-today/stock-market-today-oct-19-2026-nasdaq-futures-climb-as-tech-rebound-from-sell-off",
+          "title": "La tecnología rebota mientras el rendimiento a 10 años sube hacia 5,1 %",
+          "publication_date": "16 de septiembre a 19 de octubre de 2026",
+          "what_changed": "[Wahrscheinlich] El 19 de octubre el Nasdaq Composite subió cerca de 1,1 % a 26430,89 y el S&P 500 0,41 % a 7690,73, liderados por los fabricantes de chips tras la venta de la semana pasada, mientras el Dow cedió 0,07 %; servicios públicos, inmobiliarias y bancos cayeron con el alza de los rendimientos. El rendimiento del Tesoro a 10 años se reportó entre cerca de 5,09 % y 5,15 %. [Sicher] El rango objetivo de los fondos federales es de 3,75 % a 4 % tras la subida de septiembre; la próxima decisión es el 27–28 de octubre y las elecciones de medio mandato son el 3 de noviembre. No se verificó ninguna nueva medida fiscal o comercial promulgada desde la edición anterior.",
+          "investorace_implication": "[Wahrscheinlich] Un rendimiento a 10 años cercano a 5,1 % eleva la tasa de descuento de toda valoración tipo perpetuidad y es el principal viento en contra para los valores de larga duración, aun cuando la tecnología repunte. La caída de los sectores sensibles a tasas mientras los chips rebotan muestra que el mercado separa las ganancias de la IA del riesgo de duración. [Vermutung] Más petróleo y más rendimiento hacen más plausible una subida en diciembre de lo que implicaban los futuros el 16 de octubre.",
+          "review_question": "¿Se actualiza en InvestorAce la tasa libre de riesgo al nivel actual a 10 años antes del FOMC del 27–28 de octubre?",
+          "limitations": "Los cierres de índices y los rendimientos provienen de sitios de noticias de mercado y difieren algo entre fuentes; se muestra el rango del rendimiento en lugar de una cifra. No se verificó ningún hecho político desde el 19 de octubre para esta edición."
+        },
+        {
+          "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "title": "El euro baja a 1,1225 USD mientras Francia vota hoy los ingresos del presupuesto",
+          "publication_date": "13 a 19 de octubre de 2026",
+          "what_changed": "[Sicher] Tipo de referencia del BCE el 19 de octubre de 2026: 1 EUR = 1,1225 USD, frente a 1,1253 el 16 de octubre, es decir, el euro se debilitó cerca de 0,25 % frente al dólar. [Wahrscheinlich] La Asamblea Nacional vota hoy, 20 de octubre, la parte de ingresos del presupuesto francés, que incluye bajar el tope de la deducción del 10 % para pensiones de 4439 a 3000 EUR, por unos 1,4 mil millones de EUR; el gobierno apunta a un déficit de 5,0 % del PIB en 2027 tras 5,4 % en 2026. La prensa describe las peores protestas en años contra la contención del gasto. La votación del proyecto completo está prevista para el 17 de noviembre.",
+          "investorace_implication": "[Wahrscheinlich] Un rechazo de la parte de ingresos presionaría a la baja los diferenciales franceses y el euro y golpearía a los bancos franceses y a los cíclicos domésticos; su aprobación aliviaría un riesgo extremo antes de la reunión del BCE del 29 de octubre. Un petróleo más caro pesa más sobre los importadores de energía europeos que sobre EE. UU. [Vermutung] Incluso con aprobación quedan la votación completa y el posible uso del artículo 49.3, así que el riesgo se desplaza, no desaparece.",
+          "review_question": "Próximo: resultado de la votación de ingresos en Francia hoy, decisión del BCE el 29 de octubre, inflación preliminar de la eurozona el 4 de noviembre.",
+          "limitations": "El resultado de la votación no estaba disponible al cierre. El tamaño y alcance de las protestas se basan en reportes de prensa."
+        },
+        {
+          "source_url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+          "title": "El peso se mantiene cerca de 3175 por dólar; la ley de rescate sigue sin radicarse",
+          "publication_date": "13 a 19 de octubre de 2026",
+          "what_changed": "[Wahrscheinlich] La TRM vigente del 17 al 19 de octubre fue 1 USD = 3174,67 COP, frente a 3170,46 el 16 de octubre, una leve depreciación del peso de cerca de 0,13 %. Derivado con el tipo del BCE del 19 de octubre: 1 EUR = 3563,6 COP (edición anterior: 3567,7), una apreciación del peso de cerca de 0,12 % frente al euro. Una fuente reporta una TRM de 3156,32 para el 20 de octubre; no está confirmada. [Sicher] La tasa de política es 12,25 % y la inflación de septiembre fue 6,29 %. [Wahrscheinlich] El 13 de octubre el viceministro técnico de Hacienda, Juan Sebastián Betancur, dijo al Senado que la ley de rescate estaba en la fase final antes de radicarse; los reportes disponibles al 20 de octubre no muestran su radicación. El ajuste previsto se reporta en más de 40 billones de pesos, cerca de 2,2 % del PIB.",
+          "investorace_implication": "[Wahrscheinlich] Que el peso conserve sus ganancias de octubre pese a un petróleo cerca de 110 USD muestra que los mercados aún dan crédito al nuevo gobierno; cada retraso de la ley de rescate pone a prueba ese crédito, y la evaluación del FMI del 16 de octubre subió la exigencia. Con tasas reales cerca de 6 puntos porcentuales, la demanda interna seguirá débil hasta que la claridad fiscal permita recortes.",
+          "review_question": "Próximo: Banco de la República el 30 de octubre; misión del FMI a comienzos de noviembre; radicación de la ley de rescate.",
+          "limitations": "La TRM del 20 de octubre se basa en una sola fuente no confirmada. El estado de la radicación y el tamaño del ajuste se basan en reportes de prensa, no en registros oficiales. No se verificó si el Congreso aprobó el presupuesto 2027 antes del 20 de octubre."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Wahrscheinlich] Die Ölentlastung vom frühen Montag hat sich umgekehrt: Brent schloss am 19. Oktober bei etwa 109,55 USD nach einem Fünf-Monats-Hoch von 110,70, während die Huthi Angriffe auf Anlagen von Saudi Aramco reklamierten und die Rendite 10-jähriger US-Anleihen auf etwa 5,1 % stieg. [Sicher] China wuchs im dritten Quartal um 4,5 % gegenüber dem Vorjahr, über den erwarteten 4,4 %. Energiegetriebene Inflation bei solidem Weltwachstum hält die stagflationäre Tendenz aufrecht. Heute: Abstimmung über die Einnahmen des französischen Haushalts; FOMC am 27.–28. Oktober.",
+      "priority_review": "1) Ändert ein erneuter Ölanstieg über 109 USD die Regime-Einschätzung, oder ist er in der energiegetriebenen Tendenz schon enthalten? 2) Ist ein risikofreier 10-Jahres-Zins nahe 5,1 % in den InvestorAce-Bewertungen abgebildet? 3) Soll der COP-Warnhinweis bestehen bleiben, solange das Rettungsgesetz nicht eingereicht ist?",
+      "items": [
+        {
+          "source_url": "https://www.agbi.com/oil-and-gas/2026/10/oil-close-to-110-after-houthi-attack-claims-and-iranian-threats/",
+          "title": "Öl wieder bei fast 110 USD nach Angriffen in Saudi-Arabien; China übertrifft mit 4,5 %",
+          "publication_date": "18.–20. Oktober 2026",
+          "what_changed": "[Sicher] Das saudische Energieministerium meldete einen nächtlichen Angriff auf ein Verwaltungsgebäude von Aramco in Dhahran ohne Verletzte; die Huthi-Behauptungen über Angriffe auf das Shaybah-Feld und Anlagen in Yanbu bestätigt Riad nicht. [Wahrscheinlich] Brent schloss am 19. Oktober bei etwa 109,55 USD, nachdem es mit 110,70 ein Fünf-Monats-Hoch erreicht hatte, und machte damit den kurzen Rückgang nach der US-Ausnahme für Käufer russischer Energie wett. [Sicher] China meldete für das dritte Quartal ein BIP-Wachstum von 4,5 % zum Vorjahr (erwartet 4,4 %) und 4,6 % für die ersten drei Quartale; die Industrieproduktion stieg um 5,3 %, die Anlageinvestitionen fielen in den ersten neun Monaten um 7,2 %.",
+          "investorace_implication": "[Wahrscheinlich] Öl nahe 110 USD fließt direkt in die Gesamtinflation und hält die Notenbanken restriktiv, während chinesisches Wachstum nahe am Ziel einen Einbruch der Weltnachfrage ausschließt; diese Kombination ist stagflationär, nicht rezessiv. [Vermutung] Der politisch ausgelöste Öldip am Montagmorgen war Rauschen; das Angebotsrisiko am Golf bestimmt den Preis, daher sollte die Regime-Einschätzung auf anhaltenden Niveaus beruhen, nicht auf einzelnen Handelstagen.",
+          "review_question": "Nutzt der Klassifikator einen mehrwöchigen Öldurchschnitt statt Tagesbewegungen? Als Nächstes: FOMC am 27.–28. Oktober, Schnellschätzung der Inflation im Euroraum am 4. November.",
+          "limitations": "Die Ölniveaus stammen aus Marktberichten, nicht aus Börsendaten. Das Ausmaß physischer Schäden an Aramco-Anlagen über das Gebäude in Dhahran hinaus ist unbestätigt. Die chinesischen Zahlen stammen von Xinhua und Nachrichtenagenturen, die die Mitteilung der NBS wiedergeben."
+        },
+        {
+          "source_url": "https://www.thestreet.com/stock-market-today/stock-market-today-oct-19-2026-nasdaq-futures-climb-as-tech-rebound-from-sell-off",
+          "title": "Tech erholt sich, während die 10-Jahres-Rendite Richtung 5,1 % steigt",
+          "publication_date": "16. September bis 19. Oktober 2026",
+          "what_changed": "[Wahrscheinlich] Am 19. Oktober stieg der Nasdaq Composite um etwa 1,1 % auf 26430,89 und der S&P 500 um 0,41 % auf 7690,73, angeführt von Chipherstellern nach dem Ausverkauf der Vorwoche, während der Dow um 0,07 % nachgab; Versorger, Immobilien und Banken fielen mit steigenden Renditen. Die Rendite 10-jähriger Treasuries wurde zwischen etwa 5,09 % und 5,15 % gemeldet. [Sicher] Das Zielband der Federal Funds Rate liegt nach der Erhöhung im September bei 3,75 % bis 4 %; die nächste Entscheidung fällt am 27.–28. Oktober, die Zwischenwahlen sind am 3. November. Seit der vorigen Ausgabe wurde keine neue beschlossene Fiskal- oder Handelsmaßnahme bestätigt.",
+          "investorace_implication": "[Wahrscheinlich] Eine 10-Jahres-Rendite nahe 5,1 % erhöht den Diskontsatz jeder ewigen-Renten-ähnlichen Bewertung und ist der Hauptgegenwind für langlaufende Titel, auch wenn Tech steigt. Dass zinssensitive Sektoren fallen, während Chips sich erholen, zeigt, dass der Markt KI-Gewinne vom Durationsrisiko trennt. [Vermutung] Mehr Öl und höhere Renditen machen eine Erhöhung im Dezember wahrscheinlicher, als die Futures am 16. Oktober einpreisten.",
+          "review_question": "Wird der risikofreie Zins in InvestorAce vor dem FOMC am 27.–28. Oktober auf das aktuelle 10-Jahres-Niveau gesetzt?",
+          "limitations": "Indexstände und Renditen stammen von Marktnachrichtenseiten und weichen leicht voneinander ab; statt einer Zahl wird die Renditespanne gezeigt. Seit dem 19. Oktober wurde für diese Ausgabe keine politische Entwicklung verifiziert."
+        },
+        {
+          "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "title": "Euro fällt auf 1,1225 USD, Frankreich stimmt heute über Haushaltseinnahmen ab",
+          "publication_date": "13. bis 19. Oktober 2026",
+          "what_changed": "[Sicher] EZB-Referenzkurs am 19. Oktober 2026: 1 EUR = 1,1225 USD nach 1,1253 am 16. Oktober; der Euro gab also um etwa 0,25 % gegenüber dem Dollar nach. [Wahrscheinlich] Die Nationalversammlung stimmt heute, am 20. Oktober, über den Einnahmenteil des französischen Haushalts ab; dazu gehört die Senkung der Obergrenze des 10-%-Rentenfreibetrags von 4439 auf 3000 EUR, rund 1,4 Milliarden EUR wert; die Regierung peilt 2027 ein Defizit von 5,0 % des BIP an nach 5,4 % im Jahr 2026. Presseberichte sprechen von den schwersten Unruhen seit Jahren wegen der Sparpolitik. Die Abstimmung über das Gesamtgesetz ist für den 17. November geplant.",
+          "investorace_implication": "[Wahrscheinlich] Ein Scheitern des Einnahmenteils würde französische Spreads ausweiten, den Euro drücken und französische Banken sowie binnenwirtschaftliche Zykliker treffen; eine Annahme würde ein Extremrisiko vor der EZB-Sitzung am 29. Oktober entschärfen. Teureres Öl belastet europäische Energieimporteure stärker als die USA. [Vermutung] Auch bei Annahme stehen die Gesamtabstimmung und ein möglicher Einsatz von Artikel 49.3 noch bevor; das Risiko verschiebt sich, es verschwindet nicht.",
+          "review_question": "Als Nächstes: Ergebnis der Einnahmenabstimmung in Frankreich heute, EZB-Entscheidung am 29. Oktober, Schnellschätzung der Inflation im Euroraum am 4. November.",
+          "limitations": "Das Abstimmungsergebnis lag zum Recherchestand noch nicht vor. Umfang und Ausmaß der Proteste beruhen auf Presseberichten."
+        },
+        {
+          "source_url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+          "title": "Peso stabil bei rund 3175 pro Dollar; Rettungsgesetz weiter nicht eingereicht",
+          "publication_date": "13. bis 19. Oktober 2026",
+          "what_changed": "[Wahrscheinlich] Die vom 17. bis 19. Oktober gültige TRM betrug 1 USD = 3174,67 COP nach 3170,46 am 16. Oktober, eine leichte Peso-Abwertung um etwa 0,13 %. Abgeleitet mit dem EZB-Kurs vom 19. Oktober: 1 EUR = 3563,6 COP (vorige Ausgabe: 3567,7), eine Peso-Aufwertung um etwa 0,12 % gegenüber dem Euro. Eine Quelle meldet für den 20. Oktober eine TRM von 3156,32; das ist nicht bestätigt. [Sicher] Der Leitzins liegt bei 12,25 %, die Inflation im September bei 6,29 %. [Wahrscheinlich] Am 13. Oktober sagte Vize-Finanzminister Juan Sebastián Betancur im Senat, das Rettungsgesetz sei in der Schlussphase vor der Einreichung; laut den am 20. Oktober verfügbaren Berichten ist es noch nicht eingereicht. Die geplante Anpassung wird mit mehr als 40 Billionen Pesos angegeben, etwa 2,2 % des BIP.",
+          "investorace_implication": "[Wahrscheinlich] Dass der Peso seine Oktobergewinne trotz Öl nahe 110 USD hält, zeigt, dass die Märkte der neuen Regierung noch Vertrauen schenken; jede Verzögerung des Rettungsgesetzes testet dieses Vertrauen, und die IWF-Einschätzung vom 16. Oktober hat die Messlatte erhöht. Bei Realzinsen um 6 Prozentpunkte bleibt die Binnennachfrage schwach, bis fiskalische Klarheit Zinssenkungen erlaubt.",
+          "review_question": "Als Nächstes: Banco de la República am 30. Oktober; IWF-Mission Anfang November; Einreichung des Rettungsgesetzes.",
+          "limitations": "Die TRM für den 20. Oktober beruht auf einer einzigen unbestätigten Quelle. Einreichungsstand und Umfang der Anpassung beruhen auf Presseberichten, nicht auf offiziellen Registern. Ob der Kongress den Haushalt 2027 bis zum 20. Oktober verabschiedet hat, wurde nicht geprüft."
+        }
+      ]
+    }
+  }
+}
