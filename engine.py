@@ -2025,7 +2025,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
         s, rk, c, cu, eg = score(d), risk(d), cover(d), cushion(d), entry_gap(d)
         bn, bc = band(s); vn, vc = verdict(t, d)
         note = d.get('price_note','')
-        ticker_label = ('<a href="enagas.html">ENG · DCF</a>' if t == 'ENG' else escape(t))
+        ticker_label = ('<a href="enagas.html">ENG</a>' if t == 'ENG' else escape(t))
         rows.append(
           '<tr%s>' % (' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
