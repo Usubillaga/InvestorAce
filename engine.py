@@ -396,7 +396,22 @@ DATA = {
               'score_fixed 6.35 retained, category review pending.'),
 'CMCSA':dict(yf='CMCSA',  fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=9.5, dil=6.0, clock='CLOCK',ins='SELLING', held=False, sector='Media',      built='back-solved', score_fixed=6.25),
 'NVO' : dict(yf='NVO',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Pharma',     built='back-solved', score_fixed=6.15),
-'ENG' : dict(yf='ENG.MC', fcf=None, shares=None, r=.075, cur='EUR', deliver=-8.6,deliver_basis='EARNINGS_PROXY', dl='recurring net profit', sub=None, pr=8.0, dil=6.0, clock='CLOCK', ins='BUYING', held=False, sector='Utilities', built='back-solved', sanity=(5,40), score_fixed=6.0, na='regulated network: total-capex FCF is the wrong line, needs FFO or DCF per share like ENB'),
+'ENG' : dict(yf='ENG.MC', fcf=None, shares=261.990074, r=.075, cur='EUR',
+    deliver=-5.4, deliver_basis='EARNINGS_PROXY', dl='9M recurring net profit',
+    sub=None, pr=8.0, dil=6.0, clock='CLOCK', ins='BUYING', held=False,
+    sector='Utilities', built='back-solved', sanity=(5,40), score_fixed=6.0,
+    na='Sustainable equity cash and investment funding unresolved; FFO is not FCFE. See enagas.html for dated conditional DCF and reverse DCF.',
+    financial_unit='EUR million', financial_period='2026-01-01/2026-09-30',
+    financial_published_at='2026-10-20', cash_flow_basis='FFO_REPORTED_NOT_FCFE',
+    normalization_status='REVIEW_REQUIRED', shares_asof='2026-10-20',
+    shares_basis='ISSUED_SHARE_PROXY_NOT_TREASURY_ADJUSTED',
+    shares_source_url='https://www.enagas.es/es/accionistas-inversores/informacion-bursatil/precio-accion/',
+    reported_cash_flow={'ffo_9m2026':439.0, 'ocf_9m2026':274.8,
+        'fcf_9m2026':-341.2, 'ffo_ttm_rounded':612.0,
+        'transaction_adjusted_9m_cash':183.8, 'net_debt_9m2026':2979.0},
+    financial_sources=[{'url':'https://www.enagas.es/content/dam/enagas/en/files/accionistas-e-inversores/informacion-economico-financiera/informes-resultados-presentaciones/informacion-publica-periodica/Nota%20CNMV%20Results%209M2026.pdf', 'title':'Enagas 9M2026 results report',
+        'published_at':'2026-10-20', 'period':'9M2026 and 9M2025'}],
+    boot_note='2026-10-20: 9M recurring profit EUR195.8m (-5.4%); FY guide EUR235m profit/EUR620m EBITDA and EUR1 dividend. Rounded rolling FFO EUR612m is not normalized FCFE. Issued-share proxy261.990074m. See enagas.html for scenario-only DCF/reverse DCF; approved rating and audited composite remain unavailable. Fixed6.0 is an unchanged legacy total, not a newly reviewed score.'),
 'META': dict(yf='META',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=3.0, dil=8.0, clock='CONC', ins='SELLING', held=False, sector='AdTech',     built='back-solved', score_fixed=5.83),
 'DIS' : dict(yf='DIS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.0, dil=9.0, clock='DIV',  ins='AWARDS',  held=True, sector='Media',      built='back-solved', score_fixed=5.62, weight=20.0),
 'PEP' : dict(yf='PEP',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=5.0, dil=7.0, clock='DIV',  ins='SELLING', held=False, sector='Staples',    built='back-solved', score_fixed=5.5),
@@ -2010,10 +2025,11 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
         s, rk, c, cu, eg = score(d), risk(d), cover(d), cushion(d), entry_gap(d)
         bn, bc = band(s); vn, vc = verdict(t, d)
         note = d.get('price_note','')
+        ticker_label = ('<a href="enagas.html">ENG</a>' if t == 'ENG' else escape(t))
         rows.append(
           '<tr%s>' % (' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
-          + f'<td class="tk">{t}{filing_badge(t, monitoring)}{SOURCE_REVIEW.dcf_badge(t, reviews)}</td>'
+          + f'<td class="tk">{ticker_label}{filing_badge(t, monitoring)}{SOURCE_REVIEW.dcf_badge(t, reviews)}</td>'
           + f'<td class="se">{d.get("sector","")}</td>'
           + f'<td class="sc">{fmt(s,".2f")}</td>'
           + f'<td><span class="pill {bc}">{bn}</span></td>'

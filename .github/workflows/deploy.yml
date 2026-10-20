@@ -18,6 +18,7 @@ on:
       - 'regime_contract.json'
       - 'monitoring_status.json'
       - 'source_reviews.json'
+      - 'enagas_review.json'
       - 'scanner*'
       - 'compare*'
       - 'comparison/**'

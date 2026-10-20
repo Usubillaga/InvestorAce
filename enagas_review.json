@@ -1,0 +1,192 @@
+{
+  "schema": "enagas-valuation-v1",
+  "issuer": "Enagás, S.A.",
+  "ticker": "ENG",
+  "listing": "BME:ENG / ENG.MC",
+  "isin": "ES0130960018",
+  "currency": "EUR",
+  "as_of": "2026-10-20T18:15:00+02:00",
+  "quote_max_age_hours": 24,
+  "quote": {
+    "value": 17.25,
+    "currency": "EUR",
+    "as_of": "2026-10-20T17:40:00+02:00",
+    "status": "LAST_DISPLAYED_OBSERVATION",
+    "source_id": "EV-QUOTE"
+  },
+  "shares_m": 261.990074,
+  "shares_basis": "ISSUED_SHARE_PROXY_NOT_TREASURY_ADJUSTED",
+  "facts": {
+    "ffo_fy2025": 636,
+    "ffo_9m2025": 463,
+    "ffo_9m2026": 439,
+    "wc_outflow_fy2025": 260,
+    "wc_outflow_9m2025": 183.1,
+    "wc_outflow_9m2026": 164.2,
+    "ocf_9m2026": 274.8,
+    "fcf_9m2026": -341.2,
+    "net_investment_9m2026": 616,
+    "terega_acquisition": 573,
+    "renovable_sale": 48,
+    "gas_investment_9m": 81.1,
+    "net_debt": 2979,
+    "leverage": 4.6,
+    "recurring_profit_9m": 195.8,
+    "recurring_profit_9m_prior": 206.9,
+    "profit_guidance_fy2026": 235,
+    "ebitda_9m": 491.5,
+    "ebitda_guidance_fy2026": 620,
+    "dividend_per_share": 1,
+    "investment_guidance_fy2026": 225,
+    "affiliate_earnings_9m": 145.8,
+    "affiliate_dividends_9m": 127.1,
+    "interest_paid_9m": 29.1,
+    "tax_paid_9m": 9.3,
+    "lease_maturity_annual_approx": 25
+  },
+  "pending_acquisition_cost_m": 31,
+  "years": 5,
+  "method": {
+    "basis": "FCFE_BEFORE_NET_BORROWING_SCENARIO",
+    "discount_rate_basis": "ANALYST_ASSUMED_COST_OF_EQUITY",
+    "net_borrowing_m": 0,
+    "net_debt_deduction_m": 0,
+    "affiliate_value_addition_m": 0,
+    "saggas_incremental_cash_included": false,
+    "terminal_hydrogen_value_addition_m": 0
+  },
+  "cases": {
+    "bear": {
+      "ffo": 575,
+      "capex": 250,
+      "working_capital": 75,
+      "lease_principal": 25,
+      "other_cash_reserve": 25,
+      "growth": -0.02,
+      "cost_of_equity": 0.1,
+      "terminal_growth": 0
+    },
+    "base": {
+      "ffo": 612,
+      "capex": 225,
+      "working_capital": 50,
+      "lease_principal": 25,
+      "other_cash_reserve": 12,
+      "growth": 0.01,
+      "cost_of_equity": 0.08,
+      "terminal_growth": 0.01
+    },
+    "bull": {
+      "ffo": 650,
+      "capex": 200,
+      "working_capital": 25,
+      "lease_principal": 25,
+      "other_cash_reserve": 0,
+      "growth": 0.02,
+      "cost_of_equity": 0.07,
+      "terminal_growth": 0.015
+    }
+  },
+  "review": {
+    "status": "blocked_data",
+    "readiness": "screen-grade",
+    "research_view": "WATCH",
+    "conditional_scenario_stance": "HOLD NEG",
+    "approved_rating": null,
+    "fundamental_score": null,
+    "legacy_score": 6,
+    "regime_fit_reassessed": false,
+    "process": "Three isolated first-pass analyst reviews; second-round checking by coordinator after agent usage failures. Agreement does not independently authenticate sources."
+  },
+  "sources": [
+    {
+      "id": "EV-9M",
+      "title": "Enagás 9M2026 results report",
+      "url": "https://www.enagas.es/content/dam/enagas/en/files/accionistas-e-inversores/informacion-economico-financiera/informes-resultados-presentaciones/informacion-publica-periodica/Nota%20CNMV%20Results%209M2026.pdf",
+      "published_date": "2026-10-20",
+      "retrieved_date": "2026-10-20",
+      "locator": "Targets p.4; financial tables pp.5–6; cash flow p.9; investment and maturities p.11",
+      "snapshot_sha256": "acf654979d3bc2ad885d396aafa01a110413fdbc7ed993a26cd03acddf4efefe"
+    },
+    {
+      "id": "EV-FY",
+      "title": "Enagás FY2025 results and 2026 targets",
+      "url": "https://www.enagas.es/content/dam/enagas/en/files/accionistas-e-inversores/comunicados-cnmv/otra-informacion-relevante/2026/ResultsPresentation2025EN.pdf",
+      "published_date": "2026-02-17",
+      "retrieved_date": "2026-10-20",
+      "locator": "Cash flows / net debt evolution; 2026 investment breakdown",
+      "snapshot_sha256": "4a519ffaaf5716f1dd1b9b2b9a838334d01d2fe81e4a6642d111d3c364e8e073"
+    },
+    {
+      "id": "EV-QUOTE",
+      "title": "Enagás share price, Euroland and issued capital",
+      "url": "https://www.enagas.es/es/accionistas-inversores/informacion-bursatil/precio-accion/",
+      "published_date": "2026-10-20",
+      "retrieved_date": "2026-10-20",
+      "locator": "20/10/2026 17:40 observation; total issued shares table",
+      "snapshot_sha256": "ac09a600376e3dae5a8aec9339d31a4111f5aa400926eae63696cc812e36d1b0"
+    },
+    {
+      "id": "EV-RELEASE",
+      "title": "Enagás 9M2026 release",
+      "url": "https://www.enagas.es/es/sala-comunicacion/actualidad/notas-prensa/resultados-t3-2026/",
+      "published_date": "2026-10-20",
+      "retrieved_date": "2026-10-20",
+      "locator": "2026 targets; regulation and hydrogen milestones",
+      "snapshot_sha256": "7e17c44640ea715236c4a4a4fd546cd8874e6d70de74159e2d9e0b079ecc90b9"
+    },
+    {
+      "id": "EV-STRATEGY",
+      "title": "Historical strategic update 2025–2030",
+      "url": "https://www.enagas.es/es/sala-comunicacion/actualidad/notas-prensa/resultados-2024-actualizacion-estrategica/",
+      "published_date": "2025-02-18",
+      "retrieved_date": "2026-10-20",
+      "locator": "EUR3.125bn hydrogen plan; historical plan, not a current funding schedule"
+    }
+  ],
+  "issues": [
+    {
+      "id": "NORM",
+      "severity": "major",
+      "status": "open",
+      "owner": "Quality",
+      "affected": [
+        "ngv",
+        "cover",
+        "cushion",
+        "fundamental_score",
+        "approved_rating"
+      ],
+      "reason": "Annual sustainable equity cash flow, working-capital normalization and full recurring cash claims are not verified. Conditional DCF values are assumption-led scenarios."
+    },
+    {
+      "id": "FUNDING",
+      "severity": "major",
+      "status": "open",
+      "owner": "Risk",
+      "affected": [
+        "fundamental_score",
+        "approved_rating"
+      ],
+      "reason": "No complete hydrogen investment, grants, financing or dilution schedule. Extending 2026 capex is a continuity assumption, not a full-company investment forecast."
+    },
+    {
+      "id": "SHARES",
+      "severity": "minor",
+      "status": "open",
+      "owner": "Quality",
+      "affected": [
+        "approved_rating"
+      ],
+      "reason": "261.990074m issued shares are a proxy; treasury-adjusted and diluted outstanding shares not established."
+    },
+    {
+      "id": "MATH",
+      "severity": "minor",
+      "status": "corrected",
+      "owner": "Valuation",
+      "affected": [],
+      "reason": "Explicit equity cash-flow model avoids a second debt/acquisition deduction; reverse growth solves the same five-year cash-flow equation. Automated verification pending."
+    }
+  ]
+}
