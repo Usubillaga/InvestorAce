@@ -150,6 +150,72 @@ tested deployment; generated history-only commits do not retrigger it.
 
 ## Build integrity
 
+### Score completeness and explicit review
+
+Frozen approvals expire in the browser as well as on the server. An expired
+review removes approval and new-entry eligibility; an expired quote also removes
+the price-dependent score contribution. Entry plans cannot outlive their bound
+approval. Current material research objections withdraw frozen approval when the
+report is rebuilt; the original packet remains available as historical evidence.
+
+Offline browser expiry regression (requires an existing Playwright browser):
+`python tests/assessment_pages.py research-output/assessment`, then
+`node tests/assessment_browser.cjs`. Set `ASSESSMENT_BROWSER_EXECUTABLE` if needed.
+
+`assessment.py` is the shared decision contract used by the main report,
+scanner, comparison and new-entry proposal. All eight original nominal
+weights remain fixed. Missing contributions stay null, with numerical coverage
+and arithmetic lower/upper bounds. These bounds are not confidence intervals.
+A complete mechanical model score can be displayed without an approved rating.
+Legacy fixed totals and the historical 0.85/default-dilution calculation remain
+available for replay through `score()`, `score_components()` and
+`legacy_verdict()`; they do not constitute a new review or a current decision.
+The archived `score` field remains the raw legacy channel for existing forward
+evidence. New records also contain a versioned, complete `assessment` projection.
+
+`assessment_reviews.json` starts with no approvals. An explicit approval names
+a reviewer, review/expiry timestamps, sources for every category and normalization,
+and the SHA256 of the exact financial, category, rate and quote inputs reviewed.
+Changes to those inputs invalidate approval. Retrieval timestamps cannot renew
+it. The approval also requires a consistent cash-flow/rate contract, verified
+normalization and a dated quote within96hours. A source URL or SOURCE_CHECKED
+status alone never approves a score; the register records analyst assertions,
+not independent source authentication. Major unresolved review objections block
+approval. The register and executable policy are frozen in each model bundle.
+
+Older snapshots without an assessment remain inspectable as legacy evidence;
+publishing them with current code does not certify them. Expired quotes withdraw
+current price-dependent model/decision outputs. A regular-market price uses its
+own provider timestamp, rather than attaching retrieval time to a fast quote.
+The comparison's five financial rounds remain independent; a current model
+leader additionally needs comparable, unexpired reviewed scores.
+
+Only eligible reviewed candidates receive new-entry proposal slots. Unfilled
+slots describe unused proposal capacity; they do not alter real holdings or
+recommend selling them. Missing evidence does not mean Sell or poor quality.
+Regime formulas, raw regime order and golden fixtures remain unchanged.
+
+Automatic onboarding preserves missing categories instead of assigning neutral
+five-point defaults. TTM revenue is not compared with a prior annual period;
+partial operating-income quarters do not become annual margins. Dividend yield
+units are not guessed from whether a number is below one. Unknown dividends,
+cash, debt or share changes stay unknown. These mechanical drafts still need
+source and normalization review.
+
+EPV input version2 uses a common fiscal-year mask inside each requested income
+window and paired capex/D&A cells inside their own window. Unknown net debt,
+nonfinite scalar values and invalid share counts cannot produce a valuation.
+Known zero debt and net cash remain valid. Earlier cache inputs are refetched;
+R&D-zero and21% tax defaults are disclosed assumptions. Complete Apple workbook
+fixtures retain their existing values. These repairs do not certify EPV's
+economic assumptions or increase the underlying fundamental score.
+
+Remaining model research includes sector-specific scoring/normalization,
+currency-consistent discount curves and enterprise/equity valuation migration,
+and prospective validation of overlapping valuation/expectations signals.
+No return improvement, automatic approval or complete issuer-by-issuer review
+is claimed by this code repair.
+
 ### Score explanations and experimental entry observations
 
 The report has a separate, collapsed inspection view for the eight existing

@@ -72,7 +72,8 @@ class UnitedHealthInputs(unittest.TestCase):
         row = dict(engine.DATA['UNH'], price=378.5199890136719,
                    r_wacc=0.07507895299289014)
         self.assertEqual(engine.score(row), 6.35)
-        self.assertEqual(engine.verdict('UNH', row)[0], 'HOLD')
+        self.assertEqual(engine.legacy_verdict('UNH', row)[0], 'HOLD')
+        self.assertEqual(engine.verdict('UNH', row)[0], 'REVIEW REQUIRED')
         self.assertIsNone(engine.cushion(row))
         self.assertEqual(engine.regime_spec_sha256(), engine.REGIME_SPEC_EXPECTED_SHA256)
         weighted = dict(row, weight=99)

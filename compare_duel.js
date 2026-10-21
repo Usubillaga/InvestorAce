@@ -61,7 +61,10 @@
     const status=same ? 'SAME_STOCK' : !leader ? missing ? 'OPEN' : 'DRAW' :
       missing || uniqueFlags.length ? 'PROVISIONAL' : 'WINNER';
     const modelScores=[a?.model?.score,b?.model?.score];
-    const validScores=modelScores.every(v=>finite(v) && v>=0 && v<=10);
+    const validScores=modelScores.every(v=>finite(v) && v>=0 && v<=10) &&
+      [a,b].every(row=>row?.model?.assessment_schema==='assessment-v1' &&
+        row.model.quality_rank_eligible===true && row.model.review_required===false &&
+        Date.parse(row.model.assessed_at)<=asOf && Date.parse(row.model.expires_at)>=asOf);
     const modelDifference=validScores ? displayed(modelScores[0],2)-displayed(modelScores[1],2) : 0;
     const modelLeader=modelDifference===0 ? null : modelDifference>0 ? 'a' : 'b';
     let counterargument=null;

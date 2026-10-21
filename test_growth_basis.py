@@ -167,7 +167,7 @@ class FrozenGrowthReplay(unittest.TestCase):
                     else:
                         self.assertAlmostEqual(engine.score(row), saved['score'] + deltas.get(ticker, 0))
                         self.assertAlmostEqual(engine.risk(row), saved['risk'] - (.6 if ticker in deltas else 0))
-                    self.assertEqual(engine.verdict(ticker, row)[0], verdicts.get(ticker, saved['verdict']))
+                    self.assertEqual(engine.legacy_verdict(ticker, row)[0], verdicts.get(ticker, saved['verdict']))
             for regime in engine.REGIMES:
                 expected = sorted((t for t in rows if record[t]['regime']),
                                   key=lambda t: (-record[t]['regime'][regime], t))[:30]

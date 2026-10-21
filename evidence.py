@@ -43,7 +43,8 @@ def model_bundle(root):
                for p in sorted(Path(root).glob('*.py')) if not p.name.startswith('test_')}
     for p in sorted(Path(root).glob('requirements*.txt')):
         sources[p.name] = p.read_text(encoding='utf-8')
-    for name in ('monitoring_status.json', 'source_reviews.json', 'enagas_review.json'):
+    for name in ('monitoring_status.json', 'source_reviews.json', 'enagas_review.json',
+                 'assessment_reviews.json', 'scanner_notes.json', 'assessment_view.js'):
         register = Path(root) / name
         if register.exists():
             sources[register.name] = register.read_text(encoding='utf-8')

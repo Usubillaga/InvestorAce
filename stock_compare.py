@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import assessment as ASSESSMENT
 import math
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
@@ -245,6 +246,7 @@ def site_pages(root, build, *, now=None):
     inputs = evidence.get('inputs', {})
     saved = load_snapshot(Path(root) / 'comparison' / 'latest.json')
     cache = _cache_rows(saved)
+    notes = load_snapshot(Path(root) / 'scanner_notes.json') or {}
     rows = []
     # Never expose a cached outsider, even through a hand-written URL or export.
     for key, model in sorted(inputs.items()):
@@ -252,12 +254,17 @@ def site_pages(root, build, *, now=None):
         if not row or row.get('listing') != (model.get('yf') or key):
             row = empty_row(key, model)
         output = record.get(key) or {}
-        score = number(output.get('score'))
-        row['model'] = dict(score=score if score is not None and 0 <= score <= 10 else None,
+        objections = notes.get('entries', {}).get(key, {}).get('objections', [])
+        checked = ASSESSMENT.project(output.get('assessment'), raw_score=output.get('score'), as_of=now,
+                                     objections=objections)
+        row['model'] = dict(score=checked['model_score'], raw_score=checked['raw_score'],
             score_status=(output.get('score_explanation') or {}).get('status') or 'UNAVAILABLE',
             captured_at=evidence.get('captured_at'),
-            review_required=model.get('normalization_status') == 'REVIEW_REQUIRED' or
-                model.get('built') in ('auto', 'est', 'back-solved', 'yahoo-draft'))
+            assessment_schema=checked['schema'], assessed_at=checked.get('as_of'),
+            expires_at=checked.get('expires_at'), rating=checked['rating'],
+            review_required=not checked['quality_rank_eligible'],
+            quality_rank_eligible=checked['quality_rank_eligible'], assessment=checked,
+            archived_assessment=output.get('assessment'), objections=objections)
         rows.append(row)
     payload = dict(schema=VERSION, generated_at=now.isoformat(),
         snapshot_at=(saved or {}).get('generated_at'), universe_count=len(rows), rows=rows,
@@ -268,7 +275,8 @@ def site_pages(root, build, *, now=None):
     styles = (ASSETS / 'compare.css').read_text(encoding='utf-8') + '\n' + (ASSETS / 'compare_duel.css').read_text(encoding='utf-8')
     page = template.replace('__STYLE__', styles)
     page = page.replace('__DUEL__', (ASSETS / 'compare_duel.js').read_text(encoding='utf-8'))
-    page = page.replace('__SCRIPT__', (ASSETS / 'compare.js').read_text(encoding='utf-8')).replace('__DATA__', safe)
+    page = page.replace('__SCRIPT__', (ASSETS / 'assessment_view.js').read_text(encoding='utf-8') + '\n'
+                        + (ASSETS / 'compare.js').read_text(encoding='utf-8')).replace('__DATA__', safe)
     return [(Path('compare.html'), page), (Path('compare.json'), raw)]
 
 

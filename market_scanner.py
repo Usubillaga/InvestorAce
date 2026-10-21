@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import assessment as ASSESSMENT
 import os
 from datetime import date, datetime, timedelta, timezone
 from html import escape
@@ -273,6 +274,9 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
     rows = []
     for ticker, raw in inputs.items():
         output = record.get(ticker, {})
+        note = notes['entries'].get(ticker, {})
+        checked = ASSESSMENT.project(output.get('assessment'), raw_score=output.get('score'), as_of=as_of,
+                                     objections=note.get('objections'))
         diagnostics = output.get('diagnostics', {})
         contract = diagnostics.get('valuation_contract', {})
         source_review = reviews.get('entries', {}).get(ticker, {})
@@ -290,7 +294,7 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
                 STALE='Kurs älter als die offengelegte 96-Stunden-Grenze.',
                 FUTURE='Kurszeitpunkt liegt nach dem Analysezeitpunkt.')
             issue('QUOTE_' + quote_status, quote_reasons[quote_status])
-        score = number(output.get('score'))
+        score = number(checked.get('model_score'))
         band = model_band(score)
         if band is None:
             score = None
@@ -319,18 +323,19 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
                 issue(str(objection.get('id') or 'REVIEW_OBJECTION'),
                       str(objection.get('message') or 'Unbeantworteter Einwand.'),
                       objection.get('severity', 'major'))
-        unresolved = any(x.get('severity') in ('major', 'critical') and
-                         x.get('status') not in ('verified', 'rejected') for x in objections)
         # There is no automatic promotion from source inspection to a CIO decision.
-        issue('CROSS_REVIEW_PENDING', 'Für diesen Scannerlauf liegt keine abgeschlossene Cross-Review-Einstufung vor.')
-        status = 'UNRESOLVED' if unresolved else ('BLOCKED_BY_DATA' if len(issues) > 1 else 'REVIEW_PENDING')
+        if not checked['quality_rank_eligible']:
+            issue('CROSS_REVIEW_PENDING', 'Für diesen Scannerlauf liegt keine abgeschlossene Cross-Review-Einstufung vor.')
+        issues.extend(checked['issues'])
+        status = checked['review_status']
         archived = {key: number(output.get(key)) for key in ('ngv', 'cover', 'cushion', 'epv')}
         rows.append(dict(ticker=ticker, listing=raw.get('yf') or ticker,
             issuer=note.get('issuer') or source_review.get('issuer') or raw.get('yf') or ticker,
             currency=raw.get('cur') or '?', sector=raw.get('sector') or 'Unbekannt',
             held_in_snapshot=bool(number(output.get('weight')) and output['weight'] > 0),
-            model_score=score, model_band=band, score_basis=explanation.get('status') or 'UNKNOWN',
-            rating=None, review_status=status, issues=issues, objections=objections,
+            model_score=score, model_band=band, raw_score=number(output.get('score')),
+            assessment=checked, archived_assessment=output.get('assessment'), score_basis=checked['calculation_status'],
+            rating=checked['rating'], review_status=status, issues=issues, objections=objections,
             price=number(raw.get('price')), quote_status=quote_status,
             quote_observed_at=raw.get('quote_observed_at'), quote_age_hours=age,
             retrieved_at=raw.get('price_ts'), valuation={key: None for key in archived},
@@ -347,7 +352,7 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
     return dict(schema=VERSION, generated_at=as_of.isoformat(),
         captured_at=captured.isoformat(), run_id=run_id,
         model_source_sha256=evidence.get('model_source_sha256'), models=record.get('_models', {}),
-        universe_count=len(rows), rated_count=0,
+        universe_count=len(rows), rated_count=sum(r['rating'] is not None for r in rows),
         coverage='Vorhandenes InvestorAce-Universum (bereits modellierte Titel).',
         current_regime=current_regime(record), regimes=list(REGIMES),
         quote_policy=dict(max_age_hours=QUOTE_MAX_AGE_HOURS,
@@ -369,7 +374,8 @@ def render_scan(scan):
                         for row in scan['rows'])
     return template.replace('__STYLE__', (ASSETS / 'scanner.css').read_text(encoding='utf-8')).replace(
         '__DATA__', payload).replace('__FALLBACK__', fallback).replace(
-        '__SCRIPT__', (ASSETS / 'scanner.js').read_text(encoding='utf-8'))
+        '__SCRIPT__', (ASSETS / 'assessment_view.js').read_text(encoding='utf-8') + '\n'
+        + (ASSETS / 'scanner.js').read_text(encoding='utf-8'))
 
 
 def load_market(root):

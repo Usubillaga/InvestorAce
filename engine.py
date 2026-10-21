@@ -15,13 +15,14 @@ from pathlib import Path
 from html import escape
 from urllib.parse import urlsplit
 import evidence as EVIDENCE
+import assessment as ASSESSMENT
 import source_review as SOURCE_REVIEW
 import timing as TIMING
 import decision_view as DECISION_VIEW
 import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
                        numeric_input_faults, risk_free_faults, clamp_saturation_faults)
-from framework_view import framework_panel
+from framework_view import framework_panel, assessment_panel
 from portfolio import construct as construct_portfolio
 import yfinance as yf
 import wacc as WACC
@@ -626,7 +627,7 @@ def band(s):
         if s < lim: return (name,css)
     return ('STRONG BUY','p-sbuy')
 
-def verdict(t, d):
+def legacy_verdict(t, d):
     if positive_number(d.get('price')) is None:
         return ('NO QUOTE', 'v-hold')
     s, rk = score(d), risk(d)
@@ -640,6 +641,26 @@ def verdict(t, d):
     if s >= 5.50:
         return ('ACCUMULATE','v-acc') if rk <= 2.4 else ('HOLD','v-hold')
     return ('AVOID','v-avoid') if s >= 3.50 else ('SELL','v-sell')
+
+
+def assessment(d, *, ticker=None, reviews=None, as_of=None, notes=None):
+    """Strict model arithmetic and approval; score() remains legacy replay only."""
+    pr = priced_in_live(d) if positive_number(d.get('price')) and cover(d) is not None else None
+    if notes is None:
+        notes = json.loads(Path(__file__).with_name('scanner_notes.json').read_text(encoding='utf-8'))
+    row = dict(d, review_objections=d.get('review_objections',
+               notes.get('entries', {}).get(ticker, {}).get('objections', [])))
+    return ASSESSMENT.assess(row, W, priced_in=pr, raw_score=score(d),
+                             ticker=ticker, reviews=reviews, as_of=as_of)
+
+
+def verdict(t, d, *, assessed=None):
+    if positive_number(d.get('price')) is None:
+        return ('NO QUOTE', 'v-hold')
+    assessed = assessment(d, ticker=t) if assessed is None else assessed
+    if assessed['rating'] is None:
+        return ('REVIEW REQUIRED', 'v-hold')
+    return legacy_verdict(t, d)
 
 
 # =====================================================================
@@ -1099,12 +1120,22 @@ def fetch_prices():
             d['ngv_note'] = 'N/A: ' + d['na']
         try:
             tk = yf.Ticker(d.get('yf', t))
+            observed = None
             fi = {}
             try: fi = dict(tk.fast_info) or {}
             except Exception: fi = {}
             px = fi.get('last_price')
             if px is None:
                 px = fi.get('lastPrice')
+            try:
+                info = tk.get_info() or {}
+                market_price = positive_number(info.get('regularMarketPrice'))
+                market_time = positive_number(info.get('regularMarketTime'))
+                if market_price and market_time and info.get('currency') == d.get('cur'):
+                    observed = datetime.fromtimestamp(market_time, timezone.utc).isoformat()
+                    px = market_price
+            except Exception:
+                pass
             if px is None:
                 h = tk.history(period='5d', auto_adjust=False)
                 if not h.empty and 'Close' in h:
@@ -1115,7 +1146,7 @@ def fetch_prices():
             px = positive_number(px)
             if px is None:
                 d['price_note'] = 'REJECTED invalid quote: positive finite price required'; continue
-            cur = str(fi.get('currency') or '').strip()
+            cur = str((info.get('currency') if observed else fi.get('currency')) or '').strip()
             if cur and cur.upper() != d.get('cur','').upper():
                 d['price_note'] = f'CURRENCY {cur} != {d.get("cur")}'; continue
             band = d.get('sanity')
@@ -1131,8 +1162,8 @@ def fetch_prices():
                 d['price_note'] = f'accepted UNBOUNDED at {px:.2f} - no 52w range, set sanity by hand'
             d['price'], d['price_ts'] = float(px), stamp
             # Retrieval time is not necessarily the quote's exchange timestamp.
-            d['quote_observed_at'] = None
-            d['quote_time_status'] = 'UNKNOWN'
+            d['quote_observed_at'] = observed
+            d['quote_time_status'] = 'REGULAR_MARKET' if observed else 'UNKNOWN'
             if ser is not None and len(ser):
                 d['quote_observed_at'] = ser.index[-1].isoformat()
                 d['quote_time_status'] = 'DAILY_CLOSE'
@@ -1162,6 +1193,7 @@ def _epv_cache_load():
     try:
         with open(EPV_CACHE_FILE, encoding='utf-8') as f:
             x = json.load(f)
+            json.dumps(x, allow_nan=False)
             return x if isinstance(x, dict) else {}
     except Exception:
         return {}
@@ -1169,8 +1201,11 @@ def _epv_cache_load():
 
 def _epv_cache_fresh(rec):
     try:
+        if (rec.get('inputs') or {}).get('input_schema') != EPV.INPUT_SCHEMA:
+            return False
         then = datetime.fromisoformat(rec.get('asof')).replace(tzinfo=timezone.utc)
-        return (datetime.now(timezone.utc) - then).days < EPV_CACHE_DAYS
+        age = datetime.now(timezone.utc) - then
+        return 0 <= age.total_seconds() < EPV_CACHE_DAYS * 86400
     except Exception:
         return False
 
@@ -1338,8 +1373,16 @@ def observation(macro, bundle, captured_at=None):
                                    '{"schema":"filing-monitoring-v1","entries":{}}'))
     reviews = (SOURCE_REVIEW.load(bundle['sources']['source_reviews.json'])
                if 'source_reviews.json' in bundle['sources'] else SOURCE_REVIEW.empty())
+    review_book = ASSESSMENT.load_reviews(bundle['sources'].get('assessment_reviews.json',
+                                         '{"schema":"assessment-reviews-v1","entries":{}}'))
+    cutoff = (ASSESSMENT.timestamp(captured_at) if isinstance(captured_at, str)
+              else captured_at) or datetime.now(timezone.utc)
+    notes = json.loads(bundle['sources'].get('scanner_notes.json', '{"entries":{}}'))
+    assessments = {t: assessment(d, ticker=t, reviews=review_book, as_of=cutoff, notes=notes)
+                   for t, d in DATA.items()}
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
-                   score=score(d), risk=risk(d), verdict=verdict(t,d)[0],
+                   score=score(d), raw_verdict=legacy_verdict(t,d)[0], risk=risk(d),
+                   verdict=verdict(t,d,assessed=assessments[t])[0], assessment=assessments[t],
                    regime=regime_scores(d), weight=d.get('weight'),
                    momentum=d.get('mom_12_1'), from_high=d.get('from_high'),
                    timing=d.get('timing') or TIMING.unavailable('No timing history was captured.'),
@@ -1363,13 +1406,15 @@ def observation(macro, bundle, captured_at=None):
     rec['_data_quality'] = data_quality()
     rec['_filing_monitoring'] = monitoring
     rec['_source_reviews'] = reviews
+    rec['_assessment_reviews'] = review_book
     for ticker, entry in monitoring['entries'].items():
         if ticker in DATA:
             rec[ticker]['filing_coverage'] = entry
     regime = macro.get('regime') if macro.get('ok') else None
-    rec['_portfolio_proposal'] = (portfolio_proposal(regime)
+    rec['_portfolio_proposal'] = (portfolio_proposal(regime, assessments=assessments)
                                   if regime in REGIMES else None)
-    rec['_models'] = dict(engine='v15.4-growth-basis', regime=REGIME_MODEL_VERSION,
+    rec['_models'] = dict(engine='v15.5-assessment-integrity', regime=REGIME_MODEL_VERSION,
+                          assessment=ASSESSMENT.VERSION,
                           regime_spec_sha256=regime_spec_sha256(),
                           growth='explicit-cash-flow-growth-v1',
                           timing=TIMING.VERSION,
@@ -1378,10 +1423,18 @@ def observation(macro, bundle, captured_at=None):
     return EVIDENCE.create_record(DATA, rec, macro, rec['_models'], bundle['sha256'], captured_at)
 
 
-def portfolio_proposal(regime):
+def portfolio_proposal(regime, *, assessments=None):
     """Ten-slot planning book; the legacy raw regime book remains unchanged."""
-    return construct_portfolio(regime_book(regime, len(DATA)),
-                               entry_limits={t: entry_price(d) for t, d in DATA.items()})
+    assessments = ({t: assessment(d, ticker=t) for t, d in DATA.items()}
+                   if assessments is None else assessments)
+    eligible = [item for item in regime_book(regime, len(DATA))
+                if assessments[item[0]]['new_entry_eligible'] and not cushion_neg(item[1])]
+    result = construct_portfolio(eligible,
+                               entry_limits={t: entry_price(d) for t, d in DATA.items()},
+                               approvals=assessments)
+    result['eligibility'] = 'input-bound-reviewed-new-entries-only'
+    result['review_required'] = [t for t in DATA if not assessments[t]['new_entry_eligible']]
+    return result
 
 
 def snapshot(macro=None, captured_at=None):
@@ -1450,6 +1503,7 @@ def run_build():
         if faults:
             raise ValueError('VALIDATION FAILED: ' + '; '.join(faults))
         SOURCE_REVIEW.load()  # reject malformed review data before fetching or publishing
+        ASSESSMENT.load_reviews()
         sync_risk_free()
         bootstrap_fundamentals()
         fetch_prices()
@@ -1462,7 +1516,8 @@ def run_build():
             validate_filing_transition(record['_filing_monitoring'], previous)
         # Rendering can fail without publishing an observation or changing index.html.
         html = build_html(macro=macro, write=False, monitoring=record['_filing_monitoring'],
-                          reviews=record['_source_reviews'])
+                          reviews=record['_source_reviews'],
+                          assessments={t: record[t]['assessment'] for t in DATA})
         published = EVIDENCE.publish_build(record, bundle, html)
         for note in published['compatibility_warnings']:
             print('   ~ ' + note, file=sys.stderr)
@@ -1584,8 +1639,9 @@ def validate_full():
 # purpose and ranks ONLY by that purpose. The other dimension is
 # reported beside it and never used for ordering.
 # =====================================================================
-def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdicts=
-           ('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE', 'NO QUOTE'), held_only=False, limit=15):
+def screen(purpose, regime=None, min_score=None, min_cover=None, exclude_verdicts=None,
+           held_only=False, limit=15,
+           reviewed_only=True):
     """purpose='quality'  -> rank by score. Regime fit shown, not ranked on.
        purpose='regime'   -> rank by fit to `regime`. Score shown, not ranked on.
        purpose='duration' -> rank by cover, for a rates-up view."""
@@ -1593,16 +1649,26 @@ def screen(purpose, regime=None, min_score=5.50, min_cover=None, exclude_verdict
         raise ValueError("purpose must be 'quality', 'regime' or 'duration'")
     if purpose == 'regime' and regime not in REGIMES:
         raise ValueError('purpose="regime" needs regime=one of ' + str(REGIMES))
+    if min_score is None and purpose == 'quality':
+        min_score = 5.50
+    if exclude_verdicts is None:
+        exclude_verdicts = (('DO NOT ADD', 'SELL', 'AVOID', 'NO SCORE', 'NO QUOTE')
+                            if purpose == 'quality' else ('NO QUOTE',))
     out = []
     for t, d in DATA.items():
-        s, c, v = score(d), cover(d), verdict(t, d)[0]
-        if s is None or s < min_score or v in exclude_verdicts: continue
+        checked = assessment(d, ticker=t)
+        if reviewed_only and not checked['quality_rank_eligible']:
+            continue
+        s, c, v = checked['model_score'], cover(d), verdict(t, d, assessed=checked)[0]
+        if min_score is not None and (s is None or s < min_score): continue
+        if v in exclude_verdicts: continue
         if min_cover is not None and (c is None or c < min_cover): continue
         if held_only and not d.get('weight'): continue
         fit = fit_now(d, regime) if regime else None
         aff = AFF[regime].get(d.get('sector', '')) if regime else None
         out.append(dict(t=t, score=s, cover=c, cushion=cushion(d), risk=risk(d),
                         verdict=v, sector=d.get('sector', ''), fit=fit, aff=aff,
+                        review_status=checked['review_status'], rating=checked['rating'],
                         best=best_regime(d)[0], held=bool(d.get('weight')),
                         cycle=cycle_pos(d), mom=d.get('mom_12_1')))
     key = {'quality':  lambda r: -r['score'],
@@ -1867,6 +1933,7 @@ function revealZiel(){
   box.innerHTML = b64utf8(ZP);
   box.dataset.open = '1';
   if (window.drawPortfolioCharts) window.drawPortfolioCharts();
+  document.dispatchEvent(new Event('investorace:portfolio'));
 }
 function tryZiel(){
   const el = document.getElementById('zielIn');
@@ -2011,7 +2078,7 @@ window.drawRegimeHistory = function(){
 };
 """
 
-def build_html(macro=None, write=True, monitoring=None, reviews=None):
+def build_html(macro=None, write=True, monitoring=None, reviews=None, assessments=None):
     errors, warnings = validate_full()
     for w_ in warnings:
         print('   ~ ' + w_, file=sys.stderr)
@@ -2021,22 +2088,28 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
         raise SystemExit(1)
     monitoring = filing_monitoring() if monitoring is None else monitoring
     reviews = SOURCE_REVIEW.load() if reviews is None else reviews
+    assessments = ({t: assessment(d, ticker=t) for t, d in DATA.items()}
+                   if assessments is None else assessments)
     rows = []
-    ranked = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
+    ranked = sorted(DATA.items(), key=lambda kv: (-(assessments[kv[0]]['model_score']
+                        if assessments[kv[0]]['model_score'] is not None else -1), kv[0]))
     for i,(t,d) in enumerate(ranked, 1):
-        s, rk, c, cu, eg = score(d), risk(d), cover(d), cushion(d), entry_gap(d)
-        bn, bc = band(s); vn, vc = verdict(t, d)
+        checked = assessments[t]
+        s, rk, c, cu, eg = checked['model_score'], risk(d), cover(d), cushion(d), entry_gap(d)
+        bn, bc = band(s); vn, vc = verdict(t, d, assessed=checked)
+        score_note = (f'<br><small>Legacy total {score(d):.2f}</small>' if score(d) is not None else '')
+        score_note += f'<br><small><span data-assessment-field="coverage">{checked["coverage_weight"]:.0%}</span> category coverage</small>'
         note = d.get('price_note','')
         ticker_label = ('<a href="enagas.html">ENG</a>' if t == 'ENG' else escape(t))
         rows.append(
-          '<tr%s>' % (' class="hit"' if proximity(d)[0] else '')
+          '<tr data-assessment="%s"%s>' % (escape(t), ' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
           + f'<td class="tk">{ticker_label}{filing_badge(t, monitoring)}{SOURCE_REVIEW.dcf_badge(t, reviews)}</td>'
           + f'<td class="se">{d.get("sector","")}</td>'
-          + f'<td class="sc">{fmt(s,".2f")}</td>'
-          + f'<td><span class="pill {bc}">{bn}</span></td>'
+          + f'<td class="sc"><span data-assessment-field="model_score">{fmt(s,".2f")}</span>{score_note}</td>'
+          + f'<td><span data-assessment-field="model_band" class="pill {bc}">{bn}</span><br><small>Model band only</small></td>'
           + f'<td class="{cls(rk,2.4,3.3,invert=True)}">{fmt(rk,".1f")}</td>'
-          + f'<td><span class="pill {vc}">{vn}</span>{valuation_review_badge(d)}</td>'
+          + f'<td><span data-assessment-field="verdict" class="pill {vc}">{vn}</span>{valuation_review_badge(d)}</td>'
           + f'<td class="{cls(None if c is None else c*100,60,35)}">{fmt(None if c is None else c*100,".0f")}%</td>'
           + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}{growth_comparison_badge(d)}</td>'
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
@@ -2102,11 +2175,12 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
                  .replace('__SECCOLS__', json.dumps(SECCOL)))
     rdates, rser = regime_history()
     js += CHART_JS.replace('__DATES__', json.dumps(rdates)).replace('__SERIES__', json.dumps(rser))
-    ranked_all = sorted(DATA.items(), key=lambda kv: (-(score(kv[1]) if score(kv[1]) is not None else -1), kv[0]))
+    ranked_all = sorted(((t, d) for t, d in DATA.items() if assessments[t]['quality_rank_eligible']),
+                        key=lambda kv: (-assessments[kv[0]]['rating_score'], kv[0]))
     rank_of = {t: i for i, (t, _) in enumerate(ranked_all, 1)}
     pts = sorted([dict(x=rank_of[t], y=d['weight'], t=t,
                  c=('#4ecb8a' if rank_of[t] <= 6 else '#e5b45c' if rank_of[t] <= 15 else '#f06a6a'))
-                 for t, d in DATA.items() if d.get('weight')], key=lambda p: p['x'])
+                 for t, d in DATA.items() if d.get('weight') and t in rank_of], key=lambda p: p['x'])
     js += SCAT_JS.replace('__PTS__', json.dumps(pts))
     js += (FIT_JS.replace('__FITLAB__', json.dumps([t for t, _ in fits]))
                  .replace('__FITVAL__', json.dumps([v for _, v in fits]))
@@ -2203,26 +2277,28 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
         macro_box = f'<div class="box"><h2>Regime now</h2><div class="lede">unavailable: {M.get("note","")}</div></div>'
 
     tw  = sum(d['weight'] for d in DATA.values() if d.get('weight')) or 1
-    wsc = sum(d['weight']*(score(d) or 0) for d in DATA.values() if d.get('weight'))/tw
+    held = [(t, d) for t, d in DATA.items() if d.get('weight')]
+    wsc = (sum(d['weight'] * assessments[t]['rating_score'] for t, d in held) / tw
+           if held and all(assessments[t]['quality_rank_eligible'] for t, d in held) else None)
     cw  = sum(d['weight'] for d in DATA.values() if d.get('weight') and cover(d))
     wcv = (sum(d['weight']*cover(d)*100 for d in DATA.values() if d.get('weight') and cover(d))/cw) if cw else None
-    wrk = sum(d['weight']*rank_of[t] for t, d in DATA.items() if d.get('weight'))/tw
-    eqr = (sum(rank_of[t] for t, d in DATA.items() if d.get('weight'))/len(pts)) if pts else 0
-    uns = [(t, d['weight']) for t, d in DATA.items() if d.get('weight') and score(d) is None]
+    wrk = sum(d['weight']*rank_of[t] for t, d in held if t in rank_of)/tw
+    eqr = sum(rank_of[t] for t, d in held if t in rank_of)/len(pts) if pts else 0
+    uns = [(t, d['weight']) for t, d in held if not assessments[t]['quality_rank_eligible']]
     unscored = sum(w for _, w in uns)
     unscored_names = ', '.join(f'{t} {w:.1f}%' for t, w in sorted(uns, key=lambda kv: -kv[1]))
     port_box = ('<div class="box" style="border-color:#1d5433;background:#0e1712">'
         '<h2>Your book as one line</h2>'
-        f'<div class="lede" style="margin-bottom:8px">{len(pts)} positions &middot; weighted score '
-        f'<b>{wsc:.2f}</b> &middot; weighted cover <b>{("%.0f%%" % wcv) if wcv else "n/a"}</b> &middot; '
+        '<div data-portfolio-review-status hidden></div><div data-portfolio-reviewed>'
+        f'<div class="lede" style="margin-bottom:8px">{len(held)} positions &middot; weighted score '
+        f'<b>{fmt(wsc,".2f")}</b> &middot; weighted cover <b>{("%.0f%%" % wcv) if wcv else "n/a"}</b> &middot; '
         f'<b>weight-weighted rank {wrk:.1f}</b> against <b>{eqr:.1f}</b> if held equally.</div>'
         + (f'<div class="lede" style="margin-bottom:8px;color:#e5b45c"><b>{unscored:.1f}% of the '
-           f'book carries no score</b> &mdash; {unscored_names}. The weighted figures above exclude it, '
-           f'so they describe {100-unscored:.1f}% of what you own.</div>' if unscored else '')
-        + '<div class="lede" style="margin-bottom:8px">Every dot should sit on a line falling left to '
+           f'book lacks comparable reviewed scores</b><br>Holdings awaiting score review: {unscored_names}.</div>' if unscored else '')
+        + ('<div class="lede" style="margin-bottom:8px">Every dot should sit on a line falling left to '
         'right: best ideas biggest. <b>Dots high and to the right are the problem</b> &mdash; size with no '
-        'rank to justify it.</div>'
-        '<div style="height:280px"><canvas id="rwChart"></canvas></div></div>')
+        'rank to justify it.</div>' if not unscored else '')
+        + '<div style="height:280px"><canvas id="rwChart"></canvas></div></div></div>')
 
     fit_box = ('<div class="box"><h2>Best fit for the regime we are actually in</h2>'
                f'<div class="lede" style="margin-bottom:8px">Each row scored against <b>{cur_reg or "&mdash;"}</b>, '
@@ -2242,7 +2318,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
             f'<div class="lede">Ranked <b>only</b> by {cur_reg} fit. Score, risk, valuation and existing portfolio weight '
             'are shown only as diagnostics and never break a fit tie. Ticker alphabetically breaks exact ties.</div>'
             '<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Fit</th>'
-            '<th>Score</th><th>NGV cover</th><th>Valuation</th></tr></thead><tbody>' + rb_rows + '</tbody></table></div></div>')
+            '<th>Legacy total</th><th>NGV cover</th><th>Valuation</th></tr></thead><tbody>' + rb_rows + '</tbody></table></div></div>')
     else:
         regime_book_box = ''
 
@@ -2305,7 +2381,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
              '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
-    tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Legacy Score</th><th>Band</th><th>Risk</th>'
+    tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Model Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
            '<th>NGV</th><th>EPV</th><th>EPV vs NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table></div>')
@@ -2326,7 +2402,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
     gate = '<div id="zielBox" data-open="0"></div>'
     # [FROM V2] atomic write. A build that dies mid-write used to leave
     # index.html truncated and the live site broken until the next cron run.
-    proposal = portfolio_proposal(cur_reg) if cur_reg in REGIMES else None
+    proposal = portfolio_proposal(cur_reg, assessments=assessments) if cur_reg in REGIMES else None
     quality = data_quality()
     coverage_box = (f'<div class="box"><h2>Quote coverage: {quality["status"]}</h2>'
                     f'<p>{quality["quotes_available"]}/{quality["quotes_total"]} valid quotes; '
@@ -2341,9 +2417,16 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None):
     explanations = {t: dict(score=score_components(d), regimes=regime_fit_components(d),
                             ngv=ngv(d), cover=cover(d), implied_growth=implied_growth(d),
                             cushion=cushion(d)) for t, d in DATA.items()}
-    html = (head + hdr + coverage_box + filing_monitoring_box(monitoring) + SOURCE_REVIEW.panel(DATA, reviews) + macro_box + framework_panel(DATA, W, M, proposal)
+    view_source = Path(__file__).with_name('assessment_view.js').read_text(encoding='utf-8')
+    view_data = json.dumps(dict(assessments=assessments, holdings=[t for t, _ in held],
+        actions={t: verdict(t, d, assessed=assessments[t])[0] for t, d in DATA.items()}),
+        ensure_ascii=False, allow_nan=False).replace('<', '\\u003c').replace('&', '\\u0026')
+    html = (head + hdr + coverage_box + assessment_panel(assessments)
+            + filing_monitoring_box(monitoring) + SOURCE_REVIEW.panel(DATA, reviews) + macro_box + framework_panel(DATA, W, M, proposal)
             + DECISION_VIEW.panel(DATA, explanations, cur_reg) + sec_box + fw_box + gate + zin + fit_box
             + regime_book_box + issue_box + adder + tbl + foot
+            + '<script id="assessment-data" type="application/json">' + view_data + '</script>'
+            + '<script>' + view_source + '\nInvestorAceAssessment.bindReport(JSON.parse(document.getElementById("assessment-data").textContent));</script>'
             + '<script>' + js + js_z + '</script></body></html>')
     html = i18n.localize(html, 'en')
     if write:
