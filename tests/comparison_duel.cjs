@@ -13,6 +13,19 @@ function row(ticker, values={}) {
       fcf_margin:15,net_debt_ebitda:2,dilution:1,ebitda:100,debt_equity:1,...values}]};
 }
 const evaluate = (a,b,options={}) => judge(a,b,{now,...options});
+const reviewedModel = score => ({score, assessment_schema:'assessment-v1',
+  quality_rank_eligible:true, review_required:false, assessed_at:now,
+  expires_at:'2026-10-20T13:54:00Z'});
+
+test('unreviewed legacy totals cannot win the current model comparison',()=>{
+  const a=row('A',{revenue_growth:20}),b=row('B');
+  a.model={score:9.8,score_status:'PUBLISHED_TOTAL',review_required:true};
+  b.model={score:7.5,review_required:true};
+  const result=evaluate(a,b);
+  assert.equal(result.winner,'a');
+  assert.equal(result.modelLeader,null);
+  assert.equal(result.rankDisagreement,false);
+});
 
 test('the winner follows five named financial rounds and explains every point',()=>{
   const result=evaluate(row('A',{revenue_growth:20,operating_margin:30,fcf_margin:25}),
@@ -67,7 +80,7 @@ test('choosing another fiscal year changes the fight rather than the model score
   const a=row('A',{revenue_growth:20}),b=row('B');
   a.annual.push({...a.annual[0],period_end:'2024-12-31',revenue_growth:5});
   b.annual.push({...b.annual[0],period_end:'2024-12-31',revenue_growth:25});
-  a.model={score:8};b.model={score:6};
+  a.model=reviewedModel(8);b.model=reviewedModel(6);
   assert.equal(evaluate(a,b).winner,'a');
   const past=evaluate(a,b,{period:1});
   assert.equal(past.winner,'b');
@@ -107,7 +120,7 @@ test('an outside-round balance-sheet advantage remains visible for the loser',()
 });
 test('judging never mutates either stock, financial period or model score',()=>{
   const a=row('A',{revenue_growth:20}),b=row('B');
-  a.model={score:5,score_status:'PUBLISHED_TOTAL'};b.model={score:9};
+  a.model=reviewedModel(5);b.model=reviewedModel(9);
   const before=JSON.stringify([a,b]);
   assert.equal(evaluate(a,b).rankDisagreement,true);
   assert.equal(JSON.stringify([a,b]),before);

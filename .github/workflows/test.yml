@@ -34,6 +34,8 @@ jobs:
       - name: Unit tests
         run: python -m unittest discover -p 'test_*.py' -v
       - name: Financial duel rules
-        run: node tests/comparison_duel.cjs
+        run: |
+          node tests/comparison_duel.cjs
+          node tests/assessment_view.cjs
       - name: WACC workbook reproduction
         run: python wacc.py

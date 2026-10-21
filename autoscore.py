@@ -44,6 +44,8 @@ CLOCK_GUESS = {
 }
 
 def _finite(x):
+    if isinstance(x, bool):
+        return None
     try:
         x = float(x)
     except (TypeError, ValueError):
@@ -54,7 +56,7 @@ def _fin(tk):
     out = dict(
         fcf=None, shares=None, rev=None, rev_prev=None, opinc=None, ebitda=None,
         netdebt=None, div_yield=None, price=None, cur=None, sector="", name="",
-        lo=None, hi=None, shares_prev=None
+        lo=None, hi=None, shares_prev=None, periods={}
     )
 
     fi = {}
@@ -83,10 +85,13 @@ def _fin(tk):
     out["sector"] = info.get("sector","") or ""
     out["name"] = info.get("longName","") or ""
     dy = _finite(info.get("dividendYield"))
-    if dy is None:
-        out["div_yield"] = 0.0
-    else:
-        out["div_yield"] = dy * (100 if dy < 1 else 1)
+    # A missing distribution is unknown, and a positive untagged yield has
+    # ambiguous fraction/percentage units. Do not invent zero or multiply it.
+    out["div_yield"] = 0.0 if dy == 0 else None
+    annual_dividend = _finite(info.get('dividendRate'))
+    if (annual_dividend is not None and annual_dividend >= 0 and out['price']
+            and out['cur'] == info.get('currency') and out['cur'] not in ('GBp', 'GBP')):
+        out['div_yield'] = 100 * annual_dividend / out['price']
 
     if out["shares"] is None:
         out["shares"] = _finite(info.get("sharesOutstanding"))
@@ -97,38 +102,40 @@ def _fin(tk):
         idx = {str(i).strip().lower(): i for i in df.index}
         for n in names:
             if n in idx:
-                return df.loc[idx[n]]
+                return df.loc[idx[n]].sort_index(ascending=False)
         return None
 
-    def series_values(row, n):
-        if row is None:
-            return []
-        vals = []
-        for x in row.iloc[:n]:
-            v = _finite(x)
-            if v is not None:
-                vals.append(v)
-        return vals
+    def window(row, n=4, start=0, basis='TTM'):
+        if row is None or len(row) < start + n:
+            return None, None
+        part = row.iloc[start:start+n]
+        vals = [_finite(x) for x in part]
+        try:
+            dates = [x.date() for x in part.index]
+            gaps = [(a-b).days for a, b in zip(dates, dates[1:])]
+        except (AttributeError, TypeError):
+            return None, None
+        if any(x is None for x in vals) or any(not 60 <= gap <= 120 for gap in gaps):
+            return None, None
+        return sum(vals), [basis, *[day.isoformat() for day in dates]]
+
+    def save(key, pair):
+        out[key], out['periods'][key] = pair
 
     # Cash flow: TTM from four quarterly observations.
     try:
         qcf = tk.quarterly_cashflow
         f = rows(qcf, "free cash flow")
         if f is not None:
-            vals = series_values(f, 4)
-            if len(vals) >= 4:
-                out["fcf"] = sum(vals[:4])
+            save('fcf', window(f))
         if out["fcf"] is None:
             o = rows(qcf, "operating cash flow", "total cash from operating activities")
             c = rows(qcf, "capital expenditure", "capital expenditures")
             if o is not None and c is not None:
-                pairs = []
-                for a, b in zip(o.iloc[:4], c.iloc[:4]):
-                    a, b = _finite(a), _finite(b)
-                    if a is not None and b is not None:
-                        pairs.append((a,b))
-                if len(pairs) >= 4:
-                    out["fcf"] = sum(a+b for a,b in pairs[:4])
+                ov, op = window(o)
+                cv, cp = window(c.abs())
+                if ov is not None and cv is not None and op == cp:
+                    save('fcf', (ov-cv, op))
     except Exception:
         pass
 
@@ -144,52 +151,26 @@ def _fin(tk):
                 continue
 
         r = rows(qis, "total revenue", "operating revenue")
-        if r is not None and len(r) >= 8:
-            cur4 = [_finite(x) for x in r.iloc[:4]]
-            prev4 = [_finite(x) for x in r.iloc[4:8]]
-            if all(x is not None for x in cur4 + prev4):
-                out["rev"], out["rev_prev"] = sum(cur4), sum(prev4)
-
-        if out["rev"] is None and r is not None and len(r) >= 4:
-            vals = [_finite(x) for x in r.iloc[:4]]
-            if all(x is not None for x in vals):
-                out["rev"] = sum(vals)
-
-        if out["rev_prev"] is None:
-            try:
-                ais = getattr(tk, "income_stmt", None)
-                if ais is None or ais.empty:
-                    ais = getattr(tk, "financials", None)
-                ar = rows(ais, "total revenue", "operating revenue")
-                if ar is not None and len(ar) >= 2:
-                    a0, a1 = _finite(ar.iloc[0]), _finite(ar.iloc[1])
-                    if a0 is not None and a1 is not None and a1 != 0:
-                        if out["rev"] is None:
-                            out["rev"] = a0
-                        out["rev_prev"] = a1
-            except Exception:
-                pass
+        save('rev', window(r))
+        whole, _ = window(r, n=8)
+        if whole is not None:
+            save('rev_prev', window(r, start=4))
+        ais = getattr(tk, 'income_stmt', None)
+        if ais is None or ais.empty:
+            ais = getattr(tk, 'financials', None)
+        if out['rev'] is None:
+            ar = rows(ais, 'total revenue', 'operating revenue')
+            save('rev', window(ar, n=1, basis='FY'))
+            if ar is not None and len(ar) >= 2 and 300 <= (ar.index[0]-ar.index[1]).days <= 400:
+                save('rev_prev', window(ar, n=1, start=1, basis='FY'))
 
         oi = rows(qis, "operating income", "ebit", "total operating income as reported")
-        if oi is not None:
-            vals = series_values(oi, 4)
-            if vals:
-                out["opinc"] = sum(vals)
-
-        if out["opinc"] is None:
-            try:
-                ais = getattr(tk, "income_stmt", None)
-                ao = rows(ais, "operating income", "ebit")
-                if ao is not None:
-                    out["opinc"] = _finite(ao.iloc[0])
-            except Exception:
-                pass
+        save('opinc', window(oi))
+        if (out['periods'].get('rev') or [None])[0] == 'FY':
+            save('opinc', window(rows(ais, 'operating income', 'ebit'), n=1, basis='FY'))
 
         eb = rows(qis, "ebitda", "normalized ebitda")
-        if eb is not None:
-            vals = series_values(eb, 4)
-            if vals:
-                out["ebitda"] = sum(vals)
+        save('ebitda', window(eb))
     except Exception:
         pass
 
@@ -200,8 +181,9 @@ def _fin(tk):
                     "cash cash equivalents and short term investments")
         debt_v = _finite(debt.iloc[0]) if debt is not None else None
         cash_v = _finite(cash.iloc[0]) if cash is not None else None
-        if debt_v is not None:
-            out["netdebt"] = debt_v - (cash_v or 0)
+        if debt_v is not None and cash_v is not None:
+            out["netdebt"] = debt_v - cash_v
+            out['periods']['netdebt'] = debt.index[0].date().isoformat()
 
         shares_row = rows(bs, "ordinary shares number", "share issued")
         if shares_row is not None and len(shares_row) >= 5:
@@ -226,24 +208,35 @@ def auto_row(symbol, r=0.080):
     fcf_m = f["fcf"] / 1e6
     sh_m = f["shares"] / 1e6
     rev_g = 100 * (f["rev"] / f["rev_prev"] - 1) if f["rev"] is not None and f["rev_prev"] else None
-    op_m = 100 * f["opinc"] / f["rev"] if f["opinc"] is not None and f["rev"] else None
-    fcf_m_pct = 100 * f["fcf"] / f["rev"] if f["rev"] else None
-    nd_e = f["netdebt"] / f["ebitda"] if f["netdebt"] is not None and f["ebitda"] not in (None, 0) else None
+    periods = f.get('periods', {})
+    def same_period(a, b):
+        return periods.get(a) is not None and periods.get(a) == periods.get(b)
+    op_m = 100 * f["opinc"] / f["rev"] if f["opinc"] is not None and f["rev"] and same_period('opinc', 'rev') else None
+    fcf_m_pct = 100 * f["fcf"] / f["rev"] if f["rev"] and same_period('fcf', 'rev') else None
+    balance_aligned = periods.get('netdebt') is not None and periods['netdebt'] == (periods.get('ebitda') or [None, None])[1]
+    nd_e = f["netdebt"] / f["ebitda"] if f["netdebt"] is not None and f["ebitda"] is not None and f['ebitda'] > 0 and balance_aligned else None
     mcap = f["price"] * f["shares"] if f["price"] and f["shares"] else None
     fcf_y = 100 * f["fcf"] / mcap if mcap else None
     sh_ch = 100 * (f["shares"] / f["shares_prev"] - 1) if f["shares_prev"] else None
-    buyb = max(0.0, -(sh_ch or 0))
-    tot_y = (f["div_yield"] or 0) + buyb
+    buyb = max(0.0, -sh_ch) if sh_ch is not None else None
+    tot_y = f['div_yield'] + buyb if f['div_yield'] is not None and buyb is not None else None
+
+    def category(value, table):
+        result = _band(value, table, default=None)
+        return round(result, 1) if result is not None else None
 
     sub = (
-        round(_band(rev_g, GROWTH), 1),
-        round(_band(op_m, PROFIT), 1),
-        round(_band(fcf_m_pct, CASHGEN), 1),
-        round(_band(nd_e, BALANCE), 1),
-        round(_band(fcf_y, VALUE), 1),
-        round(_band(tot_y, RETURNS), 1),
+        category(rev_g, GROWTH),
+        category(op_m, PROFIT),
+        category(fcf_m_pct, CASHGEN),
+        category(nd_e, BALANCE),
+        category(fcf_y, VALUE),
+        category(tot_y, RETURNS),
     )
-    dil = round(_band(sh_ch, DILUTION), 1)
+    dil = category(sh_ch, DILUTION)
+    draft_components = dict(zip(('g', 'p', 'c', 'b', 'v', 'r'), sub))
+    if any(value is None for value in sub) or dil is None:
+        sub = None
 
     ngv = (fcf_m / sh_m) / r
     cover = 100 * ngv / f["price"] if f["price"] else None
@@ -265,9 +258,9 @@ def auto_row(symbol, r=0.080):
         na_reason = None
 
     if rev_g is None:
-        warn.append("no revenue history — growth scored at the 5.0 default")
+        warn.append("no comparable revenue history — growth remains unknown")
     if nd_e is None:
-        warn.append("no net-debt/EBITDA — balance sheet scored at the 5.0 default")
+        warn.append("no usable net-debt/EBITDA — balance sheet remains unknown")
     warn.append("deliver is a REVENUE_PROXY; no cash-flow cushion is computed. "
                 "Declare CASH_FLOW only for a sourced cash-flow-growth measure.")
     warn.append(f'clock guessed from sector "{f["sector"]}" — confirm CLOCK / CONC / DIV by hand.')
@@ -282,6 +275,8 @@ def auto_row(symbol, r=0.080):
         deliver_basis='REVENUE_PROXY',
         dl="revenue growth (PROXY)",
         sub=sub,
+        draft_components=draft_components,
+        draft_periods=periods,
         pr=pr,
         dil=dil,
         clock=CLOCK_GUESS.get(f["sector"], "CONC"),

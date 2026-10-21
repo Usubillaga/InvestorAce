@@ -1,10 +1,10 @@
 {
  "schema": "report-build-v1",
- "run_id": "20261020T183605784314-60f8188c5dc74bcebe53feb06ec143fc",
- "day": "2026-10-20",
- "previous_run_id": "20261020T183139479479-f53dd01444ab4002b1f608e85d9d3e0d",
- "observation_sha256": "4090b3feb1c8bcaefb767082baa75ac1f30c9b686cd19f12a02280a8359a28f6",
- "daily_observation_sha256": "cff7ee8dc2f3ba831440b551155f7facd4538fbebf48a274732cc36d8d3e949b",
- "report_sha256": "c213167a3d6a54dcac6eb79e8a46eb5296657c78c9ead4c70ac8ee9cba4539c5",
- "model_source_sha256": "b16f3f6132faf7a73c0f2fe1c31c7fb56bc7bcfb6d348619a969baa9fa96506e"
+ "run_id": "20261021T012538893853-ed621ab533324a69a09f8dcd4a69a15b",
+ "day": "2026-10-21",
+ "previous_run_id": "20261020T212953575981-c8fecff1646b46c3b7e08716f931f12f",
+ "observation_sha256": "4d225318d33365e7adaba55ed9d92a17af0e5af72ae7ebdbb5a6500e1c80f9e8",
+ "daily_observation_sha256": "4d225318d33365e7adaba55ed9d92a17af0e5af72ae7ebdbb5a6500e1c80f9e8",
+ "report_sha256": "38ff50d9368affa9e382025a314ae8a6c16aaf8e015745bbc4f193d09f83f692",
+ "model_source_sha256": "f056e148751d92bdbb96ec23c9f7de8e4fb841e178797d8a47600873f2eefb54"
 }

@@ -62,7 +62,8 @@ class LegacyEquivalence(unittest.TestCase):
                 d.update(sub=None, score_fixed=rng.uniform(0, 10))
             for name in ('ngv', 'cover', 'cushion', 'score', 'risk', 'regime_scores'):
                 self.assertEqual(getattr(engine, name)(d), getattr(self.old, name)(d), name)
-            self.assertEqual(engine.verdict('TEST', d), self.old.verdict('TEST', d))
+            self.assertEqual(engine.legacy_verdict('TEST', d), self.old.verdict('TEST', d))
+            self.assertEqual(engine.verdict('TEST', d)[0], 'REVIEW REQUIRED')
 
     def test_untyped_universe_only_withdraws_growth_penalties(self):
         for ticker, original in self.old.DATA.items():
@@ -77,7 +78,7 @@ class LegacyEquivalence(unittest.TestCase):
             for name in ('score', 'risk', 'priced_in_live'):
                 self.assertEqual(getattr(engine, name)(d), getattr(self.old, name)(neutral), ticker)
             self.assertIsNone(engine.cushion(d), ticker)
-            self.assertEqual(engine.verdict(ticker, d), self.old.verdict(ticker, neutral), ticker)
+            self.assertEqual(engine.legacy_verdict(ticker, d), self.old.verdict(ticker, neutral), ticker)
 
 
 class EvidenceContract(unittest.TestCase):

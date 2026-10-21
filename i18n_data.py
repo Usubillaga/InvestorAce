@@ -1172,3 +1172,58 @@ TRANSLATIONS = {
     "10y": "10a"
   }
 }
+
+TRANSLATIONS['de'].update({
+    'Holdings awaiting score review:': 'Positionen mit offener Score-Prüfung:',
+    'REVIEW REQUIRED': 'PRÜFUNG OFFEN',
+    'Model Score': 'Modellscore',
+    'Legacy total': 'Übernommener Rechenwert',
+    'category coverage': 'Abdeckung der Kategorien',
+    'Category coverage': 'Abdeckung der Kategorien',
+    'Model band only': 'Ungeprüfte Modellklasse',
+    'Score completeness and review': 'Score-Vollständigkeit und Prüfung',
+    'Model scores require all eight contributions at their original weights. Coverage measures numeric availability, not source verification. Arithmetic bounds assign missing categories zero to ten; they are not forecasts or confidence intervals.':
+        'Modellscores benötigen alle acht Beiträge mit ihren ursprünglichen Gewichten. Die Abdeckung misst die Verfügbarkeit von Zahlen und bestätigt keine Quellenprüfung. Die rechnerischen Grenzen setzen fehlende Kategorien mit null bis zehn an; sie sind keine Prognosen oder Konfidenzintervalle.',
+    'No approved rating does not mean Sell. Existing holdings are unchanged.':
+        'Ein fehlendes bestätigtes Rating bedeutet kein Verkaufssignal. Bestehende Positionen bleiben unverändert.',
+    'Inspect score completeness': 'Score-Vollständigkeit prüfen',
+    'Arithmetic bounds': 'Rechnerische Grenzen',
+    'Current rating': 'Bestätigtes Rating',
+    'Rating at capture': 'Rating zum Erfassungszeitpunkt',
+    'Ratings describe the displayed build snapshot, not a live approval.':
+        'Ratings gelten für den angezeigten Erfassungszeitpunkt und sind keine laufende Freigabe.',
+    'Approval is withdrawn when recorded validity or quote age expires. New research requires rebuilding the report.':
+        'Freigaben entfallen nach Ablauf ihrer Gültigkeit oder bei veraltetem Kurs. Neue Research-Erkenntnisse erfordern einen aktualisierten Bericht.',
+    'Missing categories': 'Fehlende Kategorien',
+    'Pending': 'Offen',
+    'of the book lacks comparable reviewed scores': 'des Portfolios hat keine vergleichbaren geprüften Scores',
+    'names per sector. Equal planned allocations among reviewed eligible candidates in regime order. Unfilled proposal slots are unallocated capacity, not a recommendation to sell holdings.':
+        'Titel pro Sektor. Gleiche geplante Gewichtungen unter geprüften geeigneten Kandidaten in Regime-Reihenfolge. Unbesetzte Vorschlagsplätze sind freie Kapazität und keine Verkaufsempfehlung für bestehende Positionen.',
+})
+TRANSLATIONS['es'].update({
+    'Holdings awaiting score review:': 'Posiciones con revisión de score pendiente:',
+    'REVIEW REQUIRED': 'REVISIÓN PENDIENTE',
+    'Model Score': 'Score del modelo',
+    'Legacy total': 'Cálculo heredado',
+    'category coverage': 'cobertura de categorías',
+    'Category coverage': 'Cobertura de categorías',
+    'Model band only': 'Categoría del modelo sin revisar',
+    'Score completeness and review': 'Integridad y revisión del score',
+    'Model scores require all eight contributions at their original weights. Coverage measures numeric availability, not source verification. Arithmetic bounds assign missing categories zero to ten; they are not forecasts or confidence intervals.':
+        'Los scores requieren las ocho contribuciones con sus pesos originales. La cobertura mide la disponibilidad numérica y no certifica fuentes. Los límites aritméticos asignan de cero a diez a las categorías ausentes; no son pronósticos ni intervalos de confianza.',
+    'No approved rating does not mean Sell. Existing holdings are unchanged.':
+        'La ausencia de rating aprobado no significa vender. Las posiciones existentes no cambian.',
+    'Inspect score completeness': 'Examinar la integridad del score',
+    'Arithmetic bounds': 'Límites aritméticos',
+    'Current rating': 'Rating aprobado',
+    'Rating at capture': 'Rating en el momento de captura',
+    'Ratings describe the displayed build snapshot, not a live approval.':
+        'Los ratings describen la captura mostrada y no constituyen una aprobación en tiempo real.',
+    'Approval is withdrawn when recorded validity or quote age expires. New research requires rebuilding the report.':
+        'La aprobación caduca al vencer su vigencia o la antigüedad permitida de la cotización. Los nuevos análisis requieren actualizar el informe.',
+    'Missing categories': 'Categorías ausentes',
+    'Pending': 'Pendiente',
+    'of the book lacks comparable reviewed scores': 'de la cartera carece de scores revisados comparables',
+    'names per sector. Equal planned allocations among reviewed eligible candidates in regime order. Unfilled proposal slots are unallocated capacity, not a recommendation to sell holdings.':
+        'valores por sector. Asignaciones iguales entre candidatos revisados y aptos en orden de régimen. Las plazas vacantes son capacidad sin asignar y no una recomendación de vender posiciones.',
+})

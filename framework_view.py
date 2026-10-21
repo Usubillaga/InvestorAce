@@ -1,6 +1,32 @@
 """Render the new diagnostics separately from legacy actions and rankings."""
 from html import escape
 from evidence import row_diagnostics
+from assessment import LABELS
+
+
+def assessment_panel(assessments):
+    """Readable arithmetic coverage; bounds are not confidence intervals."""
+    rows = []
+    for ticker, item in sorted(assessments.items()):
+        model = '&mdash;' if item['model_score'] is None else f"{item['model_score']:.2f}"
+        missing = ', '.join(LABELS[key] for key in item['missing_components']) or '&mdash;'
+        cells = [escape(ticker), f"{item['coverage_weight']:.0%}",
+                 f"{item['score_lower']:.2f}&ndash;{item['score_upper']:.2f}", model,
+                 escape(item['rating'] or 'Pending'), missing]
+        fields = (None, 'coverage', 'bounds', 'model_score', 'rating', 'missing')
+        rows.append('<tr data-assessment="' + escape(ticker) + '">' + ''.join(
+            '<td' + (f' data-assessment-field="{field}"' if field else '') + '>' + value + '</td>'
+            for field, value in zip(fields, cells)) + '</tr>')
+    return ('<section class="box"><h2>Score completeness and review</h2>'
+        '<p>Model scores require all eight contributions at their original weights. '
+        'Coverage measures numeric availability, not source verification. '
+        'Arithmetic bounds assign missing categories zero to ten; they are not forecasts or confidence intervals.</p>'
+        '<p>No approved rating does not mean Sell. Existing holdings are unchanged.</p>'
+        '<p>Approval is withdrawn when recorded validity or quote age expires. New research requires rebuilding the report.</p>'
+        '<details><summary>Inspect score completeness</summary><div class="tw"><table><thead><tr>'
+        '<th>Ticker</th><th>Category coverage</th><th>Arithmetic bounds</th><th>Model Score</th>'
+        '<th>Current rating</th><th>Missing categories</th></tr></thead><tbody>'
+        + ''.join(rows) + '</tbody></table></div></details></section>')
 
 
 def framework_panel(rows, weights, macro, proposal=None):
@@ -33,17 +59,20 @@ def framework_panel(rows, weights, macro, proposal=None):
                 return '&mdash;' if value is None else f"{value:,.4f} {escape(str(plan.get('currency') or ''))}"
             status = {'WITHIN_ENTRY_CEILING': 'Within entry ceiling',
                       'WAIT_FOR_PULLBACK': 'Wait for pullback', 'UNAVAILABLE': 'Entry plan unavailable'}[plan['status']]
-            positions += ('<tr><td>' + escape(p['ticker']) + '</td><td>' + escape(p['sector'])
-                          + f"</td><td>{p['fit']:.1f}</td><td>{p['weight']:.1%}</td>"
-                          + '<td>' + money(plan['quote']) + '</td><td>' + money(plan['entry_limit'])
-                          + '</td><td>' + money(plan['initial_stop']) + '</td>'
+            positions += ('<tr data-entry-assessment="' + escape(p['ticker'])
+                          + '" data-entry-expires="' + escape(plan['entry_valid_until'])
+                          + f'" data-entry-weight="{p["weight"]}"><td>' + escape(p['ticker']) + '</td><td>' + escape(p['sector'])
+                          + f"</td><td>{p['fit']:.1f}</td><td data-entry-action=\"weight\">{p['weight']:.1%}</td>"
+                          + '<td>' + money(plan['quote']) + '</td><td data-entry-action="limit">' + money(plan['entry_limit'])
+                          + '</td><td data-entry-action="stop">' + money(plan['initial_stop']) + '</td>'
                           + f"<td>{plan['holding_min_days']}&ndash;{plan['holding_max_days']} days after fill"
                           + f"<br>Review every {plan['review_every_days']} days</td>"
-                          + '<td>' + status + '<br>Refresh by ' + escape(plan['entry_valid_until']) + '</td></tr>')
+                          + '<td><span data-entry-action="status">' + status + '</span><br>Refresh by ' + escape(plan['entry_valid_until']) + '</td></tr>')
         book = ('<details><summary>Constrained portfolio proposal</summary>'
-                f"<p>{len(proposal['positions'])} of {proposal['target_size']} slots filled; "
-                f"unallocated capacity {proposal['cash_weight']:.1%}. Maximum {proposal['max_per_sector']} names per sector. "
-                'Equal planned allocations, selected from the raw regime ranking. Unfilled entries remain in cash.</p>'
+                f'<p><span data-proposal-current="filled">{len(proposal["positions"])}</span> of {proposal["target_size"]} slots filled; '
+                f'unallocated capacity <span data-proposal-current="capacity">{proposal["cash_weight"]:.1%}</span>. Maximum {proposal["max_per_sector"]} names per sector. '
+                'Equal planned allocations among reviewed eligible candidates in regime order. '
+                'Unfilled proposal slots are unallocated capacity, not a recommendation to sell holdings.</p>'
                 '<div class="tw"><table><thead><tr><th>Ticker</th><th>Sector</th><th>Fit</th>'
                 '<th>Planned weight</th><th>Reference quote</th><th>Buy limit</th><th>Initial stop</th>'
                 '<th>Holding / review</th><th>Entry status</th></tr></thead><tbody>' + positions + '</tbody></table></div>'

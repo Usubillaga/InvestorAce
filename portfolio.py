@@ -1,5 +1,6 @@
 """Optional constrained portfolio proposal. Raw regime ranking stays untouched."""
 from evidence import number
+from assessment import timestamp
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 
@@ -26,13 +27,15 @@ class TradePolicy:
 DEFAULT_POLICY = TradePolicy()
 
 
-def trade_plan(row, entry_ceiling, policy=DEFAULT_POLICY, as_of=None):
+def trade_plan(row, entry_ceiling, policy=DEFAULT_POLICY, as_of=None, approval=None):
     """New-entry scenario only; never changes an existing position's stop.
 
     The caller supplies engine.entry_price(row), preserving the existing 60%
     NGV-cover rule. A lower current quote caps the proposed buy limit.
     """
-    today = date.fromisoformat(as_of) if as_of else datetime.now(timezone.utc).date()
+    cutoff = timestamp(approval.get('as_of')) if approval else None
+    until = timestamp(approval.get('expires_at')) if approval else None
+    today = cutoff.date() if cutoff else date.fromisoformat(as_of) if as_of else datetime.now(timezone.utc).date()
     price, ceiling = number(row.get('price')), number(entry_ceiling)
     result = {'as_of': today.isoformat(), 'currency': row.get('cur'),
               'quote': price, 'quote_retrieved_at': row.get('price_ts'),
@@ -43,6 +46,12 @@ def trade_plan(row, entry_ceiling, policy=DEFAULT_POLICY, as_of=None):
               'review_every_days': policy.review_every_days,
               'entry_valid_until': (today + timedelta(days=policy.entry_valid_days)).isoformat(),
               'status': 'UNAVAILABLE', 'basis': 'legacy-ngv-cover-60pct; fixed-percent-stop-v1'}
+    if approval is not None:
+        if cutoff is None or until is None or until < cutoff or not approval.get('new_entry_eligible'):
+            result['reason'] = 'Current input-bound approval required'
+            return result
+        result.update(as_of=cutoff.isoformat(), approval_expires_at=until.isoformat(),
+                      entry_valid_until=min(until, cutoff + timedelta(days=policy.entry_valid_days)).isoformat())
     if price is None or price <= 0 or ceiling is None or ceiling <= 0 or not row.get('cur'):
         result['reason'] = 'Positive quote, NGV entry ceiling and quote currency required'
         return result
@@ -59,14 +68,20 @@ def filled_plan(plan, fill_price, filled_on):
     the proposed portfolio must not reset this stop or the holding clock.
     """
     fill = number(fill_price)
-    day = date.fromisoformat(filled_on)
+    instant = timestamp(filled_on)
+    day = instant.astimezone(timezone.utc).date() if instant else date.fromisoformat(filled_on)
     if plan.get('status') == 'UNAVAILABLE' or fill is None or fill <= 0:
         raise ValueError('Available entry plan and positive actual fill required')
-    if not date.fromisoformat(plan['as_of']) <= day <= date.fromisoformat(plan['entry_valid_until']):
+    start, until = timestamp(plan['as_of']), timestamp(plan['entry_valid_until'])
+    if start and until:
+        valid = start <= instant <= until if instant else start.date() < day < until.date()
+    else:
+        valid = date.fromisoformat(plan['as_of']) <= day <= date.fromisoformat(plan['entry_valid_until'])
+    if not valid:
         raise ValueError('Entry plan not valid on fill date; refresh it before entry')
     if fill > plan['entry_limit']:
         raise ValueError('Fill exceeds the planned buy limit')
-    return dict(plan, status='FILLED', actual_entry=fill, filled_on=day.isoformat(),
+    return dict(plan, status='FILLED', actual_entry=fill, filled_on=instant.isoformat() if instant else day.isoformat(),
                 initial_stop=fill * (1 - plan['stop_loss_pct']),
                 next_review=(day + timedelta(days=plan['review_every_days'])).isoformat(),
                 holding_review_from=(day + timedelta(days=plan['holding_min_days'])).isoformat(),
@@ -74,7 +89,7 @@ def filled_plan(plan, fill_price, filled_on):
 
 
 def construct(ranked, target_size=10, max_per_sector=2, max_weight=0.10,
-              entry_limits=None, policy=DEFAULT_POLICY, as_of=None):
+              entry_limits=None, policy=DEFAULT_POLICY, as_of=None, approvals=None):
     """Accept (ticker, row, fit) from engine.regime_book(regime, len(DATA)).
 
     Equal target slots; unfilled slots stay in cash. No renormalisation that
@@ -103,7 +118,11 @@ def construct(ranked, target_size=10, max_per_sector=2, max_weight=0.10,
         if reason:
             exclusions.append({'ticker': ticker, 'reason': reason})
             continue
-        plan = trade_plan(row, (entry_limits or {}).get(ticker), policy, as_of)
+        approval = approvals.get(ticker, {}) if approvals is not None else None
+        plan = trade_plan(row, (entry_limits or {}).get(ticker), policy, as_of, approval)
+        if approvals is not None and plan['status'] == 'UNAVAILABLE':
+            exclusions.append({'ticker': ticker, 'reason': 'APPROVAL_UNAVAILABLE'})
+            continue
         positions.append({'ticker': ticker, 'fit': fit, 'sector': sector, 'weight': slot,
                           'trade_plan': plan, 'planned_loss_at_stop': slot * policy.stop_loss_pct
                           if plan['status'] != 'UNAVAILABLE' else None})

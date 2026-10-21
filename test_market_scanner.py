@@ -46,9 +46,10 @@ class ScannerTests(unittest.TestCase):
 
     def test_source_checked_is_not_completed_cross_review(self):
         result = self.scan()['rows'][0]
-        self.assertEqual(result['model_band'], 'Buy')
+        self.assertIsNone(result['model_band'])
+        self.assertEqual(result['raw_score'], 7.6)
         self.assertIsNone(result['rating'])
-        self.assertEqual(result['review_status'], 'REVIEW_PENDING')
+        self.assertEqual(result['review_status'], 'REVIEW_REQUIRED')
         self.assertIn('CROSS_REVIEW_PENDING', [x['code'] for x in result['issues']])
 
     def test_missing_quote_timestamp_does_not_use_retrieval_time(self):
@@ -59,7 +60,8 @@ class ScannerTests(unittest.TestCase):
         self.assertEqual(row['quote_status'], 'TIME_UNKNOWN')
         self.assertIsNone(row['rating'])
         self.assertIsNone(row['valuation']['cover'])
-        self.assertEqual(row['model_score'], 7.6)
+        self.assertIsNone(row['model_score'])
+        self.assertEqual(row['raw_score'], 7.6)
 
     def test_stale_future_and_invalid_quotes_cannot_pass(self):
         for stamp, price, expected in [('2026-10-10T20:00:00Z', 100, 'STALE'),
@@ -104,7 +106,7 @@ class ScannerTests(unittest.TestCase):
         row = self.scan(record, notes)['rows'][0]
         self.assertEqual(row['objections'][0]['status'], 'open')
         self.assertIn('FIXED_TOTAL', [x['code'] for x in row['issues']])
-        self.assertEqual(row['review_status'], 'UNRESOLVED')
+        self.assertEqual(row['review_status'], 'REVIEW_REQUIRED')
 
     def test_no_input_mutation_or_nan_json(self):
         original = observation()

@@ -64,7 +64,8 @@ class ASMLInputs(unittest.TestCase):
         for fn in (engine.ngv, engine.cover, engine.implied_growth, engine.priced_in_live,
                    engine.score, engine.risk, engine.regime_scores):
             self.assertEqual(fn(before), fn(after), fn.__name__)
-        self.assertEqual(engine.verdict('ASML', after)[0], 'ACCUMULATE')
+        self.assertEqual(engine.legacy_verdict('ASML', after)[0], 'ACCUMULATE')
+        self.assertEqual(engine.verdict('ASML', after)[0], 'REVIEW REQUIRED')
         self.assertEqual(engine.regime_spec_sha256(), engine.REGIME_SPEC_EXPECTED_SHA256)
         before_plan = trade_plan(before, engine.entry_price(before), as_of='2026-10-14')
         after_plan = trade_plan(after, engine.entry_price(after), as_of='2026-10-14')

@@ -15,7 +15,20 @@
   const date = value => value ? new Date(value).toLocaleString('de-DE', {timeZone:'UTC',dateStyle:'medium',timeStyle:'short'}) + ' UTC' : 'nicht belegt';
   const day = value => value ? new Date(String(value).slice(0, 10) + 'T00:00:00Z').toLocaleDateString('de-DE', {timeZone:'UTC',dateStyle:'medium'}) : 'nicht belegt';
   const badge = band => `<span class="badge ${band?.includes('Buy') ? 'buy' : band === 'Sell' ? 'sell' : 'hold'}">${esc(band || 'Ohne Score')}</span>`;
-  const status = row => row.review_status === 'UNRESOLVED' ? 'Einwände offen' : 'Ungeprüft';
+  const status = row => InvestorAceAssessment.statusLabel(row,'de');
+  const frozenAssessments = new Map(data.rows.map(r => [r.ticker,r.assessment]));
+  const frozenIssues = new Map(data.rows.map(r => [r.ticker,r.issues]));
+  function refreshAssessments() {
+    for (const r of data.rows) {
+      const current=InvestorAceAssessment.project(frozenAssessments.get(r.ticker),{objections:r.objections});
+      const bands={'SELL':'Sell','HOLD NEG':'Hold negativ','HOLD POS':'Hold positiv','BUY':'Buy','STRONG BUY':'Strong Buy'};
+      Object.assign(r,{assessment:current,model_score:current.model_score,model_band:bands[current.model_band]||null,
+        rating:current.rating,review_status:current.review_status,quote_status:current.quote_status,
+        score_components:current.components});
+      r.issues=[...new Map([...(frozenIssues.get(r.ticker)||[]),...(current.issues||[])].map(x=>[x.code,x])).values()];
+    }
+    data.rated_count=data.rows.filter(r=>r.rating!==null).length;
+  }
   const regimeName = {GOLDILOCKS:'Goldilocks', REFLATION:'Reflation', INFLATION:'Inflation', STAGFLATION:'Stagflation', RECESSION:'Rezession'};
   const regimes = data.regimes || Object.keys(regimeName);
   const currentRegime = data.current_regime;
@@ -24,6 +37,7 @@
   const marketControls = ['m-query','m-band','m-sector','m-quality','m-holdings','m-cap','m-minimum','m-regime'];
   let view = candidates.length ? 'market' : 'universe';
   let selected = [];
+  let activeTicker = null;
 
   // ---------- static setup
   for (const id of ['regime', 'm-regime']) {
@@ -99,7 +113,7 @@
     } else {
       setStats([['Aktien im Universum', data.universe_count],
                 ['Buy / Strong Buy im Modell', data.rows.filter(r => r.model_score !== null && r.model_score >= 7).length],
-                ['Mit offenen Einwänden', data.rows.filter(r => r.review_status === 'UNRESOLVED').length],
+                ['Mit offenen Einwänden', data.rows.filter(r => InvestorAceAssessment.materialObjections(r.objections).length).length],
                 ['Quellenprüfung hinterlegt', data.rows.filter(r => r.source_status === 'SOURCE_CHECKED').length]]);
       $('notice').innerHTML = '<b>Forschungsliste:</b> Ein Modellband ist eine vorläufige Einordnung. Offene wesentliche Einwände verhindern eine belastbare aktuelle Einstufung.';
       $('list-eyebrow').textContent = 'VOM UNIVERSUM ZUR AUSWAHL';
@@ -208,7 +222,7 @@
     const fresh = candidates.find(c => c.universe_key === r.ticker);
     return `<tr>
       <td><span class="ticker">${esc(r.ticker)}</span><span class="subline">${esc(r.issuer)}</span><span class="subline">${esc(r.listing)} · ${esc(r.sector)}${r.held_in_snapshot ? ' · Bestand im Datensatz' : ''}</span></td>
-      <td><span class="score">${num(r.model_score)}</span> / 10<br>${badge(r.model_band)}<span class="subline">${r.score_basis === 'PUBLISHED_TOTAL' ? 'Fester Gesamtscore' : 'Modell · ungeprüft'}</span>${fresh ? '<span class="subline">Neuer Marktscreen: ' + (fresh.score === null ? 'Datenprüfung offen' : num(fresh.score) + ' · andere Methode') + '</span>' : ''}</td>
+      <td><span class="score">${num(r.model_score)}</span> / 10<br>${badge(r.model_band)}<span class="subline">${r.rating ? 'Prüfstatus separat beachten' : 'Modell · ungeprüft'}</span>${r.raw_score !== null && r.raw_score !== undefined ? '<span class="subline">Archivierter Rechenwert: ' + num(r.raw_score) + '</span>' : ''}${fresh ? '<span class="subline">Neuer Marktscreen: ' + (fresh.score === null ? 'Datenprüfung offen' : num(fresh.score) + ' · andere Methode') + '</span>' : ''}</td>
       <td>${num(r.price)} ${esc(r.currency)}<span class="subline">${r.quote_status === 'DATED' ? esc(date(r.quote_observed_at)) : 'Kursdatum: ' + esc({TIME_UNKNOWN:'unbekannt',STALE:'veraltet',MISSING:'fehlend',FUTURE:'ungültig'}[r.quote_status])}</span></td>
       <td><span class="pending">${status(r)}</span><span class="subline">${r.issues.length} offene Prüfpunkte</span><span class="subline">Quelle: ${r.source_status === 'SOURCE_CHECKED' ? 'geprüft, Bewertung offen' : 'Prüfung unvollständig'}</span></td>
       <td><span class="fit">${num(r.regime_fit[$('regime').value],1)}</span><span class="subline">/ 100 · ${esc(regimeName[$('regime').value])}<br>ohne Scoregewicht</span></td>
@@ -226,6 +240,7 @@
 
   // ---------- shared rendering
   function render() {
+    refreshAssessments();
     selected = view === 'market' ? marketSelection() : universeSelection();
     const total = view === 'market' ? candidates.length : data.universe_count;
     $('result-count').textContent = `${selected.length} von ${total} ${view === 'market' ? 'Kandidaten' : 'Aktien'}`;
@@ -235,19 +250,20 @@
       : 'Keine Treffer für diese Filter. Öffne „Alle Bänder“ oder setze die Filter zurück.';
     $('scanner-rows').innerHTML = selected.map(view === 'market' ? marketRow : universeRow).join('');
   }
-  function detail(ticker) {
+  function detail(ticker, refresh=false) {
+    activeTicker=ticker;
     const html = view === 'market'
       ? (c => c && marketDetail(c))(candidates.find(c => c.ticker === ticker))
       : (r => r && universeDetail(r))(data.rows.find(r => r.ticker === ticker));
     if (!html) return;
     $('detail').innerHTML = html;
-    $('detail').hidden = false; $('detail').focus();
-    $('close-detail').onclick = () => { $('detail').hidden = true; $('list-title').scrollIntoView({block:'start'}); };
+    $('detail').hidden = false; if(!refresh) $('detail').focus();
+    $('close-detail').onclick = () => { activeTicker=null; $('detail').hidden = true; $('list-title').scrollIntoView({block:'start'}); };
     const jump = $('open-in-universe');
     if (jump) jump.onclick = () => {
       setView('universe'); $('band').value = 'all'; $('holdings').value = 'all'; $('query').value = jump.dataset.ticker; render(); detail(jump.dataset.ticker);
     };
-    $('detail').scrollIntoView({behavior:'smooth',block:'start'});
+    if(!refresh) $('detail').scrollIntoView({behavior:'smooth',block:'start'});
   }
   $('scanner-rows').addEventListener('click', e => { const button = e.target.closest('button[data-ticker]'); if (button) detail(button.dataset.ticker); });
   for (const id of universeControls.concat(marketControls)) $(id).addEventListener(['query','minimum','m-query','m-minimum'].includes(id) ? 'input' : 'change', () => {
@@ -267,6 +283,7 @@
     a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
   $('export').onclick = () => {
+    render();
     let header, rows, name;
     if (view === 'market') {
       header = ['Ticker','Unternehmen','Sektor','Börse','Screening-Score','Band (ungeprüft)','Kurs USD','Kursdatum','Marktwert USD','Umsatzwachstum %','Op.-Marge %','FCF-Marge %','FCF-Rendite %','8%-Szenario/Kurs %','Nettoverschuldung/EBITDA','Im Universum','Basis','Periodenende','Scan','Prüfstatus','Abdeckung Gewicht','Kursstatus','Offene Prüfpunkte'];
@@ -274,11 +291,14 @@
       name = 'InvestorAce_Marktscan.csv';
     } else {
       header = ['Ticker','Listing','Unternehmen','Modellscore','Modellband ungeprüft','Aktuelle Einstufung','Währung','Sektor','Prüfstatus','Offene Prüfpunkte','Datenaufnahme'];
-      rows = selected.map(r => [r.ticker,r.listing,r.issuer,r.model_score,r.model_band,'ungeprüft',r.currency,r.sector,r.review_status,r.issues.map(x => x.message).join(' | '),data.captured_at]);
+      rows = selected.map(r => [r.ticker,r.listing,r.issuer,r.model_score,r.model_band,r.rating||'ungeprüft',r.currency,r.sector,r.review_status,r.issues.map(x => x.message).join(' | '),data.captured_at]);
       name = 'InvestorAce_Aktienideen.csv';
     }
     download('﻿' + [header,...rows].map(row => row.map(csv).join(';')).join('\r\n'), name, 'text/csv;charset=utf-8;');
   };
-  $('download-json').onclick = e => { e.preventDefault(); download(JSON.stringify(data,null,2), 'InvestorAce_Scanner.json', 'application/json'); };
-  setView(view);
+  $('download-json').onclick = e => { e.preventDefault(); refreshAssessments(); download(JSON.stringify(data,null,2), 'InvestorAce_Scanner.json', 'application/json'); };
+  InvestorAceAssessment.watch(()=>{
+    refreshAssessments();setView(view);
+    if(activeTicker&&!$('detail').hidden) detail(activeTicker,true);
+  },[...frozenAssessments.values()]);
 })();

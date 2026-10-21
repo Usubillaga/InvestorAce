@@ -2,6 +2,14 @@
   'use strict';
   const data = JSON.parse(document.getElementById('comparison-data').textContent);
   const rows = data.rows;
+  const frozenAssessments = new Map(rows.map(r=>[r.ticker,r.model?.assessment]));
+  function refreshAssessments(){
+    for(const r of rows){
+      const current=InvestorAceAssessment.project(frozenAssessments.get(r.ticker),{objections:r.model?.objections});
+      Object.assign(r.model,{assessment:current,score:current.model_score,rating:current.rating,
+        review_required:!current.quality_rank_eligible,quality_rank_eligible:current.quality_rank_eligible});
+    }
+  }
   const byTicker = new Map(rows.map(r => [r.ticker, r]));
   const $ = id => document.getElementById(id);
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -93,9 +101,9 @@
     duelLimits:['The duel judges these five reported financial ratios. Valuation and business risks need a separate assessment.','Das Duell bewertet diese fünf gemeldeten Finanzkennzahlen. Bewertung und Geschäftsrisiken benötigen eine eigene Prüfung.','El duelo evalúa estos cinco ratios financieros publicados. La valoración y los riesgos del negocio necesitan una evaluación propia.'],
     duelRules:['How the referee decides','So entscheidet der Ringrichter','Cómo decide el árbitro'],
     duelRulesText:['One point per round won, all five rounds have equal weight. Equal displayed values are draws (percentages: 1 decimal; multiples: 2). Missing figures give neither side a point. Lower net debt / EBITDA wins only with positive EBITDA; lower net dilution wins the share round.','Ein Punkt je Rundensieg; alle fünf Runden zählen gleich viel. Gleich dargestellte Werte sind remis (%: 1 Dezimalstelle; Vielfache: 2). Fehlende Werte geben keiner Seite einen Punkt. Nettoschulden / EBITDA zählen nur bei positivem EBITDA; geringere Nettoverwässerung gewinnt die Aktienrunde.','Un punto por asalto ganado, con igual peso para los cinco. Valores iguales en pantalla son empate (%: 1 decimal; múltiplos: 2). Los datos ausentes no dan puntos. Deuda neta / EBITDA solo cuenta con EBITDA positivo; menor dilución neta gana el asalto de acciones.'],
-    modelScore:['Current InvestorAce score','Aktueller InvestorAce-Score','Score actual de InvestorAce'],
+    modelScore:['InvestorAce model score · review shown separately','InvestorAce-Modellscore · Prüfstatus separat','Score del modelo InvestorAce · revisión por separado'],
     modelUnverified:['review pending','Prüfung offen','revisión pendiente'],
-    duelModelNote:['The InvestorAce rank and portfolio rules continue to use the existing model score, independently of the selected fiscal year.','Für InvestorAce-Rang und Portfolioregeln gilt weiterhin der bestehende Modellscore, unabhängig vom ausgewählten Geschäftsjahr.','El ranking y las reglas de cartera siguen usando el score del modelo, independientemente del ejercicio seleccionado.'],
+    duelModelNote:['A model leader requires comparable reviewed scores. Legacy totals remain historical; financial rounds use the selected fiscal year.','Ein Modellführer erfordert vergleichbare geprüfte Scores. Altwerte bleiben historisch; das Finanzduell nutzt das gewählte Geschäftsjahr.','El líder del modelo requiere scores revisados comparables. Los totales antiguos son históricos; el duelo usa el ejercicio seleccionado.'],
     rankDisagreement:['The financial duel and the InvestorAce model score favor different stocks. Valuation and other model categories can change the ranking.','Finanzduell und InvestorAce-Modellscore bevorzugen unterschiedliche Aktien. Bewertung und weitere Modellkategorien können die Rangfolge ändern.','El duelo financiero y el score de InvestorAce favorecen acciones distintas. La valoración y otras categorías del modelo pueden cambiar el ranking.'],
     duelFlag_PERIOD_MISMATCH:['Year ends are more than 183 days apart: the leader is provisional.','Die Geschäftsjahresenden liegen mehr als 183 Tage auseinander: Die Führung ist vorläufig.','Los cierres anuales distan más de 183 días: la ventaja es provisional.'],
     duelFlag_STALE_DATA:['A snapshot is older than 14 days.','Ein Daten-Snapshot ist älter als 14 Tage.','Una descarga de datos tiene más de 14 días.'],
@@ -197,6 +205,7 @@
   }
 
   function render() {
+    refreshAssessments();
     const chosen = selected();
     renderDuel(chosen);
     $('universe-count').textContent = data.universe_count;
@@ -264,6 +273,7 @@
     catch {$('announcements').textContent=location.href;window.prompt(t('share'),location.href);}
   });
   $('export').addEventListener('click',()=>{
+    refreshAssessments();
     const chosen=selected();
     const csvCell = v => '"'+(finite(v) ? String(v) : String(v ?? '').replace(/^[=+@\-\t\r]/,"'$&")).replace(/"/g,'""')+'"';
     const header=['metric','unit',...chosen.flatMap(r=>[r.ticker,r.ticker+'_period',r.ticker+'_retrieved_at'])];
@@ -282,4 +292,5 @@
     link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
   localize();
+  InvestorAceAssessment.watch(render,[...frozenAssessments.values()]);
 })();

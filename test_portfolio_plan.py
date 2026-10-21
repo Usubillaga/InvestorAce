@@ -1,4 +1,5 @@
 import copy
+import re
 import unittest
 from unittest.mock import patch
 
@@ -60,7 +61,9 @@ class PortfolioPlanTests(unittest.TestCase):
         d = engine._regime_fixture('Pharma', .30, 7, 8)
         d.update(cur='USD', yf='AAA')
         with patch.object(engine, 'DATA', {'AAA': d}):
-            book = engine.portfolio_proposal('REFLATION')
+            book = engine.portfolio_proposal('REFLATION', assessments={'AAA': {
+                'new_entry_eligible': True, 'as_of': '2026-10-20T16:15:00Z',
+                'expires_at': '2026-10-21T16:00:00Z'}})
         plan = book['positions'][0]['trade_plan']
         self.assertEqual(plan['entry_ceiling'], engine.entry_price(d))
         self.assertEqual(plan['entry_limit'], min(d['price'], engine.entry_price(d)))
@@ -69,7 +72,7 @@ class PortfolioPlanTests(unittest.TestCase):
         ranked = self.candidates()
         book = portfolio.construct(ranked, entry_limits={t: 80 for t, _, _ in ranked})
         html = framework_panel({t: d for t, d, _ in ranked}, engine.W, {}, book)
-        self.assertIn('10 of 10 slots', html)
+        self.assertIn('10 of 10 slots', re.sub('<[^>]+>', '', html))
         self.assertIn('80.0000 USD', html)
         self.assertIn('72.0000 USD', html)
         self.assertIn('90&ndash;180 days after fill', html)

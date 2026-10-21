@@ -2,6 +2,7 @@ import copy
 import importlib
 import unittest
 from datetime import datetime, timezone
+from pathlib import Path
 from unittest.mock import patch
 
 from test_framework_contract import engine
@@ -125,3 +126,51 @@ class AssessmentIntegrity(unittest.TestCase):
         self.assertEqual(engine.regime_scores(row), before)
         self.assertEqual(row['weight'], 30.)
         self.assertEqual(engine.regime_regression_errors(), [])
+
+    def test_observation_freezes_the_exact_assessment(self):
+        import evidence
+        row = complete_row()
+        with patch.object(engine, 'DATA', {'AAA': row}):
+            rec = engine.observation({'ok': False}, evidence.model_bundle(Path(__file__).parent), NOW.isoformat())
+        self.assertEqual(rec['AAA']['assessment'], self.assess(row))
+        self.assertEqual(rec['AAA']['score'], engine.score(row))
+        self.assertEqual(rec['AAA']['verdict'], 'REVIEW REQUIRED')
+
+    def test_fast_price_needs_a_matching_market_timestamp(self):
+        from types import SimpleNamespace
+        row = complete_row()
+        tk = SimpleNamespace(fast_info={'last_price': 100., 'currency': 'USD'},
+            get_info=lambda: {'regularMarketPrice': 105., 'regularMarketTime': 1792510800,
+                              'currency': 'USD'})
+        with patch.object(engine, 'DATA', {'AAA': row}), patch.object(engine.yf, 'Ticker', return_value=tk), \
+                patch.object(engine, '_fetch_momentum'), patch.object(engine.WACC, 'fetch', return_value=None):
+            engine.fetch_prices()
+        self.assertEqual(row['price'], 105.)
+        self.assertEqual(row['quote_observed_at'], datetime.fromtimestamp(1792510800, timezone.utc).isoformat())
+
+    def test_projection_withdraws_expired_price_contribution(self):
+        row = complete_row()
+        mod = importlib.import_module('assessment')
+        frozen = self.assess(row)
+        later = mod.project(frozen, as_of=datetime(2026, 11, 1, tzinfo=timezone.utc))
+        self.assertIsNone(later['model_score'])
+        self.assertAlmostEqual(later['coverage_weight'], .85)
+        self.assertEqual(frozen['calculation_status'], 'COMPLETE')
+
+    def test_regime_research_screen_does_not_impose_a_quality_threshold(self):
+        high = complete_row()
+        high['fcf'] = 4.8
+        low = complete_row()
+        low.update(yf='BBB', sub=(1., 1., 1., 8., 1., 8.), dil=1.)
+        self.assertLess(engine.score(low), 5.5)
+        self.assertGreater(engine.fit_now(low, 'INFLATION'), engine.fit_now(high, 'INFLATION'))
+        with patch.object(engine, 'DATA', {'AAA': high, 'BBB': low}):
+            result = engine.screen('regime', regime='INFLATION', reviewed_only=False)
+        self.assertEqual([row['t'] for row in result], ['BBB', 'AAA'])
+
+    def test_open_material_objection_blocks_even_a_bound_approval(self):
+        row = complete_row()
+        row['review_objections'] = [dict(id='NORMALIZATION', severity='major', status='corrected')]
+        result = self.assess(row, reviews=self.reviewed(row))
+        self.assertIsNone(result['rating'])
+        self.assertIn('OPEN_OBJECTION', [item['code'] for item in result['issues']])
