@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-21",
+  "period_start": "2026-10-20",
+  "period_end": "2026-10-21",
+  "data_cutoff": "2026-10-21T08:13:39+02:00",
+  "summary": "[Sicher] Colombia's COP 634.9 trillion 2027 budget faces an Article 65 conflict: an official notice said the chamber texts matched; the Senate Secretariat later said they differed. [Wahrscheinlich] This, a challenge to Trump's Canada tariffs and higher regional US input costs elevate implementation risk. [Sicher] Coverage starts after 2026-10-20T08:45:17+02:00; older baselines are labelled.",
+  "priority_review": "[Wahrscheinlich] Will a court suspend the Canada tariffs? Do French support and construction gains become orders and margins? Will Colombia publish a lawful budget route and credible 2027 financing? Keep fundamental score, unweighted regime fit and portfolio sizing separate; no model or trade changes.",
+  "items": [
+    {
+      "section": "regime",
+      "title": "Tariff litigation leaves the inflation-growth trade-off unresolved",
+      "authors": "Philadelphia Fed; Liberty Justice Center; White House; InvestorAce analysis",
+      "publication_date": "New survey and filing: 2026-10-20; implemented-policy baseline: 2026-09-08",
+      "source_url": "https://libertyjusticecenter.org/pressrelease/ljc-sues-over-trumps-revival-of-1930-tariff-law/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] On 2026-10-20 a complaint and preliminary-injunction request challenged Trump's use of Section 338 for 50% tariffs on covered Canadian goods; no stay or ruling was verified. The Philadelphia Fed's October survey, using 2026-10-05 to 2026-10-15 responses, showed firm activity 12.9, prices paid 42.1 after a fourth straight rise, and prices received 8.6.",
+      "investorace_implication": "[Wahrscheinlich] If tariffs survive, import and substitution costs reach prices or margins: sticky inflation keeps rates high; weaker profits lower valuations. Relief or refunds with stable demand favour cost disinflation and Goldilocks; stronger demand plus higher costs favours reflation.",
+      "review_question": "[Vermutung] National data must distinguish resilient demand with cost pressure, meaning reflation; weak labour breadth with sticky costs, meaning stagflation; broad demand decline, meaning recession; and tariff relief with stable demand, meaning disinflation.",
+      "limitations": "[Sicher] The Philadelphia figures are regional diffusion indexes, not growth rates, national CPI or GDP. The filing neither suspends policy nor proves a regime change; no regime probabilities are assigned.",
+      "sources": [
+        {
+          "title": "Liberty Justice Center: LJC sues over Trump's revival of 1930 tariff law",
+          "url": "https://libertyjusticecenter.org/pressrelease/ljc-sues-over-trumps-revival-of-1930-tariff-law/",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Philadelphia Fed: October 2026 Nonmanufacturing Business Outlook Survey",
+          "url": "https://www.philadelphiafed.org/surveys-and-data/regional-economic-analysis/nbos-2026-10",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "White House: President Donald Trump responds to Canada's retaliation",
+          "url": "https://www.whitehouse.gov/fact-sheets/2026/09/fact-sheet-president-donald-j-trump-responds-to-canadas-retaliation/",
+          "publication_date": "2026-09-08"
+        }
+      ]
+    },
+    {
+      "section": "usa",
+      "title": "Employment breadth stays weak as tariff authority returns to court",
+      "authors": "BLS; Liberty Justice Center; White House; GovInfo; BEA; Federal Reserve; CBO; InvestorAce analysis",
+      "publication_date": "New release and filing: 2026-10-20; policy baselines: 2026-09-08 and 2026-09-14; macro baselines through 2026-10-14",
+      "source_url": "https://www.bls.gov/news.release/archives/laus_10202026.htm",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] BLS's 2026-10-20 September report put national unemployment at 4.2%. It fell in 5 states and was statistically stable in 45 plus DC; payrolls rose in 2, fell in 1 and were essentially unchanged in 47 plus DC. Emergency tariff relief was requested, but 50% Section 338 remains implemented without a court order.",
+      "investorace_implication": "[Sicher] Trump's administration implemented the tariffs. Democratic S.5390, introduced on 2026-09-14 and referred to Senate Finance, proposes ending and refunding them and repealing Sections 122 and 338; it is not enacted. [Wahrscheinlich] Compare consumer and import costs, producer protection, retaliation and supply chains, revenue and legal durability: protection helps some producers but raises inputs; repeal reverses both effects and cuts tariff revenue.",
+      "review_question": "[Sicher] Older baselines: September CPI was 3.7% year on year; Q2 real GDP grew 2.2% annualised; the 2026-09-16 Fed range is 3.75%–4.00%; CBO's 2026-10-08 FY2026 deficit estimate is USD 2.0 trillion. [Wahrscheinlich] Test whether weak hiring breadth reaches consumption and profits before calling recession.",
+      "limitations": "[Sicher] State estimates are preliminary and do not replace national payrolls. No injunction, refund, tariff-price pass-through or market repricing was verified.",
+      "sources": [
+        {
+          "title": "BLS: State Employment and Unemployment — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/laus_10202026.htm",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Liberty Justice Center: LJC sues over Trump's revival of 1930 tariff law",
+          "url": "https://libertyjusticecenter.org/pressrelease/ljc-sues-over-trumps-revival-of-1930-tariff-law/",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "White House: President Donald Trump responds to Canada's retaliation",
+          "url": "https://www.whitehouse.gov/fact-sheets/2026/09/fact-sheet-president-donald-j-trump-responds-to-canadas-retaliation/",
+          "publication_date": "2026-09-08"
+        },
+        {
+          "title": "GovInfo: S.5390 — End Trump's Tariff Tax Act",
+          "url": "https://www.govinfo.gov/app/details/BILLS-119s5390is/related",
+          "publication_date": "2026-09-14"
+        },
+        {
+          "title": "BLS: Consumer Price Index — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+          "publication_date": "2026-10-14"
+        },
+        {
+          "title": "BEA: GDP third estimate — Q2 2026",
+          "url": "https://www.bea.gov/news/2026/gdp-third-estimate-industries-corporate-profits-state-gdp-and-state-personal-income-2nd",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "Federal Reserve: FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        },
+        {
+          "title": "CBO: Monthly Budget Review — September 2026",
+          "url": "https://www.cbo.gov/publication/61985",
+          "publication_date": "2026-10-08"
+        }
+      ]
+    },
+    {
+      "section": "eu",
+      "title": "Targeted French relief meets uneven construction and war risk",
+      "authors": "French Economy Ministry; Eurostat; ECB; Reuters; InvestorAce analysis",
+      "publication_date": "New releases: 2026-10-20; FX observation: 2026-10-20; macro baselines: 2026-10-16 and 2026-09-10",
+      "source_url": "https://presse.economie.gouv.fr/le-gouvernement-met-en-place-des-mesures-de-soutien-aux-commerces-touches-par-les-degradations-du-samedi-17-et-dimanche-18-octobre-2026/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] France opened short-time work to shops damaged on 2026-10-17 and 2026-10-18: the state covers 100% of employer cost; workers receive 60% of gross pay, or 100% at minimum wage. Contributions can be deferred for 3 months and spread over 12; a 3-year zero-interest Bpifrance loan is capped at EUR 50,000.",
+      "investorace_implication": "[Sicher] Eurostat's 2026-10-20 August release showed euro-area construction up 1.8% monthly and 1.4% yearly, while buildings fell 3.7% yearly. A Parliament-negotiator compromise proposes an 87.5% vehicle-CO2 cut by 2035 versus 2021 plus a 7.5% credit for low-carbon EU steel; it is not law. [Wahrscheinlich] Aid supports income and liquidity; the proposal eases automaker compliance and favours EU steel, but adds debt and policy uncertainty.",
+      "review_question": "[Sicher] ECB reference on 2026-10-20: 1 EUR = 1.1215 USD versus 1.1225 on 2026-10-19; EUR fell 0.09%, USD rose. Ukrainian officials and DTEK reported 3 Odesa facilities hit and 32,700 households without power. [Wahrscheinlich] Dollar inputs and repair power threaten margins; translated dollar profits partly offset this for exporters.",
+      "limitations": "[Sicher] War figures are attributed, not independently verified. September euro-area inflation of 3.8% and the ECB deposit rate of 2.50% are older baselines. FX is a daily reference without an individual observation time.",
+      "sources": [
+        {
+          "title": "French Economy Ministry: Support measures for shops affected by 17–18 October damage",
+          "url": "https://presse.economie.gouv.fr/le-gouvernement-met-en-place-des-mesures-de-soutien-aux-commerces-touches-par-les-degradations-du-samedi-17-et-dimanche-18-octobre-2026/",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Eurostat: Production in construction up by 1.8% in the euro area — August 2026",
+          "url": "https://ec.europa.eu/eurostat/en/web/products-euro-indicators/w/4-20102026-ap",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Reuters: EU lawmakers reach deal to weaken car CO2 targets",
+          "url": "https://www.marketscreener.com/news/eu-lawmakers-reach-deal-to-weaken-car-co2-targets-ce785cd8da88f323",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Reuters: Russia expands attacks on energy facilities to western Ukraine",
+          "url": "https://www.marketscreener.com/news/russia-expands-attacks-on-energy-facilities-to-western-ukraine-ce785cd8d88dfe2c",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "ECB: USD per EUR reference observation — 20 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Eurostat: Annual inflation up to 3.8% in the euro area — September 2026",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-16102026-ap",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "ECB: Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+          "publication_date": "2026-09-10"
+        }
+      ]
+    },
+    {
+      "section": "colombia",
+      "title": "Budget vote turns into a legal and financing risk",
+      "authors": "Cámara de Representantes; Caracol Radio; Finance Ministry; Colombian Presidency; Banco de la República; DANE; ECB; InvestorAce analysis",
+      "publication_date": "Budget approvals and procedural confirmation: 2026-10-20 and 2026-10-21 Bogotá; debt mission: 2026-10-20; FX references: 2026-10-20 and 2026-10-21; labour baseline: 2026-09-30",
+      "source_url": "https://caracol.com.co/2026/10/21/secretaria-del-senado-confirma-diferencia-entre-los-textos-del-presupuesto-aprobados-en-las-camaras/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] On 2026-10-20 the Cámara announced a COP 634.9 trillion 2027 budget and matching texts. The Senate Secretariat later confirmed that Article 65 passed without an amendment in the Senate but with one in the Cámara. No conciliation, presidential sanction, replacement decree or ruling was verified.",
+      "investorace_implication": "[Sicher] Allocations include COP 94.8 trillion for investment, COP 82.8 trillion for security and COP 9.6 trillion for fuel-price stabilisation. An IMF and World Bank mission from 2026-10-20 to 2026-10-29 is helping design the 2027–2030 debt strategy and 2027 financing plan; it is not a verified loan. [Wahrscheinlich] A disputed budget route may delay execution, raise financing uncertainty and obscure contractor and security-program cash flows.",
+      "review_question": "[Sicher] La República, citing Superfinanciera: TRM valid 2026-10-21 was 1 USD = 3163.76 COP versus 3156.32 on 2026-10-20; USD rose 0.24%, so COP fell. ECB's 2026-10-20 reference was 1 EUR = 1.1215 USD versus 1.1225 on 2026-10-19; EUR fell 0.09%. Derived 1 EUR = 3548.16 COP uses 3163.76 × 1.1215, up 0.15% from the prior mixed-date 3542.97; EUR rose against COP.",
+      "limitations": "[Sicher] The 2026-10-21 TRM is secondary evidence; Banrep shows 3156.32 for 2026-10-20. FX times are unavailable and EUR/COP mixes dates, so it is not a simultaneous tradable quote. Baselines: August unemployment 9.4%, September inflation 6.29%, Banrep rate 12.25%.",
+      "sources": [
+        {
+          "title": "Caracol Radio: Senate Secretariat confirms different approved budget texts",
+          "url": "https://caracol.com.co/2026/10/21/secretaria-del-senado-confirma-diferencia-entre-los-textos-del-presupuesto-aprobados-en-las-camaras/",
+          "publication_date": "2026-10-21"
+        },
+        {
+          "title": "Cámara de Representantes: Plenary approves the General Budget",
+          "url": "https://www.camara.gov.co/la-plenaria-de-la-camara-aprobo-el-presupuesto-general-de-la-nacion/",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Colombia Finance Ministry: Congress approves 2027 General Budget",
+          "url": "https://www.minhacienda.gov.co/w/congreso-aprueba-presupuesto-general-de-la-nacion-para-2027",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Colombian Presidency: IMF and World Bank technical mission on debt strategy",
+          "url": "https://www.presidencia.gov.co/prensa/Paginas/Mision-tecnica-del-Fondo-Monetario-Internacional-y-el-Banco-Mundial-esta-261020.aspx",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "La República: TRM reference snapshot valid 21 October 2026",
+          "url": "https://www.larepublica.co/indicadores-economicos/mercado-cambiario/dolar",
+          "publication_date": "2026-10-21"
+        },
+        {
+          "title": "Banco de la República: Policy, CPI and TRM snapshot dated 20 October 2026",
+          "url": "https://www.banrep.gov.co/es",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "ECB: USD per EUR reference observation — 20 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "DANE: Employment and unemployment — August 2026",
+          "url": "https://www.dane.gov.co/estadisticas-por-tema/mercado-laboral/empleo-y-desempleo",
+          "publication_date": "2026-09-30"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] El presupuesto colombiano de 2027 por COP 634,9 billones afronta un conflicto sobre el artículo 65: un aviso oficial dijo que los textos de ambas cámaras coincidían; la Secretaría del Senado dijo después que diferían. [Wahrscheinlich] Esto, una impugnación de los aranceles de Trump a Canadá y mayores costes regionales de insumos en EEUU elevan el riesgo de ejecución. [Sicher] La cobertura comienza después de 2026-10-20T08:45:17+02:00; se señalan las referencias anteriores.",
+      "priority_review": "[Wahrscheinlich] ¿Suspenderá un tribunal los aranceles a Canadá? ¿Generarán pedidos y márgenes el apoyo francés y la construcción? ¿Publicará Colombia una vía presupuestaria legal y financiación creíble para 2027? Separar puntuación fundamental, ajuste no ponderado al régimen y tamaño de cartera; sin cambios de modelo ni operaciones.",
+      "items": [
+        {
+          "source_url": "https://libertyjusticecenter.org/pressrelease/ljc-sues-over-trumps-revival-of-1930-tariff-law/",
+          "title": "El litigio arancelario deja sin resolver la disyuntiva entre inflación y crecimiento",
+          "publication_date": "Nueva encuesta y demanda: 2026-10-20; referencia de la política aplicada: 2026-09-08",
+          "what_changed": "[Sicher] El 2026-10-20, demanda y petición cautelar impugnaron el uso por Trump de la Sección 338 para aranceles del 50% a bienes canadienses cubiertos; no se verificaron suspensión ni fallo. La encuesta de octubre de la Fed de Filadelfia, con respuestas del 2026-10-05 al 2026-10-15, indicó actividad 12,9, precios pagados 42,1 tras el cuarto aumento seguido y precios cobrados 8,6.",
+          "investorace_implication": "[Wahrscheinlich] Si perduran los aranceles, costes de importación/sustitución llegan a precios o márgenes: inflación persistente mantiene tipos altos; menores beneficios reducen valoraciones. Alivio o devoluciones con demanda estable favorecen desinflación/Goldilocks; demanda y costes al alza favorecen reflación.",
+          "review_question": "[Vermutung] Los datos nacionales deben distinguir demanda resistente/costes altos, reflación; poco empleo/costes persistentes, estanflación; caída amplia de demanda, recesión; alivio arancelario/demanda estable, desinflación.",
+          "limitations": "[Sicher] Las cifras de Filadelfia son índices regionales de difusión, no tasas de crecimiento, IPC ni PIB nacional. La demanda no suspende la política ni prueba cambio de régimen; no se asignan probabilidades."
+        },
+        {
+          "source_url": "https://www.bls.gov/news.release/archives/laus_10202026.htm",
+          "title": "La amplitud del empleo sigue débil mientras la autoridad arancelaria vuelve a los tribunales",
+          "publication_date": "Nueva publicación y demanda: 2026-10-20; referencias de política: 2026-09-08 y 2026-09-14; referencias macroeconómicas hasta 2026-10-14",
+          "what_changed": "[Sicher] El informe del BLS del 2026-10-20 situó el desempleo nacional de septiembre en 4,2%. Bajó en 5 estados y fue estadísticamente estable en 45 más DC; las nóminas subieron en 2, bajaron en 1 y casi no variaron en 47 más DC. Se pidió alivio urgente, pero el 50% bajo la Sección 338 sigue aplicado sin orden judicial.",
+          "investorace_implication": "[Sicher] Trump aplicó los aranceles. La propuesta demócrata S.5390, presentada el 2026-09-14 y remitida a Finanzas del Senado, plantea terminarlos/reembolsarlos y derogar las Secciones 122 y 338; no está promulgada. [Wahrscheinlich] Comparar costes al consumidor/importador, protección, represalias/cadenas, ingresos y solidez jurídica: proteger ayuda a ciertos productores pero encarece insumos; derogar invierte ambos efectos y reduce ingresos arancelarios.",
+          "review_question": "[Sicher] Referencias anteriores: IPC de septiembre, 3,7% interanual; PIB real Q2, +2,2% anualizado; rango Fed del 2026-09-16, 3,75%–4,00%; déficit FY2026 estimado por CBO el 2026-10-08, USD 2,0 billones. [Wahrscheinlich] Comprobar si la escasa contratación alcanza consumo y beneficios antes de diagnosticar recesión.",
+          "limitations": "[Sicher] Las estimaciones estatales son preliminares y no sustituyen las nóminas nacionales. No se verificaron medida cautelar, devolución, traslación a precios ni revisión bursátil."
+        },
+        {
+          "source_url": "https://presse.economie.gouv.fr/le-gouvernement-met-en-place-des-mesures-de-soutien-aux-commerces-touches-par-les-degradations-du-samedi-17-et-dimanche-18-octobre-2026/",
+          "title": "El alivio francés focalizado coincide con una construcción desigual y riesgo bélico",
+          "publication_date": "Nuevas publicaciones: 2026-10-20; observación cambiaria: 2026-10-20; referencias macroeconómicas: 2026-10-16 y 2026-09-10",
+          "what_changed": "[Sicher] Francia abrió la reducción de jornada a comercios dañados el 2026-10-17 y 2026-10-18: Estado cubre 100% del coste patronal; empleados reciben 60% del bruto, o 100% con salario mínimo. Cotizaciones: aplazamiento 3 meses y fraccionamiento en 12; préstamo Bpifrance a 3 años, tipo cero y límite EUR 50.000.",
+          "investorace_implication": "[Sicher] Eurostat publicó el 2026-10-20: construcción de agosto en la zona euro +1,8% mensual/+1,4% anual; edificación bajó 3,7% anual. Un compromiso parlamentario propone recortar CO2 vehicular 87,5% para 2035 frente a 2021 y acreditar 7,5% por acero UE bajo en carbono; no es ley. [Wahrscheinlich] La ayuda sostiene renta/liquidez; la propuesta alivia a fabricantes y favorece acero UE, pero añade deuda e incertidumbre.",
+          "review_question": "[Sicher] BCE 2026-10-20: 1 EUR = 1,1215 USD frente a 1,1225 el 2026-10-19; EUR bajó 0,09%, USD al alza. Autoridades ucranianas y DTEK informaron de 3 instalaciones de Odesa alcanzadas y 32.700 hogares sin luz. [Wahrscheinlich] Insumos en USD y energía de reparación amenazan márgenes; beneficios en USD compensan parcialmente a exportadores.",
+          "limitations": "[Sicher] Cifras bélicas atribuidas, no verificadas independientemente. Inflación eurozona de septiembre 3,8% y depósito BCE 2,50% son referencias anteriores. El cambio es diario, sin hora individual."
+        },
+        {
+          "source_url": "https://caracol.com.co/2026/10/21/secretaria-del-senado-confirma-diferencia-entre-los-textos-del-presupuesto-aprobados-en-las-camaras/",
+          "title": "La votación presupuestaria se convierte en riesgo jurídico y de financiación",
+          "publication_date": "Aprobaciones presupuestarias y confirmación procedimental: 2026-10-20 y 2026-10-21 Bogotá; misión de deuda: 2026-10-20; referencias cambiarias: 2026-10-20 y 2026-10-21; referencia laboral: 2026-09-30",
+          "what_changed": "[Sicher] El 2026-10-20 la Cámara anunció presupuesto de 2027 por COP 634,9 billones y textos coincidentes. La Secretaría del Senado confirmó después que el artículo 65 pasó sin enmienda en Senado y con una en Cámara. No se verificaron conciliación, sanción presidencial, decreto sustitutivo ni fallo.",
+          "investorace_implication": "[Sicher] Asignaciones: COP 94,8 billones para inversión, COP 82,8 billones para seguridad y COP 9,6 billones para estabilizar combustibles. Una misión FMI/Banco Mundial del 2026-10-20 al 2026-10-29 ayuda a diseñar estrategia de deuda 2027–2030 y financiación de 2027; no es préstamo verificado. [Wahrscheinlich] La vía presupuestaria disputada puede retrasar ejecución, elevar incertidumbre financiera y ocultar flujos de contratistas/programas de seguridad.",
+          "review_question": "[Sicher] La República, citando a Superfinanciera: TRM 2026-10-21, 1 USD = 3163,76 COP, frente a 3156,32 el 2026-10-20; USD +0,24%, COP a la baja. BCE 2026-10-20: 1 EUR = 1,1215 USD frente a 1,1225 el 2026-10-19; EUR bajó 0,09%. Derivado: 1 EUR = 3548,16 COP usando 3163,76 × 1,1215, +0,15% sobre el anterior mixto 3542,97; EUR se apreció frente a COP.",
+          "limitations": "[Sicher] TRM 2026-10-21 es evidencia secundaria; Banrep muestra 3156,32 para 2026-10-20. Sin horas FX; EUR/COP mezcla fechas y no es cotización simultánea negociable. Referencias: desempleo de agosto 9,4%, inflación de septiembre 6,29%, tipo Banrep 12,25%."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Kolumbiens Haushalt 2027 über COP 634,9 Billionen hat einen Konflikt zu Artikel 65: Eine amtliche Meldung nannte die Kammertexte identisch; das Senatssekretariat später abweichend. [Wahrscheinlich] Dies, eine Klage gegen Trumps Kanada-Zölle und höhere regionale US-Inputkosten erhöhen das Umsetzungsrisiko. [Sicher] Der Berichtszeitraum beginnt nach 2026-10-20T08:45:17+02:00; ältere Ausgangsdaten sind gekennzeichnet.",
+      "priority_review": "[Wahrscheinlich] Setzt ein Gericht die Kanada-Zölle aus? Werden Frankreichs Hilfen und die Bauzuwächse zu Aufträgen und Margen? Veröffentlicht Kolumbien einen rechtmäßigen Haushaltsweg und glaubwürdige Finanzierung für 2027? Fundamentalscore, ungewichtete Regimepassung und Portfoliogröße trennen; keine Modell- oder Handelsänderungen.",
+      "items": [
+        {
+          "source_url": "https://libertyjusticecenter.org/pressrelease/ljc-sues-over-trumps-revival-of-1930-tariff-law/",
+          "title": "Der Zollrechtsstreit lässt den Zielkonflikt zwischen Inflation und Wachstum offen",
+          "publication_date": "Neue Umfrage und Klage: 2026-10-20; Ausgangsstand der umgesetzten Politik: 2026-09-08",
+          "what_changed": "[Sicher] Am 2026-10-20 griffen Klage und Eilantrag Trumps Nutzung von Section 338 für 50% Zoll auf erfasste Kanada-Waren an; weder Aussetzung noch Urteil sind bestätigt. Die Oktoberumfrage der Philadelphia Fed mit Antworten vom 2026-10-05 bis 2026-10-15 zeigte Firmenaktivität 12,9, bezahlte Preise 42,1 nach dem vierten Anstieg und erhaltene Preise 8,6.",
+          "investorace_implication": "[Wahrscheinlich] Bleiben die Zölle, treffen Import-/Substitutionskosten Preise oder Margen: Hartnäckige Inflation hält Zinsen hoch; schwächere Gewinne senken Bewertungen. Entlastung/Rückzahlung bei stabiler Nachfrage begünstigt Kostendisflation/Goldilocks; stärkere Nachfrage plus höhere Kosten begünstigt Reflation.",
+          "review_question": "[Vermutung] Nationale Daten müssen unterscheiden: robuste Nachfrage/Kostendruck, Reflation; geringe Arbeitsmarktbreite/hartnäckige Kosten, Stagflation; breiter Nachfragerückgang, Rezession; Zollentlastung/stabile Nachfrage, Disinflation.",
+          "limitations": "[Sicher] Die Philadelphia-Werte sind regionale Diffusionsindizes, keine Wachstumsraten und kein nationaler VPI oder BIP. Die Klage setzt keine Politik aus und belegt keinen Regimewechsel; Wahrscheinlichkeiten werden nicht vergeben."
+        },
+        {
+          "source_url": "https://www.bls.gov/news.release/archives/laus_10202026.htm",
+          "title": "Die Beschäftigungsbreite bleibt schwach, während die Zollbefugnis erneut vor Gericht steht",
+          "publication_date": "Neue Veröffentlichung und Klage: 2026-10-20; politische Ausgangsdaten: 2026-09-08 und 2026-09-14; makroökonomische Ausgangsdaten bis 2026-10-14",
+          "what_changed": "[Sicher] Der BLS-Bericht vom 2026-10-20 bezifferte die nationale September-Arbeitslosigkeit auf 4,2%. Sie sank in 5 Staaten und blieb in 45 plus DC statistisch stabil; Lohnbeschäftigung stieg in 2, sank in 1 und blieb in 47 plus DC weitgehend unverändert. Eilrechtsschutz wurde beantragt, doch 50% nach Section 338 gelten ohne Gerichtsbeschluss weiter.",
+          "investorace_implication": "[Sicher] Trumps Regierung setzte die Zölle um. Der demokratische Entwurf S.5390 vom 2026-09-14, an Senate Finance überwiesen, will sie beenden/zurückzahlen und Sections 122 und 338 aufheben; er ist kein Gesetz. [Wahrscheinlich] Verbraucher-/Importkosten, Produzentenschutz, Vergeltung/Lieferketten, Einnahmen und Rechtssicherheit vergleichen: Schutz hilft einigen Produzenten, verteuert Inputs; Aufhebung dreht beides um und senkt Zolleinnahmen.",
+          "review_question": "[Sicher] Ältere Ausgangsdaten: September-VPI 3,7% jährlich; reales BIP Q2 +2,2% annualisiert; Fed-Spanne vom 2026-09-16 3,75%–4,00%; CBO-Defizitschätzung vom 2026-10-08 für FY2026 USD 2,0 Billionen. [Wahrscheinlich] Prüfen, ob geringe Einstellungsbreite Konsum und Gewinne erreicht, bevor eine Rezession festgestellt wird.",
+          "limitations": "[Sicher] Staatenschätzungen sind vorläufig und ersetzen nationale Payrolls nicht. Weder Eilrechtsschutz, Rückzahlung, Zollweitergabe an Preise noch Marktneubewertung wurden bestätigt."
+        },
+        {
+          "source_url": "https://presse.economie.gouv.fr/le-gouvernement-met-en-place-des-mesures-de-soutien-aux-commerces-touches-par-les-degradations-du-samedi-17-et-dimanche-18-octobre-2026/",
+          "title": "Gezielte französische Entlastung trifft auf uneinheitliche Baukonjunktur und Kriegsrisiko",
+          "publication_date": "Neue Veröffentlichungen: 2026-10-20; Wechselkursbeobachtung: 2026-10-20; makroökonomische Ausgangsdaten: 2026-10-16 und 2026-09-10",
+          "what_changed": "[Sicher] Frankreich öffnete Kurzarbeit für am 2026-10-17 und 2026-10-18 beschädigte Geschäfte: Staat trägt 100% der Arbeitgeberkosten; Beschäftigte erhalten 60% brutto oder 100% beim Mindestlohn. Beiträge können 3 Monate gestundet und über 12 verteilt werden; ein zinsloses Bpifrance-Darlehen über 3 Jahre ist auf EUR 50.000 begrenzt.",
+          "investorace_implication": "[Sicher] Eurostat meldete am 2026-10-20: Euroraum-Bauproduktion im August +1,8% monatlich/+1,4% jährlich; Hochbau jährlich 3,7% niedriger. Ein Parlamentskompromiss schlägt bis 2035 gegenüber 2021 eine Fahrzeug-CO2-Senkung von 87,5% plus 7,5% Gutschrift für emissionsarmen EU-Stahl vor; kein Gesetz. [Wahrscheinlich] Hilfe stützt Einkommen/Liquidität; der Vorschlag entlastet Autobauer und begünstigt EU-Stahl, schafft aber Schulden- und Politikunsicherheit.",
+          "review_question": "[Sicher] EZB am 2026-10-20: 1 EUR = 1,1215 USD gegenüber 1,1225 am 2026-10-19; EUR fiel 0,09%, USD stieg. Ukrainische Amtsträger und DTEK meldeten 3 getroffene Odesa-Anlagen und 32.700 stromlose Haushalte. [Wahrscheinlich] Dollar-Inputs und Reparaturstrom bedrohen Margen; umgerechnete Dollargewinne gleichen dies bei Exporteuren teilweise aus.",
+          "limitations": "[Sicher] Kriegszahlen sind zugeschrieben, nicht unabhängig bestätigt. Euroraum-Septemberinflation 3,8% und EZB-Einlagenzins 2,50% sind ältere Ausgangsdaten. FX ist eine Tagesreferenz ohne einzelne Beobachtungszeit."
+        },
+        {
+          "source_url": "https://caracol.com.co/2026/10/21/secretaria-del-senado-confirma-diferencia-entre-los-textos-del-presupuesto-aprobados-en-las-camaras/",
+          "title": "Die Haushaltsabstimmung wird zum Rechts- und Finanzierungsrisiko",
+          "publication_date": "Haushaltsbeschlüsse und Verfahrensbestätigung: 2026-10-20 und 2026-10-21 Bogotá; Schuldenmission: 2026-10-20; Wechselkursreferenzen: 2026-10-20 und 2026-10-21; Arbeitsmarktausgangsdaten: 2026-09-30",
+          "what_changed": "[Sicher] Am 2026-10-20 verkündete die Cámara einen Haushalt 2027 über COP 634,9 Billionen und identische Texte. Das Senatssekretariat bestätigte später: Artikel 65 passierte den Senat ohne, die Cámara mit Änderung. Weder Vermittlung, präsidentielle Sanktion, Ersatzdekret noch Urteil sind bestätigt.",
+          "investorace_implication": "[Sicher] Zuweisungen: COP 94,8 Billionen für Investitionen, COP 82,8 Billionen für Sicherheit, COP 9,6 Billionen für Kraftstoffpreisstabilisierung. Eine IWF-/Weltbankmission vom 2026-10-20 bis 2026-10-29 hilft bei Schuldenstrategie 2027–2030 und Finanzierungsplan 2027; kein bestätigtes Darlehen. [Wahrscheinlich] Der strittige Haushaltsweg kann Umsetzung verzögern, Finanzierungsunsicherheit erhöhen und Cashflows von Auftragnehmern/Sicherheitsprogrammen verschleiern.",
+          "review_question": "[Sicher] La República unter Berufung auf Superfinanciera: TRM 2026-10-21, 1 USD = 3163,76 COP gegenüber 3156,32 am 2026-10-20; USD +0,24%, COP schwächer. EZB 2026-10-20: 1 EUR = 1,1215 USD gegenüber 1,1225 am 2026-10-19; EUR fiel 0,09%. Abgeleitet: 1 EUR = 3548,16 COP aus 3163,76 × 1,1215, +0,15% zum vorherigen Mischdatum 3542,97; EUR stärker als COP.",
+          "limitations": "[Sicher] TRM 2026-10-21 ist Sekundärevidenz; Banrep zeigt 3156,32 für 2026-10-20. FX-Uhrzeiten fehlen; EUR/COP mischt Daten und ist keine simultane handelbare Notierung. Ausgangsdaten: August-Arbeitslosigkeit 9,4%, Septemberinflation 6,29%, Banrep-Zins 12,25%."
+        }
+      ]
+    }
+  }
+}
