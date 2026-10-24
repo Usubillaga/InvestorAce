@@ -150,6 +150,15 @@ tested deployment; generated history-only commits do not retrigger it.
 
 ## Build integrity
 
+The history publisher builds in a temporary detached worktree of the latest
+fetched main. If another writer advances main before the ordinary push, it
+repeats the full install/test/build pipeline from that newer head, at most
+three attempts. It never force-pushes or rebases stale generated reports.
+Only the accepted attempt supplies the Pages artifact; failed builds,
+non-race push errors and exhausted retries stop before upload/deployment.
+The caller's checkout is preserved. Offline race regressions use a real bare
+Git remote: `python -m unittest test_publish_build -v`.
+
 ### Score completeness and explicit review
 
 Frozen approvals expire in the browser as well as on the server. An expired
