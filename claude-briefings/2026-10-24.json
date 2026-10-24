@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-24",
+  "period_start": "2026-10-20",
+  "period_end": "2026-10-24",
+  "data_cutoff": "2026-10-24T08:40:00+02:00",
+  "summary": "[Wahrscheinlich] The energy shock intensified this week: Brent settled at 116.72 USD on Friday 23 October, the highest settle since April and up more than 6% on the week, as traders priced renewed US strikes on Iran. Stocks fell and the 10-year Treasury yield ended near 5% ahead of the FOMC on 27–28 October. [Sicher] Correction: the French budget revenue vote did not take place on 20 October as stated in the previous edition; it was postponed to 3 November. Weekend edition: all quotes are the last observation of 23 October.",
+  "priority_review": "1) With Brent above 116 USD, should the regime classifier move from a stagflation tilt to an explicit energy-shock state? 2) Does InvestorAce reflect a 10-year risk-free rate near 5% before the FOMC? 3) For Colombia, does a projected 2027 deficit of 9.4% of GDP justify a standing fiscal-risk flag?",
+  "items": [
+    {
+      "section": "regime",
+      "authors": "Market reporting (Yahoo Finance, CNBC, Rigzone)",
+      "source_url": "https://finance.yahoo.com/markets/article/brent-crude-tops-116-as-traders-price-in-middle-east-escalation-192101547.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Brent crude tops $116 as traders price escalating Middle East conflict",
+          "url": "https://finance.yahoo.com/markets/article/brent-crude-tops-116-as-traders-price-in-middle-east-escalation-192101547.html",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "Brent crude oil tops $116, a six-month high, as tensions swell in the Middle East",
+          "url": "https://www.cnbc.com/2026/10/23/oil-price-brent-wti-iran-war-saudi-arabia.html",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "Brent Tops $116 as Middle East Risks Grow",
+          "url": "https://www.rigzone.com/news/brent_tops_116_as_middle_east_risks_grow-23-oct-2026-184925-article",
+          "publication_date": "2026-10-23"
+        }
+      ],
+      "title": "Brent at a six-month high above 116 USD as markets price renewed strikes on Iran",
+      "publication_date": "20–23 October 2026",
+      "what_changed": "[Wahrscheinlich] Brent crude settled at 116.72 USD per barrel on 23 October, up 3.1% on the day and more than 6% on the week, its highest settle since April; WTI settled at 103.27 USD. Reports tie the move to traders pricing renewed US strikes on Iran in the coming weeks and to continued Houthi attacks on Saudi Arabia. [Vermutung] A shipping tracker citing IMF PortWatch data counted only 4 transits through the Strait of Hormuz on 18 October against about 85 per day before the crisis; this is not independently verified.",
+      "investorace_implication": "[Wahrscheinlich] Oil up about 6% in a week, on top of the earlier rise, feeds headline inflation and squeezes real incomes and margins of energy users, while lifting energy producers. The regime reading moves further toward an energy-driven stagflation shock. [Vermutung] If strikes resume, a further spike is plausible; if diplomacy advances, the risk premium could fall quickly, so position sizing should allow for both.",
+      "review_question": "Should the regime classifier include an explicit oil-shock state triggered by a sustained level, for example above 110 USD for several weeks? Next: FOMC on 27–28 October.",
+      "limitations": "Price levels come from market reports; exact settlements differ by a few cents between sources. Hormuz transit counts and mine claims are unverified. Reports of planned strikes rest on press accounts."
+    },
+    {
+      "section": "usa",
+      "authors": "Market reporting; Federal Reserve; press reporting",
+      "source_url": "https://finance.yahoo.com/markets/live/stock-market-today-dow-sp-500-drop-nasdaq-rises-after-sharp-tech-sell-off-160940864.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Stock market today: Dow sinks 600 points, S&P 500, Nasdaq drop to cap a volatile week, oil prices rise",
+          "url": "https://finance.yahoo.com/markets/live/stock-market-today-dow-sp-500-drop-nasdaq-rises-after-sharp-tech-sell-off-160940864.html",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "Futures Drop as Tech Stocks Slide, Oil Prices Climb Past $101 a Barrel",
+          "url": "https://www.bloomberg.com/news/articles/2026-10-23/us-futures-slip-as-big-tech-wavers-oil-extends-gains",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "Trump's decision to waive Russian sanctions outrages Congress, but no quick counter seen",
+          "url": "https://www.wcax.com/2026/10/19/trumps-decision-waive-russian-sanctions-outrages-congress-no-quick-counter-seen/",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "Federal Reserve issues FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        }
+      ],
+      "title": "Stocks slip and the 10-year yield sits near 5% before the Fed",
+      "publication_date": "19–23 October 2026",
+      "what_changed": "[Wahrscheinlich] On 23 October the Dow fell 1.23% to 52215.16 and the S&P 500 0.52% to 7623.68; the S&P 500 lost about 0.5% on the week. The 10-year Treasury yield fell below 5% on 22 October for the first time in a month and ended the week near 5%. Markets widely expect the Fed to hold at 3.75% to 4% on 27–28 October. [Sicher] On the Russia waiver of 16 October: the law lets the president waive sanctions by notifying Congress, so reversing it requires new legislation; Congress is in recess until after the elections on 3 November. [Wahrscheinlich] Senator Thom Tillis called the waiver irresponsible and Senator Elizabeth Warren urged a reversal, while Representative Thomas Massie defended it as authority Congress granted; no vote has been scheduled.",
+      "investorace_implication": "[Wahrscheinlich] A Fed hold with oil above 116 USD keeps real policy tight but leaves inflation risk tilted up; the market is pricing patience, not cuts. On the same criteria, the waiver lowers fuel-price pressure but weakens sanctions leverage; critics in both parties weigh the strategic cost above the price effect. [Vermutung] Rate-sensitive sectors stay vulnerable if the Fed signals another hike for December.",
+      "review_question": "Is the risk-free input near 5% in place before the FOMC on 27–28 October? Next: US October jobs report on 6 November.",
+      "limitations": "Index levels and yields come from market reports. No US macro release in the period was checked for this edition."
+    },
+    {
+      "section": "eu",
+      "authors": "ECB; Assemblée nationale; LCP",
+      "source_url": "https://lcp.fr/actualites/budget-2027-le-marathon-de-la-partie-recettes-loin-d-etre-termine-le-vote-prevu-demain-a",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Sicher",
+      "sources": [
+        {
+          "title": "Budget 2027: le marathon de la partie recettes loin d’être terminé, le vote prévu demain à l’Assemblée va être reporté",
+          "url": "https://lcp.fr/actualites/budget-2027-le-marathon-de-la-partie-recettes-loin-d-etre-termine-le-vote-prevu-demain-a",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "Examen de la première partie du projet de loi de finances pour 2027",
+          "url": "https://www.assemblee-nationale.fr/dyn/actualites-accueil-hub/examen-de-la-premiere-partie-du-projet-de-loi-de-finances-pour-2027",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-22"
+        }
+      ],
+      "title": "Correction: French revenue vote moved to 3 November; euro at 1.1205 USD",
+      "publication_date": "19 to 22 October 2026",
+      "what_changed": "[Sicher] The previous edition said the National Assembly would vote on the revenue part of the French budget on 20 October. That vote did not take place: by the end of the session on 19 October deputies had examined 15 of 58 articles, and the solemn vote was postponed to 3 November. Debate resumes on 27 October after the social security budget vote; the vote on the full bill remains set for 17 November. ECB reference rate on 22 October 2026: 1 EUR = 1.1205 USD, versus 1.1225 on 19 October, so the euro weakened by about 0.18%. The fixing for 23 October was not found.",
+      "investorace_implication": "[Wahrscheinlich] The postponement extends French fiscal uncertainty into November, after the ECB meeting on 29 October; reports say Assembly votes have already widened the deficit outlook. A government without a majority and rising oil prices keep the euro soft and weigh on French banks and domestic cyclicals.",
+      "review_question": "Next: ECB decision on 29 October, French revenue vote on 3 November, euro area flash inflation on 4 November.",
+      "limitations": "The LCP article’s publication date is inferred from its reference to the vote planned for the next day. Estimates of the deficit impact of Assembly amendments are ministerial statements, not official figures."
+    },
+    {
+      "section": "colombia",
+      "authors": "Reuters via syndication; La República; Superintendencia Financiera via press; ECB",
+      "source_url": "https://1027wbow.com/2026/10/20/colombian-congress-approves-201-1-billion-budget-for-2027/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Colombian Congress approves $201.1 billion budget for 2027",
+          "url": "https://1027wbow.com/2026/10/20/colombian-congress-approves-201-1-billion-budget-for-2027/",
+          "publication_date": "2026-10-20"
+        },
+        {
+          "title": "Analistas prevén un alza de 25 puntos básicos en la tasa de política monetaria",
+          "url": "https://www.larepublica.co/economia/analistas-preven-un-alza-de-25-puntos-basicos-en-la-tasa-de-politica-monetaria-4504617",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Precio del dólar hoy en Colombia (TRM)",
+          "url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-22"
+        }
+      ],
+      "title": "Colombia passes a 2027 budget with a 9.4% deficit; BanRep expected to hike",
+      "publication_date": "16 to 23 October 2026",
+      "what_changed": "[Sicher] Congress approved the 2027 budget of 634.9 trillion pesos early on 20 October; it cuts spending linked to the peace agreement, raises defence and reduces debt-service payments, and projects a fiscal deficit of 9.4% of GDP. It now goes to presidential sanction. [Wahrscheinlich] Analysts surveyed by La República expect Banco de la República to raise its rate by 25 basis points to 12.5% on 30 October; inflation expectations for 2026 rose to 6.87%. No filing of the rescue law was found. FX: TRM for 23 October 1 USD = 3185.01 COP (20 October edition: 3174.67), a peso depreciation of about 0.33%. Derived from the ECB rate of 22 October and the TRM of 23 October: 1 EUR = 3568.8 COP (previous: 3563.6), a peso depreciation of about 0.15%. One source reports a TRM of 3158.43 valid from 24 to 26 October; it is not confirmed.",
+      "investorace_implication": "[Wahrscheinlich] A 9.4% deficit plan alongside a pending rescue law and an IMF warning keeps the sovereign risk premium high; a rate hike to 12.5% would tighten domestic credit further. The peso giving back some October gains as oil rises suggests the fiscal story, not oil revenue, now drives the currency.",
+      "review_question": "Next: Banco de la República on 30 October, IMF mission in early November, filing of the rescue law.",
+      "limitations": "Budget figures come from syndicated Reuters reporting; vote counts differ between outlets. The derived EUR/COP rate mixes an ECB fixing of 22 October with the TRM of 23 October. The TRM valid from 24 October rests on one source."
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Wahrscheinlich] El choque energético se intensificó esta semana: el Brent cerró en 116,72 USD el viernes 23 de octubre, el cierre más alto desde abril y más de 6 % en la semana, mientras los operadores descontaban nuevos ataques de EE. UU. contra Irán. Las bolsas cayeron y el rendimiento del Tesoro a 10 años terminó cerca de 5 % antes del FOMC del 27–28 de octubre. [Sicher] Corrección: la votación de ingresos del presupuesto francés no se realizó el 20 de octubre como indicó la edición anterior; se aplazó al 3 de noviembre. Edición de fin de semana: todas las cotizaciones son la última observación del 23 de octubre.",
+      "priority_review": "1) Con el Brent por encima de 116 USD, ¿debe el clasificador pasar de un sesgo de estanflación a un estado explícito de choque energético? 2) ¿Refleja InvestorAce una tasa libre de riesgo a 10 años cercana a 5 % antes del FOMC? 3) Para Colombia, ¿justifica un déficit proyectado de 9,4 % del PIB en 2027 una alerta fiscal permanente?",
+      "items": [
+        {
+          "source_url": "https://finance.yahoo.com/markets/article/brent-crude-tops-116-as-traders-price-in-middle-east-escalation-192101547.html",
+          "title": "El Brent en máximo de seis meses por encima de 116 USD mientras el mercado descuenta nuevos ataques contra Irán",
+          "publication_date": "20–23 de octubre de 2026",
+          "what_changed": "[Wahrscheinlich] El Brent cerró en 116,72 USD por barril el 23 de octubre, con alza de 3,1 % en el día y más de 6 % en la semana, su cierre más alto desde abril; el WTI cerró en 103,27 USD. Los reportes vinculan el movimiento a que los operadores descuentan nuevos ataques de EE. UU. contra Irán en las próximas semanas y a los continuos ataques hutíes contra Arabia Saudita. [Vermutung] Un rastreador marítimo que cita datos de IMF PortWatch contó solo 4 tránsitos por el estrecho de Ormuz el 18 de octubre frente a unos 85 diarios antes de la crisis; no está verificado de forma independiente.",
+          "investorace_implication": "[Wahrscheinlich] Un alza del petróleo de cerca de 6 % en una semana, sobre la subida previa, alimenta la inflación general y presiona los ingresos reales y los márgenes de los usuarios de energía, mientras favorece a los productores. La lectura del régimen se mueve más hacia un choque de estanflación impulsado por la energía. [Vermutung] Si se reanudan los ataques, es plausible un nuevo repunte; si avanza la diplomacia, la prima de riesgo podría caer rápido, así que el tamaño de las posiciones debe contemplar ambos casos.",
+          "review_question": "¿Debe el clasificador incluir un estado explícito de choque petrolero activado por un nivel sostenido, por ejemplo por encima de 110 USD durante varias semanas? Próximo: FOMC el 27–28 de octubre.",
+          "limitations": "Los niveles de precios provienen de informes de mercado; los cierres exactos difieren por unos centavos entre fuentes. Los conteos de tránsito en Ormuz y las denuncias de minas no están verificados. Los reportes de ataques planeados se basan en relatos de prensa."
+        },
+        {
+          "source_url": "https://finance.yahoo.com/markets/live/stock-market-today-dow-sp-500-drop-nasdaq-rises-after-sharp-tech-sell-off-160940864.html",
+          "title": "Las bolsas ceden y el rendimiento a 10 años ronda 5 % antes de la Fed",
+          "publication_date": "19–23 de octubre de 2026",
+          "what_changed": "[Wahrscheinlich] El 23 de octubre el Dow cayó 1,23 % a 52215,16 y el S&P 500 0,52 % a 7623,68; el S&P 500 perdió cerca de 0,5 % en la semana. El rendimiento del Tesoro a 10 años bajó de 5 % el 22 de octubre por primera vez en un mes y cerró la semana cerca de 5 %. El mercado espera ampliamente que la Fed mantenga el rango de 3,75 % a 4 % el 27–28 de octubre. [Sicher] Sobre la exención a Rusia del 16 de octubre: la ley permite al presidente suspender sanciones notificando al Congreso, así que revertirla requiere nueva legislación; el Congreso está en receso hasta después de las elecciones del 3 de noviembre. [Wahrscheinlich] El senador Thom Tillis calificó la exención de irresponsable y la senadora Elizabeth Warren pidió revertirla, mientras el representante Thomas Massie la defendió como una facultad otorgada por el Congreso; no hay votación programada.",
+          "investorace_implication": "[Wahrscheinlich] Una pausa de la Fed con el petróleo por encima de 116 USD mantiene restrictiva la política real pero deja el riesgo de inflación inclinado al alza; el mercado descuenta paciencia, no recortes. Con los mismos criterios, la exención reduce la presión sobre los combustibles pero debilita la presión de las sanciones; críticos de ambos partidos pesan más el costo estratégico que el efecto en precios. [Vermutung] Los sectores sensibles a tasas siguen vulnerables si la Fed señala otra subida en diciembre.",
+          "review_question": "¿Está la tasa libre de riesgo cerca de 5 % antes del FOMC del 27–28 de octubre? Próximo: informe de empleo de octubre de EE. UU. el 6 de noviembre.",
+          "limitations": "Los niveles de índices y rendimientos provienen de informes de mercado. No se revisó ningún dato macro de EE. UU. del período para esta edición."
+        },
+        {
+          "source_url": "https://lcp.fr/actualites/budget-2027-le-marathon-de-la-partie-recettes-loin-d-etre-termine-le-vote-prevu-demain-a",
+          "title": "Corrección: la votación de ingresos francesa pasa al 3 de noviembre; el euro en 1,1205 USD",
+          "publication_date": "19 a 22 de octubre de 2026",
+          "what_changed": "[Sicher] La edición anterior afirmó que la Asamblea Nacional votaría la parte de ingresos del presupuesto francés el 20 de octubre. Esa votación no se realizó: al cierre de la sesión del 19 de octubre los diputados habían examinado 15 de 58 artículos, y la votación solemne se aplazó al 3 de noviembre. El debate se reanuda el 27 de octubre tras la votación del presupuesto de la seguridad social; la votación del proyecto completo sigue prevista para el 17 de noviembre. Tipo de referencia del BCE el 22 de octubre de 2026: 1 EUR = 1,1205 USD, frente a 1,1225 el 19 de octubre, es decir, el euro se debilitó cerca de 0,18 %. No se encontró la fijación del 23 de octubre.",
+          "investorace_implication": "[Wahrscheinlich] El aplazamiento prolonga la incertidumbre fiscal francesa hasta noviembre, después de la reunión del BCE del 29 de octubre; según reportes, las votaciones de la Asamblea ya empeoraron las perspectivas del déficit. Un gobierno sin mayoría y un petróleo al alza mantienen débil el euro y pesan sobre los bancos franceses y los cíclicos domésticos.",
+          "review_question": "Próximo: decisión del BCE el 29 de octubre, votación de ingresos en Francia el 3 de noviembre, inflación preliminar de la eurozona el 4 de noviembre.",
+          "limitations": "La fecha de publicación del artículo de LCP se infiere de su referencia a la votación prevista para el día siguiente. Las estimaciones del impacto de las enmiendas en el déficit son declaraciones ministeriales, no cifras oficiales."
+        },
+        {
+          "source_url": "https://1027wbow.com/2026/10/20/colombian-congress-approves-201-1-billion-budget-for-2027/",
+          "title": "Colombia aprueba un presupuesto 2027 con déficit de 9,4 %; se espera alza del BanRep",
+          "publication_date": "16 a 23 de octubre de 2026",
+          "what_changed": "[Sicher] El Congreso aprobó en la madrugada del 20 de octubre el presupuesto de 2027 por 634,9 billones de pesos; recorta gasto ligado al acuerdo de paz, sube defensa y reduce el servicio de la deuda, y proyecta un déficit fiscal de 9,4 % del PIB. Pasa ahora a sanción presidencial. [Wahrscheinlich] Los analistas encuestados por La República esperan que el Banco de la República suba su tasa 25 puntos básicos a 12,5 % el 30 de octubre; las expectativas de inflación para 2026 subieron a 6,87 %. No se encontró la radicación de la ley de rescate. Divisas: TRM del 23 de octubre 1 USD = 3185,01 COP (edición del 20 de octubre: 3174,67), una depreciación del peso de cerca de 0,33 %. Derivado del tipo del BCE del 22 de octubre y la TRM del 23 de octubre: 1 EUR = 3568,8 COP (anterior: 3563,6), una depreciación del peso de cerca de 0,15 %. Una fuente reporta una TRM de 3158,43 vigente del 24 al 26 de octubre; no está confirmada.",
+          "investorace_implication": "[Wahrscheinlich] Un plan con déficit de 9,4 %, junto con una ley de rescate pendiente y una advertencia del FMI, mantiene alta la prima de riesgo soberano; una subida de tasa a 12,5 % endurecería más el crédito interno. Que el peso devuelva parte de sus ganancias de octubre mientras sube el petróleo sugiere que ahora la historia fiscal, no los ingresos petroleros, mueve la moneda.",
+          "review_question": "Próximo: Banco de la República el 30 de octubre, misión del FMI a comienzos de noviembre, radicación de la ley de rescate.",
+          "limitations": "Las cifras del presupuesto provienen de reportes de Reuters sindicados; los conteos de votos difieren entre medios. El tipo EUR/COP derivado combina una fijación del BCE del 22 de octubre con la TRM del 23 de octubre. La TRM vigente desde el 24 de octubre se basa en una sola fuente."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Wahrscheinlich] Der Energieschock hat sich diese Woche verschärft: Brent schloss am Freitag, 23. Oktober, bei 116,72 USD, dem höchsten Schlusskurs seit April und mehr als 6 % im Wochenvergleich, weil Händler erneute US-Angriffe auf Iran einpreisten. Aktien fielen, und die Rendite 10-jähriger US-Anleihen endete vor dem FOMC am 27.–28. Oktober nahe 5 %. [Sicher] Korrektur: Die Abstimmung über den Einnahmenteil des französischen Haushalts fand nicht wie in der vorigen Ausgabe angegeben am 20. Oktober statt; sie wurde auf den 3. November verschoben. Wochenendausgabe: Alle Kurse sind die letzte Beobachtung vom 23. Oktober.",
+      "priority_review": "1) Soll der Regime-Klassifikator bei Brent über 116 USD von einer stagflationären Tendenz in einen ausdrücklichen Energieschock-Zustand wechseln? 2) Bildet InvestorAce vor dem FOMC einen risikofreien 10-Jahres-Zins nahe 5 % ab? 3) Rechtfertigt ein für 2027 geplantes Defizit von 9,4 % des BIP für Kolumbien einen dauerhaften Fiskalrisiko-Hinweis?",
+      "items": [
+        {
+          "source_url": "https://finance.yahoo.com/markets/article/brent-crude-tops-116-as-traders-price-in-middle-east-escalation-192101547.html",
+          "title": "Brent auf Sechs-Monats-Hoch über 116 USD, Märkte preisen erneute Angriffe auf Iran ein",
+          "publication_date": "20.–23. Oktober 2026",
+          "what_changed": "[Wahrscheinlich] Brent schloss am 23. Oktober bei 116,72 USD je Barrel, 3,1 % höher am Tag und mehr als 6 % in der Woche, der höchste Schlusskurs seit April; WTI schloss bei 103,27 USD. Berichte führen das darauf zurück, dass Händler erneute US-Angriffe auf Iran in den kommenden Wochen einpreisen, sowie auf anhaltende Huthi-Angriffe auf Saudi-Arabien. [Vermutung] Ein Schifffahrts-Tracker, der Daten von IMF PortWatch zitiert, zählte am 18. Oktober nur 4 Durchfahrten durch die Straße von Hormus gegenüber etwa 85 pro Tag vor der Krise; das ist nicht unabhängig bestätigt.",
+          "investorace_implication": "[Wahrscheinlich] Ein Ölanstieg von rund 6 % in einer Woche, zusätzlich zum früheren Anstieg, treibt die Gesamtinflation und drückt Realeinkommen und Margen von Energieverbrauchern, während Energieproduzenten profitieren. Die Regime-Einschätzung rückt weiter Richtung energiegetriebener Stagflationsschock. [Vermutung] Kommt es zu neuen Angriffen, ist ein weiterer Preissprung plausibel; macht die Diplomatie Fortschritte, könnte die Risikoprämie schnell fallen, daher sollte die Positionsgröße beide Fälle zulassen.",
+          "review_question": "Soll der Klassifikator einen ausdrücklichen Ölschock-Zustand enthalten, der bei einem anhaltenden Niveau ausgelöst wird, etwa über 110 USD für mehrere Wochen? Als Nächstes: FOMC am 27.–28. Oktober.",
+          "limitations": "Die Preisniveaus stammen aus Marktberichten; die genauen Schlusskurse weichen zwischen Quellen um einige Cent ab. Durchfahrtszahlen in Hormus und Meldungen über Minen sind unbestätigt. Berichte über geplante Angriffe beruhen auf Presseberichten."
+        },
+        {
+          "source_url": "https://finance.yahoo.com/markets/live/stock-market-today-dow-sp-500-drop-nasdaq-rises-after-sharp-tech-sell-off-160940864.html",
+          "title": "Aktien geben nach, 10-Jahres-Rendite nahe 5 % vor der Fed",
+          "publication_date": "19.–23. Oktober 2026",
+          "what_changed": "[Wahrscheinlich] Am 23. Oktober fiel der Dow um 1,23 % auf 52215,16 und der S&P 500 um 0,52 % auf 7623,68; der S&P 500 verlor in der Woche etwa 0,5 %. Die Rendite 10-jähriger Treasuries fiel am 22. Oktober erstmals seit einem Monat unter 5 % und beendete die Woche nahe 5 %. Die Märkte erwarten weitgehend, dass die Fed am 27.–28. Oktober bei 3,75 % bis 4 % bleibt. [Sicher] Zur Russland-Ausnahme vom 16. Oktober: Das Gesetz erlaubt dem Präsidenten, Sanktionen per Mitteilung an den Kongress auszusetzen; eine Rücknahme erfordert daher ein neues Gesetz; der Kongress ist bis nach den Wahlen am 3. November in der Sitzungspause. [Wahrscheinlich] Senator Thom Tillis nannte die Ausnahme unverantwortlich, Senatorin Elizabeth Warren forderte ihre Rücknahme, während der Abgeordnete Thomas Massie sie als vom Kongress verliehene Befugnis verteidigte; eine Abstimmung ist nicht angesetzt.",
+          "investorace_implication": "[Wahrscheinlich] Eine Pause der Fed bei Öl über 116 USD hält die reale Geldpolitik straff, lässt das Inflationsrisiko aber nach oben geneigt; der Markt preist Geduld ein, keine Senkungen. Nach denselben Kriterien senkt die Ausnahme den Kraftstoffpreisdruck, schwächt aber den Sanktionsdruck; Kritiker beider Parteien gewichten die strategischen Kosten höher als den Preiseffekt. [Vermutung] Zinssensitive Sektoren bleiben verwundbar, falls die Fed eine weitere Erhöhung im Dezember signalisiert.",
+          "review_question": "Ist der risikofreie Zins nahe 5 % vor dem FOMC am 27.–28. Oktober eingestellt? Als Nächstes: US-Arbeitsmarktbericht für Oktober am 6. November.",
+          "limitations": "Indexstände und Renditen stammen aus Marktberichten. Für diese Ausgabe wurde keine US-Makroveröffentlichung des Zeitraums geprüft."
+        },
+        {
+          "source_url": "https://lcp.fr/actualites/budget-2027-le-marathon-de-la-partie-recettes-loin-d-etre-termine-le-vote-prevu-demain-a",
+          "title": "Korrektur: Französische Einnahmenabstimmung auf 3. November verschoben; Euro bei 1,1205 USD",
+          "publication_date": "19. bis 22. Oktober 2026",
+          "what_changed": "[Sicher] Die vorige Ausgabe gab an, die Nationalversammlung stimme am 20. Oktober über den Einnahmenteil des französischen Haushalts ab. Diese Abstimmung fand nicht statt: Bis zum Sitzungsende am 19. Oktober hatten die Abgeordneten 15 von 58 Artikeln beraten, die feierliche Abstimmung wurde auf den 3. November verschoben. Die Debatte geht am 27. Oktober nach der Abstimmung über den Sozialversicherungshaushalt weiter; die Abstimmung über das Gesamtgesetz bleibt für den 17. November angesetzt. EZB-Referenzkurs am 22. Oktober 2026: 1 EUR = 1,1205 USD nach 1,1225 am 19. Oktober; der Euro gab also um etwa 0,18 % nach. Das Fixing vom 23. Oktober wurde nicht gefunden.",
+          "investorace_implication": "[Wahrscheinlich] Die Verschiebung zieht die französische Haushaltsunsicherheit bis in den November, nach der EZB-Sitzung am 29. Oktober; Berichten zufolge haben die Abstimmungen in der Versammlung den Defizitausblick bereits verschlechtert. Eine Regierung ohne Mehrheit und steigende Ölpreise halten den Euro schwach und belasten französische Banken sowie binnenwirtschaftliche Zykliker.",
+          "review_question": "Als Nächstes: EZB-Entscheidung am 29. Oktober, französische Einnahmenabstimmung am 3. November, Schnellschätzung der Inflation im Euroraum am 4. November.",
+          "limitations": "Das Veröffentlichungsdatum des LCP-Artikels ist aus seinem Hinweis auf die für den Folgetag geplante Abstimmung abgeleitet. Schätzungen der Defizitwirkung der Änderungsanträge sind Ministeraussagen, keine amtlichen Zahlen."
+        },
+        {
+          "source_url": "https://1027wbow.com/2026/10/20/colombian-congress-approves-201-1-billion-budget-for-2027/",
+          "title": "Kolumbien beschließt Haushalt 2027 mit 9,4 % Defizit; BanRep-Erhöhung erwartet",
+          "publication_date": "16. bis 23. Oktober 2026",
+          "what_changed": "[Sicher] Der Kongress verabschiedete am frühen 20. Oktober den Haushalt 2027 über 634,9 Billionen Pesos; er kürzt Ausgaben im Zusammenhang mit dem Friedensabkommen, erhöht die Verteidigung, senkt den Schuldendienst und sieht ein Haushaltsdefizit von 9,4 % des BIP vor. Er geht nun zur Unterzeichnung an den Präsidenten. [Wahrscheinlich] Von La República befragte Analysten erwarten, dass die Banco de la República den Leitzins am 30. Oktober um 25 Basispunkte auf 12,5 % erhöht; die Inflationserwartungen für 2026 stiegen auf 6,87 %. Eine Einreichung des Rettungsgesetzes wurde nicht gefunden. Devisen: TRM für den 23. Oktober 1 USD = 3185,01 COP (Ausgabe vom 20. Oktober: 3174,67), eine Peso-Abwertung um etwa 0,33 %. Abgeleitet aus EZB-Kurs vom 22. Oktober und TRM vom 23. Oktober: 1 EUR = 3568,8 COP (zuvor 3563,6), eine Peso-Abwertung um etwa 0,15 %. Eine Quelle meldet eine TRM von 3158,43, gültig vom 24. bis 26. Oktober; das ist nicht bestätigt.",
+          "investorace_implication": "[Wahrscheinlich] Ein Haushalt mit 9,4 % Defizit, dazu ein ausstehendes Rettungsgesetz und eine IWF-Warnung, hält die Länderrisikoprämie hoch; eine Zinserhöhung auf 12,5 % würde die Inlandskredite weiter verteuern. Dass der Peso bei steigendem Öl einen Teil seiner Oktobergewinne abgibt, deutet darauf hin, dass nun die Fiskallage und nicht die Öleinnahmen die Währung bestimmen.",
+          "review_question": "Als Nächstes: Banco de la República am 30. Oktober, IWF-Mission Anfang November, Einreichung des Rettungsgesetzes.",
+          "limitations": "Die Haushaltszahlen stammen aus weiterverbreiteten Reuters-Berichten; die Stimmenzahlen unterscheiden sich zwischen Medien. Der abgeleitete EUR/COP-Kurs kombiniert ein EZB-Fixing vom 22. Oktober mit der TRM vom 23. Oktober. Die ab 24. Oktober gültige TRM beruht auf einer einzigen Quelle."
+        }
+      ]
+    }
+  }
+}
