@@ -1,6 +1,6 @@
 {
   "schema": "source-reviews-v1",
-  "as_of": "2026-10-20",
+  "as_of": "2026-10-23",
   "window_start": "2026-07-16",
   "window_end": "2026-10-14",
   "entries": {
@@ -5947,6 +5947,274 @@
           "basis": "Form 4 and 4/A filed within window, transactions dated within window; later undisclosed filings cannot be observed as of cut-off.",
           "superseded_rows_excluded": 0
         }
+      }
+    },
+    "DVN": {
+      "issuer": "Devon Energy Corporation",
+      "listing": "DVN / NYSE / USD",
+      "valuation": {
+        "status": "SOURCE_CHECKED",
+        "reason": "2026-10-23: primary Q2 statements and merger/sale announcements read. Coterra entered consolidation May 7, so Q2 is not a full combined quarter. June 30 rounded issued 1,150 m less treasury 0.1 m gives approximately 1,149.9 m outstanding; Q2 diluted EPS-weighted 940 m is not the forward denominator. Q2 OCF 3,674 m includes 924 m balance-sheet inflow. OCF minus cash capex 1,318 m is 2,356 m; issuer adjusted FCF is 3,674-924+174-1,269=1,655 m and excludes property acquisitions of 2,729 m. These quarterly figures do not certify annual mid-cycle cash. Legacy FCF 2,600 m/TTM 2,150 m are withdrawn pending a combined-company bridge. Conditional, unapproved research DCF: bear/base/bull USD 9.23/36.91/72.33, using analyst commodity/reinvestment assumptions and 1.160bn forward diluted proxy; base WTI 70, Henry Hub 3.25, WACC 10.5%, zero terminal growth. At the dated USD51.51 reference (Oct 23 18:03 UTC), reverse WTI is about 80.40 at fixed Henry Hub 3.25; this is a constant long-run scenario, not a one-year forecast. Eagle Ford remains in the base. USD4.2bn announced proceeds or buyer adjusted USD3.85bn are not verified Devon after-tax cash and must not be added without removing lost cash flow. Sustainable normalization, post-sale value and all approved valuation/score outputs remain open.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526334340/dvn-20260630.htm",
+            "title": "Devon Q2 2026 Form 10-Q",
+            "published_at": "2026-08-05"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526332824/d359332dex992.htm",
+            "title": "Devon Q2 financial tables and adjusted FCF reconciliation",
+            "published_at": "2026-08-05"
+          },
+          {
+            "url": "https://investors.devonenergy.com/investors/press-releases/press-release-details/2026/Devon-Energy-and-Coterra-Energy-Complete-Merger/",
+            "title": "Devon and Coterra merger completion",
+            "published_at": "2026-05-07"
+          },
+          {
+            "url": "https://investors.devonenergy.com/investors/press-releases/press-release-details/2026/Devon-Energy-Announces-Agreement-to-Exit-the-Eagle-Ford-for-4-2-Billion/default.aspx",
+            "title": "Devon agreement to exit Eagle Ford for USD4.2bn",
+            "published_at": "2026-10-08"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1866175/000162828026065385/exhibit991-8xkoctober2026.htm",
+            "title": "Crescent Eagle Ford acquisition announcement",
+            "published_at": "2026-10-08"
+          },
+          {
+            "url": "https://s2.q4cdn.com/462548525/files/doc_financials/quarterly/2026/q2/Q2-2026-DVN-Guidance.pdf",
+            "title": "Devon Q3 operating and capital guidance",
+            "published_at": "2026-08-05"
+          },
+          {
+            "url": "https://stockanalysis.com/stocks/dvn/",
+            "title": "Devon dated quote observation, Oct23 14:03 EDT",
+            "published_at": "2026-10-23"
+          }
+        ],
+        "observations": {
+          "conditional_scenario": {
+            "status": "CONDITIONAL_NOT_APPROVED",
+            "as_of": "2026-10-23",
+            "currency": "USD",
+            "cash_flow_unit": "USD billion",
+            "share_unit": "billion",
+            "reference_quote": {
+              "price": 51.51,
+              "as_of": "2026-10-23T18:03:00Z",
+              "source_url": "https://stockanalysis.com/stocks/dvn/",
+              "purpose": "DATED_REFERENCE_NOT_LIVE"
+            },
+            "production_assumptions": {
+              "oil_mmbbl_day": 0.555,
+              "ngl_mmbbl_day": 0.38,
+              "gas_bcf_day": 4.475,
+              "days": 365,
+              "mcf_per_boe": 6,
+              "mcf_per_mmbtu_proxy": 1
+            },
+            "price_assumptions": {
+              "wti": 70,
+              "henry_hub": 3.25,
+              "oil_wti_fraction": 0.99,
+              "ngl_wti_fraction": 0.275,
+              "gas_henry_hub_fraction": 0.55
+            },
+            "cost_assumptions": {
+              "loe_per_boe": 4.75,
+              "gpt_per_boe": 3.45,
+              "ga_per_boe_including_sbc": 1.3,
+              "production_tax_fraction": 0.07,
+              "exploration_bn": 0.06,
+              "marketing_margin_bn": 0.09,
+              "dda_per_boe": 11,
+              "cash_tax_fraction_positive_ebit": 0.23,
+              "operating_capex_bn": 5.5,
+              "reserve_access_bn": 0.3,
+              "external_midstream_funding_bn": 0.1
+            },
+            "valuation_assumptions": {
+              "wacc": 0.105,
+              "years": 10,
+              "growth": 0,
+              "terminal_growth": 0,
+              "after_tax_incremental_synergy_year1_bn": 0.3,
+              "after_tax_incremental_synergy_year2_on_bn": 0.5,
+              "shares": 1.16,
+              "shares_basis": "ANALYST_FORWARD_DILUTED_PROXY_NOT_REPORTED",
+              "debt_bn": 11.388,
+              "unrestricted_cash_bn": 0.95,
+              "finance_leases_bn": 0.04,
+              "total_aro_bn": 1.223,
+              "operating_leases_treatment": "Cash costs included; not separately deducted",
+              "investment_addon_bn": 0
+            },
+            "results": {
+              "baseline_fcff_bn": 5.243150874281251,
+              "base_usd_per_share": 36.9092064810704,
+              "bear_usd_per_share": 9.233337259331382,
+              "bull_usd_per_share": 72.32908111364044,
+              "reverse_wti_usd_per_bbl": 80.40429518618507,
+              "reverse_fcff_growth_10y": 0.04675479112141068,
+              "required_constant_fcff_bn": 7.021527524886878,
+              "equity_cash_proxy_bn": 4.781150874281251,
+              "equity_cost_assumption": 0.125,
+              "conditional_equity_perpetuity_usd": 32.97345430538794,
+              "conditional_cover": 0.6401369502113753
+            },
+            "reproduction": "Annual volumes: daily million units * 0.365 = billion units. Sales less field costs, G&A, production taxes and exploration plus marketing margin = EBITDA; cash tax is 23% of positive EBITDA less DDA; FCFF is EBITDA less cash tax less all three reinvestment allowances. Base EV=(FCFF+0.5)/0.105+(0.3-0.5)/1.105. Subtract 11.388-0.950+0.040+1.223 once, divide by 1.160. Equity cash proxy subtracts 0.6*(1-0.23) interest from FCFF, capitalized at 12.5% without another debt subtraction.",
+            "perimeter": "Includes Eagle Ford; sale not completed. No sale cash is added to the base.",
+            "unresolved": [
+              "Sustainable reserve replacement and total reinvestment including land and JV funding.",
+              "Full combined-company mid-cycle cash flow and incremental synergy realization.",
+              "Current diluted share roll-forward; 1.160bn is an assumption.",
+              "After-tax Eagle Ford proceeds, lost cash flow, retained costs and transferred ARO."
+            ],
+            "audited_ngv": null,
+            "audited_cover": null,
+            "audited_score": null,
+            "approved_rating": null
+          },
+          "sale": {
+            "status": "ANNOUNCED_NOT_CLOSED",
+            "headline_cash_m": 4200,
+            "buyer_adjusted_price_m": 3850,
+            "devon_after_tax_proceeds_m": null,
+            "lost_sustainable_fcff_m": null,
+            "post_sale_fair_value": null
+          }
+        },
+        "review_decision": "No normalized annual FCF/NGV until the combined-company bridge is reviewed. Existing category estimates remain legacy, not an audited composite."
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reviewed_at": "2026-10-23",
+        "reason": "Five selected Forms 4 were read in the research; coverage is not exhaustive. The two September 14 P/S events within the register window are shown: Gaspar purchase USD199,876.04 and Lowe sale USD344,218.20. Three additional sampled sales in May/June fall outside this register window; the five-file sample cannot establish a complete 12-month insider signal. The separate Gaspar award is not a purchase. Legacy SELLING is withdrawn as an unverified aggregate conclusion.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1090012/000109001226000124/xslF345X06/form4.xml",
+            "title": "Clay Gaspar Form 4: purchase and separate award",
+            "published_at": "2026-09-14"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1090012/000109001226000123/xslF345X06/form4.xml",
+            "title": "Robert Lowe Form 4: sale",
+            "published_at": "2026-09-14"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1090012/000109001226000066/xslF345X06/form4.xml",
+            "title": "Andrea Alexander Form 4: June sale, outside the displayed window",
+            "published_at": "2026-06-12"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1090012/000109001226000058/xslF345X06/form4.xml",
+            "title": "Adam Vela Form 4: May sale, outside the displayed window",
+            "published_at": "2026-05-15"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1090012/000109001226000055/xslF345X06/form4.xml",
+            "title": "Jeffrey Ritenour Form 4: May sale, outside the displayed window",
+            "published_at": "2026-05-12"
+          }
+        ],
+        "coverage": {
+          "complete": false,
+          "checked_through": "2026-10-23",
+          "basis": "Selected filings only; no exhaustive register-window or 12-month enumeration."
+        },
+        "transactions": [
+          {
+            "owner": "Clay Gaspar",
+            "transaction_date": "2026-09-14",
+            "filing_date": "2026-09-14",
+            "code": "P",
+            "shares": 3913,
+            "price": 51.08,
+            "currency": "USD",
+            "ownership": "DIRECT",
+            "ten_b5_1": null,
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1090012/000109001226000124/xslF345X06/form4.xml",
+            "note": "Selected common-stock purchase; not the separate September10 award. Post-transaction direct shares619,152."
+          },
+          {
+            "owner": "Robert Lowe",
+            "transaction_date": "2026-09-14",
+            "filing_date": "2026-09-14",
+            "code": "S",
+            "shares": 6756,
+            "price": 50.95,
+            "currency": "USD",
+            "ownership": "DIRECT",
+            "ten_b5_1": null,
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1090012/000109001226000123/xslF345X06/form4.xml",
+            "note": "Selected disclosed sale; no motive inferred."
+          }
+        ],
+        "limitations": [
+          "Incomplete sample, not a net institutional/insider-flow signal. The register transaction window remains July16–October14; October23 is the review date, not a certification of continuous coverage."
+        ]
+      }
+    },
+    "ZTS": {
+      "issuer": "Zoetis Inc.",
+      "listing": "ZTS / NYSE / USD",
+      "valuation": {
+        "status": "SOURCE_CHECKED",
+        "reason": "2026-10-23: Q2 2026 Form 10-Q and August 6 revised guidance read. July 31 outstanding shares 413.223602 m from the cover; June 30 outstanding 414.154046 m and Q2 EPS-weighted 417.7 m are different observations. H1 OCF1,056 m minus capex 227 m = FCF829 m versus recast prior H1 OCF1,120 m minus 324 m =796 m. The foreign reporting lag was removed retrospectively: prior H1 OCF was originally 1,073 m. Do not combine the original FY2025 statement with recast H1 in a TTM without a comparable full-year bridge. H1 cash dividends 447 m plus cash buybacks including excise 1,190 m =1,637 m, above 829 m FCF; the issuer discloses a convertible-note-funded repurchase program. Q2 organic operational revenue -1%; US companion revenue -11%. Revised FY2026 revenue 9,120-9,320 m, organic operational growth -3% to -1%, adjusted EPS6.15-6.25 and GAAP EPS5.55-5.65. Dated USD80.93 quote (Oct 23 18:39 UTC) implies 13.05x adjusted/14.45x GAAP guidance midpoints, not a DCF fair value or approved Buy. Sustainable annual cash, current equity bridge and category reconstruction remain unresolved. Legacy fixed score 4.55 remains an unapproved historical total. No new ZTS DCF has been completed.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000040/zts-20260630.htm",
+            "title": "Zoetis Q2 2026 Form 10-Q, Note 2 and cash-flow statement",
+            "published_at": "2026-08-06"
+          },
+          {
+            "url": "https://investor.zoetis.com/news/news-details/2026/Zoetis-Announces-Second-Quarter-2026-Results/default.aspx",
+            "title": "Zoetis Q2 2026 results and revised FY2026 guidance",
+            "published_at": "2026-08-06"
+          },
+          {
+            "url": "https://stockanalysis.com/stocks/zts/",
+            "title": "Zoetis dated quote observation, Oct23 14:39 EDT",
+            "published_at": "2026-10-23"
+          }
+        ],
+        "observations": {
+          "reference_quote": {
+            "price": 80.93,
+            "as_of": "2026-10-23T18:39:00Z",
+            "source_url": "https://stockanalysis.com/stocks/zts/",
+            "purpose": "DATED_REFERENCE_NOT_LIVE"
+          },
+          "guidance_pe": {
+            "period": "FY2026",
+            "adjusted_eps_midpoint": 6.2,
+            "gaap_eps_midpoint": 5.6,
+            "adjusted_pe": 13.053225806451614,
+            "gaap_pe": 14.451785714285716,
+            "status": "DATED_GUIDANCE_MULTIPLE_NOT_DCF"
+          },
+          "financial_comparability": "H1 2025 recast for fiscal-year alignment; original FY2025 cannot be mixed without a bridge.",
+          "net_debt_june30_m": 7375,
+          "net_debt_formula": "9,048 - (1,476 - 3) - 200; not a current October balance.",
+          "normalized_annual_fcf": null,
+          "dcf_fair_value": null,
+          "approved_rating": null
+        },
+        "review_decision": "Keep annual FCF unavailable and protect the primary-review packet against a mixed-vintage Yahoo bootstrap. Reconstruct all categories before a new composite/approval."
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reviewed_at": "2026-10-23",
+        "reason": "This financial comparison did not perform a fresh Zoetis insider filing-window review. Legacy BUYING has no verified support in this packet and is withdrawn.",
+        "coverage": {
+          "complete": false,
+          "checked_through": null
+        },
+        "sources": [],
+        "transactions": [],
+        "limitations": [
+          "An empty transaction list is not evidence of no activity; neither a buying nor a selling conclusion is certified."
+        ]
       }
     }
   }

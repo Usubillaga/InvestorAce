@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-10-18",
+  "as_of": "2026-10-23",
   "entries": {
     "ADBE": {
       "issuer": "Adobe",
@@ -76,6 +76,107 @@
         {"id": "BUILD-DIS", "severity": "major", "status": "responded", "message": "Die frühere Review verwendete einen älteren Root-HTML-Bericht. Der Scanner nutzt die hashgeprüfte Generation vom 17.10.2026 mit DIS 110,59 USD und Modellscore 5,62. Der Abgleich mit der öffentlich ausgelieferten Seite steht aus.", "response": "Der aktuelle gespeicherte Lauf ersetzt im Scanner den veralteten Kompatibilitätsspiegel.", "resolution_required": "Öffentlich ausgelieferten Report und gespeicherten Lauf abgleichen; die separate feste Score-Provenienz bleibt offen."},
         {"id": "NORM-DIS", "severity": "major", "status": "responded", "message": "Berichteter bzw. prognostizierter Konzern-FCF ist nicht auf nachhaltigen Cashflow für die aktuellen Stammaktionäre übergeleitet.", "response": "9M-FCF 5,735 Mrd. USD ist berichtet. Rund 10 Mrd. USD aus der Guidance sind nur eine grobe Szenariorechnung, keine sichere Untergrenze.", "resolution_required": "Steuertiming, Reinvestition, Minderheiten und Verwässerung beziffern; Rückkäufe und Dividenden oberhalb des berichteten FCF samt Finanzierung erklären."},
         {"id": "THESIS-DIS", "severity": "minor", "status": "open", "message": "Margenverbesserung muss sich nach Timingeffekten, Änderungen des Konsolidierungskreises, Rückerstattungen und der 53. Woche bewähren.", "response": "Die berichtete Verbesserung wird nicht als ewiges organisches Wachstum fortgeschrieben.", "resolution_required": "Vergleichbare Segment- und Eigentümer-Cashflows, Sports-Ökonomie, Nachfrage und Kapitalrückflüsse über weitere Berichte prüfen."}
+      ]
+    },
+    "DVN": {
+      "issuer": "Devon Energy",
+      "thesis": "[Sicher] Coterra-Fusion am 7. Mai abgeschlossen; größere Öl- und Gasbasis und angekündigte Synergien. [Wahrscheinlich] Devon ist vor allem bei länger hohen Energiepreisen interessant. Der bedingte DCF-Basiswert von 36,91 USD setzt WTI 70 und Henry Hub 3,25 sowie noch unbestätigte nachhaltige Investitionen voraus.",
+      "counterargument": "[Sicher] Q2 enthält Coterra nur ab 7. Mai; 1,655 Mrd. USD bereinigter Quartals-FCF belegen keinen nachhaltigen Jahres-FCF. Eagle-Ford-Verkauf für angekündigte 4,2 Mrd. USD ist noch nicht vollzogen. [Wahrscheinlich] Bei 51,51 USD Referenzkurs hängt die These stark an höheren langfristigen Rohstoffpreisen; rund 80,40 USD konstantes WTI reproduzieren den Preis unter den übrigen Basisannahmen.",
+      "next_check": "Vollständiges kombiniertes Q3, nachhaltige Ersatzinvestitionen einschließlich Flächen/JV, verwässerte Aktienfortschreibung und tatsächliche Synergien prüfen. Beim Eagle-Ford-Verkauf Nachsteuererlös, entfallenden FCF, Restkosten und übertragene Rückbauverpflichtungen gemeinsam überleiten. Im Vergleich hat Zoetis wahrscheinlich die höhere Geschäftsqualität; dies ist kein freigegebener Rang oder Tauschauftrag.",
+      "sources": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526334340/dvn-20260630.htm",
+          "title": "Devon Q2 2026 Form 10-Q",
+          "published_at": "2026-08-05"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1090012/000119312526332824/d359332dex992.htm",
+          "title": "Devon Q2 financial tables and adjusted FCF reconciliation",
+          "published_at": "2026-08-05"
+        },
+        {
+          "url": "https://investors.devonenergy.com/investors/press-releases/press-release-details/2026/Devon-Energy-and-Coterra-Energy-Complete-Merger/",
+          "title": "Devon and Coterra merger completion",
+          "published_at": "2026-05-07"
+        },
+        {
+          "url": "https://investors.devonenergy.com/investors/press-releases/press-release-details/2026/Devon-Energy-Announces-Agreement-to-Exit-the-Eagle-Ford-for-4-2-Billion/default.aspx",
+          "title": "Devon agreement to exit Eagle Ford for USD4.2bn",
+          "published_at": "2026-10-08"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1866175/000162828026065385/exhibit991-8xkoctober2026.htm",
+          "title": "Crescent Eagle Ford acquisition announcement",
+          "published_at": "2026-10-08"
+        }
+      ],
+      "objections": [
+        {
+          "id": "DVN-NORMALIZATION",
+          "severity": "major",
+          "status": "open",
+          "message": "Nachhaltiger FCF des gesamten kombinierten Unternehmens einschließlich Ressourcenersatz ist nicht belegt; alte historische Mittelwerte und neue Aktienzahl dürfen nicht kombiniert werden."
+        },
+        {
+          "id": "DVN-SALE",
+          "severity": "major",
+          "status": "open",
+          "message": "Nachsteuererlös und entfallender nachhaltiger Eagle-Ford-Cashflow sind nicht übergeleitet. Keine bestätigte Bewertung nach Verkauf."
+        },
+        {
+          "id": "DVN-CATEGORIES",
+          "severity": "major",
+          "status": "open",
+          "message": "Gespeicherte Kategorien sind ungeprüfte Altannahmen. Bedingte DCF-Szenarien und gerundete berichtete Aktienzahl bestätigen keinen Gesamtscore."
+        }
+      ]
+    },
+    "ZTS": {
+      "issuer": "Zoetis",
+      "thesis": "[Sicher] Diversifizierte Tiergesundheit mit rund 70 % Haustier- und 30 % Nutztierumsatz per 2025, Forschung, Marken und Vertrieb. [Wahrscheinlich] Für langfristige Geschäftsqualität ist Zoetis gegenüber Devon die stärkere Forschungsidee. 13,05x bereinigte FY2026-EPS-Prognose bei 80,93 USD Referenzkurs rechtfertigen eine vertiefte Cashflow-Prüfung.",
+      "counterargument": "[Sicher] US-Haustierumsatz Q2 -11%; organisches operatives Konzernwachstum -1%; Jahresprognose gesenkt. H1-Ausschüttungen plus Rückkäufe 1,637 Mrd. USD übersteigen FCF829 Mio. USD. [Wahrscheinlich] Wettbewerb, Preissensibilität, Librela-Risiken und schuldenfinanzierte Rückkäufe können die Rendite begrenzen. Der britische Regulator bestätigt ein positives Nutzen-Risiko-Verhältnis für die meisten Hunde; daraus folgt keine pauschale Sicherheitsgarantie.",
+      "next_check": "Vergleichbaren rückwirkend angepassten Jahres-Cashflow beschaffen; Ersatzinvestitionen, Working Capital, Aktienvergütung und Schuldendienst normalisieren. Produkt- und US-Nachfrage über Q3 prüfen; erst danach DCF und alle acht Kategorien rekonstruieren. Kein bestätigter aktueller Fair Value, Strong Buy oder automatischer Wechsel aus Devon.",
+      "sources": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1555280/000155528026000040/zts-20260630.htm",
+          "title": "Zoetis Q2 2026 Form 10-Q, Note 2 and cash-flow statement",
+          "published_at": "2026-08-06"
+        },
+        {
+          "url": "https://investor.zoetis.com/news/news-details/2026/Zoetis-Announces-Second-Quarter-2026-Results/default.aspx",
+          "title": "Zoetis Q2 2026 results and revised FY2026 guidance",
+          "published_at": "2026-08-06"
+        },
+        {
+          "url": "https://s203.q4cdn.com/620628704/files/doc_presentations/2026/04/IR-Zoetis-Corporate-Overview-April-2026.pdf",
+          "title": "Zoetis corporate overview, facts as of December 2025",
+          "published_at": "2026-04"
+        },
+        {
+          "url": "https://www.gov.uk/government/news/regulator-completes-in-depth-assessment-of-osteoarthritis-pain-relief-injections-for-dogs",
+          "title": "UK regulator assessment of canine osteoarthritis injections",
+          "published_at": "2026-02-16"
+        }
+      ],
+      "objections": [
+        {
+          "id": "ZTS-RECAST",
+          "severity": "major",
+          "status": "open",
+          "message": "Rückwirkende Beseitigung des ausländischen Berichtsverzugs verändert Vergleichszahlen. Originales FY2025 und angepasstes H1 ergeben ohne Überleitung keinen belegten TTM-FCF."
+        },
+        {
+          "id": "ZTS-NORMALIZATION",
+          "severity": "major",
+          "status": "open",
+          "message": "829 Mio. USD Halbjahres-FCF sind kein nachhaltiger Jahres-Eigentümercashflow. Aktuelle Kapitalbrücke und Finanzierung der Rückkäufe bleiben zu prüfen."
+        },
+        {
+          "id": "ZTS-CATEGORIES",
+          "severity": "major",
+          "status": "open",
+          "message": "4,55 ist ein alter fester Gesamtscore ohne vollständige Kategorienbelege. Neue DCF-Bewertung und Analystenfreigabe fehlen."
+        }
       ]
     }
   }

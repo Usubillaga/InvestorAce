@@ -350,7 +350,37 @@ DATA = {
     ins='NOT CHECKED', held=False, sector='Semis', built='est', sanity=(40,500),
     boot_note='Q2 FY2027 reported 27 Aug 2026. Revenue $2.739bn +37%, Data Center +46% and 79% of the mix, guidance raised twice for FY27 AND FY28. GAAP net income $308m vs non-GAAP $866m -- a $558m gap, mostly stock comp and amortisation. Google warrant for up to 7% of shares is the dilution risk. $120bn Google deal produces material revenue only from FY2029.'),
 'AR'  : dict(yf='AR', fcf=520, fcf_ttm=340, shares=310.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='mid-cycle FCF across four reported years; natural gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
-'DVN' : dict(yf='DVN', fcf=2600, fcf_ttm=2150, shares=1290.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(6,7,6.5,5,7,7), pr=None, dil=5.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='post-Coterra share count; oil and gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
+'DVN' : dict(yf='DVN', fcf=None, fcf_ttm=None, shares=1149.9, r=.105, cur='USD',
+    deliver=None, deliver_basis='PRODUCTION', dl='no comparable cash-flow forecast',
+    sub=(6,7,6.5,5,7,7), pr=None, dil=5.0, clock='DIV', ins='PARTIAL',
+    held=False, sector='Energy', built='primary-review', midcycle=True, sanity=(3,300),
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', normalization_status='REVIEW_REQUIRED',
+    financial_unit='USD million', financial_period='2026-04-01/2026-06-30',
+    financial_published_at='2026-08-05', cash_flow_basis='UNRESOLVED_MID_CYCLE',
+    shares_basis='ROUNDED_ISSUED_MINUS_TREASURY', shares_asof='2026-06-30',
+    shares_source_url='https://www.sec.gov/Archives/edgar/data/1090012/000119312526334340/dvn-20260630.htm',
+    reported_cash_flow={'q2_2026': {'ocf':3674, 'balance_sheet_changes':924,
+        'after_tax_restructuring':174, 'cash_capex':1318,
+        'accrued_operating_capex':1269, 'property_acquisitions':2729,
+        'ocf_minus_cash_capex':2356, 'issuer_adjusted_fcf':1655,
+        'cash_dividends':366, 'cash_buybacks':197}},
+    reported_capital={'as_of':'2026-06-30', 'debt':11388, 'unrestricted_cash':950,
+        'restricted_cash':59, 'finance_leases':40, 'aro_current':54, 'aro_noncurrent':1169,
+        'issued_shares_m':1150, 'treasury_shares_m':0.1,
+        'q2_diluted_weighted_shares_m':940},
+    financial_sources=[{'url':'https://www.sec.gov/Archives/edgar/data/1090012/000119312526334340/dvn-20260630.htm',
+        'title':'Devon Q2 2026 Form 10-Q', 'published_at':'2026-08-05', 'period':'Q2/H1 2026'},
+        {'url':'https://www.sec.gov/Archives/edgar/data/1090012/000119312526332824/d359332dex992.htm',
+        'title':'Devon Q2 2026 financial tables and non-GAAP reconciliation',
+        'published_at':'2026-08-05', 'period':'Q2 2026'}],
+    boot_note='2026-10-23 primary review: Coterra consolidated only from May7. '
+        'June30 rounded shares 1,150m issued less 0.1m treasury = 1,149.9m; not Q2 EPS-weighted 940m. '
+        'Legacy 2,600m FCF and 2,150m TTM have no combined-company bridge and are withdrawn. '
+        'Q2 OCF 3,674m less cash capex 1,318m = 2,356m; issuer adjusted FCF 1,655m uses '
+        'accrued capex and excludes acquisitions. Neither is annual normalized FCFE. '
+        'Conditional DCF base USD36.91 includes Eagle Ford; sustainable reinvestment, sale taxes, '
+        'lost cash flow and current diluted shares remain unresolved. See source review. '
+        'Stored category estimates are unchanged and unapproved; no production-growth cushion.'),
 'CNX' : dict(yf='CNX', fcf=440, fcf_ttm=525, shares=145.0, r=.1, cur='USD', deliver=None, dl='n/a - see note', sub=(3.5,6.5,7,6,7.5,8), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='26 consecutive positive-FCF quarters; gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
 'MRNA': dict(yf='MRNA',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=5.0, clock='CONC', ins='SELLING', held=False, sector='Biotech',  built='exact', na='FCF deeply negative', score_fixed=2.97),
 'BNTX': dict(yf='BNTX',   fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=None, dil=7.5, clock='CONC', ins='SELLING', held=False, sector='Biotech',  built='exact', na='FCF negative', score_fixed=4.29),
@@ -423,7 +453,41 @@ DATA = {
 'MCD' : dict(yf='MCD',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=7.0, clock='DIV',  ins='SELLING', held=False, sector='Restaurant', built='back-solved', score_fixed=5.2),
 'TTD' : dict(yf='TTD',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=2.5, dil=9.0, clock='CONC', ins='BUYING',  held=False, sector='Ad Tech',    built='back-solved', score_fixed=4.7),
 'NKE' : dict(yf='NKE',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=7.0, clock='DIV',  ins='BUYING',  held=False, sector='Apparel',    built='exact', score_fixed=4.6),
-'ZTS' : dict(yf='ZTS',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=4.5, dil=6.0, clock='CLOCK',ins='BUYING',  held=False, sector='Animal Health', built='exact', score_fixed=4.55),
+'ZTS' : dict(yf='ZTS', fcf=None, fcf_ttm=None, shares=413.223602, r=.080, cur='USD',
+    deliver=None, dl='no comparable cash-flow forecast', sub=None, pr=4.5, dil=6.0,
+    clock='CLOCK', ins='NOT CHECKED', held=False, sector='Animal Health',
+    built='primary-review', score_fixed=4.55, fundamentals_refresh='PRIMARY_REVIEW_ONLY',
+    normalization_status='REVIEW_REQUIRED', financial_unit='USD million',
+    financial_period='2026-01-01/2026-06-30', financial_published_at='2026-08-06',
+    cash_flow_basis='UNRESOLVED_ANNUAL_RECAST',
+    shares_basis='ISSUED_AND_OUTSTANDING', shares_asof='2026-07-31',
+    shares_source_url='https://www.sec.gov/Archives/edgar/data/1555280/000155528026000040/zts-20260630.htm',
+    reported_cash_flow={'h1_2026': {'ocf':1056, 'cash_capex':227,
+        'ocf_minus_cash_capex':829, 'cash_dividends':447,
+        'cash_buybacks_including_excise':1190, 'sbc':51},
+        'h1_2025_recast': {'ocf':1120, 'cash_capex':324, 'ocf_minus_cash_capex':796},
+        'h1_2025_original_ocf':1073, 'ttm_fcf':None},
+    reported_capital={'as_of':'2026-06-30', 'financial_debt':9048,
+        'cash_including_restricted':1476, 'restricted_cash':3,
+        'short_term_investments':200, 'outstanding_shares_m':414.154046},
+    reported_guidance={'as_of':'2026-08-06', 'period':'FY2026',
+        'revenue_low':9120, 'revenue_high':9320, 'organic_operational_growth_low':-3,
+        'organic_operational_growth_high':-1, 'adjusted_eps_low':6.15,
+        'adjusted_eps_high':6.25, 'gaap_eps_low':5.55, 'gaap_eps_high':5.65},
+    financial_sources=[{'url':'https://www.sec.gov/Archives/edgar/data/1555280/000155528026000040/zts-20260630.htm',
+        'title':'Zoetis Q2 2026 Form 10-Q, including fiscal-year alignment recast',
+        'published_at':'2026-08-06', 'period':'H1 2026 and recast H1 2025'},
+        {'url':'https://investor.zoetis.com/news/news-details/2026/Zoetis-Announces-Second-Quarter-2026-Results/default.aspx',
+        'title':'Zoetis Q2 2026 results and revised FY2026 guidance',
+        'published_at':'2026-08-06', 'period':'Q2 2026 and FY2026 guidance'}],
+    boot_note='2026-10-23 primary review: H1 OCF 1,056m less capex 227m = 829m; '
+        'recast H1 2025 FCF 796m. Removal of the foreign reporting lag retrospectively '
+        'changed H1 2025 OCF from 1,073m to 1,120m; do not mix with original FY2025 in a TTM. '
+        'July31 outstanding shares 413.223602m; June30 414.154046m is a different date. '
+        'FY2026 adjusted EPS guide 6.15-6.25, GAAP 5.55-5.65; US companion revenue fell 11%. '
+        'H1 dividends plus cash buybacks 1,637m exceed 829m FCF. Annual normalized cash and '
+        'category evidence remain open. Legacy total 4.55 is unchanged and unapproved. '
+        'No new DCF or verified insider-buying conclusion.'),
 'IBST': dict(yf='IBST.L', fcf=None, shares=None, r=.080, cur='GBp', deliver=None, dl='', sub=None, pr=2.5, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Materials',  built='exact', sanity=(50,400), score_fixed=3.7, na='free cash flow negative (-7m) in a UK housing downturn'),
 'NFLX': dict(yf='NFLX', fcf=11152.0, shares=4163.94, r=0.08, cur='USD', deliver=24.0, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5, 7.5, 9.0, 8.0, 5.0, 6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(32.54, 249.72),
     normalization_status='REVIEW_REQUIRED', financial_unit='USD million',
@@ -1000,6 +1064,10 @@ def bootstrap_fundamentals():
        numbers are unverified. REITs (AFFO) and pipelines (DCF) already carry
        manual values and are left alone -- Yahoo's FCF line is wrong for them."""
     for t, d in DATA.items():
+        # Primary packets may deliberately leave annual FCF unresolved. A Yahoo
+        # fill would mix acquisition/recast periods and discard their provenance.
+        if d.get('fundamentals_refresh') == 'PRIMARY_REVIEW_ONLY':
+            continue
         if d.get('midcycle'):              # producers: mean annual FCF, not TTM
             try:
                 tk = yf.Ticker(d.get('yf', t))
