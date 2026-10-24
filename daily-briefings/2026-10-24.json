@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-24",
+  "period_start": "2026-10-21",
+  "period_end": "2026-10-24",
+  "data_cutoff": "2026-10-24T08:44:22+02:00",
+  "summary": "[Sicher] Trump's signed Canada tariff reshuffle removes some goods from the 50% duty but adds others, effective 2026-10-30. [Wahrscheinlich] This redistributes costs rather than establishing broad disinflation. [Sicher] Coverage begins after 2026-10-21T08:13:39+02:00; older baselines are labelled.",
+  "priority_review": "[Wahrscheinlich] Which companies gain or lose from the revised tariff list? Can European firms protect margins as orders slow? Do Colombia's cuts and refinancing improve cash execution? Fundamental score, unweighted regime fit and portfolio sizing remain separate; no model changes or trades.",
+  "items": [
+    {
+      "section": "regime",
+      "title": "Selective tariff relief meets persistent price pressure",
+      "authors": "Reuters; S&P Global; White House; Liberty Justice Center; InvestorAce analysis",
+      "publication_date": "Surveys and tariff order: 2026-10-23; case documents: 2026-10-23",
+      "source_url": "https://www.reuters.com/business/us-business-activity-cools-october-strong-demand-fueling-price-pressures-2026-10-23/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] Released on 2026-10-23: October flash US composite PMI was 57.6 versus September's 58.4; its selling-price index rose to 59.8 from 58.4. Euro-area activity slowed to 51.9 from 53.1. Both activity readings exceed the expansion threshold of 50.",
+      "investorace_implication": "[Wahrscheinlich] Tariff removals reduce covered firms' import costs; additions increase others'. Strong demand permits price increases; weaker demand forces margin absorption. Persistent inflation restricts rate relief and raises valuation discount rates, while lower margins depress earnings.",
+      "review_question": "[Vermutung] Resilient US demand with higher prices favours reflation; slowing European demand with elevated costs raises stagflation risk. Broad contraction would signal recession; better supply with stable demand would favour disinflation/Goldilocks.",
+      "limitations": "[Sicher] Flash PMIs are early diffusion indexes, not GDP growth or CPI. The tariff case remains pending, with new motions dated 2026-10-23; no injunction was verified. No regime probabilities are assigned. US survey figures rely on Reuters; the original release was inaccessible.",
+      "sources": [
+        {
+          "title": "Reuters: US business activity cools in October; strong demand fueling price pressures",
+          "url": "https://www.reuters.com/business/us-business-activity-cools-october-strong-demand-fueling-price-pressures-2026-10-23/",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "S&P Global: Eurozone flash PMI — growth spurt wanes amid renewed French downturn and elevated inflation",
+          "url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/eurozone-flash-pmi-growth-spurt-wanes-amid-renewed-french-downturn-and-elevated-inflation",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "White House: President Donald J. Trump further modifies Canadian products subject to tariffs under Section 338",
+          "url": "https://www.whitehouse.gov/fact-sheets/2026/10/fact-sheet-president-donald-j-trump-further-modifies-canadian-products-subject-to-tariffs-under-section-338/",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "Liberty Justice Center: Gellert Global Group Corp. v. Trump — case documents updated 23 October",
+          "url": "https://libertyjusticecenter.org/cases/gellert-global-group-corp-v-trump/",
+          "publication_date": "2026-10-23"
+        }
+      ]
+    },
+    {
+      "section": "usa",
+      "title": "Low layoffs coexist with weak hiring and trade uncertainty",
+      "authors": "US Department of Labor; BLS; BEA; Federal Reserve; CBO; White House; GovInfo; InvestorAce analysis",
+      "publication_date": "Claims release: 2026-10-22; tariff order: 2026-10-23; baselines: 2026-09-14, 2026-09-16, 2026-09-30, 2026-10-02, 2026-10-08, 2026-10-14",
+      "source_url": "https://www.whitehouse.gov/presidential-actions/2026/10/further-modifying-the-scope-of-products-of-canada-subject-to-the-additional-duties-imposed-to-offset-canadian-discrimination-against-the-commerce-of-the-united-states-with-respect-to-motor-vehicles/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] The 2026-10-22 claims release reported 194 thousand initial claims for the week ended 2026-10-17, versus 200 thousand revised previously. Continuing claims rose to 1.728 million in the week ended 2026-10-10. Low layoffs therefore do not establish stronger hiring.",
+      "investorace_implication": "[Sicher] Trump's conservative administration signed selective tariff exemptions and additions, including removals of certain machinery and additions of certain valves. Liberal Democrats' S.5390, introduced 2026-09-14, proposes termination/refunds and repeal of Sections 122 and 338; it remains a proposal. [Wahrscheinlich] Compare input/consumer costs, producer protection, retaliation, revenue and legal durability: broader repeal reduces protection and receipts as well as import costs.",
+      "review_question": "[Sicher] Older baselines: September unemployment 4.2%, payroll growth 29 thousand, CPI 3.7% yearly; Q2 real GDP 2.2% annualised; Fed range 3.75%–4.00% from 2026-09-16; CBO's 2026-10-08 FY2026 deficit estimate USD 2.0 trillion. [Wahrscheinlich] Borrowing needs keep refinancing sensitive to rates.",
+      "limitations": "[Sicher] The tariff order takes effect on 2026-10-30; realised price savings remain unverified. Claims are preliminary. Neither survey strength nor low layoffs alone proves a broad employment recovery.",
+      "sources": [
+        {
+          "title": "White House: Further modifying the scope of Canadian products subject to additional duties — motor vehicles proclamation",
+          "url": "https://www.whitehouse.gov/presidential-actions/2026/10/further-modifying-the-scope-of-products-of-canada-subject-to-the-additional-duties-imposed-to-offset-canadian-discrimination-against-the-commerce-of-the-united-states-with-respect-to-motor-vehicles/",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "US Department of Labor: Unemployment Insurance Weekly Claims — 22 October 2026",
+          "url": "https://www.dol.gov/ui/data.pdf",
+          "publication_date": "2026-10-22"
+        },
+        {
+          "title": "GovInfo: S.5390 — End Trump's Tariff Tax Act, introduced bill text",
+          "url": "https://www.govinfo.gov/content/pkg/BILLS-119s5390is/html/BILLS-119s5390is.htm",
+          "publication_date": "2026-09-14"
+        },
+        {
+          "title": "BLS: Employment Situation — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/empsit_10022026.htm",
+          "publication_date": "2026-10-02"
+        },
+        {
+          "title": "BLS: Consumer Price Index — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+          "publication_date": "2026-10-14"
+        },
+        {
+          "title": "BEA: GDP third estimate — second quarter 2026",
+          "url": "https://www.bea.gov/news/2026/gdp-third-estimate-industries-corporate-profits-state-gdp-and-state-personal-income-2nd",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "Federal Reserve: FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        },
+        {
+          "title": "CBO: Monthly Budget Review — September 2026",
+          "url": "https://www.cbo.gov/publication/61985",
+          "publication_date": "2026-10-08"
+        }
+      ]
+    },
+    {
+      "section": "eu",
+      "title": "Slower orders and higher costs narrow the policy room",
+      "authors": "S&P Global; Eurostat; ECB; Reuters; InvestorAce analysis",
+      "publication_date": "New releases and observations: 2026-10-21–2026-10-23; baselines: 2026-09-10 and 2026-10-16",
+      "source_url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/eurozone-flash-pmi-growth-spurt-wanes-amid-renewed-french-downturn-and-elevated-inflation",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] The 2026-10-23 flash survey showed renewed French contraction, nearly stalled euro-area hiring and rising input costs. Eurostat's 2026-10-21 release put Q2 euro-area government debt at 88.8% of GDP versus revised Q1 88.4%; EU debt was 82.9%.",
+      "investorace_implication": "[Wahrscheinlich] Slower orders and expensive energy threaten industrial, chemical and retail margins; sovereign refinancing can constrain fiscal support. [Sicher] Reuters reported an Oleshky humanitarian ceasefire agreed for 2026-10-27 and planned November talks. [Vermutung] Wider peace could ease energy risk, but this local agreement establishes no broad energy ceasefire.",
+      "review_question": "[Sicher] ECB reference on 2026-10-23: 1 EUR = 1.1193 USD versus 1.1205 on 2026-10-22; EUR depreciated 0.11%, USD strengthened. [Wahrscheinlich] Dollar inputs erode European purchasing power; translated dollar earnings may help exporters.",
+      "limitations": "[Sicher] September inflation 3.8% and the ECB deposit rate 2.50% are older baselines. PMI is preliminary; no new ECB decision was verified. Friday's reference has no individual observation time; no weekend quote is inferred.",
+      "sources": [
+        {
+          "title": "S&P Global: Eurozone flash PMI — growth spurt wanes amid renewed French downturn and elevated inflation",
+          "url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/eurozone-flash-pmi-growth-spurt-wanes-amid-renewed-french-downturn-and-elevated-inflation",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "Eurostat: Government debt at 88.8% of GDP in euro area — second quarter 2026",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-21102026-bp",
+          "publication_date": "2026-10-21"
+        },
+        {
+          "title": "Reuters: Russia, Ukraine agree on ceasefire in embattled town, to hold peace talks next month",
+          "url": "https://www.streetinsider.com/Reuters/Russia%2C%2BUkraine%2Bagree%2Bon%2Bceasefire%2Bin%2Bembattled%2Btown%2C%2Bto%2Bhold%2Bpeace%2Btalks%2Bnext%2Bmonth/27228627.html",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations — 22 and 23 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "Eurostat: Annual inflation up to 3.8% in the euro area — September 2026",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-16102026-ap",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "ECB: Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+          "publication_date": "2026-09-10"
+        }
+      ]
+    },
+    {
+      "section": "colombia",
+      "title": "Budget decree and debt swap shift the fiscal test to execution",
+      "authors": "Colombian Presidency; Finance Ministry; La República; Banco de la República; DANE; ECB; InvestorAce analysis",
+      "publication_date": "Budget decree: 2026-10-22; fiscal announcements: 2026-10-23; TRM validity: 2026-10-24–2026-10-26; baseline releases: 2026-09-30 and 2026-10-19",
+      "source_url": "https://www.presidencia.gov.co/prensa/Paginas/Gobierno-Nacional-expidio-por-decreto-el-Presupuesto-de-la-Verdad-2027-261022.aspx",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] President Abelardo De La Espriella issued Decree 1599 on 2026-10-22, adopting the COP 634.9 trillion 2027 budget after failed conciliation. Hacienda announced a COP 13.8 trillion 2026 budget cut; a COP 10.3 trillion debt swap was reported on 2026-10-23.",
+      "investorace_implication": "[Wahrscheinlich] Cuts may weaken demand; longer maturities reduce near-term refinancing pressure but preserve liabilities. Budget authority does not secure financing or execution. [Sicher] No court validation of the budget route or independently verified security improvement was found.",
+      "review_question": "[Sicher] Friday-market TRM, valid 2026-10-24–2026-10-26, reported by La República citing Superfinanciera: 1 USD = 3158.43 COP, versus 3185.01 valid 2026-10-23; USD fell 0.83%, COP strengthened. Derived 1 EUR = 3535.23 COP uses 3158.43 × ECB 1.1193 USD/EUR observed 2026-10-23; versus 3568.80 from 3185.01 × 1.1205 using TRM validity 2026-10-23 and ECB observation 2026-10-22, EUR fell 0.94% against COP.",
+      "limitations": "[Sicher] FX inputs have different validity dates and no individual times; the cross is indicative, not simultaneous. Banrep still shows the older TRM. Older baselines: August ISE −0.04% yearly, unemployment 9.4%; September inflation 6.29%; policy rate 12.25%. These are not October activity or new releases.",
+      "sources": [
+        {
+          "title": "Colombian Presidency: Government issues the 2027 budget by decree, with the first-debate allocation",
+          "url": "https://www.presidencia.gov.co/prensa/Paginas/Gobierno-Nacional-expidio-por-decreto-el-Presupuesto-de-la-Verdad-2027-261022.aspx",
+          "publication_date": "2026-10-22"
+        },
+        {
+          "title": "Finance Ministry: Government cuts COP 13.8 trillion from the 2026 national budget — 23 October bulletin",
+          "url": "https://www.minhacienda.gov.co/prensa/boletines-y-comunicados/boletines-2026",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "La República: Government has exchanged COP 30.1 trillion in TES; next exchange in November",
+          "url": "https://www.larepublica.co/economia/gobierno-ya-canjeo-30-1-billones-en-tes-el-proximo-canje-se-hara-en-noviembre-4510067",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "La República: TRM snapshot valid 24–26 October 2026, citing Superfinanciera",
+          "url": "https://www.larepublica.co/indicadores-economicos/mercado-cambiario/dolar",
+          "publication_date": "2026-10-24"
+        },
+        {
+          "title": "Banco de la República: Policy, CPI and TRM snapshot dated 23 October 2026",
+          "url": "https://www.banrep.gov.co/es",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "DANE: Employment and unemployment — August 2026",
+          "url": "https://www.dane.gov.co/estadisticas-por-tema/mercado-laboral/empleo-y-desempleo",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "DANE: ISE technical bulletin — August 2026, preliminary",
+          "url": "https://www.dane.gov.co/files/operaciones/ISE/bol-ISE-ago2026.pdf",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations — 22 and 23 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-23"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] La reorganización arancelaria canadiense firmada por Trump retira bienes del arancel del 50% y añade otros, con efecto desde 2026-10-30. [Wahrscheinlich] Redistribuye costes sin demostrar desinflación general. [Sicher] La cobertura comienza después de 2026-10-21T08:13:39+02:00; se identifican referencias anteriores.",
+      "priority_review": "[Wahrscheinlich] ¿Qué empresas ganan o pierden con la lista arancelaria revisada? ¿Pueden las europeas proteger márgenes con menos pedidos? ¿Mejoran los recortes y la refinanciación colombianos la ejecución de caja? Separar puntuación fundamental, ajuste no ponderado al régimen y tamaño de cartera; sin cambios de modelo ni operaciones.",
+      "items": [
+        {
+          "source_url": "https://www.reuters.com/business/us-business-activity-cools-october-strong-demand-fueling-price-pressures-2026-10-23/",
+          "title": "Alivio arancelario selectivo con presión persistente de precios",
+          "publication_date": "Encuestas y orden arancelaria: 2026-10-23; documentos judiciales: 2026-10-23",
+          "what_changed": "[Sicher] Publicado el 2026-10-23: PMI compuesto preliminar estadounidense de octubre, 57.6 frente a 58.4 en septiembre; índice de precios cobrados, 59.8 frente a 58.4. La actividad de la eurozona bajó a 51.9 desde 53.1. Ambos indicadores de actividad superan el umbral expansivo de 50.",
+          "investorace_implication": "[Wahrscheinlich] Las exclusiones arancelarias abaratan importaciones para las empresas cubiertas; las inclusiones encarecen otras. La demanda fuerte permite subir precios; la débil obliga a absorber costes en márgenes. La inflación persistente limita rebajas de tipos y eleva tasas de descuento; menores márgenes reducen beneficios.",
+          "review_question": "[Vermutung] Demanda estadounidense resistente con precios crecientes favorece reflación; menor demanda europea con costes elevados aumenta riesgo de estanflación. Una contracción amplia señalaría recesión; mejor oferta con demanda estable favorecería desinflación/Goldilocks.",
+          "limitations": "[Sicher] Los PMI preliminares son índices tempranos de difusión, no crecimiento del PIB ni IPC. El litigio arancelario sigue pendiente, con nuevas peticiones del 2026-10-23; no se verificó medida cautelar. No se asignan probabilidades de régimen. Las cifras estadounidenses proceden de Reuters; la publicación original fue inaccesible."
+        },
+        {
+          "source_url": "https://www.whitehouse.gov/presidential-actions/2026/10/further-modifying-the-scope-of-products-of-canada-subject-to-the-additional-duties-imposed-to-offset-canadian-discrimination-against-the-commerce-of-the-united-states-with-respect-to-motor-vehicles/",
+          "title": "Pocos despidos, contratación débil e incertidumbre comercial",
+          "publication_date": "Publicación de solicitudes: 2026-10-22; orden arancelaria: 2026-10-23; referencias: 2026-09-14, 2026-09-16, 2026-09-30, 2026-10-02, 2026-10-08, 2026-10-14",
+          "what_changed": "[Sicher] La publicación del 2026-10-22 registró 194 mil solicitudes iniciales en la semana hasta 2026-10-17, frente a 200 mil anteriores revisadas. Las continuadas subieron a 1.728 millones en la semana hasta 2026-10-10. Pocos despidos no prueban mayor contratación.",
+          "investorace_implication": "[Sicher] El Gobierno conservador de Trump firmó exclusiones e inclusiones selectivas: retira cierta maquinaria e incorpora ciertas válvulas, entre otros productos. S.5390 de demócratas liberales, presentado el 2026-09-14, propone terminación/devoluciones y derogar las Secciones 122 y 338; sigue siendo propuesta. [Wahrscheinlich] Comparar costes de insumos/consumo, protección, represalias, ingresos y solidez jurídica: derogar ampliamente reduce protección e ingresos además de costes importados.",
+          "review_question": "[Sicher] Referencias anteriores: desempleo de septiembre 4.2%, empleo asalariado +29 mil, IPC 3.7% interanual; PIB real Q2 2.2% anualizado; rango Fed 3.75%–4.00% desde 2026-09-16; déficit FY2026 estimado por CBO el 2026-10-08, USD 2.0 billones. [Wahrscheinlich] El endeudamiento mantiene la refinanciación sensible a tipos.",
+          "limitations": "[Sicher] La orden arancelaria entra en vigor el 2026-10-30; no se verificaron ahorros efectivos en precios. Las solicitudes son preliminares. Ni encuestas fuertes ni pocos despidos prueban por sí solos recuperación laboral general."
+        },
+        {
+          "source_url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/eurozone-flash-pmi-growth-spurt-wanes-amid-renewed-french-downturn-and-elevated-inflation",
+          "title": "Menos pedidos y mayores costes limitan el margen político",
+          "publication_date": "Nuevas publicaciones y observaciones: 2026-10-21–2026-10-23; referencias: 2026-09-10 y 2026-10-16",
+          "what_changed": "[Sicher] La encuesta preliminar del 2026-10-23 mostró nueva contracción francesa, contratación casi estancada en la eurozona y costes crecientes. Eurostat publicó el 2026-10-21 deuda pública de la eurozona en Q2 del 88.8% del PIB frente al Q1 revisado de 88.4%; deuda UE 82.9%.",
+          "investorace_implication": "[Wahrscheinlich] Menos pedidos y energía cara amenazan márgenes industriales, químicos y minoristas; refinanciar deuda soberana puede limitar apoyo fiscal. [Sicher] Reuters informó de tregua humanitaria en Oleshky acordada para 2026-10-27 y conversaciones previstas en noviembre. [Vermutung] Una paz amplia aliviaría riesgo energético, pero el acuerdo local no establece una tregua energética general.",
+          "review_question": "[Sicher] Referencia BCE 2026-10-23: 1 EUR = 1.1193 USD frente a 1.1205 el 2026-10-22; EUR se depreció 0.11%, USD se fortaleció. [Wahrscheinlich] Insumos en dólares erosionan poder adquisitivo europeo; beneficios en dólares convertidos pueden ayudar a exportadores.",
+          "limitations": "[Sicher] Inflación de septiembre 3.8% y depósito BCE 2.50% son referencias anteriores. PMI preliminar; no se verificó nueva decisión del BCE. La referencia del viernes carece de hora individual; no se infiere cotización de fin de semana."
+        },
+        {
+          "source_url": "https://www.presidencia.gov.co/prensa/Paginas/Gobierno-Nacional-expidio-por-decreto-el-Presupuesto-de-la-Verdad-2027-261022.aspx",
+          "title": "Decreto presupuestario y canje trasladan la prueba a la ejecución",
+          "publication_date": "Decreto presupuestario: 2026-10-22; anuncios fiscales: 2026-10-23; vigencia TRM: 2026-10-24–2026-10-26; publicaciones de referencia: 2026-09-30 y 2026-10-19",
+          "what_changed": "[Sicher] El presidente Abelardo De La Espriella expidió el Decreto 1599 el 2026-10-22: presupuesto 2027 de COP 634.9 billones tras fallar la conciliación. Hacienda anunció recorte de COP 13.8 billones al presupuesto de 2026; el 2026-10-23 se informó de canje de deuda por COP 10.3 billones.",
+          "investorace_implication": "[Wahrscheinlich] Los recortes pueden debilitar demanda; plazos mayores reducen presión inmediata de refinanciación, pero mantienen pasivos. Autorizar presupuesto no asegura financiación/ejecución. [Sicher] No se encontró validación judicial de la vía presupuestaria ni mejora de seguridad verificada independientemente.",
+          "review_question": "[Sicher] TRM del mercado del viernes, vigente 2026-10-24–2026-10-26, según La República citando a Superfinanciera: 1 USD = 3158.43 COP frente a 3185.01 vigente 2026-10-23; USD bajó 0.83%, COP se fortaleció. Derivado: 1 EUR = 3535.23 COP usando 3158.43 × BCE 1.1193 USD/EUR observado 2026-10-23; frente a 3568.80 de 3185.01 × 1.1205 con TRM vigente 2026-10-23 y observación BCE 2026-10-22, EUR cayó 0.94% frente a COP.",
+          "limitations": "[Sicher] Los insumos cambiarios tienen vigencias distintas y carecen de horas individuales; el cruce es indicativo, no simultáneo. Banrep aún muestra la TRM anterior. Referencias anteriores: ISE de agosto −0.04% anual, desempleo 9.4%; inflación de septiembre 6.29%; tipo 12.25%. No son actividad de octubre ni nuevas publicaciones."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Trumps unterzeichnete Neuordnung der Kanada-Zölle nimmt Waren aus dem Zoll von 50% heraus und fügt andere hinzu, wirksam ab 2026-10-30. [Wahrscheinlich] Das verteilt Kosten um, belegt aber keine breite Disinflation. [Sicher] Der Berichtszeitraum beginnt nach 2026-10-21T08:13:39+02:00; ältere Ausgangsdaten sind gekennzeichnet.",
+      "priority_review": "[Wahrscheinlich] Welche Unternehmen gewinnen oder verlieren durch die geänderte Zollliste? Können europäische Firmen bei schwächeren Aufträgen Margen schützen? Verbessern Kolumbiens Kürzungen und Refinanzierung die Kassenführung? Fundamentalscore, ungewichtete Regimepassung und Portfoliogröße bleiben getrennt; keine Modelländerungen oder Transaktionen.",
+      "items": [
+        {
+          "source_url": "https://www.reuters.com/business/us-business-activity-cools-october-strong-demand-fueling-price-pressures-2026-10-23/",
+          "title": "Selektive Zollentlastung trifft auf anhaltenden Preisdruck",
+          "publication_date": "Umfragen und Zollerlass: 2026-10-23; Gerichtsdokumente: 2026-10-23",
+          "what_changed": "[Sicher] Veröffentlicht am 2026-10-23: vorläufiger US-Gesamt-PMI im Oktober 57,6 gegenüber 58,4 im September; Verkaufspreisindex 59,8 gegenüber 58,4. Die Euroraum-Aktivität verlangsamte sich auf 51,9 von 53,1. Beide Aktivitätswerte liegen über der Expansionsschwelle von 50.",
+          "investorace_implication": "[Wahrscheinlich] Zollausnahmen senken Importkosten betroffener Firmen; neue Zölle erhöhen andere. Starke Nachfrage erlaubt Preiserhöhungen; schwächere Nachfrage erzwingt Kostenübernahme in den Margen. Hartnäckige Inflation begrenzt Zinssenkungen und erhöht Bewertungsdiskontsätze; niedrigere Margen drücken Gewinne.",
+          "review_question": "[Vermutung] Robuste US-Nachfrage bei höheren Preisen begünstigt Reflation; schwächere europäische Nachfrage bei hohen Kosten erhöht Stagflationsrisiken. Breite Schrumpfung würde Rezession signalisieren; besseres Angebot bei stabiler Nachfrage würde Disinflation/Goldilocks begünstigen.",
+          "limitations": "[Sicher] Vorläufige PMIs sind frühe Diffusionsindizes, weder BIP-Wachstum noch VPI. Das Zollverfahren bleibt offen, mit neuen Anträgen vom 2026-10-23; Eilrechtsschutz wurde nicht bestätigt. Regimewahrscheinlichkeiten werden nicht vergeben. US-Umfragewerte beruhen auf Reuters; die Originalveröffentlichung war nicht zugänglich."
+        },
+        {
+          "source_url": "https://www.whitehouse.gov/presidential-actions/2026/10/further-modifying-the-scope-of-products-of-canada-subject-to-the-additional-duties-imposed-to-offset-canadian-discrimination-against-the-commerce-of-the-united-states-with-respect-to-motor-vehicles/",
+          "title": "Wenige Entlassungen bei schwachen Einstellungen und Handelsunsicherheit",
+          "publication_date": "Veröffentlichung der Anträge: 2026-10-22; Zollerlass: 2026-10-23; Ausgangsdaten: 2026-09-14, 2026-09-16, 2026-09-30, 2026-10-02, 2026-10-08, 2026-10-14",
+          "what_changed": "[Sicher] Die Veröffentlichung vom 2026-10-22 meldete 194 Tausend Erstanträge für die Woche bis 2026-10-17 gegenüber revidierten 200 Tausend zuvor. Folgeanträge stiegen in der Woche bis 2026-10-10 auf 1,728 Millionen. Wenige Entlassungen belegen daher keine stärkeren Einstellungen.",
+          "investorace_implication": "[Sicher] Trumps konservative Regierung unterzeichnete gezielte Zollausnahmen und Ergänzungen, darunter Herausnahme bestimmter Maschinen und Aufnahme bestimmter Ventile. S.5390 liberaler Demokraten vom 2026-09-14 fordert Beendigung/Rückzahlung und Aufhebung der Sections 122 und 338; weiterhin ein Vorschlag. [Wahrscheinlich] Input-/Verbraucherkosten, Produzentenschutz, Vergeltung, Einnahmen und Rechtssicherheit vergleichen: breite Aufhebung senkt Schutz und Einnahmen ebenso wie Importkosten.",
+          "review_question": "[Sicher] Ältere Ausgangsdaten: September-Arbeitslosigkeit 4,2%, Stellenzuwachs 29 Tausend, VPI 3,7% jährlich; reales BIP Q2 2,2% annualisiert; Fed-Spanne 3,75%–4,00% seit 2026-09-16; CBO-Defizitschätzung vom 2026-10-08 für FY2026 USD 2,0 Billionen. [Wahrscheinlich] Der Kreditbedarf hält die Refinanzierung zinssensitiv.",
+          "limitations": "[Sicher] Der Zollerlass gilt ab 2026-10-30; tatsächliche Preisersparnisse sind unbestätigt. Die Antragsdaten sind vorläufig. Weder starke Umfragen noch wenige Entlassungen allein belegen eine breite Arbeitsmarkterholung."
+        },
+        {
+          "source_url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/eurozone-flash-pmi-growth-spurt-wanes-amid-renewed-french-downturn-and-elevated-inflation",
+          "title": "Schwächere Aufträge und höhere Kosten begrenzen den politischen Spielraum",
+          "publication_date": "Neue Veröffentlichungen und Beobachtungen: 2026-10-21–2026-10-23; Ausgangsdaten: 2026-09-10 und 2026-10-16",
+          "what_changed": "[Sicher] Die vorläufige Umfrage vom 2026-10-23 zeigte erneute Schrumpfung in Frankreich, fast stagnierende Einstellungen im Euroraum und steigende Inputkosten. Eurostat meldete am 2026-10-21 für Q2 Euroraum-Staatsschulden von 88,8% des BIP gegenüber revidierten 88,4% in Q1; EU-Schulden betrugen 82,9%.",
+          "investorace_implication": "[Wahrscheinlich] Schwächere Aufträge und teure Energie bedrohen Industrie-, Chemie- und Handelsmargen; staatliche Refinanzierung kann Haushaltshilfen begrenzen. [Sicher] Reuters berichtete über eine humanitäre Waffenruhe in Oleshky ab 2026-10-27 und geplante Novembergespräche. [Vermutung] Ein breiter Frieden könnte Energierisiken mindern; die örtliche Vereinbarung begründet aber keine umfassende Energiewaffenruhe.",
+          "review_question": "[Sicher] EZB-Referenz am 2026-10-23: 1 EUR = 1,1193 USD gegenüber 1,1205 am 2026-10-22; EUR wertete 0,11% ab, USD auf. [Wahrscheinlich] Dollar-Inputs schwächen europäische Kaufkraft; umgerechnete Dollargewinne können Exporteuren helfen.",
+          "limitations": "[Sicher] Septemberinflation 3,8% und EZB-Einlagenzins 2,50% sind ältere Ausgangsdaten. PMI vorläufig; keine neue EZB-Entscheidung bestätigt. Die Freitagsreferenz enthält keine einzelne Beobachtungszeit; ein Wochenendkurs wird nicht abgeleitet."
+        },
+        {
+          "source_url": "https://www.presidencia.gov.co/prensa/Paginas/Gobierno-Nacional-expidio-por-decreto-el-Presupuesto-de-la-Verdad-2027-261022.aspx",
+          "title": "Haushaltsdekret und Schuldentausch verlagern die Prüfung auf die Umsetzung",
+          "publication_date": "Haushaltsdekret: 2026-10-22; Fiskalankündigungen: 2026-10-23; TRM-Gültigkeit: 2026-10-24–2026-10-26; Veröffentlichung der Ausgangsdaten: 2026-09-30 und 2026-10-19",
+          "what_changed": "[Sicher] Präsident Abelardo De La Espriella erließ am 2026-10-22 Dekret 1599 mit dem Haushalt 2027 über COP 634,9 Billionen nach gescheiterter Vermittlung. Hacienda kündigte eine Haushaltskürzung 2026 um COP 13,8 Billionen an; am 2026-10-23 wurde ein Schuldentausch über COP 10,3 Billionen gemeldet.",
+          "investorace_implication": "[Wahrscheinlich] Kürzungen können Nachfrage schwächen; längere Laufzeiten senken kurzfristigen Refinanzierungsdruck, erhalten aber Verbindlichkeiten. Haushaltsermächtigung sichert weder Finanzierung noch Umsetzung. [Sicher] Weder gerichtliche Bestätigung des Haushaltswegs noch unabhängig bestätigte Sicherheitsverbesserung wurden gefunden.",
+          "review_question": "[Sicher] TRM des Freitagsmarktes, gültig 2026-10-24–2026-10-26, laut La República unter Berufung auf Superfinanciera: 1 USD = 3158,43 COP gegenüber 3185,01 gültig 2026-10-23; USD fiel 0,83%, COP stärkte sich. Abgeleitet: 1 EUR = 3535,23 COP aus 3158,43 × EZB 1,1193 USD/EUR beobachtet am 2026-10-23; gegenüber 3568,80 aus 3185,01 × 1,1205 mit TRM-Gültigkeit 2026-10-23 und EZB-Beobachtung 2026-10-22 fiel EUR gegenüber COP um 0,94%.",
+          "limitations": "[Sicher] FX-Inputs haben unterschiedliche Gültigkeitsdaten und keine einzelnen Uhrzeiten; das Kreuz ist indikativ, nicht simultan. Banrep zeigt noch die ältere TRM. Ältere Ausgangsdaten: August-ISE −0,04% jährlich, Arbeitslosigkeit 9,4%; Septemberinflation 6,29%; Leitzins 12,25%. Dies sind weder Oktober-Aktivität noch neue Veröffentlichungen."
+        }
+      ]
+    }
+  }
+}
