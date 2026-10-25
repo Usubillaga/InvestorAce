@@ -20,7 +20,7 @@ from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 import i18n
-from integrity import atomic_text
+from integrity import atomic_text, atomic_bytes
 
 TOPICS = {
     'stock_selection': 'Stock selection',
@@ -647,7 +647,7 @@ def build_site(root, output, require_committed=False):
         pages.extend(market_redirects(market_config, market_issues, issues))
     output.mkdir(parents=True, exist_ok=True)
     for path, page in scoreboards + pages:
-        atomic_text(output / path, page)
+        (atomic_bytes if isinstance(page, bytes) else atomic_text)(output / path, page)
     if (root / 'tickers.js').exists():
         shutil.copyfile(root / 'tickers.js', output / 'tickers.js')
     count = sum(len(x[2]) for x in collections)

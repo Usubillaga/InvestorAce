@@ -345,6 +345,9 @@ class _Report(HTMLParser):
         if tag == 'a' and re.fullmatch(r'enagas(?:\.(?:de|es))?\.html', attrs.get('href', '')):
             suffix = '' if self.language == 'en' else '.' + self.language
             raw = _attribute(raw, 'href', 'enagas' + suffix + '.html')
+        if tag == 'a' and attrs.get('data-company-pdf'):
+            href = re.sub(r'\.(?:en|de|es)\.pdf$', '.' + self.language + '.pdf', attrs.get('href', ''))
+            raw = _attribute(raw, 'href', href)
         if tag == 'a' and self._research():
             if re.fullmatch(r'compare\.html(?:\?lang=(?:en|de|es))?', attrs.get('href', '')):
                 raw = _attribute(raw, 'href', 'compare.html?lang=' + self.language)

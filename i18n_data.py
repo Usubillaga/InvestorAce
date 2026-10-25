@@ -1251,3 +1251,41 @@ TRANSLATIONS['es'].update({
     'Enterprise EPV requires a valid WACC; equity discount rate cannot substitute.':
         'El EPV empresarial requiere un WACC válido; el coste del capital propio no lo sustituye.',
 })
+
+# Main dashboard organization; the underlying report fragments stay intact.
+TRANSLATIONS['de'].update({
+    'Companies': 'Unternehmen', 'Recorded quotes': 'Gespeicherte Kurse',
+    'Download company PDF': 'Unternehmensanalyse als PDF herunterladen', 'Download PDF': 'PDF herunterladen',
+    'NGV available': 'NGV vorhanden', 'EPV available': 'EPV vorhanden',
+    'My universe': 'Mein Universum', 'Report sections': 'Berichtsabschnitte',
+    'Market & regime': 'Markt & Regime', 'Analysis & research': 'Analyse & Research',
+    'Portfolio': 'Portfolio', 'Data & model': 'Daten & Modell',
+    'Macro context, sector returns and regime rankings': 'Makrolage, Sektorrenditen und Regime-Ranglisten',
+    'Sources, score explanations and timing observations': 'Quellen, Score-Erklärungen und Timing-Beobachtungen',
+    'Existing portfolio access and historical charts': 'Bisheriger Portfoliozugang und historische Grafiken',
+    'Coverage, open reviews, methodology and model checks': 'Datenabdeckung, offene Prüfungen, Methodik und Modellkontrollen',
+    'Model scores and reviewed ratings remain separate.': 'Modellscores und geprüfte Einstufungen bleiben getrennt.',
+    'Find a company': 'Unternehmen suchen', 'Ticker, company or sector': 'Ticker, Unternehmen oder Sektor',
+    'My holdings only': 'Nur meine Positionen', 'All columns': 'Alle Spalten',
+    'Reset filters': 'Filter zurücksetzen', 'Universe table': 'Tabelle des Universums',
+    'No matching companies. Reset filters to show the full universe.': 'Keine passenden Unternehmen. Filter zurücksetzen, um das gesamte Universum zu sehen.',
+    'FY': 'Geschäftsjahr',
+})
+TRANSLATIONS['es'].update({
+    'Companies': 'Empresas', 'Recorded quotes': 'Cotizaciones guardadas',
+    'Download company PDF': 'Descargar análisis de la empresa en PDF', 'Download PDF': 'Descargar PDF',
+    'NGV available': 'NGV disponible', 'EPV available': 'EPV disponible',
+    'My universe': 'Mi universo', 'Report sections': 'Secciones del informe',
+    'Market & regime': 'Mercado y régimen', 'Analysis & research': 'Análisis e investigación',
+    'Portfolio': 'Cartera', 'Data & model': 'Datos y modelo',
+    'Macro context, sector returns and regime rankings': 'Contexto macroeconómico, rentabilidad sectorial y clasificación por régimen',
+    'Sources, score explanations and timing observations': 'Fuentes, explicación de puntuaciones y observaciones de timing',
+    'Existing portfolio access and historical charts': 'Acceso habitual a la cartera y gráficos históricos',
+    'Coverage, open reviews, methodology and model checks': 'Cobertura, revisiones pendientes, metodología y comprobaciones del modelo',
+    'Model scores and reviewed ratings remain separate.': 'La puntuación del modelo y la calificación revisada permanecen separadas.',
+    'Find a company': 'Buscar una empresa', 'Ticker, company or sector': 'Ticker, empresa o sector',
+    'My holdings only': 'Solo mis posiciones', 'All columns': 'Todas las columnas',
+    'Reset filters': 'Restablecer filtros', 'Universe table': 'Tabla del universo',
+    'No matching companies. Reset filters to show the full universe.': 'No hay empresas coincidentes. Restablece los filtros para ver todo el universo.',
+    'FY': 'Ejercicio',
+})

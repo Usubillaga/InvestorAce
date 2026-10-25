@@ -19,6 +19,8 @@ import assessment as ASSESSMENT
 import source_review as SOURCE_REVIEW
 import timing as TIMING
 import decision_view as DECISION_VIEW
+import dashboard_view as DASHBOARD_VIEW
+from company_reports import pdf_urls
 import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
                        numeric_input_faults, risk_free_faults, clamp_saturation_faults)
@@ -2112,6 +2114,8 @@ function b64utf8(s){
     c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
 }
 function revealZiel(){
+  const section = document.getElementById('portfolio-section');
+  if (section) section.open = true;
   const box = document.getElementById('zielBox');
   if (!box || box.dataset.open === '1') return;
   box.innerHTML = b64utf8(ZP);
@@ -2290,8 +2294,14 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
         ticker_label = ('<a href="enagas.html">ENG</a>' if t == 'ENG' else escape(t))
         ticker_label += (f'<br><small><a href="scanner.html?view=universe&amp;ticker={urlquote(t, safe="")}">'
                          'Current analysis</a></small>')
+        ticker_label += (f'<br><small><a data-company-pdf="{escape(t)}" href="{pdf_urls(t)["en"]}" '
+                         'download aria-label="Download company PDF">Download PDF</a></small>')
         rows.append(
-          '<tr data-assessment="%s"%s>' % (escape(t), ' class="hit"' if proximity(d)[0] else '')
+          '<tr data-assessment="%s" data-dashboard-held="%s" data-dashboard-search="%s"%s>' % (
+              escape(t), '1' if positive_number(d.get('weight')) else '0',
+              escape(' '.join(str(v) for v in (t, d.get('yf', ''), d.get('sector', ''),
+                  reviews.get('entries', {}).get(t, {}).get('issuer', ''))), quote=True),
+              ' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
           + f'<td class="tk">{ticker_label}{filing_badge(t, monitoring)}{SOURCE_REVIEW.dcf_badge(t, reviews)}</td>'
           + f'<td class="se">{d.get("sector","")}</td>'
@@ -2552,7 +2562,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
             'family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">'
             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>'
-            '<style>' + CSS + DECISION_VIEW.CSS + '</style></head><body>')
+            '<style>' + CSS + DECISION_VIEW.CSS + DASHBOARD_VIEW.CSS + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce &middot; Live &middot; {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
            f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{sum(1 for d in DATA.values() if epv(d) is not None)}</b> with EPV &middot; <b>{priced}</b> priced this run &middot; '
@@ -2570,7 +2580,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
              '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
-    tbl = ('<div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Model Score</th><th>Band</th><th>Risk</th>'
+    tbl = ('<div class="tw" tabindex="0" role="region" aria-label="Universe table"><table id="master-table"><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Model Score</th><th>Band</th><th>Risk</th>'
            '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
            '<th>NGV</th><th>EPV</th><th>EPV vs NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table></div>')
@@ -2610,13 +2620,22 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
     view_data = json.dumps(dict(assessments=assessments, holdings=[t for t, _ in held],
         actions={t: verdict(t, d, assessed=assessments[t])[0] for t, d in DATA.items()}),
         ensure_ascii=False, allow_nan=False).replace('<', '\\u003c').replace('&', '\\u0026')
-    html = (head + hdr + coverage_box + assessment_panel(assessments)
-            + filing_monitoring_box(monitoring) + SOURCE_REVIEW.panel(DATA, reviews) + macro_box + framework_panel(DATA, W, M, proposal)
-            + DECISION_VIEW.panel(DATA, explanations, cur_reg) + sec_box + fw_box + gate + zin + fit_box
-            + regime_book_box + issue_box + adder + tbl + foot
+    dashboard = DASHBOARD_VIEW.render(hdr, tbl,
+        stats=[('Companies', len(DATA)), ('Recorded quotes', f'{priced} / {len(DATA)}'),
+               ('NGV available', withngv), ('EPV available', sum(epv(d) is not None for d in DATA.values()))],
+        sections=[
+            ('market-context', 'Market & regime', 'Macro context, sector returns and regime rankings',
+             macro_box + fit_box + regime_book_box + sec_box),
+            ('company-research', 'Analysis & research', 'Sources, score explanations and timing observations',
+             SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
+            ('portfolio-section', 'Portfolio', 'Existing portfolio access and historical charts', gate + zin),
+            ('model-controls', 'Data & model', 'Coverage, open reviews, methodology and model checks',
+             coverage_box + assessment_panel(assessments) + filing_monitoring_box(monitoring)
+             + framework_panel(DATA, W, M, proposal) + fw_box + issue_box + adder)])
+    html = (head + dashboard + foot
             + '<script id="assessment-data" type="application/json">' + view_data + '</script>'
             + '<script>' + view_source + '\nInvestorAceAssessment.bindReport(JSON.parse(document.getElementById("assessment-data").textContent));</script>'
-            + '<script>' + js + js_z + '</script></body></html>')
+            + '<script>' + js + js_z + DASHBOARD_VIEW.JS + '</script></body></html>')
     html = i18n.localize(html, 'en')
     if write:
         atomic_text('index.html', html)
