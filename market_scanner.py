@@ -21,9 +21,10 @@ from html import escape
 from pathlib import Path
 from urllib.parse import quote, urlsplit
 
-from evidence import current_build, number
+from evidence import current_build, digest, number
 from integrity import atomic_json, atomic_text
 import market_universe
+from review_packets import build_packet
 
 
 VERSION = 'market-scanner-v2'
@@ -349,7 +350,7 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
             notes_as_of=notes.get('as_of') if note else None,
             model_note=raw.get('boot_note') or '', score_components=explanation.get('components', [])))
     rows.sort(key=lambda row: (-(row['model_score'] if row['model_score'] is not None else -1), row['ticker']))
-    return dict(schema=VERSION, generated_at=as_of.isoformat(),
+    scan = dict(schema=VERSION, generated_at=as_of.isoformat(),
         captured_at=captured.isoformat(), run_id=run_id,
         model_source_sha256=evidence.get('model_source_sha256'), models=record.get('_models', {}),
         universe_count=len(rows), rated_count=sum(r['rating'] is not None for r in rows),
@@ -359,11 +360,53 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
             note='96 Kalenderstunden, auch am Wochenende; kein Börsenkalender. Abrufzeit ersetzt keinen Kurszeitpunkt.'),
         bands=[dict(upper_exclusive=ceiling, label=label) for ceiling, label in BANDS], rows=rows,
         market=market_section(market, record, as_of, repository))
+    macro = evidence.get('macro') or {}
+    origin = dict(as_of=as_of.isoformat(), captured_at=evidence.get('captured_at'),
+                  run_id=run_id, model_source_sha256=evidence.get('model_source_sha256'),
+                  models=record.get('_models', {}),
+                  macro={key: val for key, val in macro.items()
+                         if key not in ('input_series', 'path_points')},
+                  macro_full_snapshot_sha256=digest(macro),
+                  score_weights=ASSESSMENT.WEIGHTS)
+    packets = dict(universe={}, market={})
+    for row in rows:
+        ticker = row['ticker']
+        packets['universe'][ticker] = build_packet(scope='universe', ticker=ticker,
+            origin=dict(origin, source_review_as_of=row['source_review_as_of']),
+            inputs=inputs[ticker],
+            output=dict(record.get(ticker, {}), assessment_at_cutoff=row['assessment']),
+            sources=row['sources'],
+            issues=row['issues'], objections=row['objections'],
+            research=dict({key: row[key] for key in ('thesis', 'counterargument', 'next_check',
+                                               'notes_as_of', 'source_status', 'source_reason')},
+                          source_review=reviews.get('entries', {}).get(ticker),
+                          scanner_note=notes['entries'].get(ticker)))
+    # Preserve the committed screening inputs as well as the replayed output.
+    # A market ticker can also be in the universe, with a different method.
+    saved_candidates = ({c['ticker']: c for c in market['candidates']}
+                        if scan['market']['candidates'] else {})
+    for row in scan['market']['candidates']:
+        ticker = row['ticker']
+        packets['market'][ticker] = build_packet(scope='market', ticker=ticker,
+            origin=dict(as_of=as_of.isoformat(), captured_at=market.get('generated_at'),
+                        financial_as_of=market.get('as_of'), method=market.get('method'),
+                        quote_refresh=market.get('quote_refresh')),
+            inputs=saved_candidates[ticker], output=row, sources=row['sources'],
+            issues=row['issues'], objections=[],
+            research=dict(thesis=None, counterargument=None,
+                          next_check='Primärbelege, nachhaltigen Cashflow und Bewertungsannahmen prüfen.'))
+    scan['review_packets'] = packets
+    return scan
 
 
 def render_scan(scan):
     template = (ASSETS / 'scanner_template.html').read_text(encoding='utf-8')
-    payload = json.dumps(scan, ensure_ascii=False, allow_nan=False).replace('<', '\\u003c').replace('&', '\\u0026')
+    # Download the Python-produced JSON verbatim. Re-serializing numeric inputs
+    # in JavaScript changes e.g. 50.0 to 50 and invalidates the snapshot hash.
+    page_data = dict(scan, review_packets={scope: {ticker: json.dumps(packet,
+        ensure_ascii=False, allow_nan=False, indent=2) for ticker, packet in packets.items()}
+        for scope, packets in scan.get('review_packets', {}).items()})
+    payload = json.dumps(page_data, ensure_ascii=False, allow_nan=False).replace('<', '\\u003c').replace('&', '\\u0026')
     market = scan.get('market') or {}
     fallback = ''.join('<tr><td>' + escape(c['ticker']) + '</td><td>' + escape(c['band'] or 'Ohne Score') +
                        '</td><td>' + escape('—' if c['score'] is None else f'{c["score"]:.2f}') +

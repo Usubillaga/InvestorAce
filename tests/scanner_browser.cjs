@@ -32,6 +32,24 @@ const {chromium} = require('playwright');
       await page.click(`button[data-ticker="${first.ticker}"]`);
       const detail = await page.locator('#detail').innerText();
       assert.ok(detail.includes('Scorebeiträge') && detail.includes('Quellen') && detail.includes(first.ticker));
+      await page.locator('#download-review-packet').waitFor({timeout:3000});
+      // A filter change must not change the stock held open in the detail panel.
+      await page.fill('#m-query','__NO_MATCH__');
+      const marketPacketDownload = page.waitForEvent('download');
+      await page.click('#download-review-packet');
+      const marketPacketFile = await marketPacketDownload;
+      const marketPacket = JSON.parse(await fs.readFile(await marketPacketFile.path(),'utf8'));
+      assert.equal(marketPacket.snapshot.scope,'market');
+      assert.equal(marketPacket.snapshot.ticker,first.ticker);
+      assert.equal(marketPacket.status,'NOT_STARTED');
+      assert.equal(marketPacket.can_approve,false);
+      assert.deepEqual(marketPacket.assignments.map(x=>x.role),['data','valuation','risk']);
+      const {spawnSync} = require('node:child_process');
+      const verifyHash = spawnSync('python',['-c',
+        'import sys,json,hashlib; p=json.load(open(sys.argv[1])); s=json.dumps(p["snapshot"],sort_keys=True,separators=(",",":"),allow_nan=False); assert hashlib.sha256(s.encode()).hexdigest()==p["snapshot_sha256"]',
+        await marketPacketFile.path()],{encoding:'utf8'});
+      assert.equal(verifyHash.status,0,verifyHash.stderr);
+      await page.fill('#m-query','');
       await page.click('#close-detail');
       const marketCsv = page.waitForEvent('download');
       await page.click('#export');
@@ -59,6 +77,25 @@ const {chromium} = require('playwright');
       assert.equal(await page.locator('#scanner-rows tr').count(),market.candidates.filter(c=>c.flags.includes('COMMODITY_MIDCYCLE_REQUIRED')).length);
       await page.click('#m-reset');
       assert.equal(await page.locator('#scanner-rows tr').count(), fresh);
+      const common = market.candidates.find(c=>c.universe_key===c.ticker);
+      if (common) {
+        await page.selectOption('#m-band','all');
+        await page.selectOption('#m-holdings','all');
+        await page.fill('#m-query',common.ticker);
+        await page.click(`button[data-ticker="${common.ticker}"]`);
+        const marketDownload = page.waitForEvent('download');
+        await page.click('#download-review-packet');
+        const marketPacket = JSON.parse(await fs.readFile(await (await marketDownload).path(),'utf8'));
+        await page.click('#open-in-universe');
+        const universeDownload = page.waitForEvent('download');
+        await page.click('#download-review-packet');
+        const universePacket = JSON.parse(await fs.readFile(await (await universeDownload).path(),'utf8'));
+        assert.equal(marketPacket.snapshot.scope,'market');
+        assert.equal(universePacket.snapshot.scope,'universe');
+        assert.equal(universePacket.snapshot.ticker,common.ticker);
+        assert.notEqual(universePacket.snapshot_sha256,marketPacket.snapshot_sha256);
+        await page.click('#reset-filters');
+      }
     }
     await page.click('#tab-universe');
     const expected = data.rows.filter(r => r.model_score >= 7 && !r.held_in_snapshot).length;
@@ -85,6 +122,14 @@ const {chromium} = require('playwright');
       await page.click(`button[data-ticker="${ticker}"]`);
       const detail = await page.locator('#detail').innerText();
       assert.ok(detail.includes('NORM-'+ticker) && detail.includes('Antwort:') && detail.includes('Zur Klärung:'));
+      const packetDownload = page.waitForEvent('download');
+      await page.click('#download-review-packet');
+      const packet = JSON.parse(await fs.readFile(await (await packetDownload).path(),'utf8'));
+      assert.equal(packet.snapshot.scope,'universe');
+      assert.equal(packet.snapshot.ticker,ticker);
+      assert.ok(packet.snapshot.objections.some(x=>x.id==='NORM-'+ticker));
+      assert.equal(packet.status,'NOT_STARTED');
+      assert.equal(packet.can_approve,false);
       await page.click('#close-detail');
     }
     await page.locator('details.audit summary').click();
@@ -94,6 +139,7 @@ const {chromium} = require('playwright');
     const exported = JSON.parse(await fs.readFile(await jsonFile.path(),'utf8'));
     assert.equal(exported.rows.length,data.universe_count);
     assert.ok(exported.rows.every(row=>row.rating===null));
+    assert.ok((await page.locator('#scanner-health').innerText()).includes('freigegebene Einstufungen'));
     // A control named 'reset' used to shadow the form's native reset method.
     await page.click('#reset-filters');
     assert.equal(await page.locator('#query').inputValue(),'');

@@ -28,6 +28,7 @@
       r.issues=[...new Map([...(frozenIssues.get(r.ticker)||[]),...(current.issues||[])].map(x=>[x.code,x])).values()];
     }
     data.rated_count=data.rows.filter(r=>r.rating!==null).length;
+    $('scanner-health').textContent = `${market.candidates.length} gespeicherte Marktkandidaten · ${market.candidates.filter(c=>!c.in_universe).length} außerhalb des Universums · ${data.universe_count} Aktien im Universum · ${data.rated_count} freigegebene Einstufungen im Universum. Stand der Seite: ${date(data.generated_at)}.`;
   }
   const regimeName = {GOLDILOCKS:'Goldilocks', REFLATION:'Reflation', INFLATION:'Inflation', STAGFLATION:'Stagflation', RECESSION:'Rezession'};
   const regimes = data.regimes || Object.keys(regimeName);
@@ -247,6 +248,8 @@
     $('empty').hidden = selected.length !== 0;
     $('empty').textContent = view === 'market' && !candidates.length
       ? (market.note || 'Noch kein Marktscan gespeichert.') + ' Der wöchentliche Lauf (market-scan) füllt diese Liste.'
+      : view === 'universe' && !selected.length && data.universe_count
+      ? `Der Scanner enthält ${data.universe_count} Aktien; ${data.rated_count} Einstufungen sind freigegeben. Diese Filter zeigen keine Treffer. „Alle Bänder“ zeigt auch Aktien mit offener Prüfung.`
       : 'Keine Treffer für diese Filter. Öffne „Alle Bänder“ oder setze die Filter zurück.';
     $('scanner-rows').innerHTML = selected.map(view === 'market' ? marketRow : universeRow).join('');
   }
@@ -256,8 +259,13 @@
       ? (c => c && marketDetail(c))(candidates.find(c => c.ticker === ticker))
       : (r => r && universeDetail(r))(data.rows.find(r => r.ticker === ticker));
     if (!html) return;
-    $('detail').innerHTML = html;
+    const packetScope = view;
+    const packetText = data.review_packets?.[packetScope]?.[ticker];
+    $('detail').innerHTML = html + (packetText ? `<section aria-label="Gemeinsame Gegenprüfung"><h3>Gemeinsam gegenprüfen</h3><p>Daten, Bewertungsannahmen und Risiken anhand desselben Datenstands prüfen. Das Paket enthält die gespeicherten Eingaben, Quellen, Annahmen und offenen Einwände sowie drei getrennte Prüfaufträge. Die Gegenprüfung steht noch aus; es wird keine Einstufung freigegeben.</p><button type="button" id="download-review-packet">Prüfpaket herunterladen ↓</button><p class="small">Die JSON-Datei kannst du hier im Chat zur Gegenprüfung hochladen. Der ursprüngliche Datenstand bleibt erhalten.</p></section>` : '');
     $('detail').hidden = false; if(!refresh) $('detail').focus();
+    const packetButton = $('download-review-packet');
+    if (packetButton) packetButton.onclick = () => download(packetText,
+      `InvestorAce_Pruefpaket_${packetScope}_${ticker.replace(/[^a-zA-Z0-9._-]/g,'_')}.json`, 'application/json');
     $('close-detail').onclick = () => { activeTicker=null; $('detail').hidden = true; $('list-title').scrollIntoView({block:'start'}); };
     const jump = $('open-in-universe');
     if (jump) jump.onclick = () => {
