@@ -8,12 +8,12 @@ DEPLOY: GitHub Actions cron -> commit index.html -> GitHub Pages.
 """
 import warnings as _w
 _w.filterwarnings('ignore')          # [FIX] yfinance emits a Pandas4Warning per
-import json, os, sys, math, hashlib  # fetch; 200 lines of them buried the real
+import copy, json, os, sys, math, hashlib  # fetch; 200 lines of them buried the real
                                      # traceback and made the failure unreadable
 from datetime import datetime, timezone
 from pathlib import Path
 from html import escape
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, quote as urlquote
 import evidence as EVIDENCE
 import assessment as ASSESSMENT
 import source_review as SOURCE_REVIEW
@@ -27,6 +27,7 @@ from portfolio import construct as construct_portfolio
 import yfinance as yf
 import wacc as WACC
 import epv as EPV
+import live_analysis as LIVE_ANALYSIS
 from forward import run as forward_run, freeze_cohorts
 from macro import sector_performance, SECTOR_TO_ENGINE, read_macro
 
@@ -532,12 +533,18 @@ def ngv(d):
 
        r_wacc is filled during the price fetch. A row whose beta fetch fails
        keeps its hand-set r, so nothing breaks."""
+    if isinstance(d.get('dynamic_analysis'), dict):
+        return d['dynamic_analysis'].get('valuation', {}).get('ngv_per_share')
     f, s = d.get('fcf'), d.get('shares')
     r = d.get('r_wacc') or d.get('r', .08)
     return None if (f is None or s is None or not r) else (f/s)/r
 
 def rate_used(d):
     """Which discount rate this row is actually valued on, and where it came from."""
+    if isinstance(d.get('dynamic_analysis'), dict):
+        rate = d['dynamic_analysis'].get('parameters', {}).get('discount_rate_pct')
+        if positive_number(rate):
+            return rate / 100., 'cost-of-equity'
     return (d['r_wacc'], 'wacc') if d.get('r_wacc') else (d.get('r', .08), 'manual')
 
 def cover(d):
@@ -546,7 +553,7 @@ def cover(d):
 
 def implied_growth(d):
     c = cover(d)
-    r = d.get('r_wacc') or d.get('r', .08)   # must match ngv(), or cushion lies
+    r = rate_used(d)[0]   # must match ngv(), or cushion lies
     return None if c is None else r*(1-c)/(1+c*r)
 
 def cushion(d):
@@ -632,6 +639,8 @@ def score(d):
        returned None, so verdict() said NO SCORE -- four blank columns per row.
        Those rows DO have a published total from the master sheet; only the
        category splits are missing. Fall back to it and flag the provenance."""
+    if isinstance(d.get('dynamic_analysis'), dict):
+        return d['dynamic_analysis'].get('model_score')
     sub = d.get('sub')
     if not sub or len(sub) != 6: return d.get('score_fixed')
     g,p,c,b,v,r = sub
@@ -643,6 +652,8 @@ def score(d):
 
 def score_components(d):
     """Explain the existing arithmetic without changing score() or its inputs."""
+    if isinstance(d.get('dynamic_analysis'), dict):
+        return d['dynamic_analysis']['score_explanation']
     total = score(d)
     result = dict(schema='score-explanation-v1', total=total, components=[],
                   denominator=None, sum_contributions=None, reconciles=None,
@@ -1171,7 +1182,11 @@ def regime_history():
         for r in REGIMES: series[r].append(pf.get(r))
     return dates, series
 
+_LIVE_TICKERS = {}
+
+
 def fetch_prices():
+    _LIVE_TICKERS.clear()
     stamp = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
     for t, d in DATA.items():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
@@ -1188,6 +1203,7 @@ def fetch_prices():
             d['ngv_note'] = 'N/A: ' + d['na']
         try:
             tk = yf.Ticker(d.get('yf', t))
+            _LIVE_TICKERS[t] = tk
             observed = None
             fi = {}
             try: fi = dict(tk.fast_info) or {}
@@ -1252,6 +1268,95 @@ def fetch_prices():
                     d['wacc_note'] = f'manual rate fallback: {type(exc).__name__}'
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
+
+def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
+    """Refresh ordinary-company data, retaining dated research and last-good facts.
+
+    The cache stores input facts, never valuation outputs. Even a fallback
+    packet is repriced with this run's quote and cost-of-equity assumptions.
+    Primary research/objections are not overwritten or promoted to approval.
+    """
+    as_of = as_of or datetime.now(timezone.utc)
+    if as_of.utcoffset() is None:
+        raise ValueError('Analysis cutoff requires a timezone')
+    cache_path = Path(cache_path or 'history/_dynamic_cache.json')
+    try:
+        cache = json.loads(cache_path.read_text(encoding='utf-8'))
+        if cache.get('schema') != LIVE_ANALYSIS.VERSION or not isinstance(cache.get('entries'), dict):
+            cache = {}
+    except (OSError, ValueError, AttributeError):
+        cache = {}
+    entries = cache.get('entries', {})
+    dirty = False
+    counts = dict(refreshed=0, cached=0, unavailable=0, specialized=0)
+    for ticker, row in DATA.items():
+        if (row.get('built') == 'fund' or row.get('sector') in ('REIT', 'Midstream', 'Banks', 'Insurance')
+                or row.get('cash_flow_basis') in ('FFO_REPORTED_NOT_FCFE',
+                    'ISSUER_DISTRIBUTABLE_CASH_FLOW_TO_COMMON_EQUITY')):
+            counts['specialized'] += 1
+            continue
+        symbol = row.get('yf', ticker)
+        previous = entries.get(symbol)
+        fetched = ASSESSMENT.timestamp(previous.get('fetched_at')) if isinstance(previous, dict) else None
+        try:
+            period = datetime.fromisoformat(previous.get('financial_period')).date()
+        except (AttributeError, TypeError, ValueError):
+            period = None
+        if (not isinstance(previous, dict) or previous.get('symbol') != symbol
+                or previous.get('schema') != LIVE_ANALYSIS.VERSION or fetched is None or fetched > as_of
+                or period is None or period > as_of.date()):
+            previous = None
+        try:
+            obj = ticker_factory(symbol) if ticker_factory else _LIVE_TICKERS.get(ticker)
+            obj = obj if obj is not None else yf.Ticker(symbol)
+            fresh = LIVE_ANALYSIS.extract(obj, symbol, as_of=as_of)
+        except Exception:
+            fresh = None
+        valid = (isinstance(fresh, dict) and finite_number((fresh.get('inputs') or {}).get('fcf')) is not None
+                 and positive_number((fresh.get('inputs') or {}).get('shares')) is not None
+                 and fresh.get('financial_currency'))
+        facts = fresh if valid else previous or fresh
+        cached = not valid and previous is not None
+        if not isinstance(facts, dict):
+            facts = dict(schema=LIVE_ANALYSIS.VERSION, symbol=symbol, inputs={}, currency=row.get('cur'))
+        facts = dict(facts, midcycle=bool(row.get('midcycle')))
+        if valid:
+            entries[symbol] = fresh
+            dirty = True
+            counts['refreshed'] += 1
+        elif cached:
+            counts['cached'] += 1
+        else:
+            counts['unavailable'] += 1
+        analysis = LIVE_ANALYSIS.calculate(facts,
+            quote=dict(price=row.get('price'), observed_at=row.get('quote_observed_at')),
+            risk_free=WACC.resolve_risk_free()/100., mrp=WACC.MARKET_RISK_PREMIUM/100., as_of=as_of,
+            cushion_tolerance=CUSHION_TOL)
+        analysis['data_status'] = 'CACHED_INPUTS' if cached else 'FRESH_INPUTS' if valid else 'UNAVAILABLE'
+        analysis['rate_provenance'] = WACC.provenance()
+        if cached:
+            analysis['warnings'].append('Financial refresh failed; dated last-good inputs retained and repriced.')
+        if row.get('midcycle'):
+            analysis['warnings'].append('Commodity economics still require mid-cycle normalization; reported cash scenario only.')
+        if 'primary_analysis_archive' not in row:
+            row['primary_analysis_archive'] = copy.deepcopy({key: value for key, value in row.items()
+                if key not in ('timing', 'dynamic_analysis', 'primary_analysis_archive')})
+        row.update(analysis['overlay'])
+        if row.get('fcf') is not None:
+            row.pop('na', None)
+        row['dynamic_analysis'] = analysis
+        # Refresh WACC's market-cap weight from this packet too. Enterprise
+        # EPV uses WACC, while dynamic equity-cash scenarios use ke.
+        if (analysis['metrics'].get('market_cap') and analysis['inputs'].get('debt') is not None
+                and analysis['parameters'].get('beta') is not None):
+            tax = (row.get('wacc_inputs') or {}).get('tax_rate')
+            row['r_wacc'], row['wacc_details'] = WACC.compute(
+                beta=analysis['parameters']['beta'], market_cap=analysis['metrics']['market_cap'],
+                total_debt=analysis['inputs']['debt'], tax_rate=tax)
+    if dirty:
+        atomic_json(cache_path, dict(schema=LIVE_ANALYSIS.VERSION, entries=entries))
+    return counts
+
 
 EPV_CACHE_FILE = os.path.join('history', '_epv_cache.json')
 EPV_CACHE_DAYS = 7
@@ -1324,7 +1429,12 @@ def populate_epv(force=False):
         if tax_override is not None:
             inp['tax_rate'] = tax_override
             inp['tax_source'] = 'manual-epv-tax-rate'
-        rr, rsrc = rate_used(d)
+        # EPV values enterprise cash flow and subtracts net debt. Dynamic NGV
+        # values a levered FCF proxy using ke; never carry that rate into EPV.
+        if d.get('dynamic_analysis') and not positive_number(d.get('r_wacc')):
+            d['epv_note'] = 'Enterprise EPV requires a valid WACC; equity discount rate cannot substitute.'
+            continue
+        rr, rsrc = ((d['r_wacc'], 'wacc') if d.get('r_wacc') else rate_used(d))
         try:
             ans = EPV.compute(wacc=rr, **{k: inp.get(k) for k in EPV.FIELDS})
         except Exception as ex:
@@ -1333,7 +1443,11 @@ def populate_epv(force=False):
         if not ans or not math.isfinite(ans.get('epv_per_share', float('nan'))):
             if not d.get('epv_note'): d['epv_note'] = 'EPV not computable from fetched inputs'
             continue
-        d['epv_value'] = ans['epv_per_share']
+        factor = (d.get('dynamic_analysis') or {}).get('parameters', {}).get('currency_factor', 1.)
+        if factor is None:
+            d['epv_note'] = 'EPV quote and financial currencies are incompatible'
+            continue
+        d['epv_value'] = ans['epv_per_share'] * factor
         d['epv_normalised_earnings'] = ans['normalised_earnings']
         d['epv_net_debt'] = ans['net_debt']
         d['epv_wacc'] = rr
@@ -1481,8 +1595,9 @@ def observation(macro, bundle, captured_at=None):
     regime = macro.get('regime') if macro.get('ok') else None
     rec['_portfolio_proposal'] = (portfolio_proposal(regime, assessments=assessments)
                                   if regime in REGIMES else None)
-    rec['_models'] = dict(engine='v15.5-assessment-integrity', regime=REGIME_MODEL_VERSION,
+    rec['_models'] = dict(engine='v16-dynamic-analysis', regime=REGIME_MODEL_VERSION,
                           assessment=ASSESSMENT.VERSION,
+                          dynamic_analysis=LIVE_ANALYSIS.VERSION,
                           regime_spec_sha256=regime_spec_sha256(),
                           growth='explicit-cash-flow-growth-v1',
                           timing=TIMING.VERSION,
@@ -1573,8 +1688,9 @@ def run_build():
         SOURCE_REVIEW.load()  # reject malformed review data before fetching or publishing
         ASSESSMENT.load_reviews()
         sync_risk_free()
-        bootstrap_fundamentals()
         fetch_prices()
+        dynamic_counts = refresh_dynamic_analysis()
+        print('Dynamic yfinance analysis:', dynamic_counts)
         populate_epv()
         macro = read_macro()
         bundle = EVIDENCE.model_bundle(Path(__file__).parent)
@@ -2165,10 +2281,15 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
         checked = assessments[t]
         s, rk, c, cu, eg = checked['model_score'], risk(d), cover(d), cushion(d), entry_gap(d)
         bn, bc = band(s); vn, vc = verdict(t, d, assessed=checked)
-        score_note = (f'<br><small>Legacy total {score(d):.2f}</small>' if score(d) is not None else '')
+        dynamic = d.get('dynamic_analysis')
+        score_note = (f'<br><small>Calculated model · {escape(dynamic.get("basis") or "")} '
+                      f'{escape(dynamic.get("financial_period") or "")}</small>' if dynamic else
+                      f'<br><small>Legacy total {score(d):.2f}</small>' if score(d) is not None else '')
         score_note += f'<br><small><span data-assessment-field="coverage">{checked["coverage_weight"]:.0%}</span> category coverage</small>'
         note = d.get('price_note','')
         ticker_label = ('<a href="enagas.html">ENG</a>' if t == 'ENG' else escape(t))
+        ticker_label += (f'<br><small><a href="scanner.html?view=universe&amp;ticker={urlquote(t, safe="")}">'
+                         'Current analysis</a></small>')
         rows.append(
           '<tr data-assessment="%s"%s>' % (escape(t), ' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'

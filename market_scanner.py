@@ -349,6 +349,7 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
             next_check=note.get('next_check') or 'Primärquellen, nachhaltigen Cashflow, Aktienzahl und Bewertungsbasis prüfen.',
             notes_as_of=notes.get('as_of') if note else None,
             model_note=raw.get('boot_note') or '', score_components=explanation.get('components', [])))
+        rows[-1]['dynamic_analysis'] = copy.deepcopy(raw.get('dynamic_analysis'))
     rows.sort(key=lambda row: (-(row['model_score'] if row['model_score'] is not None else -1), row['ticker']))
     scan = dict(schema=VERSION, generated_at=as_of.isoformat(),
         captured_at=captured.isoformat(), run_id=run_id,

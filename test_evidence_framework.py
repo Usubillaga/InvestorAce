@@ -169,7 +169,7 @@ class EvidenceContract(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp, directory(tmp):
             Path('index.html').write_text('last good report')
             with patch.object(engine, 'DATA', {'TEST': row()}), \
-                 patch.object(engine, 'bootstrap_fundamentals'), patch.object(engine, 'fetch_prices'), \
+                 patch.object(engine, 'refresh_dynamic_analysis'), patch.object(engine, 'fetch_prices'), \
                  patch.object(engine, 'populate_epv'), patch.object(engine, 'read_macro', return_value={'ok': False}), \
                  patch.object(engine, 'build_html', side_effect=RuntimeError('render failed')):
                 with self.assertRaises(RuntimeError):
@@ -179,7 +179,7 @@ class EvidenceContract(unittest.TestCase):
 
     def test_invalid_input_never_calls_renderer(self):
         with tempfile.TemporaryDirectory() as tmp, directory(tmp):
-            with patch.object(engine, 'bootstrap_fundamentals'), patch.object(engine, 'fetch_prices'), \
+            with patch.object(engine, 'refresh_dynamic_analysis'), patch.object(engine, 'fetch_prices'), \
                  patch.object(engine, 'populate_epv'), patch.object(engine, 'read_macro', return_value={}), \
                  patch.object(engine, 'validate_full', return_value=(['bad row'], [])), \
                  patch.object(engine, 'build_html') as render:
@@ -191,7 +191,7 @@ class EvidenceContract(unittest.TestCase):
         m = {'ok': False, 'note': 'offline fixture'}
         with tempfile.TemporaryDirectory() as tmp, directory(tmp):
             with patch.object(engine, 'DATA', {'TEST': row()}), \
-                 patch.object(engine, 'bootstrap_fundamentals'), patch.object(engine, 'fetch_prices'), \
+                 patch.object(engine, 'refresh_dynamic_analysis'), patch.object(engine, 'fetch_prices'), \
                  patch.object(engine, 'populate_epv'), patch.object(engine, 'read_macro', return_value=m) as read, \
                  patch.object(engine, 'sector_performance', return_value={}), \
                  patch.object(engine, 'forward_run', return_value={'ok': False, 'note': 'offline'}), \

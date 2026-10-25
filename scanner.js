@@ -38,7 +38,7 @@
   const marketControls = ['m-query','m-band','m-sector','m-quality','m-holdings','m-cap','m-minimum','m-regime'];
   let view = candidates.length ? 'market' : 'universe';
   let selected = [];
-  let activeTicker = null;
+  let activeDetail = null;
 
   // ---------- static setup
   for (const id of ['regime', 'm-regime']) {
@@ -94,7 +94,6 @@
     $('tab-universe').setAttribute('aria-selected', String(view === 'universe'));
     $('market-filters').hidden = view !== 'market';
     $('filters').hidden = view !== 'universe';
-    $('detail').hidden = true;
     const regime = regimeName[currentRegime] || 'nicht gespeichert';
     if (view === 'market') {
       setStats([['Geprüfte US-Unternehmen', num(market.funnel?.[0]?.count ?? null, 0)],
@@ -229,9 +228,62 @@
       <td><span class="fit">${num(r.regime_fit[$('regime').value],1)}</span><span class="subline">/ 100 · ${esc(regimeName[$('regime').value])}<br>ohne Scoregewicht</span></td>
       <td><button class="open-detail" data-ticker="${esc(r.ticker)}" aria-label="Analyse zu ${esc(r.ticker)} öffnen">Prüfen ↗</button></td></tr>`;
   }
+  function dynamicAnalysis(analysis) {
+    if (!analysis) return '';
+    const inputs = analysis.inputs || {}, parameters = analysis.parameters || {}, valuation = analysis.valuation || {};
+    const currency = analysis.currency || '—';
+    const financialCurrency = analysis.financial_currency || '—';
+    const amount = value => value === null || value === undefined ? '—'
+      : money(value).replace(/ USD$/, ' ' + financialCurrency);
+    const perShare = value => value === null || value === undefined ? '—' : num(value) + ' ' + currency;
+    const at = value => value && Number.isFinite(Date.parse(value)) ? date(value) : '—';
+    const rows = [
+      ['Kurs im Eingabestand', perShare(inputs.quote_price)], ['Umsatz', amount(inputs.revenue)],
+      ['Operatives Ergebnis', amount(inputs.operating_income)], ['Jahresüberschuss', amount(inputs.net_income)],
+      ['Operativer Cashflow', amount(inputs.operating_cash_flow)], ['Investitionen (Capex)', amount(inputs.capex)],
+      ['Gemeldeter freier Cashflow', amount(inputs.fcf)], ['Cashflow im Bewertungsszenario', amount(inputs.valuation_fcf)],
+      ['Finanzschulden', amount(inputs.debt)], ['Liquidität', amount(inputs.cash)],
+      ['Aktienzahl', num(inputs.shares, 0)], ['Eigenkapitalkosten', pct(parameters.discount_rate_pct)],
+      ['Risikofreier Zins (USD)', pct(parameters.risk_free_pct)], ['Beta', num(parameters.beta)],
+      ['Marktrisikoprämie', pct(parameters.market_premium_pct)],
+      ['Wachstumsannahme', pct(parameters.growth_rate_pct)], ['Terminalwachstum', pct(parameters.terminal_growth_pct)],
+      ['Prognosejahre', num(parameters.horizon_years, 0)], ['NGV je Aktie', perShare(valuation.ngv_per_share)],
+      ['DCF-Szenario je Aktie', perShare(valuation.dcf_per_share)],
+      ['Vom Kurs impliziertes Wachstum (Reverse DCF)', pct(valuation.reverse_dcf_growth_pct)],
+    ];
+    const scenarios = Array.isArray(valuation.scenarios) ? valuation.scenarios : [];
+    const warnings = Array.isArray(analysis.warnings) ? analysis.warnings : [];
+    const warningLabels = {
+      'Reported leveraged FCF proxy; sustainable cash flow has not been normalized.': 'Gemeldeter Cashflow nach Fremdkapitalkosten als Näherungswert; nachhaltiger Cashflow ist noch nicht normalisiert.',
+      'OCF/capex bridge unavailable; cash flow uses Yahoo reported Free Cash Flow.': 'Die Überleitung aus operativem Cashflow und Investitionen fehlt; verwendet wird der von Yahoo gemeldete Free Cashflow.',
+      'Five-year growth and terminal growth are scenario assumptions, not forecasts.': 'Wachstum über fünf Jahre und Terminalwachstum sind Szenarioannahmen, keine Prognosen.',
+      'Quote and financial currencies are missing or incompatible; valuation suspended.': 'Kurs- und Berichtswährung fehlen oder sind nicht vereinbar; Bewertung ausgesetzt.',
+      'USD risk-free curve is a shared model assumption for this non-USD cash flow.': 'Für diesen Cashflow in einer anderen Währung verwendet das Modell den USD-Zins als gemeinsame Annahme.',
+      'No sufficiently recent dated quote; price-dependent outputs suspended.': 'Kein ausreichend aktueller datierter Kurs; kursabhängige Ergebnisse ausgesetzt.',
+      'Valid cost-of-equity inputs unavailable; valuation suspended.': 'Keine gültigen Eingaben für Eigenkapitalkosten; Bewertung ausgesetzt.',
+      'Commodity value uses a multi-year reported cash-flow mean; acquisitions and normalization still require review.': 'Rohstoffbewertung verwendet den Mittelwert mehrerer gemeldeter Jahrescashflows; Übernahmen und Normalisierung bleiben zu prüfen.',
+      'No comparable positive annual FCF growth; base growth assumes zero.': 'Kein vergleichbares jährliches Cashflow-Wachstum mit positiver Ausgangsbasis; Basisszenario nimmt null Wachstum an.',
+      'Financial refresh failed; dated last-good inputs retained and repriced.': 'Finanzdatenabruf fehlgeschlagen; der letzte gültige datierte Eingabestand bleibt erhalten und wird neu bewertet.',
+      'Commodity economics still require mid-cycle normalization; reported cash scenario only.': 'Rohstoffgeschäft benötigt weiterhin eine Zyklusnormalisierung; gezeigt wird ein Szenario auf Basis gemeldeter Cashflows.',
+    };
+    const scenarioLabels = {bear:'Bär', base:'Basis', bull:'Bulle'};
+    const periods = analysis.metric_periods || {};
+    const periodPair = key => (periods[key] || []).map(value => esc(value)).join(' / ') || '—';
+    const sources = Array.isArray(analysis.source_urls) ? analysis.source_urls.filter(url =>
+      typeof url === 'string' && /^https:\/\/finance\.yahoo\.com\/quote\//.test(url)) : [];
+    return `<section id="dynamic-analysis" aria-labelledby="dynamic-analysis-title"><h3 id="dynamic-analysis-title">Aktuelles yfinance-Modellszenario · Prüfung erforderlich</h3>
+      <p class="small">Beim Erstellen der Seite aus yfinance-Eingaben berechnet. Berechnung: ${esc(at(analysis.as_of))} · Eingaben abgerufen: ${esc(at(analysis.fetched_at))} · Kurs vom ${esc(at(analysis.quote_observed_at))}. Finanzperiode: ${esc(analysis.financial_period ?? '—')} · Basis: ${esc(analysis.basis ?? '—')} · Kurswährung: ${esc(currency)} · Berichtswährung: ${esc(financialCurrency)} · Status: ${esc(analysis.status ?? '—')} · Datenabruf: ${esc(analysis.data_status ?? '—')}.</p>
+      <p>Die Szenarien hängen von den angegebenen Annahmen ab und benötigen eine Gegenprüfung.</p>
+      <p class="small">Jahresvergleich Umsatz: ${periodPair('revenue_growth')} · Cashflow: ${periodPair('fcf_growth')} · Aktienzahl: ${periodPair('share_change')}.</p>
+      <div class="table-scroll"><table class="score-table"><tbody>${rows.map(([key,value]) => `<tr><td>${esc(key)}</td><td>${esc(value)}</td></tr>`).join('')}</tbody></table></div>
+      ${scenarios.length ? '<h3>Bewertungsszenarien</h3><div class="table-scroll"><table class="score-table"><thead><tr><th>Szenario</th><th>Wachstum</th><th>Wert je Aktie</th></tr></thead><tbody>' + scenarios.map(s => `<tr><td>${esc(scenarioLabels[s.name] ?? s.name ?? '—')}</td><td>${esc(pct(s.growth_pct))}</td><td>${esc(perShare(s.value_per_share))}</td></tr>`).join('') + '</tbody></table></div>' : ''}
+      ${warnings.length ? '<h3>Offene Hinweise zum Modellszenario</h3><ul>' + warnings.map(w => `<li>${esc(warningLabels[w] ?? w)}</li>`).join('') + '</ul>' : ''}
+      ${sources.length ? '<h3>Finanzdatenquellen</h3><ul class="sources">' + sources.map(url => `<li><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(url)}</a></li>`).join('') + '</ul>' : ''}</section>`;
+  }
   function universeDetail(r) {
     const objections = r.objections.filter(x => !['verified','rejected'].includes(x.status));
     return `<div class="detail-head"><div><p class="eyebrow">ANALYSE & GEGENPRÜFUNG</p><h2 id="detail-title">${esc(r.issuer)} <span class="small">${esc(r.listing)}</span></h2>${badge(r.model_band)} <span class="small">Modellscore ${num(r.model_score)} · ${status(r)}</span></div><button id="close-detail" aria-label="Analyse schließen">Schließen ×</button></div>
+      ${dynamicAnalysis(r.dynamic_analysis)}
       <div class="detail-grid"><div><h3>Warum auf die Prüfliste?</h3><p>${esc(r.thesis || 'Der gespeicherte Modellscore setzt diesen Titel auf die Prüfliste. Eine aktuelle, belegte Investmentthese wurde für den Scanner noch nicht erstellt.')}</p><h3>Stärkstes Gegenargument</h3><p>${esc(r.counterargument || 'Noch keine dokumentierte Gegenprüfung. Ein hoher Modellscore belegt weder einen Burggraben noch einen attraktiven Kaufpreis.')}</p><h3>Nächster Nachweis</h3><p>${esc(r.next_check)}</p>${r.notes_as_of ? `<p class="small">Research-Notiz vom ${esc(r.notes_as_of)}</p>` : ''}</div>
       <div><h3>Ungelöste Analysteneinwände</h3>${objections.length ? '<ul>' + objections.map(x => `<li><b>${esc(x.id)} · ${esc(x.severity)} · ${esc(x.status)}</b><br>${esc(x.message)}${x.response ? '<br><b>Antwort:</b> ' + esc(x.response) : ''}${x.resolution_required ? '<br><b>Zur Klärung:</b> ' + esc(x.resolution_required) : ''}</li>`).join('') + '</ul>' : '<p>Keine separaten Analysteneinwände hinterlegt. Das bestätigt keine abgeschlossene Gegenprüfung.</p>'}<h3>Offene Daten- und Bewertungsprüfung</h3><ul>${r.issues.map(x => `<li><span class="issue-code">${esc(x.code)} · ${esc(x.status)}</span><br>${esc(x.message)}</li>`).join('')}</ul></div></div>
       <h3>Quellen & Herkunft</h3><p>${esc(r.source_reason || 'Keine vollständige Quellenprüfung hinterlegt.')}</p><ul class="sources">${r.sources.map(s => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a>${s.published_at ? ' · ' + esc(s.published_at) : ''}</li>`).join('') || '<li>Quellen müssen noch ergänzt werden.</li>'}</ul>
@@ -253,25 +305,91 @@
       : 'Keine Treffer für diese Filter. Öffne „Alle Bänder“ oder setze die Filter zurück.';
     $('scanner-rows').innerHTML = selected.map(view === 'market' ? marketRow : universeRow).join('');
   }
-  function detail(ticker, refresh=false) {
-    activeTicker=ticker;
-    const html = view === 'market'
+  function updateLocation(scope, ticker) {
+    const url = new URL(location.href);
+    url.searchParams.set('view', scope);
+    if (ticker) url.searchParams.set('ticker', ticker);
+    else url.searchParams.delete('ticker');
+    // An embedded preview may restrict history access; local files and the
+    // standalone page still support the same deep-link behavior.
+    try { history.replaceState(null, '', url); } catch (_) { /* keep selection usable */ }
+  }
+  function closeDetail() {
+    activeDetail = null;
+    $('detail').hidden = true;
+    $('detail').removeAttribute('data-scope');
+    $('detail').removeAttribute('data-ticker');
+    $('selected-review-packet').hidden = true;
+    $('selected-review-packet').onclick = null;
+  }
+  function clearFilters(scope) {
+    const controls = scope === 'market' ? marketControls : universeControls;
+    for (const id of controls) {
+      if (id === 'regime' || id === 'm-regime') continue;
+      const control = $(id);
+      control.value = control.tagName === 'SELECT'
+        ? (id === 'm-cap' ? '0' : 'all') : control.type === 'number' ? '0' : '';
+    }
+  }
+  function openLinkedDetail(scope, ticker) {
+    clearFilters(scope);
+    $(scope === 'market' ? 'm-query' : 'query').value = ticker;
+    setView(scope);
+    detail(ticker, false, scope);
+  }
+  function detail(ticker, refresh=false, scope=view) {
+    const html = scope === 'market'
       ? (c => c && marketDetail(c))(candidates.find(c => c.ticker === ticker))
       : (r => r && universeDetail(r))(data.rows.find(r => r.ticker === ticker));
     if (!html) return;
-    const packetScope = view;
-    const packetText = data.review_packets?.[packetScope]?.[ticker];
-    $('detail').innerHTML = html + (packetText ? `<section aria-label="Gemeinsame Gegenprüfung"><h3>Gemeinsam gegenprüfen</h3><p>Daten, Bewertungsannahmen und Risiken anhand desselben Datenstands prüfen. Das Paket enthält die gespeicherten Eingaben, Quellen, Annahmen und offenen Einwände sowie drei getrennte Prüfaufträge. Die Gegenprüfung steht noch aus; es wird keine Einstufung freigegeben.</p><button type="button" id="download-review-packet">Prüfpaket herunterladen ↓</button><p class="small">Die JSON-Datei kannst du hier im Chat zur Gegenprüfung hochladen. Der ursprüngliche Datenstand bleibt erhalten.</p></section>` : '');
+    activeDetail = {scope, ticker};
+    $('selection-status').hidden = true;
+    const storedPacket = data.review_packets?.[scope]?.[ticker];
+    const packetText = typeof storedPacket === 'string' ? storedPacket : null;
+    const packetLabel = `Prüfpaket ${ticker} · ${scope === 'market' ? 'Marktscan' : 'Universum'} ↓`;
+    $('detail').innerHTML = html;
+    $('detail').dataset.scope = scope;
+    $('detail').dataset.ticker = ticker;
+    if (packetText) $('detail').querySelector('.detail-head').insertAdjacentHTML('afterend',
+      `<section aria-label="Gemeinsame Gegenprüfung"><button type="button" id="download-review-packet" class="cta">${esc(packetLabel)}</button><p class="small">Daten, Bewertungsannahmen, Quellen und offene Einwände mit drei getrennten Prüfaufträgen als JSON. Das Paket kannst du hier im Chat zur Gegenprüfung hochladen. Der ursprüngliche Datenstand bleibt erhalten; die Gegenprüfung steht noch aus.</p></section>`);
     $('detail').hidden = false; if(!refresh) $('detail').focus();
-    const packetButton = $('download-review-packet');
-    if (packetButton) packetButton.onclick = () => download(packetText,
-      `InvestorAce_Pruefpaket_${packetScope}_${ticker.replace(/[^a-zA-Z0-9._-]/g,'_')}.json`, 'application/json');
-    $('close-detail').onclick = () => { activeTicker=null; $('detail').hidden = true; $('list-title').scrollIntoView({block:'start'}); };
-    const jump = $('open-in-universe');
-    if (jump) jump.onclick = () => {
-      setView('universe'); $('band').value = 'all'; $('holdings').value = 'all'; $('query').value = jump.dataset.ticker; render(); detail(jump.dataset.ticker);
+    const downloadPacket = () => download(packetText,
+      `InvestorAce_Pruefpaket_${scope}_${ticker.replace(/[^a-zA-Z0-9._-]/g,'_')}.json`, 'application/json');
+    const topButton = $('selected-review-packet');
+    topButton.hidden = !packetText;
+    topButton.textContent = packetLabel;
+    topButton.onclick = packetText ? downloadPacket : null;
+    if ($('download-review-packet')) $('download-review-packet').onclick = downloadPacket;
+    $('close-detail').onclick = () => {
+      closeDetail(); updateLocation(view);
+      $('list-title').scrollIntoView({block:'start'});
     };
-    if(!refresh) $('detail').scrollIntoView({behavior:'smooth',block:'start'});
+    const jump = $('open-in-universe');
+    if (jump) jump.onclick = () => openLinkedDetail('universe', jump.dataset.ticker);
+    if(!refresh) {
+      updateLocation(scope, ticker);
+      $('detail').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  }
+  function openLocation() {
+    const params = new URLSearchParams(location.search);
+    const requestedView = params.get('view');
+    const rawTicker = params.get('ticker');
+    const normalized = (rawTicker || '').trim().toUpperCase();
+    const validTicker = params.getAll('ticker').length === 1 && /^[A-Z0-9][A-Z0-9._-]{0,31}$/.test(normalized);
+    const findTicker = scope => validTicker && (scope === 'market' ? candidates : data.rows)
+      .find(row => row.ticker.toUpperCase() === normalized)?.ticker;
+    const scope = ['market','universe'].includes(requestedView) ? requestedView
+      : findTicker('universe') ? 'universe' : findTicker('market') ? 'market' : view;
+    closeDetail();
+    $('selection-status').hidden = true;
+    if (rawTicker === null) { setView(scope); return; }
+    const ticker = findTicker(scope);
+    if (ticker) { openLinkedDetail(scope, ticker); return; }
+    clearFilters(scope);
+    setView(scope);
+    $('selection-status').textContent = `Der Ticker im Link ist ungültig oder in dieser Liste nicht vorhanden. Alle ${scope === 'market' ? 'Marktkandidaten' : 'Aktien im Universum'} werden angezeigt. Wähle eine Aktie, um ihr Prüfpaket zu laden.`;
+    $('selection-status').hidden = false;
   }
   $('scanner-rows').addEventListener('click', e => { const button = e.target.closest('button[data-ticker]'); if (button) detail(button.dataset.ticker); });
   for (const id of universeControls.concat(marketControls)) $(id).addEventListener(['query','minimum','m-query','m-minimum'].includes(id) ? 'input' : 'change', () => {
@@ -280,10 +398,12 @@
     }
     render();
   });
-  $('tab-market').onclick = () => setView('market');
-  $('tab-universe').onclick = () => setView('universe');
+  for (const scope of ['market','universe']) $(`tab-${scope}`).onclick = () => {
+    setView(scope);
+    if (!activeDetail) updateLocation(scope);
+  };
   for (const [button, form, select] of [['reset-filters','filters','regime'], ['m-reset','market-filters','m-regime']]) {
-    $(button).onclick = () => { $(form).reset(); $(select).value = $(select).dataset.default; $('detail').hidden = true; render(); };
+    $(button).onclick = () => { $(form).reset(); $(select).value = $(select).dataset.default; render(); };
   }
   const csv = value => '"' + String(value ?? '').replace(/^[=+@\-\t\r]/, "'" + '$&').replace(/"/g,'""') + '"';
   const download = (text, name, type) => {
@@ -307,6 +427,8 @@
   $('download-json').onclick = e => { e.preventDefault(); refreshAssessments(); download(JSON.stringify(data,null,2), 'InvestorAce_Scanner.json', 'application/json'); };
   InvestorAceAssessment.watch(()=>{
     refreshAssessments();setView(view);
-    if(activeTicker&&!$('detail').hidden) detail(activeTicker,true);
+    if(activeDetail) detail(activeDetail.ticker, true, activeDetail.scope);
   },[...frozenAssessments.values()]);
+  openLocation();
+  window.addEventListener('popstate', openLocation);
 })();

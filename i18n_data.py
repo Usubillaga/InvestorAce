@@ -1229,3 +1229,25 @@ TRANSLATIONS['es'].update({
     'names per sector. Equal planned allocations among reviewed eligible candidates in regime order. Unfilled proposal slots are unallocated capacity, not a recommendation to sell holdings.':
         'valores por sector. Asignaciones iguales entre candidatos revisados y aptos en orden de régimen. Las plazas vacantes son capacidad sin asignar y no una recomendación de vender posiciones.',
 })
+
+# Current-data calculation labels; amounts are produced by Python.
+TRANSLATIONS['de'].update({'Current analysis': 'Aktuelle Analyse', 'Calculated model': 'Berechnetes Modell', 'cost-of-equity': 'Eigenkapitalkosten', 'yfinance-dynamic': 'yfinance · dynamisch', 'Calculated from dated yfinance financial inputs': 'Aus datierten yfinance-Finanzdaten berechnet', 'EPV quote and financial currencies are incompatible': 'EPV: Kurs- und Berichtswährung sind nicht vereinbar'})
+TRANSLATIONS['es'].update({'Current analysis': 'Análisis actual', 'Calculated model': 'Modelo calculado', 'cost-of-equity': 'coste del capital propio', 'yfinance-dynamic': 'yfinance · dinámico', 'Calculated from dated yfinance financial inputs': 'Calculado con datos financieros fechados de yfinance', 'EPV quote and financial currencies are incompatible': 'EPV: las monedas de cotización y de estados financieros son incompatibles'})
+TRANSLATIONS['de'].update({
+    'LEVERED_FCF_PROXY': 'Proxy für freien Cashflow nach Fremdkapitalkosten',
+    'Current values use reported OCF minus capex and cost of equity; normalization remains unverified.':
+        'Aktuelle Werte verwenden gemeldeten operativen Cashflow abzüglich Investitionen und Eigenkapitalkosten; die Normalisierung ist ungeprüft.',
+    'Current reported-FCF scenario is recalculated; normalization and source review remain separate.':
+        'Das Szenario mit gemeldetem freiem Cashflow wird neu berechnet; Normalisierung und Quellenprüfung bleiben gesondert offen.',
+    'Enterprise EPV requires a valid WACC; equity discount rate cannot substitute.':
+        'Der Unternehmens-EPV benötigt gültige gewichtete Kapitalkosten; Eigenkapitalkosten ersetzen diese nicht.',
+})
+TRANSLATIONS['es'].update({
+    'LEVERED_FCF_PROXY': 'Aproximación al flujo libre después del coste de la deuda',
+    'Current values use reported OCF minus capex and cost of equity; normalization remains unverified.':
+        'Los valores actuales usan flujo operativo declarado menos inversiones y coste del capital propio; la normalización sigue sin verificar.',
+    'Current reported-FCF scenario is recalculated; normalization and source review remain separate.':
+        'Se recalcula el escenario de flujo libre declarado; la normalización y la revisión de fuentes siguen pendientes por separado.',
+    'Enterprise EPV requires a valid WACC; equity discount rate cannot substitute.':
+        'El EPV empresarial requiere un WACC válido; el coste del capital propio no lo sustituye.',
+})

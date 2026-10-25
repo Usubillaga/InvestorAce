@@ -91,7 +91,7 @@ class FilingMonitoring(unittest.TestCase):
                 evidence.publish_build(record, old_bundle, 'last good report')
                 pointer = Path('history/_current.json').read_bytes()
                 with patch.object(engine, 'sync_risk_free'), \
-                     patch.object(engine, 'bootstrap_fundamentals'), \
+                     patch.object(engine, 'refresh_dynamic_analysis'), \
                      patch.object(engine, 'fetch_prices'), patch.object(engine, 'populate_epv'), \
                      patch.object(engine, 'read_macro', return_value={'ok': False}), \
                      patch.object(engine.EVIDENCE, 'model_bundle', return_value=new_bundle), \
