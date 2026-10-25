@@ -83,6 +83,8 @@ def valuation_contract(row):
     # engine.rate_used() prioritizes r_wacc. A metadata declaration cannot turn
     # that actual WACC into cost of equity without changing the calculation.
     rate_basis = 'WACC' if row.get('r_wacc') else row.get('discount_rate_basis', 'UNSPECIFIED')
+    if isinstance(row.get('dynamic_analysis'), dict):
+        rate_basis = row['dynamic_analysis'].get('parameters', {}).get('discount_rate_basis', 'UNSPECIFIED')
     expected = {'FCFE': 'COST_OF_EQUITY', 'FCFF': 'WACC'}.get(basis)
     missing = [k for k in ('financial_period', 'financial_published_at', 'cur', 'shares')
                if row.get(k) is None or row.get(k) == '']
@@ -93,6 +95,8 @@ def valuation_contract(row):
         issues.append('Missing ' + ', '.join(names[k] for k in missing) + '.')
     if not expected:
         issues.append('Cash-flow definition and a matching discount-rate basis are not established.')
+        if basis == 'LEVERED_FCF_PROXY':
+            issues.append('Current values use reported OCF minus capex and cost of equity; normalization remains unverified.')
     elif rate_basis != expected:
         issues.append('Declared cash-flow and discount-rate bases disagree.')
     if not (row.get('shares_asof') or row.get('share_count_date')):
@@ -109,7 +113,9 @@ def valuation_contract(row):
     return {'status': status, 'cash_flow_basis': basis, 'discount_rate_basis': rate_basis,
             'missing': missing, 'legacy_formula': '(fcf / shares) / rate',
             'equity_bridge_required': basis == 'FCFF', 'issues': issues,
-            'note': 'Legacy NGV is retained; a declared basis does not certify its inputs.'}
+            'note': ('Current reported-FCF scenario is recalculated; normalization and source review remain separate.'
+                     if row.get('dynamic_analysis') else
+                     'Legacy NGV is retained; a declared basis does not certify its inputs.')}
 
 
 def declared_perpetuity(cash_flow, shares, rate, basis, rate_basis, net_debt=None):
