@@ -1,0 +1,6035 @@
+{
+ "schema": "dynamic-analysis-v1",
+ "entries": {
+  "ADBE": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ADBE",
+   "financial_period": "2026-08-31",
+   "period_ends": [
+    "2026-08-31",
+    "2026-05-31",
+    "2026-02-28",
+    "2025-11-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 25970000000.0,
+    "operating_income": 9271000000.0,
+    "net_income": 7284000000.0,
+    "ebitda": 10307000000.0,
+    "operating_cash_flow": 10806000000.0,
+    "capex": 214000000.0,
+    "fcf": 10592000000.0,
+    "dividends": null,
+    "debt": 6762000000.0,
+    "cash": 4359000000.0,
+    "shares": 389200000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.415,
+   "quote_price": 263.82,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 10.527784236224136,
+   "share_change_pct": -6.349206349206349,
+   "annual_fcf_growth_pct": 25.136542613997204,
+   "revenue_growth_periods": [
+    "2025-11-30",
+    "2024-11-30"
+   ],
+   "share_change_periods": [
+    "2025-11-30",
+    "2024-11-30"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-11-30",
+     "value": 9852000000.0
+    },
+    {
+     "period": "2024-11-30",
+     "value": 7873000000.0
+    },
+    {
+     "period": "2023-11-30",
+     "value": 6942000000.0
+    },
+    {
+     "period": "2022-11-30",
+     "value": 7396000000.0
+    },
+    {
+     "period": "2021-11-30",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-11-30",
+    "2024-11-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ADBE/cash-flow/",
+    "https://finance.yahoo.com/quote/ADBE/financials/",
+    "https://finance.yahoo.com/quote/ADBE/balance-sheet/",
+    "https://finance.yahoo.com/quote/ADBE/key-statistics/"
+   ]
+  },
+  "ASML.AS": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ASML.AS",
+   "financial_period": "2025-12-31",
+   "period_ends": [
+    "2025-12-31"
+   ],
+   "basis": "FY",
+   "inputs": {
+    "revenue": 32667300000.0,
+    "operating_income": 11301400000.0,
+    "net_income": 9609400000.0,
+    "ebitda": 12550300000.0,
+    "operating_cash_flow": null,
+    "capex": 1631200000.0,
+    "fcf": 11027300000.0,
+    "dividends": -2550300000.0,
+    "debt": 4390900000.0,
+    "cash": 12916000000.0,
+    "shares": 385417742.0
+   },
+   "financial_currency": "EUR",
+   "currency": "EUR",
+   "beta": 1.302,
+   "quote_price": 1407.2,
+   "quote_observed_at": "2026-10-23T15:38:57+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 15.583680372502462,
+   "share_change_pct": -2.000096774918625,
+   "annual_fcf_growth_pct": 21.404586539837723,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "YAHOO_REPORTED_FCF",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 11027300000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 9083100000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 3247200000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 7167500000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ASML.AS/cash-flow/",
+    "https://finance.yahoo.com/quote/ASML.AS/financials/",
+    "https://finance.yahoo.com/quote/ASML.AS/balance-sheet/",
+    "https://finance.yahoo.com/quote/ASML.AS/key-statistics/"
+   ]
+  },
+  "RIVN": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "RIVN",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 5883000000.0,
+    "operating_income": -3533000000.0,
+    "net_income": -3233000000.0,
+    "ebitda": -2139000000.0,
+    "operating_cash_flow": -1845000000.0,
+    "capex": 1644000000.0,
+    "fcf": -3489000000.0,
+    "dividends": null,
+    "debt": 5353000000.0,
+    "cash": 3592000000.0,
+    "shares": 1443948130.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.622,
+   "quote_price": 11.83,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 8.390342052313882,
+   "share_change_pct": 9.637488947833784,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -2489000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -2857000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -5892000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -6421000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/RIVN/cash-flow/",
+    "https://finance.yahoo.com/quote/RIVN/financials/",
+    "https://finance.yahoo.com/quote/RIVN/balance-sheet/",
+    "https://finance.yahoo.com/quote/RIVN/key-statistics/"
+   ]
+  },
+  "ROAD": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ROAD",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 3477932000.0,
+    "operating_income": 302525000.0,
+    "net_income": 142510000.0,
+    "ebitda": 473399000.0,
+    "operating_cash_flow": 352844000.0,
+    "capex": 177284000.0,
+    "fcf": 175560000.0,
+    "dividends": null,
+    "debt": 1891584000.0,
+    "cash": 94547000.0,
+    "shares": 48206437.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.931,
+   "quote_price": 83.04,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 54.19556782238393,
+   "share_change_pct": 6.195545625730814,
+   "annual_fcf_growth_pct": 26.597825817794618,
+   "revenue_growth_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "share_change_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-09-30",
+     "value": 153372000.0
+    },
+    {
+     "period": "2024-09-30",
+     "value": 121149000.0
+    },
+    {
+     "period": "2023-09-30",
+     "value": 59347000.0
+    },
+    {
+     "period": "2022-09-30",
+     "value": -52353000.0
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ROAD/cash-flow/",
+    "https://finance.yahoo.com/quote/ROAD/financials/",
+    "https://finance.yahoo.com/quote/ROAD/balance-sheet/",
+    "https://finance.yahoo.com/quote/ROAD/key-statistics/"
+   ]
+  },
+  "CRM": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "CRM",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 43938000000.0,
+    "operating_income": 9455000000.0,
+    "net_income": 9662000000.0,
+    "ebitda": null,
+    "operating_cash_flow": 15750000000.0,
+    "capex": 596000000.0,
+    "fcf": 15154000000.0,
+    "dividends": -1515000000.0,
+    "debt": 41743000000.0,
+    "cash": 8310000000.0,
+    "shares": 823000000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.256,
+   "quote_price": 248.57,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 9.579100145137875,
+   "share_change_pct": -3.4303534303534278,
+   "annual_fcf_growth_pct": 15.827569567315436,
+   "revenue_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "share_change_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-01-31",
+     "value": 14402000000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 12434000000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 9498000000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 6313000000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/CRM/cash-flow/",
+    "https://finance.yahoo.com/quote/CRM/financials/",
+    "https://finance.yahoo.com/quote/CRM/balance-sheet/",
+    "https://finance.yahoo.com/quote/CRM/key-statistics/"
+   ]
+  },
+  "NVDA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "NVDA",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 302969000000.0,
+    "operating_income": 197579000000.0,
+    "net_income": 192879000000.0,
+    "ebitda": 233894000000.0,
+    "operating_cash_flow": 134360000000.0,
+    "capex": 7354000000.0,
+    "fcf": 127006000000.0,
+    "dividends": -6776000000.0,
+    "debt": 38351000000.0,
+    "cash": 22443000000.0,
+    "shares": 24147000000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 2.216,
+   "quote_price": 210.96,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 65.47353579009479,
+   "share_change_pct": -0.7067859623319905,
+   "annual_fcf_growth_pct": 58.868091959311776,
+   "revenue_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "share_change_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-01-31",
+     "value": 96676000000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 60853000000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 27021000000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 3808000000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/NVDA/cash-flow/",
+    "https://finance.yahoo.com/quote/NVDA/financials/",
+    "https://finance.yahoo.com/quote/NVDA/balance-sheet/",
+    "https://finance.yahoo.com/quote/NVDA/key-statistics/"
+   ]
+  },
+  "SPGI": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "SPGI",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 16121000000.0,
+    "operating_income": 6700000000.0,
+    "net_income": 4922000000.0,
+    "ebitda": 8388000000.0,
+    "operating_cash_flow": 5729000000.0,
+    "capex": 156000000.0,
+    "fcf": 5573000000.0,
+    "dividends": -1156000000.0,
+    "debt": 15622000000.0,
+    "cash": 4134000000.0,
+    "shares": 294800000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.095,
+   "quote_price": 450.31,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 7.939189189189189,
+   "share_change_pct": -2.92397660818714,
+   "annual_fcf_growth_pct": -1.9586702605570494,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 5456000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 5565000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 3567000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 2514000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/SPGI/cash-flow/",
+    "https://finance.yahoo.com/quote/SPGI/financials/",
+    "https://finance.yahoo.com/quote/SPGI/balance-sheet/",
+    "https://finance.yahoo.com/quote/SPGI/key-statistics/"
+   ]
+  },
+  "SAN.PA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "SAN.PA",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 48919000000.0,
+    "operating_income": 10068000000.0,
+    "net_income": 3958000000.0,
+    "ebitda": 8249000000.0,
+    "operating_cash_flow": 11838000000.0,
+    "capex": null,
+    "fcf": 7004000000.0,
+    "dividends": null,
+    "debt": 23576000000.0,
+    "cash": 6350000000.0,
+    "shares": 1198068685.0
+   },
+   "financial_currency": "EUR",
+   "currency": "EUR",
+   "beta": 0.281,
+   "quote_price": 74.12,
+   "quote_observed_at": "2026-10-23T15:35:46+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 5.487061373797597,
+   "share_change_pct": -3.665478177566661,
+   "annual_fcf_growth_pct": 22.52803261977574,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "YAHOO_REPORTED_FCF",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 7212000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 5886000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 7352000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 8423000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/SAN.PA/cash-flow/",
+    "https://finance.yahoo.com/quote/SAN.PA/financials/",
+    "https://finance.yahoo.com/quote/SAN.PA/balance-sheet/",
+    "https://finance.yahoo.com/quote/SAN.PA/key-statistics/"
+   ]
+  },
+  "APP": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "APP",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 6829124000.0,
+    "operating_income": 5288460000.0,
+    "net_income": 4409965000.0,
+    "ebitda": 5550334000.0,
+    "operating_cash_flow": 4527589000.0,
+    "capex": null,
+    "fcf": 4499271000.0,
+    "dividends": null,
+    "debt": 3515072000.0,
+    "cash": 3053306000.0,
+    "shares": 305732000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 2.557,
+   "quote_price": 260.25,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 69.9943673469894,
+   "share_change_pct": -0.5083902361762704,
+   "annual_fcf_growth_pct": 90.15461128221551,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "YAHOO_REPORTED_FCF",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 3942776000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2073458000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 997611000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 412111000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/APP/cash-flow/",
+    "https://finance.yahoo.com/quote/APP/financials/",
+    "https://finance.yahoo.com/quote/APP/balance-sheet/",
+    "https://finance.yahoo.com/quote/APP/key-statistics/"
+   ]
+  },
+  "ABT": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ABT",
+   "financial_period": "2026-03-31",
+   "period_ends": [
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30",
+    "2025-06-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 45134000000.0,
+    "operating_income": 7705000000.0,
+    "net_income": 6276000000.0,
+    "ebitda": 11836000000.0,
+    "operating_cash_flow": 9464000000.0,
+    "capex": 2086000000.0,
+    "fcf": 7378000000.0,
+    "dividends": -4188000000.0,
+    "debt": 34047000000.0,
+    "cash": 6803000000.0,
+    "shares": 1730383296.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.583,
+   "quote_price": 103.7,
+   "quote_observed_at": "2026-10-23T20:01:42+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 5.668653158522052,
+   "share_change_pct": 0.28304358066324475,
+   "annual_fcf_growth_pct": 16.43835616438356,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 7395000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 6351000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 5059000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 7804000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ABT/cash-flow/",
+    "https://finance.yahoo.com/quote/ABT/financials/",
+    "https://finance.yahoo.com/quote/ABT/balance-sheet/",
+    "https://finance.yahoo.com/quote/ABT/key-statistics/"
+   ]
+  },
+  "WKL.AS": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "WKL.AS",
+   "financial_period": "2025-12-31",
+   "period_ends": [
+    "2025-12-31"
+   ],
+   "basis": "FY",
+   "inputs": {
+    "revenue": 6125000000.0,
+    "operating_income": 1687000000.0,
+    "net_income": 1308000000.0,
+    "ebitda": 2229000000.0,
+    "operating_cash_flow": 1668000000.0,
+    "capex": 305000000.0,
+    "fcf": 1363000000.0,
+    "dividends": -563000000.0,
+    "debt": 4933000000.0,
+    "cash": 932000000.0,
+    "shares": 222435442.0
+   },
+   "financial_currency": "EUR",
+   "currency": "EUR",
+   "beta": 0.184,
+   "quote_price": 88.18,
+   "quote_observed_at": "2026-10-23T15:37:49+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 3.532792427315745,
+   "share_change_pct": -3.477613685555725,
+   "annual_fcf_growth_pct": 1.716417910447765,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1363000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1340000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1221000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1287000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/WKL.AS/cash-flow/",
+    "https://finance.yahoo.com/quote/WKL.AS/financials/",
+    "https://finance.yahoo.com/quote/WKL.AS/balance-sheet/",
+    "https://finance.yahoo.com/quote/WKL.AS/key-statistics/"
+   ]
+  },
+  "MC.PA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "MC.PA",
+   "financial_period": "2025-12-31",
+   "period_ends": [
+    "2025-12-31"
+   ],
+   "basis": "FY",
+   "inputs": {
+    "revenue": 80807000000.0,
+    "operating_income": 17668000000.0,
+    "net_income": 10878000000.0,
+    "ebitda": 25850000000.0,
+    "operating_cash_flow": 18875000000.0,
+    "capex": 4670000000.0,
+    "fcf": 14205000000.0,
+    "dividends": -6465000000.0,
+    "debt": 36731000000.0,
+    "cash": 8794000000.0,
+    "shares": 492965227.0
+   },
+   "financial_currency": "EUR",
+   "currency": "EUR",
+   "beta": 0.879,
+   "quote_price": 383.0,
+   "quote_observed_at": "2026-10-23T15:35:03+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -4.575942939467659,
+   "share_change_pct": -0.5971101935308032,
+   "annual_fcf_growth_pct": 6.221491064084339,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 14205000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 13373000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 10596000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 12753000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/MC.PA/cash-flow/",
+    "https://finance.yahoo.com/quote/MC.PA/financials/",
+    "https://finance.yahoo.com/quote/MC.PA/balance-sheet/",
+    "https://finance.yahoo.com/quote/MC.PA/key-statistics/"
+   ]
+  },
+  "UBER": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "UBER",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 55227000000.0,
+    "operating_income": 6700000000.0,
+    "net_income": 9579000000.0,
+    "ebitda": 7920000000.0,
+    "operating_cash_flow": 10424000000.0,
+    "capex": 308000000.0,
+    "fcf": 10116000000.0,
+    "dividends": null,
+    "debt": 14731000000.0,
+    "cash": 4870000000.0,
+    "shares": 2042560121.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.265,
+   "quote_price": 66.7,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 18.27959434262585,
+   "share_change_pct": -1.8998526058218612,
+   "annual_fcf_growth_pct": 41.59535895576505,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 9763000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 6895000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 3362000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 390000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/UBER/cash-flow/",
+    "https://finance.yahoo.com/quote/UBER/financials/",
+    "https://finance.yahoo.com/quote/UBER/balance-sheet/",
+    "https://finance.yahoo.com/quote/UBER/key-statistics/"
+   ]
+  },
+  "AVGO": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "AVGO",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 89104000000.0,
+    "operating_income": 43237000000.0,
+    "net_income": 38265000000.0,
+    "ebitda": 52349000000.0,
+    "operating_cash_flow": 40653000000.0,
+    "capex": 1250000000.0,
+    "fcf": 39403000000.0,
+    "dividends": -12078000000.0,
+    "debt": 59419000000.0,
+    "cash": 23975000000.0,
+    "shares": 4773629865.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.476,
+   "quote_price": 321.68,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 23.874432853763516,
+   "share_change_pct": 1.1737089201877993,
+   "annual_fcf_growth_pct": 38.631915112805196,
+   "revenue_growth_periods": [
+    "2025-10-31",
+    "2024-10-31"
+   ],
+   "share_change_periods": [
+    "2025-10-31",
+    "2024-10-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-10-31",
+     "value": 26914000000.0
+    },
+    {
+     "period": "2024-10-31",
+     "value": 19414000000.0
+    },
+    {
+     "period": "2023-10-31",
+     "value": 17633000000.0
+    },
+    {
+     "period": "2022-10-31",
+     "value": 16312000000.0
+    },
+    {
+     "period": "2021-10-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-10-31",
+    "2024-10-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/AVGO/cash-flow/",
+    "https://finance.yahoo.com/quote/AVGO/financials/",
+    "https://finance.yahoo.com/quote/AVGO/balance-sheet/",
+    "https://finance.yahoo.com/quote/AVGO/key-statistics/"
+   ]
+  },
+  "ONON": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ONON",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 3220400000.0,
+    "operating_income": 444000000.0,
+    "net_income": 396300000.0,
+    "ebitda": 592000000.0,
+    "operating_cash_flow": 525400000.0,
+    "capex": 96300000.0,
+    "fcf": 429100000.0,
+    "dividends": 0.0,
+    "debt": 562500000.0,
+    "cash": 1204700000.0,
+    "shares": 301715535.0
+   },
+   "financial_currency": "CHF",
+   "currency": "USD",
+   "beta": 2.077,
+   "quote_price": 32.51,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 30.009058361730578,
+   "share_change_pct": 2.2101735253639454,
+   "annual_fcf_growth_pct": -36.96140035906643,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 280900000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 445600000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 184900000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -310000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ONON/cash-flow/",
+    "https://finance.yahoo.com/quote/ONON/financials/",
+    "https://finance.yahoo.com/quote/ONON/balance-sheet/",
+    "https://finance.yahoo.com/quote/ONON/key-statistics/"
+   ]
+  },
+  "PFE": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "PFE",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 63695000000.0,
+    "operating_income": 17019000000.0,
+    "net_income": 4332000000.0,
+    "ebitda": 13491000000.0,
+    "operating_cash_flow": 13401000000.0,
+    "capex": 2416000000.0,
+    "fcf": 10985000000.0,
+    "dividends": -9785000000.0,
+    "debt": 63194000000.0,
+    "cash": 976000000.0,
+    "shares": 5699673589.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.276,
+   "quote_price": 30.03,
+   "quote_observed_at": "2026-10-23T20:02:09+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -1.647099501783833,
+   "share_change_pct": 0.3354508280867252,
+   "annual_fcf_growth_pct": -7.727503812913062,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 9075000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 9835000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 4793000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 26031000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/PFE/cash-flow/",
+    "https://finance.yahoo.com/quote/PFE/financials/",
+    "https://finance.yahoo.com/quote/PFE/balance-sheet/",
+    "https://finance.yahoo.com/quote/PFE/key-statistics/"
+   ]
+  },
+  "ROL": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ROL",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 3924019000.0,
+    "operating_income": 731932000.0,
+    "net_income": 531716000.0,
+    "ebitda": 862519000.0,
+    "operating_cash_flow": 646966000.0,
+    "capex": 27797000.0,
+    "fcf": 619169000.0,
+    "dividends": -344469000.0,
+    "debt": 1115303000.0,
+    "cash": 109085000.0,
+    "shares": 481145404.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.731,
+   "quote_price": 34.82,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 10.987727476076437,
+   "share_change_pct": -0.6562208409344183,
+   "annual_fcf_growth_pct": 12.056936876056955,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 650021000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 580081000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 495901000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 435302000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ROL/cash-flow/",
+    "https://finance.yahoo.com/quote/ROL/financials/",
+    "https://finance.yahoo.com/quote/ROL/balance-sheet/",
+    "https://finance.yahoo.com/quote/ROL/key-statistics/"
+   ]
+  },
+  "LULU": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "LULU",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 11093955000.0,
+    "operating_income": 1978775000.0,
+    "net_income": 1417977000.0,
+    "ebitda": 2518426000.0,
+    "operating_cash_flow": 1982033000.0,
+    "capex": 627697000.0,
+    "fcf": 1354336000.0,
+    "dividends": null,
+    "debt": 2141127000.0,
+    "cash": 1389737000.0,
+    "shares": 105594064.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.922,
+   "quote_price": 99.01,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 4.858971266492285,
+   "share_change_pct": -3.9461762990458227,
+   "annual_fcf_growth_pct": -41.794375808740355,
+   "revenue_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "share_change_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-01-31",
+     "value": 921675000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 1583481000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 1644299000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 327806000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/LULU/cash-flow/",
+    "https://finance.yahoo.com/quote/LULU/financials/",
+    "https://finance.yahoo.com/quote/LULU/balance-sheet/",
+    "https://finance.yahoo.com/quote/LULU/key-statistics/"
+   ]
+  },
+  "PL": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "PL",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 378278000.0,
+    "operating_income": -102739000.0,
+    "net_income": -359865000.0,
+    "ebitda": -307297000.0,
+    "operating_cash_flow": 117630000.0,
+    "capex": 98852000.0,
+    "fcf": 18778000.0,
+    "dividends": null,
+    "debt": 498623000.0,
+    "cash": 415130000.0,
+    "shares": 340354193.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 2.17,
+   "quote_price": 13.41,
+   "quote_observed_at": "2026-10-23T20:00:03+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 25.93594486642221,
+   "share_change_pct": 11.741590557729786,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "share_change_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-01-31",
+     "value": 51414000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": -68778000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": -93121000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": -86693000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/PL/cash-flow/",
+    "https://finance.yahoo.com/quote/PL/financials/",
+    "https://finance.yahoo.com/quote/PL/balance-sheet/",
+    "https://finance.yahoo.com/quote/PL/key-statistics/"
+   ]
+  },
+  "MSFT": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "MSFT",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 331839000000.0,
+    "operating_income": 155237000000.0,
+    "net_income": 133749000000.0,
+    "ebitda": 212433000000.0,
+    "operating_cash_flow": 182935000000.0,
+    "capex": 115948000000.0,
+    "fcf": 66987000000.0,
+    "dividends": -26445000000.0,
+    "debt": 56826000000.0,
+    "cash": 20935000000.0,
+    "shares": 7425545491.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.099,
+   "quote_price": 524.51,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 17.788686799846666,
+   "share_change_pct": -0.09629408426985453,
+   "annual_fcf_growth_pct": -6.457108544776635,
+   "revenue_growth_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "share_change_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-06-30",
+     "value": 66987000000.0
+    },
+    {
+     "period": "2025-06-30",
+     "value": 71611000000.0
+    },
+    {
+     "period": "2024-06-30",
+     "value": 74071000000.0
+    },
+    {
+     "period": "2023-06-30",
+     "value": 59475000000.0
+    },
+    {
+     "period": "2022-06-30",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/MSFT/cash-flow/",
+    "https://finance.yahoo.com/quote/MSFT/financials/",
+    "https://finance.yahoo.com/quote/MSFT/balance-sheet/",
+    "https://finance.yahoo.com/quote/MSFT/key-statistics/"
+   ]
+  },
+  "AAPL": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "AAPL",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 466823000000.0,
+    "operating_income": 154859000000.0,
+    "net_income": 128930000000.0,
+    "ebitda": 167959000000.0,
+    "operating_cash_flow": 146724000000.0,
+    "capex": 10041000000.0,
+    "fcf": 136683000000.0,
+    "dividends": -15640000000.0,
+    "debt": 84344000000.0,
+    "cash": 39544000000.0,
+    "shares": 14594180000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.069,
+   "quote_price": 347.725,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 6.425511782832749,
+   "share_change_pct": -2.2724804068801396,
+   "annual_fcf_growth_pct": -9.227347505215654,
+   "revenue_growth_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "share_change_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-09-30",
+     "value": 98767000000.0
+    },
+    {
+     "period": "2024-09-30",
+     "value": 108807000000.0
+    },
+    {
+     "period": "2023-09-30",
+     "value": 99584000000.0
+    },
+    {
+     "period": "2022-09-30",
+     "value": 111443000000.0
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/AAPL/cash-flow/",
+    "https://finance.yahoo.com/quote/AAPL/financials/",
+    "https://finance.yahoo.com/quote/AAPL/balance-sheet/",
+    "https://finance.yahoo.com/quote/AAPL/key-statistics/"
+   ]
+  },
+  "KO": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "KO",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 50129000000.0,
+    "operating_income": 15941000000.0,
+    "net_income": 14316000000.0,
+    "ebitda": 19831000000.0,
+    "operating_cash_flow": 16342000000.0,
+    "capex": 2045000000.0,
+    "fcf": 14297000000.0,
+    "dividends": -11058000000.0,
+    "debt": 43543000000.0,
+    "cash": 12907000000.0,
+    "shares": 4302549243.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.318,
+   "quote_price": 92.71,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 1.8699135164998548,
+   "share_change_pct": -0.009092398884236186,
+   "annual_fcf_growth_pct": 11.706391056739074,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 5296000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 4741000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 9747000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 9534000000.0
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/KO/cash-flow/",
+    "https://finance.yahoo.com/quote/KO/financials/",
+    "https://finance.yahoo.com/quote/KO/balance-sheet/",
+    "https://finance.yahoo.com/quote/KO/key-statistics/"
+   ]
+  },
+  "CVX": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "CVX",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 208711000000.0,
+    "operating_income": 25818000000.0,
+    "net_income": 20591000000.0,
+    "ebitda": 55951000000.0,
+    "operating_cash_flow": 45321000000.0,
+    "capex": 18309000000.0,
+    "fcf": 27012000000.0,
+    "dividends": -13863000000.0,
+    "debt": 37075000000.0,
+    "cash": 8527000000.0,
+    "shares": 1961603274.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.523,
+   "quote_price": 233.21,
+   "quote_observed_at": "2026-10-23T20:02:56+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -4.643924431530289,
+   "share_change_pct": 11.940892163645888,
+   "annual_fcf_growth_pct": 10.28981653815475,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 16592000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 15044000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 19780000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 37628000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/CVX/cash-flow/",
+    "https://finance.yahoo.com/quote/CVX/financials/",
+    "https://finance.yahoo.com/quote/CVX/balance-sheet/",
+    "https://finance.yahoo.com/quote/CVX/key-statistics/"
+   ]
+  },
+  "AMAT": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "AMAT",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 30837000000.0,
+    "operating_income": 9587000000.0,
+    "net_income": 9267000000.0,
+    "ebitda": 11631000000.0,
+    "operating_cash_flow": 8396000000.0,
+    "capex": 2773000000.0,
+    "fcf": 5623000000.0,
+    "dividends": -1515000000.0,
+    "debt": 7346000000.0,
+    "cash": 7037000000.0,
+    "shares": 793597443.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.591,
+   "quote_price": 377.24,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 4.386223138063006,
+   "share_change_pct": -3.0562347188264005,
+   "annual_fcf_growth_pct": -23.894750901562713,
+   "revenue_growth_periods": [
+    "2025-10-31",
+    "2024-10-31"
+   ],
+   "share_change_periods": [
+    "2025-10-31",
+    "2024-10-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-10-31",
+     "value": 5698000000.0
+    },
+    {
+     "period": "2024-10-31",
+     "value": 7487000000.0
+    },
+    {
+     "period": "2023-10-31",
+     "value": 7594000000.0
+    },
+    {
+     "period": "2022-10-31",
+     "value": 4612000000.0
+    },
+    {
+     "period": "2021-10-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-10-31",
+    "2024-10-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/AMAT/cash-flow/",
+    "https://finance.yahoo.com/quote/AMAT/financials/",
+    "https://finance.yahoo.com/quote/AMAT/balance-sheet/",
+    "https://finance.yahoo.com/quote/AMAT/key-statistics/"
+   ]
+  },
+  "PHR": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "PHR",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 507793000.0,
+    "operating_income": 12539000.0,
+    "net_income": 10447000.0,
+    "ebitda": 50034000.0,
+    "operating_cash_flow": 91379000.0,
+    "capex": 23857000.0,
+    "fcf": 67522000.0,
+    "dividends": null,
+    "debt": 67947000.0,
+    "cash": 72945000.0,
+    "shares": 62070944.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.843,
+   "quote_price": 12.7,
+   "quote_observed_at": "2026-10-23T20:00:03+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 14.477398270182196,
+   "share_change_pct": 3.2978016125963183,
+   "annual_fcf_growth_pct": 556.2590448625181,
+   "revenue_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "share_change_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-01-31",
+     "value": 54417000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 8292000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": -57475000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": -116326000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/PHR/cash-flow/",
+    "https://finance.yahoo.com/quote/PHR/financials/",
+    "https://finance.yahoo.com/quote/PHR/balance-sheet/",
+    "https://finance.yahoo.com/quote/PHR/key-statistics/"
+   ]
+  },
+  "RCAT": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "RCAT",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 71540761.0,
+    "operating_income": -107419254.0,
+    "net_income": -97484689.0,
+    "ebitda": -103981645.0,
+    "operating_cash_flow": -139078344.0,
+    "capex": 18624374.0,
+    "fcf": -157702718.0,
+    "dividends": null,
+    "debt": 14873000.0,
+    "cash": 325553000.0,
+    "shares": 152714362.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.515,
+   "quote_price": 4.43,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": null,
+   "share_change_pct": 40.90219840756928,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-04-30"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -95781000.0
+    },
+    {
+     "period": "2024-04-30",
+     "value": -18854000.0
+    },
+    {
+     "period": "2023-04-30",
+     "value": -27345662.0
+    },
+    {
+     "period": "2022-04-30",
+     "value": -16383009.0
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-04-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/RCAT/cash-flow/",
+    "https://finance.yahoo.com/quote/RCAT/financials/",
+    "https://finance.yahoo.com/quote/RCAT/balance-sheet/",
+    "https://finance.yahoo.com/quote/RCAT/key-statistics/"
+   ]
+  },
+  "ADSK": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ADSK",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 7790000000.0,
+    "operating_income": 2175000000.0,
+    "net_income": 1642000000.0,
+    "ebitda": 2376000000.0,
+    "operating_cash_flow": 2896000000.0,
+    "capex": 92000000.0,
+    "fcf": 2804000000.0,
+    "dividends": null,
+    "debt": 3705000000.0,
+    "cash": 4098000000.0,
+    "shares": 209000000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.327,
+   "quote_price": 252.2,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 17.533844397325062,
+   "share_change_pct": -0.9345794392523366,
+   "annual_fcf_growth_pct": 57.87375415282392,
+   "revenue_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "share_change_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-01-31",
+     "value": 2376000000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 1505000000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 1252000000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 2025000000.0
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ADSK/cash-flow/",
+    "https://finance.yahoo.com/quote/ADSK/financials/",
+    "https://finance.yahoo.com/quote/ADSK/balance-sheet/",
+    "https://finance.yahoo.com/quote/ADSK/key-statistics/"
+   ]
+  },
+  "GOOG": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "GOOG",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 445867000000.0,
+    "operating_income": 147628000000.0,
+    "net_income": 244205000000.0,
+    "ebitda": 326758000000.0,
+    "operating_cash_flow": 185675000000.0,
+    "capex": 132402000000.0,
+    "fcf": 53273000000.0,
+    "dividends": -10303000000.0,
+    "debt": 112756000000.0,
+    "cash": 55911000000.0,
+    "shares": 5527000000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.211,
+   "quote_price": 317.28,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 15.090081081544371,
+   "share_change_pct": -1.0072885103595164,
+   "annual_fcf_growth_pct": 0.6899015996921554,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 73266000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 72764000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 69495000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 60010000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/GOOG/cash-flow/",
+    "https://finance.yahoo.com/quote/GOOG/financials/",
+    "https://finance.yahoo.com/quote/GOOG/balance-sheet/",
+    "https://finance.yahoo.com/quote/GOOG/key-statistics/"
+   ]
+  },
+  "GILD": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "GILD",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 30456000000.0,
+    "operating_income": 11716000000.0,
+    "net_income": -3240000000.0,
+    "ebitda": 1803000000.0,
+    "operating_cash_flow": 13552000000.0,
+    "capex": 609000000.0,
+    "fcf": 12943000000.0,
+    "dividends": -4068000000.0,
+    "debt": 26246000000.0,
+    "cash": 3179000000.0,
+    "shares": 1239955155.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.332,
+   "quote_price": 156.04,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 2.39271057939765,
+   "share_change_pct": -0.44823774707646313,
+   "annual_fcf_growth_pct": -8.238719068413392,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 9456000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 10305000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 7421000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 8344000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/GILD/cash-flow/",
+    "https://finance.yahoo.com/quote/GILD/financials/",
+    "https://finance.yahoo.com/quote/GILD/balance-sheet/",
+    "https://finance.yahoo.com/quote/GILD/key-statistics/"
+   ]
+  },
+  "AG": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "AG",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 1649616000.0,
+    "operating_income": 721685000.0,
+    "net_income": 383490000.0,
+    "ebitda": 1014971000.0,
+    "operating_cash_flow": 825828000.0,
+    "capex": null,
+    "fcf": 614084000.0,
+    "dividends": -17442000.0,
+    "debt": 331146000.0,
+    "cash": 1093311000.0,
+    "shares": 493080912.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 2.185,
+   "quote_price": 14.77,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 124.46547475209843,
+   "share_change_pct": 62.76321265724978,
+   "annual_fcf_growth_pct": 742.2290971261093,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "YAHOO_REPORTED_FCF",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 310353000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 36849000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -90367000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -198692000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/AG/cash-flow/",
+    "https://finance.yahoo.com/quote/AG/financials/",
+    "https://finance.yahoo.com/quote/AG/balance-sheet/",
+    "https://finance.yahoo.com/quote/AG/key-statistics/"
+   ]
+  },
+  "BABA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "BABA",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 1044971000000.0,
+    "operating_income": 44296000000.0,
+    "net_income": 73557000000.0,
+    "ebitda": 116065000000.0,
+    "operating_cash_flow": 78486000000.0,
+    "capex": null,
+    "fcf": -48451000000.0,
+    "dividends": null,
+    "debt": 266530000000.0,
+    "cash": 142914000000.0,
+    "shares": 2487744939.0
+   },
+   "financial_currency": "CNY",
+   "currency": "USD",
+   "beta": 0.463,
+   "quote_price": 99.64,
+   "quote_observed_at": "2026-10-23T20:02:20+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 2.7423176865088106,
+   "share_change_pct": -2.1935113433136255,
+   "annual_fcf_growth_pct": -165.41909024078828,
+   "revenue_growth_periods": [
+    "2026-03-31",
+    "2025-03-31"
+   ],
+   "share_change_periods": [
+    "2026-03-31",
+    "2025-03-31"
+   ],
+   "cash_flow_calculation": "YAHOO_REPORTED_FCF",
+   "annual_fcf_series": [
+    {
+     "period": "2026-03-31",
+     "value": -50724000000.0
+    },
+    {
+     "period": "2025-03-31",
+     "value": 77537000000.0
+    },
+    {
+     "period": "2024-03-31",
+     "value": 149664000000.0
+    },
+    {
+     "period": "2023-03-31",
+     "value": 165400000000.0
+    },
+    {
+     "period": "2022-03-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-03-31",
+    "2025-03-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/BABA/cash-flow/",
+    "https://finance.yahoo.com/quote/BABA/financials/",
+    "https://finance.yahoo.com/quote/BABA/balance-sheet/",
+    "https://finance.yahoo.com/quote/BABA/key-statistics/"
+   ]
+  },
+  "BYRN": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "BYRN",
+   "financial_period": "2026-08-31",
+   "period_ends": [
+    "2026-08-31",
+    "2026-05-31",
+    "2026-02-28",
+    "2025-11-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 95978000.0,
+    "operating_income": -10895000.0,
+    "net_income": -8835000.0,
+    "ebitda": -8569000.0,
+    "operating_cash_flow": 6461000.0,
+    "capex": 3030000.0,
+    "fcf": 3431000.0,
+    "dividends": null,
+    "debt": 1237000.0,
+    "cash": 8418000.0,
+    "shares": 23404754.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.688,
+   "quote_price": 4.82,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 37.739633378422496,
+   "share_change_pct": 0.8132910741086796,
+   "annual_fcf_growth_pct": -198.21733561058923,
+   "revenue_growth_periods": [
+    "2025-11-30",
+    "2024-11-30"
+   ],
+   "share_change_periods": [
+    "2025-11-30",
+    "2024-11-30"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-11-30",
+     "value": -9201000.0
+    },
+    {
+     "period": "2024-11-30",
+     "value": 9368000.0
+    },
+    {
+     "period": "2023-11-30",
+     "value": 2989000.0
+    },
+    {
+     "period": "2022-11-30",
+     "value": -17079000.0
+    },
+    {
+     "period": "2021-11-30",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-11-30",
+    "2024-11-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/BYRN/cash-flow/",
+    "https://finance.yahoo.com/quote/BYRN/financials/",
+    "https://finance.yahoo.com/quote/BYRN/balance-sheet/",
+    "https://finance.yahoo.com/quote/BYRN/key-statistics/"
+   ]
+  },
+  "FSLR": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "FSLR",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 5378071000.0,
+    "operating_income": 1809702000.0,
+    "net_income": 1746014000.0,
+    "ebitda": 2440196000.0,
+    "operating_cash_flow": 2155743000.0,
+    "capex": 655624000.0,
+    "fcf": 1500119000.0,
+    "dividends": null,
+    "debt": 194010000.0,
+    "cash": 1688279000.0,
+    "shares": 107469788.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.794,
+   "quote_price": 171.99,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 24.08505454570524,
+   "share_change_pct": 0.23305842061072113,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1187230000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -308077000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -784515000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -30236000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/FSLR/cash-flow/",
+    "https://finance.yahoo.com/quote/FSLR/financials/",
+    "https://finance.yahoo.com/quote/FSLR/balance-sheet/",
+    "https://finance.yahoo.com/quote/FSLR/key-statistics/"
+   ]
+  },
+  "SITE": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "SITE",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 4774600000.0,
+    "operating_income": 251900000.0,
+    "net_income": 162800000.0,
+    "ebitda": 393300000.0,
+    "operating_cash_flow": 324500000.0,
+    "capex": 74300000.0,
+    "fcf": 250200000.0,
+    "dividends": null,
+    "debt": 1128100000.0,
+    "cash": 87400000.0,
+    "shares": 43655390.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.386,
+   "quote_price": 103.16,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 3.616262167995421,
+   "share_change_pct": -1.165053662505644,
+   "annual_fcf_growth_pct": 2.849958088851645,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 245400000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 238600000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 261500000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 175500000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/SITE/cash-flow/",
+    "https://finance.yahoo.com/quote/SITE/financials/",
+    "https://finance.yahoo.com/quote/SITE/balance-sheet/",
+    "https://finance.yahoo.com/quote/SITE/key-statistics/"
+   ]
+  },
+  "TSLA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "TSLA",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 103619000000.0,
+    "operating_income": 4772000000.0,
+    "net_income": 3804000000.0,
+    "ebitda": 12028000000.0,
+    "operating_cash_flow": 18685000000.0,
+    "capex": 12930000000.0,
+    "fcf": 5755000000.0,
+    "dividends": null,
+    "debt": 16080000000.0,
+    "cash": 15219000000.0,
+    "shares": 3952730153.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.916,
+   "quote_price": 372.22,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -2.930699150373628,
+   "share_change_pct": 16.63557213930349,
+   "annual_fcf_growth_pct": 73.69449874336777,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 6220000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 3581000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 4357000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 7552000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/TSLA/cash-flow/",
+    "https://finance.yahoo.com/quote/TSLA/financials/",
+    "https://finance.yahoo.com/quote/TSLA/balance-sheet/",
+    "https://finance.yahoo.com/quote/TSLA/key-statistics/"
+   ]
+  },
+  "PG": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "PG",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 87033000000.0,
+    "operating_income": 19749000000.0,
+    "net_income": 16045000000.0,
+    "ebitda": 24413000000.0,
+    "operating_cash_flow": 19556000000.0,
+    "capex": 4409000000.0,
+    "fcf": 15147000000.0,
+    "dividends": -10232000000.0,
+    "debt": 35026000000.0,
+    "cash": 9942000000.0,
+    "shares": 2317783143.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.377,
+   "quote_price": 161.02,
+   "quote_observed_at": "2026-10-23T20:01:38+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 3.2604052963788988,
+   "share_change_pct": -0.7722284990589023,
+   "annual_fcf_growth_pct": 7.853887781258906,
+   "revenue_growth_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "share_change_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-06-30",
+     "value": 15147000000.0
+    },
+    {
+     "period": "2025-06-30",
+     "value": 14044000000.0
+    },
+    {
+     "period": "2024-06-30",
+     "value": 16524000000.0
+    },
+    {
+     "period": "2023-06-30",
+     "value": 13786000000.0
+    },
+    {
+     "period": "2022-06-30",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/PG/cash-flow/",
+    "https://finance.yahoo.com/quote/PG/financials/",
+    "https://finance.yahoo.com/quote/PG/balance-sheet/",
+    "https://finance.yahoo.com/quote/PG/key-statistics/"
+   ]
+  },
+  "CSGP": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "CSGP",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 3555500000.0,
+    "operating_income": 77000000.0,
+    "net_income": 73600000.0,
+    "ebitda": 394000000.0,
+    "operating_cash_flow": 497000000.0,
+    "capex": 270000000.0,
+    "fcf": 227000000.0,
+    "dividends": null,
+    "debt": 1202000000.0,
+    "cash": 1266000000.0,
+    "shares": 405197588.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.796,
+   "quote_price": 33.92,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 18.67690058479532,
+   "share_change_pct": 2.051282051282044,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 41000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -245000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 347000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 384900000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/CSGP/cash-flow/",
+    "https://finance.yahoo.com/quote/CSGP/financials/",
+    "https://finance.yahoo.com/quote/CSGP/balance-sheet/",
+    "https://finance.yahoo.com/quote/CSGP/key-statistics/"
+   ]
+  },
+  "OXY": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "OXY",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 21671000000.0,
+    "operating_income": 5883000000.0,
+    "net_income": 7254000000.0,
+    "ebitda": 13859000000.0,
+    "operating_cash_flow": 10976000000.0,
+    "capex": 6183000000.0,
+    "fcf": 4793000000.0,
+    "dividends": -1655000000.0,
+    "debt": 14626000000.0,
+    "cash": 4150000000.0,
+    "shares": 999637371.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.245,
+   "quote_price": 64.17,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -1.93469276533903,
+   "share_change_pct": 5.068786654458024,
+   "annual_fcf_growth_pct": -20.691653786707885,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 4105000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 5176000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 6612000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 12313000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/OXY/cash-flow/",
+    "https://finance.yahoo.com/quote/OXY/financials/",
+    "https://finance.yahoo.com/quote/OXY/balance-sheet/",
+    "https://finance.yahoo.com/quote/OXY/key-statistics/"
+   ]
+  },
+  "SPCX": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "SPCX",
+   "financial_period": "2025-12-31",
+   "period_ends": [
+    "2025-12-31"
+   ],
+   "basis": "FY",
+   "inputs": {
+    "revenue": 18674000000.0,
+    "operating_income": -2064000000.0,
+    "net_income": -4937000000.0,
+    "ebitda": 4427000000.0,
+    "operating_cash_flow": 6785000000.0,
+    "capex": 20906000000.0,
+    "fcf": -14121000000.0,
+    "dividends": null,
+    "debt": 23318000000.0,
+    "cash": 24747000000.0,
+    "shares": 8246541218.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": null,
+   "quote_price": 147.49,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 33.24295397788084,
+   "share_change_pct": 0.0,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -14121000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -5387000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 105000000.0
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/SPCX/cash-flow/",
+    "https://finance.yahoo.com/quote/SPCX/financials/",
+    "https://finance.yahoo.com/quote/SPCX/balance-sheet/",
+    "https://finance.yahoo.com/quote/SPCX/key-statistics/"
+   ]
+  },
+  "REP.MC": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "REP.MC",
+   "financial_period": "2025-12-31",
+   "period_ends": [
+    "2025-12-31"
+   ],
+   "basis": "FY",
+   "inputs": {
+    "revenue": 54861000000.0,
+    "operating_income": 2580000000.0,
+    "net_income": 1899000000.0,
+    "ebitda": 5728000000.0,
+    "operating_cash_flow": 5365000000.0,
+    "capex": 3746000000.0,
+    "fcf": 1619000000.0,
+    "dividends": -1197000000.0,
+    "debt": 13238000000.0,
+    "cash": 3261000000.0,
+    "shares": 1060041784.0
+   },
+   "financial_currency": "EUR",
+   "currency": "EUR",
+   "beta": -0.12,
+   "quote_price": 29.46,
+   "quote_observed_at": "2026-10-23T15:43:07+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -3.9581947410804896,
+   "share_change_pct": -4.502964161500945,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1619000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -141000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2222000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 4297000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/REP.MC/cash-flow/",
+    "https://finance.yahoo.com/quote/REP.MC/financials/",
+    "https://finance.yahoo.com/quote/REP.MC/balance-sheet/",
+    "https://finance.yahoo.com/quote/REP.MC/key-statistics/"
+   ]
+  },
+  "AWK": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "AWK",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 5284000000.0,
+    "operating_income": 1952000000.0,
+    "net_income": 1128000000.0,
+    "ebitda": 3024000000.0,
+    "operating_cash_flow": 2334000000.0,
+    "capex": 3557000000.0,
+    "fcf": -1223000000.0,
+    "dividends": -658000000.0,
+    "debt": 16058000000.0,
+    "cash": 191000000.0,
+    "shares": 198728989.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.569,
+   "quote_price": 142.75,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 9.735269000853975,
+   "share_change_pct": 0.13168292701508655,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -1242000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -963000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -860000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -1312000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/AWK/cash-flow/",
+    "https://finance.yahoo.com/quote/AWK/financials/",
+    "https://finance.yahoo.com/quote/AWK/balance-sheet/",
+    "https://finance.yahoo.com/quote/AWK/key-statistics/"
+   ]
+  },
+  "MRVL": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "MRVL",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 9450300000.0,
+    "operating_income": 1588300000.0,
+    "net_income": 2639900000.0,
+    "ebitda": 4759600000.0,
+    "operating_cash_flow": 2200300000.0,
+    "capex": 477500000.0,
+    "fcf": 1722800000.0,
+    "dividends": -209300000.0,
+    "debt": 5286100000.0,
+    "cash": 3932800000.0,
+    "shares": 876926613.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 2.26,
+   "quote_price": 228.51,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 42.08728521145078,
+   "share_change_pct": -2.163980715935332,
+   "annual_fcf_growth_pct": 0.16551525618884178,
+   "revenue_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "share_change_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-01-31",
+     "value": 1391900000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 1389600000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 1020300000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 1071500000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-01-31",
+    "2025-01-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/MRVL/cash-flow/",
+    "https://finance.yahoo.com/quote/MRVL/financials/",
+    "https://finance.yahoo.com/quote/MRVL/balance-sheet/",
+    "https://finance.yahoo.com/quote/MRVL/key-statistics/"
+   ]
+  },
+  "AR": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "AR",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 5616907000.0,
+    "operating_income": 1178696000.0,
+    "net_income": 1083735000.0,
+    "ebitda": 2389068000.0,
+    "operating_cash_flow": 1978740000.0,
+    "capex": 384007000.0,
+    "fcf": 1594733000.0,
+    "dividends": null,
+    "debt": 4615305000.0,
+    "cash": null,
+    "shares": 307439000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.544,
+   "quote_price": 40.16,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 21.72812019341077,
+   "share_change_pct": -0.8532113187537105,
+   "annual_fcf_growth_pct": 66.33768819477524,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1243148000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 747364000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 827204000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 2888020000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/AR/cash-flow/",
+    "https://finance.yahoo.com/quote/AR/financials/",
+    "https://finance.yahoo.com/quote/AR/balance-sheet/",
+    "https://finance.yahoo.com/quote/AR/key-statistics/"
+   ]
+  },
+  "DVN": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "DVN",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 19676000000.0,
+    "operating_income": 4678000000.0,
+    "net_income": 3280000000.0,
+    "ebitda": 8804000000.0,
+    "operating_cash_flow": 8553000000.0,
+    "capex": 7076000000.0,
+    "fcf": 1477000000.0,
+    "dividends": -821000000.0,
+    "debt": 11744000000.0,
+    "cash": 1009000000.0,
+    "shares": 1100000000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.536,
+   "quote_price": 51.39,
+   "quote_observed_at": "2026-10-23T20:00:03+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 7.8293601003764035,
+   "share_change_pct": -4.454685099846389,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2797000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -853000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2597000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 3405000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/DVN/cash-flow/",
+    "https://finance.yahoo.com/quote/DVN/financials/",
+    "https://finance.yahoo.com/quote/DVN/balance-sheet/",
+    "https://finance.yahoo.com/quote/DVN/key-statistics/"
+   ]
+  },
+  "CNX": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "CNX",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 2215385000.0,
+    "operating_income": 880884000.0,
+    "net_income": 949445000.0,
+    "ebitda": 1892180000.0,
+    "operating_cash_flow": 1087842000.0,
+    "capex": 561864000.0,
+    "fcf": 525978000.0,
+    "dividends": null,
+    "debt": 2380108000.0,
+    "cash": 6162000.0,
+    "shares": 147943637.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.687,
+   "quote_price": 36.54,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 48.86648123841797,
+   "share_change_pct": -4.224305620298385,
+   "annual_fcf_growth_pct": 93.85544224478757,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 533969000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 275447000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 135184000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 669260000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/CNX/cash-flow/",
+    "https://finance.yahoo.com/quote/CNX/financials/",
+    "https://finance.yahoo.com/quote/CNX/balance-sheet/",
+    "https://finance.yahoo.com/quote/CNX/key-statistics/"
+   ]
+  },
+  "MRNA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "MRNA",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 2210000000.0,
+    "operating_income": -3320000000.0,
+    "net_income": -3151000000.0,
+    "ebitda": -2804000000.0,
+    "operating_cash_flow": -1073000000.0,
+    "capex": 171000000.0,
+    "fcf": -1244000000.0,
+    "dividends": null,
+    "debt": 1287000000.0,
+    "cash": 1723000000.0,
+    "shares": 399235889.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.095,
+   "quote_price": 200.1,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -39.91872460143795,
+   "share_change_pct": 2.0725388601036343,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -2075000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -4055000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -3825000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 4581000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/MRNA/cash-flow/",
+    "https://finance.yahoo.com/quote/MRNA/financials/",
+    "https://finance.yahoo.com/quote/MRNA/balance-sheet/",
+    "https://finance.yahoo.com/quote/MRNA/key-statistics/"
+   ]
+  },
+  "BNTX": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "BNTX",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 2650000000.0,
+    "operating_income": -1236500000.0,
+    "net_income": -1686400000.0,
+    "ebitda": -765400000.0,
+    "operating_cash_flow": 679700000.0,
+    "capex": 235000000.0,
+    "fcf": 444700000.0,
+    "dividends": null,
+    "debt": 316100000.0,
+    "cash": 9741000000.0,
+    "shares": 251204366.0
+   },
+   "financial_currency": "EUR",
+   "currency": "USD",
+   "beta": 1.252,
+   "quote_price": 88.115,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 4.318272690923641,
+   "share_change_pct": 4.731632269732278,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -293000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -244600000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 4665900000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 13214100000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/BNTX/cash-flow/",
+    "https://finance.yahoo.com/quote/BNTX/financials/",
+    "https://finance.yahoo.com/quote/BNTX/balance-sheet/",
+    "https://finance.yahoo.com/quote/BNTX/key-statistics/"
+   ]
+  },
+  "INTC": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "INTC",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 57032000000.0,
+    "operating_income": 4308000000.0,
+    "net_income": -11289000000.0,
+    "ebitda": 3676000000.0,
+    "operating_cash_flow": 14936000000.0,
+    "capex": 12105000000.0,
+    "fcf": 2831000000.0,
+    "dividends": null,
+    "debt": 50537000000.0,
+    "cash": 12874000000.0,
+    "shares": 5286105262.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 2.23,
+   "quote_price": 86.96,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -0.46703451912393223,
+   "share_change_pct": 15.334872979214786,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -4949000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -15656000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -14279000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -9411000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/INTC/cash-flow/",
+    "https://finance.yahoo.com/quote/INTC/financials/",
+    "https://finance.yahoo.com/quote/INTC/balance-sheet/",
+    "https://finance.yahoo.com/quote/INTC/key-statistics/"
+   ]
+  },
+  "CRWV": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "CRWV",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 7589580000.0,
+    "operating_income": -230739000.0,
+    "net_income": -1927850000.0,
+    "ebitda": 3941538000.0,
+    "operating_cash_flow": 6911000000.0,
+    "capex": 20566000000.0,
+    "fcf": -13655000000.0,
+    "dividends": 0.0,
+    "debt": 51608000000.0,
+    "cash": 5524000000.0,
+    "shares": 458871690.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": null,
+   "quote_price": 54.235,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 167.9373368146214,
+   "share_change_pct": 8.25534135989594,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -7251000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -5953000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -1110000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -71494000.0
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/CRWV/cash-flow/",
+    "https://finance.yahoo.com/quote/CRWV/financials/",
+    "https://finance.yahoo.com/quote/CRWV/balance-sheet/",
+    "https://finance.yahoo.com/quote/CRWV/key-statistics/"
+   ]
+  },
+  "NBIS": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "NBIS",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 1355100000.0,
+    "operating_income": -684100000.0,
+    "net_income": 42400000.0,
+    "ebitda": 1155900000.0,
+    "operating_cash_flow": 5258000000.0,
+    "capex": 11141800000.0,
+    "fcf": -5883800000.0,
+    "dividends": null,
+    "debt": 10171000000.0,
+    "cash": 8042100000.0,
+    "shares": 238400165.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.46,
+   "quote_price": 158.74,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 479.0163934426229,
+   "share_change_pct": 7.322633037204951,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -3681200000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -561900000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 746900000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 682400000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/NBIS/cash-flow/",
+    "https://finance.yahoo.com/quote/NBIS/financials/",
+    "https://finance.yahoo.com/quote/NBIS/balance-sheet/",
+    "https://finance.yahoo.com/quote/NBIS/key-statistics/"
+   ]
+  },
+  "OPEN": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "OPEN",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 3254000000.0,
+    "operating_income": -517000000.0,
+    "net_income": -1521000000.0,
+    "ebitda": -1367000000.0,
+    "operating_cash_flow": -459000000.0,
+    "capex": 15000000.0,
+    "fcf": -474000000.0,
+    "dividends": null,
+    "debt": 1964000000.0,
+    "cash": 896000000.0,
+    "shares": 971091050.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 3.748,
+   "quote_price": 1.98,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -15.17562584901999,
+   "share_change_pct": 32.95258630361124,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1037000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -620000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2307000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 693000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/OPEN/cash-flow/",
+    "https://finance.yahoo.com/quote/OPEN/financials/",
+    "https://finance.yahoo.com/quote/OPEN/balance-sheet/",
+    "https://finance.yahoo.com/quote/OPEN/key-statistics/"
+   ]
+  },
+  "BA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "BA",
+   "financial_period": "2026-03-31",
+   "period_ends": [
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30",
+    "2025-06-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 92184000000.0,
+    "operating_income": -5431000000.0,
+    "net_income": 2268000000.0,
+    "ebitda": 7324000000.0,
+    "operating_cash_flow": 2502000000.0,
+    "capex": 3552000000.0,
+    "fcf": -1050000000.0,
+    "dividends": -345000000.0,
+    "debt": 47209000000.0,
+    "cash": 9441000000.0,
+    "shares": 790370020.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.257,
+   "quote_price": 188.35,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 34.496444517942784,
+   "share_change_pct": 4.735875620990049,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -1886000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -14398000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 4433000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 2290000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/BA/cash-flow/",
+    "https://finance.yahoo.com/quote/BA/financials/",
+    "https://finance.yahoo.com/quote/BA/balance-sheet/",
+    "https://finance.yahoo.com/quote/BA/key-statistics/"
+   ]
+  },
+  "TEM": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "TEM",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 1432019000.0,
+    "operating_income": -283033000.0,
+    "net_income": -254425000.0,
+    "ebitda": -90904000.0,
+    "operating_cash_flow": -237432000.0,
+    "capex": 35541000.0,
+    "fcf": -272973000.0,
+    "dividends": null,
+    "debt": 1444168000.0,
+    "cash": 599614000.0,
+    "shares": 177198230.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 3.54,
+   "quote_price": 67.615,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 83.41399888664229,
+   "share_change_pct": 10.065684399586994,
+   "annual_fcf_growth_pct": null,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -245355000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -211166000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -248947000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -186581000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/TEM/cash-flow/",
+    "https://finance.yahoo.com/quote/TEM/financials/",
+    "https://finance.yahoo.com/quote/TEM/balance-sheet/",
+    "https://finance.yahoo.com/quote/TEM/key-statistics/"
+   ]
+  },
+  "ISRG": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ISRG",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 11034400000.0,
+    "operating_income": 3451200000.0,
+    "net_income": 3138800000.0,
+    "ebitda": 4245400000.0,
+    "operating_cash_flow": 3706400000.0,
+    "capex": 483800000.0,
+    "fcf": 3222600000.0,
+    "dividends": null,
+    "debt": null,
+    "cash": 2760400000.0,
+    "shares": 353278038.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.463,
+   "quote_price": 452.29,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 20.505022688904596,
+   "share_change_pct": -0.4206393718451995,
+   "annual_fcf_growth_pct": 91.03390090504679,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2490700000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1303800000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 749600000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 958400000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ISRG/cash-flow/",
+    "https://finance.yahoo.com/quote/ISRG/financials/",
+    "https://finance.yahoo.com/quote/ISRG/balance-sheet/",
+    "https://finance.yahoo.com/quote/ISRG/key-statistics/"
+   ]
+  },
+  "VST": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "VST",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 19212000000.0,
+    "operating_income": 3723000000.0,
+    "net_income": 2219000000.0,
+    "ebitda": 6548000000.0,
+    "operating_cash_flow": 5121000000.0,
+    "capex": 2866000000.0,
+    "fcf": 2255000000.0,
+    "dividends": -500000000.0,
+    "debt": 19895000000.0,
+    "cash": 435000000.0,
+    "shares": 335635195.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.384,
+   "quote_price": 140.16,
+   "quote_observed_at": "2026-10-23T20:00:03+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 2.984208081746398,
+   "share_change_pct": -0.4987933824780022,
+   "annual_fcf_growth_pct": -46.96177062374245,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1318000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2485000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 3777000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -816000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/VST/cash-flow/",
+    "https://finance.yahoo.com/quote/VST/financials/",
+    "https://finance.yahoo.com/quote/VST/balance-sheet/",
+    "https://finance.yahoo.com/quote/VST/key-statistics/"
+   ]
+  },
+  "SE": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "SE",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 27723160000.0,
+    "operating_income": 2284499000.0,
+    "net_income": 1640812000.0,
+    "ebitda": 2483320000.0,
+    "operating_cash_flow": 5215741000.0,
+    "capex": null,
+    "fcf": 4691242000.0,
+    "dividends": null,
+    "debt": 4126483000.0,
+    "cash": 3529303000.0,
+    "shares": 566956729.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.547,
+   "quote_price": 74.63,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 36.37723986623913,
+   "share_change_pct": 3.721221393678409,
+   "annual_fcf_growth_pct": 52.24246885896908,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "YAHOO_REPORTED_FCF",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 4500024000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2955827000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1821427000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -2031975000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/SE/cash-flow/",
+    "https://finance.yahoo.com/quote/SE/financials/",
+    "https://finance.yahoo.com/quote/SE/balance-sheet/",
+    "https://finance.yahoo.com/quote/SE/key-statistics/"
+   ]
+  },
+  "UNH": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "UNH",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 450129000000.0,
+    "operating_income": 21676000000.0,
+    "net_income": 14122000000.0,
+    "ebitda": 25619000000.0,
+    "operating_cash_flow": 27017000000.0,
+    "capex": 3400000000.0,
+    "fcf": 23617000000.0,
+    "dividends": -8096000000.0,
+    "debt": 73328000000.0,
+    "cash": 28585000000.0,
+    "shares": 897594847.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.615,
+   "quote_price": 418.09,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 11.814039242726304,
+   "share_change_pct": -1.001243715847,
+   "annual_fcf_growth_pct": -22.361748369958946,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 16075000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 20705000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 25682000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 23404000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/UNH/cash-flow/",
+    "https://finance.yahoo.com/quote/UNH/financials/",
+    "https://finance.yahoo.com/quote/UNH/balance-sheet/",
+    "https://finance.yahoo.com/quote/UNH/key-statistics/"
+   ]
+  },
+  "CMCSA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "CMCSA",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 124905000000.0,
+    "operating_income": 18314000000.0,
+    "net_income": 11200000000.0,
+    "ebitda": 34134000000.0,
+    "operating_cash_flow": 32517000000.0,
+    "capex": 14700000000.0,
+    "fcf": 17817000000.0,
+    "dividends": -4864000000.0,
+    "debt": 90381000000.0,
+    "cash": 7661000000.0,
+    "shares": 3541561960.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.669,
+   "quote_price": 22.69,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -0.019396917506531164,
+   "share_change_pct": -4.845460757025255,
+   "annual_fcf_growth_pct": 53.35246751175955,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 19235000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 12543000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 12961000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 12646000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/CMCSA/cash-flow/",
+    "https://finance.yahoo.com/quote/CMCSA/financials/",
+    "https://finance.yahoo.com/quote/CMCSA/balance-sheet/",
+    "https://finance.yahoo.com/quote/CMCSA/key-statistics/"
+   ]
+  },
+  "NVO": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "NVO",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 329431000000.0,
+    "operating_income": 142097000000.0,
+    "net_income": 116443000000.0,
+    "ebitda": 160757000000.0,
+    "operating_cash_flow": 133009000000.0,
+    "capex": 84092000000.0,
+    "fcf": 48917000000.0,
+    "dividends": -51975000000.0,
+    "debt": 140127000000.0,
+    "cash": 44482000000.0,
+    "shares": 3337013124.0
+   },
+   "financial_currency": "DKK",
+   "currency": "USD",
+   "beta": 0.384,
+   "quote_price": 39.05,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 6.425897804086045,
+   "share_change_pct": 0.048158275984699905,
+   "annual_fcf_growth_pct": -58.38441550984079,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 28989000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 69659000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 70012000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 64134000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/NVO/cash-flow/",
+    "https://finance.yahoo.com/quote/NVO/financials/",
+    "https://finance.yahoo.com/quote/NVO/balance-sheet/",
+    "https://finance.yahoo.com/quote/NVO/key-statistics/"
+   ]
+  },
+  "META": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "META",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 228247000000.0,
+    "operating_income": 86927000000.0,
+    "net_income": 68098000000.0,
+    "ebitda": 112282000000.0,
+    "operating_cash_flow": 130301000000.0,
+    "capex": 89325000000.0,
+    "fcf": 40976000000.0,
+    "dividends": -5367000000.0,
+    "debt": 112318000000.0,
+    "cash": 15462000000.0,
+    "shares": 2205128509.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.185,
+   "quote_price": 642.62,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 22.167038498246217,
+   "share_change_pct": -0.19133389649935717,
+   "annual_fcf_growth_pct": -14.72666074863146,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 46109000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 54072000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 44068000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 19289000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/META/cash-flow/",
+    "https://finance.yahoo.com/quote/META/financials/",
+    "https://finance.yahoo.com/quote/META/balance-sheet/",
+    "https://finance.yahoo.com/quote/META/key-statistics/"
+   ]
+  },
+  "DIS": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "DIS",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 98861000000.0,
+    "operating_income": 15027000000.0,
+    "net_income": 8600000000.0,
+    "ebitda": 20074000000.0,
+    "operating_cash_flow": 16989000000.0,
+    "capex": 8696000000.0,
+    "fcf": 8293000000.0,
+    "dividends": null,
+    "debt": 46041000000.0,
+    "cash": 5185000000.0,
+    "shares": 1726686902.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.417,
+   "quote_price": 112.52,
+   "quote_observed_at": "2026-10-23T20:02:37+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 3.353728615054563,
+   "share_change_pct": -0.9724373947583298,
+   "annual_fcf_growth_pct": 17.735716789344558,
+   "revenue_growth_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "share_change_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-09-30",
+     "value": 10077000000.0
+    },
+    {
+     "period": "2024-09-30",
+     "value": 8559000000.0
+    },
+    {
+     "period": "2023-09-30",
+     "value": 4897000000.0
+    },
+    {
+     "period": "2022-09-30",
+     "value": 1067000000.0
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-09-30",
+    "2024-09-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/DIS/cash-flow/",
+    "https://finance.yahoo.com/quote/DIS/financials/",
+    "https://finance.yahoo.com/quote/DIS/balance-sheet/",
+    "https://finance.yahoo.com/quote/DIS/key-statistics/"
+   ]
+  },
+  "PEP": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "PEP",
+   "financial_period": "2026-09-30",
+   "period_ends": [
+    "2026-09-30",
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 98241000000.0,
+    "operating_income": 15053000000.0,
+    "net_income": 10896000000.0,
+    "ebitda": 19268000000.0,
+    "operating_cash_flow": 14569000000.0,
+    "capex": 4098000000.0,
+    "fcf": 10471000000.0,
+    "dividends": -7881000000.0,
+    "debt": 51881000000.0,
+    "cash": 10675000000.0,
+    "shares": 1362741092.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.364,
+   "quote_price": 135.77,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 2.2546650118666633,
+   "share_change_pct": -0.3388440370359347,
+   "annual_fcf_growth_pct": 6.718597857838371,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 7672000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 7189000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 7924000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 5604000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/PEP/cash-flow/",
+    "https://finance.yahoo.com/quote/PEP/financials/",
+    "https://finance.yahoo.com/quote/PEP/balance-sheet/",
+    "https://finance.yahoo.com/quote/PEP/key-statistics/"
+   ]
+  },
+  "BSX": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "BSX",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 20996000000.0,
+    "operating_income": 4409000000.0,
+    "net_income": 3675000000.0,
+    "ebitda": 5637000000.0,
+    "operating_cash_flow": 4529000000.0,
+    "capex": 2723000000.0,
+    "fcf": 1806000000.0,
+    "dividends": null,
+    "debt": 12624000000.0,
+    "cash": 539000000.0,
+    "shares": 1449229526.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.575,
+   "quote_price": 45.69,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 19.86624470054339,
+   "share_change_pct": 0.5726447152360814,
+   "annual_fcf_growth_pct": 43.932346723044404,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 3404000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2365000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1703000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 914000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/BSX/cash-flow/",
+    "https://finance.yahoo.com/quote/BSX/financials/",
+    "https://finance.yahoo.com/quote/BSX/balance-sheet/",
+    "https://finance.yahoo.com/quote/BSX/key-statistics/"
+   ]
+  },
+  "WIX": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "WIX",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 2133692000.0,
+    "operating_income": -181369000.0,
+    "net_income": -174648000.0,
+    "ebitda": -145681000.0,
+    "operating_cash_flow": 421122000.0,
+    "capex": 10656000.0,
+    "fcf": 410466000.0,
+    "dividends": null,
+    "debt": 2038659000.0,
+    "cash": 262776000.0,
+    "shares": 41849511.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.01,
+   "quote_price": 81.94,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 13.19932979297418,
+   "share_change_pct": -1.9933170946311085,
+   "annual_fcf_growth_pct": 19.84567404131954,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 572957000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 478079000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 182197000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -33512000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/WIX/cash-flow/",
+    "https://finance.yahoo.com/quote/WIX/financials/",
+    "https://finance.yahoo.com/quote/WIX/balance-sheet/",
+    "https://finance.yahoo.com/quote/WIX/key-statistics/"
+   ]
+  },
+  "GRAB": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "GRAB",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 3732000000.0,
+    "operating_income": 332000000.0,
+    "net_income": 598000000.0,
+    "ebitda": 835000000.0,
+    "operating_cash_flow": -61000000.0,
+    "capex": 125000000.0,
+    "fcf": -186000000.0,
+    "dividends": 0.0,
+    "debt": 2033000000.0,
+    "cash": 2859000000.0,
+    "shares": 3973517000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.908,
+   "quote_price": 2.79,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 20.486235252055774,
+   "share_change_pct": 0.46662990336019394,
+   "annual_fcf_growth_pct": -105.95399188092016,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -44000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 739000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -6000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -872000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/GRAB/cash-flow/",
+    "https://finance.yahoo.com/quote/GRAB/financials/",
+    "https://finance.yahoo.com/quote/GRAB/balance-sheet/",
+    "https://finance.yahoo.com/quote/GRAB/key-statistics/"
+   ]
+  },
+  "NOW": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "NOW",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 14732000000.0,
+    "operating_income": 1680000000.0,
+    "net_income": 1670000000.0,
+    "ebitda": 3500000000.0,
+    "operating_cash_flow": 5308000000.0,
+    "capex": 737000000.0,
+    "fcf": 4571000000.0,
+    "dividends": null,
+    "debt": 8453000000.0,
+    "cash": 2503000000.0,
+    "shares": 1033862000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.99,
+   "quote_price": 158.96,
+   "quote_observed_at": "2026-10-23T20:00:03+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 20.88492352512745,
+   "share_change_pct": 1.4376691995137802,
+   "annual_fcf_growth_pct": 34.31111111111112,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 4533000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 3375000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2701000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 2173000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/NOW/cash-flow/",
+    "https://finance.yahoo.com/quote/NOW/financials/",
+    "https://finance.yahoo.com/quote/NOW/balance-sheet/",
+    "https://finance.yahoo.com/quote/NOW/key-statistics/"
+   ]
+  },
+  "MCD": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "MCD",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 27702000000.0,
+    "operating_income": 12662000000.0,
+    "net_income": 8787000000.0,
+    "ebitda": 15075000000.0,
+    "operating_cash_flow": 11344000000.0,
+    "capex": 3583000000.0,
+    "fcf": 7761000000.0,
+    "dividends": -5225000000.0,
+    "debt": 54592000000.0,
+    "cash": 822000000.0,
+    "shares": 707641531.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.447,
+   "quote_price": 248.46,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 3.7229938271605034,
+   "share_change_pct": -0.6431767337807592,
+   "annual_fcf_growth_pct": 7.703836930455643,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 7186000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 6672000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 7255000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 5488000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/MCD/cash-flow/",
+    "https://finance.yahoo.com/quote/MCD/financials/",
+    "https://finance.yahoo.com/quote/MCD/balance-sheet/",
+    "https://finance.yahoo.com/quote/MCD/key-statistics/"
+   ]
+  },
+  "TTD": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "TTD",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 2990138000.0,
+    "operating_income": 586316000.0,
+    "net_income": 406888000.0,
+    "ebitda": 725666000.0,
+    "operating_cash_flow": 1081674000.0,
+    "capex": 233037000.0,
+    "fcf": 848637000.0,
+    "dividends": null,
+    "debt": 434110000.0,
+    "cash": 1122979000.0,
+    "shares": 429686475.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.992,
+   "quote_price": 13.0,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 18.465611733489972,
+   "share_change_pct": -4.06731693747846,
+   "annual_fcf_growth_pct": 23.808575033918732,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 782958000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 632394000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 543302000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 456849000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/TTD/cash-flow/",
+    "https://finance.yahoo.com/quote/TTD/financials/",
+    "https://finance.yahoo.com/quote/TTD/balance-sheet/",
+    "https://finance.yahoo.com/quote/TTD/key-statistics/"
+   ]
+  },
+  "NKE": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "NKE",
+   "financial_period": "2026-08-31",
+   "period_ends": [
+    "2026-08-31",
+    "2026-05-31",
+    "2026-02-28",
+    "2025-11-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 45891000000.0,
+    "operating_income": 3758000000.0,
+    "net_income": 3093000000.0,
+    "ebitda": 4559000000.0,
+    "operating_cash_flow": 2781000000.0,
+    "capex": 676000000.0,
+    "fcf": 2105000000.0,
+    "dividends": -2426000000.0,
+    "debt": 11072000000.0,
+    "cash": 6903000000.0,
+    "shares": 1203921077.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.099,
+   "quote_price": 37.3,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 0.19218726381480256,
+   "share_change_pct": 0.5080422086720882,
+   "annual_fcf_growth_pct": -33.17013463892289,
+   "revenue_growth_periods": [
+    "2026-05-31",
+    "2025-05-31"
+   ],
+   "share_change_periods": [
+    "2026-05-31",
+    "2025-05-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-05-31",
+     "value": 2184000000.0
+    },
+    {
+     "period": "2025-05-31",
+     "value": 3268000000.0
+    },
+    {
+     "period": "2024-05-31",
+     "value": 6617000000.0
+    },
+    {
+     "period": "2023-05-31",
+     "value": 4872000000.0
+    },
+    {
+     "period": "2022-05-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-05-31",
+    "2025-05-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/NKE/cash-flow/",
+    "https://finance.yahoo.com/quote/NKE/financials/",
+    "https://finance.yahoo.com/quote/NKE/balance-sheet/",
+    "https://finance.yahoo.com/quote/NKE/key-statistics/"
+   ]
+  },
+  "ZTS": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "ZTS",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 9517000000.0,
+    "operating_income": 3583000000.0,
+    "net_income": 2616000000.0,
+    "ebitda": 3992000000.0,
+    "operating_cash_flow": 2840000000.0,
+    "capex": 524000000.0,
+    "fcf": 2316000000.0,
+    "dividends": -889000000.0,
+    "debt": 9238000000.0,
+    "cash": 1473000000.0,
+    "shares": 413223602.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.74,
+   "quote_price": 81.03,
+   "quote_observed_at": "2026-10-23T20:00:03+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 2.2796024200518517,
+   "share_change_pct": -5.250156456996469,
+   "annual_fcf_growth_pct": -0.652741514360311,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2283000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2298000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1621000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1326000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/ZTS/cash-flow/",
+    "https://finance.yahoo.com/quote/ZTS/financials/",
+    "https://finance.yahoo.com/quote/ZTS/balance-sheet/",
+    "https://finance.yahoo.com/quote/ZTS/key-statistics/"
+   ]
+  },
+  "IBST.L": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "IBST.L",
+   "financial_period": "2025-12-31",
+   "period_ends": [
+    "2025-12-31"
+   ],
+   "basis": "FY",
+   "inputs": {
+    "revenue": 372104000.0,
+    "operating_income": 15794000.0,
+    "net_income": 3074000.0,
+    "ebitda": 52239000.0,
+    "operating_cash_flow": 39570000.0,
+    "capex": 46688000.0,
+    "fcf": -7118000.0,
+    "dividends": -15785000.0,
+    "debt": 170524000.0,
+    "cash": 20971000.0,
+    "shares": 395016066.0
+   },
+   "financial_currency": "GBP",
+   "currency": "GBp",
+   "beta": 0.814,
+   "quote_price": 81.25,
+   "quote_observed_at": "2026-10-23T15:36:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 1.6102914471869845,
+   "share_change_pct": 0.1863266156789667,
+   "annual_fcf_growth_pct": -184.53681710213777,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -7118000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 8420000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -9825000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 57977000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/IBST.L/cash-flow/",
+    "https://finance.yahoo.com/quote/IBST.L/financials/",
+    "https://finance.yahoo.com/quote/IBST.L/balance-sheet/",
+    "https://finance.yahoo.com/quote/IBST.L/key-statistics/"
+   ]
+  },
+  "NFLX": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "NFLX",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 48370764000.0,
+    "operating_income": 14354517000.0,
+    "net_income": 13649642000.0,
+    "ebitda": 35008877000.0,
+    "operating_cash_flow": 11970833000.0,
+    "capex": 818828000.0,
+    "fcf": 11152005000.0,
+    "dividends": null,
+    "debt": 14309306000.0,
+    "cash": 9099232000.0,
+    "shares": 4163939676.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.613,
+   "quote_price": 65.85,
+   "quote_observed_at": "2026-10-23T20:00:00+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 15.851068919677536,
+   "share_change_pct": -1.2953344316201876,
+   "annual_fcf_growth_pct": 36.68435178809752,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 9461053000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 6921826000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 6925749000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1618528000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/NFLX/cash-flow/",
+    "https://finance.yahoo.com/quote/NFLX/financials/",
+    "https://finance.yahoo.com/quote/NFLX/balance-sheet/",
+    "https://finance.yahoo.com/quote/NFLX/key-statistics/"
+   ]
+  },
+  "AMD": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "AMD",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 41305000000.0,
+    "operating_income": 6488000000.0,
+    "net_income": 6434000000.0,
+    "ebitda": 10718000000.0,
+    "operating_cash_flow": 10080000000.0,
+    "capex": 1677000000.0,
+    "fcf": 8403000000.0,
+    "dividends": null,
+    "debt": 4276000000.0,
+    "cash": 5086000000.0,
+    "shares": 1632475042.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 2.454,
+   "quote_price": 516.79,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 34.33779329067288,
+   "share_change_pct": 0.4932182490752224,
+   "annual_fcf_growth_pct": 180.04158004158003,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 6735000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2405000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1121000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 3115000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/AMD/cash-flow/",
+    "https://finance.yahoo.com/quote/AMD/financials/",
+    "https://finance.yahoo.com/quote/AMD/balance-sheet/",
+    "https://finance.yahoo.com/quote/AMD/key-statistics/"
+   ]
+  },
+  "GOOGL": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "GOOGL",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 445867000000.0,
+    "operating_income": 147628000000.0,
+    "net_income": 244205000000.0,
+    "ebitda": 326758000000.0,
+    "operating_cash_flow": 185675000000.0,
+    "capex": 132402000000.0,
+    "fcf": 53273000000.0,
+    "dividends": -10303000000.0,
+    "debt": 112756000000.0,
+    "cash": 55911000000.0,
+    "shares": 5867155790.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.211,
+   "quote_price": 320.21,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 15.090081081544371,
+   "share_change_pct": -1.0072885103595164,
+   "annual_fcf_growth_pct": 0.6899015996921554,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 73266000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 72764000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 69495000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 60010000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/GOOGL/cash-flow/",
+    "https://finance.yahoo.com/quote/GOOGL/financials/",
+    "https://finance.yahoo.com/quote/GOOGL/balance-sheet/",
+    "https://finance.yahoo.com/quote/GOOGL/key-statistics/"
+   ]
+  },
+  "INTU": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "INTU",
+   "financial_period": "2026-07-31",
+   "period_ends": [
+    "2026-07-31",
+    "2026-04-30",
+    "2026-01-31",
+    "2025-10-31"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 21448000000.0,
+    "operating_income": 6177000000.0,
+    "net_income": 4566000000.0,
+    "ebitda": 7119000000.0,
+    "operating_cash_flow": 8838000000.0,
+    "capex": 221000000.0,
+    "fcf": 8617000000.0,
+    "dividends": -1347000000.0,
+    "debt": 8421000000.0,
+    "cash": 4705000000.0,
+    "shares": 267236000.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.009,
+   "quote_price": 343.39,
+   "quote_observed_at": "2026-10-23T20:00:01+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 13.897297010249066,
+   "share_change_pct": -3.8494746156794934,
+   "annual_fcf_growth_pct": 41.65707710011508,
+   "revenue_growth_periods": [
+    "2026-07-31",
+    "2025-07-31"
+   ],
+   "share_change_periods": [
+    "2026-07-31",
+    "2025-07-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-07-31",
+     "value": 8617000000.0
+    },
+    {
+     "period": "2025-07-31",
+     "value": 6083000000.0
+    },
+    {
+     "period": "2024-07-31",
+     "value": 4634000000.0
+    },
+    {
+     "period": "2023-07-31",
+     "value": 4786000000.0
+    },
+    {
+     "period": "2022-07-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-07-31",
+    "2025-07-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/INTU/cash-flow/",
+    "https://finance.yahoo.com/quote/INTU/financials/",
+    "https://finance.yahoo.com/quote/INTU/balance-sheet/",
+    "https://finance.yahoo.com/quote/INTU/key-statistics/"
+   ]
+  },
+  "CLX": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "CLX",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 6720000000.0,
+    "operating_income": 886000000.0,
+    "net_income": 587000000.0,
+    "ebitda": 1168000000.0,
+    "operating_cash_flow": 612000000.0,
+    "capex": 207000000.0,
+    "fcf": 405000000.0,
+    "dividends": -602000000.0,
+    "debt": 5520000000.0,
+    "cash": 143000000.0,
+    "shares": 120938184.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.574,
+   "quote_price": 86.4,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -5.405405405405405,
+   "share_change_pct": -1.440824498860227,
+   "annual_fcf_growth_pct": -46.78055190538765,
+   "revenue_growth_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "share_change_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-06-30",
+     "value": 405000000.0
+    },
+    {
+     "period": "2025-06-30",
+     "value": 761000000.0
+    },
+    {
+     "period": "2024-06-30",
+     "value": 483000000.0
+    },
+    {
+     "period": "2023-06-30",
+     "value": 930000000.0
+    },
+    {
+     "period": "2022-06-30",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-06-30",
+    "2025-06-30"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/CLX/cash-flow/",
+    "https://finance.yahoo.com/quote/CLX/financials/",
+    "https://finance.yahoo.com/quote/CLX/balance-sheet/",
+    "https://finance.yahoo.com/quote/CLX/key-statistics/"
+   ]
+  },
+  "GIS": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "GIS",
+   "financial_period": "2026-08-31",
+   "period_ends": [
+    "2026-08-31",
+    "2026-05-31",
+    "2026-02-28",
+    "2025-11-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 18296600000.0,
+    "operating_income": 2774500000.0,
+    "net_income": -894800000.0,
+    "ebitda": 445500000.0,
+    "operating_cash_flow": 2067000000.0,
+    "capex": 520900000.0,
+    "fcf": 1546100000.0,
+    "dividends": -1314900000.0,
+    "debt": 13615600000.0,
+    "cash": 433100000.0,
+    "shares": 534687144.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.02,
+   "quote_price": 34.39,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": -5.449898904888483,
+   "share_change_pct": -1.6098627281518452,
+   "annual_fcf_growth_pct": -29.07235378777967,
+   "revenue_growth_periods": [
+    "2026-05-31",
+    "2025-05-31"
+   ],
+   "share_change_periods": [
+    "2026-05-31",
+    "2025-05-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2026-05-31",
+     "value": 1626300000.0
+    },
+    {
+     "period": "2025-05-31",
+     "value": 2292900000.0
+    },
+    {
+     "period": "2024-05-31",
+     "value": 2528500000.0
+    },
+    {
+     "period": "2023-05-31",
+     "value": 2089100000.0
+    },
+    {
+     "period": "2022-05-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2026-05-31",
+    "2025-05-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/GIS/cash-flow/",
+    "https://finance.yahoo.com/quote/GIS/financials/",
+    "https://finance.yahoo.com/quote/GIS/balance-sheet/",
+    "https://finance.yahoo.com/quote/GIS/key-statistics/"
+   ]
+  },
+  "O": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-10-25T12:16:58.626021+00:00",
+   "symbol": "O",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 5970124000.0,
+    "operating_income": 2732025000.0,
+    "net_income": 1267577000.0,
+    "ebitda": 5103703000.0,
+    "operating_cash_flow": 4166154000.0,
+    "capex": null,
+    "fcf": 4166154000.0,
+    "dividends": -2996432000.0,
+    "debt": 31180190000.0,
+    "cash": 552648000.0,
+    "shares": 946218033.0
+   },
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.696,
+   "quote_price": 56.89,
+   "quote_observed_at": "2026-10-23T20:00:02+00:00",
+   "quote_type": "EQUITY",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 9.072701892682833,
+   "share_change_pct": 4.763149304944081,
+   "annual_fcf_growth_pct": 11.79528253624964,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "YAHOO_REPORTED_FCF",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 3994754000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 3573276000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2958769000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 2563856000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/O/cash-flow/",
+    "https://finance.yahoo.com/quote/O/financials/",
+    "https://finance.yahoo.com/quote/O/balance-sheet/",
+    "https://finance.yahoo.com/quote/O/key-statistics/"
+   ]
+  }
+ }
+}
