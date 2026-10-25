@@ -22,7 +22,8 @@ from pathlib import Path
 from urllib.parse import quote, urlsplit
 
 from evidence import current_build, digest, number
-from integrity import atomic_json, atomic_text
+from integrity import atomic_json, atomic_text, atomic_bytes
+from company_reports import pdf_urls, pdf_pages
 import market_universe
 from review_packets import build_packet
 
@@ -350,6 +351,7 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
             notes_as_of=notes.get('as_of') if note else None,
             model_note=raw.get('boot_note') or '', score_components=explanation.get('components', [])))
         rows[-1]['dynamic_analysis'] = copy.deepcopy(raw.get('dynamic_analysis'))
+        rows[-1]['pdf_urls'] = pdf_urls(ticker)
     rows.sort(key=lambda row: (-(row['model_score'] if row['model_score'] is not None else -1), row['ticker']))
     scan = dict(schema=VERSION, generated_at=as_of.isoformat(),
         captured_at=captured.isoformat(), run_id=run_id,
@@ -361,6 +363,8 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
             note='96 Kalenderstunden, auch am Wochenende; kein Börsenkalender. Abrufzeit ersetzt keinen Kurszeitpunkt.'),
         bands=[dict(upper_exclusive=ceiling, label=label) for ceiling, label in BANDS], rows=rows,
         market=market_section(market, record, as_of, repository))
+    for candidate in scan['market']['candidates']:
+        candidate['pdf_urls'] = pdf_urls(candidate['ticker'], scope='market')
     macro = evidence.get('macro') or {}
     origin = dict(as_of=as_of.isoformat(), captured_at=evidence.get('captured_at'),
                   run_id=run_id, model_source_sha256=evidence.get('model_source_sha256'),
@@ -440,7 +444,7 @@ def site_pages(root, build, as_of=None):
     scan = build_scan(build['record'], as_of=as_of, notes=notes,
                       run_id=build['manifest']['run_id'], market=load_market(root))
     return [(Path('scanner.html'), render_scan(scan)),
-            (Path('scanner.json'), json.dumps(scan, ensure_ascii=False, indent=2, allow_nan=False) + '\n')]
+            (Path('scanner.json'), json.dumps(scan, ensure_ascii=False, indent=2, allow_nan=False) + '\n')] + pdf_pages(scan)
 
 
 def main():
@@ -470,7 +474,7 @@ def main():
     pages = site_pages(root, build)
     output.mkdir(parents=True, exist_ok=True)
     for path, payload in pages:
-        atomic_text(output / path, payload)
+        (atomic_bytes if isinstance(payload, bytes) else atomic_text)(output / path, payload)
     market = load_market(root)
     count = len(market.get('candidates', [])) if isinstance(market, dict) else 0
     print(f'Scanner: {len(build["record"]["_evidence"]["inputs"])} Aktien im Universum, '

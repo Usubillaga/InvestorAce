@@ -347,11 +347,17 @@
     const storedPacket = data.review_packets?.[scope]?.[ticker];
     const packetText = typeof storedPacket === 'string' ? storedPacket : null;
     const packetLabel = `Prüfpaket ${ticker} · ${scope === 'market' ? 'Marktscan' : 'Universum'} ↓`;
+    const report=(scope==='market'?candidates:data.rows).find(row=>row.ticker===ticker);
+    const pdfLinks=[['de','Deutsch'],['es','Español'],['en','English']].map(([language,label])=>{
+      const url=report?.pdf_urls?.[language];
+      return typeof url==='string' && /^analysis-pdfs\/(?:market\/)?[^?#]+\.(?:en|de|es)\.pdf$/.test(url)
+        ? `<a href="${esc(url)}" download lang="${language}" aria-label="PDF ${esc(ticker)} · ${label}">PDF ${label} ↓</a>` : '';
+    }).filter(Boolean).join(' · ');
     $('detail').innerHTML = html;
     $('detail').dataset.scope = scope;
     $('detail').dataset.ticker = ticker;
     if (packetText) $('detail').querySelector('.detail-head').insertAdjacentHTML('afterend',
-      `<section aria-label="Gemeinsame Gegenprüfung"><button type="button" id="download-review-packet" class="cta">${esc(packetLabel)}</button><p class="small">Daten, Bewertungsannahmen, Quellen und offene Einwände mit drei getrennten Prüfaufträgen als JSON. Das Paket kannst du hier im Chat zur Gegenprüfung hochladen. Der ursprüngliche Datenstand bleibt erhalten; die Gegenprüfung steht noch aus.</p></section>`);
+      `<section aria-label="Gemeinsame Gegenprüfung"><button type="button" id="download-review-packet" class="cta">${esc(packetLabel)}</button>${pdfLinks?'<p class="pdf-downloads">'+pdfLinks+'</p>':''}<p class="small">Daten, Bewertungsannahmen, Quellen und offene Einwände mit drei getrennten Prüfaufträgen als JSON. Das Paket kannst du hier im Chat zur Gegenprüfung hochladen. Der ursprüngliche Datenstand bleibt erhalten; die Gegenprüfung steht noch aus.</p></section>`);
     $('detail').hidden = false; if(!refresh) $('detail').focus();
     const downloadPacket = () => download(packetText,
       `InvestorAce_Pruefpaket_${scope}_${ticker.replace(/[^a-zA-Z0-9._-]/g,'_')}.json`, 'application/json');
