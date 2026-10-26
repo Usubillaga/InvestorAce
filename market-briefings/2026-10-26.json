@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-26",
+  "period_start": "2026-10-19",
+  "period_end": "2026-10-23",
+  "summary": "[Wahrscheinlich] InvestorAce Monday briefing. Data cut-off: 26 October 2026, 08:36 CET. Trading week 19–23 October; weekly baseline 16 October. Last archived Monday: 12 October; 19 October is missing. Growth and inflation evidence remains mixed; no regime switch is confirmed.",
+  "items": [
+    {
+      "title": "US flash PMI signals sustained strong growth, but also further inflation uplift in October",
+      "authors": "Chris Williamson · S&P Global Market Intelligence; additional reporting: Reuters",
+      "publication_date": "23 October 2026; additional news: 26 October",
+      "source_url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/us-flash-pmi-signals-sustained-strong-growth-but-also-further-inflation-uplift-in-october",
+      "topics": [
+        "macro_regimes",
+        "stock_selection"
+      ],
+      "what_changed": "[Sicher] October versus September: US composite PMI 57.6 versus 58.4; eurozone 51.9 versus 53.1. US selling-price inflation is the strongest in over four years; European price pressure remains elevated.",
+      "investorace_implication": "[Wahrscheinlich] Expansion persists at different speeds. Slowing momentum with pricing pressure challenges a uniform disinflation scenario.",
+      "review": "framework",
+      "review_question": "High, regime assumptions/stock selection: Confirm regional real activity, core inflation and company cost pass-through separately.",
+      "limitations": "[Sicher] Preliminary monthly surveys, not GDP/CPI. Reuters reports an oil pullback on 26 October; full article unavailable, no verified quote. Additional sources: https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/eurozone-flash-pmi-growth-spurt-wanes-amid-renewed-french-downturn-and-elevated-inflation and https://www.reuters.com/world/asia-pacific/global-markets-pix-2026-10-26/",
+      "confidence": "Sicher"
+    },
+    {
+      "title": "Daily Treasury Rates",
+      "authors": "U.S. Department of the Treasury; ICE Data Indices via FRED; Associated Press; JJ Kinahan · Cboe",
+      "publication_date": "Observations: 16–23 October 2026; credit ends 22 October",
+      "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_yield_curve",
+      "topics": [
+        "portfolio_construction",
+        "valuation_reverse_dcf"
+      ],
+      "what_changed": "[Sicher] 16→23 October: ten-year nominal yield 5.09%→5.00%, real yield 2.74%→2.66%; S&P 500 −0.5%, Russell 2000 +2.0%. HY spread: 3.31% on 16 October→3.40% on 22 October.",
+      "investorace_implication": "[Wahrscheinlich] Lower safe yields coexist with tighter credit and uneven equity returns; this is no uniform financing relief.",
+      "review": "framework",
+      "review_question": "High, portfolio construction: Stress refinancing, duration and common AI exposures before reallocating.",
+      "limitations": "[Sicher] Friday HY observation unavailable. Cboe's 23 October FedWatch snapshot: 90.6% probability of a Fed hold, not a decision. Sources: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_real_yield_curve ; https://fred.stlouisfed.org/data/BAMLH0A0HYM2 ; https://apnews.com/article/e07c72bc5cbe5dffe352ddf30054e35f ; https://www.cboe.com/insights/posts/sell-off-widens-as-oil-rallies-amid-middle-east-conflict",
+      "confidence": "Sicher"
+    },
+    {
+      "title": "Earnings Insight",
+      "authors": "John Butters · FactSet",
+      "publication_date": "23 October 2026; comparison edition: 16 October",
+      "source_url": "https://www.factset.com/earningsinsight",
+      "topics": [
+        "valuation_reverse_dcf",
+        "stock_selection"
+      ],
+      "what_changed": "[Sicher] Forward S&P 500 P/E 18.7 versus 19.0 in FactSet's 16 October report; blended Q3 earnings growth 29.5%, with 24% reporting.",
+      "investorace_implication": "[Wahrscheinlich] Lower multiples still depend on substantial forecast earnings; falling prices alone do not establish value.",
+      "review": "framework",
+      "review_question": "High, valuation/stock selection: Stress normalized cash flow and margins in reverse valuation.",
+      "limitations": "[Sicher] Prior-week growth conflicts: 29.0% in the dated release, 29.2% retrospectively; no clean revision delta. The PDF link updates. Prior release: https://insight.factset.com/sp-500-earnings-season-update-october-16-2026",
+      "confidence": "Sicher"
+    },
+    {
+      "title": "Meta Reports Third Quarter 2026 Results",
+      "authors": "Meta Platforms",
+      "publication_date": "21 October 2026",
+      "source_url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Third-Quarter-2026-Results/default.aspx",
+      "topics": [
+        "stock_selection",
+        "valuation_reverse_dcf"
+      ],
+      "what_changed": "[Sicher] Q3 revenue +26% year-on-year; operating margin 20% versus 40%, including a $9.89 billion litigation charge. FCF $−2.12 billion. Capital-expenditure guidance $135–145 billion versus $130–145 billion, including finance-lease principal.",
+      "investorace_implication": "[Wahrscheinlich] AI-related sales growth does not establish sustainable cash-flow growth per share.",
+      "review": "framework",
+      "review_question": "High, stock selection/valuation: Normalize litigation, maintenance/growth investment and dilution before reverse valuation.",
+      "limitations": "[Sicher] One company's quarterly figures; exceptional charges and forward guidance limit extrapolation.",
+      "confidence": "Sicher"
+    }
+  ],
+  "priority_review": "[Wahrscheinlich] 1. High: Confirm regional growth/inflation. 2. High: Stress rates, credit and cash-flow conversion jointly. 3. Medium: Reconcile earnings baselines. Keep quality, valuation, unweighted regime fit and portfolio risk separate; normalize commodity earnings mid-cycle. No forced rotation or formula changes.",
+  "translations": {
+    "es": {
+      "summary": "[Wahrscheinlich] Informe del lunes de InvestorAce. Datos hasta el 26 de octubre de 2026, 08:36 CET. Semana bursátil: 19–23 de octubre; referencia semanal: 16 de octubre. Último lunes archivado: 12 de octubre; falta el 19 de octubre. Crecimiento e inflación ofrecen señales mixtas; no se confirma un cambio de régimen.",
+      "priority_review": "[Wahrscheinlich] 1. Alta: confirmar crecimiento/inflación regionales. 2. Alta: someter conjuntamente tipos, crédito y conversión de caja a escenarios adversos. 3. Media: conciliar las bases de beneficios. Separar calidad, valoración, afinidad con el régimen sin ponderar y riesgo de cartera; normalizar beneficios de materias primas a mitad de ciclo. Sin rotación forzada ni cambios de fórmulas.",
+      "items": [
+        {
+          "source_url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/us-flash-pmi-signals-sustained-strong-growth-but-also-further-inflation-uplift-in-october",
+          "title": "El PMI preliminar estadounidense indica crecimiento fuerte sostenido, pero también mayor inflación en octubre",
+          "authors": "Chris Williamson · S&P Global Market Intelligence; información adicional: Reuters",
+          "publication_date": "23 de octubre de 2026; noticias adicionales: 26 de octubre",
+          "what_changed": "[Sicher] Octubre frente a septiembre: PMI compuesto estadounidense 57,6 frente a 58,4; eurozona 51,9 frente a 53,1. La inflación de precios de venta estadounidense es la mayor en más de cuatro años; la presión europea sigue elevada.",
+          "investorace_implication": "[Wahrscheinlich] Continúa la expansión a velocidades distintas. El menor dinamismo con presión de precios cuestiona un escenario uniforme de desinflación.",
+          "review_question": "Prioridad alta, régimen/selección: confirmar por separado actividad real regional, inflación subyacente y capacidad empresarial de trasladar costes.",
+          "limitations": "[Sicher] Encuestas mensuales preliminares, no PIB/IPC. Reuters informa de una caída del petróleo el 26 de octubre; artículo completo inaccesible, sin cotización verificada. Fuentes adicionales: https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/eurozone-flash-pmi-growth-spurt-wanes-amid-renewed-french-downturn-and-elevated-inflation y https://www.reuters.com/world/asia-pacific/global-markets-pix-2026-10-26/"
+        },
+        {
+          "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_yield_curve",
+          "title": "Rendimientos diarios del Tesoro estadounidense",
+          "authors": "Tesoro estadounidense; ICE Data Indices vía FRED; Associated Press; JJ Kinahan · Cboe",
+          "publication_date": "Observaciones: 16–23 de octubre de 2026; crédito hasta el 22 de octubre",
+          "what_changed": "[Sicher] 16→23 de octubre: rendimiento nominal a diez años 5,09%→5,00%, real 2,74%→2,66%; S&P 500 −0,5%, Russell 2000 +2,0%. Diferencial HY: 3,31% el 16 de octubre→3,40% el 22 de octubre.",
+          "investorace_implication": "[Wahrscheinlich] Menores rendimientos seguros coexisten con crédito más restrictivo y retornos bursátiles desiguales; no hay alivio financiero uniforme.",
+          "review_question": "Prioridad alta, construcción de cartera: someter refinanciación, duración y exposiciones comunes a IA a escenarios adversos antes de reasignar.",
+          "limitations": "[Sicher] Falta el dato HY del viernes. Instantánea FedWatch de Cboe del 23 de octubre: 90,6% de probabilidad de que la Fed mantenga tipos, no una decisión. Fuentes: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_real_yield_curve ; https://fred.stlouisfed.org/data/BAMLH0A0HYM2 ; https://apnews.com/article/e07c72bc5cbe5dffe352ddf30054e35f ; https://www.cboe.com/insights/posts/sell-off-widens-as-oil-rallies-amid-middle-east-conflict"
+        },
+        {
+          "source_url": "https://www.factset.com/earningsinsight",
+          "title": "Perspectivas de beneficios",
+          "authors": "John Butters · FactSet",
+          "publication_date": "23 de octubre de 2026; edición comparativa: 16 de octubre",
+          "what_changed": "[Sicher] PER previsto del S&P 500: 18,7 frente a 19,0 en el informe de FactSet del 16 de octubre; crecimiento combinado de beneficios de Q3: 29,5%, con un 24% de empresas que ya han informado.",
+          "investorace_implication": "[Wahrscheinlich] Los múltiplos menores aún dependen de beneficios previstos elevados; las caídas de precios por sí solas no acreditan valor.",
+          "review_question": "Prioridad alta, valoración/selección: evaluar flujos de caja normalizados y márgenes en escenarios adversos de valoración inversa.",
+          "limitations": "[Sicher] Bases semanales contradictorias: 29,0% en la publicación fechada, 29,2% retrospectivamente; sin variación de revisiones comparable. El enlace PDF se actualiza. Publicación anterior: https://insight.factset.com/sp-500-earnings-season-update-october-16-2026"
+        },
+        {
+          "source_url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Third-Quarter-2026-Results/default.aspx",
+          "title": "Meta publica los resultados del tercer trimestre de 2026",
+          "authors": "Meta Platforms",
+          "publication_date": "21 de octubre de 2026",
+          "what_changed": "[Sicher] Q3: ingresos +26% interanual; margen operativo 20% frente a 40%, incluido un cargo judicial de 9,89 mil millones de dólares. FCF −2,12 mil millones de dólares. Previsión de inversión: 135–145 mil millones frente a 130–145 mil millones de dólares, incluido principal de arrendamientos financieros.",
+          "investorace_implication": "[Wahrscheinlich] El crecimiento de ventas relacionado con IA no acredita crecimiento sostenible del flujo de caja por acción.",
+          "review_question": "Prioridad alta, selección/valoración: normalizar cargos judiciales, inversión de mantenimiento/crecimiento y dilución antes de la valoración inversa.",
+          "limitations": "[Sicher] Datos trimestrales de una empresa; los cargos excepcionales y las previsiones limitan la extrapolación."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Wahrscheinlich] InvestorAce Montagsbriefing. Datenstand: 26. Oktober 2026, 08:36 MEZ. Handelswoche: 19.–23. Oktober; Wochenreferenz: 16. Oktober. Letzter archivierter Montag: 12. Oktober; der 19. Oktober fehlt. Wachstum und Inflation liefern gemischte Evidenz; ein Regimewechsel ist nicht bestätigt.",
+      "priority_review": "[Wahrscheinlich] 1. Hoch: Regionales Wachstum/Inflation bestätigen. 2. Hoch: Zinsen, Kredit und Cashflow-Konversion gemeinsam stressen. 3. Mittel: Gewinnvergleichsbasis abgleichen. Qualität, Bewertung, ungewichteten Regime-Fit und Portfoliorisiko getrennt halten; Rohstoffgewinne über den Zyklus normalisieren. Keine erzwungene Rotation oder Formeländerungen.",
+      "items": [
+        {
+          "source_url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/us-flash-pmi-signals-sustained-strong-growth-but-also-further-inflation-uplift-in-october",
+          "title": "US-Flash-PMI signalisiert anhaltend starkes Wachstum, aber auch weiteren Inflationsanstieg im Oktober",
+          "authors": "Chris Williamson · S&P Global Market Intelligence; ergänzende Berichterstattung: Reuters",
+          "publication_date": "23. Oktober 2026; ergänzende Nachrichten: 26. Oktober",
+          "what_changed": "[Sicher] Oktober gegenüber September: US-Verbund-PMI 57,6 gegenüber 58,4; Euroraum 51,9 gegenüber 53,1. Die US-Verkaufspreisinflation ist die stärkste seit über vier Jahren; Europas Preisdruck bleibt erhöht.",
+          "investorace_implication": "[Wahrscheinlich] Die Expansion hält mit unterschiedlichem Tempo an. Schwächerer Schwung bei Preisdruck stellt ein einheitliches Disinflationsszenario infrage.",
+          "review_question": "Hohe Priorität, Regime/Aktienauswahl: Regionale Realaktivität, Kerninflation und unternehmerische Kostenweitergabe getrennt bestätigen.",
+          "limitations": "[Sicher] Vorläufige Monatsumfragen, kein BIP/VPI. Reuters berichtet am 26. Oktober einen Ölrückgang; Volltext nicht zugänglich, kein verifizierter Kurs. Ergänzende Quellen: https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/10/eurozone-flash-pmi-growth-spurt-wanes-amid-renewed-french-downturn-and-elevated-inflation und https://www.reuters.com/world/asia-pacific/global-markets-pix-2026-10-26/"
+        },
+        {
+          "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_yield_curve",
+          "title": "Tägliche US-Treasury-Renditen",
+          "authors": "U.S. Department of the Treasury; ICE Data Indices über FRED; Associated Press; JJ Kinahan · Cboe",
+          "publication_date": "Beobachtungen: 16.–23. Oktober 2026; Kredit bis 22. Oktober",
+          "what_changed": "[Sicher] 16.→23. Oktober: zehnjährige Nominalrendite 5,09%→5,00%, Realrendite 2,74%→2,66%; S&P 500 −0,5%, Russell 2000 +2,0%. HY-Spread: 3,31% am 16. Oktober→3,40% am 22. Oktober.",
+          "investorace_implication": "[Wahrscheinlich] Niedrigere sichere Renditen treffen auf strafferen Kredit und ungleiche Aktienerträge; das ist keine einheitliche Finanzierungsentlastung.",
+          "review_question": "Hohe Priorität, Portfoliokonstruktion: Refinanzierung, Duration und gemeinsame KI-Exponierung vor Umschichtungen stressen.",
+          "limitations": "[Sicher] HY-Freitagswert fehlt. Cboes FedWatch-Momentaufnahme vom 23. Oktober: 90,6% Wahrscheinlichkeit für unveränderte Fed-Zinsen, keine Entscheidung. Quellen: https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=2026&type=daily_treasury_real_yield_curve ; https://fred.stlouisfed.org/data/BAMLH0A0HYM2 ; https://apnews.com/article/e07c72bc5cbe5dffe352ddf30054e35f ; https://www.cboe.com/insights/posts/sell-off-widens-as-oil-rallies-amid-middle-east-conflict"
+        },
+        {
+          "source_url": "https://www.factset.com/earningsinsight",
+          "title": "Gewinnausblick",
+          "authors": "John Butters · FactSet",
+          "publication_date": "23. Oktober 2026; Vergleichsausgabe: 16. Oktober",
+          "what_changed": "[Sicher] Erwartetes S&P-500-KGV 18,7 gegenüber 19,0 im FactSet-Bericht vom 16. Oktober; gemischtes Q3-Gewinnwachstum 29,5%, bei 24% bereits berichtenden Unternehmen.",
+          "investorace_implication": "[Wahrscheinlich] Niedrigere Multiplikatoren hängen weiterhin an hohen Gewinnerwartungen; fallende Kurse allein belegen keine günstige Bewertung.",
+          "review_question": "Hohe Priorität, Bewertung/Aktienauswahl: Normalisierte Cashflows und Margen in der inversen Bewertung stressen.",
+          "limitations": "[Sicher] Widersprüchliche Vorwochenbasis: 29,0% in der datierten Veröffentlichung, rückblickend 29,2%; keine saubere Revisionsdifferenz. Der PDF-Link wird aktualisiert. Vorherige Veröffentlichung: https://insight.factset.com/sp-500-earnings-season-update-october-16-2026"
+        },
+        {
+          "source_url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Third-Quarter-2026-Results/default.aspx",
+          "title": "Meta veröffentlicht Ergebnisse des dritten Quartals 2026",
+          "authors": "Meta Platforms",
+          "publication_date": "21. Oktober 2026",
+          "what_changed": "[Sicher] Q3: Umsatz +26% gegenüber Vorjahr; operative Marge 20% gegenüber 40%, einschließlich einer Prozessbelastung von 9,89 Mrd. US-Dollar. FCF −2,12 Mrd. US-Dollar. Investitionsprognose 135–145 Mrd. gegenüber 130–145 Mrd. US-Dollar, einschließlich Tilgung von Finanzierungsleasing.",
+          "investorace_implication": "[Wahrscheinlich] KI-bezogenes Umsatzwachstum belegt kein nachhaltiges Cashflow-Wachstum je Aktie.",
+          "review_question": "Hohe Priorität, Aktienauswahl/Bewertung: Prozesskosten, Erhaltungs-/Wachstumsinvestitionen und Verwässerung vor der inversen Bewertung normalisieren.",
+          "limitations": "[Sicher] Quartalszahlen eines Unternehmens; Sonderbelastungen und Zukunftsprognosen begrenzen die Extrapolation."
+        }
+      ]
+    }
+  }
+}
+
