@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-27",
+  "period_start": "2026-10-24",
+  "period_end": "2026-10-27",
+  "data_cutoff": "2026-10-27T08:25:56+01:00",
+  "summary": "[Sicher] New Texas data show slower production and order growth alongside stronger input-price pressure. Official maritime-fee relief remains proposed, while Canadian tariff relief is under negotiation. [Wahrscheinlich] Margin risk deserves more attention than an assumed disinflation dividend. [Sicher] Coverage starts after 2026-10-24T08:44:22+02:00; older baselines are labelled.",
+  "priority_review": "[Wahrscheinlich] Do trade proposals become legally effective cost relief? Can companies preserve margins as order growth slows? Does Colombia secure electricity supply and finance its fiscal plans? Keep fundamental score, unweighted regime fit and portfolio sizing separate; no model changes or trades.",
+  "items": [
+    {
+      "section": "regime",
+      "title": "Trade negotiations do not yet remove the cost squeeze",
+      "authors": "USTR; Reuters; Dallas Fed; InvestorAce analysis",
+      "publication_date": "Official notice and trade reporting: 2026-10-26; survey release: 2026-10-26",
+      "source_url": "https://www.govinfo.gov/content/pkg/FR-2026-10-26/html/2026-21755.htm",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] USTR's notice, published 2026-10-26 after filing on 2026-10-23, proposes extending the suspension of China-related maritime actions through 2027-01-09, with comments due 2026-10-30. Reuters separately reports negotiations on Canadian steel and auto tariffs under Section 232. No signed agreement was verified.",
+      "investorace_implication": "[Wahrscheinlich] Adopted fee or tariff relief could lower logistics and input costs, support supply and reduce required working capital. Pass-through would ease prices; retained savings would improve margins. If costs sustain inflation, rate relief becomes harder; absorbed costs squeeze earnings, while higher required returns reduce valuations.",
+      "review_question": "[Vermutung] Slowing orders with rising costs raises stagflation risk; resilient demand and pricing power favours reflation. Widespread contraction would raise recession risk. Improved supply with stable demand would favour disinflation/Goldilocks, requiring evidence beyond trade headlines.",
+      "limitations": "[Sicher] The maritime extension is a consultation proposal, not a final rule; the Canada report relies on anonymous sources. Regional surveys are early signals, not confirmed national regime evidence. No regime probabilities are assigned.",
+      "sources": [
+        {
+          "title": "USTR: Request for Comments on Further Suspension of Section 301 Action: China's Targeting of the Maritime, Logistics, and Shipbuilding Sectors for Dominance",
+          "url": "https://www.govinfo.gov/content/pkg/FR-2026-10-26/html/2026-21755.htm",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "Reuters: US, Canada working on deal to ease steel, auto tariffs, sources say",
+          "url": "https://www.reuters.com/world/us-canada-working-deal-ease-steel-auto-tariffs-sources-say-2026-10-26/",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "Dallas Fed: Texas Manufacturing Outlook Survey — October 2026",
+          "url": "https://www.dallasfed.org/research/surveys/tmos/2026/2610",
+          "publication_date": "2026-10-26"
+        }
+      ]
+    },
+    {
+      "section": "usa",
+      "title": "Factories still expand, but orders lose momentum",
+      "authors": "Dallas Fed; BLS; BEA; Federal Reserve; CBO; White House; GovInfo; InvestorAce analysis",
+      "publication_date": "New survey: 2026-10-26; policy baseline: 2026-10-23; older releases: 2026-09-14, 2026-09-30, 2026-10-02, 2026-10-07, 2026-10-08, 2026-10-14",
+      "source_url": "https://www.dallasfed.org/research/surveys/tmos/2026/2610",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] Dallas Fed's 2026-10-26 October survey: production index 15.8 versus September's 29.5; new orders 9.3 versus 30.7; raw-material prices 55.3 versus 52.2; employment 11.6 versus 15.1. Expansion slowed, while general business assessments improved. These are diffusion indexes, not percentage growth rates.",
+      "investorace_implication": "[Sicher] Trump's conservative administration's selective Canadian tariff changes are signed for 2026-10-30. Liberal Democrats' S.5390, introduced 2026-09-14, proposes broader termination/refunds and repeal of Sections 122 and 338; enactment was not verified. [Wahrscheinlich] Compare input/consumer costs, producer protection, revenue, retaliation and legal durability: broader repeal reduces protection and receipts alongside import costs; neither approach guarantees growth.",
+      "review_question": "[Sicher] Older baselines: September unemployment 4.2%, payroll gain 29 thousand, CPI 3.7% yearly; Q2 real GDP 2.2% annualised. The Fed's September target remains 3.75%–4.00%; its 2026-10-27–2026-10-28 meeting has not produced a verified decision.",
+      "limitations": "[Sicher] The survey covers 64 respondents with fieldwork 2026-10-13–2026-10-21, not the whole economy. CBO's 2026-10-08 FY2026 deficit estimate is USD 2.0 trillion, an older estimate. [Wahrscheinlich] Borrowing needs preserve interest-sensitive refinancing risk.",
+      "sources": [
+        {
+          "title": "Dallas Fed: Texas Manufacturing Outlook Survey — October 2026",
+          "url": "https://www.dallasfed.org/research/surveys/tmos/2026/2610",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "BLS: Employment Situation — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/empsit_10022026.htm",
+          "publication_date": "2026-10-02"
+        },
+        {
+          "title": "BLS: Consumer Price Index — September 2026",
+          "url": "https://www.bls.gov/news.release/archives/cpi_10142026.htm",
+          "publication_date": "2026-10-14"
+        },
+        {
+          "title": "BEA: GDP third estimate — second quarter 2026",
+          "url": "https://www.bea.gov/news/2026/gdp-third-estimate-industries-corporate-profits-state-gdp-and-state-personal-income-2nd",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "Federal Reserve: Minutes of the September 15–16 FOMC meeting, released 7 October",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260916.htm",
+          "publication_date": "2026-10-07"
+        },
+        {
+          "title": "CBO: Monthly Budget Review — September 2026",
+          "url": "https://www.cbo.gov/publication/61985",
+          "publication_date": "2026-10-08"
+        },
+        {
+          "title": "White House: President Donald J. Trump further modifies Canadian products subject to tariffs under Section 338",
+          "url": "https://www.whitehouse.gov/fact-sheets/2026/10/fact-sheet-president-donald-j-trump-further-modifies-canadian-products-subject-to-tariffs-under-section-338/",
+          "publication_date": "2026-10-23"
+        },
+        {
+          "title": "GovInfo: S.5390 — End Trump's Tariff Tax Act, introduced text and referral record",
+          "url": "https://www.govinfo.gov/app/details/BILLS-119s5390is/related",
+          "publication_date": "2026-09-14"
+        }
+      ]
+    },
+    {
+      "section": "eu",
+      "title": "German optimism improves, while energy and war risks persist",
+      "authors": "ifo Institute; Associated Press; ECB; Eurostat; InvestorAce analysis",
+      "publication_date": "Business survey and FX: 2026-10-26; war report: 2026-10-26 EDT, event: 2026-10-27; baselines: 2026-09-10 and 2026-10-16",
+      "source_url": "https://www.ifo.de/pressemitteilung/2026-10-26/ifo-geschaeftsklimaindex-gestiegen-oktober-2026",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] Published 2026-10-26: Germany's October ifo business climate rose to 90.2 from 89.9 in September, driven by expectations; current conditions weakened slightly. Manufacturing and construction improved, while services deteriorated. This is German sentiment, not measured EU output.",
+      "investorace_implication": "[Sicher] AP reports the local Oleshky ceasefire began early 2026-10-27, while missile attacks resumed in Kyiv. [Wahrscheinlich] Local humanitarian progress does not remove wider war, energy or transport risks. Industrials and chemicals remain exposed to energy costs; better German orders could support profits if fulfilled.",
+      "review_question": "[Sicher] ECB reference 2026-10-26: 1 EUR = 1.1188 USD versus 1.1193 on 2026-10-23; EUR depreciated 0.04%, USD strengthened. [Wahrscheinlich] Dollar-priced inputs weaken European purchasing power, while translated dollar earnings may help exporters.",
+      "limitations": "[Sicher] September euro-area inflation 3.8% and ECB deposit rate 2.50% are older baselines. No new ECB decision was verified. Sentiment does not establish a broad recovery; the FX source supplies no individual observation time.",
+      "sources": [
+        {
+          "title": "ifo Institut: ifo Geschäftsklimaindex gestiegen (Oktober 2026)",
+          "url": "https://www.ifo.de/pressemitteilung/2026-10-26/ifo-geschaeftsklimaindex-gestiegen-oktober-2026",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "AP: Local ceasefire brokered by Melania Trump starts in southern Ukraine as Russia attacks other areas",
+          "url": "https://www.clickondetroit.com/news/world/2026/10/27/localized-russia-ukraine-ceasefire-takes-effect-in-oleshky-in-deal-brokered-by-melania-trump/",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations — 23 and 26 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "Eurostat: Annual inflation up to 3.8% in the euro area — September 2026",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-16102026-ap",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "ECB: Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+          "publication_date": "2026-09-10"
+        }
+      ]
+    },
+    {
+      "section": "colombia",
+      "title": "Electricity oversight intensifies as fiscal promises await legislation",
+      "authors": "Superservicios; La República; DANE; Banco de la República; ECB; InvestorAce analysis",
+      "publication_date": "Oversight and fiscal reporting: 2026-10-26; TRM validity: 2026-10-27; FX observation: 2026-10-26; older releases: 2026-09-30 and 2026-10-19",
+      "source_url": "https://www.superservicios.gov.co/Sala-de-prensa/noticias/superservicios-atiende-llamado-del-presidente-abelardo-de-la-espriella-y-refuerza-vigilancia-para-que-las-generadoras-de-energia",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "what_changed": "[Sicher] On 2026-10-26 Superservicios announced stronger checks on electricity generators' reliability obligations under President Abelardo De La Espriella. The notice establishes neither an outage nor proven violations. La República reports planned cuts of about COP 40 trillion for 2027 and a proposed COP 1.2 trillion energy reallocation in the 2026 budget.",
+      "investorace_implication": "[Wahrscheinlich] Reliable power protects production and household purchasing power; supply shortfalls would raise operating costs. Fiscal restraint could reduce borrowing pressure but weaken demand. Planned reallocations require funding and approval before becoming cash flows. Announced oversight does not prove safer supply or improved security outcomes.",
+      "review_question": "[Sicher] La República, citing Superfinanciera: TRM valid 2026-10-27, 1 USD = 3157.94 COP versus 3158.43 valid 2026-10-26; USD fell 0.02%, COP strengthened. Derived 1 EUR = 3533.10 COP uses 3157.94 × ECB 1.1188 observed 2026-10-26. Prior 3535.23 used 3158.43 × 1.1193, with TRM valid 2026-10-26 and ECB observation 2026-10-23; EUR fell 0.06% against COP.",
+      "limitations": "[Sicher] Rescue-law filing and enactment were not verified. The precise TRM transaction window and FX times are unavailable; mixed reference dates make the cross indicative. The newer TRM is secondary evidence; Banrep still shows the older date. Older baselines: preliminary August ISE −0.04% yearly, unemployment 9.4%; September inflation 6.29%; policy rate 12.25%.",
+      "sources": [
+        {
+          "title": "Superservicios atiende llamado del presidente Abelardo De La Espriella y refuerza vigilancia para que las generadoras de energía cumplan sus compromisos con los colombianos",
+          "url": "https://www.superservicios.gov.co/Sala-de-prensa/noticias/superservicios-atiende-llamado-del-presidente-abelardo-de-la-espriella-y-refuerza-vigilancia-para-que-las-generadoras-de-energia",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "La República: Comienza la carrera por la Ley de Rescate y las adiciones presupuestales del PGN",
+          "url": "https://www.larepublica.co/economia/comienza-la-carrera-por-la-ley-de-rescate-y-las-nuevas-adiciones-presupuestales-del-pgn-4510052",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "La República: TRM snapshot valid 27 October 2026, citing Superfinanciera",
+          "url": "https://www.larepublica.co/indicadores-economicos/mercado-cambiario/dolar",
+          "publication_date": "2026-10-27"
+        },
+        {
+          "title": "Banco de la República: Policy, CPI and TRM snapshot dated 26 October 2026",
+          "url": "https://www.banrep.gov.co/es",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "DANE: Employment and unemployment — August 2026",
+          "url": "https://www.dane.gov.co/estadisticas-por-tema/mercado-laboral/empleo-y-desempleo",
+          "publication_date": "2026-09-30"
+        },
+        {
+          "title": "DANE: ISE technical bulletin — August 2026, preliminary",
+          "url": "https://www.dane.gov.co/files/operaciones/ISE/bol-ISE-ago2026.pdf",
+          "publication_date": "2026-10-19"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations — 23 and 26 October 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-10-26"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] Los nuevos datos de Texas muestran menor crecimiento de producción y pedidos junto con mayor presión de precios de insumos. El alivio oficial de tasas marítimas sigue propuesto; el arancelario canadiense está en negociación. [Wahrscheinlich] El riesgo de márgenes merece más atención que una desinflación supuesta. [Sicher] La cobertura comienza después de 2026-10-24T08:44:22+02:00; se identifican referencias anteriores.",
+      "priority_review": "[Wahrscheinlich] ¿Se convierten las propuestas comerciales en alivio de costes jurídicamente efectivo? ¿Pueden las empresas proteger márgenes al frenarse los pedidos? ¿Asegura Colombia electricidad y financiación de sus planes fiscales? Separar puntuación fundamental, ajuste no ponderado al régimen y tamaño de cartera; sin cambios de modelo ni operaciones.",
+      "items": [
+        {
+          "source_url": "https://www.govinfo.gov/content/pkg/FR-2026-10-26/html/2026-21755.htm",
+          "title": "Las negociaciones comerciales aún no eliminan la presión de costes",
+          "publication_date": "Aviso oficial e información comercial: 2026-10-26; publicación de encuesta: 2026-10-26",
+          "what_changed": "[Sicher] El aviso USTR, publicado 2026-10-26 tras registrarse el 2026-10-23, propone prolongar la suspensión de medidas marítimas ligadas a China hasta 2027-01-09; comentarios hasta 2026-10-30. Reuters informa, por separado, de negociaciones sobre aranceles canadienses de acero y automóviles bajo Sección 232. No se verificó acuerdo firmado.",
+          "investorace_implication": "[Wahrscheinlich] Aprobar alivios de tasas/aranceles podría abaratar logística e insumos, apoyar oferta y reducir capital circulante necesario. Trasladarlos aliviaría precios; retenerlos mejoraría márgenes. Si los costes sostienen inflación, dificultan rebajas de tipos; absorberlos comprime beneficios, mientras mayores rentabilidades exigidas reducen valoraciones.",
+          "review_question": "[Vermutung] Menor crecimiento de pedidos con costes crecientes eleva riesgo de estanflación; demanda resistente y poder de precios favorecen reflación. Una contracción generalizada elevaría riesgo de recesión. Mejor oferta con demanda estable favorecería desinflación/Goldilocks, con evidencia más allá de titulares comerciales.",
+          "limitations": "[Sicher] La extensión marítima es propuesta en consulta, sin norma definitiva; la noticia canadiense se basa en fuentes anónimas. Las encuestas regionales son señales tempranas, no evidencia nacional confirmada de régimen. No se asignan probabilidades."
+        },
+        {
+          "source_url": "https://www.dallasfed.org/research/surveys/tmos/2026/2610",
+          "title": "Las fábricas aún crecen, pero los pedidos pierden impulso",
+          "publication_date": "Nueva encuesta: 2026-10-26; referencia política: 2026-10-23; publicaciones anteriores: 2026-09-14, 2026-09-30, 2026-10-02, 2026-10-07, 2026-10-08, 2026-10-14",
+          "what_changed": "[Sicher] Encuesta de octubre de Dallas Fed, 2026-10-26: producción 15.8 frente a 29.5 en septiembre; nuevos pedidos 9.3 frente a 30.7; precios de materias primas 55.3 frente a 52.2; empleo 11.6 frente a 15.1. Se frenó la expansión, aunque mejoraron las valoraciones empresariales generales. Son índices de difusión, no tasas porcentuales de crecimiento.",
+          "investorace_implication": "[Sicher] El Gobierno conservador de Trump firmó cambios arancelarios canadienses selectivos para 2026-10-30. S.5390 de demócratas liberales, presentado el 2026-09-14, propone terminación/devoluciones más amplias y derogar Secciones 122 y 338; no se verificó promulgación. [Wahrscheinlich] Comparar costes de insumos/consumo, protección, ingresos, represalias y solidez jurídica: derogar ampliamente reduce protección e ingresos junto con costes importados; ningún enfoque garantiza crecimiento.",
+          "review_question": "[Sicher] Referencias anteriores: desempleo de septiembre 4.2%, aumento de nóminas 29 mil, IPC 3.7% interanual; PIB real Q2 2.2% anualizado. El objetivo de septiembre de la Fed sigue en 3.75%–4.00%; su reunión 2026-10-27–2026-10-28 no ha producido decisión verificada.",
+          "limitations": "[Sicher] La encuesta incluye 64 participantes y trabajo de campo 2026-10-13–2026-10-21, no toda la economía. La estimación CBO del 2026-10-08 para el déficit FY2026 es USD 2.0 billones, una estimación anterior. [Wahrscheinlich] El endeudamiento mantiene riesgo de refinanciación sensible a tipos."
+        },
+        {
+          "source_url": "https://www.ifo.de/pressemitteilung/2026-10-26/ifo-geschaeftsklimaindex-gestiegen-oktober-2026",
+          "title": "Mejora el optimismo alemán, persisten riesgos energéticos y bélicos",
+          "publication_date": "Encuesta empresarial y cambio: 2026-10-26; noticia bélica: 2026-10-26 EDT, acontecimiento: 2026-10-27; referencias: 2026-09-10 y 2026-10-16",
+          "what_changed": "[Sicher] Publicado 2026-10-26: el clima empresarial ifo alemán de octubre subió a 90.2 desde 89.9 en septiembre, impulsado por expectativas; la situación actual empeoró ligeramente. Mejoraron manufacturas y construcción; empeoraron servicios. Es ánimo alemán, no producción medida de la UE.",
+          "investorace_implication": "[Sicher] AP informa de que la tregua local de Oleshky comenzó temprano el 2026-10-27, mientras se reanudaron ataques con misiles en Kyiv. [Wahrscheinlich] El avance humanitario local no elimina riesgos generales bélicos, energéticos o de transporte. Industria y química siguen expuestas a energía cara; mejores pedidos alemanes apoyarían beneficios si se ejecutan.",
+          "review_question": "[Sicher] Referencia BCE 2026-10-26: 1 EUR = 1.1188 USD frente a 1.1193 el 2026-10-23; EUR se depreció 0.04%, USD se fortaleció. [Wahrscheinlich] Insumos en dólares erosionan poder adquisitivo europeo; beneficios en dólares convertidos pueden ayudar a exportadores.",
+          "limitations": "[Sicher] Inflación de septiembre de la eurozona 3.8% y depósito BCE 2.50% son referencias anteriores. No se verificó nueva decisión del BCE. El ánimo no demuestra recuperación amplia; la fuente cambiaria no proporciona hora individual de observación."
+        },
+        {
+          "source_url": "https://www.superservicios.gov.co/Sala-de-prensa/noticias/superservicios-atiende-llamado-del-presidente-abelardo-de-la-espriella-y-refuerza-vigilancia-para-que-las-generadoras-de-energia",
+          "title": "Más vigilancia eléctrica mientras las promesas fiscales esperan legislación",
+          "publication_date": "Vigilancia e información fiscal: 2026-10-26; vigencia TRM: 2026-10-27; observación cambiaria: 2026-10-26; publicaciones anteriores: 2026-09-30 y 2026-10-19",
+          "what_changed": "[Sicher] El 2026-10-26 Superservicios anunció mayores controles de obligaciones de confiabilidad de generadores bajo el presidente Abelardo De La Espriella. El aviso no demuestra apagón ni infracciones probadas. La República informa de recortes previstos de unos COP 40 billones para 2027 y reasignación energética propuesta de COP 1.2 billones en presupuesto 2026.",
+          "investorace_implication": "[Wahrscheinlich] Electricidad fiable protege producción y poder adquisitivo familiar; déficits de oferta elevarían costes operativos. La contención fiscal puede reducir presión de endeudamiento, pero debilitar demanda. Las reasignaciones previstas necesitan financiación y aprobación antes de generar flujos de caja. Anunciar vigilancia no prueba suministro más seguro ni mejores resultados de seguridad.",
+          "review_question": "[Sicher] La República, citando a Superfinanciera: TRM vigente 2026-10-27, 1 USD = 3157.94 COP frente a 3158.43 vigente 2026-10-26; USD cayó 0.02%, COP se fortaleció. Derivado: 1 EUR = 3533.10 COP usando 3157.94 × BCE 1.1188 observado 2026-10-26. El anterior 3535.23 usaba 3158.43 × 1.1193, con TRM vigente 2026-10-26 y observación BCE 2026-10-23; EUR bajó 0.06% frente a COP.",
+          "limitations": "[Sicher] No se verificaron radicación ni promulgación de la Ley de Rescate. No constan la ventana precisa de transacciones TRM ni horas cambiarias; fechas mixtas hacen indicativo el cruce. La TRM más reciente es evidencia secundaria; Banrep muestra fecha anterior. Referencias: ISE preliminar de agosto −0.04% anual, desempleo 9.4%; inflación de septiembre 6.29%; tipo 12.25%."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Neue Texas-Daten zeigen langsameres Produktions- und Auftragswachstum bei stärkerem Inputpreisdruck. Die amtliche Entlastung bei Schiffsgebühren bleibt vorgeschlagen; über kanadische Zollentlastung wird verhandelt. [Wahrscheinlich] Margenrisiken verdienen mehr Aufmerksamkeit als ein unterstellter Disinflationsvorteil. [Sicher] Der Berichtszeitraum beginnt nach 2026-10-24T08:44:22+02:00; ältere Ausgangsdaten sind gekennzeichnet.",
+      "priority_review": "[Wahrscheinlich] Werden Handelsvorschläge zu rechtlich wirksamer Kostenentlastung? Können Unternehmen bei schwächerem Auftragswachstum Margen schützen? Sichert Kolumbien Stromversorgung und Finanzierung seiner Fiskalpläne? Fundamentalscore, ungewichtete Regimepassung und Portfoliogröße getrennt halten; keine Modelländerungen oder Transaktionen.",
+      "items": [
+        {
+          "source_url": "https://www.govinfo.gov/content/pkg/FR-2026-10-26/html/2026-21755.htm",
+          "title": "Handelsverhandlungen beseitigen den Kostendruck noch nicht",
+          "publication_date": "Amtliche Mitteilung und Handelsberichterstattung: 2026-10-26; Umfrageveröffentlichung: 2026-10-26",
+          "what_changed": "[Sicher] Die am 2026-10-26 nach Einreichung am 2026-10-23 veröffentlichte USTR-Mitteilung schlägt vor, die Aussetzung China-bezogener maritimer Maßnahmen bis 2027-01-09 zu verlängern; Stellungnahmen bis 2026-10-30. Reuters berichtet separat über Verhandlungen zu kanadischen Stahl- und Autozöllen nach Section 232. Ein unterzeichnetes Abkommen wurde nicht bestätigt.",
+          "investorace_implication": "[Wahrscheinlich] Beschlossene Gebühren- oder Zollentlastung könnte Logistik und Vorleistungen verbilligen, Angebot stützen und erforderliches Umlaufkapital senken. Weitergabe würde Preise entlasten; einbehaltene Einsparungen würden Margen verbessern. Halten Kosten die Inflation hoch, werden Zinssenkungen schwieriger; selbst getragene Kosten drücken Gewinne, während höhere Renditeanforderungen Bewertungen senken.",
+          "review_question": "[Vermutung] Schwächeres Auftragswachstum bei steigenden Kosten erhöht Stagflationsrisiken; robuste Nachfrage und Preissetzungsmacht begünstigen Reflation. Breite Schrumpfung würde Rezessionsrisiken erhöhen. Besseres Angebot bei stabiler Nachfrage würde Disinflation/Goldilocks begünstigen; dafür braucht es mehr als Handelsschlagzeilen.",
+          "limitations": "[Sicher] Die maritime Verlängerung ist ein Konsultationsvorschlag, keine endgültige Regel; der Kanada-Bericht beruht auf anonymen Quellen. Regionale Umfragen sind frühe Signale, keine bestätigte nationale Regime-Evidenz. Regimewahrscheinlichkeiten werden nicht vergeben."
+        },
+        {
+          "source_url": "https://www.dallasfed.org/research/surveys/tmos/2026/2610",
+          "title": "Fabriken wachsen weiter, doch Aufträge verlieren an Schwung",
+          "publication_date": "Neue Umfrage: 2026-10-26; politischer Ausgangsstand: 2026-10-23; ältere Veröffentlichungen: 2026-09-14, 2026-09-30, 2026-10-02, 2026-10-07, 2026-10-08, 2026-10-14",
+          "what_changed": "[Sicher] Oktoberumfrage der Dallas Fed vom 2026-10-26: Produktionsindex 15,8 gegenüber 29,5 im September; Neuaufträge 9,3 gegenüber 30,7; Rohstoffpreise 55,3 gegenüber 52,2; Beschäftigung 11,6 gegenüber 15,1. Die Expansion verlangsamte sich, während allgemeine Geschäftseinschätzungen besser wurden. Dies sind Diffusionsindizes, keine prozentualen Wachstumsraten.",
+          "investorace_implication": "[Sicher] Trumps konservative Regierung unterzeichnete selektive Kanada-Zolländerungen für 2026-10-30. S.5390 liberaler Demokraten, eingebracht am 2026-09-14, schlägt breitere Beendigung/Rückzahlungen und die Aufhebung der Sections 122 und 338 vor; eine Verabschiedung wurde nicht bestätigt. [Wahrscheinlich] Input-/Verbraucherkosten, Produzentenschutz, Einnahmen, Vergeltung und Rechtssicherheit vergleichen: breitere Aufhebung senkt Schutz und Einnahmen ebenso wie Importkosten; kein Ansatz garantiert Wachstum.",
+          "review_question": "[Sicher] Ältere Ausgangsdaten: September-Arbeitslosigkeit 4,2%, Stellenzuwachs 29 Tausend, VPI 3,7% jährlich; reales BIP Q2 2,2% annualisiert. Das September-Zielband der Fed bleibt 3,75%–4,00%; ihre Sitzung 2026-10-27–2026-10-28 hat keine bestätigte Entscheidung hervorgebracht.",
+          "limitations": "[Sicher] Die Umfrage umfasst 64 Teilnehmer mit Erhebungszeitraum 2026-10-13–2026-10-21, nicht die gesamte Wirtschaft. Die CBO-Defizitschätzung vom 2026-10-08 für FY2026 beträgt USD 2,0 Billionen und ist älter. [Wahrscheinlich] Kreditbedarf erhält zinssensitives Refinanzierungsrisiko."
+        },
+        {
+          "source_url": "https://www.ifo.de/pressemitteilung/2026-10-26/ifo-geschaeftsklimaindex-gestiegen-oktober-2026",
+          "title": "Deutscher Optimismus steigt, Energie- und Kriegsrisiken bleiben",
+          "publication_date": "Geschäftsumfrage und Wechselkurs: 2026-10-26; Kriegsbericht: 2026-10-26 EDT, Ereignis: 2026-10-27; Ausgangsdaten: 2026-09-10 und 2026-10-16",
+          "what_changed": "[Sicher] Veröffentlicht am 2026-10-26: Deutschlands ifo-Geschäftsklima stieg im Oktober erwartungsgetrieben auf 90,2 von 89,9 im September; die aktuelle Lage verschlechterte sich leicht. Industrie und Bau verbesserten sich, Dienstleistungen verschlechterten sich. Dies ist deutsche Stimmung, keine gemessene EU-Produktion.",
+          "investorace_implication": "[Sicher] AP berichtet, die örtliche Waffenruhe in Oleshky begann früh am 2026-10-27, während Raketenangriffe auf Kyiv wieder aufgenommen wurden. [Wahrscheinlich] Örtlicher humanitärer Fortschritt beseitigt keine breiteren Kriegs-, Energie- oder Transportrisiken. Industrie und Chemie bleiben Energiekosten ausgesetzt; bessere deutsche Aufträge könnten Gewinne stützen, wenn sie ausgeführt werden.",
+          "review_question": "[Sicher] EZB-Referenz 2026-10-26: 1 EUR = 1,1188 USD gegenüber 1,1193 am 2026-10-23; EUR wertete 0,04% ab, USD auf. [Wahrscheinlich] Dollar-Inputs schwächen europäische Kaufkraft; umgerechnete Dollargewinne können Exporteuren helfen.",
+          "limitations": "[Sicher] Euroraum-Septemberinflation 3,8% und EZB-Einlagenzins 2,50% sind ältere Ausgangsdaten. Keine neue EZB-Entscheidung bestätigt. Stimmung belegt keine breite Erholung; die Wechselkursquelle liefert keine einzelne Beobachtungszeit."
+        },
+        {
+          "source_url": "https://www.superservicios.gov.co/Sala-de-prensa/noticias/superservicios-atiende-llamado-del-presidente-abelardo-de-la-espriella-y-refuerza-vigilancia-para-que-las-generadoras-de-energia",
+          "title": "Stromaufsicht wird verstärkt, Fiskalversprechen warten auf Gesetze",
+          "publication_date": "Aufsicht und Fiskalberichterstattung: 2026-10-26; TRM-Gültigkeit: 2026-10-27; Wechselkursbeobachtung: 2026-10-26; ältere Veröffentlichungen: 2026-09-30 und 2026-10-19",
+          "what_changed": "[Sicher] Am 2026-10-26 kündigte Superservicios unter Präsident Abelardo De La Espriella verstärkte Prüfungen der Zuverlässigkeitspflichten von Stromerzeugern an. Die Mitteilung belegt weder Stromausfall noch bewiesene Verstöße. La República berichtet über geplante Ausgabenkürzungen von rund COP 40 Billionen für 2027 und eine vorgeschlagene Energieumschichtung von COP 1,2 Billionen im Haushalt 2026.",
+          "investorace_implication": "[Wahrscheinlich] Verlässlicher Strom schützt Produktion und Haushaltskaufkraft; Angebotslücken würden Betriebskosten erhöhen. Haushaltsdisziplin könnte Kreditdruck senken, aber Nachfrage schwächen. Geplante Umschichtungen brauchen Finanzierung und Zustimmung, bevor sie zu Cashflows werden. Angekündigte Aufsicht belegt weder sicherere Versorgung noch verbesserte Sicherheitsresultate.",
+          "review_question": "[Sicher] La República unter Berufung auf Superfinanciera: TRM gültig 2026-10-27, 1 USD = 3157,94 COP gegenüber 3158,43 gültig 2026-10-26; USD fiel 0,02%, COP stärkte sich. Abgeleitet: 1 EUR = 3533,10 COP aus 3157,94 × EZB 1,1188 beobachtet am 2026-10-26. Zuvor ergaben 3158,43 × 1,1193 den Kurs 3535,23, mit TRM gültig 2026-10-26 und EZB-Beobachtung 2026-10-23; EUR fiel gegenüber COP um 0,06%.",
+          "limitations": "[Sicher] Einbringung und Verabschiedung des Rettungsgesetzes wurden nicht bestätigt. Genaues TRM-Transaktionsfenster und FX-Uhrzeiten fehlen; gemischte Referenzdaten machen das Kreuz indikativ. Die neuere TRM ist Sekundärevidenz; Banrep zeigt noch das ältere Datum. Ältere Ausgangsdaten: vorläufiger August-ISE −0,04% jährlich, Arbeitslosigkeit 9,4%; Septemberinflation 6,29%; Leitzins 12,25%."
+        }
+      ]
+    }
+  }
+}
