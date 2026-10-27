@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-10-27",
+  "period_start": "2026-10-24",
+  "period_end": "2026-10-27",
+  "data_cutoff": "2026-10-27T08:30:00+01:00",
+  "summary": "[Wahrscheinlich] A decision week for central banks opens with oil just below last week’s peak: Brent eased on Monday 26 October but stayed above 110 USD, and the 10-year Treasury yield slipped to about 4.96%. The Fed decides on 28 October, the ECB on 29 October and Banco de la República on 30 October; holds are expected from the Fed and ECB, a hike from Colombia. The energy-led stagflation tilt is unchanged.",
+  "priority_review": "1) After the three decisions, does the regime classifier need new policy-rate inputs? 2) Is the risk-free input near 5% still correct? 3) Does a stronger peso change the COP risk flag?",
+  "items": [
+    {
+      "section": "regime",
+      "authors": "Market reporting",
+      "source_url": "https://vanderbiltreport.com/stock-market-outlook-oil-fed-big-tech-earnings-october-26-2026/",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Stock Market Outlook Oct. 26, 2026: Oil, Fed Decision & Big Tech Earnings",
+          "url": "https://vanderbiltreport.com/stock-market-outlook-oil-fed-big-tech-earnings-october-26-2026/",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "Brent crude tops $116 as traders price escalating Middle East conflict",
+          "url": "https://finance.yahoo.com/markets/article/brent-crude-tops-116-as-traders-price-in-middle-east-escalation-192101547.html",
+          "publication_date": "2026-10-23"
+        }
+      ],
+      "title": "Oil eases from its peak but stays above 110 USD",
+      "publication_date": "23–26 October 2026",
+      "what_changed": "[Sicher] Brent settled at 116.72 USD on 23 October, its highest settle since April. [Wahrscheinlich] On 26 October it eased but stayed above 110 USD; reports of the exact level differ. The driver remains the risk of renewed US strikes on Iran and attacks on Gulf energy sites.",
+      "investorace_implication": "[Wahrscheinlich] A one-day dip does not change the regime: oil above 110 USD keeps headline inflation high and central banks cautious. [Vermutung] A sustained move back toward 100 USD would be the first real sign of easing.",
+      "review_question": "Does the classifier react to the weekly average rather than single sessions? Next: euro area flash inflation on 4 November.",
+      "limitations": "The Monday oil level differs between reports; no exchange settlement was checked."
+    },
+    {
+      "section": "usa",
+      "authors": "Market reporting; Federal Reserve",
+      "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Federal Reserve issues FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "publication_date": "2026-09-16"
+        },
+        {
+          "title": "Stock Market Outlook Oct. 26, 2026: Oil, Fed Decision & Big Tech Earnings",
+          "url": "https://vanderbiltreport.com/stock-market-outlook-oil-fed-big-tech-earnings-october-26-2026/",
+          "publication_date": "2026-10-26"
+        }
+      ],
+      "title": "Fed decides on 28 October with markets expecting a hold",
+      "publication_date": "16 September to 26 October 2026",
+      "what_changed": "[Wahrscheinlich] US stocks rose on 26 October (Dow about 0.7%, Nasdaq about 0.6%) as oil eased, ahead of large technology earnings. The 10-year Treasury yield eased to about 4.96%. [Sicher] The target range is 3.75% to 4%; the decision is on 28 October and the midterm elections are on 3 November.",
+      "investorace_implication": "[Wahrscheinlich] A hold with hawkish guidance would keep a December hike open; the statement wording on oil matters more than the decision itself. [Vermutung] Rate-sensitive sectors gain if the Fed signals patience.",
+      "review_question": "Update the risk-free input after the statement on 28 October.",
+      "limitations": "Index moves come from a market outlook, not closing data. No new US policy measure was verified."
+    },
+    {
+      "section": "eu",
+      "authors": "ECB; LCP",
+      "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Sicher",
+      "sources": [
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp260910~314e508016.en.html",
+          "publication_date": "2026-09-10"
+        },
+        {
+          "title": "Budget 2027: le marathon de la partie recettes loin d’être terminé, le vote prévu demain à l’Assemblée va être reporté",
+          "url": "https://lcp.fr/actualites/budget-2027-le-marathon-de-la-partie-recettes-loin-d-etre-termine-le-vote-prevu-demain-a",
+          "publication_date": "2026-10-19"
+        }
+      ],
+      "title": "Euro slips to 1.1188 USD before the ECB on 29 October",
+      "publication_date": "19 to 26 October 2026",
+      "what_changed": "[Sicher] ECB reference rate on 26 October 2026: 1 EUR = 1.1188 USD, versus 1.1205 on 22 October, so the euro weakened by about 0.15%. The deposit rate is 2.50%; the next decision is on 29 October. The French revenue vote is set for 3 November.",
+      "investorace_implication": "[Wahrscheinlich] A hold is the base case; a hike would support the euro but weigh on European equities already hit by energy costs. French fiscal risk stays open until November.",
+      "review_question": "Next: ECB on 29 October, French revenue vote on 3 November.",
+      "limitations": "No new ECB communication was checked for this edition."
+    },
+    {
+      "section": "colombia",
+      "authors": "Superintendencia Financiera via press; La República; ECB",
+      "source_url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Precio del dólar hoy en Colombia (TRM)",
+          "url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+          "publication_date": "2026-10-26"
+        },
+        {
+          "title": "Precio del dólar hoy en Colombia: cotización de este martes 27 de octubre de 2026",
+          "url": "https://www.colombia.com/actualidad/economia/precio-del-dolar-hoy-en-colombia-martes-27-de-octubre-de-2026-608946",
+          "publication_date": "2026-10-27"
+        },
+        {
+          "title": "Analistas prevén un alza de 25 puntos básicos en la tasa de política monetaria",
+          "url": "https://www.larepublica.co/economia/analistas-preven-un-alza-de-25-puntos-basicos-en-la-tasa-de-politica-monetaria-4504617",
+          "publication_date": "2026-10-16"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-10-26"
+        }
+      ],
+      "title": "Peso strengthens to about 3158 per dollar before BanRep on 30 October",
+      "publication_date": "16 to 27 October 2026",
+      "what_changed": "[Wahrscheinlich] The TRM valid from 24 to 26 October was 1 USD = 3158.43 COP, versus 3185.01 on 23 October, a peso appreciation of about 0.83%. Derived from the ECB rate and the TRM of 26 October: 1 EUR = 3533.7 COP (previous edition: 3568.8), about 0.98% stronger peso. One source gives 3157.94 for 27 October. Analysts expect a hike of 25 basis points to 12.5% on 30 October. No filing of the rescue law was found.",
+      "investorace_implication": "[Wahrscheinlich] A firmer peso and a likely hike tighten conditions for domestic earnings but help contain imported inflation; fiscal credibility still sets the risk premium.",
+      "review_question": "Next: Banco de la República on 30 October; IMF mission in early November.",
+      "limitations": "The TRM for 27 October rests on one source. The rate expectation comes from a survey of 16 October."
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Wahrscheinlich] Una semana de decisiones de bancos centrales empieza con el petróleo justo por debajo del pico de la semana pasada: el Brent cedió el lunes 26 de octubre pero siguió por encima de 110 USD, y el rendimiento del Tesoro a 10 años bajó a cerca de 4,96 %. La Fed decide el 28 de octubre, el BCE el 29 de octubre y el Banco de la República el 30 de octubre; se esperan pausas de la Fed y el BCE y una subida en Colombia. El sesgo de estanflación energética no cambia.",
+      "priority_review": "1) Tras las tres decisiones, ¿necesita el clasificador de régimen nuevas tasas de política? 2) ¿Sigue siendo correcta la tasa libre de riesgo cercana a 5 %? 3) ¿Cambia un peso más fuerte la alerta sobre el COP?",
+      "items": [
+        {
+          "source_url": "https://vanderbiltreport.com/stock-market-outlook-oil-fed-big-tech-earnings-october-26-2026/",
+          "title": "El petróleo cede desde su pico pero sigue por encima de 110 USD",
+          "publication_date": "23–26 de octubre de 2026",
+          "what_changed": "[Sicher] El Brent cerró en 116,72 USD el 23 de octubre, su cierre más alto desde abril. [Wahrscheinlich] El 26 de octubre cedió pero siguió por encima de 110 USD; los reportes del nivel exacto difieren. El motor sigue siendo el riesgo de nuevos ataques de EE. UU. contra Irán y de ataques a instalaciones energéticas del Golfo.",
+          "investorace_implication": "[Wahrscheinlich] Una baja de un día no cambia el régimen: un petróleo por encima de 110 USD mantiene alta la inflación general y cautos a los bancos centrales. [Vermutung] Un regreso sostenido hacia 100 USD sería la primera señal real de alivio.",
+          "review_question": "¿Reacciona el clasificador al promedio semanal y no a sesiones aisladas? Próximo: inflación preliminar de la eurozona el 4 de noviembre.",
+          "limitations": "El nivel del petróleo del lunes difiere entre reportes; no se revisó un cierre de bolsa."
+        },
+        {
+          "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "title": "La Fed decide el 28 de octubre y el mercado espera una pausa",
+          "publication_date": "16 de septiembre a 26 de octubre de 2026",
+          "what_changed": "[Wahrscheinlich] Las bolsas de EE. UU. subieron el 26 de octubre (Dow cerca de 0,7 %, Nasdaq cerca de 0,6 %) al ceder el petróleo, antes de grandes resultados tecnológicos. El rendimiento del Tesoro a 10 años bajó a cerca de 4,96 %. [Sicher] El rango objetivo es de 3,75 % a 4 %; la decisión es el 28 de octubre y las elecciones de medio mandato son el 3 de noviembre.",
+          "investorace_implication": "[Wahrscheinlich] Una pausa con tono restrictivo dejaría abierta una subida en diciembre; el lenguaje del comunicado sobre el petróleo importa más que la decisión. [Vermutung] Los sectores sensibles a tasas ganan si la Fed señala paciencia.",
+          "review_question": "Actualizar la tasa libre de riesgo tras el comunicado del 28 de octubre.",
+          "limitations": "Los movimientos de índices provienen de un panorama de mercado, no de datos de cierre. No se verificó ninguna medida nueva de política en EE. UU."
+        },
+        {
+          "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "title": "El euro baja a 1,1188 USD antes del BCE del 29 de octubre",
+          "publication_date": "19 a 26 de octubre de 2026",
+          "what_changed": "[Sicher] Tipo de referencia del BCE el 26 de octubre de 2026: 1 EUR = 1,1188 USD, frente a 1,1205 el 22 de octubre, es decir, el euro se debilitó cerca de 0,15 %. La tasa de depósito es 2,50 %; la próxima decisión es el 29 de octubre. La votación de ingresos francesa está fijada para el 3 de noviembre.",
+          "investorace_implication": "[Wahrscheinlich] Una pausa es el escenario base; una subida apoyaría al euro pero pesaría sobre las acciones europeas ya golpeadas por los costos de energía. El riesgo fiscal francés sigue abierto hasta noviembre.",
+          "review_question": "Próximo: BCE el 29 de octubre, votación de ingresos en Francia el 3 de noviembre.",
+          "limitations": "No se revisó ninguna comunicación nueva del BCE para esta edición."
+        },
+        {
+          "source_url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+          "title": "El peso se fortalece a cerca de 3158 por dólar antes del BanRep del 30 de octubre",
+          "publication_date": "16 a 27 de octubre de 2026",
+          "what_changed": "[Wahrscheinlich] La TRM vigente del 24 al 26 de octubre fue 1 USD = 3158,43 COP, frente a 3185,01 el 23 de octubre, una apreciación del peso de cerca de 0,83 %. Derivado del tipo del BCE y la TRM del 26 de octubre: 1 EUR = 3533,7 COP (edición anterior: 3568,8), un peso cerca de 0,98 % más fuerte. Una fuente da 3157,94 para el 27 de octubre. Los analistas esperan una subida de 25 puntos básicos a 12,5 % el 30 de octubre. No se encontró la radicación de la ley de rescate.",
+          "investorace_implication": "[Wahrscheinlich] Un peso más firme y una probable subida endurecen las condiciones para las ganancias internas pero ayudan a contener la inflación importada; la credibilidad fiscal sigue fijando la prima de riesgo.",
+          "review_question": "Próximo: Banco de la República el 30 de octubre; misión del FMI a comienzos de noviembre.",
+          "limitations": "La TRM del 27 de octubre se basa en una sola fuente. La expectativa de tasa proviene de una encuesta del 16 de octubre."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Wahrscheinlich] Eine Woche der Notenbankentscheidungen beginnt mit Öl knapp unter dem Hoch der Vorwoche: Brent gab am Montag, 26. Oktober, nach, blieb aber über 110 USD, und die Rendite 10-jähriger US-Anleihen fiel auf etwa 4,96 %. Die Fed entscheidet am 28. Oktober, die EZB am 29. Oktober und die Banco de la República am 30. Oktober; von Fed und EZB wird eine Pause erwartet, von Kolumbien eine Erhöhung. Die energiegetriebene stagflationäre Tendenz bleibt.",
+      "priority_review": "1) Braucht der Regime-Klassifikator nach den drei Entscheidungen neue Leitzins-Eingaben? 2) Stimmt der risikofreie Zins nahe 5 % noch? 3) Ändert ein stärkerer Peso den COP-Warnhinweis?",
+      "items": [
+        {
+          "source_url": "https://vanderbiltreport.com/stock-market-outlook-oil-fed-big-tech-earnings-october-26-2026/",
+          "title": "Öl gibt vom Hoch nach, bleibt aber über 110 USD",
+          "publication_date": "23.–26. Oktober 2026",
+          "what_changed": "[Sicher] Brent schloss am 23. Oktober bei 116,72 USD, dem höchsten Schlusskurs seit April. [Wahrscheinlich] Am 26. Oktober gab es nach, blieb aber über 110 USD; Berichte zum genauen Niveau weichen ab. Treiber bleibt das Risiko erneuter US-Angriffe auf Iran und von Angriffen auf Energieanlagen am Golf.",
+          "investorace_implication": "[Wahrscheinlich] Ein eintägiger Rückgang ändert das Regime nicht: Öl über 110 USD hält die Gesamtinflation hoch und die Notenbanken vorsichtig. [Vermutung] Erst eine anhaltende Bewegung zurück Richtung 100 USD wäre ein echtes Entspannungssignal.",
+          "review_question": "Reagiert der Klassifikator auf den Wochendurchschnitt statt auf einzelne Handelstage? Als Nächstes: Schnellschätzung der Inflation im Euroraum am 4. November.",
+          "limitations": "Das Ölniveau vom Montag weicht zwischen Berichten ab; kein Börsenschlusskurs wurde geprüft."
+        },
+        {
+          "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+          "title": "Fed entscheidet am 28. Oktober, Märkte erwarten eine Pause",
+          "publication_date": "16. September bis 26. Oktober 2026",
+          "what_changed": "[Wahrscheinlich] US-Aktien stiegen am 26. Oktober (Dow etwa 0,7 %, Nasdaq etwa 0,6 %), weil Öl nachgab, vor großen Technologie-Quartalszahlen. Die Rendite 10-jähriger Treasuries fiel auf etwa 4,96 %. [Sicher] Das Zielband liegt bei 3,75 % bis 4 %; die Entscheidung fällt am 28. Oktober, die Zwischenwahlen sind am 3. November.",
+          "investorace_implication": "[Wahrscheinlich] Eine Pause mit straffer Botschaft hielte eine Erhöhung im Dezember offen; die Formulierung zum Öl ist wichtiger als die Entscheidung selbst. [Vermutung] Zinssensitive Sektoren profitieren, wenn die Fed Geduld signalisiert.",
+          "review_question": "Den risikofreien Zins nach der Erklärung vom 28. Oktober aktualisieren.",
+          "limitations": "Die Indexbewegungen stammen aus einem Marktausblick, nicht aus Schlussdaten. Keine neue US-Maßnahme wurde verifiziert."
+        },
+        {
+          "source_url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "title": "Euro fällt vor der EZB am 29. Oktober auf 1,1188 USD",
+          "publication_date": "19. bis 26. Oktober 2026",
+          "what_changed": "[Sicher] EZB-Referenzkurs am 26. Oktober 2026: 1 EUR = 1,1188 USD nach 1,1205 am 22. Oktober; der Euro gab also um etwa 0,15 % nach. Der Einlagesatz liegt bei 2,50 %; die nächste Entscheidung fällt am 29. Oktober. Die französische Einnahmenabstimmung ist für den 3. November angesetzt.",
+          "investorace_implication": "[Wahrscheinlich] Eine Pause ist das Basisszenario; eine Erhöhung würde den Euro stützen, aber europäische Aktien belasten, die schon unter den Energiekosten leiden. Das französische Haushaltsrisiko bleibt bis November offen.",
+          "review_question": "Als Nächstes: EZB am 29. Oktober, französische Einnahmenabstimmung am 3. November.",
+          "limitations": "Für diese Ausgabe wurde keine neue EZB-Kommunikation geprüft."
+        },
+        {
+          "source_url": "https://www.capitalcolombia.com/sec-trm_precio_dolar_en_colombia",
+          "title": "Peso festigt sich auf rund 3158 pro Dollar vor der BanRep am 30. Oktober",
+          "publication_date": "16. bis 27. Oktober 2026",
+          "what_changed": "[Wahrscheinlich] Die vom 24. bis 26. Oktober gültige TRM betrug 1 USD = 3158,43 COP nach 3185,01 am 23. Oktober, eine Peso-Aufwertung um etwa 0,83 %. Abgeleitet aus EZB-Kurs und TRM vom 26. Oktober: 1 EUR = 3533,7 COP (vorige Ausgabe: 3568,8), ein um etwa 0,98 % stärkerer Peso. Eine Quelle nennt 3157,94 für den 27. Oktober. Analysten erwarten am 30. Oktober eine Erhöhung um 25 Basispunkte auf 12,5 %. Eine Einreichung des Rettungsgesetzes wurde nicht gefunden.",
+          "investorace_implication": "[Wahrscheinlich] Ein festerer Peso und eine wahrscheinliche Erhöhung verschärfen die Bedingungen für Inlandsgewinne, helfen aber, importierte Inflation zu dämpfen; die fiskalische Glaubwürdigkeit bestimmt weiter die Risikoprämie.",
+          "review_question": "Als Nächstes: Banco de la República am 30. Oktober; IWF-Mission Anfang November.",
+          "limitations": "Die TRM für den 27. Oktober beruht auf einer einzigen Quelle. Die Zinserwartung stammt aus einer Umfrage vom 16. Oktober."
+        }
+      ]
+    }
+  }
+}
