@@ -1,6 +1,6 @@
 {
  "ADBE": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -51,7 +51,7 @@
   }
  },
  "ASML.AS": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -106,7 +106,7 @@
   }
  },
  "RIVN": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -161,7 +161,7 @@
   }
  },
  "ROAD": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -210,7 +210,7 @@
   }
  },
  "CRM": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -265,7 +265,7 @@
   }
  },
  "NVDA": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -320,7 +320,7 @@
   }
  },
  "SPGI": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -375,7 +375,7 @@
   }
  },
  "SAN.PA": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -430,7 +430,7 @@
   }
  },
  "APP": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -485,7 +485,7 @@
   }
  },
  "ABT": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -540,7 +540,7 @@
   }
  },
  "WKL.AS": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -595,7 +595,7 @@
   }
  },
  "MC.PA": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -650,7 +650,7 @@
   }
  },
  "UBER": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -705,7 +705,7 @@
   }
  },
  "AVGO": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -760,7 +760,7 @@
   }
  },
  "ONON": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -811,7 +811,7 @@
   }
  },
  "VICI": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -866,7 +866,7 @@
   }
  },
  "ENB.TO": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -921,7 +921,7 @@
   }
  },
  "PFE": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -976,7 +976,7 @@
   }
  },
  "ROL": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1024,14 +1024,14 @@
    ],
    "tax_rate": 0.24855833568736216,
    "tax_source": "yahoo-latest-effective",
-   "net_debt": 938001000.0,
+   "net_debt": 938018000.0,
    "shares": 481193751.0,
    "norm_years_available": 3,
    "capex_years_available": 4
   }
  },
  "LULU": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1086,7 +1086,7 @@
   }
  },
  "PL": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1141,7 +1141,7 @@
   }
  },
  "MSFT": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1192,7 +1192,7 @@
   }
  },
  "AAPL": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1241,7 +1241,7 @@
   }
  },
  "KO": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1294,7 +1294,7 @@
   }
  },
  "CVX": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1345,7 +1345,7 @@
   }
  },
  "AMAT": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1400,7 +1400,7 @@
   }
  },
  "PHR": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1455,7 +1455,7 @@
   }
  },
  "RCAT": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1504,7 +1504,7 @@
   }
  },
  "ADSK": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1557,7 +1557,7 @@
   }
  },
  "GOOG": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1608,7 +1608,7 @@
   }
  },
  "GILD": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1659,7 +1659,7 @@
   }
  },
  "AG": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1714,7 +1714,7 @@
   }
  },
  "BABA": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1765,7 +1765,7 @@
   }
  },
  "FSLR": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1820,7 +1820,7 @@
   }
  },
  "SITE": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1871,7 +1871,7 @@
   }
  },
  "TSLA": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1926,7 +1926,7 @@
   }
  },
  "PG": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -1971,13 +1971,13 @@
    "tax_rate": 0.20773421013888207,
    "tax_source": "yahoo-latest-effective",
    "net_debt": 25084000000.0,
-   "shares": 2323859000.0,
+   "shares": 2323858841.0,
    "norm_years_available": 3,
    "capex_years_available": 4
   }
  },
  "CSGP": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2032,7 +2032,7 @@
   }
  },
  "OXY": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2087,7 +2087,7 @@
   }
  },
  "SPCX": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2130,7 +2130,7 @@
   }
  },
  "REP.MC": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2181,7 +2181,7 @@
   }
  },
  "MRVL": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2236,7 +2236,7 @@
   }
  },
  "AR": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2291,7 +2291,7 @@
   }
  },
  "DVN": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2346,7 +2346,7 @@
   }
  },
  "CNX": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2401,7 +2401,7 @@
   }
  },
  "MRNA": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2452,7 +2452,7 @@
   }
  },
  "BNTX": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2507,7 +2507,7 @@
   }
  },
  "INTC": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2558,7 +2558,7 @@
   }
  },
  "CRWV": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2607,7 +2607,7 @@
   }
  },
  "NBIS": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2662,7 +2662,7 @@
   }
  },
  "OPEN": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2717,7 +2717,7 @@
   }
  },
  "BA": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2768,7 +2768,7 @@
   }
  },
  "TEM": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2823,7 +2823,7 @@
   }
  },
  "ISRG": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2874,7 +2874,7 @@
   }
  },
  "VST": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2929,7 +2929,7 @@
   }
  },
  "SE": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -2980,7 +2980,7 @@
   }
  },
  "CMCSA": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3035,7 +3035,7 @@
   }
  },
  "NVO": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3086,7 +3086,7 @@
   }
  },
  "ENG.MC": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3141,7 +3141,7 @@
   }
  },
  "META": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3196,7 +3196,7 @@
   }
  },
  "DIS": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3245,7 +3245,7 @@
   }
  },
  "PEP": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3300,7 +3300,7 @@
   }
  },
  "BSX": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3355,7 +3355,7 @@
   }
  },
  "WIX": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3406,7 +3406,7 @@
   }
  },
  "GRAB": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3461,7 +3461,7 @@
   }
  },
  "NOW": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3516,7 +3516,7 @@
   }
  },
  "MCD": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3567,7 +3567,7 @@
   }
  },
  "TTD": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3622,7 +3622,7 @@
   }
  },
  "NKE": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3677,7 +3677,7 @@
   }
  },
  "ZTS": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3728,7 +3728,7 @@
   }
  },
  "IBST.L": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3783,7 +3783,7 @@
   }
  },
  "NFLX": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3838,7 +3838,7 @@
   }
  },
  "INTU": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3893,7 +3893,7 @@
   }
  },
  "GIS": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3944,7 +3944,7 @@
   }
  },
  "GOOGL": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -3995,7 +3995,7 @@
   }
  },
  "CLX": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4050,7 +4050,7 @@
   }
  },
  "AMD": {
-  "asof": "2026-10-21",
+  "asof": "2026-10-28",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
