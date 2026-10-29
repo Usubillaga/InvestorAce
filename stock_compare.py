@@ -263,9 +263,13 @@ def apply_primary_annuals(row, review, *, as_of):
                 ('operating_income','operating_income')):
             if number(source.get(source_field)) is not None:
                 item[field] = source[source_field] * 1e6
-        for field, numerator in (('operating_margin','operating_income'),
+        for field, numerator in (('gross_margin','gross_profit'), ('operating_margin','operating_income'),
                 ('net_margin','net_income'), ('fcf_margin','fcf')):
             item[field] = ratio(item.get(numerator), item.get('revenue'), 100)
+    for item, prior in zip(result.get('annual', []), result.get('annual', [])[1:]):
+        gap = (datetime.fromisoformat(item['period_end'])-datetime.fromisoformat(prior['period_end'])).days
+        growth = ratio(item.get('revenue'), prior.get('revenue'))
+        item['revenue_growth'] = (growth-1)*100 if growth is not None and 330 <= gap <= 400 else None
     result.setdefault('sources', []).extend(
         dict(label=source['title'], url=source['url']) for source in valuation.get('sources', []))
     result.setdefault('warnings', []).append('PRIMARY_ANNUAL_CASH_FLOW_CORRECTION')

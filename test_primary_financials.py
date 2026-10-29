@@ -69,10 +69,13 @@ class PrimaryFinancials(unittest.TestCase):
 
     def test_comparison_repairs_same_fiscal_year_without_mutating_cache(self):
         row=dict(listing='AR',financial_currency='USD',annual=[dict(period_end='2025-12-31',
-            revenue=5275823000,ocf=1630930000,capex=387782000,fcf=1243148000)],sources=[],warnings=[])
+            revenue=5013610000,gross_profit=1108250000,ocf=1630930000,capex=387782000,fcf=1243148000),
+            dict(period_end='2024-12-31',revenue=4118700000)],sources=[],warnings=[])
         corrected=stock_compare.apply_primary_annuals(row,self.review,as_of=NOW)
         self.assertEqual(corrected['annual'][0]['fcf'],810808000)
         self.assertEqual(corrected['annual'][0]['capex'],820122000)
+        self.assertAlmostEqual(corrected['annual'][0]['gross_margin'],1108250000/5275823000*100)
+        self.assertAlmostEqual(corrected['annual'][0]['revenue_growth'],(5275.823/4325.596-1)*100)
         self.assertEqual(row['annual'][0]['fcf'],1243148000)
         early=datetime(2026,10,28,tzinfo=timezone.utc)
         self.assertEqual(stock_compare.apply_primary_annuals(row,self.review,as_of=early),row)
