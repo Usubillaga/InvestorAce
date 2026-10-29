@@ -1,4 +1,4 @@
-"""Dated, source-backed reviews. This module never changes model inputs or scores."""
+"""Dated reviews and optional issuer financial facts; narrative never overrides scores."""
 import json
 import math
 from datetime import date, datetime
@@ -368,7 +368,7 @@ def panel(rows, reviews):
     entries = {t: e for t, e in reviews['entries'].items() if t in rows}
     intro = (f'{len(entries)} of {len(rows)} tickers have a dated review entry; '
              f'{len(rows) - len(entries)} not reviewed. Source inspection and a validated '
-             'sustainable valuation are separate checks. These disclosures do not change Score or Regime Fit.')
+             'sustainable valuation are separate checks. Dated issuer facts can correct model inputs; review narrative does not override formulas or approval.')
     if not reviews['as_of']:
         return '<section class="box"><h2>Source and insider review</h2><p>' + intro + '</p></section>'
     body = []

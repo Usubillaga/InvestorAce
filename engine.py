@@ -354,7 +354,7 @@ DATA = {
     deliver_basis='REVENUE_PROXY', dl='revenue growth', sub=(9.5,5.5,7.5,6.5,1.5,2), pr=None, dil=3.0, clock='CONC',
     ins='NOT CHECKED', held=False, sector='Semis', built='est', sanity=(40,500),
     boot_note='Q2 FY2027 reported 27 Aug 2026. Revenue $2.739bn +37%, Data Center +46% and 79% of the mix, guidance raised twice for FY27 AND FY28. GAAP net income $308m vs non-GAAP $866m -- a $558m gap, mostly stock comp and amortisation. Google warrant for up to 7% of shares is the dilution risk. $120bn Google deal produces material revenue only from FY2029.'),
-'AR'  : dict(yf='AR', fcf=520, fcf_ttm=340, shares=310.0, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='mid-cycle FCF across four reported years; natural gas | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
+'AR'  : dict(yf='AR', fcf=728.3865, fcf_ttm=1133.678, shares=307.136, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(8,8,6.5,6,6,4), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='Q3 2026 primary cash bridge: full capex included. FY2022-25 mean FCF is a historical proxy, not normalized FCFE; HG/Utica perimeter and minority distributions remain under review. Insider activity not checked in this earnings update.'),
 'DVN' : dict(yf='DVN', fcf=None, fcf_ttm=None, shares=1149.9, r=.105, cur='USD',
     deliver=None, deliver_basis='PRODUCTION', dl='no comparable cash-flow forecast',
     sub=(6,7,6.5,5,7,7), pr=None, dil=5.0, clock='DIV', ins='PARTIAL',
@@ -1299,6 +1299,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
     except (OSError, ValueError, AttributeError):
         cache = {}
     entries = cache.get('entries', {})
+    primary_entries = SOURCE_REVIEW.load().get('entries', {})
     dirty = False
     counts = dict(refreshed=0, cached=0, unavailable=0, specialized=0)
     for ticker, row in DATA.items():
@@ -1331,6 +1332,8 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
         cached = not valid and previous is not None
         if not isinstance(facts, dict):
             facts = dict(schema=LIVE_ANALYSIS.VERSION, symbol=symbol, inputs={}, currency=row.get('cur'))
+        primary = primary_entries.get(ticker, {}).get('valuation', {}).get('financial_packet')
+        facts = LIVE_ANALYSIS.prefer_primary(facts, primary, as_of=as_of)
         facts = dict(facts, midcycle=bool(row.get('midcycle')))
         if valid:
             entries[symbol] = fresh
@@ -1357,6 +1360,8 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
             risk_free=WACC.resolve_risk_free()/100., mrp=WACC.MARKET_RISK_PREMIUM/100., as_of=as_of,
             cushion_tolerance=CUSHION_TOL)
         analysis['data_status'] = 'CACHED_INPUTS' if cached else 'FRESH_INPUTS' if valid else 'UNAVAILABLE'
+        if facts.get('primary_current'):
+            analysis['data_status'] = 'PRIMARY_INPUTS'
         analysis['rate_provenance'] = WACC.provenance()
         if cached:
             analysis['warnings'].append('Financial refresh failed; dated last-good inputs retained and repriced.')

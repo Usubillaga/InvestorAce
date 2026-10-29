@@ -1,6 +1,6 @@
 {
   "schema": "source-reviews-v1",
-  "as_of": "2026-10-23",
+  "as_of": "2026-10-29",
   "window_start": "2026-07-16",
   "window_end": "2026-10-14",
   "entries": {
@@ -6215,6 +6215,272 @@
         "limitations": [
           "An empty transaction list is not evidence of no activity; neither a buying nor a selling conclusion is certified."
         ]
+      }
+    },
+    "AR": {
+      "issuer": "Antero Resources Corporation",
+      "listing": "NYSE: AR",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Q3 2026 primary statements replace incomplete provider capex. TTM OCF 2,243.851m minus full cash capex 1,110.173m gives 1,133.678m. FY2022–25 mean FCF is 728.3865m rather than 1,426.434m. At the dated 42.11 USD reference, automatic opportunity score is 7.45/10 (Buy), with Reflation fit 73.5/100. Reported TTM P/E 9.41x versus same-cycle earnings P/E 18.73x. Historical cash is not a certified sustainable FCFE forecast: HG/Utica perimeter, minority distributions, gas prices and reinvestment need normalization. Automatic labels remain separate from blocked manual approval. Earnings report: https://usubillaga.github.io/InvestorAce/earnings/antero-q3-2026.html",
+        "sources": [
+          {
+            "title": "Antero Q3 2026 earnings release",
+            "url": "https://www.anteroresources.com/investors/press-releases/detail/262/antero-resources-announces-third-quarter-2026-financial-and",
+            "published_at": "2026-10-28"
+          },
+          {
+            "title": "Antero Q3 2026 Form 10-Q",
+            "url": "https://www.anteroresources.com/investors/sec-filings/all-sec-filings/content/0001104659-26-119637/ar-20260930x10q.htm",
+            "published_at": "2026-10-28"
+          },
+          {
+            "title": "Antero FY2025 results",
+            "url": "https://www.anteroresources.com/news-events/press-releases/detail/255/antero-resources-announces-fourth-quarter-2025-results-and",
+            "published_at": "2026-02-11"
+          },
+          {
+            "title": "Antero FY2024 results",
+            "url": "https://www.anteroresources.com/news-events/press-releases/detail/243/antero-resources-announces-fourth-quarter-2024-results",
+            "published_at": "2025-02-12"
+          },
+          {
+            "title": "Antero FY2024 Form 10-K, restated comparative income and cash flow, F-5/F-7",
+            "url": "https://www.anteroresources.com/investors/sec-filings/all-sec-filings/content/0001558370-25-000864/0001558370-25-000864.pdf",
+            "published_at": "2025-02-13"
+          },
+          {
+            "title": "Antero Q2 2026 results and prior guidance",
+            "url": "https://www.anteroresources.com/investors/press-releases/detail/259/antero-resources-announces-second-quarter-2026-financial",
+            "published_at": "2026-07-29"
+          }
+        ],
+        "financial_packet": {
+          "schema": "dynamic-analysis-v1",
+          "symbol": "AR",
+          "currency": "USD",
+          "financial_currency": "USD",
+          "fetched_at": "2026-10-29T07:49:54+00:00",
+          "published_at": "2026-10-28T23:59:59+00:00",
+          "publication_time_basis": "Conservative end-of-publication-day availability bound for the Form 10-Q; not its exact filing time.",
+          "financial_period": "2026-09-30",
+          "basis": "TTM",
+          "period_ends": [
+            "2026-09-30",
+            "2026-06-30",
+            "2026-03-31",
+            "2025-12-31"
+          ],
+          "inputs": {
+            "operating_cash_flow": 2243851000.0,
+            "capex": 1110173000.0,
+            "net_income": 1374696000.0,
+            "minority_distributions": 41200000.0,
+            "revenue": 6479434000.0,
+            "operating_income": 1785868000.0,
+            "dda": 861616000.0,
+            "fcf": 1133678000.0,
+            "ebitda": 2647484000.0,
+            "shares": 307136000,
+            "debt": 2781812000,
+            "cash": 0,
+            "dividends": 0
+          },
+          "shares_basis": "10Q_COVER_COMMON_OUTSTANDING",
+          "shares_asof": "2026-10-23",
+          "revenue_growth_pct": 21.967539270888924,
+          "revenue_growth_periods": [
+            "2025-12-31",
+            "2024-12-31"
+          ],
+          "share_change_pct": -0.8532450629087585,
+          "share_change_periods": [
+            "2025-12-31",
+            "2024-12-31"
+          ],
+          "cash_flow_calculation": "OCF_MINUS_FULL_CASH_CAPEX",
+          "annual_fcf_series": [
+            {
+              "period": "2025-12-31",
+              "value": 810808000.0
+            },
+            {
+              "period": "2024-12-31",
+              "value": 132508999.99999999
+            },
+            {
+              "period": "2023-12-31",
+              "value": -137142000.0
+            },
+            {
+              "period": "2022-12-31",
+              "value": 2107371000.0
+            }
+          ],
+          "annual_net_income_series": [
+            {
+              "period": "2025-12-31",
+              "value": 634418000.0
+            },
+            {
+              "period": "2024-12-31",
+              "value": 57226000.0
+            },
+            {
+              "period": "2023-12-31",
+              "value": 198404000.0
+            },
+            {
+              "period": "2022-12-31",
+              "value": 1871636000.0
+            }
+          ],
+          "source_urls": [
+            "https://www.anteroresources.com/investors/press-releases/detail/262/antero-resources-announces-third-quarter-2026-financial-and",
+            "https://www.anteroresources.com/investors/sec-filings/all-sec-filings/content/0001104659-26-119637/ar-20260930x10q.htm",
+            "https://www.anteroresources.com/news-events/press-releases/detail/255/antero-resources-announces-fourth-quarter-2025-results-and",
+            "https://www.anteroresources.com/news-events/press-releases/detail/243/antero-resources-announces-fourth-quarter-2024-results",
+            "https://www.anteroresources.com/investors/sec-filings/all-sec-filings/content/0001558370-25-000864/0001558370-25-000864.pdf",
+            "https://www.anteroresources.com/investors/press-releases/detail/259/antero-resources-announces-second-quarter-2026-financial"
+          ],
+          "primary_warnings": [
+            "Full cash capex includes land, drilling/completion and other property additions; acquisition consideration is separate.",
+            "Four-year cash mean precedes the HG/Utica perimeter changes and is not certified normalized FCFE. Minority distributions are not deducted from this mechanical proxy.",
+            "EBITDA is operating income plus DDA, not company Adjusted EBITDAX. Financial debt excludes operating leases; lease costs remain operating expenses."
+          ]
+        },
+        "calculation_ledger": {
+          "unit": "USD millions except per-share amounts",
+          "annual": [
+            {
+              "period": "2025-12-31",
+              "operating_cash_flow": 1630.93,
+              "land": 129.247,
+              "drilling": 685.468,
+              "other": 5.407,
+              "net_income": 634.418,
+              "minority_distributions": 70.21,
+              "revenue": 5275.823,
+              "operating_income": 883.646,
+              "dda": 749.675,
+              "shares": 308.51,
+              "capex": 820.122,
+              "fcf": 810.808
+            },
+            {
+              "period": "2024-12-31",
+              "operating_cash_flow": 849.288,
+              "land": 90.995,
+              "drilling": 614.855,
+              "other": 10.929,
+              "net_income": 57.226,
+              "minority_distributions": 74.286,
+              "revenue": 4325.596,
+              "shares": 311.165,
+              "capex": 716.779,
+              "fcf": 132.509
+            },
+            {
+              "period": "2023-12-31",
+              "operating_cash_flow": 994.721,
+              "land": 151.135,
+              "drilling": 964.346,
+              "other": 16.382,
+              "net_income": 198.404,
+              "minority_distributions": 128.823,
+              "capex": 1131.863,
+              "fcf": -137.142
+            },
+            {
+              "period": "2022-12-31",
+              "operating_cash_flow": 3051.342,
+              "land": 149.009,
+              "drilling": 780.649,
+              "other": 14.313,
+              "net_income": 1871.636,
+              "minority_distributions": 173.537,
+              "capex": 943.971,
+              "fcf": 2107.371
+            }
+          ],
+          "ytd_2025": {
+            "operating_cash_flow": 1260.187,
+            "capex": 617.213,
+            "net_income": 440.735,
+            "minority_distributions": 54.006,
+            "revenue": 3864.194,
+            "operating_income": 594.472,
+            "dda": 562.719
+          },
+          "ytd_2026": {
+            "operating_cash_flow": 1873.108,
+            "capex": 907.264,
+            "net_income": 1181.013,
+            "minority_distributions": 24.996,
+            "revenue": 5067.805,
+            "operating_income": 1496.694,
+            "dda": 674.66
+          },
+          "ttm": {
+            "operating_cash_flow": 2243.851,
+            "capex": 1110.173,
+            "net_income": 1374.696,
+            "minority_distributions": 41.2,
+            "revenue": 6479.434,
+            "operating_income": 1785.868,
+            "dda": 861.616,
+            "fcf": 1133.678
+          },
+          "ttm_formula": "FY2025 minus nine months 2025 plus nine months 2026",
+          "quarter": {
+            "revenue": 1562.837,
+            "revenue_prior": 1213.994,
+            "net_income": 367.14,
+            "adjusted_net_income": 255.949,
+            "diluted_weighted_average_shares": 308.626,
+            "gaap_eps": 1.19,
+            "adjusted_eps": 0.83,
+            "ocf": 575.201,
+            "capex": 360.447,
+            "raw_fcf": 214.754,
+            "transaction_adjustment": 0.552,
+            "adjusted_fcf": 215.306,
+            "adjusted_fcf_prior": 90.906
+          },
+          "adjusted_income_bridge": [
+            367.14,
+            -53.006,
+            -5.924,
+            -1.153,
+            1.555,
+            13.152,
+            -110.71,
+            12.991,
+            0.552,
+            31.352
+          ],
+          "cycle_mean_fcf": 728.3865,
+          "cycle_mean_minorities": 111.714,
+          "cycle_mean_after_minorities": 616.6725,
+          "old_vendor_cycle_fcf": 1426.434,
+          "notes": [
+            "FY2022 and FY2023 income uses the FY2024 10-K restated comparative figures.",
+            "Acquisitions are excluded from capex, not treated as free. The sustainable reinvestment/perimeter bridge is unresolved.",
+            "307.136m outstanding shares are used for capitalization; 308.626m quarterly weighted diluted shares only for historical EPS."
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Form 4 activity was not reviewed in this earnings update. Corporate repurchases are not insider purchases.",
+        "sources": [],
+        "transactions": [],
+        "limitations": [
+          "No complete insider transaction search."
+        ],
+        "coverage": {
+          "complete": false
+        }
       }
     }
   }

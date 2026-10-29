@@ -623,6 +623,12 @@ def build_site(root, output, require_committed=False):
                    for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
     pages = list(enagas_review_pages)
+    # Prepare dated earnings artifacts before replacing any published page.
+    earnings = root / 'earnings'
+    if earnings.is_dir():
+        pages.extend((Path('earnings') / path.name, path.read_bytes())
+                     for path in sorted(earnings.iterdir())
+                     if path.is_file() and path.suffix in ('.html', '.pdf', '.json'))
     if committed_build is not None:
         from market_scanner import site_pages
         pages.extend(site_pages(root, committed_build))
