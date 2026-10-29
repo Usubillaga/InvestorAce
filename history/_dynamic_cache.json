@@ -3,7 +3,7 @@
  "entries": {
   "ADBE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ADBE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -68,6 +68,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-11-30",
+     "value": 7130000000.0
+    },
+    {
+     "period": "2024-11-30",
+     "value": 5560000000.0
+    },
+    {
+     "period": "2023-11-30",
+     "value": 5428000000.0
+    },
+    {
+     "period": "2022-11-30",
+     "value": 4756000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-11-30",
     "2024-11-30"
@@ -81,7 +99,7 @@
   },
   "ASML.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ASML.AS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -146,6 +164,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 9609400000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 7571600000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 7839000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 5624200000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -159,7 +199,7 @@
   },
   "RIVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "RIVN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -224,6 +264,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -3646000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -4747000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -5432000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -6752000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -237,7 +299,7 @@
   },
   "ROAD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ROAD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -298,6 +360,24 @@
      "value": -52353000.0
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-09-30",
+     "value": 101781000.0
+    },
+    {
+     "period": "2024-09-30",
+     "value": 68935000.0
+    },
+    {
+     "period": "2023-09-30",
+     "value": 49001000.0
+    },
+    {
+     "period": "2022-09-30",
+     "value": 21376000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-09-30",
     "2024-09-30"
@@ -311,7 +391,7 @@
   },
   "CRM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "CRM",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -325,7 +405,7 @@
     "revenue": 43938000000.0,
     "operating_income": 9455000000.0,
     "net_income": 9662000000.0,
-    "ebitda": null,
+    "ebitda": 16588000000.0,
     "operating_cash_flow": 15750000000.0,
     "capex": 596000000.0,
     "fcf": 15154000000.0,
@@ -376,6 +456,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-01-31",
+     "value": 7457000000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 6197000000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 4136000000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 208000000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-01-31",
     "2025-01-31"
@@ -389,7 +491,7 @@
   },
   "NVDA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "NVDA",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -454,6 +556,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-01-31",
+     "value": 120067000000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 72880000000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 29760000000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 4368000000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-01-31",
     "2025-01-31"
@@ -467,27 +591,27 @@
   },
   "SPGI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "SPGI",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 16121000000.0,
-    "operating_income": 6700000000.0,
-    "net_income": 4922000000.0,
-    "ebitda": 8388000000.0,
-    "operating_cash_flow": 5729000000.0,
-    "capex": 156000000.0,
-    "fcf": 5573000000.0,
-    "dividends": -1156000000.0,
-    "debt": 15622000000.0,
-    "cash": 4134000000.0,
+    "revenue": 15911000000.0,
+    "operating_income": 6788000000.0,
+    "net_income": 4986000000.0,
+    "ebitda": 8605000000.0,
+    "operating_cash_flow": 5409000000.0,
+    "capex": 139000000.0,
+    "fcf": 5270000000.0,
+    "dividends": -1146000000.0,
+    "debt": 13465000000.0,
+    "cash": 2441000000.0,
     "shares": 289900000.0
    },
    "financial_currency": "USD",
@@ -532,6 +656,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 4471000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 3852000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2626000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 3248000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -545,7 +691,7 @@
   },
   "SAN.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "SAN.PA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -610,6 +756,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 7813000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 5560000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 5400000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 8371000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -623,7 +791,7 @@
   },
   "APP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "APP",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -644,7 +812,7 @@
     "dividends": null,
     "debt": 3515072000.0,
     "cash": 3053306000.0,
-    "shares": 305732000.0
+    "shares": 304443000.0
    },
    "financial_currency": "USD",
    "currency": "USD",
@@ -688,6 +856,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 3333764000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1579790000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 357211000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -192746000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -701,7 +891,7 @@
   },
   "ABT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ABT",
    "financial_period": "2026-03-31",
    "period_ends": [
@@ -722,7 +912,7 @@
     "dividends": -4188000000.0,
     "debt": 34047000000.0,
     "cash": 6803000000.0,
-    "shares": 1730383296.0
+    "shares": 1741813154.0
    },
    "financial_currency": "USD",
    "currency": "USD",
@@ -766,6 +956,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 6524000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 13402000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 5723000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 6933000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -779,7 +991,7 @@
   },
   "WKL.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "WKL.AS",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -841,6 +1053,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1308000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1079000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1007000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1027000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -854,7 +1088,7 @@
   },
   "MC.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "MC.PA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -916,6 +1150,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 10878000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 12550000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 15174000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 14084000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -929,7 +1185,7 @@
   },
   "UBER": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "UBER",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -994,6 +1250,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 10053000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 9856000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1887000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -9141000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -1007,7 +1285,7 @@
   },
   "AVGO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "AVGO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1072,6 +1350,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-10-31",
+     "value": 23126000000.0
+    },
+    {
+     "period": "2024-10-31",
+     "value": 5895000000.0
+    },
+    {
+     "period": "2023-10-31",
+     "value": 14082000000.0
+    },
+    {
+     "period": "2022-10-31",
+     "value": 11495000000.0
+    },
+    {
+     "period": "2021-10-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-10-31",
     "2024-10-31"
@@ -1085,7 +1385,7 @@
   },
   "ONON": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ONON",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1150,6 +1450,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 203700000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 242300000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 79600000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 57700000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -1163,7 +1481,7 @@
   },
   "PFE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "PFE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1228,6 +1546,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 7771000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 8031000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2119000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 31372000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -1241,7 +1581,7 @@
   },
   "ROL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ROL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -1306,6 +1646,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 526705000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 466379000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 434957000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 368599000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -1319,7 +1681,7 @@
   },
   "LULU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "LULU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1384,6 +1746,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-01-31",
+     "value": 1579183000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 1814616000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 1550190000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 854800000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-01-31",
     "2025-01-31"
@@ -1397,7 +1781,7 @@
   },
   "PL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "PL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1462,6 +1846,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-01-31",
+     "value": -246860000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": -123196000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": -140509000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": -161966000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-01-31",
     "2025-01-31"
@@ -1475,7 +1881,7 @@
   },
   "MSFT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "MSFT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1507,7 +1913,7 @@
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
    "revenue_growth_pct": 17.788686799846666,
-   "share_change_pct": -0.09629408426985453,
+   "share_change_pct": -0.07699527634038583,
    "annual_fcf_growth_pct": -6.457108544776635,
    "revenue_growth_periods": [
     "2026-06-30",
@@ -1540,6 +1946,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-06-30",
+     "value": 133749000000.0
+    },
+    {
+     "period": "2025-06-30",
+     "value": 101832000000.0
+    },
+    {
+     "period": "2024-06-30",
+     "value": 88136000000.0
+    },
+    {
+     "period": "2023-06-30",
+     "value": 72361000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2026-06-30",
     "2025-06-30"
@@ -1553,7 +1977,7 @@
   },
   "AAPL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "AAPL",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1614,6 +2038,24 @@
      "value": 111443000000.0
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-09-30",
+     "value": 112010000000.0
+    },
+    {
+     "period": "2024-09-30",
+     "value": 93736000000.0
+    },
+    {
+     "period": "2023-09-30",
+     "value": 96995000000.0
+    },
+    {
+     "period": "2022-09-30",
+     "value": 99803000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-09-30",
     "2024-09-30"
@@ -1627,7 +2069,7 @@
   },
   "KO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "KO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1688,6 +2130,28 @@
      "value": 9534000000.0
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 13107000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 10631000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 10714000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 9542000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -1701,7 +2165,7 @@
   },
   "CVX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "CVX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1766,6 +2230,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 12299000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 17661000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 21369000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 35465000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -1779,7 +2261,7 @@
   },
   "AMAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "AMAT",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1844,6 +2326,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-10-31",
+     "value": 6998000000.0
+    },
+    {
+     "period": "2024-10-31",
+     "value": 7177000000.0
+    },
+    {
+     "period": "2023-10-31",
+     "value": 6856000000.0
+    },
+    {
+     "period": "2022-10-31",
+     "value": 6525000000.0
+    },
+    {
+     "period": "2021-10-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-10-31",
     "2024-10-31"
@@ -1857,7 +2361,7 @@
   },
   "PHR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "PHR",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1922,6 +2426,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-01-31",
+     "value": 2306000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": -58527000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": -136885000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": -176146000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-01-31",
     "2025-01-31"
@@ -1935,7 +2461,7 @@
   },
   "RCAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "RCAT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1996,6 +2522,24 @@
      "value": -16383009.0
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -72075000.0
+    },
+    {
+     "period": "2024-04-30",
+     "value": -24053000.0
+    },
+    {
+     "period": "2023-04-30",
+     "value": -28107029.0
+    },
+    {
+     "period": "2022-04-30",
+     "value": -11689128.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-04-30"
@@ -2009,7 +2553,7 @@
   },
   "ADSK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ADSK",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2070,6 +2614,28 @@
      "value": 2025000000.0
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-01-31",
+     "value": 1124000000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": 1112000000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": 906000000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": 823000000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-01-31",
     "2025-01-31"
@@ -2083,7 +2649,7 @@
   },
   "GOOG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "GOOG",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2148,6 +2714,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 132170000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 100118000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 73795000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 59972000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -2161,7 +2745,7 @@
   },
   "GILD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "GILD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2226,6 +2810,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 8510000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 480000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 5665000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 4592000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -2239,7 +2841,7 @@
   },
   "AG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "AG",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2304,6 +2906,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 164923000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -101885000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -135112000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -114276000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -2317,7 +2941,7 @@
   },
   "BABA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "BABA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2382,6 +3006,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-03-31",
+     "value": 103592000000.0
+    },
+    {
+     "period": "2025-03-31",
+     "value": 130109000000.0
+    },
+    {
+     "period": "2024-03-31",
+     "value": 80009000000.0
+    },
+    {
+     "period": "2023-03-31",
+     "value": 72783000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2026-03-31",
     "2025-03-31"
@@ -2395,7 +3037,7 @@
   },
   "BYRN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "BYRN",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -2460,6 +3102,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-11-30",
+     "value": 9687000.0
+    },
+    {
+     "period": "2024-11-30",
+     "value": 12792000.0
+    },
+    {
+     "period": "2023-11-30",
+     "value": -8192000.0
+    },
+    {
+     "period": "2022-11-30",
+     "value": -7885000.0
+    },
+    {
+     "period": "2021-11-30",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-11-30",
     "2024-11-30"
@@ -2473,7 +3137,7 @@
   },
   "FSLR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "FSLR",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2538,6 +3202,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1528229000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1292044000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 830777000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -44166000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -2551,28 +3237,28 @@
   },
   "SITE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "SITE",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 4774600000.0,
-    "operating_income": 251900000.0,
-    "net_income": 162800000.0,
-    "ebitda": 393300000.0,
-    "operating_cash_flow": 324500000.0,
-    "capex": 74300000.0,
-    "fcf": 250200000.0,
+    "revenue": 4807500000.0,
+    "operating_income": 262500000.0,
+    "net_income": 167600000.0,
+    "ebitda": 404000000.0,
+    "operating_cash_flow": 321500000.0,
+    "capex": 81000000.0,
+    "fcf": 240500000.0,
     "dividends": null,
-    "debt": 1128100000.0,
-    "cash": 87400000.0,
-    "shares": 43655390.0
+    "debt": 1098900000.0,
+    "cash": 88400000.0,
+    "shares": 44308229.0
    },
    "financial_currency": "USD",
    "currency": "USD",
@@ -2616,6 +3302,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 151800000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 123600000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 173400000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 245400000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -2629,7 +3333,7 @@
   },
   "TSLA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "TSLA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2694,6 +3398,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 3794000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 7130000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 14999000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 12583000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -2707,7 +3433,7 @@
   },
   "PG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "PG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2772,6 +3498,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-06-30",
+     "value": 16046000000.0
+    },
+    {
+     "period": "2025-06-30",
+     "value": 15974000000.0
+    },
+    {
+     "period": "2024-06-30",
+     "value": 14879000000.0
+    },
+    {
+     "period": "2023-06-30",
+     "value": 14653000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2026-06-30",
     "2025-06-30"
@@ -2785,7 +3529,7 @@
   },
   "CSGP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "CSGP",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2850,6 +3594,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 7000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 139000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 375000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 369500000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -2863,7 +3629,7 @@
   },
   "OXY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "OXY",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2928,6 +3694,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2326000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 3056000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 4696000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 13304000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -2941,7 +3729,7 @@
   },
   "SPCX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "SPCX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2998,6 +3786,20 @@
      "value": 105000000.0
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -4937000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 791000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -4628000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3011,7 +3813,7 @@
   },
   "REP.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "REP.MC",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -3073,6 +3875,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1899000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1756000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 3168000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 4251000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3086,7 +3906,7 @@
   },
   "AWK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "AWK",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3151,6 +3971,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1111000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1051000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 944000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 820000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3164,7 +4006,7 @@
   },
   "MRVL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "MRVL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -3229,6 +4071,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-01-31",
+     "value": 2670100000.0
+    },
+    {
+     "period": "2025-01-31",
+     "value": -885000000.0
+    },
+    {
+     "period": "2024-01-31",
+     "value": -933400000.0
+    },
+    {
+     "period": "2023-01-31",
+     "value": -163500000.0
+    },
+    {
+     "period": "2022-01-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-01-31",
     "2025-01-31"
@@ -3242,7 +4106,7 @@
   },
   "AR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "AR",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3307,6 +4171,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 634418000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 57226000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 198404000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1871636000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3320,7 +4206,7 @@
   },
   "DVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "DVN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3385,6 +4271,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2642000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2891000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 3747000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 6015000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3398,7 +4306,7 @@
   },
   "CNX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "CNX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3463,6 +4371,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 633162000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -90494000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1720716000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -142077000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3476,7 +4406,7 @@
   },
   "MRNA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "MRNA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3541,6 +4471,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -2822000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -3561000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -4714000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 8362000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3554,7 +4502,7 @@
   },
   "BNTX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "BNTX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3619,6 +4567,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -1136100000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -665300000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 930300000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 9434400000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3632,7 +4602,7 @@
   },
   "INTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "INTC",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3697,6 +4667,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -267000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -18756000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1689000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 8014000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3710,7 +4698,7 @@
   },
   "CRWV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "CRWV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3771,6 +4759,24 @@
      "value": -71494000.0
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -1167000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -863000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -594000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -31055000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3784,7 +4790,7 @@
   },
   "NBIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "NBIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3805,7 +4811,7 @@
     "dividends": null,
     "debt": 10171000000.0,
     "cash": 8042100000.0,
-    "shares": 238400165.0
+    "shares": 220406311.0
    },
    "financial_currency": "USD",
    "currency": "USD",
@@ -3849,6 +4855,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 82500000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -641400000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 241300000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 745600000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3862,7 +4890,7 @@
   },
   "OPEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "OPEN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3883,7 +4911,7 @@
     "dividends": null,
     "debt": 1964000000.0,
     "cash": 896000000.0,
-    "shares": 971091050.0
+    "shares": 964736632.0
    },
    "financial_currency": "USD",
    "currency": "USD",
@@ -3927,6 +4955,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -1300000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -392000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -275000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -1353000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3940,7 +4990,7 @@
   },
   "BA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "BA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -4002,6 +5052,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2235000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -11817000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -2222000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -4935000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4015,7 +5083,7 @@
   },
   "TEM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "TEM",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4080,6 +5148,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": -245028000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -705809000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -214118000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -289811000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4093,7 +5183,7 @@
   },
   "ISRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ISRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4158,6 +5248,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2856000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2322600000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1798000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1322300000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4171,7 +5279,7 @@
   },
   "VST": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "VST",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4236,6 +5344,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 944000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2659000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1493000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -1227000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4249,7 +5379,7 @@
   },
   "SE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "SE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4314,6 +5444,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1578149000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 444321000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 150726000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -1651421000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4327,7 +5475,7 @@
   },
   "UNH": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "UNH",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4392,6 +5540,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 12056000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 14405000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 22381000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 20120000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4405,7 +5575,7 @@
   },
   "CMCSA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "CMCSA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4470,6 +5640,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 19998000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 16192000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 15388000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 5370000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4483,7 +5675,7 @@
   },
   "NVO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "NVO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4548,6 +5740,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 102434000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 100988000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 83683000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 55525000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4561,7 +5771,7 @@
   },
   "META": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "META",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4626,6 +5836,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 60458000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 62360000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 39098000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 23200000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4639,7 +5871,7 @@
   },
   "DIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "DIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4700,6 +5932,24 @@
      "value": 1067000000.0
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-09-30",
+     "value": 12404000000.0
+    },
+    {
+     "period": "2024-09-30",
+     "value": 4972000000.0
+    },
+    {
+     "period": "2023-09-30",
+     "value": 2354000000.0
+    },
+    {
+     "period": "2022-09-30",
+     "value": 3145000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-09-30",
     "2024-09-30"
@@ -4713,7 +5963,7 @@
   },
   "PEP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "PEP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4778,6 +6028,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 8240000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 9578000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 9074000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 8910000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4791,27 +6063,27 @@
   },
   "BSX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "BSX",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-03-31",
    "period_ends": [
-    "2026-06-30",
     "2026-03-31",
     "2025-12-31",
-    "2025-09-30"
+    "2025-09-30",
+    "2025-06-30"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 20996000000.0,
-    "operating_income": 4409000000.0,
-    "net_income": 3675000000.0,
-    "ebitda": 5637000000.0,
-    "operating_cash_flow": 4529000000.0,
-    "capex": 2723000000.0,
-    "fcf": 1806000000.0,
+    "revenue": 20615000000.0,
+    "operating_income": 4106000000.0,
+    "net_income": 3565000000.0,
+    "ebitda": 5493000000.0,
+    "operating_cash_flow": 4341000000.0,
+    "capex": 1043000000.0,
+    "fcf": 3298000000.0,
     "dividends": null,
-    "debt": 12624000000.0,
-    "cash": 539000000.0,
+    "debt": 11029000000.0,
+    "cash": 1453000000.0,
     "shares": 1449229526.0
    },
    "financial_currency": "USD",
@@ -4856,6 +6128,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2898000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1854000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1593000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 698000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4869,7 +6163,7 @@
   },
   "WIX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "WIX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4890,7 +6184,7 @@
     "dividends": null,
     "debt": 2038659000.0,
     "cash": 262776000.0,
-    "shares": 41849511.0
+    "shares": 58314152.0
    },
    "financial_currency": "USD",
    "currency": "USD",
@@ -4934,6 +6228,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 50646000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 138322000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 33137000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -424863000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -4947,7 +6259,7 @@
   },
   "GRAB": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "GRAB",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5012,6 +6324,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 268000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": -105000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -434000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": -1683000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5025,7 +6359,7 @@
   },
   "NOW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "NOW",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5090,6 +6424,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1748000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1425000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1731000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 325000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5103,7 +6459,7 @@
   },
   "MCD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "MCD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5168,6 +6524,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 8563000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 8223000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 8469000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 6177000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5181,7 +6555,7 @@
   },
   "TTD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "TTD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5246,6 +6620,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 443304000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 393076000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 178940000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 53385000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5259,7 +6655,7 @@
   },
   "NKE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "NKE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -5324,6 +6720,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-05-31",
+     "value": 3108000000.0
+    },
+    {
+     "period": "2025-05-31",
+     "value": 3219000000.0
+    },
+    {
+     "period": "2024-05-31",
+     "value": 5700000000.0
+    },
+    {
+     "period": "2023-05-31",
+     "value": 5070000000.0
+    },
+    {
+     "period": "2022-05-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-05-31",
     "2025-05-31"
@@ -5337,7 +6755,7 @@
   },
   "ZTS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "ZTS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5402,6 +6820,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2673000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2486000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2344000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 2114000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5415,7 +6851,7 @@
   },
   "IBST.L": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "IBST.L",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -5477,6 +6913,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 3074000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 15092000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 21060000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 86908000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5490,7 +6948,7 @@
   },
   "NFLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "NFLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5555,6 +7013,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 10981201000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 8711631000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 5407990000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 4491924000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5568,7 +7048,7 @@
   },
   "AMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "AMD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5633,6 +7113,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 4335000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1641000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 854000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1320000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5646,7 +7148,7 @@
   },
   "GOOGL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "GOOGL",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5711,6 +7213,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 132170000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 100118000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 73795000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 59972000000.0
+    }
+   ],
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -5724,7 +7244,7 @@
   },
   "INTU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "INTU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -5789,6 +7309,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-07-31",
+     "value": 4566000000.0
+    },
+    {
+     "period": "2025-07-31",
+     "value": 3869000000.0
+    },
+    {
+     "period": "2024-07-31",
+     "value": 2963000000.0
+    },
+    {
+     "period": "2023-07-31",
+     "value": 2384000000.0
+    },
+    {
+     "period": "2022-07-31",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-07-31",
     "2025-07-31"
@@ -5802,7 +7344,7 @@
   },
   "CLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "CLX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5867,6 +7409,28 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-06-30",
+     "value": 587000000.0
+    },
+    {
+     "period": "2025-06-30",
+     "value": 810000000.0
+    },
+    {
+     "period": "2024-06-30",
+     "value": 280000000.0
+    },
+    {
+     "period": "2023-06-30",
+     "value": 149000000.0
+    },
+    {
+     "period": "2022-06-30",
+     "value": null
+    }
+   ],
    "cash_growth_periods": [
     "2026-06-30",
     "2025-06-30"
@@ -5880,7 +7444,7 @@
   },
   "GIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "GIS",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -5945,6 +7509,24 @@
      "value": null
     }
    ],
+   "annual_net_income_series": [
+    {
+     "period": "2026-05-31",
+     "value": -87600000.0
+    },
+    {
+     "period": "2025-05-31",
+     "value": 2295200000.0
+    },
+    {
+     "period": "2024-05-31",
+     "value": 2496600000.0
+    },
+    {
+     "period": "2023-05-31",
+     "value": 2593900000.0
+    }
+   ],
    "cash_growth_periods": [
     "2026-05-31",
     "2025-05-31"
@@ -5958,7 +7540,7 @@
   },
   "O": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-29T02:16:42.536001+00:00",
+   "fetched_at": "2026-10-29T07:31:59.989951+00:00",
    "symbol": "O",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6017,6 +7599,28 @@
     {
      "period": "2022-12-31",
      "value": 2563856000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1058590000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 860772000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 872309000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 869408000.0
     },
     {
      "period": "2021-12-31",
