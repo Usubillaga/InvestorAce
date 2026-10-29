@@ -37,5 +37,6 @@ jobs:
         run: |
           node tests/comparison_duel.cjs
           node tests/assessment_view.cjs
+          node tests/opportunity_view.cjs
       - name: WACC workbook reproduction
         run: python wacc.py

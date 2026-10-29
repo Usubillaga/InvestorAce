@@ -1289,3 +1289,76 @@ TRANSLATIONS['es'].update({
     'No matching companies. Reset filters to show the full universe.': 'No hay empresas coincidentes. Restablece los filtros para ver todo el universo.',
     'FY': 'Ejercicio',
 })
+
+# Opportunity v17 is a new decision layer; historical model text stays intact.
+TRANSLATIONS['de'].update({
+ 'Business profile':'Geschäftsprofil', 'Opportunity score':'Chancen-Score',
+ 'Automatic signal':'Automatisches Signal', 'Current regime fit':'Aktuelle Regime-Eignung',
+ 'Legacy band':'Altes Modellband', 'Legacy model':'Altes Modell', 'Review status':'Prüfstatus',
+ 'Ranked by discounted quality and the current regime.':'Nach günstig bewerteter Qualität und aktuellem Regime sortiert.',
+ 'Automatic model signal':'Automatisches Modellsignal', 'Data incomplete':'Daten unvollständig',
+ 'Defensive':'Defensiv', 'Cyclical':'Zyklisch', 'Commodity':'Rohstoff', 'Quality':'Qualität',
+ 'Value':'Substanzwert', 'Income':'Ausschüttungen', 'Unclassified':'Nicht klassifiziert',
+ 'Operating margin':'Operative Marge', 'P/E':'KGV',
+ 'Opportunity score & regime matrix':'Chancen-Score und Regime-Matrix',
+ 'Discounted quality · Current regime:':'Günstig bewertete Qualität · Aktuelles Regime:',
+ 'Valuation & expectations 40% · Financial quality 30% · Current regime 15% · Growth 10% · Shareholder returns & dilution 5%.':'Bewertung und Erwartungen 40% · Finanzqualität 30% · Aktuelles Regime 15% · Wachstum 10% · Aktionärsrendite und Verwässerung 5%.',
+ 'A range is missing-data uncertainty, not a point estimate. Labels use unrounded scores and value-trap caps. Automatic signals and analyst review are separate. Macro fit is a heuristic, not a forecast probability.':'Eine Spanne zeigt fehlende Daten, keinen geschätzten Punktwert. Signale verwenden ungerundete Scores und Risikobegrenzungen. Automatische Signale und Analystenprüfung sind getrennt. Regime-Eignung ist eine Heuristik, keine Prognosewahrscheinlichkeit.',
+ 'P/E proxy = market capitalization / corresponding net income. Commodity valuation uses cycle averages where available. Financial period:':'KGV-Näherung = Marktkapitalisierung / zugehöriger Nettogewinn. Rohstoffbewertung verwendet verfügbare Zyklusmittelwerte. Finanzperiode:',
+ 'Required growth (reverse DCF):':'Eingepreistes Wachstum (Reverse DCF):',
+ 'Component':'Komponente', 'Contribution':'Beitrag', 'Fit /100':'Eignung /100',
+ 'Operating profitability':'Operative Rentabilität', 'Cash generation':'Cashflow-Erzeugung',
+ 'Free cash flow yield':'Freie Cashflow-Rendite', 'Earnings valuation':'Gewinnbewertung',
+ 'Priced-in growth':'Eingepreistes Wachstum', 'Revenue growth':'Umsatzwachstum',
+ 'Current regime fit':'Aktuelle Regime-Eignung',
+ 'Commodity cycle averages still require economic normalization.':'Rohstoff-Zyklusmittelwerte benötigen weiterhin wirtschaftliche Normalisierung.',
+ 'Negative cash/operating profit or excessive leverage: value-trap guard.':'Negativer Cashflow/Betriebsgewinn oder zu hohe Schulden: Schutz vor Bewertungsfallen.',
+ 'Reported earnings are not positive.':'Der berichtete Gewinn ist nicht positiv.',
+ 'Buy requires quality >=6, valuation >=6, balance >=4.5 and current fit >=35.':'Buy erfordert Qualität ≥6, Bewertung ≥6, Bilanz ≥4,5 und aktuelle Eignung ≥35.',
+ 'Strong Buy requires quality >=7, valuation >=8, balance >=5 and current fit >=50.':'Strong Buy erfordert Qualität ≥7, Bewertung ≥8, Bilanz ≥5 und aktuelle Eignung ≥50.',
+ 'Historical scores and unresolved analyst objections remain in the research below.':'Historische Scores und offene Analysteneinwände bleiben in der folgenden Recherche erhalten.',
+})
+TRANSLATIONS['es'].update({
+ 'Business profile':'Perfil del negocio', 'Opportunity score':'Score de oportunidad',
+ 'Automatic signal':'Señal automática', 'Current regime fit':'Encaje en el régimen actual',
+ 'Legacy band':'Clasificación anterior', 'Legacy model':'Modelo anterior', 'Review status':'Estado de revisión',
+ 'Ranked by discounted quality and the current regime.':'Ordenado por calidad infravalorada y régimen actual.',
+ 'Automatic model signal':'Señal automática del modelo', 'Data incomplete':'Datos incompletos',
+ 'Defensive':'Defensiva', 'Cyclical':'Cíclica', 'Commodity':'Materias primas', 'Quality':'Calidad',
+ 'Value':'Valor', 'Income':'Rentas', 'Unclassified':'Sin clasificar',
+ 'Operating margin':'Margen operativo', 'P/E':'PER',
+ 'Opportunity score & regime matrix':'Score de oportunidad y matriz de regímenes',
+ 'Discounted quality · Current regime:':'Calidad infravalorada · Régimen actual:',
+ 'Valuation & expectations 40% · Financial quality 30% · Current regime 15% · Growth 10% · Shareholder returns & dilution 5%.':'Valoración y expectativas 40% · Calidad financiera 30% · Régimen actual 15% · Crecimiento 10% · Retorno al accionista y dilución 5%.',
+ 'A range is missing-data uncertainty, not a point estimate. Labels use unrounded scores and value-trap caps. Automatic signals and analyst review are separate. Macro fit is a heuristic, not a forecast probability.':'Un rango refleja datos faltantes, sin inventar una cifra exacta. Los rótulos usan scores sin redondear y límites contra trampas de valor. La señal automática y la revisión del analista son distintas. El encaje macro es una heurística, no una probabilidad de pronóstico.',
+ 'P/E proxy = market capitalization / corresponding net income. Commodity valuation uses cycle averages where available. Financial period:':'PER aproximado = capitalización / beneficio neto del mismo período. En materias primas se usan promedios del ciclo cuando están disponibles. Período financiero:',
+ 'Required growth (reverse DCF):':'Crecimiento que descuenta el precio (DCF inverso):',
+ 'Component':'Componente', 'Contribution':'Contribución', 'Fit /100':'Encaje /100',
+ 'Operating profitability':'Rentabilidad operativa', 'Cash generation':'Generación de caja',
+ 'Free cash flow yield':'Rentabilidad del flujo de caja libre', 'Earnings valuation':'Valoración por beneficios',
+ 'Priced-in growth':'Crecimiento descontado', 'Revenue growth':'Crecimiento de ingresos',
+ 'Commodity cycle averages still require economic normalization.':'Los promedios del ciclo de materias primas requieren normalización económica.',
+ 'Negative cash/operating profit or excessive leverage: value-trap guard.':'Caja o beneficio operativo negativo, o deuda excesiva: límite contra trampas de valor.',
+ 'Reported earnings are not positive.':'El beneficio reportado no es positivo.',
+ 'Buy requires quality >=6, valuation >=6, balance >=4.5 and current fit >=35.':'Buy requiere calidad ≥6, valoración ≥6, balance ≥4,5 y encaje actual ≥35.',
+ 'Strong Buy requires quality >=7, valuation >=8, balance >=5 and current fit >=50.':'Strong Buy requiere calidad ≥7, valoración ≥8, balance ≥5 y encaje actual ≥50.',
+ 'Historical scores and unresolved analyst objections remain in the research below.':'Los scores anteriores y las objeciones pendientes se conservan en el análisis siguiente.',
+})
+TRANSLATIONS['de'].update({
+ 'Unavailable':'Nicht verfügbar', 'Weight':'Gewicht', 'Shareholder returns':'Aktionärsrendite',
+ 'Strong Buy':'Strong Buy', 'Hold Positive':'Hold Positive', 'Hold Negative':'Hold Negative',
+ 'FINANCIAL_PACKET_UNAVAILABLE':'FINANCIAL_PACKET_UNAVAILABLE',
+ 'CURRENT_REGIME_UNAVAILABLE':'CURRENT_REGIME_UNAVAILABLE', 'MIDCYCLE_PROXY':'MIDCYCLE_PROXY',
+ 'BALANCE_LOWER_BOUND':'BALANCE_LOWER_BOUND',
+})
+TRANSLATIONS['es'].update({
+ 'Unavailable':'No disponible', 'Weight':'Peso', 'Shareholder returns':'Retorno al accionista',
+ 'Strong Buy':'Strong Buy', 'Hold Positive':'Hold Positive', 'Hold Negative':'Hold Negative',
+ 'FINANCIAL_PACKET_UNAVAILABLE':'FINANCIAL_PACKET_UNAVAILABLE',
+ 'CURRENT_REGIME_UNAVAILABLE':'CURRENT_REGIME_UNAVAILABLE', 'MIDCYCLE_PROXY':'MIDCYCLE_PROXY',
+ 'BALANCE_LOWER_BOUND':'BALANCE_LOWER_BOUND',
+})
+TRANSLATIONS['de'].update({'Buy':'Buy','Sell':'Sell'})
+TRANSLATIONS['es'].update({'Buy':'Buy','Sell':'Sell'})
+TRANSLATIONS['de'].update({'Live quote unavailable; dated cached market quote retained within 96 hours.':'Aktueller Kursabruf fehlgeschlagen; gespeicherter datierter Marktkurs innerhalb der 96-Stunden-Grenze verwendet.'})
+TRANSLATIONS['es'].update({'Live quote unavailable; dated cached market quote retained within 96 hours.':'Falló la actualización del precio; se conserva la cotización guardada con su fecha original, dentro del límite de 96 horas.'})
