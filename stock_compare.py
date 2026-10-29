@@ -239,6 +239,43 @@ def load_snapshot(path):
         return None
 
 
+def apply_primary_annuals(row, review, *, as_of):
+    """Repair exact fiscal years using the source facts frozen with the build."""
+    valuation = (review or {}).get('valuation', {})
+    packet = valuation.get('financial_packet') or {}
+    published = ASSESSMENT.timestamp(packet.get('published_at'))
+    retrieved = ASSESSMENT.timestamp(packet.get('fetched_at'))
+    if (not published or not retrieved or not published <= retrieved <= as_of or
+            packet.get('symbol') != row.get('listing') or
+            packet.get('financial_currency') != row.get('financial_currency')):
+        return row
+    ledger = valuation.get('calculation_ledger', {})
+    if ledger.get('unit') != 'USD millions except per-share amounts':
+        return row
+    result = copy.deepcopy(row)
+    years = {item['period']: item for item in ledger.get('annual', [])}
+    for item in result.get('annual', []):
+        source = years.get(item.get('period_end'))
+        if not source:
+            continue
+        for field, source_field in (('ocf','operating_cash_flow'), ('capex','capex'),
+                ('fcf','fcf'), ('net_income','net_income'), ('revenue','revenue'),
+                ('operating_income','operating_income')):
+            if number(source.get(source_field)) is not None:
+                item[field] = source[source_field] * 1e6
+        for field, numerator in (('gross_margin','gross_profit'), ('operating_margin','operating_income'),
+                ('net_margin','net_income'), ('fcf_margin','fcf')):
+            item[field] = ratio(item.get(numerator), item.get('revenue'), 100)
+    for item, prior in zip(result.get('annual', []), result.get('annual', [])[1:]):
+        gap = (datetime.fromisoformat(item['period_end'])-datetime.fromisoformat(prior['period_end'])).days
+        growth = ratio(item.get('revenue'), prior.get('revenue'))
+        item['revenue_growth'] = (growth-1)*100 if growth is not None and 330 <= gap <= 400 else None
+    result.setdefault('sources', []).extend(
+        dict(label=source['title'], url=source['url']) for source in valuation.get('sources', []))
+    result.setdefault('warnings', []).append('PRIMARY_ANNUAL_CASH_FLOW_CORRECTION')
+    return result
+
+
 def site_pages(root, build, *, now=None):
     now = now or datetime.now(timezone.utc)
     record = build['record']
@@ -253,6 +290,7 @@ def site_pages(root, build, *, now=None):
         row = copy.deepcopy(cache.get(key))
         if not row or row.get('listing') != (model.get('yf') or key):
             row = empty_row(key, model)
+        row = apply_primary_annuals(row, record.get('_source_reviews', {}).get('entries', {}).get(key), as_of=now)
         output = record.get(key) or {}
         objections = notes.get('entries', {}).get(key, {}).get('objections', [])
         checked = ASSESSMENT.project(output.get('assessment'), raw_score=output.get('score'), as_of=now,

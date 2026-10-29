@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-10-23",
+  "as_of": "2026-10-29",
   "entries": {
     "ADBE": {
       "issuer": "Adobe",
@@ -176,6 +176,53 @@
           "severity": "major",
           "status": "open",
           "message": "4,55 ist ein alter fester Gesamtscore ohne vollständige Kategorienbelege. Neue DCF-Bewertung und Analystenfreigabe fehlen."
+        }
+      ]
+    },
+    "AR": {
+      "issuer": "Antero Resources",
+      "thesis": "[Sicher] Q3 2026: Umsatz +28,7 %, bereinigtes EPS 0,83 USD und bereinigter FCF 215,3 Mio. USD (+136,8 %). Cash-Kosten sinken auf 2,05 USD/Mcfe. [Wahrscheinlich] Zyklischer Gasproduzent mit Kosten- und Margenverbesserung; Modell am Referenzkurs 42,11 USD: Buy, 7,45/10.",
+      "counterargument": "[Sicher] Q4-Produktion auf 4,3 Bcfe/Tag reduziert (vorher 4,4–4,5). Das berichtete TTM-KGV von 9,41 fällt günstiger aus als das KGV auf dem Vierjahres-Gewinnmittel von 18,73. Vollständiger Capex senkt den historischen FCF-Mittelwert auf 728,4 Mio. USD. [Wahrscheinlich] Gaspreise, Zukäufe und veränderte Vermögensbasis können den nachhaltigen Cashflow deutlich verändern.",
+      "next_check": "HG/Utica-Überleitung, Minority-Ausschüttungen und nachhaltige Investitionen normalisieren. Q4-Kürzungen und realisierte Gaspreise verfolgen. ORRI-Vorteil seit Juli nicht nochmals addieren; VPP-Auslauf erst ab August 2027. Bericht: https://usubillaga.github.io/InvestorAce/earnings/antero-q3-2026.html",
+      "sources": [
+        {
+          "title": "Antero Q3 2026 earnings release",
+          "url": "https://www.anteroresources.com/investors/press-releases/detail/262/antero-resources-announces-third-quarter-2026-financial-and",
+          "published_at": "2026-10-28"
+        },
+        {
+          "title": "Antero Q3 2026 Form 10-Q",
+          "url": "https://www.anteroresources.com/investors/sec-filings/all-sec-filings/content/0001104659-26-119637/ar-20260930x10q.htm",
+          "published_at": "2026-10-28"
+        },
+        {
+          "title": "Antero FY2025 results",
+          "url": "https://www.anteroresources.com/news-events/press-releases/detail/255/antero-resources-announces-fourth-quarter-2025-results-and"
+        },
+        {
+          "title": "Antero FY2024 results",
+          "url": "https://www.anteroresources.com/news-events/press-releases/detail/243/antero-resources-announces-fourth-quarter-2024-results"
+        },
+        {
+          "title": "Antero FY2024 Form 10-K, restated comparative income and cash flow, F-5/F-7",
+          "url": "https://www.anteroresources.com/investors/sec-filings/all-sec-filings/content/0001558370-25-000864/0001558370-25-000864.pdf"
+        },
+        {
+          "title": "Antero Q2 2026 results and prior guidance",
+          "url": "https://www.anteroresources.com/investors/press-releases/detail/259/antero-resources-announces-second-quarter-2026-financial"
+        },
+        {
+          "title": "InvestorAce Antero Q3 2026 earnings analysis and PDF",
+          "url": "https://usubillaga.github.io/InvestorAce/earnings/antero-q3-2026.html",
+          "published_at": "2026-10-29"
+        }
+      ],
+      "objections": [
+        {
+          "id": "AR-MIDCYCLE-2026Q3",
+          "severity": "major",
+          "status": "open",
+          "message": "Historischer Vierjahres-FCF ist keine geprüfte Cashflow-Prognose für das Unternehmen nach HG/Utica. Nachhaltiger Eigentümer-Cashflow und daraus abgeleitete manuelle Kaufempfehlung bleiben offen."
         }
       ]
     }

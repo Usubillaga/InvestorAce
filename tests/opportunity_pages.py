@@ -15,6 +15,7 @@ import evidence  # noqa: E402
 import i18n  # noqa: E402
 import live_analysis  # noqa: E402
 import market_scanner  # noqa: E402
+import source_review  # noqa: E402
 
 
 def generate(destination):
@@ -24,12 +25,15 @@ def generate(destination):
     macro=source['_evidence']['macro']
     rates=source['_rates'];facts=json.loads((ROOT/'history/_dynamic_cache.json').read_text())['entries']
     now=datetime.now(timezone.utc)
+    reviews=source_review.load()
     engine.WACC.set_risk_free(rates['risk_free'],rates.get('source'),rates.get('asof'))
     engine.LIVE_10Y=rates.get('live_10y')
     for ticker,row in rows.items():
         packet=facts.get(row.get('yf',ticker))
         if not packet or not row.get('dynamic_analysis'):
             continue
+        packet=live_analysis.prefer_primary(packet,
+            reviews['entries'].get(ticker,{}).get('valuation',{}).get('financial_packet'),as_of=now)
         analysis=live_analysis.calculate(dict(packet,midcycle=bool(row.get('midcycle'))),
             quote=dict(price=row.get('price'),observed_at=row.get('quote_observed_at')),
             risk_free=rates['risk_free']/100,mrp=rates['mrp']/100,as_of=now)

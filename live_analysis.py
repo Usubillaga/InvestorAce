@@ -6,6 +6,7 @@ again. Sources, dates and assumptions travel with every result.
 """
 from __future__ import annotations
 
+import copy
 from datetime import datetime, timezone
 from urllib.parse import quote as urlquote
 
@@ -191,11 +192,68 @@ def extract(ticker, symbol, *, as_of):
                      for part in ('cash-flow', 'financials', 'balance-sheet', 'key-statistics')])
 
 
+def prefer_primary(provider, primary, *, as_of):
+    """Use a dated issuer packet, retaining live market data and later periods.
+
+    Exact-year corrections remain authoritative when a provider advances to a
+    later financial period. Neither source narrative nor analyst approval is
+    treated as a numeric input.
+    """
+    if not primary:
+        return provider
+    published = assessment.timestamp(primary.get('published_at'))
+    retrieved = assessment.timestamp(primary.get('fetched_at'))
+    if not published or not retrieved or not published <= retrieved <= as_of:
+        return provider
+    if (primary.get('symbol') != provider.get('symbol') or
+            primary.get('schema') != VERSION or not primary.get('source_urls') or
+            primary.get('financial_currency') != primary.get('currency') or
+            provider.get('currency') not in (None, primary.get('currency')) or
+            provider.get('financial_currency') not in (None, primary.get('financial_currency'))):
+        raise ValueError('Primary financial identity/currency/source mismatch')
+    try:
+        period = datetime.fromisoformat(primary['financial_period']).date()
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError('Invalid primary financial period') from exc
+    if period > published.date():
+        raise ValueError('Primary period postdates publication')
+    inputs = primary.get('inputs') or {}
+    ocf, capex, fcf = (finite_number(inputs.get(k)) for k in
+                       ('operating_cash_flow', 'capex', 'fcf'))
+    if (None in (ocf, capex, fcf) or capex < 0 or abs(ocf-capex-fcf) > 1. or
+            positive_number(inputs.get('shares')) is None):
+        raise ValueError('Invalid primary OCF/capex/share bridge')
+    result = copy.deepcopy(provider)
+    if (provider.get('financial_period') or '') <= primary['financial_period']:
+        market = {k: provider[k] for k in
+                  ('beta', 'quote_price', 'quote_observed_at', 'quote_type') if k in provider}
+        result.update(copy.deepcopy(primary))
+        result.update(market)
+        result['primary_current'] = True
+    for key in ('annual_fcf_series', 'annual_net_income_series'):
+        series = {item['period']: copy.deepcopy(item) for item in provider.get(key, [])}
+        for item in primary.get(key, []):
+            series[item['period']] = copy.deepcopy(item)
+        result[key] = sorted(series.values(), key=lambda x: x['period'], reverse=True)
+    annual = result.get('annual_fcf_series', [])
+    if len(annual) >= 2:
+        a, b = annual[:2]
+        av, bv = finite_number(a.get('value')), positive_number(b.get('value'))
+        gap = (datetime.fromisoformat(a['period'])-datetime.fromisoformat(b['period'])).days
+        result['annual_fcf_growth_pct'] = 100*(av/bv-1) if av is not None and bv and 300 <= gap <= 400 else None
+        result['cash_growth_periods'] = [a['period'], b['period']]
+    result['source_urls'] = list(dict.fromkeys(provider.get('source_urls', []) + primary['source_urls']))
+    result['primary_source_published_at'] = primary['published_at']
+    result['primary_warnings'] = primary.get('primary_warnings', [])
+    return result
+
+
 def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5):
     """Reprice frozen facts with current parameters; no network or stored scores."""
     inputs = dict(facts.get('inputs') or {})
     warnings = ['Reported leveraged FCF proxy; sustainable cash flow has not been normalized.',
                 'Five-year growth and terminal growth are scenario assumptions, not forecasts.']
+    warnings.extend(facts.get('primary_warnings', []))
     if facts.get('cash_flow_calculation') == 'YAHOO_REPORTED_FCF':
         warnings.append('OCF/capex bridge unavailable; cash flow uses Yahoo reported Free Cash Flow.')
     currency, financial_currency = facts.get('currency'), facts.get('financial_currency')
@@ -315,19 +373,20 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     explanation = [dict(key=key, label=assessment.LABELS[key], value=components[key],
         nominal_weight=weight, effective_weight=weight if components[key] is not None else 0.,
         contribution=components[key]*weight if components[key] is not None else None,
-        source='Calculated from dated yfinance financial inputs') for key,weight in assessment.WEIGHTS.items()]
+        source='Calculated from dated primary financial inputs' if facts.get('primary_current') else
+            'Calculated from dated yfinance financial inputs') for key,weight in assessment.WEIGHTS.items()]
     overlay = dict(fcf=valuation_fcf/1e6 if valuation_fcf is not None and valuation_fcf > 0 and factor else None,
         fcf_ttm=fcf/1e6 if fcf is not None and facts.get('basis')=='TTM' else None,
         shares=shares/1e6 if shares else None, sub=tuple(components[k] for k in ('g','p','c','b','v','r'))
             if all(components[k] is not None for k in ('g','p','c','b','v','r')) else None,
         draft_components={k:components[k] for k in ('g','p','c','b','v','r')},
         dil=components['d'], pr=components['pr'], deliver=historical, deliver_basis='CASH_FLOW',
-        dl='reported annual FCF growth', built='yfinance-dynamic',
+        dl='reported annual FCF growth', built='primary-dynamic' if facts.get('primary_current') else 'yfinance-dynamic',
         normalization_status='REVIEW_REQUIRED', cash_flow_basis='LEVERED_FCF_PROXY',
         discount_rate_basis='COST_OF_EQUITY', financial_period=facts.get('financial_period'),
-        financial_published_at=None, financial_retrieved_at=facts.get('fetched_at'),
+        financial_published_at=facts.get('published_at'), financial_retrieved_at=facts.get('fetched_at'),
         shares_asof=facts.get('shares_asof'), shares_basis=facts.get('shares_basis'),
-        score_fixed=None, fundamentals_refresh='YFINANCE_DYNAMIC')
+        score_fixed=None, fundamentals_refresh='PRIMARY_DYNAMIC' if facts.get('primary_current') else 'YFINANCE_DYNAMIC')
     return dict(schema=VERSION, status='COMPLETE' if complete else 'PARTIAL', as_of=as_of.isoformat(),
         fetched_at=facts.get('fetched_at'), financial_period=facts.get('financial_period'),
         basis=facts.get('basis'), currency=currency, financial_currency=financial_currency,
