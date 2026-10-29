@@ -22,7 +22,7 @@ body a{color:var(--cyan)}
 .dashboard-controls button{font-size:12px;min-height:44px;padding:8px 12px}.dashboard-controls button[aria-pressed="true"]{outline:1px solid var(--cyan)}
 #universe>.tw{max-height:580px;overflow:auto;overscroll-behavior:contain}
 #master-table{min-width:920px}#master-table td{padding-top:12px;padding-bottom:12px}
-#master-table[data-compact="true"] tr>:is(:nth-child(5),:nth-child(9),:nth-child(10),:nth-child(11),:nth-child(12),:nth-child(13),:nth-child(14),:nth-child(16),:nth-child(17),:nth-child(18),:nth-child(20),:nth-child(21)){display:none}
+#master-table[data-compact="true"] tr>:is(:nth-child(5),:nth-child(6),:nth-child(9),:nth-child(10),:nth-child(11),:nth-child(12),:nth-child(13),:nth-child(16),:nth-child(17),:nth-child(18),:nth-child(20),:nth-child(21)){display:none}
 .dashboard-section{border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:12px 0;scroll-margin-top:14px}
 .dashboard-section>summary{padding:18px;font-weight:650;font-size:17px;list-style-position:inside}
 .dashboard-section>summary span{display:block;font-size:12px;font-weight:400;color:var(--mu);margin:4px 0 0 20px}
@@ -107,7 +107,7 @@ def render(header, table, *, stats, sections):
             + '</div><nav class="dashboard-nav" data-dashboard-nav aria-label="Report sections">'
             + nav + '</nav><section id="universe" aria-labelledby="universe-title">'
             '<div class="dashboard-heading"><h2 id="universe-title">My universe</h2>'
-            '<p>Model scores and reviewed ratings remain separate.</p></div>'
+            '<p>Ranked by discounted quality and the current regime.</p></div>'
             '<div class="dashboard-controls" id="dashboard-controls" hidden>'
             '<label class="dashboard-search">Find a company<input id="dashboard-query" '
             'type="search" placeholder="Ticker, company or sector" aria-controls="master-table"></label>'

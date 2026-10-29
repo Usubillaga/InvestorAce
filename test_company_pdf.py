@@ -61,6 +61,18 @@ def read(data):
 
 
 class CompanyPdfTests(unittest.TestCase):
+    def test_pdf_keeps_the_automatic_signal_and_its_five_regime_matrix(self):
+        from test_opportunity import row,spec,ASOF
+        import opportunity
+        source=packet()
+        source['snapshot']['model_output']['opportunity_at_cutoff']=opportunity.assess(
+            row(),regime='REFLATION',spec=spec(),as_of=ASOF)
+        _,text=read(company_pdf.render_pdf(source,'es'))
+        self.assertIn('Señal automática de oportunidad',text)
+        self.assertIn('Buy',text)
+        for regime in ('REFLATION','RECESSION','INFLATION','STAGFLATION','GOLDILOCKS'):
+            self.assertIn(regime,text)
+
     def test_canonical_paths_keep_distinct_tickers_and_stay_under_output_directory(self):
         self.assertEqual(company_pdf.pdf_path('EX/A', 'de'), Path('analysis-pdfs/EX%2FA.de.pdf'))
         self.assertEqual(company_pdf.pdf_path('EX/A', 'de', scope='market'),

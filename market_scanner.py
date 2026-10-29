@@ -15,6 +15,8 @@ import argparse
 import copy
 import json
 import assessment as ASSESSMENT
+import opportunity as OPPORTUNITY
+import opportunity_view as OPPORTUNITY_VIEW
 import os
 from datetime import date, datetime, timedelta, timezone
 from html import escape
@@ -351,6 +353,9 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
             notes_as_of=notes.get('as_of') if note else None,
             model_note=raw.get('boot_note') or '', score_components=explanation.get('components', [])))
         rows[-1]['dynamic_analysis'] = copy.deepcopy(raw.get('dynamic_analysis'))
+        rows[-1]['opportunity'] = OPPORTUNITY.project(output.get('opportunity'),as_of=as_of)
+        rows[-1]['opportunity_html'] = (OPPORTUNITY_VIEW.detail(ticker,rows[-1]['opportunity'])
+                                        if rows[-1]['opportunity'] else '')
         rows[-1]['pdf_urls'] = pdf_urls(ticker)
     rows.sort(key=lambda row: (-(row['model_score'] if row['model_score'] is not None else -1), row['ticker']))
     scan = dict(schema=VERSION, generated_at=as_of.isoformat(),
@@ -373,13 +378,15 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
                          if key not in ('input_series', 'path_points')},
                   macro_full_snapshot_sha256=digest(macro),
                   score_weights=ASSESSMENT.WEIGHTS)
+    origin['opportunity_model'] = dict(version=OPPORTUNITY.VERSION,weights=OPPORTUNITY.WEIGHTS)
     packets = dict(universe={}, market={})
     for row in rows:
         ticker = row['ticker']
         packets['universe'][ticker] = build_packet(scope='universe', ticker=ticker,
             origin=dict(origin, source_review_as_of=row['source_review_as_of']),
             inputs=inputs[ticker],
-            output=dict(record.get(ticker, {}), assessment_at_cutoff=row['assessment']),
+            output=dict(record.get(ticker, {}), assessment_at_cutoff=row['assessment'],
+                        opportunity_at_cutoff=row['opportunity']),
             sources=row['sources'],
             issues=row['issues'], objections=row['objections'],
             research=dict({key: row[key] for key in ('thesis', 'counterargument', 'next_check',
@@ -420,7 +427,7 @@ def render_scan(scan):
                         escape(row['model_band'] or 'Ohne Score') + '</td><td>' +
                         escape(str(row['model_score'])) + '</td><td>Universum · ungeprüft</td></tr>'
                         for row in scan['rows'])
-    return template.replace('__STYLE__', (ASSETS / 'scanner.css').read_text(encoding='utf-8')).replace(
+    return template.replace('__STYLE__', (ASSETS / 'scanner.css').read_text(encoding='utf-8')+OPPORTUNITY_VIEW.CSS).replace(
         '__DATA__', payload).replace('__FALLBACK__', fallback).replace(
         '__SCRIPT__', (ASSETS / 'assessment_view.js').read_text(encoding='utf-8') + '\n'
         + (ASSETS / 'scanner.js').read_text(encoding='utf-8'))

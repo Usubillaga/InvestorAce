@@ -334,6 +334,17 @@ def render_pdf(packet, language='es') -> bytes:
                     and assessment.get('quality_rank_eligible') and assessment.get('rating'))
     r.story.extend([r.p(r.tr('title'), 'title'), r.p(f'{company}  |  {ticker}'),
                     r.p(r.tr('reviewed') if reviewed else r.tr('review'), 'heading'), r.p(r.tr('notice'))])
+    opportunity = _mapping(output.get('opportunity_at_cutoff') or output.get('opportunity'))
+    if opportunity:
+        r.heading({'en':'Automatic opportunity signal','de':'Automatisches Chancen-Signal',
+                   'es':'Señal automática de oportunidad'}[language])
+        r.fields({key:opportunity.get(key) for key in ('schema','label','score','score_lower','score_upper',
+            'current_regime','current_fit','current_fit_bounds','financial_period','cash_flow_policy')},compact='table')
+        r.fields(opportunity.get('profile',{}),'Business profile',compact=True)
+        r.fields(opportunity.get('metrics',{}),'Valuation and financial quality',compact='table')
+        r.fields(opportunity.get('regime_fit_bounds',{}),'Five-regime fit /100',compact='table')
+        r.fields(opportunity.get('caps',[]),'Value-trap caps',compact=True)
+        r.fields(opportunity.get('components',[]),'Opportunity score contributions',compact=True)
     if market:
         r.story.append(r.p(r.tr('screen'), 'heading'))
     r.table([('review_status', assessment.get('review_status')), ('packet.status', packet.get('status')),

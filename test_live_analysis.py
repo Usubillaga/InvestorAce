@@ -33,6 +33,36 @@ def ticker_fixture(fcf=100e6, shares=10e6, price=100., debt=50e6):
 
 
 class LiveAnalysisTests(unittest.TestCase):
+    def test_earnings_multiple_and_cash_conversion_use_the_same_packet(self):
+        result=self.analyze()
+        self.assertAlmostEqual(result['metrics']['reported_pe'],1000e6/150e6)
+        self.assertAlmostEqual(result['metrics']['valuation_pe'],1000e6/150e6)
+        self.assertAlmostEqual(result['metrics']['cash_conversion_pct'],100e6/150e6*100)
+
+    def test_commodity_pe_uses_several_years_not_the_latest_peak(self):
+        m=self.module();facts=m.extract(ticker_fixture(), 'AR', as_of=ASOF)
+        facts.update(midcycle=True, annual_fcf_series=[dict(period=f'{y}-12-31',value=100e6)
+            for y in (2025,2024,2023)],annual_net_income_series=[dict(period=f'{y}-12-31',value=v)
+            for y,v in [(2025,300e6),(2024,100e6),(2023,200e6)]])
+        result=m.calculate(facts,risk_free=.05,mrp=.05,as_of=ASOF)
+        self.assertAlmostEqual(result['metrics']['valuation_pe'],5.)
+        self.assertAlmostEqual(result['metrics']['reported_pe'],1000e6/150e6)
+
+    def test_absent_midcycle_earnings_do_not_reuse_reported_pe(self):
+        m=self.module();facts=m.extract(ticker_fixture(), 'AR', as_of=ASOF)
+        facts.update(midcycle=True,annual_net_income_series=[])
+        result=m.calculate(facts,risk_free=.05,mrp=.05,as_of=ASOF)
+        self.assertIsNone(result['metrics']['valuation_pe'])
+
+    def test_commodity_earnings_and_cash_averages_must_cover_the_same_years(self):
+        m=self.module();facts=m.extract(ticker_fixture(), 'AR', as_of=ASOF)
+        facts.update(midcycle=True,annual_fcf_series=[dict(period=f'{y}-12-31',value=100e6)
+            for y in (2025,2024,2023,2022,2021)],annual_net_income_series=[dict(period=f'{y}-12-31',value=200e6)
+            for y in (2023,2022,2021)])
+        result=m.calculate(facts,risk_free=.05,mrp=.05,as_of=ASOF)
+        self.assertIsNone(result['metrics']['valuation_pe'])
+        self.assertEqual(result['inputs']['valuation_fcf'],100e6)
+
     def module(self):
         try:
             return importlib.import_module('live_analysis')
@@ -128,6 +158,23 @@ class LiveAnalysisTests(unittest.TestCase):
 
 
 class DynamicBuildIntegration(unittest.TestCase):
+    def test_failed_live_quote_can_use_only_a_fresh_dated_same_currency_cached_quote(self):
+        e=self.engine();m=importlib.import_module('live_analysis')
+        facts=m.extract(ticker_fixture(), 'ZTS', as_of=ASOF)
+        for changes,cutoff,expected in [({},ASOF,100.),
+            ({},datetime(2026,11,1,tzinfo=timezone.utc),None),
+            ({'currency':'EUR'},ASOF,None),({'quote_observed_at':None},ASOF,None)]:
+            value=copy.deepcopy(e.DATA['ZTS']);value.update(price=None,quote_observed_at=None)
+            packet=dict(facts,**changes)
+            with tempfile.TemporaryDirectory() as tmp,patch.object(e,'DATA',{'ZTS':value}):
+                path=Path(tmp)/'facts.json';path.write_text(json.dumps(dict(schema=m.VERSION,entries={'ZTS':packet})))
+                def offline(symbol):raise RuntimeError('offline')
+                e.refresh_dynamic_analysis(cache_path=path,as_of=cutoff,ticker_factory=offline)
+            self.assertEqual(value.get('price'),expected)
+            if expected:
+                self.assertEqual(value['quote_observed_at'],facts['quote_observed_at'])
+                self.assertEqual(value['quote_time_status'],'CACHED_DATED')
+
     def engine(self):
         from test_framework_contract import engine
         self.assertTrue(callable(getattr(engine,'refresh_dynamic_analysis',None)),

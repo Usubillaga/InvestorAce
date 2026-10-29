@@ -6,6 +6,11 @@
 })(typeof globalThis!=='undefined'?globalThis:this,()=>{
   'use strict';
   const maxQuoteAge=96*3600000;
+  const fiscalDeadline=period=>{
+    if(typeof period!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(period)) return undefined;
+    const start=Date.parse(period+'T00:00:00Z');
+    return Number.isFinite(start)&&new Date(start).toISOString().slice(0,10)===period?start+551*86400000:undefined;
+  };
   const stamp=value=>typeof value==='string'&&/(?:Z|[+-]\d{2}:\d{2})$/.test(value)?Date.parse(value):undefined;
   const materialObjections=items=>(items||[]).filter(x=>['major','critical'].includes(x.severity)&&!['verified','rejected'].includes(x.status));
   function project(stored,{now=Date.now(),objections=[]}={}){
@@ -48,10 +53,57 @@
       es:{reviewed:'Revisado',objections:'Objeciones abiertas',pending:'Sin revisar'}};
     return (labels[language]||labels.en)[key];
   }
+  function projectOpportunity(stored,{now=Date.now()}={}){
+    if(!stored||stored.schema!=='opportunity-v17.1') return null;
+    const at=typeof now==='number'?now:stamp(now);
+    if(!Number.isFinite(at)) throw new Error('Opportunity cutoff requires a timezone');
+    const item=JSON.parse(JSON.stringify(stored)),q=stamp(item.quote_observed_at),captured=stamp(item.as_of);
+    const qstatus=!(typeof item.price==='number'&&Number.isFinite(item.price)&&item.price>0)?'MISSING':
+      !Number.isFinite(q)?'TIME_UNKNOWN':q>at?'FUTURE':at-q>maxQuoteAge?'STALE':'DATED';
+    const deadline=fiscalDeadline(item.financial_period);
+    const fiscalCurrent=Number.isFinite(deadline)&&at<deadline&&at>=deadline-551*86400000;
+    if(!Number.isFinite(captured)||captured>at||qstatus!=='DATED'||!fiscalCurrent){
+      Object.assign(item,{score:null,label:null,score_lower:null,score_upper:null,uncapped_score:null,
+        fundamental_score:null,valuation_score:null,current_fit:null,current_fit_bounds:null,
+        regime_fit:{},regime_fit_bounds:{},implied_growth_pct:null,quote_status:qstatus,status:'PARTIAL',withdrawn:true});
+      for(const key of ['valuation_pe','reported_pe','fcf_yield_pct','market_cap','cover_pct','earnings_yield_pct','shareholder_yield_pct']) delete item.metrics?.[key];
+      if(item.profile) item.profile.tags=item.profile.tags.filter(x=>x!=='VALUE');
+      for(const c of item.components||[]) if(['fcfy','pe','expectations','macro','r'].includes(c.key))
+        Object.assign(c,{value:null,contribution:null,lower_contribution:0,upper_contribution:10*c.weight});
+    }
+    return item;
+  }
+  function refreshOpportunityNodes(items){
+    const language=document.documentElement.lang||'en';
+    const numeric=x=>typeof x==='number'&&Number.isFinite(x)?x.toLocaleString(language,{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+    const range=(value,bounds)=>value!==null&&value!==undefined?numeric(value):bounds?.every(x=>typeof x==='number')?bounds.map(numeric).join('–'):'—';
+    const absent={en:'Data incomplete',de:'Daten unvollständig',es:'Datos incompletos'}[language]||'Data incomplete';
+    const metricNames={en:['P/E','FCF','Operating margin'],de:['KGV','FCF','Operative Marge'],es:['PER','FCF','Margen operativo']}[language]||['P/E','FCF','Operating margin'];
+    for(const node of document.querySelectorAll('[data-opportunity]')){
+      const item=items[node.dataset.opportunity];if(!item) continue;
+      for(const target of node.querySelectorAll('[data-opportunity-field]')){
+        const field=target.dataset.opportunityField;
+        const text={score:range(item.score,[item.score_lower,item.score_upper]),label:item.label||absent,
+          fit:range(item.current_fit,item.current_fit_bounds),growth:numeric(item.implied_growth_pct)+'%',
+          metrics:metricNames[0]+' '+numeric(item.metrics?.valuation_pe)+' · '+metricNames[1]+' '+numeric(item.metrics?.fcf_yield_pct)+'% · '+metricNames[2]+' '+numeric(item.metrics?.operating_margin_pct)+'%'};
+        if(['regimes','components'].includes(field)){
+          if(item.withdrawn||item.quote_status!=='DATED'){
+            const row=document.createElement('tr'),cell=document.createElement('td');
+            cell.colSpan=4;cell.textContent=absent;row.append(cell);target.replaceChildren(row);
+          }
+          continue;
+        }
+        if(text[field]!==undefined) target.textContent=text[field];
+        if(field==='label'){
+          target.className='pill opportunity-label '+({'Strong Buy':'p-sbuy','Buy':'p-buy','Hold Positive':'p-hpos','Hold Negative':'p-hneg','Sell':'p-sell'}[item.label]||'empty');
+        }
+      }
+    }
+  }
   function watch(callback,assessments=[]){
     let timer;
     const deadlines=assessments.flatMap(item=>[stamp(item?.as_of),stamp(item?.valid_until),
-      stamp(item?.expires_at),stamp(item?.quote_observed_at)+maxQuoteAge]);
+      stamp(item?.expires_at),stamp(item?.quote_observed_at)+maxQuoteAge,fiscalDeadline(item?.financial_period)]);
     function tick(){
       clearTimeout(timer);
       callback();
@@ -70,6 +122,7 @@
     const number=value=>typeof value==='number'&&Number.isFinite(value)?value.toLocaleString(language,{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
     const refresh=()=>{
       const current=Object.fromEntries(Object.entries(packet.assessments).map(([key,item])=>[key,project(item)]));
+      refreshOpportunityNodes(Object.fromEntries(Object.entries(packet.opportunities||{}).map(([key,item])=>[key,projectOpportunity(item)])));
       for(const node of document.querySelectorAll('[data-assessment]')){
         const item=current[node.dataset.assessment];
         if(!item) continue;
@@ -103,7 +156,7 @@
       }
     };
     document.addEventListener('investorace:portfolio',refresh);
-    watch(refresh,Object.values(packet.assessments));
+    watch(refresh,[...Object.values(packet.assessments),...Object.values(packet.opportunities||{})]);
   }
-  return {project,materialObjections,statusLabel,watch,bindReport};
+  return {project,projectOpportunity,refreshOpportunityNodes,materialObjections,statusLabel,watch,bindReport};
 });

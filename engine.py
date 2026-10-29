@@ -20,6 +20,8 @@ import source_review as SOURCE_REVIEW
 import timing as TIMING
 import decision_view as DECISION_VIEW
 import dashboard_view as DASHBOARD_VIEW
+import opportunity as OPPORTUNITY
+import opportunity_view as OPPORTUNITY_VIEW
 from company_reports import pdf_urls
 import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
@@ -834,6 +836,14 @@ def regime_scores(d):
     return {r: comp[r]['total'] for r in REGIMES} if comp else {}
 
 
+def opportunity(d, *, regime, as_of=None):
+    """Current automatic signal; legacy scores and analyst approvals stay separate."""
+    return OPPORTUNITY.assess(d, regime=regime, as_of=as_of,
+        spec=dict(affinity=AFF,duration=DUR_W,balance=BS_W,payout=PAY_W,
+                  multiplier=REGIME_SECTOR_MULT,clamp=REGIME_DURATION_CLAMP,
+                  version=REGIME_MODEL_VERSION))
+
+
 # Frozen fixtures catch coefficient/clamp drift. These examples intentionally include
 # the three names that exposed the v2 regression plus explicit clamp boundaries.
 REGIME_GOLDEN = (
@@ -1330,6 +1340,18 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
             counts['cached'] += 1
         else:
             counts['unavailable'] += 1
+        # A transient provider failure need not erase a still-current dated
+        # close. Never advance its market timestamp or use an expired quote.
+        if positive_number(row.get('price')) is None and previous:
+            cached_quote=dict(price=positive_number(previous.get('quote_price')),
+                              quote_observed_at=previous.get('quote_observed_at'))
+            cached_price=cached_quote['price']
+            sanity=row.get('sanity')
+            in_band=not _valid_band(sanity) or (cached_price is not None and sanity[0]<=cached_price<=sanity[1])
+            if (previous.get('currency')==row.get('cur') and in_band
+                    and ASSESSMENT.quote_status(cached_quote,as_of)=='DATED'):
+                row.update(cached_quote,price_ts=previous.get('fetched_at'),quote_time_status='CACHED_DATED',
+                    price_note='Live quote unavailable; dated cached market quote retained within 96 hours.')
         analysis = LIVE_ANALYSIS.calculate(facts,
             quote=dict(price=row.get('price'), observed_at=row.get('quote_observed_at')),
             risk_free=WACC.resolve_risk_free()/100., mrp=WACC.MARKET_RISK_PREMIUM/100., as_of=as_of,
@@ -1564,7 +1586,9 @@ def observation(macro, bundle, captured_at=None):
     notes = json.loads(bundle['sources'].get('scanner_notes.json', '{"entries":{}}'))
     assessments = {t: assessment(d, ticker=t, reviews=review_book, as_of=cutoff, notes=notes)
                    for t, d in DATA.items()}
+    current_regime = macro.get('regime') if macro.get('ok') else None
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
+                   opportunity=opportunity(d,regime=current_regime,as_of=cutoff),
                    score=score(d), raw_verdict=legacy_verdict(t,d)[0], risk=risk(d),
                    verdict=verdict(t,d,assessed=assessments[t])[0], assessment=assessments[t],
                    regime=regime_scores(d), weight=d.get('weight'),
@@ -1597,7 +1621,8 @@ def observation(macro, bundle, captured_at=None):
     regime = macro.get('regime') if macro.get('ok') else None
     rec['_portfolio_proposal'] = (portfolio_proposal(regime, assessments=assessments)
                                   if regime in REGIMES else None)
-    rec['_models'] = dict(engine='v16-dynamic-analysis', regime=REGIME_MODEL_VERSION,
+    rec['_models'] = dict(engine='v17-opportunity', regime=REGIME_MODEL_VERSION,
+                          opportunity=OPPORTUNITY.VERSION,
                           assessment=ASSESSMENT.VERSION,
                           dynamic_analysis=LIVE_ANALYSIS.VERSION,
                           regime_spec_sha256=regime_spec_sha256(),
@@ -2278,11 +2303,15 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
     reviews = SOURCE_REVIEW.load() if reviews is None else reviews
     assessments = ({t: assessment(d, ticker=t) for t, d in DATA.items()}
                    if assessments is None else assessments)
+    M = read_macro() if macro is None else macro
+    cur_reg = M.get('regime') if M.get('ok') else None
+    opportunities = {t: opportunity(d,regime=cur_reg) for t,d in DATA.items()}
     rows = []
-    ranked = sorted(DATA.items(), key=lambda kv: (-(assessments[kv[0]]['model_score']
-                        if assessments[kv[0]]['model_score'] is not None else -1), kv[0]))
+    ranked = sorted(DATA.items(), key=lambda kv: (-(opportunities[kv[0]]['score_lower']
+                        if opportunities[kv[0]]['label'] else -1), kv[0]))
     for i,(t,d) in enumerate(ranked, 1):
         checked = assessments[t]
+        idea = opportunities[t]
         s, rk, c, cu, eg = checked['model_score'], risk(d), cover(d), cushion(d), entry_gap(d)
         bn, bc = band(s); vn, vc = verdict(t, d, assessed=checked)
         dynamic = d.get('dynamic_analysis')
@@ -2304,11 +2333,14 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
               ' class="hit"' if proximity(d)[0] else '')
           + f'<td class="rk">{i}</td>'
           + f'<td class="tk">{ticker_label}{filing_badge(t, monitoring)}{SOURCE_REVIEW.dcf_badge(t, reviews)}</td>'
-          + f'<td class="se">{d.get("sector","")}</td>'
-          + f'<td class="sc"><span data-assessment-field="model_score">{fmt(s,".2f")}</span>{score_note}</td>'
+          + f'<td class="se">{d.get("sector","")}{OPPORTUNITY_VIEW.tags(idea)}</td>'
+          + f'<td class="sc" data-opportunity="{escape(t)}">{OPPORTUNITY_VIEW.score(idea)}'
+          + OPPORTUNITY_VIEW.metrics(idea)
+          + f'<details class="opportunity-legacy"><summary>Legacy model</summary><span data-assessment-field="model_score">{fmt(s,".2f")}</span>{score_note}</details></td>'
           + f'<td><span data-assessment-field="model_band" class="pill {bc}">{bn}</span><br><small>Model band only</small></td>'
           + f'<td class="{cls(rk,2.4,3.3,invert=True)}">{fmt(rk,".1f")}</td>'
-          + f'<td><span data-assessment-field="verdict" class="pill {vc}">{vn}</span>{valuation_review_badge(d)}</td>'
+          + f'<td data-opportunity="{escape(t)}">{OPPORTUNITY_VIEW.signal(idea)}'
+          + f'<details class="opportunity-legacy"><summary>Review status</summary><span data-assessment-field="verdict" class="pill {vc}">{vn}</span>{valuation_review_badge(d)}</details></td>'
           + f'<td class="{cls(None if c is None else c*100,60,35)}">{fmt(None if c is None else c*100,".0f")}%</td>'
           + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}{growth_comparison_badge(d)}</td>'
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
@@ -2319,9 +2351,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
              + (f'<br><span style="font-size:10px;color:#7b8195">{fh:+.0f}% off high</span>' if fh is not None else '')
              + ('<br><span class="pill x-appr">DIVERGENCE</span>' if divergence(d) else '')
              + '</td>')(momentum(d), from_high(d))
-          + (lambda rg, sc: f'<td><span class="pill {REG_CSS.get(rg,"empty")}">{rg or "&mdash;"}</span>'
-                            f'{f"<br><span style=font-size:10px;color:#7b8195>{sc:.0f}</span>" if sc else ""}</td>'
-            )(*best_regime(d))
+          + f'<td data-opportunity="{escape(t)}">{OPPORTUNITY_VIEW.fit(idea)}</td>'
           + f'<td class="mono">{fmt(ngv(d),",.2f")}</td>'
           + (lambda ev, ec: f'<td class="mono">{fmt(ev,",.2f")}'
              + (f'<br><span style="font-size:10px;color:#7b8195">{ec}</span>' if ev is not None else '')
@@ -2356,8 +2386,6 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             issues[t] = '; '.join(filter(None, (issues.get(t), 'NGV: ' + d['boot_note'])))
 
     js = JS.replace('__TICKERS__', json.dumps(sorted(DATA.keys())))
-    M = read_macro() if macro is None else macro
-    cur_reg = M.get('regime') if M.get('ok') else None
     fits = sorted(((t, fit_now(d, cur_reg)) for t, d in DATA.items()), key=lambda kv: -(kv[1] or -1))
     fits = [(t, v) for t, v in fits if v is not None][:15]
     FIT_COL = {'GOLDILOCKS':'#66e39c','REFLATION':'#63c6f0','INFLATION':'#e5b45c',
@@ -2562,7 +2590,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
             'family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">'
             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>'
-            '<style>' + CSS + DECISION_VIEW.CSS + DASHBOARD_VIEW.CSS + '</style></head><body>')
+            '<style>' + CSS + DECISION_VIEW.CSS + DASHBOARD_VIEW.CSS + OPPORTUNITY_VIEW.CSS + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce &middot; Live &middot; {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
            f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{sum(1 for d in DATA.values() if epv(d) is not None)}</b> with EPV &middot; <b>{priced}</b> priced this run &middot; '
@@ -2580,8 +2608,8 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
              '<button id="addTickerButton" type="button">Add via GitHub</button>&nbsp;'
              '<a id="gh" target="_blank" rel="noopener" style="display:none;background:#1d5433;color:#4ecb8a;border:1px solid #2a7a4a;border-radius:6px;padding:8px 14px;font-weight:700;text-decoration:none"></a>'
              '<textarea id="out" style="width:100%;height:150px;margin-top:10px" readonly></textarea></div>')
-    tbl = ('<div class="tw" tabindex="0" role="region" aria-label="Universe table"><table id="master-table"><thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Model Score</th><th>Band</th><th>Risk</th>'
-           '<th>Verdict</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Regime</th>'
+    tbl = (OPPORTUNITY_VIEW.guide(cur_reg) + '<div class="tw" tabindex="0" role="region" aria-label="Universe table"><table id="master-table"><thead><tr><th>#</th><th>Ticker</th><th>Business profile</th><th>Opportunity score</th><th>Legacy band</th><th>Risk</th>'
+           '<th>Automatic signal</th><th>Cover</th><th>Cushion</th><th>Entry gap</th><th>Clock</th><th>Insider</th><th>Mom 12-1</th><th>Current regime fit</th>'
            '<th>NGV</th><th>EPV</th><th>EPV vs NGV</th><th>Entry@60%</th><th>Price</th><th>Fetched</th><th>Built</th></tr></thead><tbody>'
            + '\n'.join(rows) + '</tbody></table></div>')
     zin = ('<div style="margin-top:18px;text-align:right">'
@@ -2617,7 +2645,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
                             ngv=ngv(d), cover=cover(d), implied_growth=implied_growth(d),
                             cushion=cushion(d)) for t, d in DATA.items()}
     view_source = Path(__file__).with_name('assessment_view.js').read_text(encoding='utf-8')
-    view_data = json.dumps(dict(assessments=assessments, holdings=[t for t, _ in held],
+    view_data = json.dumps(dict(assessments=assessments, opportunities=opportunities, holdings=[t for t, _ in held],
         actions={t: verdict(t, d, assessed=assessments[t])[0] for t, d in DATA.items()}),
         ensure_ascii=False, allow_nan=False).replace('<', '\\u003c').replace('&', '\\u0026')
     dashboard = DASHBOARD_VIEW.render(hdr, tbl,
@@ -2627,7 +2655,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             ('market-context', 'Market & regime', 'Macro context, sector returns and regime rankings',
              macro_box + fit_box + regime_book_box + sec_box),
             ('company-research', 'Analysis & research', 'Sources, score explanations and timing observations',
-             SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
+             OPPORTUNITY_VIEW.panel(opportunities) + SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
             ('portfolio-section', 'Portfolio', 'Existing portfolio access and historical charts', gate + zin),
             ('model-controls', 'Data & model', 'Coverage, open reviews, methodology and model checks',
              coverage_box + assessment_panel(assessments) + filing_monitoring_box(monitoring)

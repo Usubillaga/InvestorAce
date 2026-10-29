@@ -4,6 +4,35 @@ Investment strategy with friends: a scoreboard of stocks scored on the
 InvestorAce framework (normalised gross value, EPV, WACC, risk, macro regime),
 rebuilt nightly and published to GitHub Pages.
 
+## Opportunity score v17
+
+The main report and the universe scanner now lead with a separate versioned
+**automatic opportunity signal**: valuation and priced-in expectations 40%,
+financial quality 30%, current macro fit 15%, revenue growth 10%, and shareholder
+returns/dilution 5%. It shows business profiles, P/E and FCF-yield proxies,
+operating margins and the full five-regime matrix. Strong Buy >=8.5, Buy >=7,
+Hold Positive >=5.5, Hold Negative >=3.5, otherwise Sell, before rounding and
+subject to the documented value-trap caps. These are heuristic design choices,
+not verified alpha or recommendations forced to fit named tickers.
+
+An automatic signal remains visible when manual analyst review is pending;
+the review/approval channel below remains separate. Missing inputs retain
+contribution bounds, never neutral scores. A partial score receives a label
+only when its whole interval lies within the same band and core data are
+supported. It receives no point score. Missing cash can support a conservative
+gross-debt leverage bound; it is never silently set to zero. Commodity earnings
+and FCF use multiple consecutive annual observations rather than a peak-year
+multiple. Current quote expiry withdraws signals in Python and the browser.
+If the quote provider temporarily fails, a same-currency cached market quote
+may be reused within that same 96-hour limit, with its original market time
+and a visible cache notice. Retrieval never renews its age.
+
+`opportunity.py` and `opportunity_view.py` own this new decision layer. Existing
+`score()`, eight-category weights, review approvals and frozen regime formulas
+remain available for historical reproduction; the older contracts described
+below do not replace the v17 opportunity signal. The SEC-wide market scan
+remains a separately labelled preliminary screen.
+
 ## How it runs
 
 | Step | Where |

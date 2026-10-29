@@ -184,6 +184,8 @@ def extract(ticker, symbol, *, as_of):
         cash_flow_calculation='OCF_MINUS_ABS_CAPEX' if ocf is not None and capex is not None else 'YAHOO_REPORTED_FCF',
         annual_fcf_series=[dict(period=c.date().isoformat(), value=_cash(cf, [c])[2])
                            for c in list(cf.columns[:5])] if cf is not None else [],
+        annual_net_income_series=[dict(period=c.date().isoformat(), value=_value(income, 'net_income', c))
+                           for c in list(income.columns[:5])] if income is not None else [],
         cash_growth_periods=[c.date().isoformat() for c in annual_dates],
         source_urls=[f'https://finance.yahoo.com/quote/{urlquote(symbol, safe="")}/{part}/'
                      for part in ('cash-flow', 'financials', 'balance-sheet', 'key-statistics')])
@@ -219,6 +221,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     fcf, shares = finite_number(inputs.get('fcf')), positive_number(inputs.get('shares'))
     valuation_fcf = fcf
     policy = 'REPORTED_FCF_PROXY'
+    cash_cycle_periods = []
     if facts.get('midcycle'):
         # Yahoo often includes an empty oldest column. Use the contiguous
         # complete prefix; never jump across a missing intervening year.
@@ -236,6 +239,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         except (TypeError, ValueError):
             aligned = False
         valuation_fcf = sum(values)/len(values) if aligned else None
+        cash_cycle_periods = dates if aligned else []
         policy = 'MIDCYCLE_MEAN_PROXY'
         warnings.append('Commodity value uses a multi-year reported cash-flow mean; acquisitions and normalization still require review.')
     inputs['valuation_fcf'] = valuation_fcf
@@ -259,6 +263,21 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     opinc, ebitda = finite_number(inputs.get('operating_income')), positive_number(inputs.get('ebitda'))
     debt, cash = finite_number(inputs.get('debt')), finite_number(inputs.get('cash'))
     market_cap = price * shares / factor if price and shares and factor else None
+    earnings = finite_number(inputs.get('net_income'))
+    valuation_earnings = earnings
+    if facts.get('midcycle'):
+        years = []
+        for item in (facts.get('annual_net_income_series') or [])[:5]:
+            if finite_number(item.get('value')) is None:
+                break
+            years.append(item)
+        by_period = {item.get('period'):finite_number(item.get('value')) for item in years}
+        corresponding = [by_period.get(period) for period in cash_cycle_periods]
+        aligned = len(corresponding) >= 3 and all(value is not None for value in corresponding)
+        valuation_earnings = sum(corresponding)/len(corresponding) if aligned else None
+        if not aligned:
+            warnings.append('Commodity earnings multiple unavailable: earnings and cash cycle periods do not align.')
+    inputs['valuation_net_income'] = valuation_earnings
     dividends = finite_number(inputs.get('dividends'))
     share_change = finite_number(facts.get('share_change_pct'))
     div_yield = abs(dividends) / market_cap * 100 if dividends is not None and market_cap else None
@@ -272,6 +291,10 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         fcf_yield_pct=100*valuation_fcf/market_cap if valuation_fcf is not None and market_cap else None,
         shareholder_yield_pct=returns, share_change_pct=share_change,
         fcf_growth_pct=historical, market_cap=market_cap,
+        reported_pe=market_cap/earnings if market_cap and earnings is not None and earnings > 0 else None,
+        valuation_pe=market_cap/valuation_earnings if market_cap and valuation_earnings is not None and valuation_earnings > 0 else None,
+        earnings_yield_pct=100*valuation_earnings/market_cap if market_cap and valuation_earnings is not None else None,
+        cash_conversion_pct=100*fcf/earnings if fcf is not None and earnings is not None and earnings > 0 else None,
         cover_pct=100*ngv/price if ngv is not None and price else None)
     raw = dict(zip(('g','p','c','b','v','r','d'), (metrics[k] for k in (
         'revenue_growth_pct','operating_margin_pct','fcf_margin_pct','net_debt_ebitda',
