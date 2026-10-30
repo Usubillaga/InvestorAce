@@ -1,6 +1,6 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-10-29T16:23:07.683249+00:00",
+ "generated_at": "2026-10-30T02:31:59.504790+00:00",
  "universe_count": 82,
  "rows": [
   {
@@ -6019,7 +6019,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-10-25T18:22:36.465524+00:00",
+   "attempted_at": "2026-10-30T02:31:59.504790+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
@@ -8249,8 +8249,8 @@
    "sector": "Real Estate",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-10-20T21:30:01.631569+00:00",
-   "attempted_at": "2026-10-20T21:30:01.631569+00:00",
+   "retrieved_at": "2026-10-30T02:31:59.504790+00:00",
+   "attempted_at": "2026-10-30T02:31:59.504790+00:00",
    "status": "PARTIAL",
    "annual": [
     {
@@ -8378,7 +8378,7 @@
     "shares_outstanding": 946218033.0,
     "float_shares": 944060656.0,
     "float_pct": 99.772000012179,
-    "retrieved_at": "2026-10-20T21:30:01.631569+00:00"
+    "retrieved_at": "2026-10-30T02:31:59.504790+00:00"
    },
    "warnings": [],
    "sources": [
