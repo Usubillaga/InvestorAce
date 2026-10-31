@@ -64,6 +64,9 @@ jobs:
       - name: Build and publish a consistent generation
         # PR merges and other writers can advance main despite the Pages lock.
         # Retry with a fresh validated build, never a rebase of stale output.
+        env:
+          # Same secret as the market scan; used read-only for SEC Form 4 insider purchases.
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT || vars.SEC_USER_AGENT }}
         run: python publish_build.py --output public --attempts 3
 
       - uses: actions/configure-pages@v6

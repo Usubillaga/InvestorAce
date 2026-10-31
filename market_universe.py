@@ -311,6 +311,14 @@ class SecClient:
         self.log = log
 
     def get_json(self, url, tries=4):
+        response = self._get(url, tries)
+        return response.json() if response is not None else None
+
+    def get_text(self, url, tries=4):
+        response = self._get(url, tries)
+        return response.text if response is not None else None
+
+    def _get(self, url, tries=4):
         for attempt in range(tries):
             wait = self.interval - (time.monotonic() - self.last)
             if wait > 0:
@@ -324,7 +332,7 @@ class SecClient:
             else:
                 status, error = response.status_code, None
                 if status == 200:
-                    return response.json()
+                    return response
                 if status == 404:
                     return None
                 if status == 403:

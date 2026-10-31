@@ -175,6 +175,43 @@ class DynamicBuildIntegration(unittest.TestCase):
                 self.assertEqual(value['quote_observed_at'],facts['quote_observed_at'])
                 self.assertEqual(value['quote_time_status'],'CACHED_DATED')
 
+    def test_older_provider_period_never_overwrites_newer_stored_financials(self):
+        e=self.engine();m=importlib.import_module('live_analysis')
+        fresh=m.extract(ticker_fixture(), 'ZTS', as_of=ASOF)
+        newer=copy.deepcopy(fresh)
+        newer.update(financial_period='2026-06-30',period_ends=['2026-06-30'],beta=.4,quote_price=90.)
+        newer['inputs']=dict(newer['inputs'],fcf=150e6,valuation_fcf=150e6)
+        row=copy.deepcopy(e.DATA['ZTS']);row.update(price=100.,quote_observed_at='2026-10-24T20:00:00Z')
+        with tempfile.TemporaryDirectory() as tmp,patch.object(e,'DATA',{'ZTS':row}), \
+             patch.object(e.WACC,'resolve_risk_free',return_value=5.), \
+             patch.object(e.WACC,'MARKET_RISK_PREMIUM',5.):
+            path=Path(tmp)/'facts.json';path.write_text(json.dumps(dict(schema=m.VERSION,entries={'ZTS':newer})))
+            counts=e.refresh_dynamic_analysis(cache_path=path,as_of=ASOF,
+                                              ticker_factory=lambda symbol:ticker_fixture())
+            stored=json.loads(path.read_text())['entries']['ZTS']
+        analysis=row['dynamic_analysis']
+        self.assertEqual(counts['retained_newer_period'],1)
+        self.assertEqual(analysis['financial_period'],'2026-06-30')
+        self.assertEqual(analysis['inputs']['fcf'],150e6)
+        self.assertEqual(analysis['data_status'],'NEWER_PERIOD_RETAINED')
+        self.assertEqual(stored['financial_period'],'2026-06-30')
+        self.assertEqual(stored['quote_price'],fresh['quote_price'])
+        self.assertEqual(stored['beta'],fresh['beta'])
+        self.assertTrue(any('older financial period' in w for w in analysis['warnings']))
+
+    def test_same_or_newer_provider_period_still_refreshes(self):
+        e=self.engine();m=importlib.import_module('live_analysis')
+        fresh=m.extract(ticker_fixture(fcf=120e6), 'ZTS', as_of=ASOF)
+        older=m.extract(ticker_fixture(), 'ZTS', as_of=ASOF)
+        older.update(financial_period='2025-09-30')
+        row=copy.deepcopy(e.DATA['ZTS']);row.update(price=100.,quote_observed_at='2026-10-24T20:00:00Z')
+        with tempfile.TemporaryDirectory() as tmp,patch.object(e,'DATA',{'ZTS':row}):
+            path=Path(tmp)/'facts.json';path.write_text(json.dumps(dict(schema=m.VERSION,entries={'ZTS':older})))
+            counts=e.refresh_dynamic_analysis(cache_path=path,as_of=ASOF,
+                                              ticker_factory=lambda symbol:ticker_fixture(fcf=120e6))
+        self.assertEqual(counts['refreshed'],1)
+        self.assertEqual(row['dynamic_analysis']['inputs']['fcf'],fresh['inputs']['fcf'])
+
     def engine(self):
         from test_framework_contract import engine
         self.assertTrue(callable(getattr(engine,'refresh_dynamic_analysis',None)),

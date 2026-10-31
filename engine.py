@@ -1286,6 +1286,27 @@ def fetch_prices():
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
 
+def refresh_insiders(client=None, as_of=None):
+    """SEC Form 4 purchases as positioning; a failure never blocks the build."""
+    import insider
+    if client is None:
+        agent = os.environ.get('SEC_USER_AGENT', '').strip()
+        if not agent:
+            print('Insider activity skipped: SEC_USER_AGENT is not set.')
+            return None
+        try:
+            import market_universe
+            client = market_universe.SecClient(agent, log=print)
+        except Exception as exc:
+            print('Insider activity skipped:', type(exc).__name__)
+            return None
+    try:
+        return insider.refresh(DATA, client, as_of=as_of)
+    except Exception as exc:
+        print('Insider activity unavailable:', type(exc).__name__)
+        return None
+
+
 def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
     """Refresh ordinary-company data, retaining dated research and last-good facts.
 
@@ -1306,7 +1327,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
     entries = cache.get('entries', {})
     primary_entries = SOURCE_REVIEW.load().get('entries', {})
     dirty = False
-    counts = dict(refreshed=0, cached=0, unavailable=0, specialized=0)
+    counts = dict(refreshed=0, retained_newer_period=0, cached=0, unavailable=0, specialized=0)
     for ticker, row in DATA.items():
         if (row.get('built') == 'fund' or row.get('sector') in ('REIT', 'Midstream', 'Banks', 'Insurance')
                 or row.get('cash_flow_basis') in ('FFO_REPORTED_NOT_FCFE',
@@ -1333,6 +1354,22 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
         valid = (isinstance(fresh, dict) and finite_number((fresh.get('inputs') or {}).get('fcf')) is not None
                  and positive_number((fresh.get('inputs') or {}).get('shares')) is not None
                  and fresh.get('financial_currency'))
+        # A provider can briefly serve an older statement set than the one
+        # already stored. Never let that overwrite newer dated financials:
+        # keep the newer period and take only market fields from the fetch.
+        try:
+            fresh_period = datetime.fromisoformat(fresh.get('financial_period')).date() if valid else None
+        except (AttributeError, TypeError, ValueError):
+            fresh_period = None
+        regressed = (valid and previous is not None and period is not None and fresh_period is not None
+                     and fresh_period < period
+                     and finite_number((previous.get('inputs') or {}).get('fcf')) is not None
+                     and positive_number((previous.get('inputs') or {}).get('shares')) is not None)
+        if regressed:
+            market = {key: fresh[key] for key in
+                      ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest')
+                      if fresh.get(key) is not None}
+            fresh = dict(previous, **market)
         facts = fresh if valid else previous or fresh
         cached = not valid and previous is not None
         if not isinstance(facts, dict):
@@ -1343,7 +1380,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
         if valid:
             entries[symbol] = fresh
             dirty = True
-            counts['refreshed'] += 1
+            counts['retained_newer_period' if regressed else 'refreshed'] += 1
         elif cached:
             counts['cached'] += 1
         else:
@@ -1370,6 +1407,11 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
         analysis['rate_provenance'] = WACC.provenance()
         if cached:
             analysis['warnings'].append('Financial refresh failed; dated last-good inputs retained and repriced.')
+        if regressed:
+            if not facts.get('primary_current'):
+                analysis['data_status'] = 'NEWER_PERIOD_RETAINED'
+            analysis['warnings'].append('Provider returned an older financial period ('+fresh_period.isoformat()
+                +'); newer dated inputs ('+period.isoformat()+') retained, market data refreshed.')
         if row.get('midcycle'):
             analysis['warnings'].append('Commodity economics still require mid-cycle normalization; reported cash scenario only.')
         if 'primary_analysis_archive' not in row:
@@ -1728,6 +1770,7 @@ def run_build():
         fetch_prices()
         dynamic_counts = refresh_dynamic_analysis()
         print('Dynamic yfinance analysis:', dynamic_counts)
+        refresh_insiders()
         populate_epv()
         macro = read_macro()
         bundle = EVIDENCE.model_bundle(Path(__file__).parent)
