@@ -3,7 +3,7 @@
  "entries": {
   "ADBE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ADBE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -29,8 +29,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.415,
-   "quote_price": 248.12,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 250.23,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -99,7 +99,7 @@
   },
   "ASML.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ASML.AS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -125,8 +125,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 1.302,
-   "quote_price": 1504.8,
-   "quote_observed_at": "2026-10-29T16:39:46+00:00",
+   "quote_price": 1412.8,
+   "quote_observed_at": "2026-10-30T16:38:39+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -199,34 +199,34 @@
   },
   "RIVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "RIVN",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 5883000000.0,
-    "operating_income": -3533000000.0,
-    "net_income": -3233000000.0,
-    "ebitda": -2139000000.0,
-    "operating_cash_flow": -1845000000.0,
-    "capex": 1644000000.0,
-    "fcf": -3489000000.0,
+    "revenue": 6480000000.0,
+    "operating_income": -3431000000.0,
+    "net_income": -2973000000.0,
+    "ebitda": -1811000000.0,
+    "operating_cash_flow": -2629000000.0,
+    "capex": 1563000000.0,
+    "fcf": -4192000000.0,
     "dividends": null,
-    "debt": 5353000000.0,
-    "cash": 3592000000.0,
+    "debt": 5431000000.0,
+    "cash": 3509000000.0,
     "shares": 1443948130.0
    },
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.622,
-   "quote_price": 11.45,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 12.16,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -299,7 +299,7 @@
   },
   "ROAD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ROAD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -325,8 +325,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.931,
-   "quote_price": 91.71,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 89.8,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -391,7 +391,7 @@
   },
   "CRM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "CRM",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -417,8 +417,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.256,
-   "quote_price": 230.9,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 229.17,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -491,7 +491,7 @@
   },
   "NVDA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "NVDA",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -517,8 +517,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.216,
-   "quote_price": 213.66,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 204.64,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -591,7 +591,7 @@
   },
   "SPGI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "SPGI",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -617,8 +617,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.095,
-   "quote_price": 460.66,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 466.55,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -691,7 +691,7 @@
   },
   "SAN.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "SAN.PA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -717,8 +717,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.281,
-   "quote_price": 76.15,
-   "quote_observed_at": "2026-10-29T16:35:19+00:00",
+   "quote_price": 79.74,
+   "quote_observed_at": "2026-10-30T16:39:49+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -791,7 +791,7 @@
   },
   "APP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "APP",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -817,8 +817,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.557,
-   "quote_price": 254.91,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 228.5,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -891,7 +891,7 @@
   },
   "ABT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ABT",
    "financial_period": "2026-03-31",
    "period_ends": [
@@ -917,8 +917,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.583,
-   "quote_price": 104.57,
-   "quote_observed_at": "2026-10-29T20:02:46+00:00",
+   "quote_price": 106.2,
+   "quote_observed_at": "2026-10-30T20:02:15+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -991,7 +991,7 @@
   },
   "WKL.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "WKL.AS",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -1009,13 +1009,13 @@
     "dividends": -563000000.0,
     "debt": 4933000000.0,
     "cash": 932000000.0,
-    "shares": 222435442.0
+    "shares": 222434963.0
    },
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.184,
-   "quote_price": 84.7,
-   "quote_observed_at": "2026-10-29T16:35:27+00:00",
+   "quote_price": 87.0,
+   "quote_observed_at": "2026-10-30T16:39:37+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1088,7 +1088,7 @@
   },
   "MC.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "MC.PA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -1111,8 +1111,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.879,
-   "quote_price": 383.85,
-   "quote_observed_at": "2026-10-29T16:35:27+00:00",
+   "quote_price": 387.0,
+   "quote_observed_at": "2026-10-30T16:36:29+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1185,7 +1185,7 @@
   },
   "UBER": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "UBER",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1211,8 +1211,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.265,
-   "quote_price": 65.74,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 65.25,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1285,7 +1285,7 @@
   },
   "AVGO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "AVGO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1311,8 +1311,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.476,
-   "quote_price": 345.0,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 326.08,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1344,10 +1344,6 @@
     {
      "period": "2022-10-31",
      "value": 16312000000.0
-    },
-    {
-     "period": "2021-10-31",
-     "value": null
     }
    ],
    "annual_net_income_series": [
@@ -1366,10 +1362,6 @@
     {
      "period": "2022-10-31",
      "value": 11495000000.0
-    },
-    {
-     "period": "2021-10-31",
-     "value": null
     }
    ],
    "cash_growth_periods": [
@@ -1385,7 +1377,7 @@
   },
   "ONON": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ONON",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1411,8 +1403,8 @@
    "financial_currency": "CHF",
    "currency": "USD",
    "beta": 2.077,
-   "quote_price": 32.8,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 33.78,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1481,7 +1473,7 @@
   },
   "PFE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "PFE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1507,8 +1499,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.276,
-   "quote_price": 29.95,
-   "quote_observed_at": "2026-10-29T20:03:08+00:00",
+   "quote_price": 30.52,
+   "quote_observed_at": "2026-10-30T20:00:31+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1581,7 +1573,7 @@
   },
   "ROL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ROL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -1607,8 +1599,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.731,
-   "quote_price": 34.69,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 34.66,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1681,7 +1673,7 @@
   },
   "LULU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "LULU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1707,8 +1699,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.922,
-   "quote_price": 109.82,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 107.24,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1781,7 +1773,7 @@
   },
   "PL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "PL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1807,8 +1799,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.17,
-   "quote_price": 14.31,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 13.47,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1881,34 +1873,34 @@
   },
   "MSFT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "MSFT",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 331839000000.0,
-    "operating_income": 155237000000.0,
-    "net_income": 133749000000.0,
-    "ebitda": 212433000000.0,
-    "operating_cash_flow": 182935000000.0,
-    "capex": 115948000000.0,
-    "fcf": 66987000000.0,
-    "dividends": -26445000000.0,
-    "debt": 56826000000.0,
-    "cash": 20935000000.0,
-    "shares": 7425545491.0
+    "revenue": 346445000000.0,
+    "operating_income": 163191000000.0,
+    "net_income": 142631000000.0,
+    "ebitda": 222940000000.0,
+    "operating_cash_flow": 195878000000.0,
+    "capex": 135921000000.0,
+    "fcf": 59957000000.0,
+    "dividends": -27033000000.0,
+    "debt": 57200000000.0,
+    "cash": 20281000000.0,
+    "shares": 7426194552.0
    },
    "financial_currency": "USD",
    "currency": "USD",
-   "beta": 1.099,
-   "quote_price": 530.14,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "beta": null,
+   "quote_price": 521.91,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -1977,7 +1969,7 @@
   },
   "AAPL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "AAPL",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2003,8 +1995,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.069,
-   "quote_price": 348.91,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 344.63,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2069,7 +2061,7 @@
   },
   "KO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "KO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2095,8 +2087,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.318,
-   "quote_price": 92.82,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 94.08,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2165,7 +2157,7 @@
   },
   "CVX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "CVX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2191,8 +2183,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.523,
-   "quote_price": 231.46,
-   "quote_observed_at": "2026-10-29T20:02:16+00:00",
+   "quote_price": 235.52,
+   "quote_observed_at": "2026-10-30T20:02:24+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2261,7 +2253,7 @@
   },
   "AMAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "AMAT",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2287,8 +2279,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.591,
-   "quote_price": 421.66,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 390.09,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2320,10 +2312,6 @@
     {
      "period": "2022-10-31",
      "value": 4612000000.0
-    },
-    {
-     "period": "2021-10-31",
-     "value": null
     }
    ],
    "annual_net_income_series": [
@@ -2342,10 +2330,6 @@
     {
      "period": "2022-10-31",
      "value": 6525000000.0
-    },
-    {
-     "period": "2021-10-31",
-     "value": null
     }
    ],
    "cash_growth_periods": [
@@ -2361,7 +2345,7 @@
   },
   "PHR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "PHR",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2387,8 +2371,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.843,
-   "quote_price": 12.53,
-   "quote_observed_at": "2026-10-29T20:00:03+00:00",
+   "quote_price": 12.44,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2461,7 +2445,7 @@
   },
   "RCAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "RCAT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2487,8 +2471,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.515,
-   "quote_price": 5.05,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 4.63,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2553,7 +2537,7 @@
   },
   "ADSK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ADSK",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2579,8 +2563,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.327,
-   "quote_price": 241.73,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 249.61,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2649,34 +2633,34 @@
   },
   "GOOG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "GOOG",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 445867000000.0,
-    "operating_income": 147628000000.0,
-    "net_income": 244205000000.0,
-    "ebitda": 326758000000.0,
-    "operating_cash_flow": 185675000000.0,
-    "capex": 132402000000.0,
-    "fcf": 53273000000.0,
-    "dividends": -10303000000.0,
-    "debt": 112756000000.0,
-    "cash": 55911000000.0,
-    "shares": 5527000000.0
+    "revenue": 471098000000.0,
+    "operating_income": 156976000000.0,
+    "net_income": 235694000000.0,
+    "ebitda": 318708000000.0,
+    "operating_cash_flow": 179551000000.0,
+    "capex": 159804000000.0,
+    "fcf": 19747000000.0,
+    "dividends": -10703000000.0,
+    "debt": 141917000000.0,
+    "cash": 56334000000.0,
+    "shares": 5579000000.0
    },
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.211,
-   "quote_price": 282.32,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 278.22,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2745,7 +2729,7 @@
   },
   "GILD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "GILD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2766,13 +2750,13 @@
     "dividends": -4068000000.0,
     "debt": 26246000000.0,
     "cash": 3179000000.0,
-    "shares": 1239955155.0
+    "shares": 1241000000.0
    },
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.332,
-   "quote_price": 165.61,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 170.68,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2841,7 +2825,7 @@
   },
   "AG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "AG",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2867,8 +2851,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.185,
-   "quote_price": 15.33,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 14.26,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -2941,7 +2925,7 @@
   },
   "BABA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "BABA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2967,8 +2951,8 @@
    "financial_currency": "CNY",
    "currency": "USD",
    "beta": 0.463,
-   "quote_price": 99.54,
-   "quote_observed_at": "2026-10-29T20:03:50+00:00",
+   "quote_price": 98.04,
+   "quote_observed_at": "2026-10-30T20:02:22+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3037,7 +3021,7 @@
   },
   "BYRN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "BYRN",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -3063,8 +3047,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.688,
-   "quote_price": 4.76,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 4.3,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3137,34 +3121,34 @@
   },
   "FSLR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "FSLR",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 5378071000.0,
-    "operating_income": 1809702000.0,
-    "net_income": 1746014000.0,
-    "ebitda": 2440196000.0,
-    "operating_cash_flow": 2155743000.0,
-    "capex": 655624000.0,
-    "fcf": 1500119000.0,
+    "revenue": 5014151000.0,
+    "operating_income": 1889715000.0,
+    "net_income": 1861134000.0,
+    "ebitda": 2541848000.0,
+    "operating_cash_flow": 839179000.0,
+    "capex": 606389000.0,
+    "fcf": 232790000.0,
     "dividends": null,
-    "debt": 194010000.0,
-    "cash": 1688279000.0,
+    "debt": 324974000.0,
+    "cash": 1576003000.0,
     "shares": 107469788.0
    },
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.794,
-   "quote_price": 176.89,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 174.4,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3237,7 +3221,7 @@
   },
   "SITE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "SITE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3262,9 +3246,9 @@
    },
    "financial_currency": "USD",
    "currency": "USD",
-   "beta": null,
-   "quote_price": 110.72,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "beta": 1.386,
+   "quote_price": 110.87,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3333,7 +3317,7 @@
   },
   "TSLA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "TSLA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3359,8 +3343,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.916,
-   "quote_price": 403.3,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 399.81,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3433,7 +3417,7 @@
   },
   "PG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "PG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3459,8 +3443,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.377,
-   "quote_price": 160.59,
-   "quote_observed_at": "2026-10-29T20:02:33+00:00",
+   "quote_price": 161.57,
+   "quote_observed_at": "2026-10-30T20:02:06+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3529,7 +3513,7 @@
   },
   "CSGP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "CSGP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3550,13 +3534,13 @@
     "dividends": null,
     "debt": 1224000000.0,
     "cash": 500000000.0,
-    "shares": 405197588.0
+    "shares": 402337328.0
    },
    "financial_currency": "USD",
    "currency": "USD",
-   "beta": null,
-   "quote_price": 28.14,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "beta": 0.796,
+   "quote_price": 30.17,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3629,7 +3613,7 @@
   },
   "OXY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "OXY",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3655,8 +3639,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.245,
-   "quote_price": 63.01,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 64.0,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3729,7 +3713,7 @@
   },
   "SPCX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "SPCX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3755,8 +3739,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": null,
-   "quote_price": 143.89,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 134.72,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3813,7 +3797,7 @@
   },
   "REP.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "REP.MC",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -3831,13 +3815,13 @@
     "dividends": -1197000000.0,
     "debt": 13238000000.0,
     "cash": 3261000000.0,
-    "shares": 1058398469.0
+    "shares": 1072230472.0
    },
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": -0.12,
-   "quote_price": 29.41,
-   "quote_observed_at": "2026-10-29T16:42:27+00:00",
+   "quote_price": 30.73,
+   "quote_observed_at": "2026-10-30T16:39:04+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -3906,7 +3890,7 @@
   },
   "AWK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "AWK",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3927,13 +3911,13 @@
     "dividends": -675000000.0,
     "debt": 16415000000.0,
     "cash": 121000000.0,
-    "shares": 198728989.0
+    "shares": 199104661.0
    },
    "financial_currency": "USD",
    "currency": "USD",
-   "beta": 0.569,
-   "quote_price": 142.21,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "beta": null,
+   "quote_price": 144.37,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4006,7 +3990,7 @@
   },
   "MRVL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "MRVL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4032,8 +4016,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.26,
-   "quote_price": 218.34,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 196.4,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4106,7 +4090,7 @@
   },
   "AR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "AR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4127,13 +4111,13 @@
     "dividends": null,
     "debt": 4652965000.0,
     "cash": null,
-    "shares": 307439000.0
+    "shares": 307136000.0
    },
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.544,
-   "quote_price": 41.2,
-   "quote_observed_at": "2026-10-29T20:00:03+00:00",
+   "quote_price": 42.08,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4206,7 +4190,7 @@
   },
   "DVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "DVN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4232,8 +4216,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.536,
-   "quote_price": 51.17,
-   "quote_observed_at": "2026-10-29T20:00:03+00:00",
+   "quote_price": 52.15,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4306,34 +4290,34 @@
   },
   "CNX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "CNX",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 2215385000.0,
-    "operating_income": 880884000.0,
-    "net_income": 949445000.0,
-    "ebitda": 1892180000.0,
-    "operating_cash_flow": 1087842000.0,
-    "capex": 561864000.0,
-    "fcf": 525978000.0,
+    "revenue": 2182681000.0,
+    "operating_income": 861786000.0,
+    "net_income": 912581000.0,
+    "ebitda": 1827622000.0,
+    "operating_cash_flow": 1107607000.0,
+    "capex": 625472000.0,
+    "fcf": 482135000.0,
     "dividends": null,
-    "debt": 2380108000.0,
-    "cash": 6162000.0,
-    "shares": 147943637.0
+    "debt": 2428910000.0,
+    "cash": 1977000.0,
+    "shares": 142861133.0
    },
    "financial_currency": "USD",
    "currency": "USD",
-   "beta": 0.687,
-   "quote_price": 36.79,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "beta": null,
+   "quote_price": 37.49,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4406,7 +4390,7 @@
   },
   "MRNA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "MRNA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4432,8 +4416,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.095,
-   "quote_price": 222.76,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 221.72,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4502,7 +4486,7 @@
   },
   "BNTX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "BNTX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4528,8 +4512,8 @@
    "financial_currency": "EUR",
    "currency": "USD",
    "beta": 1.252,
-   "quote_price": 89.13,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 88.17,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4602,7 +4586,7 @@
   },
   "INTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "INTC",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4623,13 +4607,13 @@
     "dividends": null,
     "debt": 50537000000.0,
     "cash": 12874000000.0,
-    "shares": 5286105262.0
+    "shares": 5310000000.0
    },
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.23,
-   "quote_price": 92.07,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 65.76,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4698,7 +4682,7 @@
   },
   "CRWV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "CRWV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4724,8 +4708,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": null,
-   "quote_price": 60.74,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 54.87,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4790,7 +4774,7 @@
   },
   "NBIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "NBIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4816,8 +4800,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.46,
-   "quote_price": 171.99,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 154.14,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4890,7 +4874,7 @@
   },
   "OPEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "OPEN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4916,8 +4900,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 3.748,
-   "quote_price": 1.9,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 1.8,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -4990,7 +4974,7 @@
   },
   "BA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "BA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -5013,8 +4997,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.257,
-   "quote_price": 172.65,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 171.55,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5083,7 +5067,7 @@
   },
   "TEM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "TEM",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5109,8 +5093,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 3.54,
-   "quote_price": 77.84,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 72.22,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5183,7 +5167,7 @@
   },
   "ISRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ISRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5209,8 +5193,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.463,
-   "quote_price": 448.76,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 432.01,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5279,7 +5263,7 @@
   },
   "VST": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "VST",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5305,8 +5289,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.384,
-   "quote_price": 140.95,
-   "quote_observed_at": "2026-10-29T20:00:03+00:00",
+   "quote_price": 138.37,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5379,7 +5363,7 @@
   },
   "SE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "SE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5405,8 +5389,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.547,
-   "quote_price": 76.55,
-   "quote_observed_at": "2026-10-29T20:00:03+00:00",
+   "quote_price": 74.24,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5475,7 +5459,7 @@
   },
   "UNH": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "UNH",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5501,8 +5485,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.615,
-   "quote_price": 410.91,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 406.97,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5575,7 +5559,7 @@
   },
   "CMCSA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "CMCSA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5601,8 +5585,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.669,
-   "quote_price": 22.27,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 23.22,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5675,7 +5659,7 @@
   },
   "NVO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "NVO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5701,8 +5685,8 @@
    "financial_currency": "DKK",
    "currency": "USD",
    "beta": 0.384,
-   "quote_price": 39.14,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 40.0,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5771,7 +5755,7 @@
   },
   "META": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "META",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5797,8 +5781,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.185,
-   "quote_price": 624.52,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 614.99,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5871,7 +5855,7 @@
   },
   "DIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "DIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5897,8 +5881,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.417,
-   "quote_price": 110.91,
-   "quote_observed_at": "2026-10-29T20:03:05+00:00",
+   "quote_price": 110.94,
+   "quote_observed_at": "2026-10-30T20:01:59+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -5963,7 +5947,7 @@
   },
   "PEP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "PEP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5989,8 +5973,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.364,
-   "quote_price": 133.79,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 137.34,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6063,7 +6047,7 @@
   },
   "BSX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "BSX",
    "financial_period": "2026-03-31",
    "period_ends": [
@@ -6088,9 +6072,9 @@
    },
    "financial_currency": "USD",
    "currency": "USD",
-   "beta": null,
-   "quote_price": 42.69,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "beta": 0.575,
+   "quote_price": 41.98,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6163,7 +6147,7 @@
   },
   "WIX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "WIX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6189,8 +6173,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.01,
-   "quote_price": 78.06,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 77.07,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6259,7 +6243,7 @@
   },
   "GRAB": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "GRAB",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6285,8 +6269,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.908,
-   "quote_price": 2.76,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 2.71,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6359,7 +6343,7 @@
   },
   "NOW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "NOW",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -6380,13 +6364,13 @@
     "dividends": null,
     "debt": 8415000000.0,
     "cash": 2393000000.0,
-    "shares": 1033862000.0
+    "shares": 1037917000.0
    },
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.99,
-   "quote_price": 109.67,
-   "quote_observed_at": "2026-10-29T20:01:07+00:00",
+   "quote_price": 105.12,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6459,7 +6443,7 @@
   },
   "MCD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "MCD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6485,8 +6469,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.447,
-   "quote_price": 257.38,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 258.12,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6555,7 +6539,7 @@
   },
   "TTD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "TTD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6581,8 +6565,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.992,
-   "quote_price": 13.06,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 12.29,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6655,7 +6639,7 @@
   },
   "NKE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "NKE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -6681,8 +6665,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.099,
-   "quote_price": 38.42,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 38.67,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6755,7 +6739,7 @@
   },
   "ZTS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "ZTS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6781,8 +6765,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.74,
-   "quote_price": 78.8,
-   "quote_observed_at": "2026-10-29T20:00:03+00:00",
+   "quote_price": 79.72,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6851,7 +6835,7 @@
   },
   "IBST.L": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "IBST.L",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -6874,8 +6858,8 @@
    "financial_currency": "GBP",
    "currency": "GBp",
    "beta": 0.814,
-   "quote_price": 83.05,
-   "quote_observed_at": "2026-10-29T16:35:04+00:00",
+   "quote_price": 80.65,
+   "quote_observed_at": "2026-10-30T16:35:18+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -6948,7 +6932,7 @@
   },
   "NFLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "NFLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -6974,8 +6958,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.613,
-   "quote_price": 62.05,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 62.08,
+   "quote_observed_at": "2026-10-30T20:00:00+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -7048,7 +7032,7 @@
   },
   "AMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "AMD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7074,8 +7058,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.454,
-   "quote_price": 566.42,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 504.8,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -7148,34 +7132,34 @@
   },
   "GOOGL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "GOOGL",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 445867000000.0,
-    "operating_income": 147628000000.0,
-    "net_income": 244205000000.0,
-    "ebitda": 326758000000.0,
-    "operating_cash_flow": 185675000000.0,
-    "capex": 132402000000.0,
-    "fcf": 53273000000.0,
-    "dividends": -10303000000.0,
-    "debt": 112756000000.0,
-    "cash": 55911000000.0,
-    "shares": 5867155790.0
+    "revenue": 471098000000.0,
+    "operating_income": 156976000000.0,
+    "net_income": 235694000000.0,
+    "ebitda": 318708000000.0,
+    "operating_cash_flow": 179551000000.0,
+    "capex": 159804000000.0,
+    "fcf": 19747000000.0,
+    "dividends": -10703000000.0,
+    "debt": 141917000000.0,
+    "cash": 56334000000.0,
+    "shares": 5888000000.0
    },
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.211,
-   "quote_price": 283.82,
-   "quote_observed_at": "2026-10-29T20:00:00+00:00",
+   "quote_price": 279.84,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -7244,7 +7228,7 @@
   },
   "INTU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "INTU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -7270,8 +7254,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.009,
-   "quote_price": 331.19,
-   "quote_observed_at": "2026-10-29T20:00:01+00:00",
+   "quote_price": 341.09,
+   "quote_observed_at": "2026-10-30T20:00:01+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -7344,7 +7328,7 @@
   },
   "CLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "CLX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7370,8 +7354,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.574,
-   "quote_price": 88.67,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 88.0,
+   "quote_observed_at": "2026-10-30T20:00:03+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -7444,7 +7428,7 @@
   },
   "GIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "GIS",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -7470,8 +7454,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.02,
-   "quote_price": 33.32,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 34.29,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
@@ -7540,7 +7524,7 @@
   },
   "O": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-30T02:30:21.516188+00:00",
+   "fetched_at": "2026-10-31T02:10:53.934200+00:00",
    "symbol": "O",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7566,8 +7550,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.696,
-   "quote_price": 57.2,
-   "quote_observed_at": "2026-10-29T20:00:02+00:00",
+   "quote_price": 56.93,
+   "quote_observed_at": "2026-10-30T20:00:02+00:00",
    "quote_type": "EQUITY",
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
