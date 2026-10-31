@@ -22,6 +22,7 @@ import decision_view as DECISION_VIEW
 import dashboard_view as DASHBOARD_VIEW
 import opportunity as OPPORTUNITY
 import opportunity_view as OPPORTUNITY_VIEW
+import earnings_view as EARNINGS_VIEW
 from company_reports import pdf_urls
 import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
@@ -1367,7 +1368,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
                      and positive_number((previous.get('inputs') or {}).get('shares')) is not None)
         if regressed:
             market = {key: fresh[key] for key in
-                      ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest')
+                      ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest', 'earnings')
                       if fresh.get(key) is not None}
             fresh = dict(previous, **market)
         facts = fresh if valid else previous or fresh
@@ -2727,7 +2728,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             ('market-context', 'Market & regime', 'Macro context, sector returns and regime rankings',
              macro_box + fit_box + regime_book_box + sec_box),
             ('company-research', 'Analysis & research', 'Sources, score explanations and timing observations',
-             OPPORTUNITY_VIEW.panel(opportunities) + SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
+             EARNINGS_VIEW.panel(DATA, opportunities) + OPPORTUNITY_VIEW.panel(opportunities) + SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
             ('portfolio-section', 'Portfolio', 'Existing portfolio access and historical charts', gate + zin),
             ('model-controls', 'Data & model', 'Coverage, open reviews, methodology and model checks',
              coverage_box + assessment_panel(assessments) + filing_monitoring_box(monitoring)

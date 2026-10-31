@@ -200,7 +200,7 @@ class _Report(HTMLParser):
         # These prose fields contain symbols as data. Translate their labels
         # and explanations, while leaving the symbols outside the catalog.
         ticker_label = next((label for label in ('Held positions missing quotes:',
-                            'Holdings awaiting score review:') if value.lstrip().startswith(label)), None)
+                            'Holdings awaiting score review:', 'No earnings date:') if value.lstrip().startswith(label)), None)
         if ticker_label:
             start = raw.index(ticker_label)
             self.parts.append(raw[:start] + escape(TRANSLATIONS[self.language][ticker_label], quote=False)

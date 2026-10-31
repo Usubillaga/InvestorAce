@@ -140,6 +140,22 @@ def short_interest(info):
                 source='YAHOO_EXCHANGE_REPORTED')
 
 
+def earnings_event(info):
+    """Next or latest earnings date as Yahoo carries it; estimates stay flagged."""
+    def day(key):
+        stamp = positive_number(info.get(key))
+        try:
+            return datetime.fromtimestamp(stamp, timezone.utc).date().isoformat() if stamp else None
+        except (ValueError, OverflowError, OSError):
+            return None
+    start = day('earningsTimestampStart') or day('earningsTimestamp')
+    if start is None:
+        return None
+    end = day('earningsTimestampEnd')
+    return dict(date=start, date_end=end if end and end != start else None,
+                estimated=bool(info.get('isEarningsDateEstimate')), source='YAHOO')
+
+
 def extract(ticker, symbol, *, as_of):
     """Collect an atomic financial packet; fiscal dates are not publication dates."""
     try:
@@ -198,6 +214,7 @@ def extract(ticker, symbol, *, as_of):
         beta=finite_number(info.get('beta')), quote_price=positive_number(info.get('regularMarketPrice')),
         quote_observed_at=quote_time, quote_type=info.get('quoteType'),
         short_interest=short_interest(info),
+        earnings=earnings_event(info),
         shares_basis=share_basis, shares_asof=shares_asof,
         revenue_growth_pct=_annual_growth(income, 'revenue'),
         share_change_pct=_annual_growth(frames['balance'], 'shares'),
@@ -249,7 +266,7 @@ def prefer_primary(provider, primary, *, as_of):
     result = copy.deepcopy(provider)
     if (provider.get('financial_period') or '') <= primary['financial_period']:
         market = {k: provider[k] for k in
-                  ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest') if k in provider}
+                  ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest', 'earnings') if k in provider}
         result.update(copy.deepcopy(primary))
         result.update(market)
         result['primary_current'] = True
@@ -420,6 +437,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             share_change=facts.get('share_change_periods', [])),
         annual_fcf_series=facts.get('annual_fcf_series', []),
         positioning=dict(short_interest=facts.get('short_interest')),
+        events=dict(earnings=facts.get('earnings')),
         quote_observed_at=q.get('observed_at'), warnings=warnings, source_urls=facts.get('source_urls',[]),
         parameters=dict(discount_rate_pct=100*rate if rate else None, beta=beta,
             currency_factor=factor,
