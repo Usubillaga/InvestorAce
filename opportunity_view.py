@@ -50,7 +50,7 @@ def metrics(item):
     return ('<span class="opportunity-metrics" data-opportunity-field="metrics">P/E '
             +number(values.get('valuation_pe'),1)+' · FCF '+number(values.get('fcf_yield_pct'),1)
             +'%<br>Operating margin '+number(values.get('operating_margin_pct'),1)+'%</span><br>'+entry(item)
-            +'<br>'+short(item))
+            +'<br>'+short(item)+'<br>'+insiders(item))
 
 
 def entry(item):
@@ -86,6 +86,25 @@ def short(item):
         parts.append(('%+.0f' % s['change_pct'])+'% vs prior month')
     return ('<span class="opportunity-metrics" data-opportunity-field="short">Short: '+escape(' · '.join(parts))
             +(' ('+escape(s['settlement_date'])+')' if s.get('settlement_date') else '')+'</span>')
+
+
+def insiders(item):
+    """Open-market Form 4 purchases (code P) in the last 180 days; never scored."""
+    s = item.get('insider')
+    if not s:
+        return '<span class="opportunity-metrics" data-opportunity-field="insider">Insider data not available</span>'
+    if not s.get('purchases'):
+        text = 'No open-market insider buys in the last 180 days'
+    else:
+        text = ('Insider buys (last 180 days): '+str(s['buyers'])+' insider buyers · '
+                +format(s['shares_bought'],',.0f')+' shares bought'
+                +(' · $'+format(s['value_bought'],',.0f') if s.get('value_bought') else '')
+                +(' · paid '+number(s['min_price'])+'–'+number(s['max_price']) if s.get('min_price') else '')
+                +(' · latest buy '+s['last_purchase'] if s.get('last_purchase') else '')
+                +(' ('+', '.join(s['buyer_roles'])+')' if s.get('buyer_roles') else ''))
+    if s.get('sales'):
+        text += ' · '+str(s['sales'])+' insider sales'
+    return '<span class="opportunity-metrics" data-opportunity-field="insider">'+escape(text)+'</span>'
 
 
 def fit(item):

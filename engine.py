@@ -1286,6 +1286,27 @@ def fetch_prices():
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
 
+def refresh_insiders(client=None, as_of=None):
+    """SEC Form 4 purchases as positioning; a failure never blocks the build."""
+    import insider
+    if client is None:
+        agent = os.environ.get('SEC_USER_AGENT', '').strip()
+        if not agent:
+            print('Insider activity skipped: SEC_USER_AGENT is not set.')
+            return None
+        try:
+            import market_universe
+            client = market_universe.SecClient(agent, log=print)
+        except Exception as exc:
+            print('Insider activity skipped:', type(exc).__name__)
+            return None
+    try:
+        return insider.refresh(DATA, client, as_of=as_of)
+    except Exception as exc:
+        print('Insider activity unavailable:', type(exc).__name__)
+        return None
+
+
 def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
     """Refresh ordinary-company data, retaining dated research and last-good facts.
 
@@ -1749,6 +1770,7 @@ def run_build():
         fetch_prices()
         dynamic_counts = refresh_dynamic_analysis()
         print('Dynamic yfinance analysis:', dynamic_counts)
+        refresh_insiders()
         populate_epv()
         macro = read_macro()
         bundle = EVIDENCE.model_bundle(Path(__file__).parent)

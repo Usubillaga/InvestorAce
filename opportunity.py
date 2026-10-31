@@ -213,7 +213,8 @@ def assess(row, *, regime, spec, as_of=None):
         cash_flow_policy=(dynamic.get('parameters') or {}).get('cash_flow_policy'),
         implied_growth_pct=(dynamic.get('valuation') or {}).get('reverse_dcf_growth_pct') if price_current else None,
         components=explanation,missing_components=missing,flags=flags,
-        short_interest=copy.deepcopy((dynamic.get('positioning') or {}).get('short_interest')))
+        short_interest=copy.deepcopy((dynamic.get('positioning') or {}).get('short_interest')),
+        insider=copy.deepcopy(row.get('insider_activity')))
 
 
 PRICE_SCAN = (0.30, 3.0, None)   # price range searched, as fractions of the quote
