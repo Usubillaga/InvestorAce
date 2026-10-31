@@ -212,7 +212,8 @@ def assess(row, *, regime, spec, as_of=None):
         financial_period=period,financial_fetched_at=dynamic.get('fetched_at'),
         cash_flow_policy=(dynamic.get('parameters') or {}).get('cash_flow_policy'),
         implied_growth_pct=(dynamic.get('valuation') or {}).get('reverse_dcf_growth_pct') if price_current else None,
-        components=explanation,missing_components=missing,flags=flags)
+        components=explanation,missing_components=missing,flags=flags,
+        short_interest=copy.deepcopy((dynamic.get('positioning') or {}).get('short_interest')))
 
 
 PRICE_SCAN = (0.30, 3.0, None)   # price range searched, as fractions of the quote

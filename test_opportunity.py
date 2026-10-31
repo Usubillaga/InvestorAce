@@ -258,3 +258,24 @@ class BuyPriceTests(unittest.TestCase):
         _, result = self.thresholds(value)
         self.assertIsNone(result['buy'])
         self.assertIn('current regime fit unknown', result['blocker'])
+
+
+class ShortInterestTests(unittest.TestCase):
+    def test_yahoo_fields_become_dated_positioning_and_never_zero(self):
+        import live_analysis
+        packet = live_analysis.short_interest(dict(sharesShort=3_000_000, sharesShortPriorMonth=2_500_000,
+            shortPercentOfFloat=.25, shortRatio=8.9, dateShortInterest=1760486400))
+        self.assertAlmostEqual(packet['pct_float'], 25.)
+        self.assertAlmostEqual(packet['change_pct'], 20.)
+        self.assertEqual(packet['settlement_date'], '2025-10-15')
+        self.assertIsNone(live_analysis.short_interest({}))
+
+    def test_short_interest_is_shown_but_does_not_move_the_score(self):
+        import opportunity_view
+        plain = engine.opportunity(priced_row(), regime='REFLATION', as_of=ASOF)
+        value = priced_row(); value['dynamic_analysis']['positioning'] = dict(short_interest=dict(
+            pct_float=25., days_to_cover=8.9, change_pct=20., settlement_date='2026-10-15'))
+        shorted = engine.opportunity(value, regime='REFLATION', as_of=ASOF)
+        self.assertEqual(plain['score'], shorted['score'])
+        self.assertIn('25.0% of float', opportunity_view.short(shorted))
+        self.assertIn('not reported', opportunity_view.short(plain))

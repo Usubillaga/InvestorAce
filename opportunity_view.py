@@ -49,7 +49,8 @@ def metrics(item):
     values = item['metrics']
     return ('<span class="opportunity-metrics" data-opportunity-field="metrics">P/E '
             +number(values.get('valuation_pe'),1)+' · FCF '+number(values.get('fcf_yield_pct'),1)
-            +'%<br>Operating margin '+number(values.get('operating_margin_pct'),1)+'%</span><br>'+entry(item))
+            +'%<br>Operating margin '+number(values.get('operating_margin_pct'),1)+'%</span><br>'+entry(item)
+            +'<br>'+short(item))
 
 
 def entry(item):
@@ -69,6 +70,22 @@ def entry(item):
         return ('<span class="opportunity-metrics" data-opportunity-field="entry">No price reaches Buy: '
                 +escape(t.get('blocker') or '')+'</span>')
     return '<span class="opportunity-metrics" data-opportunity-field="entry">'+escape(' · '.join(parts))+'</span>'
+
+
+def short(item):
+    """Short interest is positioning information; it never enters the score."""
+    s = item.get('short_interest') or {}
+    if not s:
+        return '<span class="opportunity-metrics" data-opportunity-field="short">Short interest not reported</span>'
+    parts = []
+    if s.get('pct_float') is not None:
+        parts.append(number(s['pct_float'],1)+'% of float')
+    if s.get('days_to_cover') is not None:
+        parts.append(number(s['days_to_cover'],1)+' days to cover')
+    if s.get('change_pct') is not None:
+        parts.append(('%+.0f' % s['change_pct'])+'% vs prior month')
+    return ('<span class="opportunity-metrics" data-opportunity-field="short">Short: '+escape(' · '.join(parts))
+            +(' ('+escape(s['settlement_date'])+')' if s.get('settlement_date') else '')+'</span>')
 
 
 def fit(item):

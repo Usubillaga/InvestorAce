@@ -1374,3 +1374,5 @@ TRANSLATIONS['de'].update({'balance sheet': 'Bilanz', 'valuation cash flow is no
 TRANSLATIONS['es'].update({'balance sheet': 'balance', 'valuation cash flow is not positive': 'el flujo de caja de valoración no es positivo', 'scan limit': 'límite de búsqueda'})
 TRANSLATIONS['de'].update({'current regime fit unknown': 'Eignung für das aktuelle Regime unbekannt'})
 TRANSLATIONS['es'].update({'current regime fit unknown': 'encaje con el régimen actual desconocido'})
+TRANSLATIONS['de'].update({'Short interest not reported': 'Leerverkaufsquote nicht gemeldet', 'Short:': 'Leerverkauf:', 'of float': 'des Streubesitzes', 'days to cover': 'Tage zur Eindeckung', 'vs prior month': 'ggü. Vormonat'})
+TRANSLATIONS['es'].update({'Short interest not reported': 'Posiciones cortas no reportadas', 'Short:': 'Cortos:', 'of float': 'del capital flotante', 'days to cover': 'días para cubrir', 'vs prior month': 'vs. mes anterior'})

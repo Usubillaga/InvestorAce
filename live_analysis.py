@@ -118,6 +118,28 @@ def _annual_growth(frame, key):
     return 100 * (av / bv - 1)
 
 
+def short_interest(info):
+    """Exchange-reported short interest as Yahoo carries it; positioning, not scored.
+
+    Yahoo reports US-listed short interest (FINRA settlement dates, twice a
+    month). Venues without such reports return None, never zero."""
+    shares = positive_number(info.get('sharesShort'))
+    pct = finite_number(info.get('shortPercentOfFloat'))
+    if shares is None and pct is None:
+        return None
+    stamp = positive_number(info.get('dateShortInterest'))
+    try:
+        date = datetime.fromtimestamp(stamp, timezone.utc).date().isoformat() if stamp else None
+    except (ValueError, OverflowError, OSError):
+        date = None
+    prior = positive_number(info.get('sharesShortPriorMonth'))
+    return dict(pct_float=100 * pct if pct is not None else None,
+                days_to_cover=finite_number(info.get('shortRatio')), shares=shares,
+                prior_month_shares=prior, settlement_date=date,
+                change_pct=100 * (shares / prior - 1) if shares and prior else None,
+                source='YAHOO_EXCHANGE_REPORTED')
+
+
 def extract(ticker, symbol, *, as_of):
     """Collect an atomic financial packet; fiscal dates are not publication dates."""
     try:
@@ -175,6 +197,7 @@ def extract(ticker, symbol, *, as_of):
         financial_currency=info.get('financialCurrency'), currency=info.get('currency'),
         beta=finite_number(info.get('beta')), quote_price=positive_number(info.get('regularMarketPrice')),
         quote_observed_at=quote_time, quote_type=info.get('quoteType'),
+        short_interest=short_interest(info),
         shares_basis=share_basis, shares_asof=shares_asof,
         revenue_growth_pct=_annual_growth(income, 'revenue'),
         share_change_pct=_annual_growth(frames['balance'], 'shares'),
@@ -226,7 +249,7 @@ def prefer_primary(provider, primary, *, as_of):
     result = copy.deepcopy(provider)
     if (provider.get('financial_period') or '') <= primary['financial_period']:
         market = {k: provider[k] for k in
-                  ('beta', 'quote_price', 'quote_observed_at', 'quote_type') if k in provider}
+                  ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest') if k in provider}
         result.update(copy.deepcopy(primary))
         result.update(market)
         result['primary_current'] = True
@@ -396,6 +419,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             revenue_growth=facts.get('revenue_growth_periods', []),
             share_change=facts.get('share_change_periods', [])),
         annual_fcf_series=facts.get('annual_fcf_series', []),
+        positioning=dict(short_interest=facts.get('short_interest')),
         quote_observed_at=q.get('observed_at'), warnings=warnings, source_urls=facts.get('source_urls',[]),
         parameters=dict(discount_rate_pct=100*rate if rate else None, beta=beta,
             currency_factor=factor,
