@@ -2296,6 +2296,24 @@ window.drawRegimeHistory = function(){
 };
 """
 
+def economic_line(M):
+    """The official-data half of the regime reading, with dates, or an explicit fallback."""
+    E = M.get('economic') or {}
+    if M.get('regime_basis') != 'MARKET_AND_ECONOMIC_DATA':
+        return 'Economic data unavailable; market-only reading.'
+    parts = []
+    if E.get('cpi_yoy') is not None:
+        parts.append(f'US CPI y/y {E["cpi_yoy"]:.1f}% ({E.get("cpi_yoy_3m_change", 0):+.2f}pp over 3 months, {E.get("cpi_date", "")})')
+    if E.get('unemployment') is not None:
+        parts.append(f'unemployment {E["unemployment"]:.1f}% (gap {E.get("unemployment_gap", 0):+.2f}pp, {E.get("unemployment_date", "")})')
+    if E.get('payrolls_3m_avg_thousands') is not None:
+        parts.append(f'payrolls {E["payrolls_3m_avg_thousands"]:+.0f} thousand per month (3-month average, {E.get("payrolls_date", "")})')
+    parts.append(f'growth score {M.get("growth_score") or 0:+.2f}')
+    parts.append(f'inflation score {M.get("inflation_score") or 0:+.2f}')
+    parts.append(f'market-only reading: {M.get("market_regime") or "&mdash;"}')
+    return 'Economic data (FRED): ' + ' &middot; '.join(parts)
+
+
 def build_html(macro=None, write=True, monitoring=None, reviews=None, assessments=None):
     errors, warnings = validate_full()
     for w_ in warnings:
@@ -2485,10 +2503,11 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
         macro_box = (
           f'<div class="box" style="border-color:#4a3566;background:#15111d">'
           f'<h2>Regime now: <span class="pill {REG_CSS.get(cur_reg,"empty")}">{cur_reg}</span></h2>'
-          f'<div class="lede" style="margin-bottom:8px">Read off market data, not opinion. '
+          f'<div class="lede" style="margin-bottom:8px">Read off market and official economic data, not opinion. '
           f'<b>Growth impulse {M["growth"]:+.1f}%</b> (S&amp;P + copper, 6-month) &middot; '
           f'<b>Inflation impulse {M["inflation"]:+.1f}%</b> (oil + 10-year, 6-month).<br>'
           f'<span class="mono" style="font-size:10px">{det}</span></div>'
+          f'<div class="lede" style="margin-bottom:8px">{economic_line(M)}</div>'
           f'<div class="lede" style="margin-bottom:6px">'
            f'VIX <b>{fmt(M.get("vix"), ".1f")} &mdash; {M.get("vix_state") or "unavailable"}</b>'
           + (' &middot; tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')

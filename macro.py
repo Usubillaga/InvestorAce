@@ -26,8 +26,19 @@ Plus a recession score from four independent, checkable series:
 And VIX, which matters directly: the tranche rule uses VIX > 25.
 
 No inputs, no opinions. Everything here is a number off a price series.
+
+The market quadrant alone cannot see the economy: a rising stock market reads
+as "growth" even while hiring stalls, and the INFLATION regime was unreachable.
+The live regime therefore also uses dated official US data from FRED (CPI,
+unemployment, payrolls). Each input becomes a signal in [-1, 1]; a growth
+score and an inflation score are their averages, and all five regimes are
+reachable. Without economic data the legacy market quadrant is used and the
+reading is marked MARKET_ONLY.
 """
+import csv
+import io
 import math
+import urllib.request
 from datetime import datetime, timezone
 from path_features import diagnostics as path_diagnostics
 
@@ -101,6 +112,106 @@ def heading(tr):
                 note=('holding' if tg == now['quadrant'] else 'crossing'))
 
 
+# ---------------- official economic data ----------------
+FRED_SERIES = {'cpi': 'CPIAUCSL', 'unemployment': 'UNRATE', 'payrolls': 'PAYEMS'}
+FRED_URL = 'https://fred.stlouisfed.org/graph/fredgraph.csv?id={}'
+REGIME_BASIS = 'MARKET_AND_ECONOMIC_DATA'
+
+
+def _fred(series_id, timeout=20):
+    """Monthly observations [(YYYY-MM-DD, value)], oldest first; '.' rows skipped."""
+    request = urllib.request.Request(FRED_URL.format(series_id),
+                                     headers={'User-Agent': 'InvestorAce macro'})
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        text = response.read().decode('utf-8')
+    rows = []
+    for row in csv.reader(io.StringIO(text)):
+        if len(row) != 2:
+            continue
+        try:
+            value = float(row[1])
+            datetime.strptime(row[0], '%Y-%m-%d')
+        except ValueError:
+            continue
+        if math.isfinite(value):
+            rows.append((row[0], value))
+    return rows
+
+
+def economic_data(fetch=_fred):
+    """Last 40 monthly observations per series; a failed series is simply absent."""
+    out = {}
+    for key, series_id in FRED_SERIES.items():
+        try:
+            rows = fetch(series_id)
+        except Exception:
+            rows = []
+        if rows:
+            out[key] = [{'date': d, 'value': v} for d, v in rows[-40:]]
+    return out
+
+
+def economic_signals(data):
+    """Dated readings derived from official monthly data; short series are omitted."""
+    out = {}
+    cpi = [(r['date'], r['value']) for r in (data or {}).get('cpi', [])]
+    if len(cpi) >= 16 and all(v > 0 for _, v in cpi[-16:]):
+        yoy = lambda k: 100 * (cpi[k][1] / cpi[k - 12][1] - 1)
+        now, before = yoy(len(cpi) - 1), yoy(len(cpi) - 4)
+        out.update(cpi_yoy=round(now, 2), cpi_yoy_3m_change=round(now - before, 2),
+                   cpi_date=cpi[-1][0])
+    unemployment = [r['value'] for r in (data or {}).get('unemployment', [])]
+    if len(unemployment) >= 15:
+        avg3 = [sum(unemployment[i - 2:i + 1]) / 3 for i in range(2, len(unemployment))]
+        # Sahm-type gap: 3-month average versus its low over the prior 12 months.
+        out.update(unemployment=unemployment[-1],
+                   unemployment_gap=round(avg3[-1] - min(avg3[-13:-1]), 2),
+                   unemployment_date=data['unemployment'][-1]['date'])
+    payrolls = [r['value'] for r in (data or {}).get('payrolls', [])]
+    if len(payrolls) >= 4:
+        out.update(payrolls_3m_avg_thousands=round((payrolls[-1] - payrolls[-4]) / 3, 1),
+                   payrolls_date=data['payrolls'][-1]['date'])
+    return out
+
+
+def _clip(x):
+    return max(-1.0, min(1.0, x))
+
+
+def classify(growth, inflation, signals=None):
+    """Five-regime reading from market impulses (percent) and economic signals.
+
+    growth score    = mean(market growth/10, labour (0.3 - gap)/0.3,
+                           payrolls (avg - 75k)/75k)
+    inflation score = mean(market inflation/20, CPI (yoy - 2.5)/1.5,
+                           CPI trend change/0.5)
+    growth >= 0: INFLATION if inflation >= 0.5, REFLATION if >= 0, else GOLDILOCKS
+    growth <  0: STAGFLATION if inflation >= 0, else RECESSION
+    """
+    signals = signals or {}
+    g = {'market': _clip(growth / 10)}
+    i = {'market': _clip(inflation / 20)}
+    if signals.get('unemployment_gap') is not None:
+        g['labour'] = _clip((0.3 - signals['unemployment_gap']) / 0.3)
+    if signals.get('payrolls_3m_avg_thousands') is not None:
+        g['payrolls'] = _clip((signals['payrolls_3m_avg_thousands'] - 75) / 75)
+    if signals.get('cpi_yoy') is not None:
+        i['cpi_level'] = _clip((signals['cpi_yoy'] - 2.5) / 1.5)
+    if signals.get('cpi_yoy_3m_change') is not None:
+        i['cpi_trend'] = _clip(signals['cpi_yoy_3m_change'] / 0.5)
+    economic = len(g) + len(i) > 2
+    if not economic:
+        return dict(regime=quadrant_of(growth, inflation), basis='MARKET_ONLY',
+                    growth_score=None, inflation_score=None, components=None)
+    gs, is_ = sum(g.values()) / len(g), sum(i.values()) / len(i)
+    regime = (('INFLATION' if is_ >= 0.5 else 'REFLATION' if is_ >= 0 else 'GOLDILOCKS')
+              if gs >= 0 else ('STAGFLATION' if is_ >= 0 else 'RECESSION'))
+    return dict(regime=regime, basis=REGIME_BASIS, growth_score=round(gs, 2),
+                inflation_score=round(is_, 2),
+                components={'growth': {k: round(v, 2) for k, v in g.items()},
+                            'inflation': {k: round(v, 2) for k, v in i.items()}})
+
+
 def read_macro():
     """Returns the live regime, the two impulses, a recession score and VIX."""
     c = _closes()
@@ -116,9 +227,11 @@ def read_macro():
 
     growth = 100 * sum(gs) / len(gs)
     infl   = 100 * sum(is_) / len(is_)
-    regime = ('REFLATION'   if growth >= 0 and infl >= 0 else
-              'GOLDILOCKS'  if growth >= 0 and infl <  0 else
-              'STAGFLATION' if growth <  0 and infl >= 0 else 'RECESSION')
+    market_regime = quadrant_of(growth, infl)
+    economy = economic_data()
+    signals = economic_signals(economy)
+    reading = classify(growth, infl, signals)
+    regime = reading['regime']
 
     # recession score, 0-100, four independent legs
     score, legs = 0, []
@@ -156,7 +269,12 @@ def read_macro():
     raw = {sym: [{'date': idx.isoformat(), 'close': float(value)}
                   for idx, value in series.items()]
            for sym, series in c.items()}
-    return dict(ok=True, regime=regime, trail=tr, heading=heading(tr), growth=round(growth, 1), inflation=round(infl, 1),
+    return dict(ok=True, regime=regime, market_regime=market_regime,
+                regime_basis=reading['basis'], growth_score=reading['growth_score'],
+                inflation_score=reading['inflation_score'], regime_components=reading['components'],
+                economic=signals, economic_series=economy,
+                economic_source='FRED (BLS CPI-U, unemployment rate, nonfarm payrolls); monthly, latest vintage',
+                trail=tr, heading=heading(tr), growth=round(growth, 1), inflation=round(infl, 1),
                 path_points=points, path_diagnostics=path_diagnostics(points),
                 input_series=raw, source='Yahoo market-price proxies; unadjusted closes',
                 source_vintage='retrieved-now; historical closes may be revised',
