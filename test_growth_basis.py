@@ -142,6 +142,9 @@ class AutomaticGrowthDraft(unittest.TestCase):
         self.assertIsNone(engine.cushion(dict(row, price=200)))
 
 
+REMOVED_TYPING = {'GOOG': dict(deliver_basis='REVENUE_PROXY')}
+
+
 class FrozenGrowthReplay(unittest.TestCase):
     def test_76_saved_inputs_isolate_penalties_from_valuation_and_raw_fit(self):
         path = Path(__file__).parent / 'history/_builds' / (
@@ -151,7 +154,10 @@ class FrozenGrowthReplay(unittest.TestCase):
         for ticker, row in rows.items():
             # Only metric typing changes. Prices, WACC, cash flows, shares,
             # components and positions remain the archived controlled inputs.
-            row['deliver_basis'] = engine.DATA[ticker].get('deliver_basis')
+            # GOOG left the universe on 2026-10-31 (duplicate of GOOGL); its
+            # archived row keeps the metric typing it had when removed.
+            current = engine.DATA.get(ticker) or REMOVED_TYPING[ticker]
+            row['deliver_basis'] = current.get('deliver_basis')
         deltas = {'LULU': .3, 'PFE': .3, 'TSLA': .075}
         verdicts = {'LULU': 'ACCUMULATE', 'PFE': 'HOLD', 'TSLA': 'AVOID'}
         with patch.object(engine, 'DATA', rows):
