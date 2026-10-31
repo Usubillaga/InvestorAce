@@ -838,10 +838,13 @@ def regime_scores(d):
 
 def opportunity(d, *, regime, as_of=None):
     """Current automatic signal; legacy scores and analyst approvals stay separate."""
-    return OPPORTUNITY.assess(d, regime=regime, as_of=as_of,
-        spec=dict(affinity=AFF,duration=DUR_W,balance=BS_W,payout=PAY_W,
-                  multiplier=REGIME_SECTOR_MULT,clamp=REGIME_DURATION_CLAMP,
-                  version=REGIME_MODEL_VERSION))
+    spec = dict(affinity=AFF,duration=DUR_W,balance=BS_W,payout=PAY_W,
+                multiplier=REGIME_SECTOR_MULT,clamp=REGIME_DURATION_CLAMP,
+                version=REGIME_MODEL_VERSION)
+    result = OPPORTUNITY.assess(d, regime=regime, as_of=as_of, spec=spec)
+    result['price_thresholds'] = (None if result.get('withdrawn') else
+        OPPORTUNITY.price_thresholds(d, regime=regime, spec=spec, as_of=as_of))
+    return result
 
 
 # Frozen fixtures catch coefficient/clamp drift. These examples intentionally include
