@@ -252,3 +252,9 @@ class BuyPriceTests(unittest.TestCase):
         self.assertEqual(result['basis'], 'NO_POSITIVE_CASH_FLOW')
         import opportunity_view
         self.assertIn('No price reaches Buy', opportunity_view.entry(dict(price_thresholds=result)))
+
+    def test_unknown_regime_fit_is_named_as_the_blocker(self):
+        value = priced_row(); value['sector'] = 'Unmapped Sector'
+        _, result = self.thresholds(value)
+        self.assertIsNone(result['buy'])
+        self.assertIn('current regime fit unknown', result['blocker'])

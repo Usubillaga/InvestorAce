@@ -271,6 +271,8 @@ def _blocker(result):
     fit = result.get('current_fit')
     if fit is not None and fit < 35:
         reasons.append(f'current regime fit {fit:.0f} < 35')
+    elif fit is None and not (result.get('current_fit_bounds') or [None])[0]:
+        reasons.append('current regime fit unknown')
     for cap in result.get('caps', []):
         if cap['reason'].startswith(('Negative cash', 'Reported earnings', 'Commodity')) and cap['reason'] not in reasons:
             reasons.append(cap['reason'])
