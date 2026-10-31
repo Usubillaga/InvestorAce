@@ -49,7 +49,43 @@ def metrics(item):
     values = item['metrics']
     return ('<span class="opportunity-metrics" data-opportunity-field="metrics">P/E '
             +number(values.get('valuation_pe'),1)+' · FCF '+number(values.get('fcf_yield_pct'),1)
-            +'%<br>Operating margin '+number(values.get('operating_margin_pct'),1)+'%</span>')
+            +'%<br>Operating margin '+number(values.get('operating_margin_pct'),1)+'%</span><br>'+entry(item)
+            +'<br>'+short(item))
+
+
+def entry(item):
+    """Price at which the automatic label becomes Buy / Strong Buy, vs today's quote."""
+    t = item.get('price_thresholds') or {}
+    price = t.get('price')
+    def level(name, value):
+        if value is None or not price:
+            return ''
+        limit = (t.get('scan') or [None, None])[1]
+        edge = ', scan limit' if limit and value >= price*limit*(1-1e-9) else ''
+        return name+' ≤ '+number(value)+' ('+('%+.0f' % (100*(value/price-1)))+'% vs price'+edge+')'
+    if not t or t.get('basis') is None:
+        return '<span class="opportunity-metrics" data-opportunity-field="entry">Buy price unavailable</span>'
+    parts = [x for x in (level('Buy', t.get('buy')), level('Strong Buy', t.get('strong_buy'))) if x]
+    if not parts:
+        return ('<span class="opportunity-metrics" data-opportunity-field="entry">No price reaches Buy: '
+                +escape(t.get('blocker') or '')+'</span>')
+    return '<span class="opportunity-metrics" data-opportunity-field="entry">'+escape(' · '.join(parts))+'</span>'
+
+
+def short(item):
+    """Short interest is positioning information; it never enters the score."""
+    s = item.get('short_interest') or {}
+    if not s:
+        return '<span class="opportunity-metrics" data-opportunity-field="short">Short interest not reported</span>'
+    parts = []
+    if s.get('pct_float') is not None:
+        parts.append(number(s['pct_float'],1)+'% of float')
+    if s.get('days_to_cover') is not None:
+        parts.append(number(s['days_to_cover'],1)+' days to cover')
+    if s.get('change_pct') is not None:
+        parts.append(('%+.0f' % s['change_pct'])+'% vs prior month')
+    return ('<span class="opportunity-metrics" data-opportunity-field="short">Short: '+escape(' · '.join(parts))
+            +(' ('+escape(s['settlement_date'])+')' if s.get('settlement_date') else '')+'</span>')
 
 
 def fit(item):
@@ -85,6 +121,8 @@ def detail(ticker,item):
         +escape(item.get('financial_period') or 'Unavailable')+' · '+escape(item.get('cash_flow_policy') or '')
         +'. Required growth (reverse DCF): <span data-opportunity-field="growth">'
         +number(item.get('implied_growth_pct'))+'%</span>.</p>'
+        +'<p>'+entry(item)+' <small class="opportunity-metrics">Re-scored at each price; quality, '
+        'balance sheet, growth and regime affinity held at today\'s values.</small></p>'
         +'<div class="tw"><table><thead><tr><th>Regime</th><th>Fit /100</th></tr></thead><tbody data-opportunity-field="regimes">'
         +''.join(rows)+'</tbody></table></div>'
         +'<div class="tw"><table><thead><tr><th>Component</th><th>Value /10</th><th>Weight</th><th>Contribution</th></tr></thead>'

@@ -188,3 +188,94 @@ class OpportunityTests(unittest.TestCase):
         self.assertEqual(record['EX']['score'],4.55)
         self.assertEqual(record['EX']['opportunity']['label'],'Buy')
         self.assertEqual(record['_models']['opportunity'],'opportunity-v17.1')
+
+
+def priced_row():
+    value = row(); dynamic = value['dynamic_analysis']
+    dynamic['parameters'].update(discount_rate_pct=9., terminal_growth_pct=2., currency_factor=1.)
+    dynamic['metrics']['market_cap'] = 960.
+    return value
+
+
+class BuyPriceTests(unittest.TestCase):
+    def thresholds(self, value, regime='REFLATION'):
+        module = importlib.import_module('opportunity')
+        return module, module.price_thresholds(value, regime=regime, spec=spec(), as_of=ASOF)
+
+    def test_buy_threshold_is_where_the_label_flips(self):
+        module, result = self.thresholds(priced_row())
+        self.assertEqual(result['basis'], 'PRICE_ONLY_RESCORE')
+        self.assertIsNotNone(result['buy'])
+        at = module.assess(module._at_price(priced_row(), result['buy'] * .999),
+                           regime='REFLATION', spec=spec(), as_of=ASOF)
+        above = module.assess(module._at_price(priced_row(), result['buy'] * 1.01),
+                              regime='REFLATION', spec=spec(), as_of=ASOF)
+        self.assertIn(at['label'], ('Buy', 'Strong Buy'))
+        self.assertNotIn(above['label'], ('Buy', 'Strong Buy'))
+        if result['strong_buy'] is not None:
+            self.assertLess(result['strong_buy'], result['buy'])
+
+    def test_repricing_moves_only_price_dependent_inputs(self):
+        module = importlib.import_module('opportunity'); value = priced_row()
+        half = module._at_price(value, 30.)['dynamic_analysis']
+        self.assertAlmostEqual(half['metrics']['valuation_pe'], 6.)
+        self.assertAlmostEqual(half['metrics']['fcf_yield_pct'], 16.)
+        self.assertEqual(half['components'], value['dynamic_analysis']['components'])
+        self.assertLess(half['valuation']['reverse_dcf_growth_pct'], -5.)
+
+    def test_weak_balance_sheet_names_the_blocker_instead_of_a_price(self):
+        value = priced_row(); value['dynamic_analysis']['components']['b'] = 1.5
+        _, result = self.thresholds(value)
+        self.assertIsNone(result['buy'])
+        self.assertIn('balance sheet', result['blocker'])
+
+    def test_stale_quote_or_missing_rate_gives_no_price(self):
+        value = priced_row(); value['quote_observed_at'] = '2026-10-01T20:00:00Z'
+        self.assertIsNone(self.thresholds(value)[1]['basis'])
+        value = priced_row(); del value['dynamic_analysis']['parameters']['discount_rate_pct']
+        self.assertEqual(self.thresholds(value)[1]['blocker'], 'PRICE_MODEL_UNAVAILABLE')
+
+    def test_engine_attaches_thresholds_and_view_renders_them(self):
+        import opportunity_view
+        result = engine.opportunity(priced_row(), regime='REFLATION', as_of=ASOF)
+        self.assertIsNotNone(result['price_thresholds']['buy'])
+        self.assertIn('Buy ≤', opportunity_view.entry(result))
+        stale = priced_row(); stale['quote_observed_at'] = '2026-10-01T20:00:00Z'
+        withdrawn = engine.opportunity(stale, regime='REFLATION', as_of=ASOF)
+        self.assertIsNone(withdrawn['price_thresholds'])
+        self.assertIn('Buy price unavailable', opportunity_view.entry(withdrawn))
+
+    def test_negative_cash_flow_is_a_named_blocker_not_a_missing_model(self):
+        value = priced_row(); value['dynamic_analysis']['inputs']['valuation_fcf'] = -5.
+        _, result = self.thresholds(value)
+        self.assertIsNone(result['buy'])
+        self.assertEqual(result['basis'], 'NO_POSITIVE_CASH_FLOW')
+        import opportunity_view
+        self.assertIn('No price reaches Buy', opportunity_view.entry(dict(price_thresholds=result)))
+
+    def test_unknown_regime_fit_is_named_as_the_blocker(self):
+        value = priced_row(); value['sector'] = 'Unmapped Sector'
+        _, result = self.thresholds(value)
+        self.assertIsNone(result['buy'])
+        self.assertIn('current regime fit unknown', result['blocker'])
+
+
+class ShortInterestTests(unittest.TestCase):
+    def test_yahoo_fields_become_dated_positioning_and_never_zero(self):
+        import live_analysis
+        packet = live_analysis.short_interest(dict(sharesShort=3_000_000, sharesShortPriorMonth=2_500_000,
+            shortPercentOfFloat=.25, shortRatio=8.9, dateShortInterest=1760486400))
+        self.assertAlmostEqual(packet['pct_float'], 25.)
+        self.assertAlmostEqual(packet['change_pct'], 20.)
+        self.assertEqual(packet['settlement_date'], '2025-10-15')
+        self.assertIsNone(live_analysis.short_interest({}))
+
+    def test_short_interest_is_shown_but_does_not_move_the_score(self):
+        import opportunity_view
+        plain = engine.opportunity(priced_row(), regime='REFLATION', as_of=ASOF)
+        value = priced_row(); value['dynamic_analysis']['positioning'] = dict(short_interest=dict(
+            pct_float=25., days_to_cover=8.9, change_pct=20., settlement_date='2026-10-15'))
+        shorted = engine.opportunity(value, regime='REFLATION', as_of=ASOF)
+        self.assertEqual(plain['score'], shorted['score'])
+        self.assertIn('25.0% of float', opportunity_view.short(shorted))
+        self.assertIn('not reported', opportunity_view.short(plain))

@@ -212,7 +212,123 @@ def assess(row, *, regime, spec, as_of=None):
         financial_period=period,financial_fetched_at=dynamic.get('fetched_at'),
         cash_flow_policy=(dynamic.get('parameters') or {}).get('cash_flow_policy'),
         implied_growth_pct=(dynamic.get('valuation') or {}).get('reverse_dcf_growth_pct') if price_current else None,
-        components=explanation,missing_components=missing,flags=flags)
+        components=explanation,missing_components=missing,flags=flags,
+        short_interest=copy.deepcopy((dynamic.get('positioning') or {}).get('short_interest')))
+
+
+PRICE_SCAN = (0.30, 3.0, None)   # price range searched, as fractions of the quote
+
+
+def _at_price(row, price):
+    """Copy of row re-quoted at `price`: only price-dependent metrics move.
+
+    P/E, FCF and earnings yields and market cap scale with price; the required
+    growth is recomputed with the same reverse DCF, rate and horizon the dynamic
+    analysis used. Returns None when that recomputation is impossible."""
+    import live_analysis
+    base = positive_number(row.get('price'))
+    dynamic = row.get('dynamic_analysis') or {}
+    metrics = dynamic.get('metrics') or {}
+    params = dynamic.get('parameters') or {}
+    inputs = dynamic.get('inputs') or {}
+    rate = positive_number(params.get('discount_rate_pct'))
+    terminal = finite_number(params.get('terminal_growth_pct'))
+    factor = positive_number(params.get('currency_factor')) or 1.
+    fcf = positive_number(inputs.get('valuation_fcf'))
+    cap = positive_number(metrics.get('market_cap'))
+    if None in (base, rate, terminal, fcf, cap):
+        return None
+    k = base / price
+    out = copy.deepcopy(row)
+    out['price'] = price
+    m = out['dynamic_analysis']['metrics']
+    for key in ('fcf_yield_pct', 'earnings_yield_pct'):
+        if finite_number(m.get(key)) is not None:
+            m[key] = m[key] * k
+    for key in ('valuation_pe', 'reported_pe', 'market_cap'):
+        if finite_number(m.get(key)) is not None:
+            m[key] = m[key] / k
+    if finite_number(m.get('cover_pct')) is not None:
+        m['cover_pct'] = m['cover_pct'] * k
+    shares = cap * factor / base
+    growth = live_analysis.reverse_dcf(price / factor, fcf, shares, rate / 100, terminal / 100, 5)
+    if growth is None:   # outside the solver's -95%..+100% bracket: pin to the nearer bound
+        floor = live_analysis.dcf_value(fcf, shares, rate / 100, -.95, terminal / 100, 5)
+        growth = -.95 if floor is not None and price / factor < floor else 1.
+    out['dynamic_analysis']['valuation'] = dict(out['dynamic_analysis'].get('valuation') or {},
+        reverse_dcf_growth_pct=100 * growth if growth is not None else None)
+    return out
+
+
+def _blocker(result):
+    """Why no price reaches Buy: the non-price condition that fails at 30% of the quote."""
+    reasons = []
+    quality = (result.get('quality_bounds') or [None])[0]
+    if quality is not None and quality < 6:
+        reasons.append(f'financial quality {quality:.1f} < 6')
+    balance = next((c['value'] for c in result.get('components', []) if c['key'] == 'b'), None)
+    if balance is not None and balance < 4.5:
+        reasons.append(f'balance sheet {balance:.1f} < 4.5')
+    fit = result.get('current_fit')
+    if fit is not None and fit < 35:
+        reasons.append(f'current regime fit {fit:.0f} < 35')
+    elif fit is None and not (result.get('current_fit_bounds') or [None])[0]:
+        reasons.append('current regime fit unknown')
+    for cap in result.get('caps', []):
+        if cap['reason'].startswith(('Negative cash', 'Reported earnings', 'Commodity')) and cap['reason'] not in reasons:
+            reasons.append(cap['reason'])
+    if not reasons:
+        reasons.append('score stays below 7.00 even at 30% of the price')
+    return '; '.join(reasons)
+
+
+def price_thresholds(row, *, regime, spec, as_of=None):
+    """Highest price at which the automatic label is Buy, and Strong Buy.
+
+    Everything that does not depend on the quote (quality, balance sheet,
+    growth, returns, regime affinity) is held at today's values. A threshold is
+    None when no price between 30% and 300% of today's reaches it; `blocker`
+    then names the non-price cap that stops it."""
+    current = assess(row, regime=regime, spec=spec, as_of=as_of)
+    base = positive_number(row.get('price'))
+    if current.get('withdrawn') or base is None:
+        return dict(buy=None, strong_buy=None, blocker='PRICE_MODEL_UNAVAILABLE', basis=None)
+    fcf = finite_number(((row.get('dynamic_analysis') or {}).get('inputs') or {}).get('valuation_fcf'))
+    if fcf is not None and fcf <= 0:
+        return dict(buy=None, strong_buy=None, blocker='valuation cash flow is not positive',
+                    basis='NO_POSITIVE_CASH_FLOW', price=base)
+    if _at_price(row, base) is None:
+        return dict(buy=None, strong_buy=None, blocker='PRICE_MODEL_UNAVAILABLE', basis=None)
+    low, high, _ = PRICE_SCAN
+    rank = {'Strong Buy': 2, 'Buy': 1}
+    memo = {}
+
+    def level(f):
+        if f not in memo:
+            memo[f] = assess(_at_price(row, base * f), regime=regime, spec=spec, as_of=as_of)
+        return rank.get(memo[f].get('label'), 0)
+
+    found = {}
+    for name, need in (('buy', 1), ('strong_buy', 2)):
+        if level(low) < need:
+            continue
+        if level(high) >= need:
+            found[name] = base * high
+            continue
+        a, b = low, high              # level(a) >= need > level(b)
+        for _ in range(24):
+            mid = (a + b) / 2
+            if level(mid) >= need:
+                a = mid
+            else:
+                b = mid
+        found[name] = base * a
+    last = memo.get(low)
+    blocker = None
+    if 'buy' not in found and last is not None:
+        blocker = _blocker(last)
+    return dict(buy=found.get('buy'), strong_buy=found.get('strong_buy'), blocker=blocker,
+                basis='PRICE_ONLY_RESCORE', price=base, scan=[low, high])
 
 
 def project(stored, *, as_of=None):
@@ -228,6 +344,7 @@ def project(stored, *, as_of=None):
             fundamental_score=None,valuation_score=None,current_fit=None,current_fit_bounds=None,
             regime_fit={},regime_fit_bounds={},implied_growth_pct=None,quote_status=qstatus,status='PARTIAL',withdrawn=True)
         result['metrics'] = {k:v for k,v in result.get('metrics',{}).items() if k not in PRICE_METRICS}
+        result['price_thresholds'] = None
         result['profile']['tags'] = [x for x in result['profile']['tags'] if x != 'VALUE']
         for component in result['components']:
             if component['key'] in ('fcfy','pe','expectations','macro','r'):

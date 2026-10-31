@@ -35,6 +35,7 @@ const {chromium}=require('playwright');
       const zts=page.locator('#master-table tr[data-assessment="ZTS"]');
       assert.equal(await zts.locator('[data-opportunity-field="label"]').innerText(),'Datos incompletos');
       assert.equal(await zts.locator('[data-opportunity-field="score"]').innerText(),'—');
+      assert.equal(await zts.locator('[data-opportunity-field="entry"]').first().innerText(),'Precio de compra no disponible');
       assert.equal(errors.length,0,errors.join('\n'));
       await page.close();
     }
