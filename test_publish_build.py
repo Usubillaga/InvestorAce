@@ -188,3 +188,17 @@ class PublishBuild(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class OfflineTestEnvironment(unittest.TestCase):
+    def test_unit_tests_never_receive_the_sec_agent(self):
+        import publish_build
+        from unittest.mock import patch
+        calls = []
+        with patch.dict('os.environ', {'SEC_USER_AGENT': 'Name name@example.org'}), \
+             patch.object(publish_build.subprocess, 'run', side_effect=lambda c, **k: calls.append((c, k))):
+            publish_build.build_site('.')
+        tests = [k for c, k in calls if c[1:3] == ['-m', 'unittest']]
+        build = [k for c, k in calls if c[-1] == 'engine.py']
+        self.assertNotIn('SEC_USER_AGENT', tests[0]['env'])
+        self.assertIsNone(build[0]['env'])

@@ -47,8 +47,12 @@ def build_site(root):
         [sys.executable, 'stock_compare.py', '--refresh'],
         [sys.executable, 'weekly_research.py', '--output', 'public', '--require-committed-report'],
     ]
+    # Tests are offline by contract: never hand them the SEC agent, or a
+    # mocked run_build would call the SEC and write history/ caches.
+    offline = {k: v for k, v in os.environ.items() if k != 'SEC_USER_AGENT'}
     for command in commands:
-        subprocess.run(command, cwd=root, check=True)
+        is_test = command[1:3] == ['-m', 'unittest']
+        subprocess.run(command, cwd=root, check=True, env=offline if is_test else None)
 
 
 def _check_generated_changes(root):
