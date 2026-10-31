@@ -4103,5 +4103,60 @@
    "norm_years_available": 3,
    "capex_years_available": 4
   }
+ },
+ "BBW": {
+  "asof": "2026-10-31",
+  "inputs": {
+   "input_schema": "epv-inputs-v2-aligned-known-debt",
+   "revenue": [
+    529832000.0,
+    496404000.0,
+    486114000.0,
+    467937000.0,
+    null
+   ],
+   "gross_profit": [
+    295629000.0,
+    272518000.0,
+    264392000.0,
+    245872000.0,
+    null
+   ],
+   "rd": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rd_source": "assumed-zero-unavailable",
+   "sga": [
+    229203000.0,
+    206238000.0,
+    198992000.0,
+    183929000.0,
+    null
+   ],
+   "capex": [
+    25545000.0,
+    19317000.0,
+    18295000.0,
+    13634000.0,
+    null
+   ],
+   "dep_amort": [
+    14952000.0,
+    14772000.0,
+    13657000.0,
+    12482000.0,
+    null
+   ],
+   "tax_rate": 0.22348163684234013,
+   "tax_source": "yahoo-latest-effective",
+   "net_debt": 100543000.0,
+   "shares": 12808954.0,
+   "norm_years_available": 3,
+   "capex_years_available": 4
+  }
  }
 }
