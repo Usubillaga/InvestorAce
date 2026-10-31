@@ -22,6 +22,7 @@ import decision_view as DECISION_VIEW
 import dashboard_view as DASHBOARD_VIEW
 import opportunity as OPPORTUNITY
 import opportunity_view as OPPORTUNITY_VIEW
+import earnings_view as EARNINGS_VIEW
 from company_reports import pdf_urls
 import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
@@ -319,7 +320,6 @@ DATA = {
 'PHR': dict(yf='PHR', fcf=63.3, shares=61.77, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.0,5.0,5.0,8.0,5.0,1.0), pr=None, dil=3.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(3.88,63.66)),
 'RCAT': dict(yf='RCAT', fcf=None, shares=152.71, r=0.08, cur='USD', deliver=None, dl='', sub=(5.0,5.0,5.0,6.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(2.88,37.56), na='free cash flow -157.7m -- a NEGATIVE fcf was written straight into the row, which makes NGV negative'),
 'ADSK': dict(yf='ADSK', fcf=2694.0, shares=211.15, r=0.08, cur='USD', deliver=22.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5,7.5,9.5,8.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', sanity=(92.75,658.18)),
-'GOOG': dict(yf='GOOG', fcf=53273.0, shares=12229.93, r=0.08, cur='USD', deliver=27.4, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5,9.0,6.0,8.0,5.0,9.0), pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', sanity=(103.48,808.94)),
 'GILD': dict(yf='GILD', fcf=12943.0, shares=1239.96, r=0.08, cur='USD', deliver=5.9, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,9.0,9.5,5.0,5.0,6.0), pr=None, dil=7.0, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Healthcare', built='auto', sanity=(54.23,314.58), boot_note='balance sheet auto-scored 1.5 (net debt/EBITDA >5x); Gilead runs nearer 1.5-2x -- reset to 5.0 until EBITDA is verified'),
 'AG'  : dict(yf='AG', fcf=180, fcf_ttm=614, shares=492.91, r=.11, cur='USD', deliver=None, dl='n/a - see note', sub=(9,8,7,9,5,7), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Materials', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='silver; the most cyclical row in the table | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
 'BABA': dict(yf='BABA', fcf=None, shares=2485.62, r=0.08, cur='USD', deliver=2.7, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(4.0,4.0,1.5,7.0,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(45.99,385.34), na='Yahoo returned FCF of -50,724m, not credible for Alibaba. Treated as a bad pull, NOT as evidence of cash burn.'),
@@ -1367,7 +1367,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
                      and positive_number((previous.get('inputs') or {}).get('shares')) is not None)
         if regressed:
             market = {key: fresh[key] for key in
-                      ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest')
+                      ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest', 'earnings')
                       if fresh.get(key) is not None}
             fresh = dict(previous, **market)
         facts = fresh if valid else previous or fresh
@@ -2727,7 +2727,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             ('market-context', 'Market & regime', 'Macro context, sector returns and regime rankings',
              macro_box + fit_box + regime_book_box + sec_box),
             ('company-research', 'Analysis & research', 'Sources, score explanations and timing observations',
-             OPPORTUNITY_VIEW.panel(opportunities) + SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
+             EARNINGS_VIEW.panel(DATA, opportunities) + OPPORTUNITY_VIEW.panel(opportunities) + SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
             ('portfolio-section', 'Portfolio', 'Existing portfolio access and historical charts', gate + zin),
             ('model-controls', 'Data & model', 'Coverage, open reviews, methodology and model checks',
              coverage_box + assessment_panel(assessments) + filing_monitoring_box(monitoring)
