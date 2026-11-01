@@ -156,6 +156,25 @@ def earnings_event(info):
                 estimated=bool(info.get('isEarningsDateEstimate')), source='YAHOO')
 
 
+def last_earnings(fresh, previous, today):
+    """Latest report date already past, remembered across nights.
+
+    Yahoo replaces a past date with the next one soon after a report, so the
+    cache keeps the last reported date to tell whether the data caught up."""
+    dates = [(previous or {}).get('last_earnings')]
+    for packet in (previous, fresh):
+        dates.append(((packet or {}).get('earnings') or {}).get('date'))
+    past = [d for d in dates if isinstance(d, str) and d <= today.isoformat()]
+    return max(past) if past else None
+
+
+def no_dividend(info):
+    """True only when the provider explicitly reports a zero trailing dividend."""
+    rate = finite_number(info.get('trailingAnnualDividendRate'))
+    paid = finite_number(info.get('dividendRate'))
+    return rate == 0 and not paid
+
+
 def extract(ticker, symbol, *, as_of):
     """Collect an atomic financial packet; fiscal dates are not publication dates."""
     try:
@@ -183,6 +202,12 @@ def extract(ticker, symbol, *, as_of):
               ('revenue', 'operating_income', 'net_income', 'ebitda')}
     values.update(operating_cash_flow=ocf, capex=capex, fcf=fcf,
                   dividends=_total(selected_cf, 'dividends', dates))
+    dividends_basis = 'CASH_FLOW_STATEMENT' if values['dividends'] is not None else None
+    if values['dividends'] is None and no_dividend(info):
+        # The statement simply has no dividend row for non-payers; the provider
+        # states a zero trailing dividend, so this is a sourced zero, not a guess.
+        values['dividends'] = 0.
+        dividends_basis = 'PROVIDER_ZERO_TRAILING_DIVIDEND'
     balance = next((b for b in (frames['qbalance'], frames['balance'])
                     if b is not None and end is not None and end in b.columns), None)
     values.update({key: _value(balance, key, end) for key in ('debt', 'cash')})
@@ -214,6 +239,7 @@ def extract(ticker, symbol, *, as_of):
         beta=finite_number(info.get('beta')), quote_price=positive_number(info.get('regularMarketPrice')),
         quote_observed_at=quote_time, quote_type=info.get('quoteType'),
         short_interest=short_interest(info),
+        dividends_basis=dividends_basis,
         earnings=earnings_event(info),
         shares_basis=share_basis, shares_asof=shares_asof,
         revenue_growth_pct=_annual_growth(income, 'revenue'),
@@ -437,7 +463,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             share_change=facts.get('share_change_periods', [])),
         annual_fcf_series=facts.get('annual_fcf_series', []),
         positioning=dict(short_interest=facts.get('short_interest')),
-        events=dict(earnings=facts.get('earnings')),
+        events=dict(earnings=facts.get('earnings'), last_reported=facts.get('last_earnings')),
         quote_observed_at=q.get('observed_at'), warnings=warnings, source_urls=facts.get('source_urls',[]),
         parameters=dict(discount_rate_pct=100*rate if rate else None, beta=beta,
             currency_factor=factor,

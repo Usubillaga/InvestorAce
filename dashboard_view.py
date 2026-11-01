@@ -90,21 +90,23 @@ JS = r"""
 """
 
 
-def render(header, table, *, stats, sections):
+def render(header, table, *, stats, sections, alert=''):
     """Wrap trusted engine HTML; escape all newly supplied labels and counts."""
     cards = ''.join('<div class="dashboard-stat"><small>' + escape(label)
                     + '</small><strong>' + escape(str(value)) + '</strong></div>'
                     for label, value in stats)
+    # A section may carry a fifth element: True renders it open by default.
+    sections = [tuple(s) + (False,) * (5 - len(s)) for s in sections]
     nav = '<a href="#universe">My universe</a>' + ''.join(
         '<a href="#' + escape(key, quote=True) + '">' + escape(title) + '</a>'
-        for key, title, _, _ in sections)
+        for key, title, _, _, _ in sections)
     groups = ''.join('<details class="dashboard-section" id="' + escape(key, quote=True)
-                     + '"><summary>' + escape(title) + '<span>' + escape(description)
+                     + '"' + (' open' if is_open else '') + '><summary>' + escape(title) + '<span>' + escape(description)
                      + '</span></summary><div class="dashboard-section-content">' + content
-                     + '</div></details>' for key, title, description, content in sections)
+                     + '</div></details>' for key, title, description, content, is_open in sections)
     return ('<main id="investorace-dashboard"><header class="dashboard-hero">' + header
             + '</header><div class="dashboard-stats">' + cards
-            + '</div><nav class="dashboard-nav" data-dashboard-nav aria-label="Report sections">'
+            + '</div>' + alert + '<nav class="dashboard-nav" data-dashboard-nav aria-label="Report sections">'
             + nav + '</nav><section id="universe" aria-labelledby="universe-title">'
             '<div class="dashboard-heading"><h2 id="universe-title">My universe</h2>'
             '<p>Ranked by discounted quality and the current regime.</p></div>'

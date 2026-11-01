@@ -212,6 +212,17 @@ class DynamicBuildIntegration(unittest.TestCase):
         self.assertEqual(counts['refreshed'],1)
         self.assertEqual(row['dynamic_analysis']['inputs']['fcf'],fresh['inputs']['fcf'])
 
+    def test_missing_beta_keeps_the_last_known_beta(self):
+        e=self.engine();m=importlib.import_module('live_analysis')
+        stored=m.extract(ticker_fixture(), 'ZTS', as_of=ASOF);stored['beta']=.9
+        t=ticker_fixture();t.info.pop('beta',None)
+        row=copy.deepcopy(e.DATA['ZTS']);row.update(price=100.,quote_observed_at='2026-10-24T20:00:00Z')
+        with tempfile.TemporaryDirectory() as tmp,patch.object(e,'DATA',{'ZTS':row}):
+            path=Path(tmp)/'facts.json';path.write_text(json.dumps(dict(schema=m.VERSION,entries={'ZTS':stored})))
+            e.refresh_dynamic_analysis(cache_path=path,as_of=ASOF,ticker_factory=lambda symbol:t)
+            self.assertEqual(json.loads(path.read_text())['entries']['ZTS']['beta_basis'],'CARRIED_FROM_PREVIOUS_FETCH')
+        self.assertEqual(row['dynamic_analysis']['parameters']['beta'],.9)
+
     def engine(self):
         from test_framework_contract import engine
         self.assertTrue(callable(getattr(engine,'refresh_dynamic_analysis',None)),
@@ -303,3 +314,23 @@ class DynamicBuildIntegration(unittest.TestCase):
 
 if __name__=='__main__':
     unittest.main()
+
+
+class DividendZeroTests(unittest.TestCase):
+    def test_only_an_explicit_zero_trailing_dividend_counts_as_zero(self):
+        import live_analysis as m
+        self.assertTrue(m.no_dividend(dict(trailingAnnualDividendRate=0.0)))
+        self.assertFalse(m.no_dividend({}))
+        self.assertFalse(m.no_dividend(dict(trailingAnnualDividendRate=0.0, dividendRate=1.2)))
+        self.assertFalse(m.no_dividend(dict(trailingAnnualDividendRate=2.0)))
+
+    def test_non_payer_gets_shareholder_returns_from_buybacks(self):
+        import live_analysis as m
+        t = ticker_fixture()
+        t.cashflow = t.cashflow.drop(index='Cash Dividends Paid')
+        t.info.update(trailingAnnualDividendRate=0.0)
+        facts = m.extract(t, 'ZTS', as_of=ASOF)
+        self.assertEqual(facts['inputs']['dividends'], 0.)
+        self.assertEqual(facts['dividends_basis'], 'PROVIDER_ZERO_TRAILING_DIVIDEND')
+        t2 = ticker_fixture(); t2.cashflow = t2.cashflow.drop(index='Cash Dividends Paid')
+        self.assertIsNone(m.extract(t2, 'ZTS', as_of=ASOF)['inputs']['dividends'])
