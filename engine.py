@@ -23,6 +23,7 @@ import dashboard_view as DASHBOARD_VIEW
 import opportunity as OPPORTUNITY
 import opportunity_view as OPPORTUNITY_VIEW
 import earnings_view as EARNINGS_VIEW
+import sec_quarters as SEC_QUARTERS
 from company_reports import pdf_urls
 import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
@@ -431,7 +432,11 @@ DATA = {
               'Legacy WACC-capitalized proxy remains UNVERIFIED, not FCFE/FCFF; '
               'score_fixed 6.35 retained, category review pending.'),
 'CMCSA':dict(yf='CMCSA',  fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=9.5, dil=6.0, clock='CLOCK',ins='SELLING', held=False, sector='Media',      built='back-solved', score_fixed=6.25),
-'NVO' : dict(yf='NVO',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Pharma',     built='back-solved', score_fixed=6.15),
+'NVO' : dict(share_count_override=dict(shares=4420750520., asof='2026-08-03', basis='A_AND_B_SHARES_EX_TREASURY',
+                 note='4,465,000,000 A+B shares (DKK 446.5m capital at DKK 0.10) less 44,249,480 treasury B shares; 1 ADR = 1 B share. Yahoo reports only the B class.',
+                 sources=('https://www.sec.gov/Archives/edgar/data/353278/000117184326001967/f6k_032726.htm',
+                          'https://www.novonordisk.com/news-and-media/news-and-ir-materials.html')),
+             yf='NVO',    fcf=None, shares=None, r=.080, cur='USD', deliver=None, dl='', sub=None, pr=6.0, dil=6.0, clock='CLOCK',ins='REGIME',  held=False, sector='Pharma',     built='back-solved', score_fixed=6.15),
 'ENG' : dict(yf='ENG.MC', fcf=None, shares=261.990074, r=.075, cur='EUR',
     deliver=-5.4, deliver_basis='EARNINGS_PROXY', dl='9M recurring net profit',
     sub=None, pr=8.0, dil=6.0, clock='CLOCK', ins='BUYING', held=False,
@@ -1286,6 +1291,19 @@ def fetch_prices():
         except Exception as e:
             d['price_note'] = f'fetch failed: {type(e).__name__}'
 
+def _sec_client():
+    """One rate-limited SEC client per build, or None without SEC_USER_AGENT."""
+    agent = os.environ.get('SEC_USER_AGENT', '').strip()
+    if not agent:
+        return None
+    try:
+        import market_universe
+        return market_universe.SecClient(agent, log=print)
+    except Exception as exc:
+        print('SEC client unavailable:', type(exc).__name__)
+        return None
+
+
 def refresh_insiders(client=None, as_of=None):
     """SEC Form 4 purchases as positioning; a failure never blocks the build."""
     import insider
@@ -1322,7 +1340,7 @@ def _fx_rate(base, quote, cache, as_of, factory=None):
     return cache[pair]
 
 
-def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
+def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, sec=None):
     """Refresh ordinary-company data, retaining dated research and last-good facts.
 
     The cache stores input facts, never valuation outputs. Even a fallback
@@ -1342,7 +1360,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
     entries = cache.get('entries', {})
     primary_entries = SOURCE_REVIEW.load().get('entries', {})
     dirty = False
-    counts = dict(refreshed=0, retained_newer_period=0, cached=0, unavailable=0, specialized=0)
+    counts = dict(refreshed=0, retained_newer_period=0, sec_newer_quarter=0, cached=0, unavailable=0, specialized=0)
     fx_cache = {}
     for ticker, row in DATA.items():
         if (row.get('built') == 'fund' or row.get('sector') in ('REIT', 'Midstream', 'Banks', 'Insurance')
@@ -1393,6 +1411,14 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
         if valid:
             fresh = dict(fresh, last_earnings=LIVE_ANALYSIS.last_earnings(
                 fresh, entries.get(symbol) if isinstance(entries.get(symbol), dict) else None, as_of.date()))
+        if valid and sec is not None:
+            try:
+                newer = SEC_QUARTERS.catch_up(fresh, symbol, sec['client'], sec['ciks'], as_of.date())
+            except Exception:
+                newer = None
+            if newer is not None:
+                fresh = newer
+                counts['sec_newer_quarter'] += 1
         facts = fresh if valid else previous or fresh
         cached = not valid and previous is not None
         if not isinstance(facts, dict):
@@ -1404,6 +1430,12 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
         if (quote_cur and statement_cur and quote_cur != statement_cur
                 and (quote_cur, statement_cur) != ('GBp', 'GBP')):
             facts['fx'] = _fx_rate(statement_cur, quote_cur, fx_cache, as_of, ticker_factory)
+        override = row.get('share_count_override')
+        if override and positive_number(override.get('shares')):
+            # A documented issuer share count beats a provider count that omits
+            # a share class (Novo Nordisk: Yahoo carries only the B shares).
+            facts = dict(facts, inputs=dict(facts.get('inputs') or {}, shares=override['shares']),
+                         shares_basis='ISSUER_' + str(override.get('basis')), shares_asof=override.get('asof'))
         if valid:
             entries[symbol] = fresh
             dirty = True
@@ -1795,9 +1827,17 @@ def run_build():
         ASSESSMENT.load_reviews()
         sync_risk_free()
         fetch_prices()
-        dynamic_counts = refresh_dynamic_analysis()
+        sec_client = _sec_client()
+        sec = None
+        if sec_client is not None:
+            try:
+                import insider
+                sec = dict(client=sec_client, ciks=insider.ciks(sec_client.get_json(insider.TICKERS_URL)))
+            except Exception as exc:
+                print('SEC ticker map unavailable:', type(exc).__name__)
+        dynamic_counts = refresh_dynamic_analysis(sec=sec)
         print('Dynamic yfinance analysis:', dynamic_counts)
-        refresh_insiders()
+        refresh_insiders(client=sec_client) if sec_client is not None else refresh_insiders()
         populate_epv()
         macro = read_macro()
         bundle = EVIDENCE.model_bundle(Path(__file__).parent)

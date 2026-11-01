@@ -163,7 +163,7 @@
       <td>${num(c.price)} USD<span class="subline">${c.quote_status === 'DATED' ? 'Schluss ' + esc(day(c.price_date)) : esc({STALE:'Kurs veraltet',FUTURE:'Zukünftiges Kursdatum',TIME_UNKNOWN:'Kursdatum fehlt',MISSING:'Kurs fehlt'}[c.quote_status] || c.quote_status)}</span><span class="subline">Marktwert ${esc(money(c.metrics.market_cap))}</span></td>
       <td><span class="kv">Umsatz ${esc(signed(c.metrics.growth_pct))}</span><span class="kv">Op.-Marge ${esc(pct(c.metrics.operating_margin_pct))}</span><span class="kv">FCF-Rendite ${esc(pct(c.metrics.fcf_yield_pct))}</span><span class="kv">8%-Szenario/Kurs ${esc(pct(c.metrics.cover_pct, 0))}</span><span class="subline">${esc(c.basis)} bis ${esc(day(c.period_end))}</span></td>
       <td><span class="fit">${num(c.regime_fit?.[regime], 1)}</span><span class="subline">/ 100 · ${esc(regimeName[regime])}<br>ohne Scoregewicht</span></td>
-      <td><button class="open-detail" data-ticker="${esc(c.ticker)}" aria-label="Analyse zu ${esc(c.ticker)} öffnen">Prüfen ↗</button></td></tr>`;
+      <td><button class="open-detail" data-ticker="${esc(c.ticker)}" aria-label="Analyse zu ${esc(c.ticker)} öffnen">Prüfen ↗</button>${c.add_url ? `<br><a class="cta add-universe" href="${esc(c.add_url)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(c.ticker)} zu InvestorAce hinzufügen">+ Universum</a>` : '<span class="subline">bereits im Universum</span>'}</td></tr>`;
   }
   const inputText = x => ({
     g: () => 'Umsatzwachstum ' + signed(x.input),
