@@ -37,6 +37,7 @@ reading is marked MARKET_ONLY.
 """
 import csv
 import io
+import json
 import math
 import urllib.request
 from datetime import datetime, timezone
@@ -121,7 +122,8 @@ REGIME_BASIS = 'MARKET_AND_ECONOMIC_DATA'
 def _fred(series_id, timeout=20):
     """Monthly observations [(YYYY-MM-DD, value)], oldest first; '.' rows skipped."""
     request = urllib.request.Request(FRED_URL.format(series_id),
-                                     headers={'User-Agent': 'InvestorAce macro'})
+                                     headers={'User-Agent': 'Mozilla/5.0 (InvestorAce macro research)',
+                                              'Accept': 'text/csv,*/*'})
     with urllib.request.urlopen(request, timeout=timeout) as response:
         text = response.read().decode('utf-8')
     rows = []
@@ -138,16 +140,61 @@ def _fred(series_id, timeout=20):
     return rows
 
 
-def economic_data(fetch=_fred):
-    """Last 40 monthly observations per series; a failed series is simply absent."""
-    out = {}
+# The same three BLS series, read from the BLS public API when FRED refuses.
+BLS_SERIES = {'cpi': 'CUSR0000SA0', 'unemployment': 'LNS14000000', 'payrolls': 'CES0000000001'}
+BLS_URL = 'https://api.bls.gov/publicAPI/v1/timeseries/data/{}'
+
+
+def _bls(series_id, timeout=20):
+    """Monthly observations [(YYYY-MM-01, value)], oldest first, from BLS API v1."""
+    request = urllib.request.Request(BLS_URL.format(series_id),
+                                     headers={'User-Agent': 'InvestorAce macro (research)'})
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        payload = json.loads(response.read().decode('utf-8'))
+    if payload.get('status') != 'REQUEST_SUCCEEDED':
+        raise ValueError('BLS status ' + str(payload.get('status')))
+    rows = []
+    for series in (payload.get('Results') or {}).get('series') or []:
+        for item in series.get('data') or []:
+            period = str(item.get('period', ''))
+            if not period.startswith('M') or period == 'M13':
+                continue
+            try:
+                value = float(str(item.get('value')).replace(',', ''))
+                stamp = f"{int(item['year']):04d}-{int(period[1:]):02d}-01"
+            except (KeyError, TypeError, ValueError):
+                continue
+            if math.isfinite(value):
+                rows.append((stamp, value))
+    return sorted(rows)
+
+
+ECONOMIC_LOG = []
+
+
+def economic_data(fetch=_fred, fallback=_bls, log=None):
+    """Last 40 monthly observations per series; FRED first, BLS as fallback.
+
+    A series both sources fail on is simply absent. Each outcome is logged so
+    a build shows why the regime fell back to market data only."""
+    out, notes = {}, []
     for key, series_id in FRED_SERIES.items():
+        rows, source = [], 'FRED'
         try:
             rows = fetch(series_id)
-        except Exception:
-            rows = []
+        except Exception as exc:
+            notes.append(f'{key}: FRED failed ({type(exc).__name__}: {str(exc)[:80]})')
+        if not rows and fallback is not None:
+            source = 'BLS'
+            try:
+                rows = fallback(BLS_SERIES[key])
+            except Exception as exc:
+                notes.append(f'{key}: BLS failed ({type(exc).__name__}: {str(exc)[:80]})')
         if rows:
             out[key] = [{'date': d, 'value': v} for d, v in rows[-40:]]
+            notes.append(f'{key}: {source} ok, {len(rows)} rows, last {rows[-1][0]}')
+    ECONOMIC_LOG[:] = notes
+    (log or print)('Economic data: ' + '; '.join(notes))
     return out
 
 
@@ -273,7 +320,8 @@ def read_macro():
                 regime_basis=reading['basis'], growth_score=reading['growth_score'],
                 inflation_score=reading['inflation_score'], regime_components=reading['components'],
                 economic=signals, economic_series=economy,
-                economic_source='FRED (BLS CPI-U, unemployment rate, nonfarm payrolls); monthly, latest vintage',
+                economic_source='FRED or BLS API (CPI-U, unemployment rate, nonfarm payrolls); monthly, latest vintage',
+                economic_log=list(ECONOMIC_LOG),
                 trail=tr, heading=heading(tr), growth=round(growth, 1), inflation=round(infl, 1),
                 path_points=points, path_diagnostics=path_diagnostics(points),
                 input_series=raw, source='Yahoo market-price proxies; unadjusted closes',
@@ -307,7 +355,6 @@ def aligned_path(closes, lookback=126, window=126):
 
 
 if __name__ == '__main__':
-    import json
     print(json.dumps(read_macro(), indent=1))
 
 

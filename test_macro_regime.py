@@ -66,7 +66,36 @@ class SignalTests(unittest.TestCase):
             if series_id == 'PAYEMS':
                 raise OSError('blocked')
             return [('2026-01-01', 1.0)]
-        self.assertEqual(sorted(macro.economic_data(fetch)), ['cpi', 'unemployment'])
+        self.assertEqual(sorted(macro.economic_data(fetch, fallback=None, log=lambda *a: None)),
+                         ['cpi', 'unemployment'])
+
+    def test_bls_fills_a_series_fred_refuses_and_the_reason_is_logged(self):
+        def fred(series_id):
+            raise OSError('HTTP Error 403: Forbidden')
+        def bls(series_id):
+            return [('2026-08-01', 4.3), ('2026-09-01', 4.4)]
+        lines = []
+        data = macro.economic_data(fred, fallback=bls, log=lines.append)
+        self.assertEqual(sorted(data), ['cpi', 'payrolls', 'unemployment'])
+        self.assertIn('FRED failed (OSError: HTTP Error 403: Forbidden)', lines[0])
+        self.assertIn('unemployment: BLS ok, 2 rows, last 2026-09-01', lines[0])
+
+    def test_bls_json_parser_orders_months_and_skips_annual_rows(self):
+        payload = {'status': 'REQUEST_SUCCEEDED', 'Results': {'series': [{'data': [
+            {'year': '2026', 'period': 'M09', 'value': '4.4'},
+            {'year': '2026', 'period': 'M13', 'value': '4.3'},
+            {'year': '2026', 'period': 'M08', 'value': '4.3'}]}]}}
+
+        class Response:
+            def __enter__(self):
+                return self
+            def __exit__(self, *a):
+                return False
+            def read(self):
+                import json
+                return json.dumps(payload).encode()
+        with patch('urllib.request.urlopen', return_value=Response()):
+            self.assertEqual(macro._bls('LNS14000000'), [('2026-08-01', 4.3), ('2026-09-01', 4.4)])
 
 
 class ClassifyTests(unittest.TestCase):

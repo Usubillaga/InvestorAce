@@ -1370,6 +1370,13 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
                       ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest', 'earnings')
                       if fresh.get(key) is not None}
             fresh = dict(previous, **market)
+        if valid and fresh.get('beta') is None and previous is not None and previous.get('beta') is not None:
+            # Yahoo sometimes omits beta for a night; without it the cost of
+            # equity and every valuation would be suspended. Keep the last one.
+            fresh = dict(fresh, beta=previous['beta'], beta_basis='CARRIED_FROM_PREVIOUS_FETCH')
+        if valid:
+            fresh = dict(fresh, last_earnings=LIVE_ANALYSIS.last_earnings(
+                fresh, entries.get(symbol) if isinstance(entries.get(symbol), dict) else None, as_of.date()))
         facts = fresh if valid else previous or fresh
         cached = not valid and previous is not None
         if not isinstance(facts, dict):
@@ -2662,7 +2669,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
             'family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">'
             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>'
-            '<style>' + CSS + DECISION_VIEW.CSS + DASHBOARD_VIEW.CSS + OPPORTUNITY_VIEW.CSS + '</style></head><body>')
+            '<style>' + CSS + DECISION_VIEW.CSS + DASHBOARD_VIEW.CSS + OPPORTUNITY_VIEW.CSS + EARNINGS_VIEW.CSS + EARNINGS_VIEW.row_css(DATA) + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce &middot; Live &middot; {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
            f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{sum(1 for d in DATA.values() if epv(d) is not None)}</b> with EPV &middot; <b>{priced}</b> priced this run &middot; '
@@ -2720,14 +2727,16 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
     view_data = json.dumps(dict(assessments=assessments, opportunities=opportunities, holdings=[t for t, _ in held],
         actions={t: verdict(t, d, assessed=assessments[t])[0] for t, d in DATA.items()}),
         ensure_ascii=False, allow_nan=False).replace('<', '\\u003c').replace('&', '\\u0026')
-    dashboard = DASHBOARD_VIEW.render(hdr, tbl,
+    dashboard = DASHBOARD_VIEW.render(hdr, tbl, alert=EARNINGS_VIEW.alert(DATA, opportunities),
         stats=[('Companies', len(DATA)), ('Recorded quotes', f'{priced} / {len(DATA)}'),
                ('NGV available', withngv), ('EPV available', sum(epv(d) is not None for d in DATA.values()))],
         sections=[
+            ('earnings-section', 'Earnings calendar', 'Reporting dates of the universe and post-report data status',
+             EARNINGS_VIEW.panel(DATA, opportunities), True),
             ('market-context', 'Market & regime', 'Macro context, sector returns and regime rankings',
              macro_box + fit_box + regime_book_box + sec_box),
             ('company-research', 'Analysis & research', 'Sources, score explanations and timing observations',
-             EARNINGS_VIEW.panel(DATA, opportunities) + OPPORTUNITY_VIEW.panel(opportunities) + SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
+             OPPORTUNITY_VIEW.panel(opportunities) + SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
             ('portfolio-section', 'Portfolio', 'Existing portfolio access and historical charts', gate + zin),
             ('model-controls', 'Data & model', 'Coverage, open reviews, methodology and model checks',
              coverage_box + assessment_panel(assessments) + filing_monitoring_box(monitoring)
