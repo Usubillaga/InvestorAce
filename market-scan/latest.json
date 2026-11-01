@@ -1,7 +1,7 @@
 {
  "schema": "market-scan-v1",
- "generated_at": "2026-10-31T13:36:54.047915+00:00",
- "as_of": "2026-10-31",
+ "generated_at": "2026-11-01T18:54:37.239514+00:00",
+ "as_of": "2026-11-01",
  "coverage": "USA: an NYSE oder Nasdaq notierte US-GAAP-Berichterstatter mit SEC-XBRL-Daten. Ohne Banken, Versicherer und REITs. Europa ist noch nicht abgedeckt.",
  "funnel": [
   {
@@ -134,7 +134,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -334,7 +334,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -532,7 +532,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -732,7 +732,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -930,7 +930,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -1132,7 +1132,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -1330,7 +1330,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -1534,7 +1534,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -1738,7 +1738,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -1938,7 +1938,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -2140,7 +2140,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -2344,7 +2344,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -2546,7 +2546,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -2746,7 +2746,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -2948,7 +2948,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -3150,7 +3150,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -3350,7 +3350,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -3550,7 +3550,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -3752,7 +3752,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -3954,7 +3954,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -4152,7 +4152,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -4354,7 +4354,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -4550,7 +4550,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -4750,7 +4750,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -4950,7 +4950,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -5152,7 +5152,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -5354,7 +5354,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -5556,7 +5556,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -5758,7 +5758,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -5958,7 +5958,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -6158,7 +6158,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -6358,7 +6358,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -6558,7 +6558,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -6758,7 +6758,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -6958,7 +6958,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -7158,7 +7158,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -7358,7 +7358,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -7558,7 +7558,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -7758,7 +7758,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -7958,7 +7958,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -8158,7 +8158,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -8358,7 +8358,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -8558,7 +8558,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -8758,7 +8758,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -8958,7 +8958,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -9158,7 +9158,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -9358,7 +9358,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -9558,7 +9558,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -9758,7 +9758,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -9960,7 +9960,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -10164,7 +10164,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -10334,210 +10334,6 @@
    ]
   },
   {
-   "ticker": "BRBR",
-   "yahoo": "BRBR",
-   "cik": 1772016,
-   "name": "BELLRING BRANDS, INC.",
-   "exchange": "NYSE",
-   "sic": 2000,
-   "sic_description": "Food and Kindred Products",
-   "sector": "Staples",
-   "in_universe": false,
-   "price": 9.170000076293945,
-   "price_date": "2026-10-30",
-   "currency": "USD",
-   "basis": "TTM",
-   "period_start": "2025-01-01",
-   "period_end": "2025-12-31",
-   "growth_basis": "TTM",
-   "shares_basis": "COVER_PAGE",
-   "balance_date": "2026-06-30",
-   "source": "companyfacts",
-   "input_metadata": {
-    "sic": 2000,
-    "flags": [
-     "DIVIDENDS_NOT_TAGGED"
-    ],
-    "basis": "TTM",
-    "period_start": "2025-01-01",
-    "period_end": "2025-12-31",
-    "growth_basis": "TTM",
-    "balance_date": "2026-06-30",
-    "shares_basis": "COVER_PAGE",
-    "shares_date": "2026-07-28",
-    "capex_basis": "REPORTED",
-    "dividends_verified": false,
-    "source": "companyfacts",
-    "as_of": "2026-10-31"
-   },
-   "normalization_status": "UNREVIEWED",
-   "metrics": {
-    "revenue": 2321000000.0,
-    "revenue_prior": 2098700000.0,
-    "operating_income": 320600000.0,
-    "operating_cash_flow": 254500000.0,
-    "capex": 7600000.0,
-    "fcf": 246900000.0,
-    "depreciation": 18900000.0,
-    "dividends": null,
-    "shares": 116278194.0,
-    "net_debt": 1084900000.0,
-    "debt": 1135300000.0,
-    "cash": 50400000.0,
-    "growth_pct": 10.592271406108544,
-    "operating_margin_pct": 13.813011632916846,
-    "fcf_margin_pct": 10.63765618267988,
-    "ebitda": 339500000.0,
-    "nd_ebitda": 3.1955817378497793,
-    "share_change_pct": -8.906250000000004,
-    "market_cap": 1066271047.8513222,
-    "fcf_yield_pct": 23.155463190859052,
-    "dividend_yield_pct": null,
-    "buyback_yield_pct": 8.906250000000004,
-    "ngv_per_share": 26.54194990334989,
-    "cover_pct": 289.4432898857381,
-    "valuation_fcf": 246900000.0,
-    "valuation_shares": 116278194.0,
-    "discount_rate": 0.08,
-    "raw_market_cap": 1066271047.8513222,
-    "raw_fcf_yield_pct": 23.155463190859052
-   },
-   "score": 7.074999999999999,
-   "band": "Buy",
-   "coverage_weight": 1.0,
-   "selection_score": 7.074999999999999,
-   "score_bounds": {
-    "lower": 7.074999999999999,
-    "upper": 7.074999999999999
-   },
-   "status": "COMPLETE",
-   "valuation_status": "SCENARIO_REPORTED_FCF",
-   "valuation_issues": [],
-   "components": [
-    {
-     "key": "g",
-     "label": "Growth",
-     "value": 7.0,
-     "weight": 0.15,
-     "contribution": 1.05,
-     "input": 10.592271406108544,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "p",
-     "label": "Profitability",
-     "value": 6.0,
-     "weight": 0.2,
-     "contribution": 1.2000000000000002,
-     "input": 13.813011632916846,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "c",
-     "label": "Cash Generation",
-     "value": 6.0,
-     "weight": 0.15,
-     "contribution": 0.8999999999999999,
-     "input": 10.63765618267988,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "b",
-     "label": "Balance Sheet",
-     "value": 4.5,
-     "weight": 0.15,
-     "contribution": 0.6749999999999999,
-     "input": 3.1955817378497793,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "v",
-     "label": "Valuation",
-     "value": 9.0,
-     "weight": 0.1,
-     "contribution": 0.9,
-     "input": 23.155463190859052,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "pr",
-     "label": "Priced-In Expectations",
-     "value": 9.5,
-     "weight": 0.15,
-     "contribution": 1.425,
-     "input": 289.4432898857381,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "r",
-     "label": "Shareholder Returns",
-     "value": 9.0,
-     "weight": 0.05,
-     "contribution": 0.45,
-     "input": 8.906250000000004,
-     "supported": true,
-     "input_basis": "SATURATED_LOWER_BOUND",
-     "reason": "DIVIDEND_UNVERIFIED_SATURATED_BY_BUYBACK_PROXY"
-    },
-    {
-     "key": "d",
-     "label": "Dilution",
-     "value": 9.5,
-     "weight": 0.05,
-     "contribution": 0.47500000000000003,
-     "input": -8.906250000000004,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    }
-   ],
-   "regime_fit": {
-    "GOLDILOCKS": 24.8,
-    "REFLATION": 38.8,
-    "INFLATION": 82.2,
-    "STAGFLATION": 84.8,
-    "RECESSION": 92.0
-   },
-   "flags": [
-    "DIVIDENDS_NOT_TAGGED",
-    "REPORTED_FCF_SCENARIO"
-   ],
-   "flag_text": {
-    "DIVIDENDS_NOT_TAGGED": "Keine belegte Dividendenzahlung; Aktionärsrendite unvollständig.",
-    "REPORTED_FCF_SCENARIO": "Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value."
-   },
-   "sources": [
-    {
-     "title": "SEC companyfacts (XBRL, alle gemeldeten Werte)",
-     "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001772016.json"
-    },
-    {
-     "title": "SEC EDGAR: 10-K/10-Q-Einreichungen",
-     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001772016&type=10-&dateb=&owner=include&count=40"
-    },
-    {
-     "title": "SEC-Einreichung 0001772016-25-000153",
-     "url": "https://www.sec.gov/Archives/edgar/data/1772016/000177201625000153/"
-    },
-    {
-     "title": "SEC-Einreichung 0001772016-26-000007",
-     "url": "https://www.sec.gov/Archives/edgar/data/1772016/000177201626000007/"
-    }
-   ]
-  },
-  {
    "ticker": "AAPL",
    "yahoo": "AAPL",
    "cik": 320193,
@@ -10570,7 +10366,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -10770,7 +10566,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -10970,7 +10766,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -11170,7 +10966,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -11370,7 +11166,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -11566,7 +11362,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -11766,7 +11562,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -11966,7 +11762,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -12168,7 +11964,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -12372,7 +12168,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -12574,7 +12370,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -12774,7 +12570,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -12974,7 +12770,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -13174,7 +12970,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -13342,202 +13138,6 @@
    ]
   },
   {
-   "ticker": "SON",
-   "yahoo": "SON",
-   "cik": 91767,
-   "name": "SONOCO PRODUCTS CO",
-   "exchange": "NYSE",
-   "sic": 2650,
-   "sic_description": "Paperboard Containers & Boxes",
-   "sector": "Materials",
-   "in_universe": false,
-   "price": 49.959999084472656,
-   "price_date": "2026-10-30",
-   "currency": "USD",
-   "basis": "FY",
-   "period_start": "2025-01-01",
-   "period_end": "2025-12-31",
-   "growth_basis": "FY",
-   "shares_basis": "COVER_PAGE",
-   "balance_date": "2026-09-27",
-   "source": "companyfacts",
-   "input_metadata": {
-    "sic": 2650,
-    "flags": [],
-    "basis": "FY",
-    "period_start": "2025-01-01",
-    "period_end": "2025-12-31",
-    "growth_basis": "FY",
-    "balance_date": "2026-09-27",
-    "shares_basis": "COVER_PAGE",
-    "shares_date": "2026-10-16",
-    "capex_basis": "REPORTED",
-    "dividends_verified": true,
-    "source": "companyfacts",
-    "as_of": "2026-10-31"
-   },
-   "normalization_status": "UNREVIEWED",
-   "metrics": {
-    "revenue": 7518753000.0,
-    "revenue_prior": 5305365000.0,
-    "operating_income": 1017735000.0,
-    "operating_cash_flow": 689782000.0,
-    "capex": 344023000.0,
-    "fcf": 345759000.0,
-    "depreciation": 519356000.0,
-    "dividends": 208106000.0,
-    "shares": 98875737.0,
-    "net_debt": 4108565000.0,
-    "debt": 4291666000.0,
-    "cash": 183101000.0,
-    "growth_pct": 41.71980627157603,
-    "operating_margin_pct": 13.535954698870944,
-    "fcf_margin_pct": 4.59862160653502,
-    "ebitda": 1537091000.0,
-    "nd_ebitda": 2.672948446123229,
-    "share_change_pct": -0.14651573538856377,
-    "market_cap": 4939831729.996559,
-    "fcf_yield_pct": 6.999408459612466,
-    "dividend_yield_pct": 4.212815564876437,
-    "buyback_yield_pct": 0.14651573538856377,
-    "ngv_per_share": 43.71130502926112,
-    "cover_pct": 87.49260574515583,
-    "valuation_fcf": 345759000.0,
-    "valuation_shares": 98875737.0,
-    "discount_rate": 0.08,
-    "raw_market_cap": 4939831729.996559,
-    "raw_fcf_yield_pct": 6.999408459612466
-   },
-   "score": 6.875,
-   "band": "Hold positiv",
-   "coverage_weight": 1.0,
-   "selection_score": 6.875,
-   "score_bounds": {
-    "lower": 6.875,
-    "upper": 6.875
-   },
-   "status": "COMPLETE",
-   "valuation_status": "SCENARIO_REPORTED_FCF",
-   "valuation_issues": [],
-   "components": [
-    {
-     "key": "g",
-     "label": "Growth",
-     "value": 9.5,
-     "weight": 0.15,
-     "contribution": 1.425,
-     "input": 41.71980627157603,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "p",
-     "label": "Profitability",
-     "value": 6.0,
-     "weight": 0.2,
-     "contribution": 1.2000000000000002,
-     "input": 13.535954698870944,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "c",
-     "label": "Cash Generation",
-     "value": 4.0,
-     "weight": 0.15,
-     "contribution": 0.6,
-     "input": 4.59862160653502,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "b",
-     "label": "Balance Sheet",
-     "value": 6.0,
-     "weight": 0.15,
-     "contribution": 0.8999999999999999,
-     "input": 2.672948446123229,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "v",
-     "label": "Valuation",
-     "value": 7.5,
-     "weight": 0.1,
-     "contribution": 0.75,
-     "input": 6.999408459612466,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "pr",
-     "label": "Priced-In Expectations",
-     "value": 8.0,
-     "weight": 0.15,
-     "contribution": 1.2,
-     "input": 87.49260574515583,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "r",
-     "label": "Shareholder Returns",
-     "value": 9.0,
-     "weight": 0.05,
-     "contribution": 0.45,
-     "input": 4.359331300265001,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "d",
-     "label": "Dilution",
-     "value": 7.0,
-     "weight": 0.05,
-     "contribution": 0.35000000000000003,
-     "input": -0.14651573538856377,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    }
-   ],
-   "regime_fit": {
-    "GOLDILOCKS": 17.9,
-    "REFLATION": 75.5,
-    "INFLATION": 90.9,
-    "STAGFLATION": 93.6,
-    "RECESSION": 54.9
-   },
-   "flags": [
-    "REPORTED_FCF_SCENARIO"
-   ],
-   "flag_text": {
-    "REPORTED_FCF_SCENARIO": "Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value."
-   },
-   "sources": [
-    {
-     "title": "SEC companyfacts (XBRL, alle gemeldeten Werte)",
-     "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000091767.json"
-    },
-    {
-     "title": "SEC EDGAR: 10-K/10-Q-Einreichungen",
-     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000091767&type=10-&dateb=&owner=include&count=40"
-    },
-    {
-     "title": "SEC-Einreichung 0000091767-26-000008",
-     "url": "https://www.sec.gov/Archives/edgar/data/91767/000009176726000008/"
-    }
-   ]
-  },
-  {
    "ticker": "VLTO",
    "yahoo": "VLTO",
    "cik": 1967680,
@@ -13570,7 +13170,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -13738,6 +13338,213 @@
    ]
   },
   {
+   "ticker": "BRBR",
+   "yahoo": "BRBR",
+   "cik": 1772016,
+   "name": "BELLRING BRANDS, INC.",
+   "exchange": "NYSE",
+   "sic": 2000,
+   "sic_description": "Food and Kindred Products",
+   "sector": "Staples",
+   "in_universe": false,
+   "price": 9.170000076293945,
+   "price_date": "2026-10-30",
+   "currency": "USD",
+   "basis": "TTM",
+   "period_start": "2025-07-01",
+   "period_end": "2026-06-30",
+   "growth_basis": "TTM",
+   "shares_basis": "COVER_PAGE",
+   "balance_date": "2026-06-30",
+   "source": "companyfacts",
+   "input_metadata": {
+    "sic": 2000,
+    "flags": [
+     "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+     "DIVIDENDS_NOT_TAGGED"
+    ],
+    "basis": "TTM",
+    "period_start": "2025-07-01",
+    "period_end": "2026-06-30",
+    "growth_basis": "TTM",
+    "balance_date": "2026-06-30",
+    "shares_basis": "COVER_PAGE",
+    "shares_date": "2026-07-28",
+    "capex_basis": "REPORTED",
+    "dividends_verified": false,
+    "source": "companyfacts",
+    "as_of": "2026-11-01"
+   },
+   "normalization_status": "UNREVIEWED",
+   "metrics": {
+    "revenue": 2354600000.0,
+    "revenue_prior": 2224200000.0,
+    "operating_income": 312100000.0,
+    "operating_cash_flow": 234100000.0,
+    "capex": 9100000.0,
+    "fcf": 225000000.0,
+    "depreciation": 19800000.0,
+    "dividends": null,
+    "shares": 116278194.0,
+    "net_debt": 1084900000.0,
+    "debt": 1135300000.0,
+    "cash": 50400000.0,
+    "growth_pct": 5.8627821239097155,
+    "operating_margin_pct": 13.254905291769303,
+    "fcf_margin_pct": 9.555763186953198,
+    "ebitda": 331900000.0,
+    "nd_ebitda": 3.2687556492919554,
+    "share_change_pct": -8.906250000000004,
+    "market_cap": 1066271047.8513222,
+    "fcf_yield_pct": 21.101576419373377,
+    "dividend_yield_pct": null,
+    "buyback_yield_pct": 8.906250000000004,
+    "ngv_per_share": 24.187682171947046,
+    "cover_pct": 263.76970524216716,
+    "valuation_fcf": 225000000.0,
+    "valuation_shares": 116278194.0,
+    "discount_rate": 0.08,
+    "raw_market_cap": 1066271047.8513222,
+    "raw_fcf_yield_pct": 21.101576419373377
+   },
+   "score": 6.85,
+   "band": "Hold positiv",
+   "coverage_weight": 1.0,
+   "selection_score": 6.85,
+   "score_bounds": {
+    "lower": 6.85,
+    "upper": 6.85
+   },
+   "status": "COMPLETE",
+   "valuation_status": "SCENARIO_REPORTED_FCF",
+   "valuation_issues": [],
+   "components": [
+    {
+     "key": "g",
+     "label": "Growth",
+     "value": 5.5,
+     "weight": 0.15,
+     "contribution": 0.825,
+     "input": 5.8627821239097155,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "p",
+     "label": "Profitability",
+     "value": 6.0,
+     "weight": 0.2,
+     "contribution": 1.2000000000000002,
+     "input": 13.254905291769303,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "c",
+     "label": "Cash Generation",
+     "value": 6.0,
+     "weight": 0.15,
+     "contribution": 0.8999999999999999,
+     "input": 9.555763186953198,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "b",
+     "label": "Balance Sheet",
+     "value": 4.5,
+     "weight": 0.15,
+     "contribution": 0.6749999999999999,
+     "input": 3.2687556492919554,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "v",
+     "label": "Valuation",
+     "value": 9.0,
+     "weight": 0.1,
+     "contribution": 0.9,
+     "input": 21.101576419373377,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "pr",
+     "label": "Priced-In Expectations",
+     "value": 9.5,
+     "weight": 0.15,
+     "contribution": 1.425,
+     "input": 263.76970524216716,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "r",
+     "label": "Shareholder Returns",
+     "value": 9.0,
+     "weight": 0.05,
+     "contribution": 0.45,
+     "input": 8.906250000000004,
+     "supported": true,
+     "input_basis": "SATURATED_LOWER_BOUND",
+     "reason": "DIVIDEND_UNVERIFIED_SATURATED_BY_BUYBACK_PROXY"
+    },
+    {
+     "key": "d",
+     "label": "Dilution",
+     "value": 9.5,
+     "weight": 0.05,
+     "contribution": 0.47500000000000003,
+     "input": -8.906250000000004,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    }
+   ],
+   "regime_fit": {
+    "GOLDILOCKS": 24.8,
+    "REFLATION": 38.8,
+    "INFLATION": 82.2,
+    "STAGFLATION": 84.8,
+    "RECESSION": 92.0
+   },
+   "flags": [
+    "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "DIVIDENDS_NOT_TAGGED",
+    "REPORTED_FCF_SCENARIO"
+   ],
+   "flag_text": {
+    "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax": "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "DIVIDENDS_NOT_TAGGED": "Keine belegte Dividendenzahlung; Aktionärsrendite unvollständig.",
+    "REPORTED_FCF_SCENARIO": "Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value."
+   },
+   "sources": [
+    {
+     "title": "SEC companyfacts (XBRL, alle gemeldeten Werte)",
+     "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001772016.json"
+    },
+    {
+     "title": "SEC EDGAR: 10-K/10-Q-Einreichungen",
+     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001772016&type=10-&dateb=&owner=include&count=40"
+    },
+    {
+     "title": "SEC-Einreichung 0001772016-25-000153",
+     "url": "https://www.sec.gov/Archives/edgar/data/1772016/000177201625000153/"
+    },
+    {
+     "title": "SEC-Einreichung 0001772016-26-000022",
+     "url": "https://www.sec.gov/Archives/edgar/data/1772016/000177201626000022/"
+    }
+   ]
+  },
+  {
    "ticker": "T",
    "yahoo": "T",
    "cik": 732717,
@@ -13770,7 +13577,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -13970,7 +13777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -14170,7 +13977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -14370,7 +14177,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -14570,7 +14377,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -14770,7 +14577,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -14970,7 +14777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -15170,7 +14977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -15370,7 +15177,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -15570,7 +15377,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -15770,7 +15577,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -15972,7 +15779,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -16174,7 +15981,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -16374,7 +16181,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -16574,7 +16381,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -16774,7 +16581,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -16974,7 +16781,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -17170,7 +16977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -17338,6 +17145,210 @@
    ]
   },
   {
+   "ticker": "GD",
+   "yahoo": "GD",
+   "cik": 40533,
+   "name": "GENERAL DYNAMICS CORP",
+   "exchange": "NYSE",
+   "sic": 3730,
+   "sic_description": "Ship & Boat Building & Repairing",
+   "sector": "Industrials",
+   "in_universe": false,
+   "price": 372.5899963378906,
+   "price_date": "2026-10-30",
+   "currency": "USD",
+   "basis": "TTM",
+   "period_start": "2025-10-05",
+   "period_end": "2026-10-04",
+   "growth_basis": "TTM",
+   "shares_basis": "COVER_PAGE",
+   "balance_date": "2026-10-04",
+   "source": "companyfacts",
+   "input_metadata": {
+    "sic": 3730,
+    "flags": [
+     "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "basis": "TTM",
+    "period_start": "2025-10-05",
+    "period_end": "2026-10-04",
+    "growth_basis": "TTM",
+    "balance_date": "2026-10-04",
+    "shares_basis": "COVER_PAGE",
+    "shares_date": "2026-10-04",
+    "capex_basis": "REPORTED",
+    "dividends_verified": true,
+    "source": "companyfacts",
+    "as_of": "2026-11-01"
+   },
+   "normalization_status": "UNREVIEWED",
+   "metrics": {
+    "revenue": 56520000000.0,
+    "revenue_prior": 51509000000.0,
+    "operating_income": 5859000000.0,
+    "operating_cash_flow": 7306000000.0,
+    "capex": 1527000000.0,
+    "fcf": 5779000000.0,
+    "depreciation": 950000000.0,
+    "dividends": 1668000000.0,
+    "shares": 270223709.0,
+    "net_debt": 2628000000.0,
+    "debt": 7016000000.0,
+    "cash": 4388000000.0,
+    "growth_pct": 9.728396979168696,
+    "operating_margin_pct": 10.36624203821656,
+    "fcf_margin_pct": 10.224699221514507,
+    "ebitda": 6809000000.0,
+    "nd_ebitda": 0.3859597591423116,
+    "share_change_pct": 0.4174002347417938,
+    "market_cap": 100682650746.72122,
+    "fcf_yield_pct": 5.739817095735529,
+    "dividend_yield_pct": 1.656690589321139,
+    "buyback_yield_pct": 0.0,
+    "ngv_per_share": 267.3248038350328,
+    "cover_pct": 71.7477136966941,
+    "valuation_fcf": 5779000000.0,
+    "valuation_shares": 270223709.0,
+    "discount_rate": 0.08,
+    "raw_market_cap": 100682650746.72122,
+    "raw_fcf_yield_pct": 5.739817095735529
+   },
+   "score": 6.574999999999999,
+   "band": "Hold positiv",
+   "coverage_weight": 1.0,
+   "selection_score": 6.574999999999999,
+   "score_bounds": {
+    "lower": 6.574999999999999,
+    "upper": 6.574999999999999
+   },
+   "status": "COMPLETE",
+   "valuation_status": "SCENARIO_REPORTED_FCF",
+   "valuation_issues": [],
+   "components": [
+    {
+     "key": "g",
+     "label": "Growth",
+     "value": 5.5,
+     "weight": 0.15,
+     "contribution": 0.825,
+     "input": 9.728396979168696,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "p",
+     "label": "Profitability",
+     "value": 6.0,
+     "weight": 0.2,
+     "contribution": 1.2000000000000002,
+     "input": 10.36624203821656,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "c",
+     "label": "Cash Generation",
+     "value": 6.0,
+     "weight": 0.15,
+     "contribution": 0.8999999999999999,
+     "input": 10.224699221514507,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "b",
+     "label": "Balance Sheet",
+     "value": 8.0,
+     "weight": 0.15,
+     "contribution": 1.2,
+     "input": 0.3859597591423116,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "v",
+     "label": "Valuation",
+     "value": 7.5,
+     "weight": 0.1,
+     "contribution": 0.75,
+     "input": 5.739817095735529,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "pr",
+     "label": "Priced-In Expectations",
+     "value": 7.0,
+     "weight": 0.15,
+     "contribution": 1.05,
+     "input": 71.7477136966941,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "r",
+     "label": "Shareholder Returns",
+     "value": 6.0,
+     "weight": 0.05,
+     "contribution": 0.30000000000000004,
+     "input": 1.656690589321139,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "d",
+     "label": "Dilution",
+     "value": 7.0,
+     "weight": 0.05,
+     "contribution": 0.35000000000000003,
+     "input": 0.4174002347417938,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    }
+   ],
+   "regime_fit": {
+    "GOLDILOCKS": 46.9,
+    "REFLATION": 75.0,
+    "INFLATION": 70.3,
+    "STAGFLATION": 49.5,
+    "RECESSION": 49.3
+   },
+   "flags": [
+    "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "REPORTED_FCF_SCENARIO"
+   ],
+   "flag_text": {
+    "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax": "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "REPORTED_FCF_SCENARIO": "Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value."
+   },
+   "sources": [
+    {
+     "title": "SEC companyfacts (XBRL, alle gemeldeten Werte)",
+     "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000040533.json"
+    },
+    {
+     "title": "SEC EDGAR: 10-K/10-Q-Einreichungen",
+     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000040533&type=10-&dateb=&owner=include&count=40"
+    },
+    {
+     "title": "SEC-Einreichung 0000040533-26-000006",
+     "url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/"
+    },
+    {
+     "title": "SEC-Einreichung 0000040533-26-000038",
+     "url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000038/"
+    }
+   ]
+  },
+  {
    "ticker": "SYK",
    "yahoo": "SYK",
    "cik": 310764,
@@ -17370,7 +17381,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -17570,7 +17581,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -17770,7 +17781,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -17970,7 +17981,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -18170,7 +18181,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -18370,7 +18381,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -18566,7 +18577,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -18766,7 +18777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -18966,7 +18977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -19166,7 +19177,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -19366,7 +19377,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -19566,7 +19577,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -19766,7 +19777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -19934,202 +19945,6 @@
    ]
   },
   {
-   "ticker": "GD",
-   "yahoo": "GD",
-   "cik": 40533,
-   "name": "GENERAL DYNAMICS CORP",
-   "exchange": "NYSE",
-   "sic": 3730,
-   "sic_description": "Ship & Boat Building & Repairing",
-   "sector": "Industrials",
-   "in_universe": false,
-   "price": 372.5899963378906,
-   "price_date": "2026-10-30",
-   "currency": "USD",
-   "basis": "FY",
-   "period_start": "2025-01-01",
-   "period_end": "2025-12-31",
-   "growth_basis": "FY",
-   "shares_basis": "COVER_PAGE",
-   "balance_date": "2026-10-04",
-   "source": "companyfacts",
-   "input_metadata": {
-    "sic": 3730,
-    "flags": [],
-    "basis": "FY",
-    "period_start": "2025-01-01",
-    "period_end": "2025-12-31",
-    "growth_basis": "FY",
-    "balance_date": "2026-10-04",
-    "shares_basis": "COVER_PAGE",
-    "shares_date": "2026-10-04",
-    "capex_basis": "REPORTED",
-    "dividends_verified": true,
-    "source": "companyfacts",
-    "as_of": "2026-10-31"
-   },
-   "normalization_status": "UNREVIEWED",
-   "metrics": {
-    "revenue": 52550000000.0,
-    "revenue_prior": 47716000000.0,
-    "operating_income": 5356000000.0,
-    "operating_cash_flow": 5120000000.0,
-    "capex": 1161000000.0,
-    "fcf": 3959000000.0,
-    "depreciation": 924000000.0,
-    "dividends": 1593000000.0,
-    "shares": 270223709.0,
-    "net_debt": 2628000000.0,
-    "debt": 7016000000.0,
-    "cash": 4388000000.0,
-    "growth_pct": 10.130773744655874,
-    "operating_margin_pct": 10.19219790675547,
-    "fcf_margin_pct": 7.533777354900095,
-    "ebitda": 6280000000.0,
-    "nd_ebitda": 0.41847133757961785,
-    "share_change_pct": 0.4174002347417938,
-    "market_cap": 100682650746.72122,
-    "fcf_yield_pct": 3.932157100193279,
-    "dividend_yield_pct": 1.582199105988354,
-    "buyback_yield_pct": 0.0,
-    "ngv_per_share": 183.13529994512805,
-    "cover_pct": 49.15196375241599,
-    "valuation_fcf": 3959000000.0,
-    "valuation_shares": 270223709.0,
-    "discount_rate": 0.08,
-    "raw_market_cap": 100682650746.72122,
-    "raw_fcf_yield_pct": 3.932157100193279
-   },
-   "score": 6.424999999999999,
-   "band": "Hold positiv",
-   "coverage_weight": 1.0,
-   "selection_score": 6.424999999999999,
-   "score_bounds": {
-    "lower": 6.424999999999999,
-    "upper": 6.424999999999999
-   },
-   "status": "COMPLETE",
-   "valuation_status": "SCENARIO_REPORTED_FCF",
-   "valuation_issues": [],
-   "components": [
-    {
-     "key": "g",
-     "label": "Growth",
-     "value": 7.0,
-     "weight": 0.15,
-     "contribution": 1.05,
-     "input": 10.130773744655874,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "p",
-     "label": "Profitability",
-     "value": 6.0,
-     "weight": 0.2,
-     "contribution": 1.2000000000000002,
-     "input": 10.19219790675547,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "c",
-     "label": "Cash Generation",
-     "value": 6.0,
-     "weight": 0.15,
-     "contribution": 0.8999999999999999,
-     "input": 7.533777354900095,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "b",
-     "label": "Balance Sheet",
-     "value": 8.0,
-     "weight": 0.15,
-     "contribution": 1.2,
-     "input": 0.41847133757961785,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "v",
-     "label": "Valuation",
-     "value": 6.0,
-     "weight": 0.1,
-     "contribution": 0.6000000000000001,
-     "input": 3.932157100193279,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "pr",
-     "label": "Priced-In Expectations",
-     "value": 5.5,
-     "weight": 0.15,
-     "contribution": 0.825,
-     "input": 49.15196375241599,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "r",
-     "label": "Shareholder Returns",
-     "value": 6.0,
-     "weight": 0.05,
-     "contribution": 0.30000000000000004,
-     "input": 1.582199105988354,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "d",
-     "label": "Dilution",
-     "value": 7.0,
-     "weight": 0.05,
-     "contribution": 0.35000000000000003,
-     "input": 0.4174002347417938,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    }
-   ],
-   "regime_fit": {
-    "GOLDILOCKS": 54.8,
-    "REFLATION": 75.0,
-    "INFLATION": 60.1,
-    "STAGFLATION": 37.0,
-    "RECESSION": 39.1
-   },
-   "flags": [
-    "REPORTED_FCF_SCENARIO"
-   ],
-   "flag_text": {
-    "REPORTED_FCF_SCENARIO": "Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value."
-   },
-   "sources": [
-    {
-     "title": "SEC companyfacts (XBRL, alle gemeldeten Werte)",
-     "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000040533.json"
-    },
-    {
-     "title": "SEC EDGAR: 10-K/10-Q-Einreichungen",
-     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000040533&type=10-&dateb=&owner=include&count=40"
-    },
-    {
-     "title": "SEC-Einreichung 0000040533-26-000006",
-     "url": "https://www.sec.gov/Archives/edgar/data/40533/000004053326000006/"
-    }
-   ]
-  },
-  {
    "ticker": "NFG",
    "yahoo": "NFG",
    "cik": 70145,
@@ -20162,7 +19977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -20362,7 +20177,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -20562,7 +20377,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -20762,7 +20577,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -20962,7 +20777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -21162,7 +20977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -21362,7 +21177,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -21562,7 +21377,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -21764,7 +21579,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -21962,7 +21777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -22162,7 +21977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -22358,7 +22173,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -22558,7 +22373,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -22760,7 +22575,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -22962,7 +22777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -23162,7 +22977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -23362,7 +23177,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -23562,7 +23377,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -23762,7 +23577,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -23962,7 +23777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -24162,7 +23977,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -24362,7 +24177,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -24562,7 +24377,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -24762,7 +24577,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -24964,7 +24779,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -25166,7 +24981,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -25366,7 +25181,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -25566,7 +25381,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -25766,7 +25581,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -25966,7 +25781,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -26166,7 +25981,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -26366,7 +26181,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -26566,7 +26381,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -26766,7 +26581,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -26930,6 +26745,210 @@
    ]
   },
   {
+   "ticker": "SON",
+   "yahoo": "SON",
+   "cik": 91767,
+   "name": "SONOCO PRODUCTS CO",
+   "exchange": "NYSE",
+   "sic": 2650,
+   "sic_description": "Paperboard Containers & Boxes",
+   "sector": "Materials",
+   "in_universe": false,
+   "price": 49.959999084472656,
+   "price_date": "2026-10-30",
+   "currency": "USD",
+   "basis": "TTM",
+   "period_start": "2025-09-28",
+   "period_end": "2026-09-27",
+   "growth_basis": "TTM",
+   "shares_basis": "COVER_PAGE",
+   "balance_date": "2026-09-27",
+   "source": "companyfacts",
+   "input_metadata": {
+    "sic": 2650,
+    "flags": [
+     "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "basis": "TTM",
+    "period_start": "2025-09-28",
+    "period_end": "2026-09-27",
+    "growth_basis": "TTM",
+    "balance_date": "2026-09-27",
+    "shares_basis": "COVER_PAGE",
+    "shares_date": "2026-10-16",
+    "capex_basis": "REPORTED",
+    "dividends_verified": true,
+    "source": "companyfacts",
+    "as_of": "2026-11-01"
+   },
+   "normalization_status": "UNREVIEWED",
+   "metrics": {
+    "revenue": 7371478000.0,
+    "revenue_prior": 7114053000.0,
+    "operating_income": 202215000.0,
+    "operating_cash_flow": 630434000.0,
+    "capex": 279276000.0,
+    "fcf": 351158000.0,
+    "depreciation": 527715000.0,
+    "dividends": 211521000.0,
+    "shares": 98875737.0,
+    "net_debt": 4108565000.0,
+    "debt": 4291666000.0,
+    "cash": 183101000.0,
+    "growth_pct": 3.6185420603416896,
+    "operating_margin_pct": 2.743208349804476,
+    "fcf_margin_pct": 4.763739374925897,
+    "ebitda": 729930000.0,
+    "nd_ebitda": 5.628710972285013,
+    "share_change_pct": -0.14651573538856377,
+    "market_cap": 4939831729.996559,
+    "fcf_yield_pct": 7.108703680484368,
+    "dividend_yield_pct": 4.281947474355515,
+    "buyback_yield_pct": 0.14651573538856377,
+    "ngv_per_share": 44.3938536710983,
+    "cover_pct": 88.85879600605459,
+    "valuation_fcf": 351158000.0,
+    "valuation_shares": 98875737.0,
+    "discount_rate": 0.08,
+    "raw_market_cap": 4939831729.996559,
+    "raw_fcf_yield_pct": 7.108703680484368
+   },
+   "score": 5.125,
+   "band": "Hold negativ",
+   "coverage_weight": 1.0,
+   "selection_score": 5.125,
+   "score_bounds": {
+    "lower": 5.125,
+    "upper": 5.125
+   },
+   "status": "COMPLETE",
+   "valuation_status": "SCENARIO_REPORTED_FCF",
+   "valuation_issues": [],
+   "components": [
+    {
+     "key": "g",
+     "label": "Growth",
+     "value": 4.0,
+     "weight": 0.15,
+     "contribution": 0.6,
+     "input": 3.6185420603416896,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "p",
+     "label": "Profitability",
+     "value": 4.0,
+     "weight": 0.2,
+     "contribution": 0.8,
+     "input": 2.743208349804476,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "c",
+     "label": "Cash Generation",
+     "value": 4.0,
+     "weight": 0.15,
+     "contribution": 0.6,
+     "input": 4.763739374925897,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "b",
+     "label": "Balance Sheet",
+     "value": 1.5,
+     "weight": 0.15,
+     "contribution": 0.22499999999999998,
+     "input": 5.628710972285013,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "v",
+     "label": "Valuation",
+     "value": 9.0,
+     "weight": 0.1,
+     "contribution": 0.9,
+     "input": 7.108703680484368,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "pr",
+     "label": "Priced-In Expectations",
+     "value": 8.0,
+     "weight": 0.15,
+     "contribution": 1.2,
+     "input": 88.85879600605459,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "r",
+     "label": "Shareholder Returns",
+     "value": 9.0,
+     "weight": 0.05,
+     "contribution": 0.45,
+     "input": 4.428463209744079,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "d",
+     "label": "Dilution",
+     "value": 7.0,
+     "weight": 0.05,
+     "contribution": 0.35000000000000003,
+     "input": -0.14651573538856377,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    }
+   ],
+   "regime_fit": {
+    "GOLDILOCKS": 15.1,
+    "REFLATION": 73.2,
+    "INFLATION": 84.7,
+    "STAGFLATION": 83.1,
+    "RECESSION": 42.0
+   },
+   "flags": [
+    "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "REPORTED_FCF_SCENARIO"
+   ],
+   "flag_text": {
+    "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax": "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "REPORTED_FCF_SCENARIO": "Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value."
+   },
+   "sources": [
+    {
+     "title": "SEC companyfacts (XBRL, alle gemeldeten Werte)",
+     "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000091767.json"
+    },
+    {
+     "title": "SEC EDGAR: 10-K/10-Q-Einreichungen",
+     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000091767&type=10-&dateb=&owner=include&count=40"
+    },
+    {
+     "title": "SEC-Einreichung 0000091767-26-000008",
+     "url": "https://www.sec.gov/Archives/edgar/data/91767/000009176726000008/"
+    },
+    {
+     "title": "SEC-Einreichung 0000091767-26-000051",
+     "url": "https://www.sec.gov/Archives/edgar/data/91767/000009176726000051/"
+    }
+   ]
+  },
+  {
    "ticker": "AEIS",
    "yahoo": "AEIS",
    "cik": 927003,
@@ -26962,7 +26981,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -27162,7 +27181,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -27358,7 +27377,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": true,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -27560,7 +27579,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -27758,7 +27777,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -27956,7 +27975,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -28154,7 +28173,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -28349,7 +28368,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -28551,7 +28570,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -28750,7 +28769,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -28954,7 +28973,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -29152,7 +29171,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -29316,6 +29335,207 @@
    ]
   },
   {
+   "ticker": "BLBD",
+   "yahoo": "BLBD",
+   "cik": 1589526,
+   "name": "Blue Bird Corp",
+   "exchange": "Nasdaq",
+   "sic": 3713,
+   "sic_description": "Truck & Bus Bodies",
+   "sector": "Automotive",
+   "in_universe": false,
+   "price": 55.900001525878906,
+   "price_date": "2026-10-30",
+   "currency": "USD",
+   "basis": "TTM",
+   "period_start": "2025-06-28",
+   "period_end": "2026-06-27",
+   "growth_basis": "TTM",
+   "shares_basis": "COVER_PAGE",
+   "balance_date": "2026-06-27",
+   "source": "companyfacts",
+   "input_metadata": {
+    "sic": 3713,
+    "flags": [
+     "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+     "DIVIDENDS_NOT_TAGGED"
+    ],
+    "basis": "TTM",
+    "period_start": "2025-06-28",
+    "period_end": "2026-06-27",
+    "growth_basis": "TTM",
+    "balance_date": "2026-06-27",
+    "shares_basis": "COVER_PAGE",
+    "shares_date": "2026-07-31",
+    "capex_basis": "REPORTED",
+    "dividends_verified": false,
+    "source": "companyfacts",
+    "as_of": "2026-11-01"
+   },
+   "normalization_status": "UNREVIEWED",
+   "metrics": {
+    "revenue": 1612244000.0,
+    "revenue_prior": 1420946000.0,
+    "operating_income": 189807000.0,
+    "operating_cash_flow": 180495000.0,
+    "capex": 27352000.0,
+    "fcf": 153143000.0,
+    "depreciation": 20706000.0,
+    "dividends": null,
+    "shares": 31676039.0,
+    "net_debt": -30014000.0,
+    "debt": 86810000.0,
+    "cash": 116824000.0,
+    "growth_pct": 13.46272131382895,
+    "operating_margin_pct": 11.772845797534368,
+    "fcf_margin_pct": 9.49874832841679,
+    "ebitda": 210513000.0,
+    "nd_ebitda": -0.14257551790150727,
+    "share_change_pct": 7.885059827842644,
+    "market_cap": 1770690628.4337997,
+    "fcf_yield_pct": 8.648772266641355,
+    "dividend_yield_pct": null,
+    "buyback_yield_pct": 0.0,
+    "ngv_per_share": 60.433297862778865,
+    "cover_pct": 108.10965333301694,
+    "valuation_fcf": 153143000.0,
+    "valuation_shares": 31676039.0,
+    "discount_rate": 0.08,
+    "raw_market_cap": 1770690628.4337997,
+    "raw_fcf_yield_pct": 8.648772266641355
+   },
+   "score": null,
+   "band": null,
+   "coverage_weight": 0.95,
+   "selection_score": 7.0,
+   "score_bounds": {
+    "lower": 7.0,
+    "upper": 7.5
+   },
+   "status": "PARTIAL",
+   "valuation_status": "SCENARIO_REPORTED_FCF",
+   "valuation_issues": [],
+   "components": [
+    {
+     "key": "g",
+     "label": "Growth",
+     "value": 7.0,
+     "weight": 0.15,
+     "contribution": 1.05,
+     "input": 13.46272131382895,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "p",
+     "label": "Profitability",
+     "value": 6.0,
+     "weight": 0.2,
+     "contribution": 1.2000000000000002,
+     "input": 11.772845797534368,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "c",
+     "label": "Cash Generation",
+     "value": 6.0,
+     "weight": 0.15,
+     "contribution": 0.8999999999999999,
+     "input": 9.49874832841679,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "b",
+     "label": "Balance Sheet",
+     "value": 9.5,
+     "weight": 0.15,
+     "contribution": 1.425,
+     "input": -0.14257551790150727,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "v",
+     "label": "Valuation",
+     "value": 9.0,
+     "weight": 0.1,
+     "contribution": 0.9,
+     "input": 8.648772266641355,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "pr",
+     "label": "Priced-In Expectations",
+     "value": 9.5,
+     "weight": 0.15,
+     "contribution": 1.425,
+     "input": 108.10965333301694,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    },
+    {
+     "key": "r",
+     "label": "Shareholder Returns",
+     "value": null,
+     "weight": 0.05,
+     "contribution": null,
+     "input": null,
+     "supported": false,
+     "input_basis": "MEASURED_INPUT",
+     "reason": "DENOMINATOR_OR_RETURNS_INCOMPLETE"
+    },
+    {
+     "key": "d",
+     "label": "Dilution",
+     "value": 2.0,
+     "weight": 0.05,
+     "contribution": 0.1,
+     "input": 7.885059827842644,
+     "supported": true,
+     "input_basis": "MEASURED_INPUT",
+     "reason": null
+    }
+   ],
+   "regime_fit": {},
+   "flags": [
+    "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "DIVIDENDS_NOT_TAGGED",
+    "REPORTED_FCF_SCENARIO"
+   ],
+   "flag_text": {
+    "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax": "REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax",
+    "DIVIDENDS_NOT_TAGGED": "Keine belegte Dividendenzahlung; Aktionärsrendite unvollständig.",
+    "REPORTED_FCF_SCENARIO": "Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value."
+   },
+   "sources": [
+    {
+     "title": "SEC companyfacts (XBRL, alle gemeldeten Werte)",
+     "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001589526.json"
+    },
+    {
+     "title": "SEC EDGAR: 10-K/10-Q-Einreichungen",
+     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001589526&type=10-&dateb=&owner=include&count=40"
+    },
+    {
+     "title": "SEC-Einreichung 0001589526-25-000100",
+     "url": "https://www.sec.gov/Archives/edgar/data/1589526/000158952625000100/"
+    },
+    {
+     "title": "SEC-Einreichung 0001589526-26-000049",
+     "url": "https://www.sec.gov/Archives/edgar/data/1589526/000158952626000049/"
+    }
+   ]
+  },
+  {
    "ticker": "IDXX",
    "yahoo": "IDXX",
    "cik": 874716,
@@ -29350,7 +29570,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -29548,7 +29768,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -29747,7 +29967,7 @@
     "capex_basis": "REPORTED",
     "dividends_verified": false,
     "source": "companyfacts",
-    "as_of": "2026-10-31"
+    "as_of": "2026-11-01"
    },
    "normalization_status": "UNREVIEWED",
    "metrics": {
@@ -29911,206 +30131,6 @@
     {
      "title": "SEC-Einreichung 0000939767-26-000116",
      "url": "https://www.sec.gov/Archives/edgar/data/939767/000093976726000116/"
-    }
-   ]
-  },
-  {
-   "ticker": "LVS",
-   "yahoo": "LVS",
-   "cik": 1300514,
-   "name": "LAS VEGAS SANDS CORP",
-   "exchange": "NYSE",
-   "sic": 7011,
-   "sic_description": "Hotels & Motels",
-   "sector": "Consumer Cyclical",
-   "in_universe": false,
-   "price": 36.970001220703125,
-   "price_date": "2026-10-30",
-   "currency": "USD",
-   "basis": "TTM",
-   "period_start": "2025-10-01",
-   "period_end": "2026-09-30",
-   "growth_basis": "TTM",
-   "shares_basis": "COVER_PAGE",
-   "balance_date": "2026-09-30",
-   "source": "companyfacts",
-   "input_metadata": {
-    "sic": 7011,
-    "flags": [
-     "DEBT_PARTIAL"
-    ],
-    "basis": "TTM",
-    "period_start": "2025-10-01",
-    "period_end": "2026-09-30",
-    "growth_basis": "TTM",
-    "balance_date": "2026-09-30",
-    "shares_basis": "COVER_PAGE",
-    "shares_date": "2026-10-21",
-    "capex_basis": "REPORTED",
-    "dividends_verified": true,
-    "source": "companyfacts",
-    "as_of": "2026-10-31"
-   },
-   "normalization_status": "UNREVIEWED",
-   "metrics": {
-    "revenue": 13604000000.0,
-    "revenue_prior": 12264000000.0,
-    "operating_income": 2847000000.0,
-    "operating_cash_flow": 3487000000.0,
-    "capex": 1081000000.0,
-    "fcf": 2406000000.0,
-    "depreciation": 1410000000.0,
-    "dividends": 892000000.0,
-    "shares": 626990133.0,
-    "net_debt": null,
-    "debt": null,
-    "cash": 2858000000.0,
-    "growth_pct": 10.926288323548604,
-    "operating_margin_pct": 20.927668332843282,
-    "fcf_margin_pct": 17.685974713319613,
-    "ebitda": 4257000000.0,
-    "nd_ebitda": null,
-    "share_change_pct": -6.569343065693434,
-    "market_cap": 23179825982.378815,
-    "fcf_yield_pct": 10.379715541561998,
-    "dividend_yield_pct": 3.848173841676352,
-    "buyback_yield_pct": 6.569343065693434,
-    "ngv_per_share": 47.96726203026228,
-    "cover_pct": 129.74644426952497,
-    "valuation_fcf": 2406000000.0,
-    "valuation_shares": 626990133.0,
-    "discount_rate": 0.08,
-    "raw_market_cap": 23179825982.378815,
-    "raw_fcf_yield_pct": 10.379715541561998
-   },
-   "score": null,
-   "band": null,
-   "coverage_weight": 0.85,
-   "selection_score": 6.925,
-   "score_bounds": {
-    "lower": 6.925,
-    "upper": 8.425
-   },
-   "status": "PARTIAL",
-   "valuation_status": "SCENARIO_REPORTED_FCF",
-   "valuation_issues": [],
-   "components": [
-    {
-     "key": "g",
-     "label": "Growth",
-     "value": 7.0,
-     "weight": 0.15,
-     "contribution": 1.05,
-     "input": 10.926288323548604,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "p",
-     "label": "Profitability",
-     "value": 7.5,
-     "weight": 0.2,
-     "contribution": 1.5,
-     "input": 20.927668332843282,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "c",
-     "label": "Cash Generation",
-     "value": 7.5,
-     "weight": 0.15,
-     "contribution": 1.125,
-     "input": 17.685974713319613,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "b",
-     "label": "Balance Sheet",
-     "value": null,
-     "weight": 0.15,
-     "contribution": null,
-     "input": null,
-     "supported": false,
-     "input_basis": "MEASURED_INPUT",
-     "reason": "BALANCE_DEFAULT"
-    },
-    {
-     "key": "v",
-     "label": "Valuation",
-     "value": 9.0,
-     "weight": 0.1,
-     "contribution": 0.9,
-     "input": 10.379715541561998,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "pr",
-     "label": "Priced-In Expectations",
-     "value": 9.5,
-     "weight": 0.15,
-     "contribution": 1.425,
-     "input": 129.74644426952497,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "r",
-     "label": "Shareholder Returns",
-     "value": 9.0,
-     "weight": 0.05,
-     "contribution": 0.45,
-     "input": 10.417516907369786,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    },
-    {
-     "key": "d",
-     "label": "Dilution",
-     "value": 9.5,
-     "weight": 0.05,
-     "contribution": 0.47500000000000003,
-     "input": -6.569343065693434,
-     "supported": true,
-     "input_basis": "MEASURED_INPUT",
-     "reason": null
-    }
-   ],
-   "regime_fit": {},
-   "flags": [
-    "DEBT_PARTIAL",
-    "BALANCE_DEFAULT",
-    "REPORTED_FCF_SCENARIO"
-   ],
-   "flag_text": {
-    "DEBT_PARTIAL": "Nur Teile der Finanzschulden getaggt; kein vollständiger Schuldenstand und keine Bilanzwertung.",
-    "BALANCE_DEFAULT": "Nettoverschuldung/EBITDA nicht berechenbar; Bilanzkategorie ausgesetzt.",
-    "REPORTED_FCF_SCENARIO": "Gemeldeter FCF zum Szenario-Diskontsatz; kein verifizierter nachhaltiger Fair Value."
-   },
-   "sources": [
-    {
-     "title": "SEC companyfacts (XBRL, alle gemeldeten Werte)",
-     "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001300514.json"
-    },
-    {
-     "title": "SEC EDGAR: 10-K/10-Q-Einreichungen",
-     "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001300514&type=10-&dateb=&owner=include&count=40"
-    },
-    {
-     "title": "SEC-Einreichung 0001300514-26-000013",
-     "url": "https://www.sec.gov/Archives/edgar/data/1300514/000130051426000013/"
-    },
-    {
-     "title": "SEC-Einreichung 0001300514-26-000103",
-     "url": "https://www.sec.gov/Archives/edgar/data/1300514/000130051426000103/"
     }
    ]
   }

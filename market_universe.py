@@ -717,6 +717,31 @@ def _flows(companyfacts, revenue_facts, w, today):
                 net_income=measure(NET_INCOME), flags=flags)
 
 
+def _with_switched_revenue_tag(companyfacts, tag, facts, today, lag_days=45):
+    """Fill newer windows from another revenue tag when the filer switched tags.
+
+    Some filers move revenue to another us-gaap element mid-year (ABT, 2026):
+    the annual tag then stops at an old quarter while the newer 10-Qs carry the
+    other element. Windows the annual tag already has are never replaced, so
+    a filer that tags both elements keeps exactly its previous figures.
+    """
+    latest = max((f['end'] for f in facts), default=None)
+    best = None
+    for other in REVENUE:
+        if other == tag:
+            continue
+        rows = [f for f in _clean(_units(companyfacts, other, 'USD'), today) if f['start']]
+        end = max((f['end'] for f in rows), default=None)
+        if end is not None and latest is not None and (end - latest).days > lag_days:
+            if best is None or end > best[0]:
+                best = (end, other, rows)
+    if best is None:
+        return facts, None
+    have = {(f['start'], f['end']) for f in facts}
+    extra = [f for f in best[2] if (f['start'], f['end']) not in have]
+    return facts + extra, best[1]
+
+
 def company_metrics(companyfacts, today):
     """TTM metrics from one companyfacts document, all on the revenue windows.
 
@@ -733,6 +758,7 @@ def company_metrics(companyfacts, today):
     if not revenue_tags:
         return None
     _, _, revenue_tag, revenue_facts = max(revenue_tags, key=lambda x: (x[0], x[1]))
+    revenue_facts, switched = _with_switched_revenue_tag(companyfacts, revenue_tag, revenue_facts, today)
     w = windows(revenue_facts)
     if w is None:
         return None
@@ -743,6 +769,8 @@ def company_metrics(companyfacts, today):
     if flows is None:
         return None
     flags = list(flows['flags'])
+    if switched:
+        flags.append('REVENUE_TAG_SWITCH:' + switched)
     revenue, basis = flows['revenue'], flows['basis']
     operating, cash_flow, capex = flows['operating'], flows['cash_flow'], flows['capex']
     depreciation, dividends = flows['depreciation'], flows['dividends']

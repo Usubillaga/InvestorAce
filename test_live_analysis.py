@@ -361,3 +361,17 @@ class CrossCurrencyAndBoundTests(unittest.TestCase):
         self.assertEqual(result['valuation']['reverse_dcf_bound'], 'ABOVE_100_PCT')
         normal = m.calculate(m.extract(ticker_fixture(), 'ZTS', as_of=ASOF), risk_free=.05, mrp=.05, as_of=ASOF)
         self.assertIsNone(normal['valuation']['reverse_dcf_bound'])
+
+
+class BetaFloorTests(unittest.TestCase):
+    def test_a_near_zero_beta_uses_the_floor_and_says_so(self):
+        import live_analysis as m
+        facts = m.extract(ticker_fixture(), 'ZTS', as_of=ASOF); facts['beta'] = .2
+        result = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertAlmostEqual(result['parameters']['discount_rate_pct'], 100 * (.05 + m.BETA_FLOOR * .05))
+        self.assertEqual(result['parameters']['reported_beta'], .2)
+        self.assertTrue(any('below the 0.6 floor' in w for w in result['warnings']))
+        facts['beta'] = 1.1
+        normal = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertAlmostEqual(normal['parameters']['discount_rate_pct'], 100 * (.05 + 1.1 * .05))
+        self.assertFalse(any('floor' in w for w in normal['warnings']))
