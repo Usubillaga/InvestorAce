@@ -140,6 +140,12 @@ def short_interest(info):
                 source='YAHOO_EXCHANGE_REPORTED')
 
 
+# Minimum equity beta for the cost of equity. Tested on the 2026-11-01
+# universe: only NVO (Buy -> Hold Positive) and SAN changed; the calibration
+# cases WKL and OXY keep their labels.
+BETA_FLOOR = 0.6
+
+
 def earnings_event(info):
     """Next or latest earnings date as Yahoo carries it; estimates stay flagged."""
     def day(key):
@@ -345,6 +351,13 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         warnings.append('No sufficiently recent dated quote; price-dependent outputs suspended.')
     inputs['quote_price'] = price
     beta, rf, premium = (finite_number(x) for x in (facts.get('beta'), risk_free, mrp))
+    reported_beta = beta
+    if beta is not None and beta < BETA_FLOOR:
+        # A provider beta near zero (NVO 0.38, WKL 0.18) would value equity
+        # almost at the risk-free rate; equity risk is never that low.
+        beta = BETA_FLOOR
+        warnings.append(f'Reported beta {reported_beta:.2f} is below the {BETA_FLOOR:.1f} floor; '
+                        'the cost of equity uses the floor.')
     rate = rf + beta * premium if None not in (rf, beta, premium) else None
     if rate is None or not 0 < rate < 1:
         rate = None
@@ -486,6 +499,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         events=dict(earnings=facts.get('earnings'), last_reported=facts.get('last_earnings')),
         quote_observed_at=q.get('observed_at'), warnings=warnings, source_urls=facts.get('source_urls',[]),
         parameters=dict(discount_rate_pct=100*rate if rate else None, beta=beta,
+            reported_beta=reported_beta, beta_floor=BETA_FLOOR,
             currency_factor=factor,
             cash_flow_policy=policy,
             cash_flow_calculation=facts.get('cash_flow_calculation'),

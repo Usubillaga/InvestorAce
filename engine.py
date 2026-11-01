@@ -24,6 +24,7 @@ import opportunity as OPPORTUNITY
 import opportunity_view as OPPORTUNITY_VIEW
 import earnings_view as EARNINGS_VIEW
 import sec_quarters as SEC_QUARTERS
+import market_pulse as MARKET_PULSE
 from company_reports import pdf_urls
 import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
@@ -1841,6 +1842,13 @@ def run_build():
         refresh_insiders(client=sec_client) if sec_client is not None else refresh_insiders()
         populate_epv()
         macro = read_macro()
+        if macro.get('ok'):   # same market-data availability as the regime reading
+            try:
+                macro['pulse'] = MARKET_PULSE.read(universe_symbols=[d.get('yf', t) for t, d in DATA.items()])
+            except Exception as exc:
+                print('Market pulse unavailable:', type(exc).__name__)
+        if macro.get('pulse'):
+            print('Market pulse: heat', macro['pulse'].get('heat'), 'from', sorted(macro['pulse'].get('components', {})))
         bundle = EVIDENCE.model_bundle(Path(__file__).parent)
         record = observation(macro, bundle)
         if Path('history/_current.json').exists():
@@ -2730,7 +2738,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
             'family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">'
             '<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>'
-            '<style>' + CSS + DECISION_VIEW.CSS + DASHBOARD_VIEW.CSS + OPPORTUNITY_VIEW.CSS + EARNINGS_VIEW.CSS + EARNINGS_VIEW.row_css(DATA) + '</style></head><body>')
+            '<style>' + CSS + DECISION_VIEW.CSS + DASHBOARD_VIEW.CSS + OPPORTUNITY_VIEW.CSS + EARNINGS_VIEW.CSS + MARKET_PULSE.CSS + EARNINGS_VIEW.row_css(DATA) + '</style></head><body>')
     hdr = (f'<div class="kicker">InvestorAce &middot; Live &middot; {stamp}</div>'
            f'<h1>Master Scoreboard</h1>'
            f'<div class="lede">{len(DATA)} tickers &middot; <b>{withngv}</b> with NGV &middot; <b>{sum(1 for d in DATA.values() if epv(d) is not None)}</b> with EPV &middot; <b>{priced}</b> priced this run &middot; '
@@ -2795,14 +2803,14 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
             ('earnings-section', 'Earnings calendar', 'Reporting dates of the universe and post-report data status',
              EARNINGS_VIEW.panel(DATA, opportunities), True),
             ('market-context', 'Market & regime', 'Macro context, sector returns and regime rankings',
-             macro_box + fit_box + regime_book_box + sec_box),
+             MARKET_PULSE.thermometer((macro or {}).get('pulse')) + macro_box + fit_box + regime_book_box + sec_box),
             ('company-research', 'Analysis & research', 'Sources, score explanations and timing observations',
              OPPORTUNITY_VIEW.panel(opportunities) + SOURCE_REVIEW.panel(DATA, reviews) + DECISION_VIEW.panel(DATA, explanations, cur_reg)),
             ('portfolio-section', 'Portfolio', 'Existing portfolio access and historical charts', gate + zin),
             ('model-controls', 'Data & model', 'Coverage, open reviews, methodology and model checks',
              coverage_box + assessment_panel(assessments) + filing_monitoring_box(monitoring)
              + framework_panel(DATA, W, M, proposal) + fw_box + issue_box + adder)])
-    html = (head + dashboard + foot
+    html = (head + MARKET_PULSE.strip((macro or {}).get('pulse')) + dashboard + foot
             + '<script id="assessment-data" type="application/json">' + view_data + '</script>'
             + '<script>' + view_source + '\nInvestorAceAssessment.bindReport(JSON.parse(document.getElementById("assessment-data").textContent));</script>'
             + '<script>' + js + js_z + DASHBOARD_VIEW.JS + '</script></body></html>')
