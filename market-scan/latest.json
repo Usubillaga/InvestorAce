@@ -1,16 +1,16 @@
 {
  "schema": "market-scan-v1",
- "generated_at": "2026-11-01T18:39:20.193548+00:00",
+ "generated_at": "2026-11-01T18:54:37.239514+00:00",
  "as_of": "2026-11-01",
  "coverage": "USA: an NYSE oder Nasdaq notierte US-GAAP-Berichterstatter mit SEC-XBRL-Daten. Ohne Banken, Versicherer und REITs. Europa ist noch nicht abgedeckt.",
  "funnel": [
   {
    "stage": "NYSE/Nasdaq-Unternehmen in der SEC-Liste",
-   "count": 6041
+   "count": 6036
   },
   {
    "stage": "Umsatz ≥ 1 Mrd. USD; kein belegter negativer Gewinn/FCF (offene Daten bleiben sichtbar)",
-   "count": 1232
+   "count": 1234
   },
   {
    "stage": "Mit datiertem Schlusskurs",
@@ -42,10 +42,10 @@
   }
  ],
  "rejected": {
-  "NO_REVENUE": 2171,
+  "NO_REVENUE": 2163,
   "NO_OPERATING_PROFIT": 215,
   "NO_POSITIVE_FCF": 138,
-  "REVENUE_BELOW_1BN": 2285
+  "REVENUE_BELOW_1BN": 2286
  },
  "method": {
   "scoring_version": "market-screen-evidence-gates-v2",
