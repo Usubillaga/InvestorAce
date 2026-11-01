@@ -92,3 +92,15 @@ class ShareOverrideTests(unittest.TestCase):
     def test_nvo_carries_the_issuer_share_count(self):
         from test_framework_contract import engine
         self.assertAlmostEqual(engine.DATA['NVO']['share_count_override']['shares'], 4465e6 - 44249480)
+
+
+class CatchUpLogTests(unittest.TestCase):
+    def test_every_lagging_stock_logs_why_it_did_or_did_not_catch_up(self):
+        lines = []
+        sec_quarters.catch_up(YAHOO, 'X', Client(), {}, TODAY, log=lines.append)
+        sec_quarters.catch_up(dict(YAHOO, financial_period='2026-06-30', last_earnings='2026-10-20'),
+                              'X', Client(), {'X': 1}, TODAY, log=lines.append)
+        sec_quarters.catch_up(YAHOO, 'X', Client(), {'X': 1}, TODAY, log=lines.append)
+        self.assertEqual(lines[0], 'SEC catch-up X: no CIK')
+        self.assertIn('SEC not newer: TTM to 2026-06-30 vs stored 2026-06-30', lines[1])
+        self.assertEqual(lines[2], 'SEC catch-up X: 2026-03-31 -> 2026-06-30 (TTM)')

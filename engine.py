@@ -1413,8 +1413,9 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
                 fresh, entries.get(symbol) if isinstance(entries.get(symbol), dict) else None, as_of.date()))
         if valid and sec is not None:
             try:
-                newer = SEC_QUARTERS.catch_up(fresh, symbol, sec['client'], sec['ciks'], as_of.date())
-            except Exception:
+                newer = SEC_QUARTERS.catch_up(fresh, symbol, sec['client'], sec['ciks'], as_of.date(), log=print)
+            except Exception as exc:
+                print(f'SEC catch-up {symbol}: failed ({type(exc).__name__}: {str(exc)[:120]})')
                 newer = None
             if newer is not None:
                 fresh = newer
