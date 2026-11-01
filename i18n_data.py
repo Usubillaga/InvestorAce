@@ -1388,3 +1388,5 @@ TRANSLATIONS['de'].update({'Reporting dates of the universe and post-report data
 TRANSLATIONS['es'].update({'Reporting dates of the universe and post-report data status': 'Fechas de resultados del universo y estado de los datos tras publicarlos'})
 TRANSLATIONS['de'].update({'Reports of the last 21 days and the next 90 days.': 'Ergebnisse der letzten 21 und der nächsten 90 Tage.'})
 TRANSLATIONS['es'].update({'Reports of the last 21 days and the next 90 days.': 'Resultados de los últimos 21 días y de los próximos 90.'})
+TRANSLATIONS['de'].update({'Today': 'Heute', 'Tomorrow': 'Morgen'})
+TRANSLATIONS['es'].update({'Today': 'Hoy', 'Tomorrow': 'Mañana'})
