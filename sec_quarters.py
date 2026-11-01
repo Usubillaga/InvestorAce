@@ -32,13 +32,27 @@ def lagging(facts, today):
     return (today - period).days > STALE_PERIOD_DAYS
 
 
+def why_not(facts, metrics, today):
+    """Reason the SEC window cannot replace the stored one, or None if it can."""
+    if not metrics:
+        return 'no consistent SEC window (revenue/operating/cash-flow tags missing or misaligned)'
+    missing = [k for k in ('revenue', 'fcf', 'shares') if not metrics.get(k)]
+    if missing:
+        return 'SEC window lacks ' + ', '.join(missing) + ' (flags: ' + ','.join(metrics.get('flags') or []) + ')'
+    end, period = _day(metrics.get('period_end')), _day(facts.get('financial_period'))
+    if end is None or end > today:
+        return 'SEC period end unusable: ' + str(metrics.get('period_end'))
+    if period is not None and end <= period:
+        return (f"SEC not newer: {metrics.get('basis')} to {end.isoformat()} vs stored {period.isoformat()}"
+                f" (flags: {','.join(metrics.get('flags') or []) or '-'})")
+    return None
+
+
 def newer_packet(facts, metrics, cik, today):
     """Facts with SEC statement inputs, or None if SEC is not newer or incomplete."""
-    if not metrics or metrics.get('fcf') is None or not metrics.get('shares') or not metrics.get('revenue'):
+    if why_not(facts, metrics, today) is not None:
         return None
-    end, period = _day(metrics.get('period_end')), _day(facts.get('financial_period'))
-    if end is None or end > today or (period is not None and end <= period):
-        return None
+    end = _day(metrics.get('period_end'))
     old = facts.get('inputs') or {}
     dep, operating = metrics.get('depreciation'), metrics.get('operating_income')
     inputs = dict(old,
@@ -59,15 +73,27 @@ def newer_packet(facts, metrics, cik, today):
                 yahoo_financial_period=facts.get('financial_period'))
 
 
-def catch_up(facts, symbol, client, ciks, today):
-    """Newer SEC packet for a lagging US filer; None when nothing newer is filed."""
+def catch_up(facts, symbol, client, ciks, today, log=None):
+    """Newer SEC packet for a lagging US filer; None when nothing newer is filed.
+
+    Every lagging stock logs its outcome, so a build shows why one did not
+    catch up (no filing yet, misaligned tags, missing shares...)."""
     if facts.get('financial_currency') not in (None, 'USD') or not lagging(facts, today):
         return None
+    note = log or (lambda message: None)
     cik = ciks.get(symbol.upper()) or ciks.get(symbol.upper().replace('-', '.'))
     if not cik:
+        note(f'SEC catch-up {symbol}: no CIK')
         return None
     payload = client.get_json(market_universe.companyfacts_url(cik))
     if not payload:
+        note(f'SEC catch-up {symbol}: companyfacts unavailable')
         return None
-    return newer_packet(facts, market_universe.company_metrics(payload, today), cik, today)
+    metrics = market_universe.company_metrics(payload, today)
+    reason = why_not(facts, metrics, today)
+    if reason:
+        note(f'SEC catch-up {symbol}: {reason}')
+        return None
+    note(f"SEC catch-up {symbol}: {facts.get('financial_period')} -> {metrics['period_end']} ({metrics['basis']})")
+    return newer_packet(facts, metrics, cik, today)
 

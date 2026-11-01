@@ -18,6 +18,11 @@ CSS = """
 .earnings-alert h2{color:#f06a6a;font-size:15px;margin:0 0 6px}
 .earnings-alert .earnings-soon{color:#ff8a8a;font-weight:650}
 .earnings-alert .earnings-pending{color:#e5b45c}.earnings-alert .earnings-updated{color:#66e39c}
+.earnings-days{width:100%;margin:4px 0 8px;font-size:13px}.earnings-days td{padding:5px 8px;border-top:1px solid #5a2328;vertical-align:top}
+.earnings-days td.earnings-when{white-space:nowrap;color:#ffb3b3;width:1%}.earnings-days td.tk{color:#ffd6d6}
+.earnings-days a{color:#ffd6d6;text-decoration:none;font-weight:650}
+.earnings-days tr.earnings-tomorrow td{background:#4a171c}.earnings-days tr.earnings-today td{background:#6a1a22}
+.earnings-days tr.earnings-tomorrow b,.earnings-days tr.earnings-today b{color:#ff6b6b;font-size:15px}
 #earnings-calendar tr.earnings-row-soon td{background:#3a1416;color:#ffb3b3}
 #earnings-calendar tr.earnings-row-pending td{background:#2e2410}
 """
@@ -67,30 +72,61 @@ def events(data, opportunities, today=None):
     return sorted(rows, key=lambda r: (r['date'], r['ticker'])), sorted(missing)
 
 
-def _item(ticker, text, label):
-    return ticker+' '+text+(' ('+label+')' if label else '')
+LABEL_RANK = {'Strong Buy': 0, 'Buy': 1, 'Hold Positive': 2, 'Hold Negative': 3, 'Sell': 4}
+
+
+def _rank(opportunity):
+    """Best signal first, then higher score; incomplete data last."""
+    o = opportunity or {}
+    score = o.get('score') if o.get('score') is not None else o.get('score_upper')
+    return (LABEL_RANK.get(o.get('label'), 5), -(score or 0))
+
+
+def _day_label(day, today):
+    gap = (day - today).days
+    if gap == 0:
+        return 'Today', 'earnings-today', '!!'
+    if gap == 1:
+        return 'Tomorrow', 'earnings-tomorrow', '!'
+    return '+' + str(gap), '', ''
 
 
 def alert(data, opportunities, today=None):
-    """Red box for reports in the next 7 days; post-report data status."""
+    """Red box: reports of the next 7 days, one row per day, soonest first.
+
+    Today and tomorrow are marked with exclamation marks; within a day the
+    stronger automatic signal comes first. Below, the post-report status
+    lines list the most recent report first."""
     today = today or datetime.now(timezone.utc).date()
-    soon, pending, updated = [], [], []
-    for ticker, row in sorted(data.items()):
+    days, pending, updated = {}, [], []
+    for ticker, row in data.items():
         s = status(row, today)
-        label = (opportunities.get(ticker) or {}).get('label')
+        opportunity = opportunities.get(ticker) or {}
         if s['next'] is not None and (s['next'] - today).days <= ALERT_DAYS:
-            soon.append((s['next'], _item(ticker, ('~' if s['estimated'] else '')+s['next'].isoformat(), label)))
+            days.setdefault(s['next'], []).append((_rank(opportunity), ticker, opportunity.get('label'), s['estimated']))
         if s['last'] is not None and 0 <= (today - s['last']).days <= AFTER_DAYS:
             target = updated if s['updated'] else pending
-            target.append((s['last'], _item(ticker, s['last'].isoformat(), label)))
-    if not (soon or pending or updated):
+            target.append((s['last'], ticker, opportunity.get('label')))
+    if not (days or pending or updated):
         return ''
+    rows = []
+    for day in sorted(days):
+        title, css, mark = _day_label(day, today)
+        estimated = any(x[3] for x in days[day])
+        companies = ' · '.join('<a href="#opportunity-'+escape(t, quote=True)+'">'+escape(t)+'</a>'
+                               + (' ('+escape(label)+')' if label else '')
+                               for _, t, label, _ in sorted(days[day]))
+        rows.append('<tr'+(' class="'+css+'"' if css else '')+'><td class="earnings-when">'
+                    + ('<b>'+mark+'</b> ' if mark else '') + escape(title) + ' · '
+                    + ('~' if estimated else '') + day.isoformat() + '</td><td class="tk">' + companies + '</td></tr>')
+    table = ('<div class="earnings-soon">Reporting in the next 7 days:</div><div class="tw"><table class="earnings-days">'
+             '<tbody>' + ''.join(rows) + '</tbody></table></div>') if rows else ''
     # One text node per line: i18n translates the leading label and keeps the
-    # tickers, dates and labels after it as data.
-    line = lambda css, title, items: ('<div class="'+css+'">'+escape(title+' '+' · '.join(x for _, x in sorted(items)))
-                                      +'</div>' if items else '')
-    return ('<div class="earnings-alert" id="earnings-alert"><h2>Earnings alert</h2>'
-            + line('earnings-soon', 'Reporting in the next 7 days:', soon)
+    # tickers, dates and labels after it as data. Most recent report first.
+    line = lambda css, title, items: ('<div class="'+css+'">'+escape(title+' '+' · '.join(
+        t+' '+d.isoformat()+(' ('+label+')' if label else '') for d, t, label in sorted(items, key=lambda x: (-x[0].toordinal(), x[1]))))
+        +'</div>' if items else '')
+    return ('<div class="earnings-alert" id="earnings-alert"><h2>Earnings alert</h2>' + table
             + line('earnings-pending', 'Reported, waiting for the new quarter in the data:', pending)
             + line('earnings-updated', 'Reported and updated with the new quarter:', updated)
             + '<small class="opportunity-metrics">Scores, buy prices and labels refresh by themselves '

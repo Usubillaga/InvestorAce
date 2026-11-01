@@ -50,7 +50,7 @@ class EarningsAlertTests(unittest.TestCase):
     def test_reports_within_7_days_are_red_on_top_and_on_the_row(self):
         data = {'ZTS': packet('2026-11-05'), 'INTU': packet('2026-11-19')}
         html = earnings_view.alert(data, {'ZTS': dict(label='Buy')}, today=self.today)
-        self.assertIn('Reporting in the next 7 days: ZTS 2026-11-05 (Buy)', html)
+        self.assertIn('+4 · 2026-11-05</td><td class="tk"><a href="#opportunity-ZTS">ZTS</a> (Buy)', html)
         self.assertNotIn('INTU', html)
         css = earnings_view.row_css(data, today=self.today)
         self.assertIn('tr[data-assessment="ZTS"]', css)
@@ -81,4 +81,25 @@ class EarningsAlertTests(unittest.TestCase):
                 'AAPL': packet(None, last='2026-10-30', period='2026-09-27')}
         html = earnings_view.alert(data, {'ZTS': dict(label='Buy')}, today=self.today) + earnings_view.panel(data, {}, today=self.today)
         self.assertEqual(i18n.translation_gaps(html), [])
-        self.assertIn('Resultados en los próximos 7 días: ZTS ~2026-11-05 (Buy)', i18n.localize(html, 'es'))
+        self.assertIn('~2026-11-05', i18n.localize(html, 'es'))
+
+
+class AlertOrderTests(unittest.TestCase):
+    def test_days_are_sorted_tomorrow_is_marked_and_best_signal_comes_first(self):
+        today = date(2026, 11, 1)
+        data = {'AMD': packet('2026-11-03'), 'AAPL': packet('2026-11-02'), 'CLX': packet('2026-11-02'),
+                'PFE': packet('2026-11-03'), 'ZTS': packet('2026-11-05'), 'NOW': packet('2026-11-01')}
+        ops = {'AAPL': dict(label='Hold Negative', score=4.9), 'CLX': dict(label='Hold Negative', score=5.2),
+               'AMD': dict(label='Hold Negative', score=4.0), 'PFE': dict(label='Hold Positive', score=6.0),
+               'ZTS': dict(label='Buy', score=7.9)}
+        html = earnings_view.alert(data, ops, today=today)
+        order = [html.index(x) for x in ('Today · 2026-11-01', 'Tomorrow · 2026-11-02', '+2 · 2026-11-03', '+4 · 2026-11-05')]
+        self.assertEqual(order, sorted(order))
+        self.assertIn('<b>!</b> Tomorrow', html)
+        self.assertIn('<b>!!</b> Today', html)
+        self.assertLess(html.index('>CLX<'), html.index('>AAPL<'))   # higher score first within a day
+        self.assertLess(html.index('>PFE<'), html.index('>AMD<'))    # Hold Positive before Hold Negative
+        import i18n
+        self.assertEqual(i18n.translation_gaps(html), [])
+        self.assertIn('Mañana · 2026-11-02', i18n.localize(html, 'es'))
+        self.assertIn('Morgen · 2026-11-02', i18n.localize(html, 'de'))
