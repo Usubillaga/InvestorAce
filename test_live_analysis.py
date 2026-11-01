@@ -334,3 +334,30 @@ class DividendZeroTests(unittest.TestCase):
         self.assertEqual(facts['dividends_basis'], 'PROVIDER_ZERO_TRAILING_DIVIDEND')
         t2 = ticker_fixture(); t2.cashflow = t2.cashflow.drop(index='Cash Dividends Paid')
         self.assertIsNone(m.extract(t2, 'ZTS', as_of=ASOF)['inputs']['dividends'])
+
+
+class CrossCurrencyAndBoundTests(unittest.TestCase):
+    def test_adr_quoted_in_usd_is_converted_with_a_dated_fx_rate(self):
+        import live_analysis as m
+        facts = m.extract(ticker_fixture(price=40.), 'NVO', as_of=ASOF)
+        facts.update(currency='USD', financial_currency='DKK')
+        suspended = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertIsNone(suspended['valuation']['ngv_per_share'])
+        facts['fx'] = dict(pair='DKKUSD', rate=.15, observed_at=ASOF.isoformat(), source='YAHOO_FX')
+        result = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
+        dkk = m.calculate(dict(facts, currency='DKK', fx=None), quote=dict(price=40/.15,
+            observed_at=facts['quote_observed_at']), risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertAlmostEqual(result['valuation']['ngv_per_share'], dkk['valuation']['ngv_per_share'] * .15)
+        self.assertAlmostEqual(result['valuation']['reverse_dcf_growth_pct'], dkk['valuation']['reverse_dcf_growth_pct'])
+        self.assertTrue(any('DKKUSD' in w for w in result['warnings']))
+        facts['fx'] = dict(pair='EURUSD', rate=1.1)
+        self.assertIsNone(m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)['valuation']['ngv_per_share'])
+
+    def test_price_beyond_the_solver_range_keeps_a_flagged_edge(self):
+        import live_analysis as m
+        facts = m.extract(ticker_fixture(price=100000.), 'TSLA', as_of=ASOF)
+        result = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertEqual(result['valuation']['reverse_dcf_growth_pct'], 100.)
+        self.assertEqual(result['valuation']['reverse_dcf_bound'], 'ABOVE_100_PCT')
+        normal = m.calculate(m.extract(ticker_fixture(), 'ZTS', as_of=ASOF), risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertIsNone(normal['valuation']['reverse_dcf_bound'])

@@ -1307,6 +1307,21 @@ def refresh_insiders(client=None, as_of=None):
         return None
 
 
+def _fx_rate(base, quote, cache, as_of, factory=None):
+    """Quote-currency units per statement-currency unit, once per pair per build."""
+    pair = f'{base}{quote}'
+    if pair not in cache:
+        rate = None
+        try:
+            tk = factory(pair + '=X') if factory else yf.Ticker(pair + '=X')
+            fi = dict(tk.fast_info) or {}
+            rate = positive_number(fi.get('lastPrice') or fi.get('last_price') or fi.get('regularMarketPrice'))
+        except Exception:
+            rate = None
+        cache[pair] = dict(pair=pair, rate=rate, observed_at=as_of.isoformat(), source='YAHOO_FX') if rate else None
+    return cache[pair]
+
+
 def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
     """Refresh ordinary-company data, retaining dated research and last-good facts.
 
@@ -1328,6 +1343,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
     primary_entries = SOURCE_REVIEW.load().get('entries', {})
     dirty = False
     counts = dict(refreshed=0, retained_newer_period=0, cached=0, unavailable=0, specialized=0)
+    fx_cache = {}
     for ticker, row in DATA.items():
         if (row.get('built') == 'fund' or row.get('sector') in ('REIT', 'Midstream', 'Banks', 'Insurance')
                 or row.get('cash_flow_basis') in ('FFO_REPORTED_NOT_FCFE',
@@ -1384,6 +1400,10 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None):
         primary = primary_entries.get(ticker, {}).get('valuation', {}).get('financial_packet')
         facts = LIVE_ANALYSIS.prefer_primary(facts, primary, as_of=as_of)
         facts = dict(facts, midcycle=bool(row.get('midcycle')))
+        quote_cur, statement_cur = facts.get('currency'), facts.get('financial_currency')
+        if (quote_cur and statement_cur and quote_cur != statement_cur
+                and (quote_cur, statement_cur) != ('GBp', 'GBP')):
+            facts['fx'] = _fx_rate(statement_cur, quote_cur, fx_cache, as_of, ticker_factory)
         if valid:
             entries[symbol] = fresh
             dirty = True

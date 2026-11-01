@@ -126,6 +126,8 @@ def assess(row, *, regime, spec, as_of=None):
         ranges['b'] = [minimum,9.5]
         balance_supported = True
         flags.append('BALANCE_LOWER_BOUND')
+    if (dynamic.get('valuation') or {}).get('reverse_dcf_bound'):
+        flags.append('REQUIRED_GROWTH_' + dynamic['valuation']['reverse_dcf_bound'])
     if row.get('midcycle'):
         flags.append('MIDCYCLE_PROXY')
         if (dynamic.get('parameters') or {}).get('cash_flow_policy') != 'MIDCYCLE_MEAN_PROXY':

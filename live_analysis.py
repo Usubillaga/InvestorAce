@@ -326,6 +326,13 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     factor = 1. if currency and financial_currency and currency == financial_currency else None
     if currency == 'GBp' and financial_currency == 'GBP':
         factor = 100.
+    fx = facts.get('fx') or {}
+    if factor is None and positive_number(fx.get('rate')) and fx.get('pair') == f'{financial_currency}{currency}':
+        # A US-listed ADR quoted in USD on statements in DKK/EUR/CHF/CNY:
+        # one statement-currency unit is worth `rate` quote-currency units.
+        factor = positive_number(fx['rate'])
+        warnings.append(f"Quote converted with the {fx['pair']} rate {factor:.6g} ({str(fx.get('observed_at'))[:10]}); "
+                        'the reported share count is assumed to match the listed shares.')
     if factor is None:
         warnings.append('Quote and financial currencies are missing or incompatible; valuation suspended.')
     if financial_currency and financial_currency != 'USD':
@@ -383,6 +390,19 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         scenarios.append(dict(name=name, growth_pct=100*g,
                               value_per_share=value * factor if value is not None else None))
     reverse = reverse_dcf(price/factor, valuation_fcf, shares, rate, terminal, 5) if usable and price else None
+    reverse_bound = None
+    if reverse is None and usable and price:
+        # Outside the solver's -95%..+100% bracket the required growth is still
+        # known to lie beyond that edge; keep the edge as a flagged bound.
+        floor = dcf_value(valuation_fcf, shares, rate, -.95, terminal, 5)
+        ceiling = dcf_value(valuation_fcf, shares, rate, 1., terminal, 5)
+        if ceiling is not None and price/factor > ceiling:
+            reverse, reverse_bound = 1., 'ABOVE_100_PCT'
+        elif floor is not None and price/factor < floor:
+            reverse, reverse_bound = -.95, 'BELOW_MINUS_95_PCT'
+        if reverse_bound:
+            warnings.append('Price implies growth beyond the reverse-DCF range ('+reverse_bound
+                            +'); the range edge is used as a bound.')
     rev = positive_number(inputs.get('revenue'))
     opinc, ebitda = finite_number(inputs.get('operating_income')), positive_number(inputs.get('ebitda'))
     debt, cash = finite_number(inputs.get('debt')), finite_number(inputs.get('cash'))
@@ -475,7 +495,8 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             growth_rate_pct=100*growth, terminal_growth_pct=100*terminal if terminal is not None else None,
             horizon_years=5),
         valuation=dict(ngv_per_share=ngv, dcf_per_share=scenarios[1]['value_per_share'],
-            reverse_dcf_growth_pct=100*reverse if reverse is not None else None, scenarios=scenarios),
+            reverse_dcf_growth_pct=100*reverse if reverse is not None else None,
+            reverse_dcf_bound=reverse_bound, scenarios=scenarios),
         overlay=overlay, score_explanation=dict(schema='score-explanation-v1', status='DECOMPOSED',
             total=score, components=explanation, denominator=1.,
             sum_contributions=score, reconciles=True if complete else None),
