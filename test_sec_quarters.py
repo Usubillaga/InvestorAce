@@ -119,3 +119,79 @@ class DiagnosticTests(unittest.TestCase):
         sec_quarters.catch_up(dict(YAHOO, financial_period='2026-06-30', last_earnings='2026-10-20'),
                               'X', Client(), {'X': 1}, TODAY, log=lines.append)
         self.assertTrue(lines[1].startswith('SEC detail X: revenue:Revenues=2026-06-30/'))
+
+
+def lagging_companyfacts_and_instance():
+    """calendar_company without 2026 facts, plus those facts as one 10-Q instance."""
+    full = calendar_company()
+    old, new = copy.deepcopy(full), []
+    for taxonomy, tags in full['facts'].items():
+        for name, body in tags.items():
+            for unit, items in body['units'].items():
+                keep = [f for f in items if not f['end'].startswith('2026')]
+                old['facts'][taxonomy][name]['units'][unit] = keep
+                new += [(taxonomy, name, unit, f) for f in items if f['end'].startswith('2026')]
+                if name != 'Revenues':
+                    continue
+                # the 10-Q also restates the prior-year comparative window
+                new += [(taxonomy, name, unit, f) for f in items if f['end'] == '2025-06-30' and f.get('start') == '2025-01-01']
+    contexts, facts = {}, []
+    for i, (taxonomy, name, unit, f) in enumerate(new):
+        key = (f.get('start'), f['end'])
+        cid = contexts.setdefault(key, f'c{len(contexts)}')
+        ns = 'us' if taxonomy == 'us-gaap' else 'dei'
+        facts.append(f'<{ns}:{name} contextRef="{cid}" unitRef="{"u1" if unit == "USD" else "u2"}" decimals="-6">{f["val"]:.0f}</{ns}:{name}>')
+    ctx = ''.join(
+        f'<xbrli:context id="{cid}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">1</xbrli:identifier></xbrli:entity>'
+        + (f'<xbrli:period><xbrli:startDate>{s}</xbrli:startDate><xbrli:endDate>{e}</xbrli:endDate></xbrli:period>' if s
+           else f'<xbrli:period><xbrli:instant>{e}</xbrli:instant></xbrli:period>') + '</xbrli:context>'
+        for (s, e), cid in contexts.items())
+    ctx += ('<xbrli:context id="dim"><xbrli:entity><xbrli:identifier scheme="x">1</xbrli:identifier><xbrli:segment>'
+            '<xbrldi:explicitMember dimension="a">b</xbrldi:explicitMember></xbrli:segment></xbrli:entity>'
+            '<xbrli:period><xbrli:startDate>2026-01-01</xbrli:startDate><xbrli:endDate>2026-06-30</xbrli:endDate></xbrli:period></xbrli:context>')
+    xml = ('<xbrli:xbrl xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:us="http://fasb.org/us-gaap/2026" '
+           'xmlns:dei="http://xbrl.sec.gov/dei/2026" xmlns:xbrldi="http://xbrl.org/2006/xbrldi">' + ctx
+           + '<xbrli:unit id="u1"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>'
+           + '<xbrli:unit id="u2"><xbrli:measure>xbrli:shares</xbrli:measure></xbrli:unit>' + ''.join(facts)
+           + '<us:Revenues contextRef="dim" unitRef="u1" decimals="-6">1</us:Revenues></xbrli:xbrl>')
+    return old, xml
+
+
+class DirectFilingTests(unittest.TestCase):
+    def submissions(self):
+        return {'filings': {'recent': {'form': ['10-Q', '10-Q', '8-K'],
+            'accessionNumber': ['0000000001-26-000020', '0000000001-26-000010', '0000000001-26-000030'],
+            'reportDate': ['2026-06-30', '2026-03-31', '2026-07-20'], 'filingDate': ['2026-08-01', '2026-05-01', '2026-07-20'],
+            'primaryDocument': ['x-20260630.htm', 'x-20260331.htm', 'x8k.htm']}}}
+
+    def test_newer_filing_picks_the_latest_periodic_report_after_the_stored_period(self):
+        f = sec_quarters.newer_filing(self.submissions(), date(2026, 3, 31), TODAY)
+        self.assertEqual((f['form'], f['report'].isoformat()), ('10-Q', '2026-06-30'))
+        self.assertTrue(sec_quarters.instance_url(1, f).endswith('/1/000000000126000020/x-20260630_htm.xml'))
+        self.assertIsNone(sec_quarters.newer_filing(self.submissions(), date(2026, 6, 30), TODAY))
+
+    def test_instance_skips_dimensional_facts_and_keeps_units(self):
+        _, xml = lagging_companyfacts_and_instance()
+        doc = sec_quarters.parse_instance(xml, dict(form='10-Q', accession='a', filed='2026-08-01'))
+        revenue = doc['facts']['us-gaap']['Revenues']['units']['USD']
+        self.assertNotIn(1.0, [f['val'] for f in revenue])
+        self.assertIn('EntityCommonStockSharesOutstanding', doc['facts']['dei'])
+        self.assertIsNone(sec_quarters.parse_instance('<not xml', {}))
+
+    def test_missing_10q_in_companyfacts_is_read_from_the_filing(self):
+        old, xml = lagging_companyfacts_and_instance()
+        self.assertEqual(mu.company_metrics(old, TODAY)['period_end'], '2025-12-31')
+        subs = self.submissions()
+
+        class Direct:
+            def get_json(self, url):
+                return subs if 'submissions' in url else old
+
+            def get_text(self, url):
+                return xml
+        lines = []
+        packet = sec_quarters.catch_up(YAHOO, 'X', Direct(), {'X': 1}, TODAY, log=lines.append)
+        self.assertEqual(packet['financial_period'], '2026-06-30')
+        self.assertAlmostEqual(packet['inputs']['revenue'], 11000e6)
+        self.assertAlmostEqual(packet['inputs']['fcf'], 3300e6 - 550e6)
+        self.assertTrue(any('read 10-Q 2026-06-30' in line and 'directly; usable' in line for line in lines))

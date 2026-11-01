@@ -6,6 +6,8 @@ ABT, GILD in November 2026). US filers publish the same figures in their
 build reads SEC companyfacts and, if they carry a newer period, replaces the
 statement inputs on one consistent window. Market data stays from Yahoo.
 """
+import copy
+import xml.etree.ElementTree as ET
 from datetime import date
 
 import market_universe
@@ -105,6 +107,89 @@ def diagnostics(companyfacts, today):
     return '; '.join(parts) or 'no us-gaap USD duration facts'
 
 
+XBRLI = '{http://www.xbrl.org/2003/instance}'
+
+
+def newer_filing(submissions, after, today):
+    """Latest 10-Q/10-K whose report date is after `after` (a date), or None."""
+    recent = ((submissions or {}).get('filings') or {}).get('recent') or {}
+    best = None
+    rows = zip(recent.get('form', []), recent.get('accessionNumber', []), recent.get('reportDate', []),
+               recent.get('filingDate', []), recent.get('primaryDocument', []))
+    for form, accession, report, filed, document in rows:
+        if form not in ('10-Q', '10-K') or not document or not document.endswith('.htm'):
+            continue
+        report_day, filed_day = _day(report), _day(filed)
+        if report_day is None or filed_day is None or filed_day > today or report_day <= after:
+            continue
+        if best is None or report_day > best['report']:
+            best = dict(form=form, accession=accession, report=report_day, filed=filed, document=document)
+    return best
+
+
+def instance_url(cik, filing):
+    """EDGAR's extracted XBRL instance of an inline-XBRL filing."""
+    folder = filing['accession'].replace('-', '')
+    name = filing['document'].rsplit('.', 1)[0] + '_htm.xml'
+    return f'https://www.sec.gov/Archives/edgar/data/{int(cik)}/{folder}/{name}'
+
+
+def parse_instance(xml_text, filing):
+    """us-gaap/dei facts of one filing in companyfacts shape; dimensional facts are skipped."""
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError:
+        return None
+    contexts, units = {}, {}
+    for context in root.iter(XBRLI + 'context'):
+        if context.find('.//' + XBRLI + 'segment') is not None or context.find('.//' + XBRLI + 'scenario') is not None:
+            continue
+        period = context.find(XBRLI + 'period')
+        if period is None:
+            continue
+        start, end = period.findtext(XBRLI + 'startDate'), period.findtext(XBRLI + 'endDate')
+        instant = period.findtext(XBRLI + 'instant')
+        contexts[context.get('id')] = (start, end) if end else (None, instant)
+    for unit in root.iter(XBRLI + 'unit'):
+        measures = [m.text or '' for m in unit.iter(XBRLI + 'measure')]
+        if len(measures) == 1:
+            units[unit.get('id')] = measures[0].split(':')[-1]
+    doc = {'facts': {'us-gaap': {}, 'dei': {}}}
+    count = 0
+    for element in root:
+        tag = element.tag
+        if not isinstance(tag, str) or '}' not in tag:
+            continue
+        namespace, name = tag[1:].split('}', 1)
+        taxonomy = 'us-gaap' if 'fasb.org/us-gaap' in namespace else 'dei' if 'xbrl.sec.gov/dei' in namespace else None
+        context = contexts.get(element.get('contextRef'))
+        unit = units.get(element.get('unitRef'))
+        if taxonomy is None or context is None or unit not in ('USD', 'shares'):
+            continue
+        try:
+            value = float((element.text or '').strip())
+        except ValueError:
+            continue
+        item = dict(end=context[1], val=value, filed=filing['filed'], accn=filing['accession'], form=filing['form'])
+        if context[0]:
+            item['start'] = context[0]
+        doc['facts'][taxonomy].setdefault(name, {'units': {}})['units'].setdefault(unit, []).append(item)
+        count += 1
+    return doc if count else None
+
+
+def merge_facts(companyfacts, extra):
+    """companyfacts plus the facts of one more filing (same shape)."""
+    merged = copy.deepcopy(companyfacts or {'facts': {}})
+    for taxonomy, tags in (extra or {}).get('facts', {}).items():
+        target = merged.setdefault('facts', {}).setdefault(taxonomy, {})
+        for name, body in tags.items():
+            units = target.setdefault(name, {'units': {}}).setdefault('units', {})
+            for unit, items in body['units'].items():
+                units.setdefault(unit, []).extend(items)
+    return merged
+
+
 def catch_up(facts, symbol, client, ciks, today, log=None):
     """Newer SEC packet for a lagging US filer; None when nothing newer is filed.
 
@@ -123,6 +208,21 @@ def catch_up(facts, symbol, client, ciks, today, log=None):
         return None
     metrics = market_universe.company_metrics(payload, today)
     reason = why_not(facts, metrics, today)
+    if reason and hasattr(client, 'get_text'):
+        # The SEC aggregation can miss a filed report (ABT 2026: its Q2 10-Q
+        # is on EDGAR but absent from companyfacts). Read that filing itself.
+        stored = _day(facts.get('financial_period'))
+        filing = newer_filing(client.get_json(market_universe.submissions_url(cik)), stored, today) if stored else None
+        if filing is not None:
+            extra = parse_instance(client.get_text(instance_url(cik, filing)) or '', filing)
+            if extra:
+                payload = merge_facts(payload, extra)
+                metrics = market_universe.company_metrics(payload, today)
+                reason = why_not(facts, metrics, today)
+                note(f"SEC catch-up {symbol}: read {filing['form']} {filing['report'].isoformat()} "
+                     f"({filing['accession']}) directly; " + (reason or 'usable'))
+            else:
+                note(f"SEC catch-up {symbol}: {filing['form']} {filing['report'].isoformat()} instance unreadable")
     if reason:
         note(f'SEC catch-up {symbol}: {reason}')
         note(f'SEC detail {symbol}: {diagnostics(payload, today)}')
