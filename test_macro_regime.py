@@ -144,3 +144,15 @@ class DisplayTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class MissingMonthTests(unittest.TestCase):
+    def test_a_month_bls_never_published_does_not_shift_year_over_year(self):
+        months = [f'{y}-{m:02d}-01' for y in (2024, 2025, 2026) for m in range(1, 13)][:33]   # to 2026-09
+        months = [d for d in months if d != '2025-10-01']                                   # shutdown gap
+        cpi = [{'date': d, 'value': 100 * 1.003 ** i} for i, d in enumerate(months)]
+        cpi = [dict(r, value=100 * 1.003 ** (int(r['date'][:4]) * 12 + int(r['date'][5:7]))) for r in cpi]
+        signals = macro.economic_signals({'cpi': cpi})
+        self.assertAlmostEqual(signals['cpi_yoy'], 100 * (1.003 ** 12 - 1), places=2)
+        unemployment = [{'date': d, 'value': 4.2} for d in months]
+        self.assertEqual(macro.economic_signals({'unemployment': unemployment})['unemployment_gap'], 0.0)

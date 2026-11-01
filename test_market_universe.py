@@ -676,3 +676,26 @@ class Report(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class RevenueTagSwitch(unittest.TestCase):
+    def test_newer_quarters_under_a_new_revenue_tag_extend_the_window(self):
+        doc = calendar_company()
+        revenue = doc['facts']['us-gaap'].pop('Revenues')['units']['USD']
+        old = [f for f in revenue if not f['end'].startswith('2026')]
+        new = [f for f in revenue if f['end'].startswith('2026') or f['end'] == '2025-06-30']
+        doc['facts']['us-gaap']['Revenues'] = {'units': {'USD': old}}
+        doc['facts']['us-gaap']['RevenueFromContractWithCustomerExcludingAssessedTax'] = {'units': {'USD': new}}
+        m = mu.company_metrics(doc, TODAY)
+        self.assertEqual(m['period_end'], '2026-06-30')
+        self.assertEqual(m['basis'], 'TTM')
+        self.assertAlmostEqual(m['revenue'], 11000e6)
+        self.assertIn('REVENUE_TAG_SWITCH:RevenueFromContractWithCustomerExcludingAssessedTax', m['flags'])
+
+    def test_a_filer_that_tags_both_elements_keeps_its_figures(self):
+        doc = calendar_company()
+        doc['facts']['us-gaap']['SalesRevenueNet'] = {'units': {'USD': [
+            fact('2025-01-01', '2025-12-31', 1.0, '2026-02-10')]}}
+        m = mu.company_metrics(doc, TODAY)
+        self.assertAlmostEqual(m['revenue'], 11000e6)
+        self.assertFalse(any(f.startswith('REVENUE_TAG_SWITCH') for f in m['flags']))

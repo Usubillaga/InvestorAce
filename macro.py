@@ -198,26 +198,60 @@ def economic_data(fetch=_fred, fallback=_bls, log=None):
     return out
 
 
-def economic_signals(data):
-    """Dated readings derived from official monthly data; short series are omitted."""
+def _month(date_text):
+    year, month = int(date_text[:4]), int(date_text[5:7])
+    return year * 12 + month - 1
+
+
+def _by_month(rows):
+    """{month index: value}; a month the agency never published simply is absent."""
     out = {}
-    cpi = [(r['date'], r['value']) for r in (data or {}).get('cpi', [])]
-    if len(cpi) >= 16 and all(v > 0 for _, v in cpi[-16:]):
-        yoy = lambda k: 100 * (cpi[k][1] / cpi[k - 12][1] - 1)
-        now, before = yoy(len(cpi) - 1), yoy(len(cpi) - 4)
-        out.update(cpi_yoy=round(now, 2), cpi_yoy_3m_change=round(now - before, 2),
-                   cpi_date=cpi[-1][0])
-    unemployment = [r['value'] for r in (data or {}).get('unemployment', [])]
-    if len(unemployment) >= 15:
-        avg3 = [sum(unemployment[i - 2:i + 1]) / 3 for i in range(2, len(unemployment))]
-        # Sahm-type gap: 3-month average versus its low over the prior 12 months.
-        out.update(unemployment=unemployment[-1],
-                   unemployment_gap=round(avg3[-1] - min(avg3[-13:-1]), 2),
-                   unemployment_date=data['unemployment'][-1]['date'])
-    payrolls = [r['value'] for r in (data or {}).get('payrolls', [])]
-    if len(payrolls) >= 4:
-        out.update(payrolls_3m_avg_thousands=round((payrolls[-1] - payrolls[-4]) / 3, 1),
-                   payrolls_date=data['payrolls'][-1]['date'])
+    for row in rows or []:
+        try:
+            out[_month(row['date'])] = float(row['value'])
+        except (KeyError, TypeError, ValueError):
+            continue
+    return out
+
+
+def economic_signals(data):
+    """Dated readings derived from official monthly data; short series are omitted.
+
+    Every comparison is by calendar month, never by list position: BLS did
+    not publish October 2025 (government shutdown), and a positional lookup
+    then compared September 2026 with August 2025.
+    """
+    out = {}
+    data = data or {}
+    cpi = _by_month(data.get('cpi'))
+    if cpi:
+        last = max(cpi)
+        def yoy(m):
+            return 100 * (cpi[m] / cpi[m - 12] - 1) if m in cpi and m - 12 in cpi and cpi[m - 12] > 0 else None
+        now, before = yoy(last), yoy(last - 3)
+        if now is not None and before is not None:
+            out.update(cpi_yoy=round(now, 2), cpi_yoy_3m_change=round(now - before, 2),
+                       cpi_date=data['cpi'][-1]['date'])
+    unemployment = _by_month(data.get('unemployment'))
+    if unemployment:
+        last = max(unemployment)
+        def avg3(m):
+            values = [unemployment.get(m - k) for k in range(3)]
+            known = [v for v in values if v is not None]
+            return sum(known) / len(known) if len(known) >= 2 else None
+        prior = [avg3(m) for m in range(last - 12, last)]
+        prior = [v for v in prior if v is not None]
+        current = avg3(last)
+        if current is not None and len(prior) >= 10:
+            # Sahm-type gap: 3-month average versus its low over the prior 12 months.
+            out.update(unemployment=unemployment[last], unemployment_gap=round(current - min(prior), 2),
+                       unemployment_date=data['unemployment'][-1]['date'])
+    payrolls = _by_month(data.get('payrolls'))
+    if payrolls:
+        last = max(payrolls)
+        if last - 3 in payrolls:
+            out.update(payrolls_3m_avg_thousands=round((payrolls[last] - payrolls[last - 3]) / 3, 1),
+                       payrolls_date=data['payrolls'][-1]['date'])
     return out
 
 
