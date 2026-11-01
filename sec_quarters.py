@@ -73,6 +73,38 @@ def newer_packet(facts, metrics, cik, today):
                 yahoo_financial_period=facts.get('financial_period'))
 
 
+DIAGNOSTIC_GROUPS = (('revenue', 'REVENUE'), ('operating', 'OPERATING_INCOME'), ('ocf', 'OPERATING_CASH'),
+                     ('capex', 'CAPEX'), ('net_income', 'NET_INCOME'))
+
+
+def diagnostics(companyfacts, today):
+    """Latest window per us-gaap element of the core measures, for the build log.
+
+    Shows, per element, the last period end and the lengths (days) of the
+    windows reported for it, plus the newest end any us-gaap USD duration
+    reaches. That is enough to see whether newer 10-Qs exist and which
+    element or window length the reader would need."""
+    parts = []
+    for name, constant in DIAGNOSTIC_GROUPS:
+        for tag in getattr(market_universe, constant):
+            rows = [f for f in market_universe._clean(market_universe._units(companyfacts, tag, 'USD'), today)
+                    if f['start']]
+            if not rows:
+                continue
+            end = max(f['end'] for f in rows)
+            lengths = sorted({(f['end'] - f['start']).days for f in rows if f['end'] == end})
+            parts.append(f"{name}:{tag}={end.isoformat()}/{','.join(map(str, lengths))}d")
+    newest = None
+    for tag, body in ((companyfacts or {}).get('facts') or {}).get('us-gaap', {}).items():
+        for fact in (body.get('units') or {}).get('USD', []):
+            if fact.get('start') and fact.get('end') and fact['end'] <= today.isoformat():
+                if newest is None or fact['end'] > newest[0]:
+                    newest = (fact['end'], tag)
+    if newest:
+        parts.append(f'newest us-gaap duration: {newest[1]}={newest[0]}')
+    return '; '.join(parts) or 'no us-gaap USD duration facts'
+
+
 def catch_up(facts, symbol, client, ciks, today, log=None):
     """Newer SEC packet for a lagging US filer; None when nothing newer is filed.
 
@@ -93,6 +125,7 @@ def catch_up(facts, symbol, client, ciks, today, log=None):
     reason = why_not(facts, metrics, today)
     if reason:
         note(f'SEC catch-up {symbol}: {reason}')
+        note(f'SEC detail {symbol}: {diagnostics(payload, today)}')
         return None
     note(f"SEC catch-up {symbol}: {facts.get('financial_period')} -> {metrics['period_end']} ({metrics['basis']})")
     return newer_packet(facts, metrics, cik, today)
