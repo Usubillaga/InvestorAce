@@ -103,4 +103,19 @@ class CatchUpLogTests(unittest.TestCase):
         sec_quarters.catch_up(YAHOO, 'X', Client(), {'X': 1}, TODAY, log=lines.append)
         self.assertEqual(lines[0], 'SEC catch-up X: no CIK')
         self.assertIn('SEC not newer: TTM to 2026-06-30 vs stored 2026-06-30', lines[1])
-        self.assertEqual(lines[2], 'SEC catch-up X: 2026-03-31 -> 2026-06-30 (TTM)')
+        self.assertTrue(lines[2].startswith('SEC detail X:'))
+        self.assertEqual(lines[-1], 'SEC catch-up X: 2026-03-31 -> 2026-06-30 (TTM)')
+
+
+class DiagnosticTests(unittest.TestCase):
+    def test_detail_line_names_last_window_per_element_and_newest_fact(self):
+        text = sec_quarters.diagnostics(calendar_company(), TODAY)
+        self.assertIn('revenue:Revenues=2026-06-30/', text)
+        self.assertIn('ocf:NetCashProvidedByUsedInOperatingActivities=2026-06-30/180d', text)
+        self.assertIn('newest us-gaap duration:', text)
+
+    def test_a_lagging_stock_that_cannot_catch_up_logs_the_detail(self):
+        lines = []
+        sec_quarters.catch_up(dict(YAHOO, financial_period='2026-06-30', last_earnings='2026-10-20'),
+                              'X', Client(), {'X': 1}, TODAY, log=lines.append)
+        self.assertTrue(lines[1].startswith('SEC detail X: revenue:Revenues=2026-06-30/'))
