@@ -3,7 +3,7 @@
  "entries": {
   "ADBE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ADBE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -21,7 +21,7 @@
     "operating_cash_flow": 10806000000.0,
     "capex": 214000000.0,
     "fcf": 10592000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 6762000000.0,
     "cash": 4359000000.0,
     "shares": 389200000.0
@@ -41,6 +41,7 @@
     "change_pct": -3.044146794583702,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-12-09",
     "date_end": null,
@@ -110,11 +111,12 @@
     "https://finance.yahoo.com/quote/ADBE/financials/",
     "https://finance.yahoo.com/quote/ADBE/balance-sheet/",
     "https://finance.yahoo.com/quote/ADBE/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "ASML.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ASML.AS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -144,6 +146,7 @@
    "quote_observed_at": "2026-10-30T16:38:39+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-14",
     "date_end": null,
@@ -217,11 +220,12 @@
     "https://finance.yahoo.com/quote/ASML.AS/financials/",
     "https://finance.yahoo.com/quote/ASML.AS/balance-sheet/",
     "https://finance.yahoo.com/quote/ASML.AS/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-14"
   },
   "RIVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "RIVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -239,7 +243,7 @@
     "operating_cash_flow": -2629000000.0,
     "capex": 1563000000.0,
     "fcf": -4192000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 5431000000.0,
     "cash": 3509000000.0,
     "shares": 1455696138.0
@@ -259,6 +263,7 @@
     "change_pct": 6.422098581405278,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-10-29",
     "date_end": null,
@@ -332,11 +337,12 @@
     "https://finance.yahoo.com/quote/RIVN/financials/",
     "https://finance.yahoo.com/quote/RIVN/balance-sheet/",
     "https://finance.yahoo.com/quote/RIVN/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-29"
   },
   "ROAD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ROAD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -354,7 +360,7 @@
     "operating_cash_flow": 352844000.0,
     "capex": 177284000.0,
     "fcf": 175560000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 1891584000.0,
     "cash": 94547000.0,
     "shares": 48206437.0
@@ -374,6 +380,7 @@
     "change_pct": -4.969572581812399,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-19",
     "date_end": null,
@@ -439,11 +446,12 @@
     "https://finance.yahoo.com/quote/ROAD/financials/",
     "https://finance.yahoo.com/quote/ROAD/balance-sheet/",
     "https://finance.yahoo.com/quote/ROAD/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "CRM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "CRM",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -481,6 +489,7 @@
     "change_pct": -13.643527576625713,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-12-02",
     "date_end": null,
@@ -554,11 +563,12 @@
     "https://finance.yahoo.com/quote/CRM/financials/",
     "https://finance.yahoo.com/quote/CRM/balance-sheet/",
     "https://finance.yahoo.com/quote/CRM/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "NVDA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "NVDA",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -596,6 +606,7 @@
     "change_pct": 2.5140160803639677,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-17",
     "date_end": null,
@@ -669,11 +680,12 @@
     "https://finance.yahoo.com/quote/NVDA/financials/",
     "https://finance.yahoo.com/quote/NVDA/balance-sheet/",
     "https://finance.yahoo.com/quote/NVDA/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "SPGI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "SPGI",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -711,6 +723,7 @@
     "change_pct": -31.662061835950638,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-27",
     "date_end": null,
@@ -784,11 +797,12 @@
     "https://finance.yahoo.com/quote/SPGI/financials/",
     "https://finance.yahoo.com/quote/SPGI/balance-sheet/",
     "https://finance.yahoo.com/quote/SPGI/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-27"
   },
   "SAN.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "SAN.PA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -818,10 +832,11 @@
    "quote_observed_at": "2026-10-30T16:39:49+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
+   "dividends_basis": null,
    "earnings": {
     "date": "2027-01-28",
     "date_end": null,
-    "estimated": true,
+    "estimated": false,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -891,11 +906,12 @@
     "https://finance.yahoo.com/quote/SAN.PA/financials/",
     "https://finance.yahoo.com/quote/SAN.PA/balance-sheet/",
     "https://finance.yahoo.com/quote/SAN.PA/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "APP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "APP",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -913,7 +929,7 @@
     "operating_cash_flow": 4527589000.0,
     "capex": null,
     "fcf": 4499271000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 3515072000.0,
     "cash": 3053306000.0,
     "shares": 305732000.0
@@ -933,6 +949,7 @@
     "change_pct": 1.9589115146003921,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-04",
     "date_end": null,
@@ -1006,11 +1023,12 @@
     "https://finance.yahoo.com/quote/APP/financials/",
     "https://finance.yahoo.com/quote/APP/balance-sheet/",
     "https://finance.yahoo.com/quote/APP/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "ABT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ABT",
    "financial_period": "2026-03-31",
    "period_ends": [
@@ -1048,10 +1066,11 @@
     "change_pct": -12.678608656364688,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
-    "date": "2026-10-21",
+    "date": "2027-01-28",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -1121,11 +1140,12 @@
     "https://finance.yahoo.com/quote/ABT/financials/",
     "https://finance.yahoo.com/quote/ABT/balance-sheet/",
     "https://finance.yahoo.com/quote/ABT/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-21"
   },
   "WKL.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "WKL.AS",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -1152,6 +1172,7 @@
    "quote_observed_at": "2026-10-30T16:39:37+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-08-05",
     "date_end": null,
@@ -1225,11 +1246,12 @@
     "https://finance.yahoo.com/quote/WKL.AS/financials/",
     "https://finance.yahoo.com/quote/WKL.AS/balance-sheet/",
     "https://finance.yahoo.com/quote/WKL.AS/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-08-05"
   },
   "MC.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "MC.PA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -1256,6 +1278,7 @@
    "quote_observed_at": "2026-10-30T16:36:29+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-07-27",
     "date_end": null,
@@ -1329,11 +1352,12 @@
     "https://finance.yahoo.com/quote/MC.PA/financials/",
     "https://finance.yahoo.com/quote/MC.PA/balance-sheet/",
     "https://finance.yahoo.com/quote/MC.PA/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-07-27"
   },
   "UBER": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "UBER",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1351,7 +1375,7 @@
     "operating_cash_flow": 10424000000.0,
     "capex": 308000000.0,
     "fcf": 10116000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 14731000000.0,
     "cash": 4870000000.0,
     "shares": 2042560121.0
@@ -1371,6 +1395,7 @@
     "change_pct": 6.765162436411876,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-04",
     "date_end": null,
@@ -1444,11 +1469,12 @@
     "https://finance.yahoo.com/quote/UBER/financials/",
     "https://finance.yahoo.com/quote/UBER/balance-sheet/",
     "https://finance.yahoo.com/quote/UBER/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "AVGO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "AVGO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1486,6 +1512,7 @@
     "change_pct": 3.2532458434185285,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-12-09",
     "date_end": null,
@@ -1551,11 +1578,12 @@
     "https://finance.yahoo.com/quote/AVGO/financials/",
     "https://finance.yahoo.com/quote/AVGO/balance-sheet/",
     "https://finance.yahoo.com/quote/AVGO/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "ONON": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ONON",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1593,6 +1621,7 @@
     "change_pct": 43.113645346306754,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-10",
     "date_end": null,
@@ -1662,11 +1691,12 @@
     "https://finance.yahoo.com/quote/ONON/financials/",
     "https://finance.yahoo.com/quote/ONON/balance-sheet/",
     "https://finance.yahoo.com/quote/ONON/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "PFE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "PFE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1704,6 +1734,7 @@
     "change_pct": -11.202262348543035,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-03",
     "date_end": null,
@@ -1777,11 +1808,12 @@
     "https://finance.yahoo.com/quote/PFE/financials/",
     "https://finance.yahoo.com/quote/PFE/balance-sheet/",
     "https://finance.yahoo.com/quote/PFE/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "ROL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ROL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -1819,6 +1851,7 @@
     "change_pct": 37.277373451849115,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-21",
     "date_end": null,
@@ -1892,11 +1925,12 @@
     "https://finance.yahoo.com/quote/ROL/financials/",
     "https://finance.yahoo.com/quote/ROL/balance-sheet/",
     "https://finance.yahoo.com/quote/ROL/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-21"
   },
   "LULU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "LULU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1914,7 +1948,7 @@
     "operating_cash_flow": 1982033000.0,
     "capex": 627697000.0,
     "fcf": 1354336000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 2141127000.0,
     "cash": 1389737000.0,
     "shares": 105594064.0
@@ -1934,10 +1968,11 @@
     "change_pct": 18.0045191679999,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
-    "date": "2026-09-03",
+    "date": "2026-12-10",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -2007,11 +2042,12 @@
     "https://finance.yahoo.com/quote/LULU/financials/",
     "https://finance.yahoo.com/quote/LULU/balance-sheet/",
     "https://finance.yahoo.com/quote/LULU/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-09-03"
   },
   "PL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "PL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2029,7 +2065,7 @@
     "operating_cash_flow": 117630000.0,
     "capex": 98852000.0,
     "fcf": 18778000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 498623000.0,
     "cash": 415130000.0,
     "shares": 340354193.0
@@ -2049,10 +2085,11 @@
     "change_pct": 25.674810523648862,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
-    "date": "2026-09-03",
+    "date": "2026-12-09",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -2122,11 +2159,12 @@
     "https://finance.yahoo.com/quote/PL/financials/",
     "https://finance.yahoo.com/quote/PL/balance-sheet/",
     "https://finance.yahoo.com/quote/PL/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-09-03"
   },
   "MSFT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "MSFT",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2164,6 +2202,7 @@
     "change_pct": -2.4824736770691302,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2027-01-27",
     "date_end": null,
@@ -2233,11 +2272,12 @@
     "https://finance.yahoo.com/quote/MSFT/financials/",
     "https://finance.yahoo.com/quote/MSFT/balance-sheet/",
     "https://finance.yahoo.com/quote/MSFT/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "AAPL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "AAPL",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2275,6 +2315,7 @@
     "change_pct": 2.2048192830973035,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-02",
     "date_end": null,
@@ -2340,11 +2381,12 @@
     "https://finance.yahoo.com/quote/AAPL/financials/",
     "https://finance.yahoo.com/quote/AAPL/balance-sheet/",
     "https://finance.yahoo.com/quote/AAPL/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "KO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "KO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2382,6 +2424,7 @@
     "change_pct": 22.184335434675127,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-27",
     "date_end": null,
@@ -2451,11 +2494,12 @@
     "https://finance.yahoo.com/quote/KO/financials/",
     "https://finance.yahoo.com/quote/KO/balance-sheet/",
     "https://finance.yahoo.com/quote/KO/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-27"
   },
   "CVX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "CVX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2480,7 +2524,7 @@
    },
    "financial_currency": "USD",
    "currency": "USD",
-   "beta": null,
+   "beta": 0.523,
    "quote_price": 235.52,
    "quote_observed_at": "2026-10-30T20:02:24+00:00",
    "quote_type": "EQUITY",
@@ -2493,6 +2537,7 @@
     "change_pct": 23.566955573240158,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2027-01-29",
     "date_end": null,
@@ -2562,11 +2607,12 @@
     "https://finance.yahoo.com/quote/CVX/financials/",
     "https://finance.yahoo.com/quote/CVX/balance-sheet/",
     "https://finance.yahoo.com/quote/CVX/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "AMAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "AMAT",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2604,6 +2650,7 @@
     "change_pct": 0.5014818490590045,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-12",
     "date_end": null,
@@ -2669,11 +2716,12 @@
     "https://finance.yahoo.com/quote/AMAT/financials/",
     "https://finance.yahoo.com/quote/AMAT/balance-sheet/",
     "https://finance.yahoo.com/quote/AMAT/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "PHR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "PHR",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2691,7 +2739,7 @@
     "operating_cash_flow": 91379000.0,
     "capex": 23857000.0,
     "fcf": 67522000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 67947000.0,
     "cash": 72945000.0,
     "shares": 62070944.0
@@ -2711,10 +2759,11 @@
     "change_pct": -1.1187300828860214,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
-    "date": "2026-09-02",
+    "date": "2026-12-07",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -2784,11 +2833,12 @@
     "https://finance.yahoo.com/quote/PHR/financials/",
     "https://finance.yahoo.com/quote/PHR/balance-sheet/",
     "https://finance.yahoo.com/quote/PHR/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-09-02"
   },
   "RCAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "RCAT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2806,7 +2856,7 @@
     "operating_cash_flow": -139078344.0,
     "capex": 18624374.0,
     "fcf": -157702718.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 14873000.0,
     "cash": 325553000.0,
     "shares": 152714362.0
@@ -2826,6 +2876,7 @@
     "change_pct": 1.4653150333005849,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-16",
     "date_end": null,
@@ -2891,11 +2942,12 @@
     "https://finance.yahoo.com/quote/RCAT/financials/",
     "https://finance.yahoo.com/quote/RCAT/balance-sheet/",
     "https://finance.yahoo.com/quote/RCAT/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "ADSK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ADSK",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2913,7 +2965,7 @@
     "operating_cash_flow": 2896000000.0,
     "capex": 92000000.0,
     "fcf": 2804000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 3705000000.0,
     "cash": 4098000000.0,
     "shares": 209000000.0
@@ -2933,6 +2985,7 @@
     "change_pct": 8.416557638930344,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-27",
     "date_end": null,
@@ -3002,7 +3055,8 @@
     "https://finance.yahoo.com/quote/ADSK/financials/",
     "https://finance.yahoo.com/quote/ADSK/balance-sheet/",
     "https://finance.yahoo.com/quote/ADSK/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "GOOG": {
    "schema": "dynamic-analysis-v1",
@@ -3111,7 +3165,7 @@
   },
   "GILD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "GILD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3149,6 +3203,7 @@
     "change_pct": 10.735566345031033,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-29",
     "date_end": null,
@@ -3218,11 +3273,12 @@
     "https://finance.yahoo.com/quote/GILD/financials/",
     "https://finance.yahoo.com/quote/GILD/balance-sheet/",
     "https://finance.yahoo.com/quote/GILD/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-29"
   },
   "AG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "AG",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3260,6 +3316,7 @@
     "change_pct": 9.348075293648561,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-05",
     "date_end": null,
@@ -3333,11 +3390,12 @@
     "https://finance.yahoo.com/quote/AG/financials/",
     "https://finance.yahoo.com/quote/AG/balance-sheet/",
     "https://finance.yahoo.com/quote/AG/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "BABA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "BABA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3375,6 +3433,7 @@
     "change_pct": -8.002104558398448,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": null,
    "earnings": {
     "date": "2026-11-24",
     "date_end": null,
@@ -3444,11 +3503,12 @@
     "https://finance.yahoo.com/quote/BABA/financials/",
     "https://finance.yahoo.com/quote/BABA/balance-sheet/",
     "https://finance.yahoo.com/quote/BABA/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "BYRN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "BYRN",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -3466,7 +3526,7 @@
     "operating_cash_flow": 6461000.0,
     "capex": 3030000.0,
     "fcf": 3431000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 1237000.0,
     "cash": 8418000.0,
     "shares": 23404754.0
@@ -3486,6 +3546,7 @@
     "change_pct": 46.04897044618208,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-10-08",
     "date_end": null,
@@ -3559,11 +3620,12 @@
     "https://finance.yahoo.com/quote/BYRN/financials/",
     "https://finance.yahoo.com/quote/BYRN/balance-sheet/",
     "https://finance.yahoo.com/quote/BYRN/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-08"
   },
   "FSLR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "FSLR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3581,7 +3643,7 @@
     "operating_cash_flow": 839179000.0,
     "capex": 606389000.0,
     "fcf": 232790000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 324974000.0,
     "cash": 1576003000.0,
     "shares": 107481151.0
@@ -3601,6 +3663,7 @@
     "change_pct": 10.196150920121205,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-10-29",
     "date_end": null,
@@ -3674,11 +3737,12 @@
     "https://finance.yahoo.com/quote/FSLR/financials/",
     "https://finance.yahoo.com/quote/FSLR/balance-sheet/",
     "https://finance.yahoo.com/quote/FSLR/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-29"
   },
   "SITE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "SITE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3696,7 +3760,7 @@
     "operating_cash_flow": 321500000.0,
     "capex": 81000000.0,
     "fcf": 240500000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 1098900000.0,
     "cash": 88400000.0,
     "shares": 43131936.0
@@ -3716,6 +3780,7 @@
     "change_pct": 15.977497731052237,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-10-28",
     "date_end": null,
@@ -3785,11 +3850,12 @@
     "https://finance.yahoo.com/quote/SITE/financials/",
     "https://finance.yahoo.com/quote/SITE/balance-sheet/",
     "https://finance.yahoo.com/quote/SITE/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-28"
   },
   "TSLA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "TSLA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3807,7 +3873,7 @@
     "operating_cash_flow": 18710000000.0,
     "capex": 15414000000.0,
     "fcf": 3296000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 16445000000.0,
     "cash": 17853000000.0,
     "shares": 3952730153.0
@@ -3827,10 +3893,11 @@
     "change_pct": 0.7088226736125192,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
-    "date": "2026-10-21",
+    "date": "2027-01-27",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -3900,11 +3967,12 @@
     "https://finance.yahoo.com/quote/TSLA/financials/",
     "https://finance.yahoo.com/quote/TSLA/balance-sheet/",
     "https://finance.yahoo.com/quote/TSLA/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-21"
   },
   "PG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "PG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3942,6 +4010,7 @@
     "change_pct": -8.794526875273245,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2027-01-21",
     "date_end": null,
@@ -4011,11 +4080,12 @@
     "https://finance.yahoo.com/quote/PG/financials/",
     "https://finance.yahoo.com/quote/PG/balance-sheet/",
     "https://finance.yahoo.com/quote/PG/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "CSGP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "CSGP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4033,7 +4103,7 @@
     "operating_cash_flow": 617100000.0,
     "capex": 260500000.0,
     "fcf": 356600000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 1224000000.0,
     "cash": 500000000.0,
     "shares": 402337328.0
@@ -4053,6 +4123,7 @@
     "change_pct": 1.0055709989178263,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-10-27",
     "date_end": null,
@@ -4126,11 +4197,12 @@
     "https://finance.yahoo.com/quote/CSGP/financials/",
     "https://finance.yahoo.com/quote/CSGP/balance-sheet/",
     "https://finance.yahoo.com/quote/CSGP/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-27"
   },
   "OXY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "OXY",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4168,6 +4240,7 @@
     "change_pct": -99.39052428013942,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-09",
     "date_end": null,
@@ -4241,11 +4314,12 @@
     "https://finance.yahoo.com/quote/OXY/financials/",
     "https://finance.yahoo.com/quote/OXY/balance-sheet/",
     "https://finance.yahoo.com/quote/OXY/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "SPCX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "SPCX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4263,7 +4337,7 @@
     "operating_cash_flow": 15762000000.0,
     "capex": 55919000000.0,
     "fcf": -40157000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 39218000000.0,
     "cash": 51294000000.0,
     "shares": 8246541218.0
@@ -4283,6 +4357,7 @@
     "change_pct": 3.1080214186527844,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-10-20",
     "date_end": null,
@@ -4340,11 +4415,12 @@
     "https://finance.yahoo.com/quote/SPCX/financials/",
     "https://finance.yahoo.com/quote/SPCX/balance-sheet/",
     "https://finance.yahoo.com/quote/SPCX/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-20"
   },
   "REP.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "REP.MC",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -4371,6 +4447,7 @@
    "quote_observed_at": "2026-10-30T16:39:04+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-29",
     "date_end": null,
@@ -4440,11 +4517,12 @@
     "https://finance.yahoo.com/quote/REP.MC/financials/",
     "https://finance.yahoo.com/quote/REP.MC/balance-sheet/",
     "https://finance.yahoo.com/quote/REP.MC/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-29"
   },
   "AWK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "AWK",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4482,6 +4560,7 @@
     "change_pct": 7.006311823806999,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-28",
     "date_end": null,
@@ -4555,11 +4634,12 @@
     "https://finance.yahoo.com/quote/AWK/financials/",
     "https://finance.yahoo.com/quote/AWK/balance-sheet/",
     "https://finance.yahoo.com/quote/AWK/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-28"
   },
   "MRVL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "MRVL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4597,6 +4677,7 @@
     "change_pct": -21.54919709726468,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-12-01",
     "date_end": null,
@@ -4670,11 +4751,12 @@
     "https://finance.yahoo.com/quote/MRVL/financials/",
     "https://finance.yahoo.com/quote/MRVL/balance-sheet/",
     "https://finance.yahoo.com/quote/MRVL/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "AR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "AR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4692,7 +4774,7 @@
     "operating_cash_flow": 2243851000.0,
     "capex": 477505000.0,
     "fcf": 1766346000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 4652965000.0,
     "cash": null,
     "shares": 307136000.0
@@ -4712,6 +4794,7 @@
     "change_pct": -2.67763788806904,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-10-28",
     "date_end": null,
@@ -4785,11 +4868,12 @@
     "https://finance.yahoo.com/quote/AR/financials/",
     "https://finance.yahoo.com/quote/AR/balance-sheet/",
     "https://finance.yahoo.com/quote/AR/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-28"
   },
   "DVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "DVN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4827,6 +4911,7 @@
     "change_pct": -16.726562179007022,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-05",
     "date_end": null,
@@ -4900,11 +4985,12 @@
     "https://finance.yahoo.com/quote/DVN/financials/",
     "https://finance.yahoo.com/quote/DVN/balance-sheet/",
     "https://finance.yahoo.com/quote/DVN/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "CNX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "CNX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4922,7 +5008,7 @@
     "operating_cash_flow": 1107607000.0,
     "capex": 625472000.0,
     "fcf": 482135000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 2428910000.0,
     "cash": 1977000.0,
     "shares": 142861133.0
@@ -4942,6 +5028,7 @@
     "change_pct": 9.362043318245018,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2027-01-28",
     "date_end": null,
@@ -5015,11 +5102,12 @@
     "https://finance.yahoo.com/quote/CNX/financials/",
     "https://finance.yahoo.com/quote/CNX/balance-sheet/",
     "https://finance.yahoo.com/quote/CNX/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "MRNA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "MRNA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5037,7 +5125,7 @@
     "operating_cash_flow": -1073000000.0,
     "capex": 171000000.0,
     "fcf": -1244000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 1287000000.0,
     "cash": 1723000000.0,
     "shares": 399235889.0
@@ -5057,6 +5145,7 @@
     "change_pct": -0.8194893849432394,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-06",
     "date_end": null,
@@ -5126,11 +5215,12 @@
     "https://finance.yahoo.com/quote/MRNA/financials/",
     "https://finance.yahoo.com/quote/MRNA/balance-sheet/",
     "https://finance.yahoo.com/quote/MRNA/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "BNTX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "BNTX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5148,7 +5238,7 @@
     "operating_cash_flow": 679700000.0,
     "capex": 235000000.0,
     "fcf": 444700000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 316100000.0,
     "cash": 9741000000.0,
     "shares": 251204366.0
@@ -5168,6 +5258,7 @@
     "change_pct": -2.1780086138755372,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-03",
     "date_end": null,
@@ -5241,11 +5332,12 @@
     "https://finance.yahoo.com/quote/BNTX/financials/",
     "https://finance.yahoo.com/quote/BNTX/balance-sheet/",
     "https://finance.yahoo.com/quote/BNTX/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "INTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "INTC",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5263,7 +5355,7 @@
     "operating_cash_flow": 14936000000.0,
     "capex": 12105000000.0,
     "fcf": 2831000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 50537000000.0,
     "cash": 12874000000.0,
     "shares": 5315000000.0
@@ -5283,6 +5375,7 @@
     "change_pct": -6.488462380064075,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2027-01-28",
     "date_end": null,
@@ -5352,11 +5445,12 @@
     "https://finance.yahoo.com/quote/INTC/financials/",
     "https://finance.yahoo.com/quote/INTC/balance-sheet/",
     "https://finance.yahoo.com/quote/INTC/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "CRWV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "CRWV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5394,6 +5488,7 @@
     "change_pct": 27.011667380120397,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-10",
     "date_end": null,
@@ -5459,11 +5554,12 @@
     "https://finance.yahoo.com/quote/CRWV/financials/",
     "https://finance.yahoo.com/quote/CRWV/balance-sheet/",
     "https://finance.yahoo.com/quote/CRWV/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "NBIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "NBIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5481,7 +5577,7 @@
     "operating_cash_flow": 5258000000.0,
     "capex": 11141800000.0,
     "fcf": -5883800000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 10171000000.0,
     "cash": 8042100000.0,
     "shares": 238400165.0
@@ -5501,6 +5597,7 @@
     "change_pct": 1.8357234808208833,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-12",
     "date_end": null,
@@ -5574,11 +5671,12 @@
     "https://finance.yahoo.com/quote/NBIS/financials/",
     "https://finance.yahoo.com/quote/NBIS/balance-sheet/",
     "https://finance.yahoo.com/quote/NBIS/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "OPEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "OPEN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5596,7 +5694,7 @@
     "operating_cash_flow": -459000000.0,
     "capex": 15000000.0,
     "fcf": -474000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 1964000000.0,
     "cash": 896000000.0,
     "shares": 971091050.0
@@ -5616,6 +5714,7 @@
     "change_pct": 5.682156498639124,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-05",
     "date_end": null,
@@ -5689,11 +5788,12 @@
     "https://finance.yahoo.com/quote/OPEN/financials/",
     "https://finance.yahoo.com/quote/OPEN/balance-sheet/",
     "https://finance.yahoo.com/quote/OPEN/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "BA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "BA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -5728,6 +5828,7 @@
     "change_pct": -98.83374863033613,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2027-01-26",
     "date_end": null,
@@ -5797,11 +5898,12 @@
     "https://finance.yahoo.com/quote/BA/financials/",
     "https://finance.yahoo.com/quote/BA/balance-sheet/",
     "https://finance.yahoo.com/quote/BA/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "TEM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "TEM",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5819,7 +5921,7 @@
     "operating_cash_flow": -237432000.0,
     "capex": 35541000.0,
     "fcf": -272973000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 1444168000.0,
     "cash": 599614000.0,
     "shares": 177198230.0
@@ -5839,6 +5941,7 @@
     "change_pct": -9.565977116362278,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-02",
     "date_end": null,
@@ -5912,11 +6015,12 @@
     "https://finance.yahoo.com/quote/TEM/financials/",
     "https://finance.yahoo.com/quote/TEM/balance-sheet/",
     "https://finance.yahoo.com/quote/TEM/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "ISRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ISRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5934,7 +6038,7 @@
     "operating_cash_flow": 4089500000.0,
     "capex": 491500000.0,
     "fcf": 3598000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": null,
     "cash": 2978100000.0,
     "shares": 353278038.0
@@ -5954,10 +6058,11 @@
     "change_pct": -9.751784430166898,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2027-01-21",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -6023,11 +6128,12 @@
     "https://finance.yahoo.com/quote/ISRG/financials/",
     "https://finance.yahoo.com/quote/ISRG/balance-sheet/",
     "https://finance.yahoo.com/quote/ISRG/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "VST": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "VST",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6065,6 +6171,7 @@
     "change_pct": 2.524122939249307,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-06",
     "date_end": null,
@@ -6138,11 +6245,12 @@
     "https://finance.yahoo.com/quote/VST/financials/",
     "https://finance.yahoo.com/quote/VST/balance-sheet/",
     "https://finance.yahoo.com/quote/VST/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "SE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "SE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6160,7 +6268,7 @@
     "operating_cash_flow": 5215741000.0,
     "capex": null,
     "fcf": 4691242000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 4126483000.0,
     "cash": 3529303000.0,
     "shares": 566956729.0
@@ -6180,6 +6288,7 @@
     "change_pct": -24.930085009281022,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-10",
     "date_end": null,
@@ -6249,11 +6358,12 @@
     "https://finance.yahoo.com/quote/SE/financials/",
     "https://finance.yahoo.com/quote/SE/balance-sheet/",
     "https://finance.yahoo.com/quote/SE/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "UNH": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "UNH",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6291,10 +6401,11 @@
     "change_pct": 5.987231959990691,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2027-01-12",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -6364,11 +6475,12 @@
     "https://finance.yahoo.com/quote/UNH/financials/",
     "https://finance.yahoo.com/quote/UNH/balance-sheet/",
     "https://finance.yahoo.com/quote/UNH/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "CMCSA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "CMCSA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -6406,10 +6518,11 @@
     "change_pct": -3.046638333753149,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
-    "date": "2026-10-22",
+    "date": "2027-01-28",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -6479,11 +6592,12 @@
     "https://finance.yahoo.com/quote/CMCSA/financials/",
     "https://finance.yahoo.com/quote/CMCSA/balance-sheet/",
     "https://finance.yahoo.com/quote/CMCSA/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-22"
   },
   "NVO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "NVO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6521,6 +6635,7 @@
     "change_pct": 42.128040457247316,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-04",
     "date_end": null,
@@ -6590,11 +6705,12 @@
     "https://finance.yahoo.com/quote/NVO/financials/",
     "https://finance.yahoo.com/quote/NVO/balance-sheet/",
     "https://finance.yahoo.com/quote/NVO/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "META": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "META",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -6632,10 +6748,11 @@
     "change_pct": -8.299955208286313,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
-    "date": "2026-10-21",
+    "date": "2027-01-27",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -6705,11 +6822,12 @@
     "https://finance.yahoo.com/quote/META/financials/",
     "https://finance.yahoo.com/quote/META/balance-sheet/",
     "https://finance.yahoo.com/quote/META/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-21"
   },
   "DIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "DIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6747,6 +6865,7 @@
     "change_pct": 3.8023769636563287,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": null,
    "earnings": {
     "date": "2026-11-17",
     "date_end": null,
@@ -6812,11 +6931,12 @@
     "https://finance.yahoo.com/quote/DIS/financials/",
     "https://finance.yahoo.com/quote/DIS/balance-sheet/",
     "https://finance.yahoo.com/quote/DIS/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "PEP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "PEP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -6854,6 +6974,7 @@
     "change_pct": 6.313374530666294,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-08",
     "date_end": null,
@@ -6927,11 +7048,12 @@
     "https://finance.yahoo.com/quote/PEP/financials/",
     "https://finance.yahoo.com/quote/PEP/balance-sheet/",
     "https://finance.yahoo.com/quote/PEP/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-08"
   },
   "BSX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "BSX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6949,7 +7071,7 @@
     "operating_cash_flow": 4529000000.0,
     "capex": 2723000000.0,
     "fcf": 1806000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 12624000000.0,
     "cash": 539000000.0,
     "shares": 1449229526.0
@@ -6969,6 +7091,7 @@
     "change_pct": -12.464850647898073,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-10-28",
     "date_end": null,
@@ -7042,11 +7165,12 @@
     "https://finance.yahoo.com/quote/BSX/financials/",
     "https://finance.yahoo.com/quote/BSX/balance-sheet/",
     "https://finance.yahoo.com/quote/BSX/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-28"
   },
   "WIX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "WIX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7064,7 +7188,7 @@
     "operating_cash_flow": 421122000.0,
     "capex": 10656000.0,
     "fcf": 410466000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 2038659000.0,
     "cash": 262776000.0,
     "shares": 41849511.0
@@ -7084,6 +7208,7 @@
     "change_pct": -3.5818825549082334,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-10",
     "date_end": null,
@@ -7153,11 +7278,12 @@
     "https://finance.yahoo.com/quote/WIX/financials/",
     "https://finance.yahoo.com/quote/WIX/balance-sheet/",
     "https://finance.yahoo.com/quote/WIX/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "GRAB": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "GRAB",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7195,6 +7321,7 @@
     "change_pct": -11.674123866178721,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-02",
     "date_end": null,
@@ -7268,11 +7395,12 @@
     "https://finance.yahoo.com/quote/GRAB/financials/",
     "https://finance.yahoo.com/quote/GRAB/balance-sheet/",
     "https://finance.yahoo.com/quote/GRAB/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "NOW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "NOW",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7290,7 +7418,7 @@
     "operating_cash_flow": 5334000000.0,
     "capex": 584000000.0,
     "fcf": 4750000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 8415000000.0,
     "cash": 2393000000.0,
     "shares": 1037917000.0
@@ -7310,6 +7438,7 @@
     "change_pct": -3.224961826934214,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2027-01-27",
     "date_end": null,
@@ -7383,11 +7512,12 @@
     "https://finance.yahoo.com/quote/NOW/financials/",
     "https://finance.yahoo.com/quote/NOW/balance-sheet/",
     "https://finance.yahoo.com/quote/NOW/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "MCD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "MCD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7425,6 +7555,7 @@
     "change_pct": 10.472947073832195,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-04",
     "date_end": null,
@@ -7494,11 +7625,12 @@
     "https://finance.yahoo.com/quote/MCD/financials/",
     "https://finance.yahoo.com/quote/MCD/balance-sheet/",
     "https://finance.yahoo.com/quote/MCD/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "TTD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "TTD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7516,7 +7648,7 @@
     "operating_cash_flow": 1081674000.0,
     "capex": 233037000.0,
     "fcf": 848637000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 434110000.0,
     "cash": 1122979000.0,
     "shares": 429686475.0
@@ -7536,6 +7668,7 @@
     "change_pct": -6.087671846568766,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-09",
     "date_end": null,
@@ -7609,11 +7742,12 @@
     "https://finance.yahoo.com/quote/TTD/financials/",
     "https://finance.yahoo.com/quote/TTD/balance-sheet/",
     "https://finance.yahoo.com/quote/TTD/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "NKE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "NKE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -7651,6 +7785,7 @@
     "change_pct": 20.99691533597867,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-12-17",
     "date_end": null,
@@ -7724,11 +7859,12 @@
     "https://finance.yahoo.com/quote/NKE/financials/",
     "https://finance.yahoo.com/quote/NKE/balance-sheet/",
     "https://finance.yahoo.com/quote/NKE/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "ZTS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "ZTS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7766,6 +7902,7 @@
     "change_pct": 0.7481568074103828,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-05",
     "date_end": null,
@@ -7835,11 +7972,12 @@
     "https://finance.yahoo.com/quote/ZTS/financials/",
     "https://finance.yahoo.com/quote/ZTS/balance-sheet/",
     "https://finance.yahoo.com/quote/ZTS/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "IBST.L": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "IBST.L",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -7866,6 +8004,7 @@
    "quote_observed_at": "2026-10-30T16:35:18+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-08-05",
     "date_end": null,
@@ -7939,11 +8078,12 @@
     "https://finance.yahoo.com/quote/IBST.L/financials/",
     "https://finance.yahoo.com/quote/IBST.L/balance-sheet/",
     "https://finance.yahoo.com/quote/IBST.L/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-08-05"
   },
   "NFLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "NFLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7961,7 +8101,7 @@
     "operating_cash_flow": 12307938000.0,
     "capex": 932875000.0,
     "fcf": 11375063000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 15132394000.0,
     "cash": 8194275000.0,
     "shares": 4163939676.0
@@ -7981,6 +8121,7 @@
     "change_pct": -8.64548257659531,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2027-01-19",
     "date_end": null,
@@ -8054,11 +8195,12 @@
     "https://finance.yahoo.com/quote/NFLX/financials/",
     "https://finance.yahoo.com/quote/NFLX/balance-sheet/",
     "https://finance.yahoo.com/quote/NFLX/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "AMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "AMD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -8076,7 +8218,7 @@
     "operating_cash_flow": 10080000000.0,
     "capex": 1677000000.0,
     "fcf": 8403000000.0,
-    "dividends": null,
+    "dividends": 0.0,
     "debt": 4276000000.0,
     "cash": 5086000000.0,
     "shares": 1632475042.0
@@ -8096,6 +8238,7 @@
     "change_pct": -4.648406872015432,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
     "date": "2026-11-03",
     "date_end": null,
@@ -8169,11 +8312,12 @@
     "https://finance.yahoo.com/quote/AMD/financials/",
     "https://finance.yahoo.com/quote/AMD/balance-sheet/",
     "https://finance.yahoo.com/quote/AMD/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "GOOGL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "GOOGL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8211,6 +8355,7 @@
     "change_pct": -10.248488547259239,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-10-28",
     "date_end": null,
@@ -8280,11 +8425,12 @@
     "https://finance.yahoo.com/quote/GOOGL/financials/",
     "https://finance.yahoo.com/quote/GOOGL/balance-sheet/",
     "https://finance.yahoo.com/quote/GOOGL/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-10-28"
   },
   "INTU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "INTU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -8322,6 +8468,7 @@
     "change_pct": 14.196910687879715,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-19",
     "date_end": null,
@@ -8395,11 +8542,12 @@
     "https://finance.yahoo.com/quote/INTU/financials/",
     "https://finance.yahoo.com/quote/INTU/balance-sheet/",
     "https://finance.yahoo.com/quote/INTU/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "CLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "CLX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -8437,6 +8585,7 @@
     "change_pct": 20.821510179012236,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-02",
     "date_end": null,
@@ -8510,11 +8659,12 @@
     "https://finance.yahoo.com/quote/CLX/financials/",
     "https://finance.yahoo.com/quote/CLX/balance-sheet/",
     "https://finance.yahoo.com/quote/CLX/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "GIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "GIS",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -8552,6 +8702,7 @@
     "change_pct": -15.346795330016217,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-12-23",
     "date_end": null,
@@ -8621,11 +8772,12 @@
     "https://finance.yahoo.com/quote/GIS/financials/",
     "https://finance.yahoo.com/quote/GIS/balance-sheet/",
     "https://finance.yahoo.com/quote/GIS/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "O": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "O",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -8663,6 +8815,7 @@
     "change_pct": -5.896994188114757,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
     "date": "2026-11-02",
     "date_end": null,
@@ -8736,11 +8889,12 @@
     "https://finance.yahoo.com/quote/O/financials/",
     "https://finance.yahoo.com/quote/O/balance-sheet/",
     "https://finance.yahoo.com/quote/O/key-statistics/"
-   ]
+   ],
+   "last_earnings": null
   },
   "BBW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-10-31T17:59:09.402338+00:00",
+   "fetched_at": "2026-11-01T14:21:16.397112+00:00",
    "symbol": "BBW",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -8778,10 +8932,11 @@
     "change_pct": -2.6638592846976783,
     "source": "YAHOO_EXCHANGE_REPORTED"
    },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
-    "date": "2026-08-27",
+    "date": "2026-12-03",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -8851,7 +9006,8 @@
     "https://finance.yahoo.com/quote/BBW/financials/",
     "https://finance.yahoo.com/quote/BBW/balance-sheet/",
     "https://finance.yahoo.com/quote/BBW/key-statistics/"
-   ]
+   ],
+   "last_earnings": "2026-08-27"
   }
  }
 }
