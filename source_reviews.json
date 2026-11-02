@@ -1,6 +1,6 @@
 {
   "schema": "source-reviews-v1",
-  "as_of": "2026-10-29",
+  "as_of": "2026-11-02",
   "window_start": "2026-07-16",
   "window_end": "2026-10-14",
   "entries": {
@@ -6481,6 +6481,66 @@
         ],
         "coverage": {
           "complete": false
+        }
+      }
+    },
+    "OXY": {
+      "issuer": "Occidental Petroleum Corporation",
+      "listing": "OXY / NYSE / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "2026-11-02 deep analysis. Q2 2026 primary release: FCF before working capital 3,021m, principal debt 11,818m (YE2025 20,427m), cash 4,150m; OxyChem sale closed 2 Jan 2026 (adjusted 9,472m). Berkshire 10-Q: ~8.5bn 8% preferred, redeemable Aug 2029 at 105%; 83.9m warrants at 59.59 USD. The model NGV 115.92 USD equals FY2022-25 mean FCF 7,051m (12,313/6,612/5,176/4,105) per share at ~6.1%; the mean includes 2022 peak oil and pre-sale OxyChem periods, and fcf/shares ignores 680m/yr preferred dividends. Conditional, unapproved research DCF (10% cost of equity, 4,800m pre-preferred FCF at 65 USD WTI, 230m per 1 USD/bbl): bear/base/bull 38.79/63.14/96.10 USD with mid-cycle WTI 62/70/82; probability-weighted 64.08 USD at p 30/45/25. At the ~61.70 USD reference (2 Nov intraday) implied long-run WTI is about 69-73 USD versus ~69 USD for the Dec-2028 future (24 Aug). Commodity normalization, OxyChem-free annual cash flow and the Tronox tax contingency (~2.4bn) remain unverified. Report: https://usubillaga.github.io/InvestorAce/earnings/oxy-deep-dive-2026-11-02.html",
+        "sources": [
+          {
+            "title": "Occidental Q2 2026 earnings release (SEC 8-K)",
+            "url": "https://www.sec.gov/Archives/edgar/data/0000797468/000162828026053377/oxyex9916-30x26earningsrel.htm",
+            "published_at": "2026-08-05"
+          },
+          {
+            "title": "Occidental Q3 2026 pre-earnings considerations (SEC 8-K)",
+            "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026065586/oxyex99193026preearningsre.htm",
+            "published_at": "2026-10-13"
+          },
+          {
+            "title": "Berkshire Hathaway Q2 2026 Form 10-Q",
+            "url": "https://www.sec.gov/Archives/edgar/data/0001067983/000119312526341032/brka-20260630.htm"
+          },
+          {
+            "title": "InvestorAce Occidental deep dive and PDF",
+            "url": "https://usubillaga.github.io/InvestorAce/earnings/oxy-deep-dive-2026-11-02.html",
+            "published_at": "2026-11-02"
+          }
+        ],
+        "review_decision": "No normalized annual FCF/NGV change until an OxyChem-free, after-preferred owner cash-flow bridge is reviewed. Automatic label unchanged; manual approval stays blocked by open objections."
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reviewed_at": "2026-11-02",
+        "reason": "Open-market purchases found outside the register window: CEO Richard A. Jackson 4,770 shares at 52.38 USD on 2026-06-23 (filed 2026-06-24) and director William R. Klesse 5,000 at 38.98 USD on 2025-12-16. No open-market sales found. In-window filings seen were a 90,000-share gift by director Vicki Hollub (2026-09-25), a 4,124-share tax withholding by the CEO (2026-09-30) and an RSU award to the general counsel; none is a purchase or sale signal. Legacy SELLING is withdrawn.",
+        "sources": [
+          {
+            "title": "Jackson Form 4 open-market purchase (StockTitan)",
+            "url": "https://www.stocktitan.net/sec-filings/OXY/form-4-occidental-petroleum-corp-de-insider-trading-activity-7f1c662e7be5.html",
+            "published_at": "2026-06-24"
+          },
+          {
+            "title": "OXY filing list incl. Forms 4 (StockTitan)",
+            "url": "https://www.stocktitan.net/sec-filings/OXY/"
+          },
+          {
+            "title": "Klesse purchase (Nasdaq)",
+            "url": "https://www.nasdaq.com/articles/top-buys-directors-klesses-1949k-bet-oxy"
+          }
+        ],
+        "transactions": [],
+        "limitations": [
+          "Aggregator pages and a 180-day insider list were read; no exhaustive SEC EDGAR enumeration of the register window.",
+          "Both open-market purchases fall before the 2026-07-16 register window and are therefore not entered as window transactions.",
+          "Berkshire Hathaway's holding (264.9m shares) was unchanged through the Q2 2026 13F; its Q3 13F was not yet available."
+        ],
+        "coverage": {
+          "complete": false,
+          "checked_through": "2026-11-02"
         }
       }
     }

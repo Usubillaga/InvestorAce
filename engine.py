@@ -334,7 +334,14 @@ DATA = {
 'TSLA': dict(yf='TSLA', fcf=5755.0, shares=3949.55, r=0.08, cur='USD', deliver=6.1, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,8.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(148.69,997.66)),
 'PG'  : dict(yf='PG', fcf=15147.0, shares=2324.43, r=0.08, cur='USD', deliver=3.3, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(4.0,7.5,7.5,7.0,5.0,7.5), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(68.81,334.5)),
 'CSGP': dict(yf='CSGP', fcf=227.0, shares=405.2, r=0.08, cur='USD', deliver=30.0, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(8.5,4.0,6.0,9.5,5.0,9.0), pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Real Estate', built='auto', sanity=(12.94,183.78)),
-'OXY' : dict(yf='OXY', fcf=3900, fcf_ttm=4793, shares=999.64, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(2,7.5,7,6,6,6), pr=None, dil=6.0, clock='DIV', ins='SELLING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300), boot_note='oil and gas; heavy post-CrownRock leverage | deliver blanked: production growth ignores the price half of a producer cash flow, so the cushion read negative by construction'),
+'OXY' : dict(yf='OXY', fcf=3900, fcf_ttm=4793, shares=999.64, r=.105, cur='USD', deliver=None, dl='n/a - see note', sub=(2,7.5,7,6,6,6), pr=None, dil=6.0, clock='DIV', ins='BUYING', held=False, sector='Energy', built='mid-cycle', midcycle=True, sanity=(3,300),
+    boot_note=('2026-11-02 review: OxyChem sold to Berkshire, closed 2 Jan 2026 (adjusted USD9,472m); '
+        'principal debt USD11,818m at 30 Jun 2026 (YE2025 20,427m). The FY2022-25 mid-cycle FCF mean contains '
+        '2022 peak oil and pre-sale OxyChem periods, and fcf/shares ignores the USD8.5bn 8% preferred '
+        '(USD680m/yr, 105% call Aug 2029) and 101.8m warrants. Insider BUYING: CEO open-market buy 4,770 at '
+        'USD52.38 on 23 Jun 2026, director 5,000 at USD38.98 on 16 Dec 2025, no open-market sales found. '
+        'See docs/analysis/OXY-2026-11-02.md | deliver blanked: production growth ignores the price half of a '
+        'producer cash flow, so the cushion read negative by construction')),
 'SPCX': dict(yf='SPCX', fcf=None, shares=13181.78, r=0.08, cur='USD', deliver=47.3, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(9.5,2.0,1.5,9.5,5.0,1.0), pr=None, dil=5.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(52.42,451.28), na='Yahoo returned FCF of -32,522m on 13.2bn shares. Not credible -- a bad pull, not evidence of cash burn. Verify what this symbol actually is before trusting any of it.'),
 'JEQE': dict(yf='JEQE.DE', fcf=None, shares=None, r=.080, cur='EUR', deliver=None,
     dl='', sub=None, pr=None, dil=6.0, clock='CONC', ins='N/A - FUND', held=False,
