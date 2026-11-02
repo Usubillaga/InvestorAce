@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "as_of": "2026-10-29",
+  "as_of": "2026-11-02",
   "entries": {
     "ADBE": {
       "issuer": "Adobe",
@@ -223,6 +223,53 @@
           "severity": "major",
           "status": "open",
           "message": "Historischer Vierjahres-FCF ist keine geprüfte Cashflow-Prognose für das Unternehmen nach HG/Utica. Nachhaltiger Eigentümer-Cashflow und daraus abgeleitete manuelle Kaufempfehlung bleiben offen."
+        }
+      ]
+    },
+    "OXY": {
+      "issuer": "Occidental Petroleum",
+      "thesis": "[Sicher] Q2 2026: FCF vor Working Capital 3,02 Mrd. USD (höchster Wert seit Q3 2022), Hauptschulden von 20,4 auf 11,8 Mrd. USD gesenkt (OxyChem-Verkauf am 2. Jan. 2026), Dividende +8 %. Offene Insiderkäufe: CEO Jackson 4.770 Aktien zu 52,38 USD (23.06.2026), Direktor Klesse 5.000 zu 38,98 USD (16.12.2025), keine Verkäufe gefunden. [Wahrscheinlich] Bei ~61,70 USD preist die Aktie langfristig rund 69–73 USD WTI ein, etwa die lange Futureskurve; Szenarien Bär/Basis/Bulle 39/63/96 USD, gewichtet ~64 USD.",
+      "counterargument": "[Sicher] Der Modell-Kauf (v17 8,29) beruht auf einem FCF-Mittelwert von 7,05 Mrd. USD (FY2022–25) inklusive des Hochpreisjahres 2022, ohne die 8,5 Mrd. USD Vorzugsaktie (8 %, 680 Mio. USD/Jahr, Call 2029 zu 105 %) und mit ~6,1 % Eigenkapitalkosten. Zusammen korrigiert ergibt sich ein Nullwachstumswert von ~41 USD statt 115,92 USD. [Wahrscheinlich] Starke Abhängigkeit von US-Iran-Schlagzeilen: am 2. Nov. −3,6 % bei WTI −6,5 %.",
+      "next_check": "Q3-Zahlen am 9. Nov. nach Börsenschluss: FCF gegen ~2,3 Mrd. USD Modellwert, Wiederherstellung Golf von Amerika (Q3 ~110 Mboe/d), Absicherung 2027, Schuldenziel 10 Mrd. USD, Stratos-Start. Berkshire-13F für Q3 (~14. Nov.). Für eine Freigabe: Brücke des nachhaltigen Eigentümer-Cashflows ohne OxyChem und nach Vorzugsdividende aus Primärabschlüssen. Bericht: https://usubillaga.github.io/InvestorAce/earnings/oxy-deep-dive-2026-11-02.html",
+      "sources": [
+        {
+          "title": "Occidental Q2 2026 earnings release (SEC 8-K)",
+          "url": "https://www.sec.gov/Archives/edgar/data/0000797468/000162828026053377/oxyex9916-30x26earningsrel.htm",
+          "published_at": "2026-08-05"
+        },
+        {
+          "title": "Occidental Q3 2026 pre-earnings considerations (SEC 8-K)",
+          "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026065586/oxyex99193026preearningsre.htm",
+          "published_at": "2026-10-13"
+        },
+        {
+          "title": "Berkshire Hathaway Q2 2026 Form 10-Q (OXY preferred, warrants, OxyChem)",
+          "url": "https://www.sec.gov/Archives/edgar/data/0001067983/000119312526341032/brka-20260630.htm"
+        },
+        {
+          "title": "InvestorAce Occidental deep dive and PDF",
+          "url": "https://usubillaga.github.io/InvestorAce/earnings/oxy-deep-dive-2026-11-02.html",
+          "published_at": "2026-11-02"
+        }
+      ],
+      "objections": [
+        {
+          "id": "OXY-MIDCYCLE-PERIMETER",
+          "severity": "major",
+          "status": "open",
+          "message": "Der FCF-Mittelwert 7,05 Mrd. USD (FY2022–25) enthält das Hochpreisjahr 2022 und Perioden vor dem OxyChem-Verkauf; Vorzugsdividende (680 Mio. USD/Jahr) und Call 2029 sind in fcf/shares nicht abgezogen. NGV 115,92 USD ist kein geprüfter Eigentümer-Cashflow."
+        },
+        {
+          "id": "OXY-DISCOUNT-RATE",
+          "severity": "major",
+          "status": "open",
+          "message": "Rund 6,1 % Eigenkapitalkosten (gemeldetes Beta 0,245, Untergrenze 0,6) sind für einen Rohstoffproduzenten mit Vorzugsaktie und Optionsscheinen nicht plausibel; die Analyse verwendet 10 %."
+        },
+        {
+          "id": "OXY-SHORT-INTEREST-DATA",
+          "severity": "minor",
+          "status": "open",
+          "message": "Leerverkaufsdaten im Snapshot (131.831 Aktien gegenüber 21,6 Mio. im Vormonat, −99,4 %) sind nicht plausibel und kein Signal."
         }
       ]
     }

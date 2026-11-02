@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OXY · Deep Dive · Nov 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Energy palette: warm charcoal + flare amber */
+    --bg:#12100D;
+    --panel:#1B1814;
+    --panel2:#221E19;
+    --line:#3A3229;
+    --text:#F1ECE4;
+    --muted:#A39A8C;
+    --accent:#E3A13B;
+    --red:#E36B5B;
+    --green:#5CBF8A;
+    --amber-a:rgba(227,161,59,0.14);
+    --amber-b:rgba(227,161,59,0.42);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 480px at 10% -10%, rgba(227,161,59,0.10), transparent 60%),
+      radial-gradient(900px 480px at 100% 0%, rgba(227,107,91,0.07), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter','Poppins','Liberation Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:36px 22px 60px;}
+  .mono{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;}
+  .disp{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans Narrow',sans-serif;}
+
+  .hero{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:26px;flex-wrap:wrap;gap:16px;}
+  .ticker{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:13px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+  h1{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans Narrow',sans-serif;font-size:clamp(30px,4.4vw,46px);font-weight:800;margin:0;line-height:1.02;letter-spacing:.01em;}
+  .sub{color:var(--muted);font-size:14.5px;margin-top:8px;max-width:620px;line-height:1.5;}
+  .hero>div:first-child{flex:1 1 560px;}
+  .sc,.card,.lad,.seg-card,.score,.ins-verdict,.rangebox,.fbox,.verdict,.flow,.ev-item,tr{break-inside:avoid;}
+  .kicker,.section-title,.section-note{break-after:avoid;}
+  .ins td:nth-child(1){white-space:nowrap;}
+  .ins thead th:nth-child(2){text-align:left;}
+  .ins td:nth-child(2){font-family:'Inter','Poppins','Liberation Sans',sans-serif;}
+  .datebox{text-align:right;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:12.5px;color:var(--muted);line-height:1.55;}
+  .datebox b{color:var(--text);display:block;font-size:22px;margin-bottom:2px;}
+
+  .lead{background:linear-gradient(90deg, rgba(227,107,91,0.10), rgba(227,107,91,0.02));border:1px solid rgba(227,107,91,0.35);border-left:4px solid var(--red);border-radius:10px;padding:16px 20px;margin-bottom:26px;font-size:14.5px;line-height:1.6;}
+  .lead b{color:var(--red);}
+
+  .verdict{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:30px;background:var(--panel);}
+  .verdict>div{padding:20px 22px;border-left:1px solid var(--line);}
+  .verdict>div:first-child{border-left:none;}
+  .vlabel{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .vmain{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans Narrow',sans-serif;font-weight:700;font-size:25px;line-height:1.15;}
+  .stamp{display:inline-block;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.06em;padding:3px 9px;border-radius:5px;margin-top:8px;}
+  .stamp.beat{background:rgba(92,191,138,0.14);color:var(--green);border:1px solid rgba(92,191,138,0.4);}
+  .stamp.inline{background:var(--amber-a);color:var(--accent);border:1px solid var(--amber-b);}
+  .stamp.miss{background:rgba(227,107,91,0.14);color:var(--red);border:1px solid rgba(227,107,91,0.4);}
+  .vsmall{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;color:var(--muted);font-size:12px;margin-top:8px;line-height:1.5;}
+
+  .pipeline{margin-bottom:34px;}
+  .pipeline h2{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans Narrow',sans-serif;font-size:19px;margin:0 0 14px;color:var(--text);letter-spacing:.02em;font-weight:600;line-height:1.3;}
+  .flow{display:flex;align-items:stretch;gap:0;}
+  .flow-node{flex:1;background:var(--panel);border:1px solid var(--line);padding:16px 18px;}
+  .flow-node:first-child{border-radius:10px 0 0 10px;}
+  .flow-node:last-child{border-radius:0 10px 10px 0;border-left:none;}
+  .flow-node:not(:first-child){border-left:none;}
+  .flow-node.hi{background:linear-gradient(180deg, rgba(227,161,59,0.12), rgba(227,161,59,0.02));border-color:#6b4e22;}
+  .fn-label{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+  .fn-val{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:22px;font-weight:600;margin-top:6px;}
+  .fn-sub{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.45;}
+  .arrow{align-self:center;color:var(--accent);font-size:18px;padding:0 8px;}
+
+  .section-title{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans Narrow',sans-serif;font-weight:700;font-size:23px;margin:0 0 4px;letter-spacing:.01em;}
+  .section-note{color:var(--muted);font-size:12.5px;margin-bottom:14px;line-height:1.5;}
+  .kicker{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase;margin:44px 0 6px;}
+
+  table{width:100%;border-collapse:collapse;margin-bottom:34px;font-size:14px;}
+  thead th{text-align:right;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-weight:600;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:1px solid var(--line);}
+  thead th:first-child{text-align:left;}
+  tbody td{padding:10px 12px;border-bottom:1px solid rgba(58,50,41,0.7);text-align:right;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:13.5px;}
+  tbody td:first-child{text-align:left;font-family:'Inter','Poppins','Liberation Sans',sans-serif;color:var(--text);font-weight:500;}
+  .pos{color:var(--green);}
+  .neg{color:var(--red);}
+  .amb{color:var(--accent);}
+  .dim{color:var(--muted);}
+  .hlrow td{background:rgba(227,161,59,0.06);}
+  .tablewrap{overflow-x:auto;margin-bottom:34px;}
+  .tablewrap table{margin-bottom:0;min-width:560px;}
+  .tablewrap table.sens{min-width:0;}
+  .rlist{display:none;}
+  .rlist div{display:flex;justify-content:space-between;padding:6px 2px;border-bottom:1px solid rgba(58,50,41,0.6);font-size:13px;}
+  .rlist div span:last-child{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-weight:600;}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:34px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 22px;}
+  .card h3{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans Narrow',sans-serif;font-size:19px;margin:0 0 12px;color:var(--accent);letter-spacing:.01em;}
+  .card.bear h3{color:var(--red);}
+  .card.bull h3{color:var(--green);}
+  .card ul{margin:0;padding-left:18px;color:var(--text);font-size:13.5px;line-height:1.6;}
+  .card li{margin-bottom:6px;}
+  .card li::marker{color:var(--muted);}
+  .card p{font-size:13.5px;line-height:1.6;margin:0 0 8px;}
+
+  .seg{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:34px;}
+  .seg-card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .seg-name{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+  .seg-val{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:19px;color:var(--text);}
+  .seg-note{font-size:12.5px;line-height:1.45;margin-top:4px;}
+
+  /* scenarios */
+  .scen{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+  .sc{border-radius:12px;padding:18px 18px 16px;border:1px solid var(--line);background:var(--panel);position:relative;}
+  .sc.bear{border-top:4px solid var(--red);}
+  .sc.base{border-top:4px solid var(--accent);}
+  .sc.bull{border-top:4px solid var(--green);}
+  .sc-head{display:flex;justify-content:space-between;align-items:baseline;}
+  .sc-name{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans Narrow',sans-serif;font-size:24px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;}
+  .sc.bear .sc-name{color:var(--red);} .sc.base .sc-name{color:var(--accent);} .sc.bull .sc-name{color:var(--green);}
+  .sc-prob{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:12px;color:var(--muted);}
+  .sc-val{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:34px;font-weight:700;margin:8px 0 0;}
+  .sc-ret{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:14px;font-weight:600;}
+  .sc-story{font-size:13px;line-height:1.55;margin:12px 0 10px;color:var(--text);}
+  .sc-kv{display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:12px;border-top:1px solid var(--line);padding-top:10px;}
+  .sc-kv span:nth-child(odd){color:var(--muted);}
+  .sc-kv span:nth-child(even){font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;text-align:right;}
+  .sc-trig{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5;}
+  .sc-trig b{color:var(--text);font-weight:600;}
+  .ev{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:13.5px;}
+  .ev .mono{font-size:17px;font-weight:700;}
+  .rangebox{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 14px 8px;margin-bottom:34px;}
+  .rangebox svg{width:100%;height:auto;display:block;}
+
+  /* sensitivity */
+  .sens td.g{background:rgba(92,191,138,0.16);color:var(--green);}
+  .sens td.r{background:rgba(227,107,91,0.14);color:var(--red);}
+  .sens td.a{background:rgba(227,161,59,0.10);color:var(--accent);}
+  .sens td.base{outline:2px solid var(--accent);outline-offset:-2px;font-weight:700;}
+
+  /* claims ladder */
+  .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:34px;}
+  .lad{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .lad .l1{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+  .lad .l2{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:21px;font-weight:600;margin:6px 0 4px;}
+  .lad .l3{font-size:12px;line-height:1.45;color:var(--muted);}
+
+  /* valuation grid */
+  .vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:34px;background:var(--panel);}
+  .vg{padding:14px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .vg:nth-child(4n){border-right:none;}
+  .vg .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+  .vg .v{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:18px;font-weight:600;margin-top:5px;}
+  .vg .n{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+  /* insider */
+  .ins-verdict{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;}
+  .ins-verdict .big{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans Narrow',sans-serif;font-size:28px;font-weight:800;color:var(--green);letter-spacing:.04em;}
+  .ins-verdict p{margin:0;font-size:13.5px;line-height:1.55;flex:1;min-width:260px;}
+  tr.na td{color:var(--muted);}
+
+  /* catalysts */
+  .cal{border-left:2px solid var(--line);margin:0 0 34px 8px;padding-left:20px;}
+  .ev-item{position:relative;margin-bottom:14px;}
+  .ev-item::before{content:"";position:absolute;left:-27px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);}
+  .ev-item.hot::before{background:var(--accent);}
+  .ev-date{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:12px;color:var(--accent);}
+  .ev-text{font-size:13.5px;line-height:1.5;}
+
+  /* scorecard */
+  .score{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:14px;}
+  .srow{display:grid;grid-template-columns:170px 46px 1fr 48px;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(58,50,41,0.6);font-size:13px;}
+  .srow:last-child{border-bottom:none;}
+  .srow .w{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;color:var(--muted);font-size:12px;}
+  .bar{height:8px;background:var(--panel2);border-radius:5px;position:relative;overflow:hidden;}
+  .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--accent);}
+  .srow .s{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;text-align:right;font-weight:600;}
+  .final{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px;}
+  .fbox{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .fbox .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+  .fbox .v{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:24px;font-weight:700;margin-top:4px;}
+  .bands{display:flex;height:22px;border-radius:6px;overflow:hidden;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:10.5px;margin:6px 0 34px;position:relative;}
+  .bands div{display:flex;align-items:center;justify-content:center;color:#120f0b;font-weight:700;}
+  .tag{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:10.5px;padding:1px 5px;border-radius:4px;border:1px solid var(--line);color:var(--muted);white-space:nowrap;}
+  .tag.s{color:var(--green);border-color:rgba(92,191,138,0.45);}
+  .tag.w{color:var(--accent);border-color:var(--amber-b);}
+  .tag.v{color:var(--red);border-color:rgba(227,107,91,0.45);}
+  .method{font-size:12.5px;line-height:1.6;color:var(--text);}
+  .method li{margin-bottom:6px;}
+
+  .footer{border-top:1px solid var(--line);padding-top:18px;margin-top:20px;font-size:11px;color:var(--muted);font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;line-height:1.6;}
+  .footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;}
+
+  @media(max-width:760px){
+    .seg{grid-template-columns:repeat(2,1fr);}
+    .ladder,.vgrid{grid-template-columns:repeat(2,1fr);}
+    .vg:nth-child(4n){border-right:1px solid var(--line);}
+    .vg:nth-child(2n){border-right:none;}
+  }
+  @media(max-width:640px){
+    .wrap{padding:24px 16px 48px;}
+    .verdict{grid-template-columns:1fr;}
+    .verdict>div{border-left:none;border-top:1px solid var(--line);}
+    .verdict>div:first-child{border-top:none;}
+    .flow{flex-direction:column;}
+    .flow-node:first-child{border-radius:10px 10px 0 0;}
+    .flow-node:last-child{border-radius:0 0 10px 10px;}
+    .flow-node:not(:first-child){border-left:1px solid var(--line);border-top:none;}
+    .arrow{transform:rotate(90deg);padding:2px 0;text-align:center;}
+    .grid2,.scen,.final{grid-template-columns:1fr;}
+    .srow{grid-template-columns:1fr 40px 70px 40px;}
+    table{font-size:12px;}
+    .datebox{text-align:left;}
+    .rangebox svg{display:none;}
+    .rlist{display:block;}
+    .sens td:first-child{font-size:11.5px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div>
+      <div class="ticker">NYSE: OXY — Occidental Petroleum</div>
+      <h1>Deep Dive: a $62 bet on where oil settles after the war</h1>
+      <div class="sub">Built on Q2 2026 results (reported 5 Aug 2026) plus the Q3 2026 pre-earnings 8-K (13 Oct 2026). Full Q3 results land Mon 9 Nov after the close — refresh after that print.</div>
+    </div>
+    <div class="datebox">
+      <b>~$61.70</b>
+      2 Nov 2026, intraday (−3.6%)<br>
+      last close $64.01 (30 Oct)<br>
+      52-wk $38.80 – $67.45
+    </div>
+  </div>
+
+  <div class="lead">
+    <b>The uncomfortable part first:</b> at ~$62 OXY is not cheap. The share price already capitalises roughly <b>$69–73/bbl WTI as the long-run price</b> — about where the far end of the futures curve sits (~$69 for Dec-2028 in late August). Our probability-weighted value is <b>~$64 (+4%)</b>, against a bear case of <b>~$39 (−37%)</b> that is simply where the stock traded last December. Today's −6.5% WTI move on US–Iran talk headlines is a live preview of that bear path. Owning OXY here is an oil call, not a mispricing call.
+  </div>
+
+  <div class="verdict">
+    <div>
+      <div class="vlabel">Scorecard verdict (v2, 8 categories)</div>
+      <div class="vmain">6.05 · Hold Positive</div>
+      <span class="stamp inline">AT SPOT OIL · 5.45 AT $65 OIL</span>
+      <div class="vsmall">ex-valuation 6.17 · not a Trap Buy (score &lt; 7.00)</div>
+    </div>
+    <div>
+      <div class="vlabel">Priced-in signal</div>
+      <div class="vmain" style="color:var(--accent);">~$69–73 WTI implied</div>
+      <span class="stamp inline">ACCEPTABLE</span>
+      <div class="vsmall">No-growth coverage @$65 deck: 64% of price</div>
+    </div>
+    <div>
+      <div class="vlabel">Insider column</div>
+      <div class="vmain" style="color:var(--green);">BUYING</div>
+      <span class="stamp beat">3 OPEN-MARKET BUYS · 0 SALES</span>
+      <div class="vsmall">token size (≈$0.45M) · Berkshire flat since Feb-2025</div>
+    </div>
+  </div>
+
+  <div class="pipeline">
+    <h2>The re-rating already happened: OXY went from pricing ~$62–65 oil at the December low to ~$69–73 today — which is roughly what the futures curve offers, so the margin of safety is gone.</h2>
+    <div class="flow">
+      <div class="flow-node">
+        <div class="fn-label">Dec 2025 low (pre-war)</div>
+        <div class="fn-val">$38.80</div>
+        <div class="fn-sub">WTI ~$57 spot · equity priced ≈ $62–65 mid-cycle oil · director bought at $38.98</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-node">
+        <div class="fn-label">Today (war premium in spot)</div>
+        <div class="fn-val">~$61.70</div>
+        <div class="fn-sub">WTI ~$97 spot (−6.5% today) · equity prices ≈ $69–73 mid-cycle</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-node hi">
+        <div class="fn-label">What the curve says</div>
+        <div class="fn-val" style="color:var(--accent);">~$69 WTI</div>
+        <div class="fn-sub">Dec-2028 WTI future (24 Aug read) · stock ≈ fairly priced against it</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SCENARIOS ===================== -->
+  <div class="kicker">01 · Scenarios</div>
+  <div class="section-title">Bear / Base / Bull — 12-month value per share</div>
+  <div class="section-note">Annual DCF to 2030 + no-growth terminal at 10% cost of equity, after preferred claim and warrant dilution. Each case sets three things: the near-term oil path, the post-war "mid-cycle" WTI, and how much of management's &gt;$4B cash-flow plan gets delivered. Probabilities <span class="tag v">[Vermutung]</span>; mechanics and arithmetic <span class="tag s">[Sicher]</span>; parameters <span class="tag w">[Wahrscheinlich]</span>.</div>
+
+  <div class="scen">
+    <div class="sc bear">
+      <div class="sc-head"><span class="sc-name">Bear</span><span class="sc-prob">p = 30%</span></div>
+      <div class="sc-val neg">$39</div>
+      <div class="sc-ret neg">−37% vs ~$61.70</div>
+      <div class="sc-story">The Qatar-mediated talks stick. Hormuz flows normalise, SPR/IEA barrels and OPEC+ spare capacity hit a market that just lost its risk premium. It already happened once: after the 8 Apr ceasefire Brent fell from ~$118 to ~$70 by July and OXY dropped from ~$65 to ~$49 in Q2.</div>
+      <div class="sc-kv">
+        <span>WTI Q4-26 / 2027</span><span>$80 / $64</span>
+        <span>Mid-cycle WTI (2028+)</span><span>$62</span>
+        <span>$4B plan delivered</span><span>30%</span>
+        <span>Tronox tax case</span><span>lost (−$2.4B)</span>
+        <span>FCF 2027 (pre-pref)</span><span>$4.6B</span>
+      </div>
+      <div class="sc-trig"><b>Watch for:</b> signed US–Iran framework, tanker traffic through Hormuz back near pre-war, WTI backwardation collapsing.</div>
+    </div>
+    <div class="sc base">
+      <div class="sc-head"><span class="sc-name">Base</span><span class="sc-prob">p = 45%</span></div>
+      <div class="sc-val amb">$63</div>
+      <div class="sc-ret amb">+2% vs ~$61.70</div>
+      <div class="sc-story">Talks drag, attacks fade but don't stop. Spot drifts down through 2027 as inventories rebuild, settling where the long-dated curve already sits. Management delivers about half of the 2030 cash-flow plan; debt hits $10B and cash builds for the 2029 preferred call.</div>
+      <div class="sc-kv">
+        <span>WTI Q4-26 / 2027</span><span>$90 / $76</span>
+        <span>Mid-cycle WTI (2028+)</span><span>$70</span>
+        <span>$4B plan delivered</span><span>60%</span>
+        <span>Tronox tax case</span><span>50/50 (−$1.2B)</span>
+        <span>FCF 2027 (pre-pref)</span><span>$7.5B</span>
+      </div>
+      <div class="sc-trig"><b>Watch for:</b> Q3 FCF ≥ ~$2.3B, Gulf back above 130 Mboed, 2027 capex at or below the $5.9B starting point.</div>
+    </div>
+    <div class="sc bull">
+      <div class="sc-head"><span class="sc-name">Bull</span><span class="sc-prob">p = 25%</span></div>
+      <div class="sc-val pos">$96</div>
+      <div class="sc-ret pos">+56% vs ~$61.70</div>
+      <div class="sc-story">Talks fail after the 3 Nov midterms, shipping attacks resume, and the market concludes the damage (Ras Laffan, drained SPR) is structural. OXY's 2026 collar rolls off at year-end, so 2027 barrels are fully exposed to $95 oil, and the full plan lands.</div>
+      <div class="sc-kv">
+        <span>WTI Q4-26 / 2027</span><span>$100 / $95</span>
+        <span>Mid-cycle WTI (2028+)</span><span>$82</span>
+        <span>$4B plan delivered</span><span>100%</span>
+        <span>Tronox tax case</span><span>won ($0)</span>
+        <span>FCF 2027 (pre-pref)</span><span>$11.9B</span>
+      </div>
+      <div class="sc-trig"><b>Watch for:</b> Brent back above $110, renewed Gulf infrastructure strikes, Berkshire adding in the Q3/Q4 13F.</div>
+    </div>
+  </div>
+
+  <div class="ev">
+    <div>Probability-weighted value <span class="mono amb">$64.08</span></div>
+    <div>vs price <span class="mono">+3.8%</span></div>
+    <div>incl. $1.12 dividend <span class="mono">+5.7%</span></div>
+    <div class="dim" style="font-size:12.5px;">Skew: −37% / +56%, but the downside is the more recent precedent.</div>
+  </div>
+
+  <div class="rangebox">
+    <svg viewBox="0 0 900 190" role="img" aria-label="Scenario values versus analyst targets and current price">
+      <defs>
+        <linearGradient id="rg" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stop-color="#E36B5B" stop-opacity="0.75"/>
+          <stop offset="0.5" stop-color="#E3A13B" stop-opacity="0.75"/>
+          <stop offset="1" stop-color="#5CBF8A" stop-opacity="0.75"/>
+        </linearGradient>
+      </defs>
+      <!-- scale: x = 40 + (v-30)/70*820 -->
+      <text x="10" y="30" fill="#A39A8C" font-size="15" font-family="IBM Plex Mono, DejaVu Sans Mono, monospace">MODEL</text>
+      <text x="10" y="150" fill="#A39A8C" font-size="15" font-family="IBM Plex Mono, DejaVu Sans Mono, monospace">STREET</text>
+      <rect x="40" y="84" width="820" height="12" rx="6" fill="url(#rg)"/>
+      <!-- axis ticks -->
+      <g fill="#A39A8C" font-size="13" font-family="IBM Plex Mono, DejaVu Sans Mono, monospace" text-anchor="middle">
+        <text x="40" y="116">$30</text><text x="274" y="116">$50</text><text x="509" y="116">$70</text><text x="743" y="116">$90</text>
+      </g>
+      <!-- scenario markers (top) -->
+      <g font-family="IBM Plex Mono, DejaVu Sans Mono, monospace" font-size="16" font-weight="700" text-anchor="middle">
+        <line x1="143" y1="46" x2="143" y2="96" stroke="#E36B5B" stroke-width="3"/>
+        <text x="143" y="38" fill="#E36B5B">Bear $39</text>
+        <line x1="427" y1="46" x2="427" y2="96" stroke="#E3A13B" stroke-width="3"/>
+        <text x="455" y="38" fill="#E3A13B">Base $63</text>
+        <line x1="814" y1="46" x2="814" y2="96" stroke="#5CBF8A" stroke-width="3"/>
+        <text x="814" y="38" fill="#5CBF8A">Bull $96</text>
+      </g>
+      <!-- current price -->
+      <line x1="411" y1="62" x2="411" y2="182" stroke="#F1ECE4" stroke-width="2" stroke-dasharray="4 3"/>
+      <text x="398" y="180" fill="#F1ECE4" font-size="15" font-weight="700" text-anchor="end" font-family="IBM Plex Mono, DejaVu Sans Mono, monospace">Now ~$61.7</text>
+      <!-- analyst markers (bottom) -->
+      <g font-family="IBM Plex Mono, DejaVu Sans Mono, monospace" font-size="15" text-anchor="middle" fill="#F1ECE4">
+        <line x1="216" y1="84" x2="216" y2="134" stroke="#A39A8C" stroke-width="2"/>
+        <text x="216" y="152">Low $45</text>
+        <line x1="484" y1="84" x2="484" y2="134" stroke="#A39A8C" stroke-width="2"/>
+        <text x="510" y="152">Avg $67.88</text>
+        <line x1="649" y1="84" x2="649" y2="134" stroke="#A39A8C" stroke-width="2"/>
+        <text x="649" y="152">High $82</text>
+      </g>
+    </svg>
+    <div class="rlist">
+      <div><span class="pos">Model bull</span><span class="pos">$96</span></div>
+      <div><span class="dim">Street high</span><span>$82</span></div>
+      <div><span class="dim">Street average</span><span>$67.88</span></div>
+      <div><span class="amb">Model base</span><span class="amb">$63</span></div>
+      <div><span><b>Now</b></span><span>~$61.70</span></div>
+      <div><span class="dim">Street low</span><span>$45</span></div>
+      <div><span class="neg">Model bear</span><span class="neg">$39</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Sensitivity: value per share vs. mid-cycle WTI and cost of equity</div>
+  <div class="section-note">Base near-term path (Q4-26 $90, 2027 $76), 60% plan delivery, −$1.2B expected Tronox outcome. Green = &gt;15% above ~$61.70, red = &gt;15% below, amber = within ±15%. Boxed cell = base case.</div>
+  <div class="tablewrap">
+  <table class="sens">
+    <thead><tr><th>Mid-cycle WTI (2028+)</th><th>r = 9%</th><th>r = 10%</th><th>r = 11%</th></tr></thead>
+    <tbody>
+      <tr><td>$60</td><td class="r">$47.9</td><td class="r">$42.9</td><td class="r">$38.9</td></tr>
+      <tr><td>$65 (pre-war 2025 avg area)</td><td class="a">$59.4</td><td class="a">$53.2</td><td class="r">$48.1</td></tr>
+      <tr><td>$70 (≈ long-dated strip)</td><td class="a">$70.0</td><td class="a base">$63.1</td><td class="a">$57.3</td></tr>
+      <tr><td>$75</td><td class="g">$80.6</td><td class="g">$72.6</td><td class="a">$66.0</td></tr>
+      <tr><td>$80</td><td class="g">$91.2</td><td class="g">$82.1</td><td class="g">$74.6</td></tr>
+      <tr><td>$85</td><td class="g">$101.8</td><td class="g">$91.5</td><td class="g">$83.1</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="section-note" style="margin-top:-20px;margin-bottom:34px;">Rule of thumb from the grid <span class="tag s">[Sicher]</span> (arithmetic of the model): every $5/bbl on the long-run oil assumption moves fair value by ~$10/share (~16%). The $4B-plan assumption is worth less: 0% vs 100% delivery shifts the implied oil price by only ~$6.6/bbl.</div>
+
+  <!-- ===================== INSIDERS ===================== -->
+  <div class="kicker">02 · Insider buys</div>
+  <div class="section-title">Who has put their own money in — and at what price</div>
+  <div class="section-note">Open-market Form 4 transactions plus Berkshire Hathaway (≈26.7% holder). Awards, tax withholdings and gifts listed separately because they carry no signal.</div>
+
+  <div class="ins-verdict">
+    <div class="big">BUYING</div>
+    <p>Every open-market insider trade since late 2024 has been a purchase, and there are <b>zero open-market sales</b> in the filings we found <span class="tag w">[Wahrscheinlich]</span> (180-day Form 4 record plus 2025 searches). The catch: the individual buys are token-sized — CEO and director together ≈ $0.45M against an insider stake of ~0.5% — and the one buyer with real size, Berkshire, <b>did not add at the $38.80 low</b>. It took OxyChem for $9.47B instead (agreed Oct 2025, closed 2 Jan 2026) and has held 264.9M OXY shares flat for five quarters through the Q2 13F.</p>
+  </div>
+
+  <div class="tablewrap">
+  <table class="ins">
+    <thead><tr><th>Date</th><th>Who</th><th>Type</th><th>Shares</th><th>Price</th><th>Value</th><th>vs ~$61.70</th></tr></thead>
+    <tbody>
+      <tr class="hlrow"><td>23 Jun 2026</td><td style="text-align:left;">Richard A. Jackson · CEO (since 1 Jun)</td><td class="pos">Buy</td><td>4,770</td><td>$52.38</td><td>$0.25M</td><td class="pos">+18%</td></tr>
+      <tr class="hlrow"><td>16 Dec 2025</td><td style="text-align:left;">William R. Klesse · Director</td><td class="pos">Buy</td><td>5,000</td><td>$38.98</td><td>$0.19M</td><td class="pos">+58%</td></tr>
+      <tr><td>Feb 2025</td><td style="text-align:left;">Berkshire Hathaway · 10% owner</td><td class="pos">Buy</td><td>763,017</td><td>$46.82</td><td>$35.7M</td><td class="pos">+32%</td></tr>
+      <tr><td>Dec 2024</td><td style="text-align:left;">Berkshire Hathaway · 10% owner</td><td class="pos">Buy</td><td>~8.9M</td><td>~$45.99</td><td>~$409M</td><td class="pos">+34%</td></tr>
+      <tr class="na"><td>30 Sep 2026</td><td style="text-align:left;">R. A. Jackson · CEO</td><td>Tax withholding</td><td>4,124</td><td>$55.32</td><td>—</td><td>no signal</td></tr>
+      <tr class="na"><td>25 Sep 2026</td><td style="text-align:left;">Vicki Hollub · Director (ex-CEO)</td><td>Gift to family trusts</td><td>90,000</td><td>—</td><td>—</td><td>not a sale</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="section-note" style="margin-top:-20px;margin-bottom:34px;">Read-through for the series' insider column: OXY joins TTD, NKE, ZTS and BSX as BUYING — but unlike TTD (~$148M CEO buy) the dollar size here is symbolic. The more informative datapoint will be Berkshire's Q3 13F (~14 Nov): any change after five flat quarters, under Abel, would matter more than all individual Form 4s combined. Warrant exercises (12.5M in H1 2026, $276M proceeds) are not insider buys — they convert a $22 option and add shares.</div>
+
+  <!-- ===================== LATEST QUARTER ===================== -->
+  <div class="kicker">03 · Latest quarter</div>
+  <div class="section-title">Q2 2026: record cash, but the driver was price, not barrels</div>
+  <div class="section-note">USD millions except per-share and per-unit figures. Q2 2026 vs Q2 2025 (continuing operations; OxyChem sold 2 Jan 2026).</div>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Metric</th><th>Q2 2025</th><th>Q2 2026</th><th>YoY Δ</th></tr></thead>
+    <tbody>
+      <tr><td>Net sales</td><td>5,258</td><td>8,065</td><td class="pos">+53.4%</td></tr>
+      <tr class="hlrow"><td>Net income to common</td><td>288</td><td>2,807</td><td class="pos">+875%</td></tr>
+      <tr class="hlrow"><td>Adjusted diluted EPS</td><td>$0.26</td><td>$2.40</td><td class="pos">+823%</td></tr>
+      <tr><td>Op. cash flow before working capital</td><td>2,408</td><td>4,610</td><td class="pos">+91.4%</td></tr>
+      <tr><td>Capex (net of NCI)</td><td>1,654</td><td>1,589</td><td class="pos">−3.9%</td></tr>
+      <tr class="hlrow"><td>Free cash flow before WC</td><td>754</td><td>3,021</td><td class="pos">+301%</td></tr>
+      <tr><td>Production (Mboed)</td><td>1,400</td><td>1,433</td><td class="pos">+2.4%</td></tr>
+      <tr><td>Realized oil ($/bbl)</td><td>$63.76</td><td>$96.78</td><td class="pos">+51.8%</td></tr>
+      <tr><td>Domestic gas realized ($/Mcf)</td><td>$1.33</td><td>−$1.48</td><td class="neg">negative</td></tr>
+      <tr><td>Total debt (carrying value)</td><td>23,776</td><td>13,743</td><td class="pos">−42.2%</td></tr>
+      <tr><td>Dividend per share (quarterly)</td><td>$0.24</td><td>$0.26 → $0.28</td><td class="pos">+8.3%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="section-note" style="margin-top:-20px;margin-bottom:20px;">Q2 beat: adj. EPS $2.40 vs ~$1.92 consensus; revenue $8.33B vs ~$7.18B. One-offs (midstream asset sales, derivative gains, early debt retirement) added ~$368M after tax. Midstream &amp; marketing earned a record $1.3B pre-tax on war-widened spreads — management already guided Q3 midstream lower.</div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Q3 2026 pre-release (8-K, 13 Oct) — what is already known</h3>
+      <ul>
+        <li>Realized oil <b>$85.91</b> (WTI avg $85.79, Brent $91.62) — ~$11 below Q2.</li>
+        <li>Gulf of America cut to <b>~110 Mboed</b> (Q2: 144) — third-party gas pipeline constraint plus maintenance; partially restored.</li>
+        <li>Collar settlements: −$94M to operating cash flow (Q2: −$156M).</li>
+        <li>Domestic gas only 54% of NYMEX ($1.69/Mcf); LOE $8.54/boe vs $8.10 guide.</li>
+        <li>Diluted shares 1,012.8M — warrant dilution keeps creeping.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>What that implies for 9 Nov</h3>
+      <ul>
+        <li>Model FCF for Q3 ≈ <b>$2.3B</b> <span class="tag w">[Wahrscheinlich]</span> — strong, but ~25% below Q2's $3.0B.</li>
+        <li>Street EPS ≈ $1.45 (MarketBeat) — a lower bar than Q2, so a "beat" is plausible on midstream.</li>
+        <li>Key tells: Gulf restoration timing, any 2027 hedging (2026 collar expires), progress to the $10B debt target, Stratos start-up date.</li>
+        <li>Risk: the print is backward-looking; the stock will trade on the US–Iran tape that week.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">Production by region + midstream</div>
+  <div class="section-note">Q2 2026, net Mboed, YoY change</div>
+  <div class="seg">
+    <div class="seg-card"><div class="seg-name">Permian</div><div class="seg-val">804</div><div class="seg-note pos">+4.4% · 56% of output</div></div>
+    <div class="seg-card"><div class="seg-name">Rockies &amp; other</div><div class="seg-val">280</div><div class="seg-note pos">+2.9%</div></div>
+    <div class="seg-card"><div class="seg-name">Gulf of America</div><div class="seg-val">144</div><div class="seg-note pos">+15.2% · <span class="neg">~110 in Q3</span></div></div>
+    <div class="seg-card"><div class="seg-name">International</div><div class="seg-val">205</div><div class="seg-note neg">−12.0% · Oman/UAE/Algeria</div></div>
+    <div class="seg-card"><div class="seg-name">Midstream &amp; mktg</div><div class="seg-val">$1.3B</div><div class="seg-note amb">pre-tax record · FY guide +$300M</div></div>
+  </div>
+
+  <!-- ===================== BALANCE SHEET ===================== -->
+  <div class="kicker">04 · Claims ahead of the common</div>
+  <div class="section-title">The balance sheet got fixed — the capital structure didn't</div>
+  <div class="section-note">Principal debt was cut by $8.6B in six months (OxyChem proceeds + windfall cash). But a common shareholder still stands behind an 8% preferred, a warrant overhang and two large contingencies.</div>
+  <div class="ladder">
+    <div class="lad"><div class="l1">Principal debt</div><div class="l2">$11.8B</div><div class="l3">from $20.4B at YE-25 · target $10B · interest run-rate ~$760M</div></div>
+    <div class="lad"><div class="l1">Berkshire preferred</div><div class="l2">$8.5B</div><div class="l3">8% ($680M/yr) · callable Aug-2029 at 105% ($8.9B) · blocks big buybacks until then</div></div>
+    <div class="lad"><div class="l1">Warrants</div><div class="l2">101.8M</div><div class="l3">17.9M @ $22 + 83.9M Berkshire @ $59.59 (now in the money) = +10.2% shares</div></div>
+    <div class="lad"><div class="l1">Contingencies</div><div class="l2">$2.4B + $1.9B</div><div class="l3">Anadarko/Tronox tax deduction dispute · environmental accrual $1.85B (+ up to $1.9B possible)</div></div>
+  </div>
+
+  <!-- ===================== VALUATION ===================== -->
+  <div class="kicker">05 · Valuation block</div>
+  <div class="section-title">Cheap on spot earnings, fair on mid-cycle cash</div>
+  <div class="section-note">At ~$61.70 unless noted. Multiples on trailing/spot figures flatter OXY because they embed $86–97 oil and a $3.1B OxyChem disposal gain.</div>
+  <div class="vgrid">
+    <div class="vg"><div class="k">Market cap</div><div class="v">$61.7B</div><div class="n">basic 999.6M sh · $62.6B diluted</div></div>
+    <div class="vg"><div class="k">Net debt</div><div class="v">$7.7B</div><div class="n">$11.8B principal − $4.15B cash (Q2)</div></div>
+    <div class="vg"><div class="k">EV incl. preferred</div><div class="v">~$78.8B</div><div class="n">diluted cap + net debt + $8.5B pref</div></div>
+    <div class="vg"><div class="k">EV / EBITDA (NTM)</div><div class="v">~5.1x</div><div class="n">TIKR, Sep (at $58.84) · peers 4.8–7.4x</div></div>
+    <div class="vg"><div class="k">P/E trailing · forward</div><div class="v">9.6x · 9.1x</div><div class="n">trailing inflated by Q1 disposal gain</div></div>
+    <div class="vg"><div class="k">FCF yield to common</div><div class="v">13.6%</div><div class="n">Q3 run-rate · 18.2% at Q2 · <span class="neg">6.6% at $65 WTI</span></div></div>
+    <div class="vg"><div class="k">Shareholder yield</div><div class="v">~1.8%</div><div class="n">$1.12 dividend · buybacks ~$60M/qtr, offset by warrant issuance</div></div>
+    <div class="vg"><div class="k">52-week position</div><div class="v">80%</div><div class="n">$38.80 – $67.45</div></div>
+    <div class="vg"><div class="k">Consensus target</div><div class="v">$67.88</div><div class="n">+10% · range $45–82 · 27 analysts</div></div>
+    <div class="vg"><div class="k">Ratings</div><div class="v">12 Buy · 15 Hold</div><div class="n">0 Sell · consensus "Hold"</div></div>
+    <div class="vg"><div class="k">Recent revisions</div><div class="v amb">↑ mostly</div><div class="n">GS $69→$76 (27 Oct) · WFC $82 · Evercore $70 · Seaport $73 (init)</div></div>
+    <div class="vg"><div class="k">Implied WTI (our model)</div><div class="v amb">$69–73</div><div class="n">60% vs 0% plan credit, r = 10% · $66–76 across r 9–11%</div></div>
+  </div>
+
+  <!-- ===================== BULL / BEAR ARGUMENTS ===================== -->
+  <div class="kicker">06 · The debate</div>
+  <div class="section-title">What each side gets right</div>
+  <div class="section-note">The bull case is mostly about the company; the bear case is mostly about the price you pay and the commodity.</div>
+  <div class="grid2">
+    <div class="card bull">
+      <h3>Why bulls own it</h3>
+      <ul>
+        <li><b>Deleveraging done fast:</b> $20.4B → $11.8B principal in six months; interest falls ~$630M/yr vs 2025.</li>
+        <li><b>Cash machine at war prices:</b> Q2 FCF $3.0B, best since Q3 2022; production beat the top of guidance and FY guide was raised to 1,423–1,453 Mboed.</li>
+        <li><b>Self-help that doesn't need oil:</b> &gt;$4B annual cash-flow uplift targeted by 2030, ~85% claimed achievable at lower prices; base decline 25% → ~20%; CO₂ pilots +45% EUR in the Permian.</li>
+        <li><b>Unhedged from 2027:</b> the only collar (100 kb/d, $55 × $75.89) expires at year-end — full torque if the risk premium sticks.</li>
+        <li><b>Aligned owners:</b> Berkshire at 26.7% plus preferred plus warrants; CEO bought weeks into the job.</li>
+      </ul>
+    </div>
+    <div class="card bear">
+      <h3>Why bears won't</h3>
+      <ul>
+        <li><b>No margin of safety:</b> the price already discounts ~$69–73 long-run WTI — the curve, not a discount to it.</li>
+        <li><b>Headline beta:</b> −3.6% today on peace-talk reports; Q2 showed what a ceasefire does (OXY ~$65 → ~$49).</li>
+        <li><b>Capital-return ceiling:</b> big buybacks wait until the $8.9B preferred call in Aug 2029 — the windfall goes to creditors and Berkshire first.</li>
+        <li><b>Contingent claims:</b> $2.4B Tronox tax exposure plus up to $1.9B of environmental cost beyond the $1.85B already accrued — ~$4/share if both crystallise.</li>
+        <li><b>Execution history:</b> Stratos DAC was due in late 2024 and is still only targeted for start-up by end-2026; Gulf output just lost ~34 Mboed to a third-party pipeline.</li>
+        <li><b>Dilution:</b> 101.8M warrants (+10%) — Berkshire's tranche moves into the money above $59.59.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===================== CATALYSTS ===================== -->
+  <div class="kicker">07 · Catalyst calendar</div>
+  <div class="section-title">Dates that can move the scenarios</div>
+  <div class="section-note">Filled dots = next 30 days.</div>
+  <div class="cal">
+    <div class="ev-item hot"><div class="ev-date">3 Nov 2026</div><div class="ev-text">US midterm elections — analysts flag escalation risk could return after the vote.</div></div>
+    <div class="ev-item hot"><div class="ev-date">9 Nov 2026 (after close) · call 10 Nov</div><div class="ev-text">Q3 results: FCF vs ~$2.3B model, Gulf restoration, 2027 hedging, debt vs $10B target, Stratos timing.</div></div>
+    <div class="ev-item hot"><div class="ev-date">~14 Nov 2026</div><div class="ev-text">Berkshire Q3 13F — first look at whether the Abel-era Berkshire changed the 264.9M-share position.</div></div>
+    <div class="ev-item"><div class="ev-date">Dec 2026</div><div class="ev-text">OPEC+ (targets unchanged through December) · ex-dividend 10 Dec ($0.28, paid 15 Jan).</div></div>
+    <div class="ev-item"><div class="ev-date">Year-end 2026</div><div class="ev-text">Oil collar expires · Stratos DAC phase 1 targeted start-up · three Permian rigs dropped in Q4.</div></div>
+    <div class="ev-item"><div class="ev-date">2027</div><div class="ev-text">Capex starting point $5.9B; management targets $0.7–0.8B more FCF vs 2026 at flat prices; public $22 warrants expire Aug 2027 <span class="tag w">[Wahrscheinlich]</span>.</div></div>
+    <div class="ev-item"><div class="ev-date">Aug 2029</div><div class="ev-text">Preferred redemption at 105% (~$8.9B) — after which buybacks become the main return lever.</div></div>
+    <div class="ev-item"><div class="ev-date">Open</div><div class="ev-text">Anadarko/Tronox tax dispute — ~$2.4B (tax + interest) if the deduction is disallowed; timing not disclosed.</div></div>
+  </div>
+
+  <!-- ===================== SCORECARD ===================== -->
+  <div class="kicker">08 · Scorecard</div>
+  <div class="section-title">Series scorecard (v2, eight weighted categories)</div>
+  <div class="section-note">Scored at current realised prices. Because OXY's profitability and cash scores are oil-dependent, a second line re-scores those two at a $65 deck.</div>
+  <div class="score">
+    <div class="srow"><span>Growth</span><span class="w">15%</span><div class="bar"><i style="width:50%"></i></div><span class="s">5.0</span></div>
+    <div class="srow"><span>Profitability</span><span class="w">20%</span><div class="bar"><i style="width:70%"></i></div><span class="s">7.0</span></div>
+    <div class="srow"><span>Cash generation</span><span class="w">15%</span><div class="bar"><i style="width:80%"></i></div><span class="s">8.0</span></div>
+    <div class="srow"><span>Balance sheet</span><span class="w">15%</span><div class="bar"><i style="width:60%"></i></div><span class="s">6.0</span></div>
+    <div class="srow"><span>Valuation</span><span class="w">10%</span><div class="bar"><i style="width:60%"></i></div><span class="s">6.0</span></div>
+    <div class="srow"><span>Priced-in expectations</span><span class="w">15%</span><div class="bar"><i style="width:55%"></i></div><span class="s">5.5</span></div>
+    <div class="srow"><span>Shareholder returns</span><span class="w">5%</span><div class="bar"><i style="width:40%"></i></div><span class="s">4.0</span></div>
+    <div class="srow"><span>Dilution</span><span class="w">5%</span><div class="bar"><i style="width:35%"></i></div><span class="s">3.5</span></div>
+  </div>
+  <div class="final">
+    <div class="fbox"><div class="k">Final score</div><div class="v amb">6.05</div><div class="vsmall">HOLD POSITIVE</div></div>
+    <div class="fbox"><div class="k">Ex-valuation*</div><div class="v">6.17</div><div class="vsmall">fundamentals slightly ahead of price</div></div>
+    <div class="fbox"><div class="k">At a $65 oil deck</div><div class="v neg">5.45</div><div class="vsmall">HOLD NEGATIVE (profitability 5.5, cash 6.0)</div></div>
+  </div>
+  <div class="bands">
+    <div style="flex:3.5;background:#E36B5B;">SELL &lt;3.5</div>
+    <div style="flex:2;background:#D88A62;">HOLD− 3.5–5.5</div>
+    <div style="flex:1.5;background:#E3A13B;">HOLD+ 5.5–7.0</div>
+    <div style="flex:1.5;background:#9CC07A;">BUY 7.0–8.5</div>
+    <div style="flex:1.5;background:#5CBF8A;">STRONG BUY</div>
+  </div>
+  <div class="section-note" style="margin-top:-24px;margin-bottom:34px;">*Ex-valuation = Valuation and Priced-in removed, remaining weights re-scaled. Trap Buy check: not applicable (score &lt; 7.00). Reverse-DCF in growth terms stays N/A for commodity producers (as with AR and DVN); the implied-oil price above replaces it.</div>
+
+  <!-- ===================== METHOD ===================== -->
+  <div class="kicker">09 · Model &amp; assumptions</div>
+  <div class="section-title">How the numbers were built</div>
+  <div class="card" style="margin-bottom:34px;">
+    <ul class="method">
+      <li><span class="tag w">[Wahrscheinlich]</span> FCF (before working capital, before preferred dividends) of <b>$4.8B at $65 WTI</b> for the 2027 run-rate: FY2025 continuing-ops FCF ~$3.2–3.3B at ~$65 oil plus management's &gt;$1.2B 2026 improvement at flat prices.</li>
+      <li><span class="tag w">[Wahrscheinlich]</span> Oil sensitivity <b>$0.23B FCF per $1/bbl WTI per year</b> (≈705 kb/d oil, after cash tax, NGL co-movement). Check: model gives $3.03B for Q2-26 vs $3.02B reported; $1.48B for Q1-26 vs $1.75B reported.</li>
+      <li><span class="tag w">[Wahrscheinlich]</span> Plan uplift at full delivery: $5.0B (2027) → $6.4B (2030) at $65, i.e. the &gt;$4B pre-tax target taxed at ~22%; scenarios credit 30% / 60% / 100%.</li>
+      <li><span class="tag s">[Sicher]</span> Preferred valued as a claim of ~$8.5B (8% coupons to Aug-2029 + 105% call, discounted at 10%); warrants by treasury method (1,014M diluted shares at ~$61.70).</li>
+      <li><span class="tag w">[Wahrscheinlich]</span> 10% cost of equity — cross-checked: at the Dec-2025 low ($38.80) the same model implies ~$62–65 mid-cycle oil, roughly the pre-war consensus.</li>
+      <li><span class="tag v">[Vermutung]</span> Scenario probabilities and the 50/50 Tronox outcome. Price ~$61.70 is an estimate from the 30 Oct close and the −3.6% intraday move at 11:02 ET on 2 Nov.</li>
+      <li>Not modelled: WES stake value beyond its cash distributions, Stratos/45Q economics, a production-growth case (~2% CAGR) management also outlines.</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <div>Sources: Occidental Q2 2026 earnings release &amp; 10-Q (5 Aug 2026); Q3 2026 pre-earnings 8-K (13 Oct 2026); Occidental CEO-succession release (May 2026); Form 4s via StockTitan/blarkad/InsiderTrades; Berkshire Hathaway Q2 2026 10-Q and 13F; MarketBeat (price, consensus, 30 Oct); TIKR (Sep 2026); Nasdaq/Zacks Q2 call recap (7 Aug 2026); Trading Economics, Rallies.ai and StockTitan live blog (oil, 2 Nov 2026); CMB futures-curve note (24 Aug 2026); Wikipedia "2026 Iran war fuel crisis".</div>
+    <div class="row"><span>Prepared 2 Nov 2026 · prices intraday</span><span>Not financial advice</span></div>
+  </div>
+
+</div>
+</body>
+</html>
