@@ -11,11 +11,18 @@ import autoscore
 from integrity import finite_number, positive_number
 
 
-VERSION = 'opportunity-v17.1'
+VERSION = 'opportunity-v18'
 PRICE_METRICS = ('valuation_pe','reported_pe','fcf_yield_pct','market_cap','cover_pct',
                  'earnings_yield_pct','shareholder_yield_pct')
-WEIGHTS = dict(p=.12, c=.105, b=.075, fcfy=.15, pe=.10, expectations=.15,
+# v18: free-cash-flow yield and reverse-DCF expectations are both functions of
+# FCF / price (correlation 0.88 across the 2026-11-04 universe) and together
+# explained 62% of the score's variance at 15% + 15%, against 12% for the whole
+# quality block. They now share one 15% cash-valuation weight; the freed 15%
+# goes to financial quality in its former 40/35/25 proportions. Valuation
+# (cash 15% + P/E 10%) and quality then explain 45% and 39% of the variance.
+WEIGHTS = dict(p=.18, c=.16, b=.11, fcfy=.075, pe=.10, expectations=.075,
                g=.10, r=.03, d=.02, macro=.15)
+QUALITY, VALUATION = ('p', 'c', 'b'), ('fcfy', 'pe', 'expectations')
 LABELS = dict(p='Operating profitability', c='Cash generation', b='Balance sheet',
     fcfy='Free cash flow yield', pe='Earnings valuation', expectations='Priced-in growth',
     g='Revenue growth', r='Shareholder returns', d='Dilution', macro='Current regime fit')
@@ -100,7 +107,33 @@ def fits(row, ranges, cover, spec):
     return exact, bounds
 
 
-def assess(row, *, regime, spec, as_of=None):
+def regime_mix(regime, weights):
+    """Normalized regime weights; without weights the current regime alone.
+
+    Weights below 0.5% are dropped so the record stays readable; the rest are
+    renormalized. A macro reading without weights scores one regime, as
+    before."""
+    if isinstance(weights, dict):
+        kept = {r: finite_number(weights.get(r)) for r in REGIMES}
+        kept = {r: w for r, w in kept.items() if w is not None and w >= 0.005}
+        total = sum(kept.values())
+        if total > 0:
+            return {r: round(w / total, 4) for r, w in sorted(kept.items(), key=lambda kv: -kv[1])}
+    return {regime: 1.0} if regime in REGIMES else {}
+
+
+def weighted_fit(bounds, mix):
+    """Regime-weighted [lower, upper] fit, or None when any weighted regime is unknown.
+
+    Each regime's bounds come from the same unknown inputs, so the weighted sum
+    of lower (upper) bounds is a valid lower (upper) bound."""
+    if not mix or not bounds or any(r not in bounds for r in mix):
+        return None
+    total = sum(mix.values())
+    return [round(sum(w * bounds[r][i] for r, w in mix.items()) / total, 1) for i in (0, 1)]
+
+
+def assess(row, *, regime, spec, as_of=None, weights=None):
     as_of = assessment._now(as_of)
     dynamic = row.get('dynamic_analysis') or {}
     metrics = dict(dynamic.get('metrics') or {})
@@ -111,13 +144,24 @@ def assess(row, *, regime, spec, as_of=None):
     values['fcfy'] = curve(metrics.get('fcf_yield_pct'),[(0,0),(2,2),(4,5),(6,7.5),(8,9),(10,10)])
     pe = finite_number(metrics.get('valuation_pe'))
     net_income = finite_number(inputs.get('net_income'))
+    # The multiple's own earnings: capped at operating income when gains lift
+    # net income above it, so a positive net income can still price as <= 0.
+    multiple_income = (finite_number(inputs.get('valuation_net_income'))
+                       if 'valuation_net_income' in inputs else net_income)
     values['pe'] = (curve(pe,[(8,10),(12,9),(15,8),(20,6.5),(25,5),(35,3),(50,1),(100,0)])
-                    if pe is not None and pe > 0 else 0. if net_income is not None and net_income <= 0
+                    if pe is not None and pe > 0 else 0. if multiple_income is not None and multiple_income <= 0
                     and not row.get('midcycle') else None)
     values['expectations'] = curve((dynamic.get('valuation') or {}).get('reverse_dcf_growth_pct'),
                                   [(-5,10),(0,9),(3,8),(6,6.5),(10,5),(15,3),(25,1)])
-    ranges = {key:[value,value] if value is not None else [0.,10.] for key,value in values.items()}
     flags, caps = [], []
+    if row.get('midcycle'):
+        # Commodity growth uses the cash-cycle years, like the valuation inputs;
+        # a one-year revenue change is mostly the commodity price. Unknown when
+        # the packet carries no aligned revenue years.
+        cycle = finite_number(metrics.get('cycle_revenue_growth_pct'))
+        values['g'] = autoscore._band(cycle, autoscore.GROWTH, default=None) if cycle is not None else None
+        flags.append('CYCLE_REVENUE_GROWTH' if cycle is not None else 'CYCLE_REVENUE_GROWTH_UNAVAILABLE')
+    ranges = {key:[value,value] if value is not None else [0.,10.] for key,value in values.items()}
     debt, cash = finite_number(inputs.get('debt')), finite_number(inputs.get('cash'))
     # Same EBITDA the leverage metric used (never below operating income).
     ebitda = positive_number(inputs['leverage_ebitda'] if 'leverage_ebitda' in inputs else inputs.get('ebitda'))
@@ -152,13 +196,16 @@ def assess(row, *, regime, spec, as_of=None):
     ngv = positive_number((dynamic.get('valuation') or {}).get('ngv_per_share'))
     cover = ngv/row['price'] if price_current and ngv else None
     regime_fit, fit_bounds = fits(row,ranges,cover,spec)
-    current = fit_bounds.get(regime)
+    mix = regime_mix(regime, weights)
+    current = weighted_fit(fit_bounds, mix)
     values['macro'] = current[0]/10 if current and current[0] == current[1] else None
     ranges['macro'] = [x/10 for x in current] if current else [0.,10.]
     if not current:
         flags.append('CURRENT_REGIME_UNAVAILABLE')
-    quality_bounds = [sum(ranges[k][i]*WEIGHTS[k] for k in ('p','c','b'))/.30 for i in (0,1)]
-    valuation_bounds = [sum(ranges[k][i]*WEIGHTS[k] for k in ('fcfy','pe','expectations'))/.40 for i in (0,1)]
+    quality_weight = sum(WEIGHTS[k] for k in QUALITY)
+    valuation_weight = sum(WEIGHTS[k] for k in VALUATION)
+    quality_bounds = [sum(ranges[k][i]*WEIGHTS[k] for k in QUALITY)/quality_weight for i in (0,1)]
+    valuation_bounds = [sum(ranges[k][i]*WEIGHTS[k] for k in VALUATION)/valuation_weight for i in (0,1)]
     quality,valuation = quality_bounds[0],valuation_bounds[0]
     fcf = finite_number(inputs.get('fcf'))
     margin = finite_number(metrics.get('operating_margin_pct'))
@@ -188,7 +235,7 @@ def assess(row, *, regime, spec, as_of=None):
     result_lower,result_upper = min(maximums[0],lower),min(maximums[1],upper)
     signal = label(result_lower) if available and label(result_lower) == label(result_upper) else None
     fundamentals = [k for k in WEIGHTS if k != 'macro']
-    fundamental = (sum(WEIGHTS[k]*values[k] for k in fundamentals)/.85
+    fundamental = (sum(WEIGHTS[k]*values[k] for k in fundamentals)/sum(WEIGHTS[k] for k in fundamentals)
                    if all(values[k] is not None for k in fundamentals) else None)
     deadline = assessment.timestamp(row.get('quote_observed_at'))
     explanation = [dict(key=k,label=LABELS[k],value=values[k],weight=WEIGHTS[k],
@@ -208,7 +255,9 @@ def assess(row, *, regime, spec, as_of=None):
         quality_bounds=quality_bounds,
         valuation_score=valuation if price_current and all(values[k] is not None for k in ('fcfy','pe','expectations')) else None,
         valuation_bounds=valuation_bounds if price_current else None,
-        profile=business,current_regime=regime,regime_fit=regime_fit,regime_fit_bounds=fit_bounds,
+        profile=business,current_regime=regime,regime_weights=mix,
+        macro_basis='REGIME_WEIGHTED' if len(mix) > 1 else 'SINGLE_REGIME',
+        regime_fit=regime_fit,regime_fit_bounds=fit_bounds,
         current_fit=current[0] if current and current[0] == current[1] else None,
         current_fit_bounds=current,regime_model=spec['version'],
         metrics=metrics if price_current else {k:v for k,v in metrics.items() if k not in PRICE_METRICS},
@@ -302,14 +351,14 @@ def _blocker(result):
     return '; '.join(reasons)
 
 
-def price_thresholds(row, *, regime, spec, as_of=None):
+def price_thresholds(row, *, regime, spec, as_of=None, weights=None):
     """Highest price at which the automatic label is Buy, and Strong Buy.
 
     Everything that does not depend on the quote (quality, balance sheet,
     growth, returns, regime affinity) is held at today's values. A threshold is
     None when no price between 30% and 300% of today's reaches it; `blocker`
     then names the non-price cap that stops it."""
-    current = assess(row, regime=regime, spec=spec, as_of=as_of)
+    current = assess(row, regime=regime, spec=spec, as_of=as_of, weights=weights)
     base = positive_number(row.get('price'))
     if current.get('withdrawn') or base is None:
         return dict(buy=None, strong_buy=None, blocker='PRICE_MODEL_UNAVAILABLE', basis=None)
@@ -325,7 +374,7 @@ def price_thresholds(row, *, regime, spec, as_of=None):
 
     def level(f):
         if f not in memo:
-            memo[f] = assess(_at_price(row, base * f), regime=regime, spec=spec, as_of=as_of)
+            memo[f] = assess(_at_price(row, base * f), regime=regime, spec=spec, as_of=as_of, weights=weights)
         return rank.get(memo[f].get('label'), 0)
 
     found = {}

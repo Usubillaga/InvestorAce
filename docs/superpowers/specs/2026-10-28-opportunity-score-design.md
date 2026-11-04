@@ -1,5 +1,8 @@
 # InvestorAce opportunity score v17
 
+> Weights superseded on 2026-11-04 by v18 (`2026-11-04-opportunity-v18-weights.md`);
+> regime treatment extended by `2026-11-04-regime-weights.md`.
+
 The user wants profitable, cash-generating businesses that the market discounts,
 classified by business type and suitability for the current economic regime.
 Restore five visible automatic labels: Strong Buy, Buy, Hold Positive,

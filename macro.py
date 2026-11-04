@@ -249,6 +249,9 @@ def economic_signals(data):
             # Sahm-type gap: 3-month average versus its low over the prior 12 months.
             out.update(unemployment=unemployment[last], unemployment_gap=round(current - min(prior), 2),
                        unemployment_date=data['unemployment'][-1]['date'])
+            year_ago = avg3(last - 12)
+            if year_ago is not None:
+                out['unemployment_12m_change'] = round(current - year_ago, 2)
     payrolls = _by_month(data.get('payrolls'))
     if payrolls:
         last = max(payrolls)
@@ -311,38 +314,89 @@ def boundary_margin(reading):
     return round(min(edges), 2)
 
 
+# Payroll growth that keeps unemployment steady. Estimates for 2026 range from
+# under 10k (Federal Reserve FEDS Notes, 2 Apr 2026) through 15-68k
+# (AEI-Brookings scenarios) to 87k (CBO, Jan 2026); the Blue Chip consensus was
+# 55k (St. Louis Fed, Mar 2026). The former 75k sat near the top of that range
+# and read 51k a month in Aug-Sep 2026 as a contraction signal.
+PAYROLL_BREAKEVEN_THOUSANDS = 50.
+
+
+def labour_signal(gap, change_12m):
+    """Unemployment as a growth input: flat is neutral, not the maximum.
+
+    The former (0.3 - gap) / 0.3 is a deterioration detector: a gap of 0 (no
+    rise from the 12-month low) read +1, the strongest growth signal, for an
+    unchanged unemployment rate. Now the signal is positive only if the rate
+    fell over twelve months (-0.5pp = +1) and the detector still pulls it down
+    as soon as the rate rises from its low (Sahm-type 0.5pp gap reads -0.67)."""
+    detector = (0.3 - gap) / 0.3
+    trend = -change_12m / 0.5 if change_12m is not None else 0.
+    return _clip(min(trend, detector))
+
+
+# One-month spread of the growth and inflation scores: sample standard deviation
+# of the 16 month-to-month changes Jun 2025-Oct 2026, rebuilt from the archived
+# inputs of the 2026-11-04 build with this classifier
+# (tests/fixtures/regime_monthly_scores.json). The hard regime changed 10 times
+# in those 16 months.
+REGIME_SCORE_STEP = dict(growth=0.23, inflation=0.34)
+
+
+def _phi(x):
+    return 0.5 * (1 + math.erf(x / math.sqrt(2)))
+
+
+def regime_weights(gs, is_, step=None):
+    """Weight of each regime: the share of a one-month move that leaves the reading on its side.
+
+    The boundaries (growth 0; inflation 0 and 0.5) are lines through a noisy
+    reading. Treating the next month's score as normal around today's with the
+    observed one-month spread gives a weight per regime that varies smoothly:
+    the 2026-11-04 reading, 0.09 inside INFLATION, is 59% INFLATION / 34% REFLATION, not 100/0.
+    The weights are a statement about measurement noise, not a forecast."""
+    step = step or REGIME_SCORE_STEP
+    up = _phi(gs / step['growth'])
+    hot, warm = _phi((is_ - 0.5) / step['inflation']), _phi(is_ / step['inflation'])
+    return {'GOLDILOCKS': up * (1 - warm), 'REFLATION': up * (warm - hot), 'INFLATION': up * hot,
+            'STAGFLATION': (1 - up) * warm, 'RECESSION': (1 - up) * (1 - warm)}
+
+
 def classify(growth, inflation, signals=None):
     """Five-regime reading from market impulses (percent) and economic signals.
 
-    growth score    = mean(market growth/10, labour (0.3 - gap)/0.3,
-                           payrolls (avg - 75k)/75k)
+    growth score    = mean(market growth/10, labour signal (see labour_signal),
+                           payrolls (avg - 50k)/75k)
     inflation score = mean(market inflation/20, CPI (yoy - 2.5)/1.5,
                            CPI trend change/0.5)
     growth >= 0: INFLATION if inflation >= 0.5, REFLATION if >= 0, else GOLDILOCKS
     growth <  0: STAGFLATION if inflation >= 0, else RECESSION
+    `weights` spreads the reading over the five regimes (regime_weights).
     """
     signals = signals or {}
     g = {'market': _clip(growth / 10)}
     i = {'market': _clip(inflation / 20)}
     if signals.get('unemployment_gap') is not None:
-        g['labour'] = _clip((0.3 - signals['unemployment_gap']) / 0.3)
+        g['labour'] = labour_signal(signals['unemployment_gap'], signals.get('unemployment_12m_change'))
     if signals.get('payrolls_3m_avg_thousands') is not None:
-        g['payrolls'] = _clip((signals['payrolls_3m_avg_thousands'] - 75) / 75)
+        g['payrolls'] = _clip((signals['payrolls_3m_avg_thousands'] - PAYROLL_BREAKEVEN_THOUSANDS) / 75)
     if signals.get('cpi_yoy') is not None:
         i['cpi_level'] = _clip((signals['cpi_yoy'] - 2.5) / 1.5)
     if signals.get('cpi_yoy_3m_change') is not None:
         i['cpi_trend'] = _clip(signals['cpi_yoy_3m_change'] / 0.5)
     economic = len(g) + len(i) > 2
     if not economic:
-        return dict(regime=quadrant_of(growth, inflation), basis='MARKET_ONLY',
-                    growth_score=None, inflation_score=None, components=None)
+        regime = quadrant_of(growth, inflation)
+        return dict(regime=regime, basis='MARKET_ONLY', growth_score=None, inflation_score=None,
+                    components=None, weights={regime: 1.0})
     gs, is_ = sum(g.values()) / len(g), sum(i.values()) / len(i)
     regime = (('INFLATION' if is_ >= 0.5 else 'REFLATION' if is_ >= 0 else 'GOLDILOCKS')
               if gs >= 0 else ('STAGFLATION' if is_ >= 0 else 'RECESSION'))
     return dict(regime=regime, basis=REGIME_BASIS, growth_score=round(gs, 2),
                 inflation_score=round(is_, 2),
                 components={'growth': {k: round(v, 2) for k, v in g.items()},
-                            'inflation': {k: round(v, 2) for k, v in i.items()}})
+                            'inflation': {k: round(v, 2) for k, v in i.items()}},
+                weights={k: round(v, 4) for k, v in regime_weights(gs, is_).items()})
 
 
 def read_macro():
@@ -416,6 +470,7 @@ def read_macro():
                 regime_basis=reading['basis'], growth_score=reading['growth_score'],
                 inflation_score=reading['inflation_score'], regime_components=reading['components'],
                 regime_input=regime_input, regime_margin=boundary_margin(reading),
+                regime_weights=reading.get('weights'),
                 economic=signals, economic_series=economy,
                 economic_source='FRED or BLS API (CPI-U, unemployment rate, nonfarm payrolls); monthly, latest vintage',
                 economic_log=list(ECONOMIC_LOG),

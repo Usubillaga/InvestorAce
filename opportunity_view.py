@@ -77,6 +77,9 @@ def short(item):
     s = item.get('short_interest') or {}
     if not s:
         return '<span class="opportunity-metrics" data-opportunity-field="short">Short interest not reported</span>'
+    if implausible_short(s):
+        return ('<span class="opportunity-metrics" data-opportunity-field="short">Short interest not shown: '
+                'provider value fell more than 95% in one month</span>')
     parts = []
     if s.get('pct_float') is not None:
         parts.append(number(s['pct_float'],1)+'% of float')
@@ -86,6 +89,14 @@ def short(item):
         parts.append(('%+.0f' % s['change_pct'])+'% vs prior month')
     return ('<span class="opportunity-metrics" data-opportunity-field="short">Short: '+escape(' · '.join(parts))
             +(' ('+escape(s['settlement_date'])+')' if s.get('settlement_date') else '')+'</span>')
+
+
+def implausible_short(s):
+    """Provider glitch guard: OXY and BA read 0.02% of float on 15 Oct 2026,
+    132k and 166k shares against 21.6m and 14.2m a month earlier."""
+    shares, prior = s.get('shares'), s.get('prior_month_shares')
+    return (isinstance(shares, (int, float)) and isinstance(prior, (int, float))
+            and prior >= 1e6 and shares < 0.05 * prior)
 
 
 def insiders(item):
@@ -107,42 +118,56 @@ def insiders(item):
     return '<span class="opportunity-metrics" data-opportunity-field="insider">'+escape(text)+'</span>'
 
 
+def weights_text(item):
+    """'INFLATION 60% · REFLATION 35%': regimes carrying at least 5% of the macro fit."""
+    mix = item.get('regime_weights') or {}
+    shown = [(r, w) for r, w in sorted(mix.items(), key=lambda kv: -kv[1]) if w >= 0.05]
+    if len(mix) <= 1 or not shown:
+        return escape(item.get('current_regime') or 'Unavailable')
+    return escape(' · '.join(f'{r} {100 * w:.0f}%' for r, w in shown))
+
+
 def fit(item):
     bounds = item.get('current_fit_bounds') or [None,None]
     return ('<b data-opportunity-field="fit">'+interval(item.get('current_fit'),*bounds,1)
             +'</b><small class="opportunity-metrics">/100 · '
-            +escape(item.get('current_regime') or 'Unavailable')+'</small>')
+            +weights_text(item)+'</small>')
 
 
 def guide(regime):
     return ('<div class="opportunity-guide"><b>Discounted quality · Current regime: '
-            +escape(regime or 'Unavailable')+'</b><br>Valuation & expectations 40% · Financial quality 30% '
+            +escape(regime or 'Unavailable')+'</b><br>Financial quality 45% · Valuation & expectations 25% (cash flow 15%, P/E 10%) '
             '· Current regime 15% · Growth 10% · Shareholder returns & dilution 5%. '
             'Strong Buy ≥8.50 · Buy ≥7.00 · Hold Positive ≥5.50 · Hold Negative ≥3.50 · Sell &lt;3.50. '
             'A range is missing-data uncertainty, not a point estimate. Labels use unrounded scores '
             'and value-trap caps. Automatic signals and analyst review are separate. '
-            'Macro fit is a heuristic, not a forecast probability.</div>')
+            'Macro fit is a heuristic, not a forecast probability. The current fit is weighted over the '
+            'regimes the macro reading could be in; the weights reflect one month of observed score '
+            'volatility, not a forecast.</div>')
 
 
 def detail(ticker,item):
     rows = []
+    mix = item.get('regime_weights') or {}
     for regime,bounds in item['regime_fit_bounds'].items():
         rows.append(('<tr class="opportunity-fit-now">' if regime == item['current_regime'] else '<tr>')
-            +'<td>'+escape(regime)+'</td><td>'+interval(item['regime_fit'].get(regime),*bounds,1)+'/100</td></tr>')
+            +'<td>'+escape(regime)+'</td><td>'+interval(item['regime_fit'].get(regime),*bounds,1)+'/100</td>'
+            +'<td>'+(number(100*mix[regime],0)+'%' if regime in mix else '—')+'</td></tr>')
     components = ''.join('<tr><td>'+escape(c['label'])+'</td><td>'+number(c['value'])
         +'</td><td>'+number(c['weight']*100,1)+'%</td><td>'+interval(c['contribution'],
             c['lower_contribution'],c['upper_contribution'],3)+'</td></tr>' for c in item['components'])
     return ('<details class="opportunity-stock decision-stock" id="opportunity-'+escape(ticker,quote=True)
         +'" data-opportunity="'+escape(ticker,quote=True)+'"><summary><b class="tk">'+escape(ticker)+'</b> '
         +signal(item)+' · '+score(item)+'</summary>'+tags(item)+metrics(item)
-        +'<p class="opportunity-metrics">P/E proxy = market capitalization / corresponding net income. '
-        'Commodity valuation uses cycle averages where available. Financial period: '
+        +'<p class="opportunity-metrics">P/E proxy = market capitalization / corresponding net income, '
+        'capped at operating income when non-operating gains lift net income above it. '
+        'Commodity valuation and growth use cycle averages where available. Financial period: '
         +escape(item.get('financial_period') or 'Unavailable')+' · '+escape(item.get('cash_flow_policy') or '')
         +'. Required growth (reverse DCF): <span data-opportunity-field="growth">'
         +number(item.get('implied_growth_pct'))+'%</span>.</p>'
         +'<p>'+entry(item)+' <small class="opportunity-metrics">Re-scored at each price; quality, '
         'balance sheet, growth and regime affinity held at today\'s values.</small></p>'
-        +'<div class="tw"><table><thead><tr><th>Regime</th><th>Fit /100</th></tr></thead><tbody data-opportunity-field="regimes">'
+        +'<div class="tw"><table><thead><tr><th>Regime</th><th>Fit /100</th><th>Weight</th></tr></thead><tbody data-opportunity-field="regimes">'
         +''.join(rows)+'</tbody></table></div>'
         +'<div class="tw"><table><thead><tr><th>Component</th><th>Value /10</th><th>Weight</th><th>Contribution</th></tr></thead>'
         +'<tbody data-opportunity-field="components">'+components+'</tbody></table></div>'
