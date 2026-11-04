@@ -529,10 +529,16 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         # A producer's one-year revenue change is mostly the commodity price
         # (CNX +49%, AG +124% in FY2025). Growth uses the same years as the
         # cash-flow and earnings averages, newest first.
+        # Yahoo's cash-flow table can hold one more year than its income
+        # statement; the newest contiguous run of at least three years is used.
         revenue = {item.get('period'): positive_number(item.get('value'))
                    for item in facts.get('annual_revenue_series') or []}
-        path = [revenue.get(period) for period in cash_cycle_periods]
-        if len(path) >= 3 and all(value is not None for value in path):
+        path = []
+        for period in cash_cycle_periods:
+            if revenue.get(period) is None:
+                break
+            path.append(revenue[period])
+        if len(path) >= 3:
             cycle_growth = 100 * ((path[0] / path[-1]) ** (1 / (len(path) - 1)) - 1)
     dividends = finite_number(inputs.get('dividends'))
     share_change = finite_number(facts.get('share_change_pct'))

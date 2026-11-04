@@ -97,9 +97,8 @@ class MissingEbitdaTests(unittest.TestCase):
 
 
 class CycleGrowthTests(unittest.TestCase):
-    def facts(self, revenues):
+    def facts(self, revenues, years=('2025-12-31', '2024-12-31', '2023-12-31')):
         facts = live_analysis.extract(ticker_fixture(), 'CNX', as_of=LIVE_ASOF)
-        years = ('2025-12-31', '2024-12-31', '2023-12-31')
         facts.update(midcycle=True,
                      annual_fcf_series=[dict(period=y, value=100e6) for y in years],
                      annual_net_income_series=[dict(period=y, value=150e6) for y in years],
@@ -114,6 +113,11 @@ class CycleGrowthTests(unittest.TestCase):
         unaligned = live_analysis.calculate(self.facts([1490e6, 1000e6, None]), risk_free=.05, mrp=.05,
                                             as_of=LIVE_ASOF)
         self.assertIsNone(unaligned['metrics']['cycle_revenue_growth_pct'])
+        # Four cash-flow years, revenue only for the newest three: CAGR over those three.
+        longer = self.facts([1210e6, 1100e6, 1000e6, None],
+                            years=('2025-12-31', '2024-12-31', '2023-12-31', '2022-12-31'))
+        longer = live_analysis.calculate(longer, risk_free=.05, mrp=.05, as_of=LIVE_ASOF)
+        self.assertAlmostEqual(longer['metrics']['cycle_revenue_growth_pct'], 10., places=9)
 
     def test_opportunity_scores_cycle_growth_or_leaves_it_unknown(self):
         value = row(); value['midcycle'] = True; value['sector'] = 'Energy'
