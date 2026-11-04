@@ -21,6 +21,7 @@ ALIASES = {
     'operating_income': ('Operating Income', 'EBIT'),
     'net_income': ('Net Income', 'Net Income Common Stockholders'),
     'ebitda': ('EBITDA', 'Normalized EBITDA'),
+    'depreciation': ('Depreciation And Amortization', 'Depreciation Amortization Depletion'),
     'operating_cash_flow': ('Operating Cash Flow', 'Total Cash From Operating Activities'),
     'capex': ('Capital Expenditure', 'Capital Expenditures'),
     'fcf': ('Free Cash Flow',),
@@ -207,7 +208,8 @@ def extract(ticker, symbol, *, as_of):
     values = {key: _total(selected_income, key, dates) for key in
               ('revenue', 'operating_income', 'net_income', 'ebitda')}
     values.update(operating_cash_flow=ocf, capex=capex, fcf=fcf,
-                  dividends=_total(selected_cf, 'dividends', dates))
+                  dividends=_total(selected_cf, 'dividends', dates),
+                  depreciation=_total(selected_cf, 'depreciation', dates))
     dividends_basis = 'CASH_FLOW_STATEMENT' if values['dividends'] is not None else None
     if values['dividends'] is None and no_dividend(info):
         # The statement simply has no dividend row for non-payers; the provider
@@ -320,6 +322,28 @@ def prefer_primary(provider, primary, *, as_of):
     return result
 
 
+def leverage_ebitda(inputs):
+    """EBITDA for net debt / EBITDA, and its basis.
+
+    EBITDA can never be below EBIT on one basis (D&A >= 0). Yahoo's EBITDA row
+    is built from pre-tax income and carries unusual items that its Operating
+    Income row excludes: Gilead's TTM to 2026-09-30 reads EBITDA 1.29bn against
+    operating income 11.70bn, turning ~1.7x leverage into 15.3x, a balance score
+    of 1.5 and a value-trap cap. When the row is below operating income, use
+    operating income plus D&A from the same cash-flow periods, or operating
+    income alone as a conservative floor (it understates EBITDA, never inflates
+    it). A consistent provider EBITDA is used unchanged."""
+    reported = finite_number(inputs.get('ebitda'))
+    opinc = finite_number(inputs.get('operating_income'))
+    if reported is not None and opinc is not None and opinc > 0 and reported < opinc:
+        da = finite_number(inputs.get('depreciation'))
+        if da is not None and da != 0:
+            return opinc + abs(da), 'OPERATING_INCOME_PLUS_DA'
+        return opinc, 'OPERATING_INCOME_FLOOR'
+    value = positive_number(reported)
+    return value, 'REPORTED_EBITDA' if value is not None else None
+
+
 def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5):
     """Reprice frozen facts with current parameters; no network or stored scores."""
     inputs = dict(facts.get('inputs') or {})
@@ -417,7 +441,14 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             warnings.append('Price implies growth beyond the reverse-DCF range ('+reverse_bound
                             +'); the range edge is used as a bound.')
     rev = positive_number(inputs.get('revenue'))
-    opinc, ebitda = finite_number(inputs.get('operating_income')), positive_number(inputs.get('ebitda'))
+    opinc = finite_number(inputs.get('operating_income'))
+    ebitda, leverage_basis = leverage_ebitda(inputs)
+    if leverage_basis in ('OPERATING_INCOME_PLUS_DA', 'OPERATING_INCOME_FLOOR'):
+        warnings.append('Provider EBITDA is below operating income, so it includes non-operating or unusual items; '
+                        + ('leverage uses operating income plus depreciation and amortization.'
+                           if leverage_basis == 'OPERATING_INCOME_PLUS_DA' else
+                           'leverage uses operating income as a conservative floor.'))
+    inputs['leverage_ebitda'] = ebitda
     debt, cash = finite_number(inputs.get('debt')), finite_number(inputs.get('cash'))
     market_cap = price * shares / factor if price and shares and factor else None
     earnings = finite_number(inputs.get('net_income'))
@@ -503,6 +534,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             currency_factor=factor,
             cash_flow_policy=policy,
             cash_flow_calculation=facts.get('cash_flow_calculation'),
+            leverage_ebitda_basis=leverage_basis,
             cushion_tolerance_pp=cushion_tolerance,
             risk_free_pct=100*rf if rf is not None else None, market_premium_pct=100*premium if premium is not None else None,
             discount_rate_basis='COST_OF_EQUITY', cash_flow_basis='LEVERED_FCF_PROXY',

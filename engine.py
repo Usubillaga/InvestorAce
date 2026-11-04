@@ -2448,6 +2448,25 @@ def economic_line(M):
     return 'Economic data (FRED): ' + ' &middot; '.join(parts)
 
 
+def regime_input_line(M):
+    """What the classifier actually read: the smoothed impulses and the boundary margin."""
+    R = M.get('regime_input') or {}
+    if R.get('basis') == 'MEAN_OF_SESSIONS':
+        text = (f'Regime input: market impulses averaged over the last {R["sessions"]} sessions '
+                f'({R.get("start") or ""} to {R.get("end") or ""}) &middot; growth impulse '
+                f'{R["growth"]:+.1f}% &middot; inflation impulse {R["inflation"]:+.1f}%')
+    elif R.get('basis') == 'LATEST_CLOSE':
+        text = 'Regime input: latest close only; the 21-session mean is unavailable.'
+    else:
+        return ''
+    margin = M.get('regime_margin')
+    if margin is not None:
+        text += f' &middot; margin to the nearest regime boundary {margin:.2f}'
+        if margin < 0.05:
+            text += ' &middot; near a boundary: small input changes can move the regime'
+    return text
+
+
 def build_html(macro=None, write=True, monitoring=None, reviews=None, assessments=None):
     errors, warnings = validate_full()
     for w_ in warnings:
@@ -2464,8 +2483,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
     cur_reg = M.get('regime') if M.get('ok') else None
     opportunities = {t: opportunity(d,regime=cur_reg) for t,d in DATA.items()}
     rows = []
-    ranked = sorted(DATA.items(), key=lambda kv: (-(opportunities[kv[0]]['score_lower']
-                        if opportunities[kv[0]]['label'] else -1), kv[0]))
+    ranked = sorted(DATA.items(), key=lambda kv: OPPORTUNITY.rank_order(opportunities[kv[0]], kv[0]))
     for i,(t,d) in enumerate(ranked, 1):
         checked = assessments[t]
         idea = opportunities[t]
@@ -2642,6 +2660,8 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
           f'<b>Inflation impulse {M["inflation"]:+.1f}%</b> (oil + 10-year, 6-month).<br>'
           f'<span class="mono" style="font-size:10px">{det}</span></div>'
           f'<div class="lede" style="margin-bottom:8px">{economic_line(M)}</div>'
+          + (f'<div class="lede" style="margin-bottom:8px">{regime_input_line(M)}</div>'
+             if regime_input_line(M) else '') +
           f'<div class="lede" style="margin-bottom:6px">'
            f'VIX <b>{fmt(M.get("vix"), ".1f")} &mdash; {M.get("vix_state") or "unavailable"}</b>'
           + (' &middot; tranche rule fires above 25' if (M["vix"] or 0) > 25 else '')

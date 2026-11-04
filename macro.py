@@ -34,6 +34,9 @@ unemployment, payrolls). Each input becomes a signal in [-1, 1]; a growth
 score and an inflation score are their averages, and all five regimes are
 reachable. Without economic data the legacy market quadrant is used and the
 reading is marked MARKET_ONLY.
+
+The classifier reads the market impulses as their mean over the last 21
+common-date sessions, not the latest close (see REGIME_SMOOTHING_SESSIONS).
 """
 import csv
 import io
@@ -259,6 +262,55 @@ def _clip(x):
     return max(-1.0, min(1.0, x))
 
 
+# The 6-month impulse read at a single close is noise-dominated: the daily
+# endpoint and the daily base date both move. Consecutive builds from 30 Oct
+# to 3 Nov 2026 read the inflation impulse as 7.4, 4.4, 0.2, 0.4, 3.4 and 2.6%,
+# and the regime flipped INFLATION -> REFLATION with no new economic data,
+# moving NVDA's current fit from 8 to 62. The classifier therefore reads the
+# mean of the last 21 common-date sessions, about one month, which is the
+# cadence of the official CPI, unemployment and payroll data it is combined
+# with. The single-close impulse stays on display, labelled as such.
+REGIME_SMOOTHING_SESSIONS = 21
+
+
+def smoothed_impulses(points, sessions=REGIME_SMOOTHING_SESSIONS):
+    """Mean market growth/inflation impulse over the last `sessions` aligned points.
+
+    `points` come from aligned_path: same dates for all four proxies, no
+    forward filling. Fewer points than `sessions` returns None; the caller then
+    falls back to the latest close and says so."""
+    if not points or len(points) < sessions:
+        return None
+    window = points[-sessions:]
+    values = [(finite(p.get('g')), finite(p.get('i'))) for p in window]
+    if any(g is None or i is None for g, i in values):
+        return None
+    return dict(growth=sum(g for g, _ in values) / sessions,
+                inflation=sum(i for _, i in values) / sessions,
+                sessions=sessions, start=window[0]['date'], end=window[-1]['date'])
+
+
+def finite(x):
+    try:
+        x = float(x)
+    except (TypeError, ValueError):
+        return None
+    return x if math.isfinite(x) else None
+
+
+def boundary_margin(reading):
+    """Distance of the deciding scores from the nearest regime boundary.
+
+    Growth splits at 0; with growth >= 0 inflation splits at 0 and 0.5, with
+    growth < 0 at 0. A small margin means a small change in any input can move
+    the regime, so the reading is shown with it."""
+    gs, is_ = (reading or {}).get('growth_score'), (reading or {}).get('inflation_score')
+    if gs is None or is_ is None:
+        return None
+    edges = [abs(gs), abs(is_)] + ([abs(is_ - 0.5)] if gs >= 0 else [])
+    return round(min(edges), 2)
+
+
 def classify(growth, inflation, signals=None):
     """Five-regime reading from market impulses (percent) and economic signals.
 
@@ -308,10 +360,23 @@ def read_macro():
 
     growth = 100 * sum(gs) / len(gs)
     infl   = 100 * sum(is_) / len(is_)
-    market_regime = quadrant_of(growth, infl)
+    # Research observations require all four proxy series on exactly the same
+    # dates, never positional alignment. The regime reads their 21-session mean.
+    points = aligned_path(c)
+    smooth = smoothed_impulses(points)
+    if smooth:
+        regime_input = dict(basis='MEAN_OF_SESSIONS', growth=round(smooth['growth'], 2),
+                            inflation=round(smooth['inflation'], 2), sessions=smooth['sessions'],
+                            start=smooth['start'], end=smooth['end'])
+        regime_growth, regime_inflation = smooth['growth'], smooth['inflation']
+    else:
+        regime_input = dict(basis='LATEST_CLOSE', growth=round(growth, 2), inflation=round(infl, 2),
+                            sessions=1, start=None, end=None)
+        regime_growth, regime_inflation = growth, infl
+    market_regime = quadrant_of(regime_growth, regime_inflation)
     economy = economic_data()
     signals = economic_signals(economy)
-    reading = classify(growth, infl, signals)
+    reading = classify(regime_growth, regime_inflation, signals)
     regime = reading['regime']
 
     # recession score, 0-100, four independent legs
@@ -344,15 +409,13 @@ def read_macro():
             breadth = 'broadening' if float(r.iloc[-1]) > float(r.rolling(50).mean().iloc[-1]) else 'narrowing'
 
     tr = trail(c)
-    # Preserve the legacy classifier above. Research observations require all
-    # four proxy series on exactly the same dates, never positional alignment.
-    points = aligned_path(c)
     raw = {sym: [{'date': idx.isoformat(), 'close': float(value)}
                   for idx, value in series.items()]
            for sym, series in c.items()}
     return dict(ok=True, regime=regime, market_regime=market_regime,
                 regime_basis=reading['basis'], growth_score=reading['growth_score'],
                 inflation_score=reading['inflation_score'], regime_components=reading['components'],
+                regime_input=regime_input, regime_margin=boundary_margin(reading),
                 economic=signals, economic_series=economy,
                 economic_source='FRED or BLS API (CPI-U, unemployment rate, nonfarm payrolls); monthly, latest vintage',
                 economic_log=list(ECONOMIC_LOG),
