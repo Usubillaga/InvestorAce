@@ -136,7 +136,7 @@ def fit(item):
 
 def guide(regime):
     return ('<div class="opportunity-guide"><b>Discounted quality · Current regime: '
-            +escape(regime or 'Unavailable')+'</b><br>Valuation & expectations 40% · Financial quality 30% '
+            +escape(regime or 'Unavailable')+'</b><br>Financial quality 45% · Valuation & expectations 25% (cash flow 15%, P/E 10%) '
             '· Current regime 15% · Growth 10% · Shareholder returns & dilution 5%. '
             'Strong Buy ≥8.50 · Buy ≥7.00 · Hold Positive ≥5.50 · Hold Negative ≥3.50 · Sell &lt;3.50. '
             'A range is missing-data uncertainty, not a point estimate. Labels use unrounded scores '

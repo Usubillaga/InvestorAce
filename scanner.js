@@ -133,7 +133,7 @@
       $('notice').innerHTML = '<b>Forschungsliste:</b> Ein Modellband ist eine vorläufige Einordnung. Offene wesentliche Einwände verhindern eine belastbare aktuelle Einstufung.';
       $('list-eyebrow').textContent = 'VOM UNIVERSUM ZUR AUSWAHL';
       $('list-title').textContent = 'Mein Universum';
-      $('table-note').textContent = `Chancen-Score v17: Bewertung 40 %, Qualität 30 %, aktuelles Regime 15 %, Wachstum 10 %, Aktionärsrendite/Verwässerung 5 %. Automatische Signale und Gegenprüfung bleiben getrennt. Aktuelles Regime laut Engine: ${regime}. Ein Intervall erfindet keinen Punktwert. Die Regime-Auswahl zeigt Vergleichsszenarien; das Signal bewertet die Eignung gewichtet über die Regime, in denen die Makro-Lesung liegen könnte (Schwankung eines Monats, keine Prognose).`;
+      $('table-note').textContent = `Chancen-Score v18: Finanzqualität 45 %, Bewertung 25 % (Cashflow 15 %, KGV 10 %), aktuelles Regime 15 %, Wachstum 10 %, Aktionärsrendite/Verwässerung 5 %. Automatische Signale und Gegenprüfung bleiben getrennt. Aktuelles Regime laut Engine: ${regime}. Ein Intervall erfindet keinen Punktwert. Die Regime-Auswahl zeigt Vergleichsszenarien; das Signal bewertet die Eignung gewichtet über die Regime, in denen die Makro-Lesung liegen könnte (Schwankung eines Monats, keine Prognose).`;
       $('scanner-head').innerHTML = '<tr><th scope="col">Unternehmen</th><th scope="col">Chancen-Score / Signal</th><th scope="col">Kurs im Datensatz</th><th scope="col">Prüfung / Einwände</th><th scope="col">Regime-Fit</th><th scope="col">Analyse</th></tr>';
     }
     render();
@@ -241,7 +241,7 @@
     if(r.opportunity){
       const o=r.opportunity,m=o.metrics||{};
       return `<tr data-opportunity="${esc(r.ticker)}"><td><span class="ticker">${esc(r.ticker)}</span><span class="subline">${esc(r.issuer)}</span><span class="subline">${esc(r.sector)} · ${esc(profileText(o))}${r.held_in_snapshot?' · Bestand':''}</span></td>
-        <td><span class="score" data-opportunity-field="score">${scoreText(o)}</span> /10<br><span data-opportunity-field="label">${badge(o.label)}</span><span class="subline">Automatisches Signal · v17</span><span class="subline">Altmodell: ${num(r.model_score)} · ${esc(r.model_band||'—')}</span></td>
+        <td><span class="score" data-opportunity-field="score">${scoreText(o)}</span> /10<br><span data-opportunity-field="label">${badge(o.label)}</span><span class="subline">Automatisches Signal · v18</span><span class="subline">Altmodell: ${num(r.model_score)} · ${esc(r.model_band||'—')}</span></td>
         <td>${num(r.price)} ${esc(r.currency)}<span class="subline">${esc(date(r.quote_observed_at))}</span><span class="subline">KGV ${num(m.valuation_pe,1)} · FCF ${pct(m.fcf_yield_pct)}</span></td>
         <td><span class="pending">${status(r)}</span><span class="subline">Operative Marge ${pct(m.operating_margin_pct)} · ${r.issues.length} Prüfpunkte</span></td>
         <td><span class="fit">${fitText(o,$('regime').value)}</span><span class="subline">/100 · ${esc(regimeName[$('regime').value])}<br>Score: gewichtete Eignung ${o.current_fit!==null&&o.current_fit!==undefined?num(o.current_fit,1):(o.current_fit_bounds||[]).map(x=>num(x,1)).join('–')||'—'} (${esc(weightsText(o))}) · 15 %</span></td>

@@ -4,12 +4,15 @@ Investment strategy with friends: a scoreboard of stocks scored on the
 InvestorAce framework (normalised gross value, EPV, WACC, risk, macro regime),
 rebuilt nightly and published to GitHub Pages.
 
-## Opportunity score v17
+## Opportunity score v18
 
 The main report and the universe scanner now lead with a separate versioned
-**automatic opportunity signal**: valuation and priced-in expectations 40%,
-financial quality 30%, current macro fit 15% (weighted over the regimes the macro
-reading could be in), revenue growth 10%, and shareholder returns/dilution 5%. It shows business profiles, P/E and FCF-yield proxies,
+**automatic opportunity signal**: financial quality 45%, valuation and priced-in
+expectations 25% (free-cash-flow yield and reverse-DCF expectations share 15%,
+P/E 10%), current macro fit 15% (weighted over the regimes the macro reading
+could be in), revenue growth 10%, and shareholder returns/dilution 5%. v17 gave
+the two FCF/price measures 15% each; they correlate at 0.88 and explained 62% of
+the score's variance. It shows business profiles, P/E and FCF-yield proxies,
 operating margins and the full five-regime matrix. Strong Buy >=8.5, Buy >=7,
 Hold Positive >=5.5, Hold Negative >=3.5, otherwise Sell, before rounding and
 subject to the documented value-trap caps. These are heuristic design choices,
@@ -32,7 +35,7 @@ and a visible cache notice. Retrieval never renews its age.
 `opportunity.py` and `opportunity_view.py` own this new decision layer. Existing
 `score()`, eight-category weights, review approvals and frozen regime formulas
 remain available for historical reproduction; the older contracts described
-below do not replace the v17 opportunity signal. The SEC-wide market scan
+below do not replace the v18 opportunity signal. The SEC-wide market scan
 remains a separately labelled preliminary screen.
 
 ## How it runs

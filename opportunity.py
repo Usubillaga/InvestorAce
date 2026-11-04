@@ -11,11 +11,18 @@ import autoscore
 from integrity import finite_number, positive_number
 
 
-VERSION = 'opportunity-v17.3'
+VERSION = 'opportunity-v18'
 PRICE_METRICS = ('valuation_pe','reported_pe','fcf_yield_pct','market_cap','cover_pct',
                  'earnings_yield_pct','shareholder_yield_pct')
-WEIGHTS = dict(p=.12, c=.105, b=.075, fcfy=.15, pe=.10, expectations=.15,
+# v18: free-cash-flow yield and reverse-DCF expectations are both functions of
+# FCF / price (correlation 0.88 across the 2026-11-04 universe) and together
+# explained 62% of the score's variance at 15% + 15%, against 12% for the whole
+# quality block. They now share one 15% cash-valuation weight; the freed 15%
+# goes to financial quality in its former 40/35/25 proportions. Valuation
+# (cash 15% + P/E 10%) and quality then explain 45% and 39% of the variance.
+WEIGHTS = dict(p=.18, c=.16, b=.11, fcfy=.075, pe=.10, expectations=.075,
                g=.10, r=.03, d=.02, macro=.15)
+QUALITY, VALUATION = ('p', 'c', 'b'), ('fcfy', 'pe', 'expectations')
 LABELS = dict(p='Operating profitability', c='Cash generation', b='Balance sheet',
     fcfy='Free cash flow yield', pe='Earnings valuation', expectations='Priced-in growth',
     g='Revenue growth', r='Shareholder returns', d='Dilution', macro='Current regime fit')
@@ -195,8 +202,10 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
     ranges['macro'] = [x/10 for x in current] if current else [0.,10.]
     if not current:
         flags.append('CURRENT_REGIME_UNAVAILABLE')
-    quality_bounds = [sum(ranges[k][i]*WEIGHTS[k] for k in ('p','c','b'))/.30 for i in (0,1)]
-    valuation_bounds = [sum(ranges[k][i]*WEIGHTS[k] for k in ('fcfy','pe','expectations'))/.40 for i in (0,1)]
+    quality_weight = sum(WEIGHTS[k] for k in QUALITY)
+    valuation_weight = sum(WEIGHTS[k] for k in VALUATION)
+    quality_bounds = [sum(ranges[k][i]*WEIGHTS[k] for k in QUALITY)/quality_weight for i in (0,1)]
+    valuation_bounds = [sum(ranges[k][i]*WEIGHTS[k] for k in VALUATION)/valuation_weight for i in (0,1)]
     quality,valuation = quality_bounds[0],valuation_bounds[0]
     fcf = finite_number(inputs.get('fcf'))
     margin = finite_number(metrics.get('operating_margin_pct'))
@@ -226,7 +235,7 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
     result_lower,result_upper = min(maximums[0],lower),min(maximums[1],upper)
     signal = label(result_lower) if available and label(result_lower) == label(result_upper) else None
     fundamentals = [k for k in WEIGHTS if k != 'macro']
-    fundamental = (sum(WEIGHTS[k]*values[k] for k in fundamentals)/.85
+    fundamental = (sum(WEIGHTS[k]*values[k] for k in fundamentals)/sum(WEIGHTS[k] for k in fundamentals)
                    if all(values[k] is not None for k in fundamentals) else None)
     deadline = assessment.timestamp(row.get('quote_observed_at'))
     explanation = [dict(key=k,label=LABELS[k],value=values[k],weight=WEIGHTS[k],

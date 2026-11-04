@@ -1,10 +1,13 @@
 # InvestorAce decision behavior
 
-The user explicitly requested the current v17 opportunity methodology.
+The user requested the v17 opportunity methodology and, on 2026-11-04, its
+review; v18 keeps its structure and changes the weights below.
 
 - The main ranking and automatic five-label signal use `opportunity.py`:
-  valuation/expectations 40%, financial quality 30%, current macro 15%, growth
-  10%, shareholder returns/dilution 5%.
+  financial quality 45%, valuation/expectations 25% (FCF yield and reverse-DCF
+  expectations 7.5% each, P/E 10%), current macro 15%, growth 10%, shareholder
+  returns/dilution 5%. FCF yield and reverse DCF are both FCF / price; do not
+  give them separate full weights again without new evidence.
 - Show Strong Buy, Buy, Hold Positive, Hold Negative and Sell when supported
   by the calculation. A pending analyst review must not hide the automatic
   model label; show review status separately. Do not describe an automatic

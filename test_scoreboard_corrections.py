@@ -168,12 +168,12 @@ class LeverageEbitdaTests(unittest.TestCase):
         result = opportunity.assess(copy.deepcopy(value), regime='REFLATION', spec=spec(), as_of=ASOF)
         self.assertIn('BALANCE_LOWER_BOUND', result['flags'])
         balance = next(c for c in result['components'] if c['key'] == 'b')
-        self.assertAlmostEqual(balance['lower_contribution'], 0.075 * 6.0)   # 400/150 = 2.7x, not 40x
+        self.assertAlmostEqual(balance['lower_contribution'], opportunity.WEIGHTS['b'] * 6.0)   # 400/150 = 2.7x, not 40x
         legacy = copy.deepcopy(value)
         del legacy['dynamic_analysis']['inputs']['leverage_ebitda']      # packets built before this field
         result = opportunity.assess(legacy, regime='REFLATION', spec=spec(), as_of=ASOF)
         balance = next(c for c in result['components'] if c['key'] == 'b')
-        self.assertAlmostEqual(balance['lower_contribution'], 0.075 * 1.5)
+        self.assertAlmostEqual(balance['lower_contribution'], opportunity.WEIGHTS['b'] * 1.5)
 
 
 if __name__ == '__main__':

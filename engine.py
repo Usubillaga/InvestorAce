@@ -1748,7 +1748,7 @@ def observation(macro, bundle, captured_at=None):
     regime = macro.get('regime') if macro.get('ok') else None
     rec['_portfolio_proposal'] = (portfolio_proposal(regime, assessments=assessments)
                                   if regime in REGIMES else None)
-    rec['_models'] = dict(engine='v17-opportunity', regime=REGIME_MODEL_VERSION,
+    rec['_models'] = dict(engine='v18-opportunity', regime=REGIME_MODEL_VERSION,
                           opportunity=OPPORTUNITY.VERSION,
                           assessment=ASSESSMENT.VERSION,
                           dynamic_analysis=LIVE_ANALYSIS.VERSION,

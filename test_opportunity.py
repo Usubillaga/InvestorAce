@@ -52,7 +52,13 @@ class OpportunityTests(unittest.TestCase):
         value = row(); dynamic = value['dynamic_analysis']
         dynamic['metrics'].update(fcf_yield_pct=2.,valuation_pe=45.,reported_pe=45.)
         dynamic['valuation'].update(reverse_dcf_growth_pct=20.,ngv_per_share=15.)
-        self.assertEqual(self.assess(value)['label'], 'Hold Negative')
+        result = self.assess(value)
+        # v18 weighs quality 45%: an excellent but expensive business reads Hold
+        # Positive (v17: Hold Negative); the valuation gate still bars Buy.
+        self.assertEqual(result['label'], 'Hold Positive')
+        self.assertLess(result['valuation_score'], 6)
+        self.assertIn('Buy requires quality >=6, valuation >=6, balance >=4.5 and current fit >=35.',
+                      [c['reason'] for c in result['caps']])
 
     def test_negative_cash_flow_cannot_buy_its_way_out_with_a_cheap_pe(self):
         value = row();value['dynamic_analysis']['inputs']['fcf']=-10.
@@ -76,7 +82,9 @@ class OpportunityTests(unittest.TestCase):
 
     def test_uncertain_quality_gate_does_not_truncate_an_attainable_strong_buy(self):
         value=row();dynamic=value['dynamic_analysis']
-        dynamic['components'].update(p=7.,c=7.,b=None,g=7.,r=10.,d=10.)
+        # g=8.5 (v17: 7.0) keeps the completed case a Strong Buy under the v18
+        # weights; the lower quality bound still fails the >=7 gate.
+        dynamic['components'].update(p=7.,c=7.,b=None,g=8.5,r=10.,d=10.)
         dynamic['inputs']['cash']=None
         dynamic['metrics']['valuation_pe']=8.
         partial=self.assess(value,regime='RECESSION')
@@ -187,7 +195,7 @@ class OpportunityTests(unittest.TestCase):
                 evidence.model_bundle(engine.Path(engine.__file__).parent),captured_at=ASOF.isoformat())
         self.assertEqual(record['EX']['score'],4.55)
         self.assertEqual(record['EX']['opportunity']['label'],'Buy')
-        self.assertEqual(record['_models']['opportunity'],'opportunity-v17.3')
+        self.assertEqual(record['_models']['opportunity'],'opportunity-v18')
 
 
 def priced_row():
