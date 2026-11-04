@@ -3,7 +3,7 @@
  "entries": {
   "ADBE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "ADBE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -138,7 +138,7 @@
   },
   "ASML.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "ASML.AS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -273,7 +273,7 @@
   },
   "RIVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "RIVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -416,7 +416,7 @@
   },
   "ROAD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "ROAD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -547,7 +547,7 @@
   },
   "CRM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "CRM",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -690,7 +690,7 @@
   },
   "NVDA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "NVDA",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -833,7 +833,7 @@
   },
   "SPGI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "SPGI",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -976,7 +976,7 @@
   },
   "SAN.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "SAN.PA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -1111,7 +1111,7 @@
   },
   "APP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "APP",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1376,7 +1376,7 @@
   },
   "WKL.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "WKL.AS",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -1508,7 +1508,7 @@
   },
   "MC.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "MC.PA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -1787,7 +1787,7 @@
   },
   "AVGO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "AVGO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1918,7 +1918,7 @@
   },
   "ONON": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "ONON",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -2175,7 +2175,7 @@
   },
   "ROL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "ROL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2318,7 +2318,7 @@
   },
   "LULU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "LULU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2461,7 +2461,7 @@
   },
   "PL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "PL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -2604,7 +2604,7 @@
   },
   "MSFT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "MSFT",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2966,7 +2966,7 @@
   },
   "CVX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "CVX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3101,7 +3101,7 @@
   },
   "AMAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "AMAT",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -3232,7 +3232,7 @@
   },
   "PHR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "PHR",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -3375,7 +3375,7 @@
   },
   "RCAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "RCAT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3506,7 +3506,7 @@
   },
   "ADSK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "ADSK",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -3750,7 +3750,7 @@
   },
   "GILD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "GILD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3885,7 +3885,7 @@
   },
   "AG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "AG",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4028,7 +4028,7 @@
   },
   "BABA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "BABA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -4163,7 +4163,7 @@
   },
   "BYRN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "BYRN",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -4306,7 +4306,7 @@
   },
   "FSLR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "FSLR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4449,7 +4449,7 @@
   },
   "SITE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "SITE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4584,7 +4584,7 @@
   },
   "TSLA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "TSLA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4727,7 +4727,7 @@
   },
   "PG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "PG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4862,7 +4862,7 @@
   },
   "CSGP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "CSGP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5005,7 +5005,7 @@
   },
   "OXY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "OXY",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5148,7 +5148,7 @@
   },
   "SPCX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "SPCX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5267,7 +5267,7 @@
   },
   "REP.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "REP.MC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5394,7 +5394,7 @@
   },
   "AWK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "AWK",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5537,7 +5537,7 @@
   },
   "MRVL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "MRVL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -5680,7 +5680,7 @@
   },
   "AR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "AR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5823,7 +5823,7 @@
   },
   "DVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "DVN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -5966,7 +5966,7 @@
   },
   "CNX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "CNX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -6109,7 +6109,7 @@
   },
   "MRNA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "MRNA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6244,28 +6244,28 @@
   },
   "BNTX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "BNTX",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 2650000000.0,
-    "operating_income": -1242800000.0,
-    "net_income": -1686400000.0,
-    "ebitda": -758200000.0,
-    "operating_cash_flow": 679700000.0,
-    "capex": 235000000.0,
-    "fcf": 444700000.0,
+    "revenue": 2420300000.0,
+    "operating_income": -1758600000.0,
+    "net_income": -1473200000.0,
+    "ebitda": -978500000.0,
+    "operating_cash_flow": -230800000.0,
+    "capex": 244900000.0,
+    "fcf": -475700000.0,
     "dividends": 0.0,
-    "depreciation": 676400000.0,
-    "debt": 316100000.0,
-    "cash": 9741000000.0,
+    "depreciation": 884500000.0,
+    "debt": 359800000.0,
+    "cash": 10200800000.0,
     "shares": 247928180.0
    },
    "financial_currency": "EUR",
@@ -6372,7 +6372,7 @@
    ],
    "listed_class_shares": 247928180.0,
    "implied_shares": 247928180.0,
-   "diluted_average_shares": 253333333.0,
+   "diluted_average_shares": 252739726.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -6387,7 +6387,7 @@
   },
   "INTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "INTC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -6522,7 +6522,7 @@
   },
   "CRWV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "CRWV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6653,7 +6653,7 @@
   },
   "NBIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "NBIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6796,7 +6796,7 @@
   },
   "OPEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "OPEN",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7177,7 +7177,7 @@
   },
   "ISRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "ISRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7312,7 +7312,7 @@
   },
   "VST": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "VST",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7455,7 +7455,7 @@
   },
   "SE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "SE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7590,7 +7590,7 @@
   },
   "UNH": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "UNH",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7733,7 +7733,7 @@
   },
   "CMCSA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "CMCSA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7876,7 +7876,7 @@
   },
   "NVO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "NVO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -8011,7 +8011,7 @@
   },
   "META": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "META",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8154,7 +8154,7 @@
   },
   "DIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "DIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -8285,7 +8285,7 @@
   },
   "PEP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "PEP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8549,7 +8549,7 @@
   },
   "WIX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "WIX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -8684,28 +8684,29 @@
   },
   "GRAB": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T03:07:06.316570+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "GRAB",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 3732000000.0,
-    "operating_income": 332000000.0,
-    "net_income": 598000000.0,
-    "ebitda": 835000000.0,
-    "operating_cash_flow": -61000000.0,
-    "capex": 125000000.0,
-    "fcf": -186000000.0,
+    "revenue": 3971000000.0,
+    "operating_income": 435000000.0,
+    "net_income": 588000000.0,
+    "ebitda": 862000000.0,
+    "operating_cash_flow": 121000000.0,
+    "capex": 139000000.0,
+    "fcf": -18000000.0,
     "dividends": 0.0,
-    "debt": 2033000000.0,
-    "cash": 2859000000.0,
-    "shares": 3973517000.0
+    "depreciation": 223000000.0,
+    "debt": 2070000000.0,
+    "cash": 2848000000.0,
+    "shares": 3942000000.0
    },
    "financial_currency": "USD",
    "currency": "USD",
@@ -8787,6 +8788,31 @@
      "value": null
     }
    ],
+   "annual_revenue_series": [
+    {
+     "period": "2025-12-31",
+     "value": 3370000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2797000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 2359000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1433000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "listed_class_shares": 3942000000.0,
+   "implied_shares": 4037000000.0,
+   "diluted_average_shares": 4391811000.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -8801,7 +8827,7 @@
   },
   "NOW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "NOW",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8944,7 +8970,7 @@
   },
   "MCD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "MCD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -9079,7 +9105,7 @@
   },
   "TTD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "TTD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -9222,7 +9248,7 @@
   },
   "NKE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "NKE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -9365,7 +9391,7 @@
   },
   "ZTS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "ZTS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -9500,7 +9526,7 @@
   },
   "IBST.L": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "IBST.L",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -9632,7 +9658,7 @@
   },
   "NFLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "NFLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9923,7 +9949,7 @@
   },
   "GOOGL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "GOOGL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10058,7 +10084,7 @@
   },
   "INTU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "INTU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -10201,7 +10227,7 @@
   },
   "CLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "CLX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -10344,7 +10370,7 @@
   },
   "GIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "GIS",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -10479,7 +10505,7 @@
   },
   "O": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "O",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10622,7 +10648,7 @@
   },
   "BBW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "BBW",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -10884,7 +10910,7 @@
   },
   "MO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "MO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11027,7 +11053,7 @@
   },
   "SMCI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-04T22:05:49.855656+00:00",
+   "fetched_at": "2026-11-04T22:14:27.364222+00:00",
    "symbol": "SMCI",
    "financial_period": "2026-06-30",
    "period_ends": [
