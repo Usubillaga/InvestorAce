@@ -119,7 +119,8 @@ def assess(row, *, regime, spec, as_of=None):
     ranges = {key:[value,value] if value is not None else [0.,10.] for key,value in values.items()}
     flags, caps = [], []
     debt, cash = finite_number(inputs.get('debt')), finite_number(inputs.get('cash'))
-    ebitda = positive_number(inputs.get('ebitda'))
+    # Same EBITDA the leverage metric used (never below operating income).
+    ebitda = positive_number(inputs['leverage_ebitda'] if 'leverage_ebitda' in inputs else inputs.get('ebitda'))
     balance_supported = values['b'] is not None
     if values['b'] is None and debt is not None and debt >= 0 and cash is None and ebitda:
         minimum = autoscore._band(debt/ebitda,autoscore.BALANCE,default=None)
@@ -217,6 +218,22 @@ def assess(row, *, regime, spec, as_of=None):
         components=explanation,missing_components=missing,flags=flags,
         short_interest=copy.deepcopy((dynamic.get('positioning') or {}).get('short_interest')),
         insider=copy.deepcopy(row.get('insider_activity')))
+
+
+def rank_key(result):
+    """Conservative ranking value: the capped lower score bound, labelled or not.
+
+    A bounded score without a label (its interval spans a band edge) is still
+    known to be at least `score_lower`. Sorting every unlabelled row below the
+    labelled ones put Sanofi (6.92-7.29) under Sell-rated Intel (2.89). Rows
+    with no price-current interval return None and sort last."""
+    return finite_number(result.get('score_lower')) if isinstance(result, dict) else None
+
+
+def rank_order(result, ticker=''):
+    """Sort key: known lower bound descending; at equal bounds labelled rows first."""
+    lower = rank_key(result)
+    return (lower is None, -(lower or 0.), not (result or {}).get('label'), ticker)
 
 
 PRICE_SCAN = (0.30, 3.0, None)   # price range searched, as fractions of the quote

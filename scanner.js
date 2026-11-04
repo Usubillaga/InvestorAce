@@ -20,6 +20,9 @@
   const frozenIssues = new Map(data.rows.map(r => [r.ticker,r.issues]));
   const frozenOpportunities = new Map(data.rows.map(r => [r.ticker,r.opportunity]));
   const opportunityScore=r=>r.opportunity?(r.opportunity.label?r.opportunity.score_lower:null):r.model_score;
+  // Ranking uses the conservative lower bound even without a label: an
+  // unlabelled 6.92-7.29 interval must not sort below a labelled Sell.
+  const opportunityRank=r=>r.opportunity?(r.opportunity.score_lower??null):r.model_score;
   const opportunityBand=r=>r.opportunity?r.opportunity.label:r.model_band;
   const scoreText=o=>o.score!==null&&o.score!==undefined?num(o.score):
     o.score_lower!==null&&o.score_lower!==undefined?num(o.score_lower)+'–'+num(o.score_upper):'—';
@@ -227,7 +230,8 @@
       if ($('review').value === 'issues' && !r.issues.length) return false;
       if ($('review').value === 'notes' && !r.thesis) return false;
       return true;
-    }).sort((a,b)=>(opportunityScore(b)??-1)-(opportunityScore(a)??-1)||a.ticker.localeCompare(b.ticker));
+    }).sort((a,b)=>(opportunityRank(b)??-1)-(opportunityRank(a)??-1)||
+      (!a.opportunity?.label)-(!b.opportunity?.label)||a.ticker.localeCompare(b.ticker));
   }
   function universeRow(r) {
     const fresh = candidates.find(c => c.universe_key === r.ticker);
@@ -285,6 +289,8 @@
       'No comparable positive annual FCF growth; base growth assumes zero.': 'Kein vergleichbares jährliches Cashflow-Wachstum mit positiver Ausgangsbasis; Basisszenario nimmt null Wachstum an.',
       'Financial refresh failed; dated last-good inputs retained and repriced.': 'Finanzdatenabruf fehlgeschlagen; der letzte gültige datierte Eingabestand bleibt erhalten und wird neu bewertet.',
       'Commodity economics still require mid-cycle normalization; reported cash scenario only.': 'Rohstoffgeschäft benötigt weiterhin eine Zyklusnormalisierung; gezeigt wird ein Szenario auf Basis gemeldeter Cashflows.',
+      'Provider EBITDA is below operating income, so it includes non-operating or unusual items; leverage uses operating income plus depreciation and amortization.': 'Das EBITDA des Datenanbieters liegt unter dem operativen Ergebnis und enthält daher nicht operative oder außerordentliche Posten; die Verschuldung wird mit operativem Ergebnis plus Abschreibungen berechnet.',
+      'Provider EBITDA is below operating income, so it includes non-operating or unusual items; leverage uses operating income as a conservative floor.': 'Das EBITDA des Datenanbieters liegt unter dem operativen Ergebnis und enthält daher nicht operative oder außerordentliche Posten; die Verschuldung verwendet das operative Ergebnis als vorsichtige Untergrenze.',
     };
     const scenarioLabels = {bear:'Bär', base:'Basis', bull:'Bulle'};
     const periods = analysis.metric_periods || {};
