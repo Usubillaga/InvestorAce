@@ -6511,7 +6511,19 @@
             "published_at": "2026-11-02"
           }
         ],
-        "review_decision": "No normalized annual FCF/NGV change until an OxyChem-free, after-preferred owner cash-flow bridge is reviewed. Automatic label unchanged; manual approval stays blocked by open objections."
+        "review_decision": "Input-integrity correction: typed monetary input conflicts withdraw automatic purchase labels, NGV/DCF and the cycle earnings multiple. Reported facts and quality remain visible. A continuing-operations, after-preferred common-equity bridge must be reviewed before those valuations are restored; no replacement score or normalized cash flow is invented.",
+        "input_conflicts": [
+          {
+            "code": "DISPOSED_BUSINESS_IN_CYCLE_PROXY",
+            "detected_at": "2026-11-02",
+            "reason": "OxyChem was sold on 2026-01-02; the FY2022-25 cash-flow and earnings averages lack a continuing-operations bridge."
+          },
+          {
+            "code": "COMMON_EQUITY_CLAIMS_OMITTED",
+            "detected_at": "2026-11-02",
+            "reason": "The cash-flow and earnings proxies do not reconcile the Berkshire preferred claims to common equity (about USD680m annual preferred dividends)."
+          }
+        ]
       },
       "insider": {
         "status": "PARTIAL",

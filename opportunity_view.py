@@ -41,7 +41,7 @@ def signal(item):
     css = {'Strong Buy':'p-sbuy','Buy':'p-buy','Hold Positive':'p-hpos',
            'Hold Negative':'p-hneg','Sell':'p-sell'}.get(item['label'],'empty')
     return ('<span data-opportunity-field="label" class="pill opportunity-label '+css+'">'
-            +escape(item['label'] or 'Data incomplete')+'</span>'
+            +escape(item['label'] or ('Valuation blocked' if item.get('valuation_input_conflicts') else 'Data incomplete'))+'</span>'
             '<small class="opportunity-metrics">Automatic model signal</small>')
 
 
@@ -159,6 +159,8 @@ def detail(ticker,item):
     return ('<details class="opportunity-stock decision-stock" id="opportunity-'+escape(ticker,quote=True)
         +'" data-opportunity="'+escape(ticker,quote=True)+'"><summary><b class="tk">'+escape(ticker)+'</b> '
         +signal(item)+' · '+score(item)+'</summary>'+tags(item)+metrics(item)
+        +(''.join('<p class="opportunity-caps">'+escape(c['reason'])+'</p>'
+                 for c in item.get('valuation_input_conflicts', [])))
         +'<p class="opportunity-metrics">P/E proxy = market capitalization / corresponding net income, '
         'capped at operating income when non-operating gains lift net income above it. '
         'Commodity valuation and growth use cycle averages where available. Financial period: '

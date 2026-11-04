@@ -41,7 +41,7 @@ class WeightTests(unittest.TestCase):
         self.assertEqual(w['fcfy'], w['expectations'])
         self.assertAlmostEqual(w['fcfy'] + w['expectations'], .15, places=12)
         self.assertEqual((w['macro'], w['g'], w['r'] + w['d']), (.15, .10, .05))
-        self.assertEqual(opportunity.VERSION, 'opportunity-v18')
+        self.assertEqual(opportunity.VERSION, 'opportunity-v18.1')
 
     def test_the_two_cash_measures_are_one_signal(self):
         fcfy = [row['fcfy'] for row in COMPONENTS.values()]

@@ -457,6 +457,14 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         cash_cycle_periods = dates if aligned else []
         policy = 'MIDCYCLE_MEAN_PROXY'
         warnings.append('Commodity value uses a multi-year reported cash-flow mean; acquisitions and normalization still require review.')
+    conflicts = copy.deepcopy(facts.get('valuation_input_conflicts') or [])
+    if conflicts:
+        # A known invalid perimeter/senior-claim bridge is not a pending
+        # approval. Keep raw reported facts, but do not capitalise them as
+        # common-equity cash flow or silently replace them with an estimate.
+        inputs['rejected_valuation_fcf'] = valuation_fcf
+        valuation_fcf, policy = None, 'BLOCKED_INPUT_CONFLICT'
+        warnings.extend('Valuation blocked: ' + item['reason'] for item in conflicts)
     inputs['valuation_fcf'] = valuation_fcf
     usable = valuation_fcf is not None and valuation_fcf > 0 and shares is not None and rate is not None and factor is not None
     ngv = valuation_fcf / shares / rate * factor if usable else None
@@ -523,6 +531,9 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         valuation_earnings, earnings_basis = opinc, 'CAPPED_AT_OPERATING_INCOME'
         warnings.append('Net income exceeds operating income (non-operating gains or tax benefits); '
                         'the earnings multiple uses operating income.')
+    if conflicts:
+        inputs['rejected_valuation_net_income'] = valuation_earnings
+        valuation_earnings, earnings_basis = None, 'BLOCKED_INPUT_CONFLICT'
     inputs['valuation_net_income'] = valuation_earnings
     cycle_growth = None
     if facts.get('midcycle') and cash_cycle_periods:
@@ -622,6 +633,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         overlay=overlay, score_explanation=dict(schema='score-explanation-v1', status='DECOMPOSED',
             total=score, components=explanation, denominator=1.,
             sum_contributions=score, reconciles=True if complete else None),
+        valuation_input_conflicts=conflicts,
         review_status='REVIEW_REQUIRED', can_approve=False)
 
 

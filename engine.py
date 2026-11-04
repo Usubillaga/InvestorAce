@@ -1440,7 +1440,9 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
             facts = dict(schema=LIVE_ANALYSIS.VERSION, symbol=symbol, inputs={}, currency=row.get('cur'))
         primary = primary_entries.get(ticker, {}).get('valuation', {}).get('financial_packet')
         facts = LIVE_ANALYSIS.prefer_primary(facts, primary, as_of=as_of)
-        facts = dict(facts, midcycle=bool(row.get('midcycle')))
+        facts = dict(facts, midcycle=bool(row.get('midcycle')),
+                     valuation_input_conflicts=SOURCE_REVIEW.valuation_input_conflicts(
+                         primary_entries.get(ticker, {}).get('valuation', {}), as_of=as_of))
         quote_cur, statement_cur = facts.get('currency'), facts.get('financial_currency')
         if (quote_cur and statement_cur and quote_cur != statement_cur
                 and (quote_cur, statement_cur) != ('GBp', 'GBP')):

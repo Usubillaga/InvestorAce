@@ -54,7 +54,7 @@
     return (labels[language]||labels.en)[key];
   }
   // Same packet structure across these versions; only scoring inputs changed.
-  const OPPORTUNITY_SCHEMAS=['opportunity-v17.1','opportunity-v17.2','opportunity-v17.3','opportunity-v18'];
+  const OPPORTUNITY_SCHEMAS=['opportunity-v17.1','opportunity-v17.2','opportunity-v17.3','opportunity-v18','opportunity-v18.1'];
   function projectOpportunity(stored,{now=Date.now()}={}){
     if(!stored||!OPPORTUNITY_SCHEMAS.includes(stored.schema)) return null;
     const at=typeof now==='number'?now:stamp(now);
@@ -73,6 +73,18 @@
       for(const c of item.components||[]) if(['fcfy','pe','expectations','macro','r'].includes(c.key))
         Object.assign(c,{value:null,contribution:null,lower_contribution:0,upper_contribution:10*c.weight});
     }
+    if(item.valuation_input_conflicts?.length){
+      Object.assign(item,{score:null,label:null,score_lower:null,score_upper:null,uncapped_score:null,
+        fundamental_score:null,valuation_score:null,valuation_bounds:[0,10],
+        implied_growth_pct:null,status:'BLOCKED_INPUTS',price_thresholds:null});
+      for(const key of ['valuation_pe','fcf_yield_pct','cover_pct','earnings_yield_pct']) delete item.metrics?.[key];
+      if(item.profile) item.profile.tags=item.profile.tags.filter(x=>x!=='VALUE');
+      const safeBounds=item.regime_fit_basis==='UNKNOWN_COVER_BOUNDS';
+      for(const c of item.components||[]) if(['fcfy','pe','expectations'].includes(c.key)||(!safeBounds&&c.key==='macro'))
+        Object.assign(c,{value:null,contribution:null,lower_contribution:0,upper_contribution:10*c.weight});
+      if(!safeBounds) Object.assign(item,{current_fit:null,current_fit_bounds:null,
+        regime_fit:{},regime_fit_bounds:{},valuation_breakdown_blocked:true});
+    }
     return item;
   }
   function refreshOpportunityNodes(items){
@@ -85,20 +97,22 @@
       const item=items[node.dataset.opportunity];if(!item) continue;
       for(const target of node.querySelectorAll('[data-opportunity-field]')){
         const field=target.dataset.opportunityField;
-        const text={score:range(item.score,[item.score_lower,item.score_upper]),label:item.label||absent,
+        const blocked={en:'Valuation blocked',de:'Bewertung blockiert',es:'Valoración bloqueada'}[language]||'Valuation blocked';
+        const text={score:range(item.score,[item.score_lower,item.score_upper]),
+          label:item.label||(item.valuation_input_conflicts?.length?blocked:absent),
           fit:range(item.current_fit,item.current_fit_bounds),growth:numeric(item.implied_growth_pct)+'%',
           metrics:metricNames[0]+' '+numeric(item.metrics?.valuation_pe)+' · '+metricNames[1]+' '+numeric(item.metrics?.fcf_yield_pct)+'% · '+metricNames[2]+' '+numeric(item.metrics?.operating_margin_pct)+'%'};
         if(field==='entry'){
-          if(item.withdrawn||item.quote_status!=='DATED'){
+          if(item.withdrawn||item.quote_status!=='DATED'||item.valuation_input_conflicts?.length){
             target.textContent={en:'Buy price unavailable',de:'Kaufpreis nicht verfügbar',es:'Precio de compra no disponible'}[language]||'Buy price unavailable';
             if(item.price_thresholds) item.price_thresholds=null;
           }
           continue;
         }
         if(['regimes','components'].includes(field)){
-          if(item.withdrawn||item.quote_status!=='DATED'){
+          if(item.withdrawn||item.quote_status!=='DATED'||item.valuation_breakdown_blocked){
             const row=document.createElement('tr'),cell=document.createElement('td');
-            cell.colSpan=4;cell.textContent=absent;row.append(cell);target.replaceChildren(row);
+            cell.colSpan=4;cell.textContent=item.valuation_breakdown_blocked?blocked:absent;row.append(cell);target.replaceChildren(row);
           }
           continue;
         }
