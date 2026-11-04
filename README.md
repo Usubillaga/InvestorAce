@@ -20,9 +20,11 @@ the review/approval channel below remains separate. Missing inputs retain
 contribution bounds, never neutral scores. A partial score receives a label
 only when its whole interval lies within the same band and core data are
 supported. It receives no point score. Missing cash can support a conservative
-gross-debt leverage bound; it is never silently set to zero. Commodity earnings
-and FCF use multiple consecutive annual observations rather than a peak-year
-multiple. Current quote expiry withdraws signals in Python and the browser.
+gross-debt leverage bound; it is never silently set to zero. Commodity earnings,
+FCF and revenue growth use multiple consecutive annual observations rather than
+a peak year. The P/E proxy caps earnings at operating income when non-operating
+gains lift net income above it, and multi-class companies are valued on all
+share classes when two provider counts agree. Current quote expiry withdraws signals in Python and the browser.
 If the quote provider temporarily fails, a same-currency cached market quote
 may be reused within that same 96-hour limit, with its original market time
 and a visible cache notice. Retrieval never renews its age.

@@ -22,6 +22,7 @@ ALIASES = {
     'net_income': ('Net Income', 'Net Income Common Stockholders'),
     'ebitda': ('EBITDA', 'Normalized EBITDA'),
     'depreciation': ('Depreciation And Amortization', 'Depreciation Amortization Depletion'),
+    'diluted_shares': ('Diluted Average Shares',),
     'operating_cash_flow': ('Operating Cash Flow', 'Total Cash From Operating Activities'),
     'capex': ('Capital Expenditure', 'Capital Expenditures'),
     'fcf': ('Free Cash Flow',),
@@ -117,6 +118,33 @@ def _annual_growth(frame, key):
     if av is None or bv is None or bv <= 0 or not 300 <= (a-b).days <= 400:
         return None
     return 100 * (av / bv - 1)
+
+
+# Yahoo's sharesOutstanding counts only the quoted class of a multi-class
+# company: GOOGL reads 5,888m, the Class A line of Alphabet's 10-Q cover
+# (5,888m A + 827m B + 5,579m C = 12,294m on 21 Oct 2026), so its market
+# value, P/E and FCF yield were computed on 48% of the company. META, NKE
+# and TTD show smaller gaps of the same kind.
+SHARE_CLASS_GAP = (1.05, 2.5)
+
+
+def all_class_shares(listed, implied, diluted):
+    """Whole-company share count when the listed class is only part of it.
+
+    Two independent provider counts must both exceed the listed class by
+    5-150%: the market-value-implied count (all classes at the quote) and
+    the latest diluted average (EPS denominator, all classes). The smaller is
+    used, so a stale or inflated source cannot overstate the count. A split
+    after the latest quarter moves only the diluted average and is ignored,
+    as is an ordinary-share count for an ADR (outside the band). None means
+    keep the listed count."""
+    listed, implied, diluted = (positive_number(x) for x in (listed, implied, diluted))
+    if None in (listed, implied, diluted):
+        return None
+    low, high = SHARE_CLASS_GAP
+    if low < implied / listed <= high and low < diluted / listed <= high:
+        return min(implied, diluted)
+    return None
 
 
 def short_interest(info):
@@ -228,6 +256,15 @@ def extract(ticker, symbol, *, as_of):
                 if shares is not None:
                     share_basis, shares_asof = 'BALANCE_SHEET_OUTSTANDING', table.columns[0].date().isoformat()
                     break
+    listed_shares = shares
+    implied = positive_number(info.get('impliedSharesOutstanding'))
+    if implied is None:
+        cap, quote_px = positive_number(info.get('marketCap')), positive_number(info.get('regularMarketPrice'))
+        implied = cap / quote_px if cap and quote_px else None
+    diluted = positive_number(_value(selected_income, 'diluted_shares', end)) if end is not None else None
+    whole = all_class_shares(listed_shares, implied, diluted)
+    if whole is not None and share_basis == 'YAHOO_CURRENT_SNAPSHOT_UNDATED':
+        shares, share_basis = whole, 'ALL_CLASSES_MIN_IMPLIED_DILUTED'
     values['shares'] = shares
     previous_cf = _cash(cf, [cf.columns[1]])[2] if cf is not None and len(cf.columns) > 1 else None
     latest_cf = _cash(cf, [cf.columns[0]])[2] if cf is not None and len(cf.columns) else None
@@ -261,6 +298,9 @@ def extract(ticker, symbol, *, as_of):
                            for c in list(cf.columns[:5])] if cf is not None else [],
         annual_net_income_series=[dict(period=c.date().isoformat(), value=_value(income, 'net_income', c))
                            for c in list(income.columns[:5])] if income is not None else [],
+        annual_revenue_series=[dict(period=c.date().isoformat(), value=_value(income, 'revenue', c))
+                           for c in list(income.columns[:5])] if income is not None else [],
+        listed_class_shares=listed_shares, implied_shares=implied, diluted_average_shares=diluted,
         cash_growth_periods=[c.date().isoformat() for c in annual_dates],
         source_urls=[f'https://finance.yahoo.com/quote/{urlquote(symbol, safe="")}/{part}/'
                      for part in ('cash-flow', 'financials', 'balance-sheet', 'key-statistics')])
@@ -304,7 +344,7 @@ def prefer_primary(provider, primary, *, as_of):
         result.update(copy.deepcopy(primary))
         result.update(market)
         result['primary_current'] = True
-    for key in ('annual_fcf_series', 'annual_net_income_series'):
+    for key in ('annual_fcf_series', 'annual_net_income_series', 'annual_revenue_series'):
         series = {item['period']: copy.deepcopy(item) for item in provider.get(key, [])}
         for item in primary.get(key, []):
             series[item['period']] = copy.deepcopy(item)
@@ -335,7 +375,11 @@ def leverage_ebitda(inputs):
     it). A consistent provider EBITDA is used unchanged."""
     reported = finite_number(inputs.get('ebitda'))
     opinc = finite_number(inputs.get('operating_income'))
-    if reported is not None and opinc is not None and opinc > 0 and reported < opinc:
+    # A missing row is treated like an inconsistent one: Salesforce's quarterly
+    # EBITDA row came and went between builds on 1-4 Nov 2026 while operating
+    # income stayed, so its balance score, macro fit and Buy label vanished
+    # and returned. Operating income plus D&A is EBITDA by definition.
+    if opinc is not None and opinc > 0 and (reported is None or reported < opinc):
         da = finite_number(inputs.get('depreciation'))
         if da is not None and da != 0:
             return opinc + abs(da), 'OPERATING_INCOME_PLUS_DA'
@@ -350,6 +394,9 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     warnings = ['Reported leveraged FCF proxy; sustainable cash flow has not been normalized.',
                 'Five-year growth and terminal growth are scenario assumptions, not forecasts.']
     warnings.extend(facts.get('primary_warnings', []))
+    if facts.get('shares_basis') == 'ALL_CLASSES_MIN_IMPLIED_DILUTED':
+        warnings.append('The quoted line is one share class of several; valuation uses the whole-company count '
+                        '(smaller of the market-value-implied and diluted average counts).')
     if facts.get('cash_flow_calculation') == 'YAHOO_REPORTED_FCF':
         warnings.append('OCF/capex bridge unavailable; cash flow uses Yahoo reported Free Cash Flow.')
     currency, financial_currency = facts.get('currency'), facts.get('financial_currency')
@@ -444,7 +491,8 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     opinc = finite_number(inputs.get('operating_income'))
     ebitda, leverage_basis = leverage_ebitda(inputs)
     if leverage_basis in ('OPERATING_INCOME_PLUS_DA', 'OPERATING_INCOME_FLOOR'):
-        warnings.append('Provider EBITDA is below operating income, so it includes non-operating or unusual items; '
+        warnings.append(('Provider EBITDA is missing; ' if finite_number(inputs.get('ebitda')) is None else
+                         'Provider EBITDA is below operating income, so it includes non-operating or unusual items; ')
                         + ('leverage uses operating income plus depreciation and amortization.'
                            if leverage_basis == 'OPERATING_INCOME_PLUS_DA' else
                            'leverage uses operating income as a conservative floor.'))
@@ -465,7 +513,27 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         valuation_earnings = sum(corresponding)/len(corresponding) if aligned else None
         if not aligned:
             warnings.append('Commodity earnings multiple unavailable: earnings and cash cycle periods do not align.')
+    earnings_basis = 'CYCLE_MEAN' if facts.get('midcycle') else 'REPORTED_NET_INCOME'
+    if (not facts.get('midcycle') and earnings is not None and earnings > 0
+            and opinc is not None and earnings > opinc):
+        # Net income above pre-tax operating income needs non-operating gains
+        # or tax benefits: Alphabet's TTM reads 235.7bn against 157.0bn, from
+        # marks on private stakes, and scored P/E 7.0 = 10 points. The multiple
+        # uses operating income instead; it never raises a P/E score.
+        valuation_earnings, earnings_basis = opinc, 'CAPPED_AT_OPERATING_INCOME'
+        warnings.append('Net income exceeds operating income (non-operating gains or tax benefits); '
+                        'the earnings multiple uses operating income.')
     inputs['valuation_net_income'] = valuation_earnings
+    cycle_growth = None
+    if facts.get('midcycle') and cash_cycle_periods:
+        # A producer's one-year revenue change is mostly the commodity price
+        # (CNX +49%, AG +124% in FY2025). Growth uses the same years as the
+        # cash-flow and earnings averages, newest first.
+        revenue = {item.get('period'): positive_number(item.get('value'))
+                   for item in facts.get('annual_revenue_series') or []}
+        path = [revenue.get(period) for period in cash_cycle_periods]
+        if len(path) >= 3 and all(value is not None for value in path):
+            cycle_growth = 100 * ((path[0] / path[-1]) ** (1 / (len(path) - 1)) - 1)
     dividends = finite_number(inputs.get('dividends'))
     share_change = finite_number(facts.get('share_change_pct'))
     div_yield = abs(dividends) / market_cap * 100 if dividends is not None and market_cap else None
@@ -483,6 +551,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         valuation_pe=market_cap/valuation_earnings if market_cap and valuation_earnings is not None and valuation_earnings > 0 else None,
         earnings_yield_pct=100*valuation_earnings/market_cap if market_cap and valuation_earnings is not None else None,
         cash_conversion_pct=100*fcf/earnings if fcf is not None and earnings is not None and earnings > 0 else None,
+        cycle_revenue_growth_pct=cycle_growth,
         cover_pct=100*ngv/price if ngv is not None and price else None)
     raw = dict(zip(('g','p','c','b','v','r','d'), (metrics[k] for k in (
         'revenue_growth_pct','operating_margin_pct','fcf_margin_pct','net_debt_ebitda',
@@ -534,7 +603,8 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             currency_factor=factor,
             cash_flow_policy=policy,
             cash_flow_calculation=facts.get('cash_flow_calculation'),
-            leverage_ebitda_basis=leverage_basis,
+            leverage_ebitda_basis=leverage_basis, earnings_basis=earnings_basis,
+            shares_basis=facts.get('shares_basis'),
             cushion_tolerance_pp=cushion_tolerance,
             risk_free_pct=100*rf if rf is not None else None, market_premium_pct=100*premium if premium is not None else None,
             discount_rate_basis='COST_OF_EQUITY', cash_flow_basis='LEVERED_FCF_PROXY',

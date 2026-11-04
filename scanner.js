@@ -291,6 +291,10 @@
       'Commodity economics still require mid-cycle normalization; reported cash scenario only.': 'Rohstoffgeschäft benötigt weiterhin eine Zyklusnormalisierung; gezeigt wird ein Szenario auf Basis gemeldeter Cashflows.',
       'Provider EBITDA is below operating income, so it includes non-operating or unusual items; leverage uses operating income plus depreciation and amortization.': 'Das EBITDA des Datenanbieters liegt unter dem operativen Ergebnis und enthält daher nicht operative oder außerordentliche Posten; die Verschuldung wird mit operativem Ergebnis plus Abschreibungen berechnet.',
       'Provider EBITDA is below operating income, so it includes non-operating or unusual items; leverage uses operating income as a conservative floor.': 'Das EBITDA des Datenanbieters liegt unter dem operativen Ergebnis und enthält daher nicht operative oder außerordentliche Posten; die Verschuldung verwendet das operative Ergebnis als vorsichtige Untergrenze.',
+      'Provider EBITDA is missing; leverage uses operating income plus depreciation and amortization.': 'Das EBITDA des Datenanbieters fehlt; die Verschuldung wird mit operativem Ergebnis plus Abschreibungen berechnet.',
+      'Provider EBITDA is missing; leverage uses operating income as a conservative floor.': 'Das EBITDA des Datenanbieters fehlt; die Verschuldung verwendet das operative Ergebnis als vorsichtige Untergrenze.',
+      'Net income exceeds operating income (non-operating gains or tax benefits); the earnings multiple uses operating income.': 'Der Nettogewinn übersteigt das operative Ergebnis (nicht operative Gewinne oder Steuereffekte); das KGV verwendet das operative Ergebnis.',
+      'The quoted line is one share class of several; valuation uses the whole-company count (smaller of the market-value-implied and diluted average counts).': 'Die notierte Linie ist eine von mehreren Aktiengattungen; die Bewertung verwendet die Aktienzahl des Gesamtunternehmens (kleinerer Wert aus Marktwert-Ableitung und verwässertem Durchschnitt).',
     };
     const scenarioLabels = {bear:'Bär', base:'Basis', bull:'Bulle'};
     const periods = analysis.metric_periods || {};

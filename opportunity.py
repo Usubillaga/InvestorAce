@@ -11,7 +11,7 @@ import autoscore
 from integrity import finite_number, positive_number
 
 
-VERSION = 'opportunity-v17.1'
+VERSION = 'opportunity-v17.2'
 PRICE_METRICS = ('valuation_pe','reported_pe','fcf_yield_pct','market_cap','cover_pct',
                  'earnings_yield_pct','shareholder_yield_pct')
 WEIGHTS = dict(p=.12, c=.105, b=.075, fcfy=.15, pe=.10, expectations=.15,
@@ -111,13 +111,24 @@ def assess(row, *, regime, spec, as_of=None):
     values['fcfy'] = curve(metrics.get('fcf_yield_pct'),[(0,0),(2,2),(4,5),(6,7.5),(8,9),(10,10)])
     pe = finite_number(metrics.get('valuation_pe'))
     net_income = finite_number(inputs.get('net_income'))
+    # The multiple's own earnings: capped at operating income when gains lift
+    # net income above it, so a positive net income can still price as <= 0.
+    multiple_income = (finite_number(inputs.get('valuation_net_income'))
+                       if 'valuation_net_income' in inputs else net_income)
     values['pe'] = (curve(pe,[(8,10),(12,9),(15,8),(20,6.5),(25,5),(35,3),(50,1),(100,0)])
-                    if pe is not None and pe > 0 else 0. if net_income is not None and net_income <= 0
+                    if pe is not None and pe > 0 else 0. if multiple_income is not None and multiple_income <= 0
                     and not row.get('midcycle') else None)
     values['expectations'] = curve((dynamic.get('valuation') or {}).get('reverse_dcf_growth_pct'),
                                   [(-5,10),(0,9),(3,8),(6,6.5),(10,5),(15,3),(25,1)])
-    ranges = {key:[value,value] if value is not None else [0.,10.] for key,value in values.items()}
     flags, caps = [], []
+    if row.get('midcycle'):
+        # Commodity growth uses the cash-cycle years, like the valuation inputs;
+        # a one-year revenue change is mostly the commodity price. Unknown when
+        # the packet carries no aligned revenue years.
+        cycle = finite_number(metrics.get('cycle_revenue_growth_pct'))
+        values['g'] = autoscore._band(cycle, autoscore.GROWTH, default=None) if cycle is not None else None
+        flags.append('CYCLE_REVENUE_GROWTH' if cycle is not None else 'CYCLE_REVENUE_GROWTH_UNAVAILABLE')
+    ranges = {key:[value,value] if value is not None else [0.,10.] for key,value in values.items()}
     debt, cash = finite_number(inputs.get('debt')), finite_number(inputs.get('cash'))
     # Same EBITDA the leverage metric used (never below operating income).
     ebitda = positive_number(inputs['leverage_ebitda'] if 'leverage_ebitda' in inputs else inputs.get('ebitda'))

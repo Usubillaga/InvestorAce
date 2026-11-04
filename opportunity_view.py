@@ -77,6 +77,9 @@ def short(item):
     s = item.get('short_interest') or {}
     if not s:
         return '<span class="opportunity-metrics" data-opportunity-field="short">Short interest not reported</span>'
+    if implausible_short(s):
+        return ('<span class="opportunity-metrics" data-opportunity-field="short">Short interest not shown: '
+                'provider value fell more than 95% in one month</span>')
     parts = []
     if s.get('pct_float') is not None:
         parts.append(number(s['pct_float'],1)+'% of float')
@@ -86,6 +89,14 @@ def short(item):
         parts.append(('%+.0f' % s['change_pct'])+'% vs prior month')
     return ('<span class="opportunity-metrics" data-opportunity-field="short">Short: '+escape(' · '.join(parts))
             +(' ('+escape(s['settlement_date'])+')' if s.get('settlement_date') else '')+'</span>')
+
+
+def implausible_short(s):
+    """Provider glitch guard: OXY and BA read 0.02% of float on 15 Oct 2026,
+    132k and 166k shares against 21.6m and 14.2m a month earlier."""
+    shares, prior = s.get('shares'), s.get('prior_month_shares')
+    return (isinstance(shares, (int, float)) and isinstance(prior, (int, float))
+            and prior >= 1e6 and shares < 0.05 * prior)
 
 
 def insiders(item):
@@ -135,8 +146,9 @@ def detail(ticker,item):
     return ('<details class="opportunity-stock decision-stock" id="opportunity-'+escape(ticker,quote=True)
         +'" data-opportunity="'+escape(ticker,quote=True)+'"><summary><b class="tk">'+escape(ticker)+'</b> '
         +signal(item)+' · '+score(item)+'</summary>'+tags(item)+metrics(item)
-        +'<p class="opportunity-metrics">P/E proxy = market capitalization / corresponding net income. '
-        'Commodity valuation uses cycle averages where available. Financial period: '
+        +'<p class="opportunity-metrics">P/E proxy = market capitalization / corresponding net income, '
+        'capped at operating income when non-operating gains lift net income above it. '
+        'Commodity valuation and growth use cycle averages where available. Financial period: '
         +escape(item.get('financial_period') or 'Unavailable')+' · '+escape(item.get('cash_flow_policy') or '')
         +'. Required growth (reverse DCF): <span data-opportunity-field="growth">'
         +number(item.get('implied_growth_pct'))+'%</span>.</p>'

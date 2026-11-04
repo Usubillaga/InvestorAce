@@ -53,8 +53,10 @@
       es:{reviewed:'Revisado',objections:'Objeciones abiertas',pending:'Sin revisar'}};
     return (labels[language]||labels.en)[key];
   }
+  // Same packet structure across these versions; only scoring inputs changed.
+  const OPPORTUNITY_SCHEMAS=['opportunity-v17.1','opportunity-v17.2'];
   function projectOpportunity(stored,{now=Date.now()}={}){
-    if(!stored||stored.schema!=='opportunity-v17.1') return null;
+    if(!stored||!OPPORTUNITY_SCHEMAS.includes(stored.schema)) return null;
     const at=typeof now==='number'?now:stamp(now);
     if(!Number.isFinite(at)) throw new Error('Opportunity cutoff requires a timezone');
     const item=JSON.parse(JSON.stringify(stored)),q=stamp(item.quote_observed_at),captured=stamp(item.as_of);
