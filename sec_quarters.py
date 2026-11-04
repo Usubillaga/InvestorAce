@@ -60,6 +60,8 @@ def newer_packet(facts, metrics, cik, today):
     inputs = dict(old,
         revenue=metrics['revenue'], operating_income=operating, net_income=metrics.get('net_income'),
         ebitda=operating + dep if operating is not None and dep is not None else None,
+        # Same SEC window as operating income; never the older Yahoo period's D&A.
+        depreciation=dep,
         operating_cash_flow=metrics.get('operating_cash_flow'), capex=metrics.get('capex'),
         fcf=metrics['fcf'], shares=metrics['shares'],
         dividends=-abs(metrics['dividends']) if metrics.get('dividends') is not None else old.get('dividends'),

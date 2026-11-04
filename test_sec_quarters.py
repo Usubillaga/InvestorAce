@@ -40,6 +40,10 @@ class SecQuarterTests(unittest.TestCase):
         self.assertAlmostEqual(packet['inputs']['fcf'], 3300e6 - 550e6)
         self.assertAlmostEqual(packet['inputs']['revenue'], 11000e6)
         self.assertAlmostEqual(packet['inputs']['ebitda'], 2900e6 + 420e6)
+        self.assertAlmostEqual(packet['inputs']['depreciation'], 420e6)    # SEC window, not Yahoo's older one
+        stale = sec_quarters.newer_packet(dict(YAHOO, inputs=dict(YAHOO['inputs'], depreciation=999e6)),
+                                          metrics, 1, TODAY)
+        self.assertAlmostEqual(stale['inputs']['depreciation'], 420e6)
         self.assertEqual(packet['inputs']['shares'], 97e6)
         self.assertLess(packet['inputs']['dividends'], 0)
         self.assertEqual(packet['yahoo_financial_period'], '2026-03-31')
