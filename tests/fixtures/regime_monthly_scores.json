@@ -1,0 +1,108 @@
+{
+ "source": "history/_builds/20261104T030926893874-29ecf5cf7b8e4b18b363cdd37debcd51/observation.json (_evidence.macro)",
+ "method": "Month-end readings rebuilt from the archived input_series (2y daily closes) and economic_series (FRED, 40 months): market impulses = 21-session mean of the aligned path ending at the month end; economic data through the previous month (publication lag); macro.classify of the 2026-11-04 regime-weights change (labour_signal, 50k payroll breakeven).",
+ "rows": [
+  {
+   "end": "2025-06-30",
+   "growth_score": 0.13,
+   "inflation_score": -0.32,
+   "regime": "GOLDILOCKS"
+  },
+  {
+   "end": "2025-07-31",
+   "growth_score": 0.11,
+   "inflation_score": 0.11,
+   "regime": "REFLATION"
+  },
+  {
+   "end": "2025-08-31",
+   "growth_score": -0.18,
+   "inflation_score": 0.21,
+   "regime": "STAGFLATION"
+  },
+  {
+   "end": "2025-09-30",
+   "growth_score": -0.15,
+   "inflation_score": 0.35,
+   "regime": "STAGFLATION"
+  },
+  {
+   "end": "2025-10-31",
+   "growth_score": 0.1,
+   "inflation_score": 0.27,
+   "regime": "REFLATION"
+  },
+  {
+   "end": "2025-11-30",
+   "growth_score": -0.11,
+   "inflation_score": 0.26,
+   "regime": "STAGFLATION"
+  },
+  {
+   "end": "2025-12-31",
+   "growth_score": -0.14,
+   "inflation_score": -0.27,
+   "regime": "RECESSION"
+  },
+  {
+   "end": "2026-01-31",
+   "growth_score": -0.25,
+   "inflation_score": -0.34,
+   "regime": "RECESSION"
+  },
+  {
+   "end": "2026-02-28",
+   "growth_score": 0.18,
+   "inflation_score": -0.08,
+   "regime": "GOLDILOCKS"
+  },
+  {
+   "end": "2026-03-31",
+   "growth_score": -0.09,
+   "inflation_score": 0.14,
+   "regime": "STAGFLATION"
+  },
+  {
+   "end": "2026-04-30",
+   "growth_score": 0.3,
+   "inflation_score": 0.84,
+   "regime": "INFLATION"
+  },
+  {
+   "end": "2026-05-31",
+   "growth_score": 0.33,
+   "inflation_score": 0.95,
+   "regime": "INFLATION"
+  },
+  {
+   "end": "2026-06-30",
+   "growth_score": 0.62,
+   "inflation_score": 1.0,
+   "regime": "INFLATION"
+  },
+  {
+   "end": "2026-07-31",
+   "growth_score": 0.35,
+   "inflation_score": 0.67,
+   "regime": "INFLATION"
+  },
+  {
+   "end": "2026-08-31",
+   "growth_score": 0.26,
+   "inflation_score": 0.19,
+   "regime": "REFLATION"
+  },
+  {
+   "end": "2026-09-30",
+   "growth_score": 0.41,
+   "inflation_score": 0.05,
+   "regime": "REFLATION"
+  },
+  {
+   "end": "2026-10-31",
+   "growth_score": 0.47,
+   "inflation_score": 0.59,
+   "regime": "INFLATION"
+  }
+ ]
+}

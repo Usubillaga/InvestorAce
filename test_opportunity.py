@@ -187,7 +187,7 @@ class OpportunityTests(unittest.TestCase):
                 evidence.model_bundle(engine.Path(engine.__file__).parent),captured_at=ASOF.isoformat())
         self.assertEqual(record['EX']['score'],4.55)
         self.assertEqual(record['EX']['opportunity']['label'],'Buy')
-        self.assertEqual(record['_models']['opportunity'],'opportunity-v17.2')
+        self.assertEqual(record['_models']['opportunity'],'opportunity-v17.3')
 
 
 def priced_row():

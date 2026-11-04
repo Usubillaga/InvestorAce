@@ -11,7 +11,7 @@ import autoscore
 from integrity import finite_number, positive_number
 
 
-VERSION = 'opportunity-v17.2'
+VERSION = 'opportunity-v17.3'
 PRICE_METRICS = ('valuation_pe','reported_pe','fcf_yield_pct','market_cap','cover_pct',
                  'earnings_yield_pct','shareholder_yield_pct')
 WEIGHTS = dict(p=.12, c=.105, b=.075, fcfy=.15, pe=.10, expectations=.15,
@@ -100,7 +100,33 @@ def fits(row, ranges, cover, spec):
     return exact, bounds
 
 
-def assess(row, *, regime, spec, as_of=None):
+def regime_mix(regime, weights):
+    """Normalized regime weights; without weights the current regime alone.
+
+    Weights below 0.5% are dropped so the record stays readable; the rest are
+    renormalized. A macro reading without weights scores one regime, as
+    before."""
+    if isinstance(weights, dict):
+        kept = {r: finite_number(weights.get(r)) for r in REGIMES}
+        kept = {r: w for r, w in kept.items() if w is not None and w >= 0.005}
+        total = sum(kept.values())
+        if total > 0:
+            return {r: round(w / total, 4) for r, w in sorted(kept.items(), key=lambda kv: -kv[1])}
+    return {regime: 1.0} if regime in REGIMES else {}
+
+
+def weighted_fit(bounds, mix):
+    """Regime-weighted [lower, upper] fit, or None when any weighted regime is unknown.
+
+    Each regime's bounds come from the same unknown inputs, so the weighted sum
+    of lower (upper) bounds is a valid lower (upper) bound."""
+    if not mix or not bounds or any(r not in bounds for r in mix):
+        return None
+    total = sum(mix.values())
+    return [round(sum(w * bounds[r][i] for r, w in mix.items()) / total, 1) for i in (0, 1)]
+
+
+def assess(row, *, regime, spec, as_of=None, weights=None):
     as_of = assessment._now(as_of)
     dynamic = row.get('dynamic_analysis') or {}
     metrics = dict(dynamic.get('metrics') or {})
@@ -163,7 +189,8 @@ def assess(row, *, regime, spec, as_of=None):
     ngv = positive_number((dynamic.get('valuation') or {}).get('ngv_per_share'))
     cover = ngv/row['price'] if price_current and ngv else None
     regime_fit, fit_bounds = fits(row,ranges,cover,spec)
-    current = fit_bounds.get(regime)
+    mix = regime_mix(regime, weights)
+    current = weighted_fit(fit_bounds, mix)
     values['macro'] = current[0]/10 if current and current[0] == current[1] else None
     ranges['macro'] = [x/10 for x in current] if current else [0.,10.]
     if not current:
@@ -219,7 +246,9 @@ def assess(row, *, regime, spec, as_of=None):
         quality_bounds=quality_bounds,
         valuation_score=valuation if price_current and all(values[k] is not None for k in ('fcfy','pe','expectations')) else None,
         valuation_bounds=valuation_bounds if price_current else None,
-        profile=business,current_regime=regime,regime_fit=regime_fit,regime_fit_bounds=fit_bounds,
+        profile=business,current_regime=regime,regime_weights=mix,
+        macro_basis='REGIME_WEIGHTED' if len(mix) > 1 else 'SINGLE_REGIME',
+        regime_fit=regime_fit,regime_fit_bounds=fit_bounds,
         current_fit=current[0] if current and current[0] == current[1] else None,
         current_fit_bounds=current,regime_model=spec['version'],
         metrics=metrics if price_current else {k:v for k,v in metrics.items() if k not in PRICE_METRICS},
@@ -313,14 +342,14 @@ def _blocker(result):
     return '; '.join(reasons)
 
 
-def price_thresholds(row, *, regime, spec, as_of=None):
+def price_thresholds(row, *, regime, spec, as_of=None, weights=None):
     """Highest price at which the automatic label is Buy, and Strong Buy.
 
     Everything that does not depend on the quote (quality, balance sheet,
     growth, returns, regime affinity) is held at today's values. A threshold is
     None when no price between 30% and 300% of today's reaches it; `blocker`
     then names the non-price cap that stops it."""
-    current = assess(row, regime=regime, spec=spec, as_of=as_of)
+    current = assess(row, regime=regime, spec=spec, as_of=as_of, weights=weights)
     base = positive_number(row.get('price'))
     if current.get('withdrawn') or base is None:
         return dict(buy=None, strong_buy=None, blocker='PRICE_MODEL_UNAVAILABLE', basis=None)
@@ -336,7 +365,7 @@ def price_thresholds(row, *, regime, spec, as_of=None):
 
     def level(f):
         if f not in memo:
-            memo[f] = assess(_at_price(row, base * f), regime=regime, spec=spec, as_of=as_of)
+            memo[f] = assess(_at_price(row, base * f), regime=regime, spec=spec, as_of=as_of, weights=weights)
         return rank.get(memo[f].get('label'), 0)
 
     found = {}

@@ -8,8 +8,8 @@ rebuilt nightly and published to GitHub Pages.
 
 The main report and the universe scanner now lead with a separate versioned
 **automatic opportunity signal**: valuation and priced-in expectations 40%,
-financial quality 30%, current macro fit 15%, revenue growth 10%, and shareholder
-returns/dilution 5%. It shows business profiles, P/E and FCF-yield proxies,
+financial quality 30%, current macro fit 15% (weighted over the regimes the macro
+reading could be in), revenue growth 10%, and shareholder returns/dilution 5%. It shows business profiles, P/E and FCF-yield proxies,
 operating margins and the full five-regime matrix. Strong Buy >=8.5, Buy >=7,
 Hold Positive >=5.5, Hold Negative >=3.5, otherwise Sell, before rounding and
 subject to the documented value-trap caps. These are heuristic design choices,

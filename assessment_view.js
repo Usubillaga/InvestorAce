@@ -54,7 +54,7 @@
     return (labels[language]||labels.en)[key];
   }
   // Same packet structure across these versions; only scoring inputs changed.
-  const OPPORTUNITY_SCHEMAS=['opportunity-v17.1','opportunity-v17.2'];
+  const OPPORTUNITY_SCHEMAS=['opportunity-v17.1','opportunity-v17.2','opportunity-v17.3'];
   function projectOpportunity(stored,{now=Date.now()}={}){
     if(!stored||!OPPORTUNITY_SCHEMAS.includes(stored.schema)) return null;
     const at=typeof now==='number'?now:stamp(now);

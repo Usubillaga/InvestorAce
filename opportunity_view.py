@@ -118,11 +118,20 @@ def insiders(item):
     return '<span class="opportunity-metrics" data-opportunity-field="insider">'+escape(text)+'</span>'
 
 
+def weights_text(item):
+    """'INFLATION 60% · REFLATION 35%': regimes carrying at least 5% of the macro fit."""
+    mix = item.get('regime_weights') or {}
+    shown = [(r, w) for r, w in sorted(mix.items(), key=lambda kv: -kv[1]) if w >= 0.05]
+    if len(mix) <= 1 or not shown:
+        return escape(item.get('current_regime') or 'Unavailable')
+    return escape(' · '.join(f'{r} {100 * w:.0f}%' for r, w in shown))
+
+
 def fit(item):
     bounds = item.get('current_fit_bounds') or [None,None]
     return ('<b data-opportunity-field="fit">'+interval(item.get('current_fit'),*bounds,1)
             +'</b><small class="opportunity-metrics">/100 · '
-            +escape(item.get('current_regime') or 'Unavailable')+'</small>')
+            +weights_text(item)+'</small>')
 
 
 def guide(regime):
@@ -132,14 +141,18 @@ def guide(regime):
             'Strong Buy ≥8.50 · Buy ≥7.00 · Hold Positive ≥5.50 · Hold Negative ≥3.50 · Sell &lt;3.50. '
             'A range is missing-data uncertainty, not a point estimate. Labels use unrounded scores '
             'and value-trap caps. Automatic signals and analyst review are separate. '
-            'Macro fit is a heuristic, not a forecast probability.</div>')
+            'Macro fit is a heuristic, not a forecast probability. The current fit is weighted over the '
+            'regimes the macro reading could be in; the weights reflect one month of observed score '
+            'volatility, not a forecast.</div>')
 
 
 def detail(ticker,item):
     rows = []
+    mix = item.get('regime_weights') or {}
     for regime,bounds in item['regime_fit_bounds'].items():
         rows.append(('<tr class="opportunity-fit-now">' if regime == item['current_regime'] else '<tr>')
-            +'<td>'+escape(regime)+'</td><td>'+interval(item['regime_fit'].get(regime),*bounds,1)+'/100</td></tr>')
+            +'<td>'+escape(regime)+'</td><td>'+interval(item['regime_fit'].get(regime),*bounds,1)+'/100</td>'
+            +'<td>'+(number(100*mix[regime],0)+'%' if regime in mix else '—')+'</td></tr>')
     components = ''.join('<tr><td>'+escape(c['label'])+'</td><td>'+number(c['value'])
         +'</td><td>'+number(c['weight']*100,1)+'%</td><td>'+interval(c['contribution'],
             c['lower_contribution'],c['upper_contribution'],3)+'</td></tr>' for c in item['components'])
@@ -154,7 +167,7 @@ def detail(ticker,item):
         +number(item.get('implied_growth_pct'))+'%</span>.</p>'
         +'<p>'+entry(item)+' <small class="opportunity-metrics">Re-scored at each price; quality, '
         'balance sheet, growth and regime affinity held at today\'s values.</small></p>'
-        +'<div class="tw"><table><thead><tr><th>Regime</th><th>Fit /100</th></tr></thead><tbody data-opportunity-field="regimes">'
+        +'<div class="tw"><table><thead><tr><th>Regime</th><th>Fit /100</th><th>Weight</th></tr></thead><tbody data-opportunity-field="regimes">'
         +''.join(rows)+'</tbody></table></div>'
         +'<div class="tw"><table><thead><tr><th>Component</th><th>Value /10</th><th>Weight</th><th>Contribution</th></tr></thead>'
         +'<tbody data-opportunity-field="components">'+components+'</tbody></table></div>'

@@ -11,6 +11,9 @@ The user explicitly requested the current v17 opportunity methodology.
   label as an independently approved purchase recommendation.
 - Preserve defensive/cyclical/growth/income profiles and all five regime
   fits. Highlight the actual current regime from the dated macro snapshot.
+  The macro component scores the fit weighted over the regimes the reading
+  could be in (`macro.regime_weights`, calibrated one-month score spread);
+  the regime itself is read from 21-session mean market impulses.
 - Missing inputs remain unknown. A robust label can span a bounded partial
   score, but no midpoint score or neutral input is fabricated. Stale quotes
   withdraw price-dependent labels, including in an already-open browser.

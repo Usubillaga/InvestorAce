@@ -339,7 +339,8 @@ def render_pdf(packet, language='es') -> bytes:
         r.heading({'en':'Automatic opportunity signal','de':'Automatisches Chancen-Signal',
                    'es':'Señal automática de oportunidad'}[language])
         r.fields({key:opportunity.get(key) for key in ('schema','label','score','score_lower','score_upper',
-            'current_regime','current_fit','current_fit_bounds','financial_period','cash_flow_policy')},compact='table')
+            'current_regime','regime_weights','current_fit','current_fit_bounds','financial_period',
+            'cash_flow_policy')},compact='table')
         r.fields(opportunity.get('profile',{}),'Business profile',compact=True)
         r.fields(opportunity.get('metrics',{}),'Valuation and financial quality',compact='table')
         r.fields(opportunity.get('regime_fit_bounds',{}),'Five-regime fit /100',compact='table')

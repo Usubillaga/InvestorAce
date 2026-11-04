@@ -854,14 +854,17 @@ def regime_scores(d):
     return {r: comp[r]['total'] for r in REGIMES} if comp else {}
 
 
-def opportunity(d, *, regime, as_of=None):
-    """Current automatic signal; legacy scores and analyst approvals stay separate."""
+def opportunity(d, *, regime, as_of=None, weights=None):
+    """Current automatic signal; legacy scores and analyst approvals stay separate.
+
+    `weights` (macro regime_weights) spreads the macro fit over the regimes the
+    reading could be in; without it the single current regime is scored."""
     spec = dict(affinity=AFF,duration=DUR_W,balance=BS_W,payout=PAY_W,
                 multiplier=REGIME_SECTOR_MULT,clamp=REGIME_DURATION_CLAMP,
                 version=REGIME_MODEL_VERSION)
-    result = OPPORTUNITY.assess(d, regime=regime, as_of=as_of, spec=spec)
+    result = OPPORTUNITY.assess(d, regime=regime, as_of=as_of, spec=spec, weights=weights)
     result['price_thresholds'] = (None if result.get('withdrawn') else
-        OPPORTUNITY.price_thresholds(d, regime=regime, spec=spec, as_of=as_of))
+        OPPORTUNITY.price_thresholds(d, regime=regime, spec=spec, as_of=as_of, weights=weights))
     return result
 
 
@@ -1710,8 +1713,9 @@ def observation(macro, bundle, captured_at=None):
     assessments = {t: assessment(d, ticker=t, reviews=review_book, as_of=cutoff, notes=notes)
                    for t, d in DATA.items()}
     current_regime = macro.get('regime') if macro.get('ok') else None
+    regime_weights = macro.get('regime_weights') if macro.get('ok') else None
     rec = {t: dict(price=d.get('price'), ngv=ngv(d), cover=cover(d), cushion=cushion(d),
-                   opportunity=opportunity(d,regime=current_regime,as_of=cutoff),
+                   opportunity=opportunity(d,regime=current_regime,as_of=cutoff,weights=regime_weights),
                    score=score(d), raw_verdict=legacy_verdict(t,d)[0], risk=risk(d),
                    verdict=verdict(t,d,assessed=assessments[t])[0], assessment=assessments[t],
                    regime=regime_scores(d), weight=d.get('weight'),
@@ -2464,6 +2468,12 @@ def regime_input_line(M):
         text += f' &middot; margin to the nearest regime boundary {margin:.2f}'
         if margin < 0.05:
             text += ' &middot; near a boundary: small input changes can move the regime'
+    weights = {r: w for r, w in (M.get('regime_weights') or {}).items() if isinstance(w, (int, float))}
+    if len(weights) > 1:
+        shown = ' &middot; '.join(f'{r} {100 * w:.0f}%' for r, w in
+                                  sorted(weights.items(), key=lambda kv: -kv[1]) if w >= 0.005)
+        text += ('<br>Regime weights for the macro fit (one month of observed score volatility, '
+                 'not a forecast): ' + shown)
     return text
 
 
@@ -2481,7 +2491,8 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
                    if assessments is None else assessments)
     M = read_macro() if macro is None else macro
     cur_reg = M.get('regime') if M.get('ok') else None
-    opportunities = {t: opportunity(d,regime=cur_reg) for t,d in DATA.items()}
+    opportunities = {t: opportunity(d,regime=cur_reg,weights=M.get('regime_weights') if M.get('ok') else None)
+                     for t,d in DATA.items()}
     rows = []
     ranked = sorted(DATA.items(), key=lambda kv: OPPORTUNITY.rank_order(opportunities[kv[0]], kv[0]))
     for i,(t,d) in enumerate(ranked, 1):
