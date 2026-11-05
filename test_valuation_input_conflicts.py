@@ -59,7 +59,11 @@ class ValuationInputConflicts(unittest.TestCase):
                 result = engine.opportunity(self.row, regime='INFLATION', as_of=ASOF)
                 self.assertIsNone(result['label'])
                 self.assertIsNone(result['score'])
-                self.assertIsNotNone(result['quality_score'])
+                # A known preferred claim with unconfirmed TTM cash payments
+                # also makes common cash generation unknown; keep its bounds.
+                self.assertIsNone(result['quality_score'])
+                self.assertIsNone(analysis['components']['c'])
+                self.assertIsNotNone(result['quality_bounds'])
                 self.assertEqual(len(result['regime_fit_bounds']), 5)
                 self.assertIsNone(result['price_thresholds']['buy'])
                 self.assertIsNone(result['price_thresholds']['basis'])

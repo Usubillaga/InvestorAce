@@ -606,7 +606,19 @@ def entry_gap(d, target=.60):
 
 def epv(d):
     """EPV per share, populated by populate_epv(). Separate from NGV by design."""
+    if _epv_input_block(d):
+        return None
     return d.get('epv_value')
+
+
+def _epv_input_block(d):
+    analysis = d.get('dynamic_analysis') or {}
+    if analysis.get('valuation_input_conflicts'):
+        return 'EPV blocked: unresolved monetary input conflicts.'
+    bridge = analysis.get('common_equity_basis') or {}
+    if bridge.get('enterprise_epv_compatible') is False:
+        return 'EPV blocked: annual enterprise inputs need a matching scope and senior-capital bridge.'
+    return None
 
 
 def epv_cover(d):
@@ -1441,6 +1453,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
         primary = primary_entries.get(ticker, {}).get('valuation', {}).get('financial_packet')
         facts = LIVE_ANALYSIS.prefer_primary(facts, primary, as_of=as_of)
         facts = dict(facts, midcycle=bool(row.get('midcycle')),
+                     common_equity_bridge=primary_entries.get(ticker, {}).get('valuation', {}).get('common_equity_bridge'),
                      valuation_input_conflicts=SOURCE_REVIEW.valuation_input_conflicts(
                          primary_entries.get(ticker, {}).get('valuation', {}), as_of=as_of))
         quote_cur, statement_cur = facts.get('currency'), facts.get('financial_currency')
@@ -1561,6 +1574,10 @@ def populate_epv(force=False):
         d['epv_note'] = ''
         if d.get('built') == 'fund':
             d['epv_note'] = 'fund: company EPV not applicable'
+            continue
+        blocked = _epv_input_block(d)
+        if blocked:
+            d['epv_note'] = blocked
             continue
         sym = d.get('yf', t)
         rec = cache.get(sym) if isinstance(cache.get(sym), dict) else None
