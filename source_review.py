@@ -11,6 +11,8 @@ from html import escape
 from pathlib import Path
 from urllib.parse import urlsplit
 
+import equity_basis
+
 
 VALUATION_STATUSES = {'SOURCE_CHECKED', 'PARTIAL', 'UNAVAILABLE', 'NOT_APPLICABLE'}
 INSIDER_STATUSES = {'CHECKED_WITH_EVENTS', 'CHECKED_NO_EVENTS', 'PARTIAL',
@@ -99,6 +101,13 @@ def load(payload=None):
                 if _date(dcf['as_of']) > asof:
                     raise ValueError('DCF review postdates the register')
                 dcf_results(dcf)
+            bridge = entry['valuation'].get('common_equity_bridge')
+            if bridge is not None:
+                if bridge.get('issuer_key') != ticker:
+                    raise ValueError('Common-equity bridge belongs to another register issuer')
+                _, fetched = equity_basis.validate(bridge, symbol=bridge.get('symbol'), currency=bridge.get('currency'))
+                if fetched.date() > asof:
+                    raise ValueError('Common-equity bridge postdates the register')
             insider = entry['insider']
             for checked in (insider.get('reviewed_at'),
                             insider.get('coverage', {}).get('checked_through')):
