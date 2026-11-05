@@ -95,6 +95,67 @@ class CommonEquityBasis(unittest.TestCase):
         self.assertEqual(result['inputs']['valuation_net_income'], 150e6)
         self.assertEqual(result['valuation_input_conflicts'], [])
 
+    def test_old_preferred_charge_does_not_impose_a_current_payment(self):
+        facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
+                               preferred_earnings_deduction=None, preferred_outstanding=0.,
+                               net_income_common=150e6)
+        facts['equity_periods'].append(dict(period='2021-12-31', basis='FY', scope='REPORTED',
+            operating_cash_flow=120e6, capex=20e6, net_income=150e6,
+            preferred_earnings_deduction=12e6, preferred_cash_paid=None))
+        result = calculate(facts)
+        self.assertEqual(result['inputs']['valuation_fcf'], 100e6)
+        self.assertEqual(result['valuation_input_conflicts'], [])
+        old = next(r for r in result['common_equity_basis']['annual'] if r['period']=='2021-12-31')
+        self.assertIsNone(old['common_fcf'])
+
+    def test_claim_at_start_of_window_still_requires_a_payment_bridge(self):
+        facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
+                               preferred_earnings_deduction=None, preferred_outstanding=0.)
+        facts['equity_periods'].append(dict(period='2024-12-31', basis='FY', scope='REPORTED',
+                                           preferred_outstanding=50e6))
+        result = calculate(facts)
+        self.assertIsNone(result['inputs']['valuation_fcf'])
+        self.assertTrue(result['valuation_input_conflicts'])
+
+    def test_paid_dividend_ending_at_opening_does_not_enter_the_next_year(self):
+        facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
+                               preferred_earnings_deduction=None, preferred_outstanding=0.)
+        facts['equity_periods'].append(dict(period='2024-12-31', basis='FY', scope='REPORTED',
+                                           preferred_outstanding=0., preferred_cash_paid=10e6))
+        self.assertEqual(calculate(facts)['inputs']['valuation_fcf'], 100e6)
+
+    def test_known_balance_survives_without_a_later_opening_balance(self):
+        facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
+                               preferred_earnings_deduction=None, preferred_outstanding=0.)
+        facts['equity_periods'].append(dict(period='2023-12-31', basis='FY', scope='REPORTED',
+                                           preferred_outstanding=50e6))
+        # A closing zero alone cannot date the intervening redemption.
+        self.assertIsNone(calculate(facts)['inputs']['valuation_fcf'])
+
+    def test_one_annual_claim_does_not_invalidate_other_complete_years(self):
+        facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
+                               preferred_earnings_deduction=None, preferred_outstanding=0.)
+        facts['equity_periods'].append(dict(period='2023-12-31', basis='FY', scope='REPORTED',
+            operating_cash_flow=120e6, capex=20e6, net_income=150e6,
+            preferred_cash_paid=10e6, preferred_earnings_deduction=12e6))
+        result = calculate(facts)
+        annual = {r['period']:r for r in result['common_equity_basis']['annual']}
+        self.assertEqual(annual['2025-12-31']['common_fcf'],100e6)
+        self.assertEqual(annual['2023-12-31']['common_fcf'],90e6)
+
+    def test_explicit_claim_policy_blocks_unbridged_cycle_years(self):
+        facts = facts_with_row()
+        facts.update(midcycle=True, preferred_claims_required=True,
+                     annual_fcf_series=[dict(period=f'{y}-12-31', value=100e6) for y in (2025, 2024, 2023)],
+                     annual_net_income_series=[dict(period=f'{y}-12-31', value=150e6) for y in (2025, 2024, 2023)])
+        self.assertIsNone(calculate(facts)['inputs']['valuation_fcf'])
+
+    def test_expired_claim_does_not_remove_a_reported_fcf_fallback(self):
+        facts = facts_with_row()
+        facts['equity_periods'][0].update(period='2021-12-31')
+        facts['inputs'].update(capex=None)
+        self.assertEqual(calculate(facts)['inputs']['valuation_fcf'], 100e6)
+
     def test_explicit_zero_common_dividend_survives_common_income_metadata(self):
         tk = ticker_fixture()
         tk.cashflow = tk.cashflow.drop('Cash Dividends Paid')
@@ -147,6 +208,31 @@ class CommonEquityBasis(unittest.TestCase):
         result = calculate(newer)
         self.assertIsNone(result['inputs']['valuation_fcf'])
         self.assertIsNone(result['common_equity_basis']['current']['preferred_cash_paid'])
+
+    def test_new_sec_window_does_not_revive_expired_preferred_evidence(self):
+        facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
+                               preferred_earnings_deduction=None, preferred_outstanding=0.)
+        facts['equity_periods'].append(dict(period='2021-12-31', basis='FY', scope='REPORTED',
+                                           preferred_earnings_deduction=12e6))
+        metrics = dict(period_end='2026-06-30', basis='TTM', revenue=1000e6,
+                       operating_income=200e6, fcf=120e6, shares=10e6,
+                       operating_cash_flow=140e6, capex=20e6, net_income=150e6,
+                       depreciation=10e6, debt=50e6, cash=10e6, accns=[])
+        newer = sec_quarters.newer_packet(facts, metrics, 123, ASOF.date())
+        result = calculate(newer)
+        self.assertEqual(result['inputs']['valuation_fcf'], 120e6)
+        self.assertEqual(result['valuation_input_conflicts'], [])
+        # Old cached SEC packets carried the inferred flag over all history.
+        newer['financial_source'] = 'SEC_COMPANYFACTS'
+        newer['preferred_claims_required'] = True
+        self.assertEqual(calculate(newer)['inputs']['valuation_fcf'], 120e6)
+        # With no rows that could have produced an inferred flag, the policy
+        # was explicit and the newer packet still needs a payment bridge.
+        newer['equity_periods'] = []
+        self.assertIsNone(calculate(newer)['inputs']['valuation_fcf'])
+        facts['preferred_claims_required'] = True
+        newer = sec_quarters.newer_packet(facts, metrics, 123, ASOF.date())
+        self.assertIsNone(calculate(newer)['inputs']['valuation_fcf'])
 
     def test_new_sec_window_cannot_clear_known_scope_uncertainty(self):
         facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
@@ -231,6 +317,95 @@ class DatedPrimaryBridge(unittest.TestCase):
         bridge['issuer_key'] = 'OTHER'
         with self.assertRaises(ValueError):
             source_review.load(json.dumps(doc))
+
+
+class PrimaryFieldCorrections(unittest.TestCase):
+    def facts(self):
+        facts = facts_with_row(preferred_cash_paid=None, net_income_common=138e6, revenue=1000e6)
+        url = 'https://issuer.example/2025-report'
+        facts['common_equity_bridge'] = dict(schema='common-equity-bridge-v1', issuer_key='TEST',
+            symbol='TEST', currency='USD', units='currency_units', required_scope='REPORTED',
+            preferred_claims_required=True, published_at='2026-02-01T00:00:00+00:00',
+            fetched_at='2026-11-01T00:00:00+00:00', source_urls=[url], periods=[dict(
+                period='2025-12-31', basis='FY', scope='REPORTED', preferred_cash_paid=10e6,
+                patch_fields=['preferred_cash_paid'], source_urls=[url])])
+        return facts
+
+    def test_dated_preferred_cash_correction_preserves_other_reported_fields(self):
+        result = calculate(self.facts())
+        self.assertEqual(result['inputs']['valuation_fcf'], 90e6)
+        self.assertEqual(result['inputs']['valuation_net_income'],138e6)
+        self.assertEqual(result['inputs']['fcf'],100e6)
+        current = result['common_equity_basis']['current']
+        self.assertEqual(current['revenue'],1000e6)
+        self.assertIn('preferred_cash_paid',current['field_sources'])
+
+    def test_malformed_patch_cannot_override_policy_or_fill_unlisted_values(self):
+        for fields in ([], ['valuation_input_conflicts'], ['preferred_cash_paid','preferred_cash_paid']):
+            facts = self.facts()
+            facts['common_equity_bridge']['periods'][0]['patch_fields'] = fields
+            with self.subTest(fields=fields), self.assertRaises(ValueError):
+                calculate(facts)
+
+    def test_merged_earnings_fields_must_reconcile(self):
+        facts = self.facts()
+        patch_row = facts['common_equity_bridge']['periods'][0]
+        patch_row.update(preferred_earnings_deduction=20e6, patch_fields=['preferred_earnings_deduction'])
+        with self.assertRaisesRegex(ValueError, 'common-income bridge does not reconcile'):
+            calculate(facts)
+
+    def test_payment_correction_does_not_roll_into_a_different_period(self):
+        facts = self.facts()
+        facts['financial_period'] = '2026-06-30'
+        facts['basis'] = 'TTM'
+        result = calculate(facts)
+        self.assertIsNone(result['inputs']['valuation_fcf'])
+        self.assertIsNone(result['common_equity_basis']['current']['preferred_cash_paid'])
+
+    def test_source_claim_survives_when_provider_no_longer_has_the_prior_row(self):
+        facts = self.facts()
+        facts.update(financial_period='2026-06-30', basis='TTM', equity_periods=[])
+        facts['common_equity_bridge']['preferred_claims_required'] = False
+        result = calculate(facts)
+        self.assertIsNone(result['inputs']['valuation_fcf'])
+        self.assertTrue(result['common_equity_basis']['preferred_claims_required'])
+        self.assertIsNone(result['common_equity_basis']['current']['preferred_cash_paid'])
+
+    def test_payment_correction_requires_known_statement_currency(self):
+        facts = self.facts()
+        facts['financial_currency'] = None
+        result = calculate(facts)
+        self.assertIsNone(result['inputs']['valuation_fcf'])
+        self.assertIsNone(result['common_equity_basis']['current']['preferred_cash_paid'])
+
+    def test_payment_correction_cannot_clear_a_disposed_business_conflict(self):
+        facts = self.facts()
+        facts['valuation_input_conflicts'] = [dict(code='DISPOSED_BUSINESS_IN_CYCLE_PROXY',
+            reason='The same-period cash still includes an exited business.', detected_at='2026-11-01')]
+        result = calculate(facts)
+        self.assertEqual(result['valuation_input_conflicts'], facts['valuation_input_conflicts'])
+        self.assertIsNone(result['inputs']['valuation_fcf'])
+
+    def test_correction_for_reported_cash_is_skipped_for_recast_scope(self):
+        facts = self.facts()
+        facts['equity_periods'][0]['scope'] = 'CONTINUING'
+        result = calculate(facts)
+        self.assertEqual(result['common_equity_basis']['current']['scope'], 'CONTINUING')
+        self.assertIsNone(result['common_equity_basis']['current']['preferred_cash_paid'])
+        self.assertTrue(result['valuation_input_conflicts'])
+
+    def test_historic_full_bridge_cannot_clear_a_new_disposal_conflict(self):
+        facts = self.facts()
+        facts['equity_periods'][0].update(scope='CONTINUING', preferred_cash_paid=10e6)
+        bridge = facts['common_equity_bridge']
+        bridge['required_scope'] = 'CONTINUING'
+        bridge['periods'] = [dict(period='2021-12-31', basis='FY', scope='CONTINUING',
+            operating_cash_flow=120e6, capex=20e6, preferred_cash_paid=10e6, net_income_common=138e6,
+            source_urls=bridge['source_urls'])]
+        facts['valuation_input_conflicts'] = [dict(code='DISPOSED_BUSINESS_IN_CYCLE_PROXY',
+            reason='Current provider scope has not been reconciled.', detected_at='2026-11-01')]
+        result = calculate(facts)
+        self.assertEqual(result['valuation_input_conflicts'], facts['valuation_input_conflicts'])
 
 
 if __name__ == '__main__':

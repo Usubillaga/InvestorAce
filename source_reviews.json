@@ -237,8 +237,8 @@
       "issuer": "Sanofi",
       "listing": "SAN.PA / Euronext Paris / EUR (not Banco Santander)",
       "valuation": {
-        "status": "SOURCE_CHECKED",
-        "reason": "H1 financial report read. Issuer non-IFRS FCF is EUR3,724m, with adjustments beyond OCF minus capex; model EUR6,900m is undated and cannot be labeled reported H1/TTM. The source itself contains a transposed OCF row in the FCF bridge: the statements and cash-flow discussion report current/prior OCF EUR4,643m/EUR3,555m, while printed bridge reverses them. Model 1,215m shares differs from H1 diluted weighted-average 1,205.5m. Issuer net debt EUR15,513m excludes EUR1,904m lease liabilities; provider EUR12,672m needs a date/definition bridge. Cost-of-equity/FCFE versus WACC/FCFF and EUR rate matching remain open.",
+        "status": "PARTIAL",
+        "reason": "September TTM continuing operating cash is EUR 11,957m. The provider capex amount is the FY2025 total. September cash PP&E/software covers only part of cash investment. Full same-window cash capex and continuing common earnings remain open.",
         "sources": [
           {
             "url": "https://www.sanofi.com/assets/dotcom/content-app/publications/half-year-financial-reports/half-year-financial-report-2026.pdf",
@@ -250,6 +250,46 @@
               19,
               53,
               54
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1121404/000162828026008403/sny-20251231.htm",
+            "title": "Form 20-F",
+            "period": "FY2025",
+            "published_at": "2026-02-17",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Consolidated Income Statements, extracted table554",
+              "Consolidated Statements of Cash Flows, extracted table567",
+              "Operating and Financial Review / Cash Flow, extracted table195; FCF reconciliation table198",
+              "NoteD.36 Discontinued Operations / Opella, extracted tables876-877",
+              "NoteD.32 Net income attributable to non-controlling interests"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1121404/000112140426000001/pressreleaseq42025english.htm",
+            "title": "Issuer FY results release filed as Form 6-K exhibit99.1",
+            "period": "FY2025",
+            "published_at": "2026-01-29",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Appendix3 Consolidated income statement, p18",
+              "Appendix4 Reconciliation of equity-holder NI to Business NI, p19",
+              "Appendix5 Change in net debt and summarized statement of cash flows, pp20-21",
+              "Appendix9 FCF definition and reconciliation"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1121404/000112140426000009/pressreleaseq32026english.htm",
+            "title": "Issuer quarterly results release filed as Form 6-K exhibit99.1",
+            "period": "9M2026; comparative9M2025",
+            "published_at": "2026-10-30",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Appendix3 Consolidated income statement, p17, extracted table39",
+              "Appendix4 equity-holder NI reconciliation, p18, extracted table41",
+              "Appendix5 summarised cash flows, p19, extracted tables43-44",
+              "Appendix8 FCF definition and IFRS operating-cash bridge, pp22-23, extracted table54"
             ]
           }
         ],
@@ -277,7 +317,33 @@
             "lease_liabilities_excluded": 1904
           }
         },
-        "review_decision": "Add dated issuer observations and source inconsistency; retain model FCF pending normalization rather than annualizing six months or silently treating management-adjusted FCF as FCFF."
+        "review_decision": "Add dated issuer observations and source inconsistency; retain model FCF pending normalization rather than annualizing six months or silently treating management-adjusted FCF as FCFF.",
+        "review_history": [
+          {
+            "superseded_on": "2026-11-05",
+            "status": "SOURCE_CHECKED",
+            "reason": "H1 financial report read. Issuer non-IFRS FCF is EUR3,724m, with adjustments beyond OCF minus capex; model EUR6,900m is undated and cannot be labeled reported H1/TTM. The source itself contains a transposed OCF row in the FCF bridge: the statements and cash-flow discussion report current/prior OCF EUR4,643m/EUR3,555m, while printed bridge reverses them. Model 1,215m shares differs from H1 diluted weighted-average 1,205.5m. Issuer net debt EUR15,513m excludes EUR1,904m lease liabilities; provider EUR12,672m needs a date/definition bridge. Cost-of-equity/FCFE versus WACC/FCFF and EUR rate matching remain open."
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "EUR",
+            "units": "currency_units",
+            "scope": "UNRESOLVED_TOTAL_CAPEX",
+            "operating_cash_flow_continuing": 11957000000,
+            "cash_capex_total_including_software_intangibles": null,
+            "free_cash_flow_common": null,
+            "revenue": 50982000000,
+            "revenue_scope": "CONTINUING_NET_SALES_PLUS_OTHER_REVENUES",
+            "net_income_common": null,
+            "earnings_scope": "UNRESOLVED_COMMON_CONTINUING_ALLOCATION"
+          }
+        }
       },
       "insider": {
         "status": "CHECKED_WITH_EVENTS",
@@ -712,8 +778,8 @@
       "issuer": "Enbridge Inc.",
       "listing": "ENB.TO / Toronto Stock Exchange / CAD",
       "valuation": {
-        "status": "SOURCE_CHECKED",
-        "reason": "Q2 issuer results, full financials and Sep14 equity issuance read. CAD12,900m is consistent with an approximate2026 DCF-guidance midpoint inference (5.90/share×2,184m=12,885.6m), not reported total-capex FCF. H1 DCF6,799m; OCF6,453m minus capex5,414m minus intangibles135m=904m. DCF deducts maintenance capital, interest/current taxes, preferred dividends and noncontrolling distributions, with adjustments, while excluding working-capital movements. Q2 basic2,184m ties June30; Sep14 adds44.735m shares, invalidating an undated current denominator. CAD rate matching, equity-DCF cost of equity versus WACC, and net-debt/other-claim bridge remain open.",
+        "status": "PARTIAL",
+        "reason": "Enbridge reported CAD 12,432m of operating cash and CAD 10,967m of cash capex including intangibles over the TTM to June. After CAD 425m of paid preferred dividends, the historical cash proxy is CAD 1,040m before CAD 397m of noncontrolling distributions. Issuer distributable cash flow uses maintenance capex. The September offering rolls the August 31 common count to 2,228,843,639; June debt and cash predate the offering.",
         "sources": [
           {
             "url": "https://www.enbridge.com/media-center/news/details?id=123885&lang=en",
@@ -723,14 +789,16 @@
           },
           {
             "url": "https://www.enbridge.com/~/media/Enb/Documents/Investor-Relations/2026/2026_Q2_Financial_Statements_MDA_Final.pdf?hash=FC1B18C9A3E4BD461ABAC3F49EB45351&rev=f972cf5b06b74c8a96bcddf9405fbf2f",
-            "title": "Enbridge Q2 2026 Financial Statements and MD&A",
+            "title": "Enbridge Q2/H1 2026 statements and MD&A",
             "published_at": "2026-07-31",
-            "period": "H1 to 2026-06-30",
+            "period": "Six months ended 2026-06-30 and 2025-06-30",
             "printed_pages": [
               4,
               5,
               11
-            ]
+            ],
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Printed statements pp.1,4,5; income, cash-flow and balance tables."
           },
           {
             "url": "https://www.enbridge.com/media-center/news/details?id=123891",
@@ -743,6 +811,46 @@
             "title": "Enbridge announces Tallgrass crude transportation acquisition",
             "published_at": "2026-09-09",
             "period": "2026-09-09"
+          },
+          {
+            "url": "https://www.enbridge.com/investment-center/reports-and-sec-filings/sec-filings/sec-filing-details?docId=265268",
+            "title": "Enbridge FY2025 Form 10-K",
+            "period": "FY2025 and FY2024/FY2023 comparatives",
+            "published_at": "2026-02-13",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Consolidated statements of earnings p.99; cash flows p.102; balance p.103; share capital note20; cash preferred dividends CF separate from earnings."
+          },
+          {
+            "url": "https://www.enbridge.com/investment-center/reports-and-sec-filings/sec-filings/sec-filing-details?docId=265309",
+            "title": "Enbridge Q2 2026 Form 10-Q",
+            "period": "H1 2026; actual shares at 2026-07-24",
+            "published_at": "2026-07-31",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Cover: 2,184,085,509 shares outstanding 24-Jul-2026."
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/895728/000110465926106571/tm2624881d4_424b5.htm",
+            "title": "Enbridge common equity prospectus supplement",
+            "period": "Actual shares 2026-08-31; post-offering shares",
+            "published_at": "2026-09-10",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "The Offering, p.S-3 and footnote1: 2,184,108,639 actual 31-Aug; 2,228,843,639 after full over-allotment."
+          },
+          {
+            "url": "https://www.enbridge.com/media-center/news/details?id=123891&lang=en",
+            "title": "Enbridge closes CAD3.0 billion common equity offering",
+            "period": "44,735,000 shares issued 2026-09-14",
+            "published_at": "2026-09-14",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Issuer closing release: full over-allotment exercised, 44,735,000 shares issued."
+          },
+          {
+            "url": "https://enbridge.mediaroom.com/2026-10-05-Enbridge-Inc-to-Host-Webcast-to-Discuss-2026-Third-Quarter-Results-on-November-6",
+            "title": "Enbridge Q3 2026 reporting schedule",
+            "period": "Q3 release scheduled 2026-11-06",
+            "published_at": "2026-10-05",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Results before markets open 6-Nov-2026; no Q3 cash-flow packet available at 5-Nov cutoff."
           }
         ],
         "observations": {
@@ -793,7 +901,55 @@
             "limitation": "Simple110,120m debt-less-cash is not a completed EV/equity bridge; financelease/operatinglease, hybrid, pension, restrictedcash and otherclaims policy must align. Sep equity proceeds and acquisitions need proforma bridge."
           }
         },
-        "review_decision": "Relabel12.9bn as DCF-based underwriting input and date denominator. Match levered equity DCF with a CAD cost of equity; do not subtract debt again as though this were FCFF. Preserve core inputs until current post-offering denominator and normalization are reconciled."
+        "review_decision": "Relabel12.9bn as DCF-based underwriting input and date denominator. Match levered equity DCF with a CAD cost of equity; do not subtract debt again as though this were FCFF. Preserve core inputs until current post-offering denominator and normalization are reconciled.",
+        "review_history": [
+          {
+            "superseded_on": "2026-11-05",
+            "status": "SOURCE_CHECKED",
+            "reason": "Q2 issuer results, full financials and Sep14 equity issuance read. CAD12,900m is consistent with an approximate2026 DCF-guidance midpoint inference (5.90/share×2,184m=12,885.6m), not reported total-capex FCF. H1 DCF6,799m; OCF6,453m minus capex5,414m minus intangibles135m=904m. DCF deducts maintenance capital, interest/current taxes, preferred dividends and noncontrolling distributions, with adjustments, while excluding working-capital movements. Q2 basic2,184m ties June30; Sep14 adds44.735m shares, invalidating an undated current denominator. CAD rate matching, equity-DCF cost of equity versus WACC, and net-debt/other-claim bridge remain open."
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": null,
+          "status": "SPECIALTY_BASIS",
+          "latest_source_period": "2026-06-30",
+          "observations": {
+            "operating_cash_flow": 12432000000,
+            "capex": 10967000000,
+            "fcf": 1465000000,
+            "preferred_cash_paid": 425000000,
+            "preferred_earnings_deduction": 426000000,
+            "net_income_common": 5701000000,
+            "minority_distributions": 397000000,
+            "shares": 2228843639,
+            "debt": 112132000000,
+            "cash": 2012000000,
+            "currency": "CAD",
+            "units": "currency_units except shares",
+            "window": "2025-07-01/2026-06-30",
+            "shares_asof": "2026-09-14",
+            "shares_basis": "PRIMARY_ACTUAL_AUG31_PLUS_CONFIRMED_SEP14_ISSUANCE_ROLL_FORWARD",
+            "debt_basis": "SHORT_TERM_BORROWINGS_PLUS_CURRENT_AND_LONG_TERM_DEBT_CARRYING_AMOUNTS",
+            "balance_asof": "2026-06-30",
+            "fcf_less_paid_preferred_before_nci_distributions": 1040000000
+          },
+          "next_results": {
+            "issuer_schedule": "2026-11-06",
+            "url": "https://enbridge.mediaroom.com/2026-10-05-Enbridge-Inc-to-Host-Webcast-to-Discuss-2026-Third-Quarter-Results-on-November-6",
+            "next_check_on": "2026-11-06"
+          },
+          "accounting_notes": [
+            "Selected TTM is FY2025 - H1 2025 + H1 2026; Q3 results scheduled 6-Nov-2026 are unavailable at the 5-Nov cutoff.",
+            "Cash capex includes Capital expenditures AND Additions to intangible assets; reported raw FCF differs from issuer distributable cash flow (DCF).",
+            "TTM raw FCF CAD1,465m is before paid preferred dividends CAD425m. Parent earnings CAD6,127m less preferred earnings deduction CAD426m equals common earnings CAD5,701m. Cash and earnings preferred amounts deliberately differ.",
+            "Reported OCF includes noncontrolling cash generation. TTM NCI/redeemable-NCI cash distributions total CAD397m and are not deducted from raw FCF or by the preferred-only common-equity bridge. These proxies are not normalized FCFE.",
+            "Model share denominator is an explicitly disclosed post-offering roll-forward: actual 2,184,108,639 at 31-Aug plus confirmed 44,735,000 issued 14-Sep = 2,228,843,639. It is not a diluted average. Intervening/subsequent employee share issuance and exact 5-Nov count are unverified.",
+            "Debt/cash are 30-Jun balance amounts, before September equity proceeds and subsequent acquisitions; no current pro-forma cash/debt bridge is asserted.",
+            "EBITDA is operating income plus D&A, not issuer Adjusted EBITDA. Sustainable cash generation and cost-of-equity basis remain subject to source review."
+          ]
+        }
       },
       "insider": {
         "status": "UNAVAILABLE",
@@ -6489,7 +6645,7 @@
       "listing": "OXY / NYSE / USD",
       "valuation": {
         "status": "PARTIAL",
-        "reason": "2026-11-05 source reconciliation. New: original SEC filings provide comparable FY2023-25 operations without OxyChem. Error: consolidated operating cash was paired with continuing-only capex; preferred cash payments and earnings deductions were conflated. Correction: cash capex includes the signed accrual adjustment, actual paid preferred dividends are deducted once, and already-common earnings are retained. FY2022 and current TTM preferred cash remain unconfirmed. Valuation stays blocked; commodity normalization and other senior/minority claims remain open. The earlier deep dive and its conditional scenarios are retained in review_history and the linked report.",
+        "reason": "Original filings support the recast FY2023–25 bridge and FY2025 paid preferred dividends of USD 679m. The June 2026 filing combines common and preferred cash dividends. Exact current-period paid preferred cash and the comparable common cash cycle still need reconciliation.",
         "sources": [
           {
             "title": "Occidental Q2 2026 earnings release (SEC 8-K)",
@@ -6526,9 +6682,28 @@
             "published_at": "2024-02-14"
           },
           {
-            "title": "Occidental Petroleum Corporation Quarterly Report, June 30, 2026",
+            "title": "Occidental June 2026 10-Q",
             "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026053388/oxy-20260630.htm",
-            "published_at": "2026-08-05"
+            "published_at": "2026-08-05",
+            "period": "2026-06-30",
+            "locator": "Financing cash flows",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          },
+          {
+            "url": "https://www.oxy.com/siteassets/documents/investors/2025-annual-report.pdf",
+            "title": "Occidental 2025 annual report",
+            "period": "2025-12-31",
+            "published_at": null,
+            "locator": "Cash flows, preferred dividend disclosure",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          },
+          {
+            "url": "https://www.oxy.com/news/news-releases/occidental-to-announce-third-quarter-results-monday-november-9-2026--hold-conference-call-tuesday-november-10-2026/",
+            "title": "Occidental Q3 release schedule",
+            "period": "2026-09-30",
+            "published_at": "2026-10-01",
+            "locator": null,
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
           }
         ],
         "review_decision": "2026-11-05 input reconciliation: FY2023-25 continuing cash/earnings bridges from original SEC filings are attached, including actual paid preferred dividends and cash-capex accrual adjustments. Current TTM preferred cash is unconfirmed, so monetary conflicts and automatic valuation remain blocked. Already-common earnings must not receive a second preferred deduction. No target valuation or replacement score is imported.",
@@ -6677,8 +6852,25 @@
           {
             "as_of": "2026-11-02",
             "reason": "2026-11-02 deep analysis. Q2 2026 primary release: FCF before working capital 3,021m, principal debt 11,818m (YE2025 20,427m), cash 4,150m; OxyChem sale closed 2 Jan 2026 (adjusted 9,472m). Berkshire 10-Q: ~8.5bn 8% preferred, redeemable Aug 2029 at 105%; 83.9m warrants at 59.59 USD. The model NGV 115.92 USD equals FY2022-25 mean FCF 7,051m (12,313/6,612/5,176/4,105) per share at ~6.1%; the mean includes 2022 peak oil and pre-sale OxyChem periods, and fcf/shares ignores 680m/yr preferred dividends. Conditional, unapproved research DCF (10% cost of equity, 4,800m pre-preferred FCF at 65 USD WTI, 230m per 1 USD/bbl): bear/base/bull 38.79/63.14/96.10 USD with mid-cycle WTI 62/70/82; probability-weighted 64.08 USD at p 30/45/25. At the ~61.70 USD reference (2 Nov intraday) implied long-run WTI is about 69-73 USD versus ~69 USD for the Dec-2028 future (24 Aug). Commodity normalization, OxyChem-free annual cash flow and the Tronox tax contingency (~2.4bn) remain unverified. Report: https://usubillaga.github.io/InvestorAce/earnings/oxy-deep-dive-2026-11-02.html"
+          },
+          {
+            "superseded_on": "2026-11-05",
+            "status": "PARTIAL",
+            "reason": "2026-11-05 source reconciliation. New: original SEC filings provide comparable FY2023-25 operations without OxyChem. Error: consolidated operating cash was paired with continuing-only capex; preferred cash payments and earnings deductions were conflated. Correction: cash capex includes the signed accrual adjustment, actual paid preferred dividends are deducted once, and already-common earnings are retained. FY2022 and current TTM preferred cash remain unconfirmed. Valuation stays blocked; commodity normalization and other senior/minority claims remain open. The earlier deep dive and its conditional scenarios are retained in review_history and the linked report."
           }
-        ]
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-06-30",
+          "next_results": {
+            "issuer_schedule": "2026-11-09 after US market close",
+            "url": "https://www.oxy.com/news/news-releases/occidental-to-announce-third-quarter-results-monday-november-9-2026--hold-conference-call-tuesday-november-10-2026/",
+            "next_check_on": "2026-11-10"
+          }
+        }
       },
       "insider": {
         "status": "PARTIAL",
@@ -6709,6 +6901,1686 @@
           "complete": false,
           "checked_through": "2026-11-02"
         }
+      }
+    },
+    "ENG": {
+      "issuer": "Enagás, S.A.",
+      "listing": "ENG.MC / BME / EUR",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "June TTM operating cash of EUR 164.554m less EUR 133.252m of fixed-asset cash capex gives EUR 31.302m. IFRS puts EUR 168.829m of affiliate dividends in investing cash. The October nine-month release supplies FFO and a different cash definition. June debt/cash predate Teréga. Comparable recurring equity cash remains unresolved.",
+        "sources": [
+          {
+            "url": "https://www.enagas.es/content/dam/enagas/en/files/accionistas-e-inversores/informacion-economico-financiera/cuentas-anuales-auditadas-e-informe-de-auditoria/2020/ccaa-consolidadas-2025-en.pdf",
+            "title": "Enagás FY2025 consolidated annual accounts",
+            "period": "FY2025 and FY2024",
+            "published_at": "2026-02-17",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Printed pp.3 balance,5 P&L,8 cash flows; notes3.1 equity/treasury pp.44-45,3.4 gross debt p.55; actual parent dividend cash note1.8."
+          },
+          {
+            "url": "https://www.enagas.es/content/dam/enagas/en/files/accionistas-e-inversores/informacion-economico-financiera/informes-resultados-presentaciones/informacion-publica-periodica/Cuentas%20Consolidadas%20Primer%20Semestre%202026_EN.pdf",
+            "title": "Enagás H1 2026 consolidated interim statements",
+            "period": "H1 2026 and H1 2025",
+            "published_at": "2026-07-22",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Printed pp.1 balance,2 income,5 cash flow,28 capital and treasury,33 debt; English translation, Spanish controls."
+          },
+          {
+            "url": "https://www.enagas.es/content/dam/enagas/es/ficheros/accionistas-e-inversores/informacion-economico-financiera/informes-resultados-presentaciones/informacion-publica-periodica/Cuentas%20Consolidadas%20Primer%20Semestre%202026.pdf",
+            "title": "Enagás H1 2026 original Spanish consolidated interim statements",
+            "period": "H1 2026",
+            "published_at": "2026-07-22",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Original Spanish; printed balance p.1 visually checked against English; other numeric extraction from issuer English translation."
+          },
+          {
+            "url": "https://www.enagas.es/content/dam/enagas/en/files/accionistas-e-inversores/informacion-economico-financiera/informes-resultados-presentaciones/informacion-publica-periodica/Nota%20CNMV%20Results%209M2026.pdf",
+            "title": "Enagás 9M2026 issuer results",
+            "period": "Nine months ended 2026-09-30",
+            "published_at": "2026-10-20",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Printed pp.5-6 financial tables; pp.9-11 cash/net debt/investments. OCF is issuer APM incl affiliate dividends; net investment is not fixed-asset cash capex."
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": null,
+          "status": "SPECIALTY_BASIS",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "operating_cash_flow": 164554000,
+            "capex": 133252000,
+            "fcf": 31302000,
+            "preferred_cash_paid": 0,
+            "preferred_earnings_deduction": 0,
+            "net_income_common": 289980000,
+            "shares": 260298033,
+            "debt": 3022958000,
+            "cash": 718127000,
+            "currency": "EUR",
+            "units": "currency_units except shares",
+            "window": "2025-07-01/2026-06-30",
+            "shares_asof": "2026-06-30",
+            "shares_basis": "ACTUAL_ISSUED_COMMON_LESS_REPORTED_TREASURY",
+            "debt_basis": "ISSUER_GROSS_FINANCIAL_DEBT_INCLUDES_IFRS16_LEASES",
+            "balance_asof": "2026-06-30"
+          },
+          "accounting_notes": [
+            "Latest complete compatible cash-flow window verified is TTM to 30-Jun-2026: FY2025 - H1 2025 + H1 2026. 9M2026 issuer APMs remain a separate observation and were not quarter-annualized.",
+            "IFRS OCF excludes dividends from equity-accounted affiliates, classified as investing receipts: TTM EUR168.829m. Raw FCF EUR31.302m is OCF EUR164.554m minus cash fixed-asset/real-estate capex EUR133.252m. OCF plus affiliate dividends minus capex would be EUR200.131m, a separate analyst reclassification proxy, not the reported OCF-minus-capex field.",
+            "Revenue uses statutory revenue/net turnover plus other operating income to match the issuer total operating revenue convention. Operating profit includes equity-method investee profit under the issuer presentation.",
+            "Selected cash capex is cash payments for Fixed assets and real estate investments, not accrual additions, net investments, business acquisitions or FFO.",
+            "Debt includes issuer gross financial debt, including IFRS16 leases, and cash at 30-Jun. These predate the 30-Jul Teréga acquisition and subsequent Saggas funding requirements. Latest 9M issuer net debt/cash are disclosed separately, not mixed into the atomic H1 balance.",
+            "Actual shares at 30-Jun: 261,990,074 issued minus 1,692,041 treasury = 260,298,033. It is not the issued-share proxy or weighted-average diluted count. Exact later treasury changes are unknown.",
+            "FY2024 earnings include substantial asset-rotation/GSP losses; simple FY2025 growth and reported cash conversion are not normalized recurring measures.",
+            "Dividend payments in the statutory cash-flow statement include minority distributions. Parent dividend cash is EUR260.186m FY2025 and EUR377.713m FY2024 (total cash-flow dividends less EUR1.173m minority paid in H1); TTM excludes the prior H1 minority payment."
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "VICI": {
+      "issuer": "VICI Properties Inc.",
+      "listing": "VICI / NYSE / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September TTM operating cash of USD 2,707.193m less USD 29.302m of own fixed-asset cash capex gives USD 2,677.891m. Portfolio and lease investment is separate from own cash capex. This historical amount and AFFO have different bases. The filing reports 1,101,085,584 actual shares on October 27.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1705696/000170569626000034/vici-20251231.htm",
+            "title": "VICI Properties Inc FY2025 Form 10-K",
+            "period": "FY2025, FY2024 and FY2023",
+            "published_at": "2026-02-25",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "VICI Properties Inc (not VICI LP) balance F-8, earnings F-9, cash flows F-11/F-12; note7 debt."
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1705696/000170569626000120/vici-20260930.htm",
+            "title": "VICI Properties Inc Q3 2026 Form 10-Q",
+            "period": "Nine months ended 2026-09-30 and 2025-09-30",
+            "published_at": "2026-10-28",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "Cover: actual shares 27-Oct; VICI Inc balance p.3, income p.4, cash flows pp.7-8; note7 debt and note5 finance sublease liability."
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1705696/000170569626000119/viciq32026earningsrelease.htm",
+            "title": "VICI Q3 2026 earnings release",
+            "period": "Q3/9M2026",
+            "published_at": "2026-10-28",
+            "retrieved_at": "2026-11-05T14:52:27+00:00",
+            "locator": "AFFO reconciliation; AFFO is supplemental performance measure, not GAAP operating cash flow/leveredFCF."
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": null,
+          "status": "SPECIALTY_BASIS",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "operating_cash_flow": 2707193000,
+            "capex": 29302000,
+            "fcf": 2677891000,
+            "preferred_cash_paid": 0,
+            "preferred_earnings_deduction": 0,
+            "net_income_common": 2346212000,
+            "shares": 1101085584,
+            "debt": 18078431000,
+            "cash": 270321000,
+            "currency": "USD",
+            "units": "currency_units except shares",
+            "window": "2025-10-01/2026-09-30",
+            "shares_asof": "2026-10-27",
+            "shares_basis": "10Q_COVER_ACTUAL_COMMON_OUTSTANDING",
+            "debt_basis": "FACE_PRINCIPAL_PLUS_FINANCE_SUBLEASE_LIABILITY_EXCLUDES_OPERATING_LEASES",
+            "balance_asof": "2026-09-30"
+          },
+          "accounting_notes": [
+            "Selected TTM is FY2025 - 9M2025 + 9M2026; VICI Properties Inc tables are used, not the separate VICI Properties LP financial statements in the same filing.",
+            "9M2026 own cash capex is property/equipment acquisitions USD3.501m plus real estate under development cash payments USD25.499m = USD29.000m; TTM capex USD29.302m. Issuer AFFO golf capex USD3.420m differs from cash PPE and is not substituted.",
+            "Investments in sales-type/financing leases, loans/securities and acquisition consideration are separately classified investing cash flows, not own fixed-asset cash capex. Raw FCF does not deduct all portfolio investment funding and is not normalized FCFE.",
+            "Operating income is explicitly derived as total revenue minus total stated operating expenses, including CECL provision; the issuer statement does not label an operating-income subtotal. TTM expenses USD941.202m; operating income USD3,214.398m. EBITDA proxy adds reported depreciation and is not Adjusted EBITDA.",
+            "Net income uses parent/common USD2,346.212m after noncontrolling earnings; consolidated income USD2,382.407m is retained separately. No preferred shares outstanding are reported.",
+            "AFFO is a separate issuer performance measure and is not leveredFCF or the OCF-minus-capex field.",
+            "Selected debt is USD17,217.832m face principal plus USD860.599m finance sublease liability = USD18,078.431m. Debt carrying amount USD16,916.934m and operating lease/sublease liabilities USD48.215m are disclosed separately; the latter remain excluded. Avoid mixing principal and carrying debt definitions.",
+            "Actual common shares are 1,101,085,584 at 27-Oct-2026 from 10-Q cover; the 27-Oct share-repurchase authorization does not evidence completed repurchases."
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "GOOGL": {
+      "issuer": "Alphabet Inc.",
+      "listing": "GOOGL / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September TTM paid preferred dividends were USD 234m. The separate earnings deduction was USD 384m. Common earnings of USD 235,310m already reflect the deduction. Common cash dividends were USD 10,469m. On the same reported OCF and capex, the common cash proxy is USD 19,513m.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm",
+            "title": "Alphabet Q3 2026 Form 10-Q",
+            "period": "2026-09-30",
+            "published_at": "2026-10-29",
+            "retrieved_at": "2026-11-05T14:42:54.685140+00:00",
+            "locator": "Balance sheet p4; income statement p5; cash flows p9; Note11 pp36-37; Note12 pp39-40"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm",
+            "title": "Alphabet FY2025 Form 10-K",
+            "period": "2025-12-31",
+            "published_at": "2026-02-05",
+            "retrieved_at": "2026-11-05T14:42:54.685140+00:00",
+            "locator": "Balance sheet preferred shares row; annual consolidated cash flows; dividend program"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "INPUT_CORRECTED",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "USD",
+            "units": "currency_units",
+            "window_end": "2026-09-30",
+            "preferred_outstanding": 18023000000,
+            "preferred_cash_paid": 234000000,
+            "preferred_earnings_deduction": 384000000,
+            "common_fcf": 19513000000,
+            "common_dividends_paid": -10469000000,
+            "dividends_total": -10703000000,
+            "net_income_common": 235310000000
+          }
+        },
+        "common_equity_bridge": {
+          "schema": "common-equity-bridge-v1",
+          "issuer_key": "GOOGL",
+          "symbol": "GOOGL",
+          "currency": "USD",
+          "units": "currency_units",
+          "required_scope": "REPORTED",
+          "preferred_claims_required": false,
+          "published_at": "2026-10-29T23:59:59+00:00",
+          "fetched_at": "2026-11-05T14:42:54.685140+00:00",
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm",
+            "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"
+          ],
+          "periods": [
+            {
+              "period": "2026-09-30",
+              "basis": "TTM",
+              "scope": "REPORTED",
+              "patch_fields": [
+                "preferred_outstanding",
+                "preferred_cash_paid",
+                "preferred_earnings_deduction",
+                "common_dividends_paid",
+                "dividends_total",
+                "net_income_common",
+                "net_income"
+              ],
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm",
+                "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm"
+              ],
+              "preferred_outstanding": 18023000000,
+              "preferred_cash_paid": 234000000,
+              "preferred_earnings_deduction": 384000000,
+              "common_dividends_paid": -10469000000,
+              "dividends_total": -10703000000,
+              "net_income_common": 235310000000,
+              "net_income": 235694000000
+            }
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "SMCI": {
+      "issuer": "Super Micro Computer Inc.",
+      "listing": "SMCI / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "June TTM paid preferred dividends were zero; USD 13.088m was an earnings deduction. The first payment fell in September. The November 3 preliminary release reports USD 63.729m of September preferred cash payments and a negative September TTM cash proxy. The June payment correction applies to June only.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000022/smci-20260630.htm",
+            "title": "Super Micro FY2026 Form 10-K",
+            "period": "2026-06-30",
+            "published_at": "2026-08-31",
+            "retrieved_at": "2026-11-05T14:42:54.685140+00:00",
+            "locator": "Equity p62; cash flows pp63-64; Note5 p80; Note6 accrued liabilities; Note13 pp112-114"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000020/smci-20260805.htm",
+            "title": "Super Micro initial preferred dividend Form 8-K",
+            "period": "2026-08-05 event; 2026-09-01 payment",
+            "published_at": "2026-08-05",
+            "retrieved_at": "2026-11-05T14:42:54.685140+00:00",
+            "locator": "Item8.01; web lines78-80"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000026/exhibit991_20260930.htm",
+            "title": "Super Micro Q1FY2027 preliminary results, 8-K Exhibit99.1",
+            "published_at": "2026-11-03",
+            "retrieved_at": "2026-11-05T14:46:19.821086+00:00",
+            "locator": "Cash flow lines195,197,219; accrued preferred line250; GAAP common-income bridge lines342-345; preliminary status lines47-53"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "INPUT_CORRECTED",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "USD",
+            "units": "currency_units",
+            "window_end": "2026-06-30",
+            "preferred_outstanding": 4226258000,
+            "preferred_cash_paid": 0,
+            "preferred_earnings_deduction": 13088000,
+            "common_fcf": -6971885000,
+            "net_income_common": 2195842000,
+            "earnings_allocated_to_participating_securities": 21523000,
+            "preliminary_september_ttm": {
+              "window_end": "2026-09-30",
+              "preferred_cash_paid": 63729000,
+              "operating_cash_flow": -6326384000,
+              "capex": 171317000,
+              "reported_fcf": -6497701000,
+              "common_fcf": -6561430000,
+              "net_income_common": 3294405000
+            }
+          }
+        },
+        "common_equity_bridge": {
+          "schema": "common-equity-bridge-v1",
+          "issuer_key": "SMCI",
+          "symbol": "SMCI",
+          "currency": "USD",
+          "units": "currency_units",
+          "required_scope": "REPORTED",
+          "preferred_claims_required": false,
+          "published_at": "2026-08-31T23:59:59+00:00",
+          "fetched_at": "2026-11-05T14:42:54.685140+00:00",
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000022/smci-20260630.htm",
+            "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000020/smci-20260805.htm"
+          ],
+          "periods": [
+            {
+              "period": "2026-06-30",
+              "basis": "TTM",
+              "scope": "REPORTED",
+              "patch_fields": [
+                "preferred_cash_paid",
+                "preferred_outstanding"
+              ],
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000022/smci-20260630.htm",
+                "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000020/smci-20260805.htm"
+              ],
+              "preferred_cash_paid": 0,
+              "preferred_outstanding": 4226258000
+            },
+            {
+              "period": "2026-06-30",
+              "basis": "FY",
+              "scope": "REPORTED",
+              "patch_fields": [
+                "preferred_cash_paid",
+                "preferred_outstanding"
+              ],
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000022/smci-20260630.htm",
+                "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000020/smci-20260805.htm"
+              ],
+              "preferred_cash_paid": 0,
+              "preferred_outstanding": 4226258000
+            }
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "PG": {
+      "issuer": "The Procter & Gamble Company",
+      "listing": "PG / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September TTM common earnings of USD 15,735m already reflect the USD 291m preferred earnings deduction. The issuer discloses aggregate cash dividends; the cash paid on ESOP preferred shares remains unreconciled.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000103/pg-20260630.htm",
+            "title": "P&G FY2026 Form 10-K",
+            "period": "2026-06-30",
+            "published_at": "2026-08-04",
+            "retrieved_at": "2026-11-05T14:42:54.685140+00:00",
+            "locator": "Equity p40; cash flows p41; Note6 EPS pp52-53; Note8 ESOP pp59-60"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042426000256/pg-20260930.htm",
+            "title": "P&G quarter ended September30 2026 Form 10-Q",
+            "period": "2026-09-30",
+            "published_at": "2026-10-22",
+            "retrieved_at": "2026-11-05T14:42:54.685140+00:00",
+            "locator": "Balance sheet preferred747m; equity preferred dividends72m/73m; cash flows total2603m/2549m; Note4 EPS p9"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "USD",
+            "units": "currency_units",
+            "window_end": "2026-09-30",
+            "preferred_outstanding": 747000000,
+            "preferred_cash_paid": null,
+            "preferred_earnings_deduction": 291000000,
+            "common_fcf": null,
+            "net_income_common": 15735000000,
+            "common_dividends_paid": null,
+            "dividends_total": -10286000000
+          }
+        },
+        "common_equity_bridge": {
+          "schema": "common-equity-bridge-v1",
+          "issuer_key": "PG",
+          "symbol": "PG",
+          "currency": "USD",
+          "units": "currency_units",
+          "required_scope": "REPORTED",
+          "preferred_claims_required": false,
+          "published_at": "2026-10-22T23:59:59+00:00",
+          "fetched_at": "2026-11-05T14:42:54.685140+00:00",
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/80424/000008042426000103/pg-20260630.htm",
+            "https://www.sec.gov/Archives/edgar/data/80424/000008042426000256/pg-20260930.htm"
+          ],
+          "periods": [
+            {
+              "period": "2026-09-30",
+              "basis": "TTM",
+              "scope": "REPORTED",
+              "patch_fields": [
+                "preferred_outstanding"
+              ],
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/80424/000008042426000103/pg-20260630.htm",
+                "https://www.sec.gov/Archives/edgar/data/80424/000008042426000256/pg-20260930.htm"
+              ],
+              "preferred_outstanding": 747000000
+            }
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "APP": {
+      "issuer": "AppLovin Corporation",
+      "listing": "APP / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "November 4 filing gives September TTM continuing revenue of USD 7,608.894m and continuing common earnings of USD 5,013.265m. Operating cash of USD 4,903.009m is consolidated. The June provider cash line used capex from a different period; total cash capex including intangible purchases remains unresolved.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1751008/000175100826000010/app-20251231.htm",
+            "title": "Form 10-K",
+            "period": "FY2025",
+            "published_at": "2026-02-19",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Consolidated Statements of Operations, p54",
+              "Consolidated Statements of Cash Flows, pp57-58",
+              "MD&A Free Cash Flow reconciliation, pp38-39",
+              "Note2 Apps Business Divestiture; Note3 Discontinued Operations, pp64-65",
+              "Note12 Net Income Per Share, p74"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1751008/000175100826000059/app-20260630.htm",
+            "title": "Form 10-Q",
+            "period": "H1 2026; comparative H1 2025",
+            "published_at": "2026-08-05",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Statements of Cash Flows, p8, extracted table19",
+              "Note10 Net Income Per Share, extracted table27",
+              "MD&A Free Cash Flow, extracted table32"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1751008/000175100826000069/app-20260930.htm",
+            "title": "Form 10-Q",
+            "period": "9M 2026; comparative 9M 2025",
+            "published_at": "2026-11-04",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Condensed Consolidated Statements of Operations, p4, extracted table15",
+              "Condensed Consolidated Statements of Cash Flows, p8, extracted table19",
+              "Note3 Discontinued Operations, extracted tables20-21",
+              "Note10 Net Income Per Share, extracted table27",
+              "MD&A Free Cash Flow reconciliation, extracted table32",
+              "MD&A Liquidity and Capital Resources / Investing Activities: other investing includes purchases of PP&E, intangible assets and initial direct costs of new leases"
+            ]
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "USD",
+            "units": "currency_units",
+            "scope": "UNRESOLVED",
+            "operating_cash_flow_continuing": null,
+            "cash_capex_total_including_software_intangibles": null,
+            "free_cash_flow_common": null,
+            "revenue": 7608894000,
+            "revenue_scope": "CONTINUING",
+            "net_income_common": 5013265000,
+            "earnings_scope": "CONTINUING_BASIC_COMMON_EPS_NUMERATOR"
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "SPGI": {
+      "issuer": "S&P Global Inc.",
+      "listing": "SPGI / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September TTM continuing revenue and common earnings reconcile to USD 14,546m and USD 4,902m. The September filing recasts nine-month operating cash, while the available FY2025 cash flow still includes the spun-off business.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/64040/000006404026000013/spgi-20251231.htm",
+            "title": "Form 10-K",
+            "period": "FY2025 before Mobility reclassification",
+            "published_at": "2026-02-11",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Consolidated Statements of Cash Flows, extracted table38",
+              "MD&A FCF reconciliation, extracted table30"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/64040/000006404026000058/spgi-20260930.htm",
+            "title": "Form 10-Q",
+            "period": "9M2026; comparative9M2025 recast",
+            "published_at": "2026-10-28",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Consolidated Statements of Income, common shareholders continuing-operations line",
+              "Consolidated Statements of Cash Flows, p6, extracted table11",
+              "Note2 Discontinued Operations, pp13-14",
+              "MD&A Reconciliation of Non-GAAP Financial Information, extracted table59"
+            ]
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/64040/000006404026000049/a630proformaupdate.htm",
+            "title": "Form 8-K exhibit99",
+            "period": "FY2025; H1 2026 pro-forma bridge",
+            "published_at": "2026-10-23",
+            "retrieved_at": "2026-11-05T14:47:07.942803+00:00",
+            "locator": [
+              "Unaudited Pro Forma Condensed Consolidated Statement of Income FY2025, rows Revenue; Net income from continuing operations attributable to S&P Global Inc.",
+              "Use column S&P Global Continuing Operations (Subtotal), NOT Pro Forma; latter adds26m USD NI from transaction accounting adjustments"
+            ]
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "USD",
+            "units": "currency_units",
+            "scope": "UNRESOLVED_ANNUAL_CONTINUING_CASH_BRIDGE",
+            "operating_cash_flow_continuing": null,
+            "cash_capex_total_including_software_intangibles": null,
+            "free_cash_flow_common": null,
+            "revenue": 14546000000,
+            "revenue_scope": "CONTINUING",
+            "net_income_common": 4902000000,
+            "earnings_scope": "CONTINUING_GAAP_COMMON"
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "ISRG": {
+      "issuer": "Intuitive Surgical, Inc.",
+      "listing": "ISRG / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September 10-Q does not quantify a comparable debt total. The FY2025 filing shows USD 170.9m of operating lease liabilities. Current debt is unknown.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000071/isrg-20260930.htm",
+            "title": "Form 10-Q, quarter ended September 30, 2026",
+            "period": "2026-09-30",
+            "published_at": "2026-10-21",
+            "retrieved_at": "2026-11-05T14:45:06.568641+00:00",
+            "locator": "Condensed Consolidated Balance Sheets, printed p.3; Note 4 other accrued/long-term liabilities, printed pp.10-11; Liquidity and Capital Resources, printed p.47"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1035267/000103526726000010/R14.htm",
+            "title": "Form 10-K FY2025, leases note",
+            "period": "2025-12-31",
+            "published_at": "2026-02-03",
+            "retrieved_at": "2026-11-05T14:45:06.568641+00:00",
+            "locator": "Leases; Lessee Information; supplemental balance-sheet information"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "USD",
+            "operating_income_plus_da": {
+              "value": 4599000000.0,
+              "formula": "frozen operating_income + abs(frozen depreciation)",
+              "source_basis": "Frozen provider observations only; diagnostic, not independently verified issuer override"
+            }
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "PL": {
+      "issuer": "Planet Labs PBC",
+      "listing": "PL / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "July TTM operating income plus D&A is negative even with positive cash flow. The July quarterly report confirms a GAAP operating loss; adjusted EBITDA is a separate measure.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1836833/000119312526382016/pl-20260731.htm",
+            "title": "Planet Labs July 2026 10-Q",
+            "period": "2026-07-31",
+            "published_at": "2026-09-03",
+            "locator": "Statements of operations and cash flows",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-07-31",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-07-31",
+          "observations": {
+            "currency": "USD",
+            "operating_income_plus_da": {
+              "value": -60641000.0,
+              "formula": "frozen operating_income + abs(frozen depreciation)",
+              "source_basis": "Frozen provider observations only; diagnostic, not independently verified issuer override"
+            }
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "REP": {
+      "issuer": "Repsol, S.A.",
+      "listing": "REP.MC / EUR",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September financial liabilities of EUR 13,170m include items outside the model debt definition. Issuer net debt of EUR 2,038m uses a broader asset offset than cash. Comparable gross debt is still unresolved.",
+        "sources": [
+          {
+            "url": "https://www.repsol.com/content/dam/repsol-corporate/en_gb/accionistas-e-inversores/cnmv/2026/ori29102026-information-on-third-quarter-2026-results.pdf",
+            "title": "Information on the third quarter 2026 results",
+            "period": "2026-09-30",
+            "published_at": "2026-10-29",
+            "retrieved_at": "2026-11-05T14:45:06.568641+00:00",
+            "locator": "Appendix II Statement of Financial Position, printed p.27 / PDF page29; Net Debt Evolution and Liquidity, printed p.16 / PDF page18"
+          },
+          {
+            "url": "https://www.repsol.com/content/dam/repsol-corporate/en_gb/accionistas-e-inversores/resultados/2026/3t/3q26-financial-and-operating-data-tables.xlsx",
+            "title": "Q3 2026 financial and operating data tables",
+            "period": "2026-09-30",
+            "published_at": "2026-10-29",
+            "retrieved_at": "2026-11-05T14:45:06.568641+00:00",
+            "locator": "Balance Sheet IFRS11: D22 cash, D35 non-current financial liabilities, D42 current financial liabilities; Net Debt: D28 and D30"
+          },
+          {
+            "url": "https://www.cnmv.es/webservices/verdocumento/ver?e=hJPFTkblc%2BQsFx359FHdYa0srdyXBH59zp%2FVBDcjqyb1xVx9TYwe6nqlQTLZolJy",
+            "title": "Condensed consolidated interim financial statements and management report H1 2026",
+            "period": "2026-06-30",
+            "published_at": "2026-07-23",
+            "retrieved_at": "2026-11-05T14:45:06.568641+00:00",
+            "locator": "Financial Statements Note6.3 printed p.19 / PDFpage22; management report AppendixII net debt printed p.35 / PDFpage77 and gross debt printed p.36 / PDFpage78"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "EUR",
+            "operating_income_plus_da": {
+              "value": 13151000000.0,
+              "formula": "frozen operating_income + abs(frozen depreciation)",
+              "source_basis": "Frozen provider observations only; diagnostic, not independently verified issuer override"
+            }
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "WIX": {
+      "issuer": "Wix.com Ltd.",
+      "listing": "WIX / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "June TTM operating income plus D&A is negative even with positive cash flow. Comparable leverage needs a positive operating EBITDA denominator.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1576789/000162828026052108/secondquarter2026results.htm",
+            "title": "Wix Q2 2026 financial results",
+            "period": "2026-06-30",
+            "published_at": "2026-08-04",
+            "locator": "GAAP consolidated statements",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-06-30",
+          "observations": {
+            "currency": "USD",
+            "operating_income_plus_da": {
+              "value": -148849000.0,
+              "formula": "frozen operating_income + abs(frozen depreciation)",
+              "source_basis": "Frozen provider observations only; diagnostic, not independently verified issuer override"
+            }
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "BYRN": {
+      "issuer": "Byrna Technologies Inc.",
+      "listing": "BYRN / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "The issuer converted its historical preferred series in 2021. The current August TTM cash proxy is USD 3.431m after removing the historical preferred gate. Same-period operating income plus D&A is negative, so leverage scoring remains unavailable.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1354866/000143774926032353/byrn20260831_10q.htm",
+            "title": "Form 10-Q, quarter ended August 31, 2026",
+            "period": "2026-08-31",
+            "published_at": "2026-10-08",
+            "retrieved_at": "2026-11-05T14:45:06.568641+00:00",
+            "locator": "Condensed Consolidated Balance Sheets, printed p.2, Stockholders Equity preferred stock row; signatures printed p.34"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1354866/000138713121004546/byrn-8k_041521.htm",
+            "title": "Form 8-K, April 15, 2021",
+            "period": "2021-04-15",
+            "published_at": "2021-04-15",
+            "retrieved_at": "2026-11-05T14:45:06.568641+00:00",
+            "locator": "Item8.01 Other Events"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1354866/000138713121007278/byrna-s1a_071221.htm",
+            "title": "Form S-1/A, July 12, 2021",
+            "period": "2021-05-31",
+            "published_at": "2021-07-12",
+            "retrieved_at": "2026-11-05T14:45:06.568641+00:00",
+            "locator": "Net Income (Loss) printed p.46; allocation of net income to preferred/common printed F-24"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-08-31",
+          "status": "INPUT_CORRECTED",
+          "latest_source_period": "2026-08-31",
+          "observations": {
+            "currency": "USD",
+            "operating_income_plus_da": {
+              "value": -8569000.0,
+              "formula": "frozen operating_income + abs(frozen depreciation)",
+              "source_basis": "Frozen provider observations only; diagnostic, not independently verified issuer override"
+            }
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "AWK": {
+      "issuer": "American Water Works Company, Inc.",
+      "listing": "AWK / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September nine-month operating cash less capex is USD -772m. The utility expansion program consumes cash.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1410636/000141063626000149/awk-20260930.htm",
+            "title": "Form 10-Q for the quarter ended September 30, 2026",
+            "period": "2026-09-30",
+            "published_at": "2026-10-28",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "Consolidated Statements of Cash Flows (Unaudited), printed p.9: nine months ended September 30, 2026, OCF and capital expenditures rows"
+          },
+          {
+            "url": "https://ir.amwater.com/news-and-events/financial-releases/financial-release-details/2026/AMERICAN-WATER-REPORTS-SOLID-THIRD-QUARTER-2026-RESULTS-NARROWS-2026-EPS-GUIDANCE-TO-TOP-HALF-OF-RANGE-AFFIRMS-LONG-TERM-TARGETS-INITIATES-STANDALONE-2027-EPS-GUIDANCE-REFLECTING-GROWTH-OF-8/default.aspx",
+            "title": "Third quarter 2026 results release",
+            "period": "2026-09-30",
+            "published_at": "2026-10-28",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "Operating results narrative: infrastructure improvements and growth, including regulated acquisitions"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "cash_checks": [
+              {
+                "name": "OCF_minus_cash_capex",
+                "value_currency_units": -772000000,
+                "currency": "USD",
+                "basis": "YTD_9M",
+                "period_start": "2026-01-01",
+                "period_end": "2026-09-30",
+                "formula": "1,635m - 2,407m",
+                "source_ids": [
+                  "AWK_Q3_10Q"
+                ],
+                "status": "DERIVED_SOURCE_ARITHMETIC_NOT_ISSUER_FCF",
+                "confidence": "Sicher",
+                "not_a_model_override": true
+              }
+            ]
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "BABA": {
+      "issuer": "Alibaba Group Holding Limited",
+      "listing": "BABA / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "June-quarter issuer free cash flow was CNY -44,670m. The cached TTM lacks a complete operating-cash/capex bridge and uses provider-reported FCF.",
+        "sources": [
+          {
+            "url": "https://data.alibabagroup.com/ecms-files/1532295521/fa5d65fc-9b3e-4e82-a8fc-4ce1c3e2c407/Alibaba%20Group%20Announces%20June%20Quarter%202026%20Results.pdf",
+            "title": "Alibaba Group Announces June Quarter 2026 Results",
+            "period": "2026-06-30",
+            "published_at": "2026-08-20",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "Printed p.4 Capital Expenditures; p.14 net cash provided by operating activities and free cash flow; p.17 FCF definition; p.25 reconciliation"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-06-30",
+          "observations": {
+            "cash_checks": [
+              {
+                "name": "OCF_minus_total_reported_capex",
+                "value_currency_units": -44733000000,
+                "currency": "CNY",
+                "basis": "QUARTER",
+                "period_start": "2026-04-01",
+                "period_end": "2026-06-30",
+                "formula": "22,945m - 67,678m",
+                "source_ids": [
+                  "BABA_JUNE_RELEASE"
+                ],
+                "status": "DERIVED_SOURCE_ARITHMETIC_NOT_ISSUER_FCF",
+                "confidence": "Sicher",
+                "not_a_model_override": true
+              }
+            ]
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "BNTX": {
+      "issuer": "BioNTech SE",
+      "listing": "BNTX / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September nine-month operating cash less cash capex is EUR -723.1m. This confirms cash burn on that period.",
+        "sources": [
+          {
+            "url": "https://investors.biontech.de/static-files/c189b6b2-ab33-4da1-8828-00672aa5219c",
+            "title": "Quarterly Report for the three and nine months ended September 30, 2026",
+            "period": "2026-09-30",
+            "published_at": "2026-11-03",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "Interim Condensed Consolidated Statements of Cash Flows, printed p.5 / PDF page8; columns Q3 2026 and nine months 2026"
+          },
+          {
+            "url": "https://www.biontech.com/us/en/home/mediaroom/news/press-releases/2026/11/BioNTech-Announces-Third-Quarter-2026-Financial-Results-and-Corporate-Update.html",
+            "title": "BioNTech Announces Third Quarter 2026 Financial Results and Corporate Update",
+            "period": "2026-09-30",
+            "published_at": "2026-11-03",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "Publication date and introductory results-period paragraph; cash statement obtained from quarterly report"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "cash_checks": [
+              {
+                "name": "OCF_minus_cash_ppe_and_intangibles",
+                "value_currency_units": -723100000,
+                "currency": "EUR",
+                "basis": "YTD_9M",
+                "period_start": "2026-01-01",
+                "period_end": "2026-09-30",
+                "formula": "-540.3m - 145.0m - 37.8m",
+                "source_ids": [
+                  "BNTX_Q3_REPORT"
+                ],
+                "status": "DERIVED_SOURCE_ARITHMETIC_NOT_ISSUER_FCF",
+                "confidence": "Sicher",
+                "not_a_model_override": true
+              },
+              {
+                "name": "OCF_minus_cash_ppe_and_intangibles",
+                "value_currency_units": -178300000,
+                "currency": "EUR",
+                "basis": "QUARTER",
+                "period_start": "2026-07-01",
+                "period_end": "2026-09-30",
+                "formula": "-129.8m - 33.6m - 14.9m",
+                "source_ids": [
+                  "BNTX_Q3_REPORT"
+                ],
+                "status": "DERIVED_SOURCE_ARITHMETIC_NOT_ISSUER_FCF",
+                "confidence": "Sicher",
+                "not_a_model_override": true
+              }
+            ]
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "GRAB": {
+      "issuer": "Grab Holdings Limited",
+      "listing": "GRAB / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September nine-month reported operating cash less capex is USD -35m. Adjusted FCF excludes specified bank-related working capital.",
+        "sources": [
+          {
+            "url": "https://s205.q4cdn.com/179588156/files/content_files/2026-Q3-Earnings-Press-Release.pdf",
+            "title": "Grab Reports Third Quarter 2026 Results, Raises Full-Year Guidance",
+            "period": "2026-09-30",
+            "published_at": "2026-11-03",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "PDF p.1 publication and TTM adjusted FCF; p.12 adjusted-FCF definition; p.13 reconciliation; pp.17-18 condensed consolidated statement of cash flows"
+          },
+          {
+            "url": "https://www.grab.com/sg/press/others/grab-reports-third-quarter-2026-results-raises-full-year-guidance/",
+            "title": "Grab Reports Third Quarter 2026 Results, Raises Full-Year Guidance",
+            "period": "2026-09-30",
+            "published_at": "2026-11-03",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "Group Third Quarter 2026 Key Operational and Financial Highlights; non-IFRS definitions, adjusted free cash flow bullet"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "cash_checks": [
+              {
+                "name": "OCF_minus_cash_ppe_and_intangibles",
+                "value_currency_units": -35000000,
+                "currency": "USD",
+                "basis": "YTD_9M",
+                "period_start": "2026-01-01",
+                "period_end": "2026-09-30",
+                "formula": "52m - 51m - 36m",
+                "source_ids": [
+                  "GRAB_Q3_RELEASE_PDF"
+                ],
+                "status": "DERIVED_SOURCE_ARITHMETIC_NOT_ISSUER_FCF",
+                "confidence": "Sicher",
+                "not_a_model_override": true
+              },
+              {
+                "name": "OCF_minus_cash_ppe_and_intangibles",
+                "value_currency_units": 9000000,
+                "currency": "USD",
+                "basis": "QUARTER",
+                "period_start": "2026-07-01",
+                "period_end": "2026-09-30",
+                "formula": "55m - 24m - 22m",
+                "source_ids": [
+                  "GRAB_Q3_RELEASE_PDF"
+                ],
+                "status": "DERIVED_SOURCE_ARITHMETIC_NOT_ISSUER_FCF",
+                "confidence": "Sicher",
+                "not_a_model_override": true
+              }
+            ]
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "IBST": {
+      "issuer": "Ibstock plc",
+      "listing": "IBST.L / GBp",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "The August interim report discloses H1 adjusted FCF of GBP -22m. The November trading-update listing was located; full cash statements for a newer TTM remain unverified.",
+        "sources": [
+          {
+            "url": "https://www.ibstock.co.uk/news/ibstock-interim-results-for-the-six-months-ended-30-june-2026",
+            "title": "Ibstock interim results for the six months ended 30 June 2026",
+            "period": "2026-06-30",
+            "published_at": "2026-08-05",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "Adjusted Results table, six months ended June30: adjusted free cashflow row"
+          },
+          {
+            "url": "https://www.ibstock.co.uk/investors/reports-and-presentations",
+            "title": "Reports & Presentations",
+            "retrieved_at": "2026-11-05T14:53:06.132252+00:00",
+            "locator": "2026 table: 02 November 2026 Trading Update Q3; 05 August 2026 Half Year Results2026"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2025-12-31",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-06-30",
+          "observations": {
+            "cash_checks": []
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "CRWV": {
+      "issuer": "CoreWeave Inc.",
+      "listing": "CRWV / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "June H1 operating cash less cash capex was USD -10,454m. The issuer cash-capex measure and accrued buildout commitments differ.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000362/coreweave2q26earningspress.htm",
+            "title": "Cash-flow table rows OCF679m/3663m",
+            "period": "Q2/H1 to2026-06-30",
+            "published_at": "2026-08-11",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Cash-flow table rows OCF679m/3663m; purchases PP&E including internal-use software6422m/14117m; web lines225-247"
+          },
+          {
+            "url": "https://investors.coreweave.com/news/news-details/2026/CoreWeave-Announces-Date-of-Third-Quarter-2026-Financial-Results-and-Conference-Call/default.aspx",
+            "title": "Paragraph announcing conference November10,2026 at5pmET",
+            "period": "Scheduled Q3results2026-11-10",
+            "published_at": "2026-10-27",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Paragraph announcing conference November10,2026 at5pmET; web lines7-10"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-06-30",
+          "next_results": {
+            "issuer_schedule": "2026-11-10T17:00:00-05:00",
+            "url": "https://investors.coreweave.com/news/news-details/2026/CoreWeave-Announces-Date-of-Third-Quarter-2026-Financial-Results-and-Conference-Call/default.aspx",
+            "next_check_on": "2026-11-11"
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "MRNA": {
+      "issuer": "Moderna Inc.",
+      "listing": "MRNA / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "June H1 operating cash less capex was USD -1,255m. The same reporting window continues to consume cash.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000147/exhibit9912026q2pressrelea.htm",
+            "title": "Consolidated cash flows p7",
+            "period": "Q2/H1 to2026-06-30",
+            "published_at": "2026-07-31",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Consolidated cash flows p7; H1OCF−1156m and cashPP&E99m; web lines209-239"
+          },
+          {
+            "url": "https://investors.modernatx.com/events-presentations",
+            "title": "HTML inline event data: dateNovember6,2026",
+            "period": "Scheduled Q3conference2026-11-06",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "HTML inline event data: dateNovember6,2026; time8:00AMET; eventModerna Third Quarter2026 Conference Call. Rendered text omits dynamic events."
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-06-30",
+          "next_results": {
+            "issuer_schedule": "2026-11-06T08:00:00-05:00",
+            "url": "https://investors.modernatx.com/events-presentations",
+            "next_check_on": "2026-11-06"
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "NBIS": {
+      "issuer": "Nebius Group NV",
+      "listing": "NBIS / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "June H1 operating cash less cash PPE and intangibles was USD -3,626.2m. Operating cash includes a material increase in deferred revenue.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926094568/tm2622968d1_ex99-1.htm",
+            "title": "Selected cash-flow data p2, full cash flows pp8-9",
+            "period": "Q2/H1 to2026-06-30",
+            "published_at": "2026-08-12",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Selected cash-flow data p2, full cash flows pp8-9; web lines60-64,328-354; Toloka recast footnote33-34"
+          },
+          {
+            "url": "https://nebius.com/newsroom/nebius-group-announces-date-of-third-quarter-2026-results-and-conference-call",
+            "title": "Company announcement: results before market openNovember12",
+            "period": "Scheduled Q3results2026-11-12",
+            "published_at": "2026-10-30",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Company announcement: results before market openNovember12; web lines18-21"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-06-30",
+          "next_results": {
+            "issuer_schedule": "2026-11-12 beforemarketopen",
+            "url": "https://nebius.com/newsroom/nebius-group-announces-date-of-third-quarter-2026-results-and-conference-call",
+            "next_check_on": "2026-11-12"
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "OPEN": {
+      "issuer": "Opendoor Technologies Inc.",
+      "listing": "OPEN / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "June H1 operating cash less capex was USD -973m, with inventory a major cash use. September results were scheduled after the November 5 US close.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1801169/000180116926000019/q22026formxex991earningsre.htm",
+            "title": "Consolidated cash-flow H1 table",
+            "period": "Q2/H1 to2026-06-30",
+            "published_at": "2026-08-04",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Consolidated cash-flow H1 table; OCF−964m, cashPP&E9m, inventory change−932m; web lines258-297"
+          },
+          {
+            "url": "https://investor.opendoor.com/news-releases/news-release-details/opendoor-3q26-financial-open-house-november-5-2026",
+            "title": "Opening paragraph: publication following market closeNovember5",
+            "period": "Scheduled Q3results2026-11-05 afterclose",
+            "published_at": "2026-10-19",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Opening paragraph: publication following market closeNovember5; web line11"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-06-30",
+          "next_results": {
+            "issuer_schedule": "2026-11-05 afterUSmarketclose",
+            "url": "https://investor.opendoor.com/news-releases/news-release-details/opendoor-3q26-financial-open-house-november-5-2026",
+            "next_check_on": "2026-11-06"
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "RIVN": {
+      "issuer": "Rivian Automotive Inc.",
+      "listing": "RIVN / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September TTM operating cash of USD -2,629m and capex of USD 1,563m reconcile to the cached USD -4,192m.",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000065/ex-9923q26rivianearnings.htm",
+            "title": "Slides18 and25-27: cash flow by quarter, YTD and explicit FCF reconciliation",
+            "period": "Q3/YTD/rollingquarters to2026-09-30",
+            "published_at": "2026-10-29",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Slides18 and25-27: cash flow by quarter, YTD and explicit FCF reconciliation; web lines143,195,208"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1874178/000187417826000065/ex-9913q26rivianearningspr.htm",
+            "title": "Cash-flow/liquidity discussion and FY2026 guidance",
+            "period": "Q3/YTD to2026-09-30",
+            "published_at": "2026-10-29",
+            "retrieved_at": "2026-11-05T14:53:05.890589+00:00",
+            "locator": "Cash-flow/liquidity discussion and FY2026 guidance; reportedQ3FCF−1124m and capex366m"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-09-30"
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "AVGO": {
+      "issuer": "Broadcom Inc.",
+      "listing": "AVGO / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Broadcom converted the last mandatory convertible preferred shares in September 2022. The FY2022 earnings charge was incorrectly carried into the July 2026 TTM. The current USD 39,403m operating cash less capex proxy can be priced again.",
+        "sources": [
+          {
+            "url": "https://investors.broadcom.com/news-releases/news-release-details/broadcom-inc-announces-first-quarter-fiscal-year-2023-financial",
+            "title": "Broadcom Q1 FY2023 results",
+            "period": "2023-01-29",
+            "published_at": "2023-03-02",
+            "locator": "Mandatory convertible preferred stock conversion",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-07-31",
+          "status": "INPUT_CORRECTED",
+          "latest_source_period": "2026-07-31"
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "O": {
+      "issuer": "Realty Income Corporation",
+      "listing": "O / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "All 6.9m preferred shares were redeemed in September 2024. The old dividend was incorrectly applied to the current TTM. The cash proxy can be priced again. AFFO is separately reported.",
+        "sources": [
+          {
+            "url": "https://www.realtyincome.com/sites/realty-income/files/2025-02/O-%2012.31.24%2010K%20Document%20Final.pdf",
+            "title": "Realty Income 2024 10-K",
+            "period": "2024-12-31",
+            "published_at": "2025-02-24",
+            "locator": "Note 16, preferred stock",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          },
+          {
+            "url": "https://www.realtyincome.com/investors/press-releases/realty-income-announces-operating-results-three-and-nine-months-ended-4",
+            "title": "Realty Income September 2026 results",
+            "period": "2026-09-30",
+            "published_at": "2026-11-02",
+            "locator": "Financial and AFFO tables",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "INPUT_CORRECTED",
+          "latest_source_period": "2026-09-30"
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "RCAT": {
+      "issuer": "Red Cat Holdings, Inc.",
+      "listing": "RCAT / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "The June 10-Q reports 4,676 outstanding Series B preferred shares despite a rounded zero book balance. The shares have no contractual dividend rate. FY2025 and both first-half financing totals reconcile with zero cash dividends at statement precision. June TTM operating cash of USD -139.078m less USD 18.624m of cash capex remains negative.",
+        "sources": [
+          {
+            "url": "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001628280-26-019861/rcat-20251231.htm",
+            "title": "Red Cat 2025 10-K",
+            "period": "2025-12-31",
+            "published_at": "2026-03-19",
+            "locator": "Consolidated cash flows; Note 15",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          },
+          {
+            "url": "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001628280-26-054368/rcat-20260630.htm",
+            "title": "Red Cat June 2026 10-Q",
+            "period": "2026-06-30",
+            "published_at": "2026-08-06",
+            "locator": "Consolidated cash flows; EPS and Note 12",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          },
+          {
+            "url": "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001104659-26-059502/tm2614279-3_424b5.htm",
+            "title": "Red Cat May 2026 prospectus",
+            "period": "2026-05-12",
+            "published_at": "2026-05-12",
+            "locator": "Class B preferred stock dividend terms",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-06-30",
+          "status": "INPUT_CORRECTED",
+          "latest_source_period": "2026-06-30",
+          "observations": {
+            "currency": "USD",
+            "units": "currency_units except shares",
+            "preferred_shares_outstanding": 4676,
+            "preferred_cash_paid": 0,
+            "operating_cash_flow": -139078000,
+            "cash_capex": 18624000,
+            "fcf": -157702000,
+            "source_resolution": 1000
+          }
+        },
+        "common_equity_bridge": {
+          "schema": "common-equity-bridge-v1",
+          "issuer_key": "RCAT",
+          "symbol": "RCAT",
+          "currency": "USD",
+          "units": "currency_units",
+          "required_scope": "REPORTED",
+          "preferred_claims_required": false,
+          "published_at": "2026-08-06T23:59:59+00:00",
+          "fetched_at": "2026-11-05T20:55:32+00:00",
+          "source_urls": [
+            "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001628280-26-019861/rcat-20251231.htm",
+            "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001628280-26-054368/rcat-20260630.htm",
+            "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001104659-26-059502/tm2614279-3_424b5.htm"
+          ],
+          "periods": [
+            {
+              "period": "2026-06-30",
+              "basis": "TTM",
+              "scope": "REPORTED",
+              "preferred_cash_paid": 0,
+              "preferred_claims_known": true,
+              "patch_fields": [
+                "preferred_cash_paid",
+                "preferred_claims_known"
+              ],
+              "source_urls": [
+                "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001628280-26-019861/rcat-20251231.htm",
+                "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001628280-26-054368/rcat-20260630.htm",
+                "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001104659-26-059502/tm2614279-3_424b5.htm"
+              ]
+            },
+            {
+              "period": "2025-12-31",
+              "basis": "FY",
+              "scope": "REPORTED",
+              "preferred_cash_paid": 0,
+              "preferred_claims_known": true,
+              "patch_fields": [
+                "preferred_cash_paid",
+                "preferred_claims_known"
+              ],
+              "source_urls": [
+                "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001628280-26-019861/rcat-20251231.htm",
+                "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001628280-26-054368/rcat-20260630.htm",
+                "https://ir.redcatholdings.com/sec-filings/all-sec-filings/content/0001104659-26-059502/tm2614279-3_424b5.htm"
+              ]
+            }
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "SPCX": {
+      "issuer": "Space Exploration Technologies Corp.",
+      "listing": "SPCX / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "The 10-Q shows preferred shares converted or repurchased in 2026. USD 38,752m of preferred stock at December 2025 falls inside the current TTM. The paid cash split remains unverified. September nine-month operating cash less cash PPE and intangibles was negative.",
+        "sources": [
+          {
+            "url": "https://s21.q4cdn.com/184289198/files/content_files/b47786db-efbf-4d78-a475-cf153ee82f29.pdf",
+            "title": "SpaceX September 2026 10-Q",
+            "period": "2026-09-30",
+            "published_at": "2026-10-20",
+            "locator": "Cash flows and preferred conversion note",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "OPEN_INPUT_GAP",
+          "latest_source_period": "2026-09-30"
+        },
+        "common_equity_bridge": {
+          "schema": "common-equity-bridge-v1",
+          "issuer_key": "SPCX",
+          "symbol": "SPCX",
+          "currency": "USD",
+          "units": "currency_units",
+          "required_scope": "REPORTED",
+          "preferred_claims_required": false,
+          "published_at": "2026-10-20T23:59:59+00:00",
+          "fetched_at": "2026-11-05T20:55:32+00:00",
+          "source_urls": [
+            "https://s21.q4cdn.com/184289198/files/content_files/b47786db-efbf-4d78-a475-cf153ee82f29.pdf"
+          ],
+          "periods": [
+            {
+              "period": "2025-12-31",
+              "basis": "FY",
+              "scope": "REPORTED",
+              "preferred_outstanding": 38752000000,
+              "patch_fields": [
+                "preferred_outstanding"
+              ],
+              "source_urls": [
+                "https://s21.q4cdn.com/184289198/files/content_files/b47786db-efbf-4d78-a475-cf153ee82f29.pdf"
+              ]
+            },
+            {
+              "period": "2026-09-30",
+              "basis": "TTM",
+              "scope": "REPORTED",
+              "preferred_outstanding": 0,
+              "patch_fields": [
+                "preferred_outstanding"
+              ],
+              "source_urls": [
+                "https://s21.q4cdn.com/184289198/files/content_files/b47786db-efbf-4d78-a475-cf153ee82f29.pdf"
+              ]
+            }
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "TEM": {
+      "issuer": "Tempus AI, Inc.",
+      "listing": "TEM / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "September nine-month operating cash was USD -71.586m. Cash PPE and capitalized software were USD 23.665m and USD 12.252m. A full comparable TTM capex bridge including software is still open.",
+        "sources": [
+          {
+            "url": "https://investors.tempus.com/news/news-details/2026/Tempus-Reports-Third-Quarter-2026-Results/default.aspx",
+            "title": "Tempus September 2026 results",
+            "period": "2026-09-30",
+            "published_at": "2026-11-02",
+            "locator": "Cash-flow statement",
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": "2026-09-30",
+          "status": "MODEL_LIMIT",
+          "latest_source_period": "2026-09-30",
+          "observations": {
+            "currency": "USD",
+            "units": "currency_units",
+            "basis": "9M",
+            "operating_cash_flow": -71586000,
+            "cash_ppe": 23665000,
+            "capitalized_software": 12252000
+          }
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "JEQE": {
+      "issuer": "JPMorgan ETFs (Ireland) ICAV",
+      "listing": "JEQE.DE / EUR",
+      "valuation": {
+        "status": "NOT_APPLICABLE",
+        "reason": "JEQE is the EUR-hedged distributing share class of the JPMorgan Nasdaq Equity Premium Income Active UCITS ETF (IE0006FIW9Z0). The operating-company score does not apply.",
+        "sources": [
+          {
+            "url": "https://am.jpmorgan.com/es/en/asset-management/institutional/products/jpm-nasdaq-equity-premium-income-active-ucits-etf-eur-hedged-dist-ie0006fiw9z0",
+            "title": "J.P. Morgan JEQE product profile",
+            "period": null,
+            "published_at": null,
+            "locator": null,
+            "retrieved_at": "2026-11-05T20:55:32+00:00"
+          }
+        ],
+        "data_review": {
+          "reviewed_at": "2026-11-05T20:55:32+00:00",
+          "baseline_generation": "20261105T111945687481-061f3668ea0a4140a367e5def4c2fb3f",
+          "baseline_financial_period": null,
+          "status": "NOT_APPLICABLE",
+          "latest_source_period": null
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
       }
     }
   }

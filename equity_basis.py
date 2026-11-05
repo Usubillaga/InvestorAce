@@ -18,7 +18,26 @@ MONEY_FIELDS = ('operating_cash_flow', 'capex', 'net_income', 'net_income_common
                 'preferred_outstanding', 'common_dividends_paid', 'dividends_total',
                 'capex_reported', 'capital_accrual_change', 'net_income_before_noncontrolling',
                 'noncontrolling_earnings', 'reported_fcf')
+PREFERRED_AMOUNTS = ('preferred_cash_paid', 'preferred_earnings_deduction', 'preferred_outstanding')
+CORRECTION_FIELDS = MONEY_FIELDS + ('preferred_claims_known',)
 RESOLVABLE = {'DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'COMMON_EQUITY_CLAIMS_OMITTED'}
+
+
+def _validate_reconciliations(row, fields):
+    equations = (
+        (('net_income', 'preferred_earnings_deduction', 'net_income_common'),
+         'Primary common-income bridge does not reconcile'),
+        (('net_income_before_noncontrolling', 'noncontrolling_earnings', 'net_income'),
+         'Primary noncontrolling-income bridge does not reconcile'),
+        (('capex_reported', 'capital_accrual_change', 'capex'),
+         'Primary cash-capex accrual bridge does not reconcile'),
+    )
+    for operands, message in equations:
+        if fields.isdisjoint(operands):
+            continue
+        total, deduction, remainder = (finite_number(row.get(key)) for key in operands)
+        if None not in (total, deduction, remainder) and abs(total-deduction-remainder) > 1.:
+            raise ValueError(message)
 
 
 def validate(bridge, *, symbol, currency):
@@ -52,24 +71,21 @@ def validate(bridge, *, symbol, currency):
                 or row.get('scope') not in SCOPES or not row.get('source_urls')
                 or not set(row['source_urls']).issubset(urls)):
             raise ValueError('Invalid or duplicate common-equity period/scope/source')
+        if 'patch_fields' in row:
+            fields = row['patch_fields']
+            if (not isinstance(fields, list) or not fields or any(not isinstance(f, str) for f in fields)
+                    or len(set(fields)) != len(fields)
+                    or any(f not in CORRECTION_FIELDS or f not in row for f in fields)):
+                raise ValueError('Primary field correction requires unique explicit equity fields')
         for field in MONEY_FIELDS:
             if row.get(field) is not None and finite_number(row[field]) is None:
                 raise ValueError('Non-finite common-equity bridge amount: ' + field)
         if 'preferred_claims_known' in row and type(row['preferred_claims_known']) is not bool:
             raise ValueError('Preferred-claim disclosure must be boolean')
-        parent, common, deduction = (finite_number(row.get(k)) for k in
-                                      ('net_income', 'net_income_common', 'preferred_earnings_deduction'))
-        if None not in (parent, common, deduction) and abs(parent-deduction-common) > 1.:
-            raise ValueError('Primary common-income bridge does not reconcile')
-        total, nci = (finite_number(row.get(k)) for k in ('net_income_before_noncontrolling', 'noncontrolling_earnings'))
-        if None not in (total, nci, parent) and abs(total-nci-parent) > 1.:
-            raise ValueError('Primary noncontrolling-income bridge does not reconcile')
+        _validate_reconciliations(row, set(MONEY_FIELDS))
         capex = finite_number(row.get('capex'))
         if capex is not None and capex < 0:
             raise ValueError('Primary cash capex must be nonnegative')
-        reported, change = (finite_number(row.get(k)) for k in ('capex_reported', 'capital_accrual_change'))
-        if None not in (capex, reported, change) and abs(reported-change-capex) > 1.:
-            raise ValueError('Primary cash-capex accrual bridge does not reconcile')
         seen.add(key)
     return published, fetched
 
@@ -77,7 +93,37 @@ def validate(bridge, *, symbol, currency):
 def _known(row):
     return bool(row.get('preferred_claims_known') or any(
         finite_number(row.get(k)) not in (None, 0.) for k in
-        ('preferred_cash_paid', 'preferred_earnings_deduction', 'preferred_outstanding')))
+        PREFERRED_AMOUNTS))
+
+
+def _preferred_in_window(rows, period):
+    """Use payments within the year and the last known opening balance."""
+    if not period:
+        return False
+    end = date.fromisoformat(period)
+    try:
+        opening = end.replace(year=end.year-1)
+    except ValueError:  # February 29
+        opening = end.replace(year=end.year-1, day=28)
+    balances = []
+    for row in rows:
+        day = date.fromisoformat(row['period'])
+        if opening < day <= end and _known(row):
+            return True
+        balance = finite_number(row.get('preferred_outstanding'))
+        if day <= opening and balance is not None:
+            balances.append((day, abs(balance)))
+    # A closing zero alone cannot establish when an earlier claim was retired.
+    return bool(balances and max(balances)[1])
+
+
+def _reported_current(facts, rows):
+    inputs = facts.get('inputs') or {}
+    unresolved_scope = any(r.get('has_discontinued_operations') or r.get('scope') in
+                           ('UNRESOLVED', 'CONTINUING') for r in rows)
+    return dict(inputs, period=facts.get('financial_period'), basis=facts.get('basis'),
+                scope='UNRESOLVED' if unresolved_scope else 'REPORTED',
+                reported_fcf=inputs.get('fcf'), dividends_total=inputs.get('dividends'))
 
 
 def _normalise(row, *, required_scope=None, preferred_required=False):
@@ -121,30 +167,64 @@ def apply(facts, *, as_of):
     """Derive adjusted inputs without rewriting the provider packet or its cache."""
     rows = copy.deepcopy(facts.get('equity_periods') or [])
     bridge = facts.get('common_equity_bridge')
-    scope, preferred_required = None, bool(facts.get('preferred_claims_required'))
+    scope = None
+    # Older SEC catch-up packets persisted an inferred flag across all
+    # historical years. Their retained rows are the actual dated evidence.
+    legacy_inference = (facts.get('financial_source') == 'SEC_COMPANYFACTS'
+                        and not facts.get('preferred_claims_explicit')
+                        and any(_known(row) for row in rows))
+    explicit_claim = bool(facts.get('preferred_claims_required') and not legacy_inference)
+    current_key = (facts.get('financial_period'), facts.get('basis'))
+    unapplied_claims = []
     primary = None
+    primary_applied = current_full_bridge = False
     if bridge:
         published, fetched = validate(bridge, symbol=facts.get('symbol'),
-                                      currency=facts.get('financial_currency') or bridge.get('currency'))
+                                      currency=bridge.get('currency'))
         if published <= fetched <= as_of:
             primary = bridge
-            scope, preferred_required = bridge['required_scope'], bridge['preferred_claims_required']
+            explicit_claim = explicit_claim or bridge['preferred_claims_required']
+            if any('patch_fields' not in row for row in bridge['periods']):
+                if facts.get('financial_currency') not in (None, bridge['currency']):
+                    raise ValueError('Common-equity bridge financial currency mismatch')
+                scope = bridge['required_scope']
             keyed = {(r['period'], r['basis']): r for r in rows}
-            keyed.update({(r['period'], r['basis']): copy.deepcopy(r) for r in bridge['periods']})
+            for row in bridge['periods']:
+                identity = (row['period'], row['basis'])
+                if 'patch_fields' not in row:
+                    keyed[identity] = copy.deepcopy(row)
+                    primary_applied = True
+                    current_full_bridge = current_full_bridge or identity == current_key
+                    continue
+                prior = keyed.get(identity)
+                if prior is None and identity == current_key:
+                    prior = _reported_current(facts, rows)
+                if (prior is None or prior.get('scope', 'REPORTED') != row['scope']
+                        or facts.get('financial_currency') != bridge['currency']):
+                    # These facts can establish a dated preferred obligation
+                    # even when their amounts cannot be merged into a packet.
+                    unapplied_claims.append(dict(period=row['period'], **{
+                        f: row[f] for f in row['patch_fields'] if f in
+                        PREFERRED_AMOUNTS + ('preferred_claims_known',)}))
+                    continue
+                corrected = copy.deepcopy(prior)
+                for field in row['patch_fields']:
+                    corrected[field] = row[field]
+                    corrected.setdefault('field_sources', {})[field] = dict(
+                        source_urls=row['source_urls'], published_at=bridge['published_at'],
+                        fetched_at=bridge['fetched_at'])
+                _validate_reconciliations(corrected, set(row['patch_fields']))
+                keyed[identity] = corrected
+                primary_applied = True
             rows = list(keyed.values())
-    if not rows and not preferred_required:
+    claim_rows = rows + unapplied_claims
+    if not claim_rows and not explicit_claim:
         return facts
     result = copy.deepcopy(facts)
-    current_key = (facts.get('financial_period'), facts.get('basis'))
     current = next((r for r in rows if (r['period'], r['basis']) == current_key), None)
-    preferred_required = preferred_required or any(_known(r) for r in rows)
+    preferred_required = explicit_claim or _preferred_in_window(claim_rows, current_key[0])
     if current is None:
-        inputs = facts.get('inputs') or {}
-        unresolved_scope = any(r.get('has_discontinued_operations') or r.get('scope') in
-                               ('UNRESOLVED', 'CONTINUING') for r in rows)
-        current = dict(inputs, period=current_key[0], basis=current_key[1],
-                       scope='UNRESOLVED' if unresolved_scope else 'REPORTED',
-                       dividends_total=inputs.get('dividends'))
+        current = _reported_current(facts, rows)
     current = _normalise(current, required_scope=scope, preferred_required=preferred_required)
     current['reported_fcf'] = (facts.get('inputs') or {}).get('fcf')
     current['reported_net_income'] = (facts.get('inputs') or {}).get('net_income')
@@ -159,8 +239,9 @@ def apply(facts, *, as_of):
             # Do not mix an unbridged old consolidated year into a recast mean.
             row = dict(period=period, basis='FY', scope='REPORTED', net_income=income_raw.get(period),
                        revenue=revenue_raw.get(period))
-        adjusted = _normalise(row, required_scope=scope, preferred_required=preferred_required)
-        if not preferred_required and scope is None and period not in annual_rows:
+        annual_preferred = explicit_claim or _preferred_in_window(claim_rows, period)
+        adjusted = _normalise(row, required_scope=scope, preferred_required=annual_preferred)
+        if not annual_preferred and scope is None and period not in annual_rows:
             adjusted['common_fcf'] = finite_number(cash_raw.get(period))
         adjusted['reported_fcf'] = cash_raw.get(period)
         adjusted['reported_net_income'] = income_raw.get(period)
@@ -178,7 +259,7 @@ def apply(facts, *, as_of):
     complete = (current['common_fcf'] is not None and current['common_net_income'] is not None
                 and current['scope_matched'] and cycle_complete)
     resolved = []
-    if primary and complete:
+    if current_full_bridge and complete:
         resolved = [c for c in conflicts if c['code'] in RESOLVABLE]
         conflicts = [c for c in conflicts if c['code'] not in RESOLVABLE]
     reasons = []
@@ -200,8 +281,9 @@ def apply(facts, *, as_of):
         annual_revenue_series=[dict(period=r['period'], value=r['comparable_revenue']) for r in annual],
         enterprise_epv_compatible=not preferred_required and scope is None and all(
             r.get('scope') == 'REPORTED' and not r.get('has_discontinued_operations') for r in rows))
-    if primary:
+    if primary_applied:
         result['common_equity_basis'].update(published_at=primary['published_at'], fetched_at=primary['fetched_at'],
                                             source_urls=primary['source_urls'])
+    if primary:
         result['source_urls'] = list(dict.fromkeys(facts.get('source_urls', []) + primary['source_urls']))
     return result

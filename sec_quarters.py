@@ -67,19 +67,16 @@ def newer_packet(facts, metrics, cik, today):
         dividends=-abs(metrics['dividends']) if metrics.get('dividends') is not None else old.get('dividends'),
         debt=metrics['debt'] if metrics.get('debt') is not None else old.get('debt'),
         cash=metrics['cash'] if metrics.get('cash') is not None else old.get('cash'))
-    # Older preferred payments describe another window. Carry the obligation,
-    # not its amount; the new window must supply a new common-equity bridge.
-    preferred_required = bool(facts.get('preferred_claims_required') or any(
-        r.get('preferred_claims_known') or any(r.get(k) not in (None, 0.) for k in
-            ('preferred_cash_paid', 'preferred_earnings_deduction', 'preferred_outstanding'))
-        for r in facts.get('equity_periods') or []))
+    # Preserve dated equity rows. The calculator checks obligations against
+    # the new financial window and never carries an old cash amount forward.
+    if facts.get('financial_source') != 'SEC_COMPANYFACTS' and facts.get('preferred_claims_required'):
+        facts = dict(facts, preferred_claims_explicit=True)
     urls = list(facts.get('source_urls') or [])
     urls += [market_universe.filing_url(cik, accn) for accn in metrics.get('accns') or []]
     return dict(facts, inputs=inputs, financial_period=end.isoformat(), period_ends=[end.isoformat()],
                 basis=metrics['basis'], shares_basis='SEC_' + str(metrics.get('shares_basis')),
                 shares_asof=metrics.get('shares_date'), cash_flow_calculation='OCF_MINUS_ABS_CAPEX',
                 financial_source='SEC_COMPANYFACTS', financial_currency='USD',
-                preferred_claims_required=preferred_required,
                 sec_flags=list(metrics.get('flags') or []), source_urls=urls,
                 yahoo_financial_period=facts.get('financial_period'))
 
