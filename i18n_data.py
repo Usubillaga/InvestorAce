@@ -1411,3 +1411,8 @@ TRANSLATIONS['es'].update({'Financial quality 45% · Valuation & expectations 25
 
 TRANSLATIONS['de'].update({'Valuation blocked': 'Bewertung blockiert'})
 TRANSLATIONS['es'].update({'Valuation blocked': 'Valoración bloqueada'})
+# Input-conflict codes shown verbatim (policy, status, blocker, conflict codes).
+for _language in ('de', 'es'):
+    TRANSLATIONS[_language].update({code: code for code in (
+        'BLOCKED_INPUT_CONFLICT', 'BLOCKED_INPUTS', 'VALUATION_INPUT_CONFLICT',
+        'DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'COMMON_EQUITY_CLAIMS_OMITTED')})

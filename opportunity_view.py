@@ -91,6 +91,19 @@ def short(item):
             +(' ('+escape(s['settlement_date'])+')' if s.get('settlement_date') else '')+'</span>')
 
 
+def conflicts(ticker, item):
+    """Analyst-recorded input conflicts, kept as original-language review text.
+
+    The reasons come from source_reviews.json, not from the UI catalog; an id
+    starting with 'review-' makes the localizer show them as source text with
+    its original-language notice instead of reporting untranslated UI prose."""
+    found = item.get('valuation_input_conflicts') or []
+    if not found:
+        return ''
+    return ('<div id="review-input-conflicts-'+escape(ticker,quote=True)+'">'
+            +''.join('<p class="opportunity-caps">'+escape(c['reason'])+'</p>' for c in found)+'</div>')
+
+
 def implausible_short(s):
     """Provider glitch guard: OXY and BA read 0.02% of float on 15 Oct 2026,
     132k and 166k shares against 21.6m and 14.2m a month earlier."""
@@ -159,8 +172,7 @@ def detail(ticker,item):
     return ('<details class="opportunity-stock decision-stock" id="opportunity-'+escape(ticker,quote=True)
         +'" data-opportunity="'+escape(ticker,quote=True)+'"><summary><b class="tk">'+escape(ticker)+'</b> '
         +signal(item)+' · '+score(item)+'</summary>'+tags(item)+metrics(item)
-        +(''.join('<p class="opportunity-caps">'+escape(c['reason'])+'</p>'
-                 for c in item.get('valuation_input_conflicts', [])))
+        +conflicts(ticker, item)
         +'<p class="opportunity-metrics">P/E proxy = market capitalization / corresponding net income, '
         'capped at operating income when non-operating gains lift net income above it. '
         'Commodity valuation and growth use cycle averages where available. Financial period: '

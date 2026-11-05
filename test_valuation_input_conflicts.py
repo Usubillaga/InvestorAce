@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import patch
 
+import i18n
 import live_analysis
 import opportunity_view
 import source_review
@@ -109,3 +110,24 @@ class ValuationInputConflicts(unittest.TestCase):
         self.assertEqual(source_review.valuation_input_conflicts(
             section, as_of=datetime(2026, 11, 1, tzinfo=timezone.utc)), [])
         self.assertEqual(source_review.valuation_input_conflicts(section, as_of=ASOF), [CONFLICT])
+
+
+class ConflictDisplayLanguages(unittest.TestCase):
+    def test_reasons_stay_source_text_and_codes_are_known(self):
+        facts = json.loads(FIXTURE.read_text())
+        facts.update(midcycle=True, valuation_input_conflicts=source_review.valuation_input_conflicts(
+            source_review.load()['entries']['OXY']['valuation'], as_of=ASOF))
+        analysis = live_analysis.calculate(facts, quote=dict(price=57.33, observed_at='2026-11-04T21:00:02+00:00'),
+                                           risk_free=.04894, mrp=.0472, as_of=ASOF)
+        row = copy.deepcopy(engine.DATA['OXY'])
+        row.update(analysis['overlay'], dynamic_analysis=analysis, price=57.33,
+                   quote_observed_at='2026-11-04T21:00:02+00:00')
+        result = engine.opportunity(row, regime='INFLATION', as_of=ASOF)
+        page = ('<html><body>' + opportunity_view.signal(result) + opportunity_view.detail('OXY', result)
+                + '</body></html>')
+        self.assertEqual(result['cash_flow_policy'], 'BLOCKED_INPUT_CONFLICT')
+        self.assertEqual(i18n.translation_gaps(page), [])
+        german = i18n.localize(page, 'de')
+        self.assertIn('Bewertung blockiert', german)
+        self.assertIn('OxyChem was sold on 2026-01-02', german)      # review text keeps its original language
+        self.assertIn('source-original', german)
