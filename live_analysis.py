@@ -12,6 +12,7 @@ from urllib.parse import quote as urlquote
 
 import assessment
 import autoscore
+import equity_basis
 from integrity import finite_number, positive_number
 
 
@@ -30,6 +31,15 @@ ALIASES = {
     'debt': ('Total Debt',),
     'cash': ('Cash And Cash Equivalents', 'Cash Cash Equivalents And Short Term Investments'),
     'shares': ('Ordinary Shares Number',),
+    'net_income_common': ('Net Income Common Stockholders',),
+    'preferred_earnings': ('Preferred Stock Dividends',),
+    'preferred_paid': ('Preferred Stock Dividend Paid', 'Preferred Dividends Paid'),
+    'preferred_outstanding': ('Preferred Stock', 'Preferred Stock Equity'),
+    'common_dividends': ('Common Stock Dividend Paid',),
+    'continuing_ocf': ('Cash Flow From Continuing Operating Activities', 'Operating Cash Flow From Continuing Operations'),
+    'discontinued_ocf': ('Cash Flow From Discontinued Operating Activities',),
+    'continuing_capex': ('Capital Expenditure From Continuing Operations',),
+    'discontinued_income': ('Net Income Discontinuous Operations',),
 }
 TABLES = {'g': autoscore.GROWTH, 'p': autoscore.PROFIT, 'c': autoscore.CASHGEN,
           'b': autoscore.BALANCE, 'v': autoscore.VALUE, 'r': autoscore.RETURNS,
@@ -108,6 +118,40 @@ def _cash(frame, columns):
     reported = _total(frame, 'fcf', columns)
     fcf = ocf - capex if ocf is not None and capex is not None else reported
     return ocf, capex, fcf
+
+
+def _equity_row(cf, income, balance, dates, basis):
+    """Only create metadata when the provider actually discloses a claim/scope row."""
+    if not dates:
+        return None
+    paid = _total(cf, 'preferred_paid', dates)
+    deduction = _total(income, 'preferred_earnings', dates)
+    common = _total(income, 'net_income_common', dates)
+    outstanding = _value(balance, 'preferred_outstanding', dates[0])
+    discontinued = any(_value(frame, key, c) not in (None, 0.) for c in dates for frame, key in
+        ((cf, 'discontinued_ocf'), (income, 'discontinued_income')))
+    if all(x is None for x in (paid, deduction, common, outstanding)) and not discontinued:
+        return None
+    ocf, capex, reported = _cash(cf, dates)
+    cont_ocf = _total(cf, 'continuing_ocf', dates)
+    cont_capex = [_value(cf, 'continuing_capex', c) for c in dates]
+    cont_capex = sum(abs(x) for x in cont_capex) if all(x is not None for x in cont_capex) else None
+    scope = 'UNRESOLVED' if discontinued else 'REPORTED'
+    if cont_ocf is not None and cont_capex is not None:
+        ocf, capex, scope = cont_ocf, abs(cont_capex), 'CONTINUING'
+    # A consolidated common-income row is not continuing common income.
+    if discontinued:
+        common = None
+    return dict(period=dates[0].date().isoformat(), basis=basis, scope=scope,
+        earnings_scope='UNRESOLVED' if discontinued else scope,
+        revenue_scope='UNRESOLVED' if discontinued else scope,
+        operating_cash_flow=ocf, capex=capex, net_income=_total(income, 'net_income', dates),
+        reported_fcf=reported,
+        net_income_common=common, revenue=_total(income, 'revenue', dates),
+        preferred_cash_paid=paid, preferred_earnings_deduction=deduction,
+        preferred_outstanding=outstanding, has_discontinued_operations=discontinued,
+        common_dividends_paid=_total(cf, 'common_dividends', dates),
+        dividends_total=_total(cf, 'dividends', dates), source='YAHOO_STATEMENT_ROWS')
 
 
 def _annual_growth(frame, key):
@@ -247,6 +291,18 @@ def extract(ticker, symbol, *, as_of):
     balance = next((b for b in (frames['qbalance'], frames['balance'])
                     if b is not None and end is not None and end in b.columns), None)
     values.update({key: _value(balance, key, end) for key in ('debt', 'cash')})
+    equity_rows = []
+    current_equity = _equity_row(selected_cf, selected_income, balance, dates, basis)
+    if current_equity:
+        if dividends_basis == 'PROVIDER_ZERO_TRAILING_DIVIDEND':
+            # This is a sourced common-share zero, independent of preferred cash.
+            current_equity['common_dividends_paid'] = 0.
+        equity_rows.append(current_equity)
+    if cf is not None:
+        for c in cf.columns[:5]:
+            row = _equity_row(cf, income, frames['balance'], [c], 'FY')
+            if row and (row['period'], row['basis']) != ((current_equity or {}).get('period'), basis):
+                equity_rows.append(row)
     shares = positive_number(info.get('sharesOutstanding'))
     share_basis, shares_asof = 'YAHOO_CURRENT_SNAPSHOT_UNDATED', None
     if shares is None:
@@ -280,6 +336,7 @@ def extract(ticker, symbol, *, as_of):
     return dict(schema=VERSION, fetched_at=as_of.isoformat(), symbol=symbol,
         financial_period=end.date().isoformat() if end is not None else None,
         period_ends=[c.date().isoformat() for c in dates], basis=basis, inputs=values,
+        equity_periods=equity_rows,
         financial_currency=info.get('financialCurrency'), currency=info.get('currency'),
         beta=finite_number(info.get('beta')), quote_price=positive_number(info.get('regularMarketPrice')),
         quote_observed_at=quote_time, quote_type=info.get('quoteType'),
@@ -359,6 +416,32 @@ def prefer_primary(provider, primary, *, as_of):
     result['source_urls'] = list(dict.fromkeys(provider.get('source_urls', []) + primary['source_urls']))
     result['primary_source_published_at'] = primary['published_at']
     result['primary_warnings'] = primary.get('primary_warnings', [])
+    if provider.get('equity_periods'):
+        # Primary corrections win over optional Yahoo rows for the same periods.
+        # Never rebuild corrected FCF from a superseded OCF/capex pair.
+        rows = {(r['period'], r['basis']): copy.deepcopy(r) for r in provider['equity_periods']}
+        for key, field in (('annual_fcf_series', 'reported_fcf'),
+                           ('annual_net_income_series', 'net_income'),
+                           ('annual_revenue_series', 'revenue')):
+            for item in primary.get(key, []):
+                identity = (item['period'], 'FY')
+                row = rows.setdefault(identity, dict(period=item['period'], basis='FY', scope='REPORTED'))
+                row[field] = item.get('value')
+                row['source'] = 'PRIMARY_FINANCIAL_PACKET'
+                if field == 'reported_fcf':
+                    row.update(operating_cash_flow=None, capex=None)
+                if field == 'net_income':
+                    row['net_income_common'] = None
+                if row.get('has_discontinued_operations') or row.get('scope') == 'CONTINUING':
+                    row['scope'] = primary.get('operating_scope', 'UNRESOLVED')
+        if (provider.get('financial_period') or '') <= primary['financial_period']:
+            identity = (primary['financial_period'], primary['basis'])
+            row = rows.setdefault(identity, dict(period=identity[0], basis=identity[1], scope='REPORTED'))
+            row.update({k: inputs.get(k) for k in ('operating_cash_flow', 'capex', 'net_income', 'revenue')})
+            row.update(net_income_common=inputs.get('net_income_common'), reported_fcf=inputs.get('fcf'),
+                       dividends_total=inputs.get('dividends'), common_dividends_paid=inputs.get('common_dividends_paid'),
+                       source='PRIMARY_FINANCIAL_PACKET')
+        result['equity_periods'] = list(rows.values())
     return result
 
 
@@ -390,6 +473,9 @@ def leverage_ebitda(inputs):
 
 def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5):
     """Reprice frozen facts with current parameters; no network or stored scores."""
+    facts = equity_basis.apply(facts, as_of=as_of)
+    common_basis = facts.get('common_equity_basis') or {}
+    current_common = common_basis.get('current')
     inputs = dict(facts.get('inputs') or {})
     warnings = ['Reported leveraged FCF proxy; sustainable cash flow has not been normalized.',
                 'Five-year growth and terminal growth are scenario assumptions, not forecasts.']
@@ -434,6 +520,11 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         rate = None
         warnings.append('Valid cost-of-equity inputs unavailable; valuation suspended.')
     fcf, shares = finite_number(inputs.get('fcf')), positive_number(inputs.get('shares'))
+    if current_common is not None:
+        fcf = current_common['common_fcf']
+        inputs['common_fcf'] = fcf
+        inputs['common_net_income'] = current_common['common_net_income']
+        warnings.append('Common-equity bridge uses period-matched preferred cash payments and earnings deductions; raw inputs are retained.')
     valuation_fcf = fcf
     policy = 'REPORTED_FCF_PROXY'
     cash_cycle_periods = []
@@ -441,7 +532,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         # Yahoo often includes an empty oldest column. Use the contiguous
         # complete prefix; never jump across a missing intervening year.
         annual = []
-        for item in (facts.get('annual_fcf_series') or [])[:5]:
+        for item in (common_basis.get('annual_fcf_series', facts.get('annual_fcf_series')) or [])[:5]:
             if finite_number(item.get('value')) is None:
                 break
             annual.append(item)
@@ -457,10 +548,26 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         cash_cycle_periods = dates if aligned else []
         policy = 'MIDCYCLE_MEAN_PROXY'
         warnings.append('Commodity value uses a multi-year reported cash-flow mean; acquisitions and normalization still require review.')
+    conflicts = copy.deepcopy(facts.get('valuation_input_conflicts') or [])
+    if conflicts:
+        # A known invalid perimeter/senior-claim bridge is not a pending
+        # approval. Keep raw reported facts, but do not capitalise them as
+        # common-equity cash flow or silently replace them with an estimate.
+        inputs['rejected_valuation_fcf'] = valuation_fcf
+        valuation_fcf, policy = None, 'BLOCKED_INPUT_CONFLICT'
+        warnings.extend('Valuation blocked: ' + item['reason'] for item in conflicts)
     inputs['valuation_fcf'] = valuation_fcf
     usable = valuation_fcf is not None and valuation_fcf > 0 and shares is not None and rate is not None and factor is not None
     ngv = valuation_fcf / shares / rate * factor if usable else None
     historical = finite_number(facts.get('annual_fcf_growth_pct'))
+    if common_basis:
+        annual = common_basis['annual_fcf_series']
+        historical = None
+        if len(annual) >= 2:
+            a, b = annual[:2]
+            av, bv = finite_number(a['value']), positive_number(b['value'])
+            gap = (datetime.fromisoformat(a['period'])-datetime.fromisoformat(b['period'])).days
+            historical = 100*(av/bv-1) if av is not None and bv and 300 <= gap <= 400 else None
     growth = max(-.10, min(.15, historical / 100)) if historical is not None else 0.
     if facts.get('midcycle'):
         growth = 0.
@@ -488,6 +595,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             warnings.append('Price implies growth beyond the reverse-DCF range ('+reverse_bound
                             +'); the range edge is used as a bound.')
     rev = positive_number(inputs.get('revenue'))
+    cash_revenue = positive_number(current_common.get('comparable_revenue')) if current_common else rev
     opinc = finite_number(inputs.get('operating_income'))
     ebitda, leverage_basis = leverage_ebitda(inputs)
     if leverage_basis in ('OPERATING_INCOME_PLUS_DA', 'OPERATING_INCOME_FLOOR'):
@@ -500,10 +608,11 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     debt, cash = finite_number(inputs.get('debt')), finite_number(inputs.get('cash'))
     market_cap = price * shares / factor if price and shares and factor else None
     earnings = finite_number(inputs.get('net_income'))
-    valuation_earnings = earnings
+    common_earnings = current_common['common_net_income'] if current_common else earnings
+    valuation_earnings = common_earnings
     if facts.get('midcycle'):
         years = []
-        for item in (facts.get('annual_net_income_series') or [])[:5]:
+        for item in (common_basis.get('annual_net_income_series', facts.get('annual_net_income_series')) or [])[:5]:
             if finite_number(item.get('value')) is None:
                 break
             years.append(item)
@@ -514,8 +623,8 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         if not aligned:
             warnings.append('Commodity earnings multiple unavailable: earnings and cash cycle periods do not align.')
     earnings_basis = 'CYCLE_MEAN' if facts.get('midcycle') else 'REPORTED_NET_INCOME'
-    if (not facts.get('midcycle') and earnings is not None and earnings > 0
-            and opinc is not None and earnings > opinc):
+    if (not facts.get('midcycle') and valuation_earnings is not None and valuation_earnings > 0
+            and opinc is not None and valuation_earnings > opinc):
         # Net income above pre-tax operating income needs non-operating gains
         # or tax benefits: Alphabet's TTM reads 235.7bn against 157.0bn, from
         # marks on private stakes, and scored P/E 7.0 = 10 points. The multiple
@@ -523,6 +632,9 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         valuation_earnings, earnings_basis = opinc, 'CAPPED_AT_OPERATING_INCOME'
         warnings.append('Net income exceeds operating income (non-operating gains or tax benefits); '
                         'the earnings multiple uses operating income.')
+    if conflicts:
+        inputs['rejected_valuation_net_income'] = valuation_earnings
+        valuation_earnings, earnings_basis = None, 'BLOCKED_INPUT_CONFLICT'
     inputs['valuation_net_income'] = valuation_earnings
     cycle_growth = None
     if facts.get('midcycle') and cash_cycle_periods:
@@ -532,7 +644,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         # Yahoo's cash-flow table can hold one more year than its income
         # statement; the newest contiguous run of at least three years is used.
         revenue = {item.get('period'): positive_number(item.get('value'))
-                   for item in facts.get('annual_revenue_series') or []}
+                   for item in common_basis.get('annual_revenue_series', facts.get('annual_revenue_series')) or []}
         path = []
         for period in cash_cycle_periods:
             if revenue.get(period) is None:
@@ -541,13 +653,15 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         if len(path) >= 3:
             cycle_growth = 100 * ((path[0] / path[-1]) ** (1 / (len(path) - 1)) - 1)
     dividends = finite_number(inputs.get('dividends'))
+    if current_common is not None:
+        dividends = current_common['common_dividends_paid']
     share_change = finite_number(facts.get('share_change_pct'))
     div_yield = abs(dividends) / market_cap * 100 if dividends is not None and market_cap else None
     buybacks = max(0., -share_change) if share_change is not None else None
     returns = div_yield + buybacks if div_yield is not None and buybacks is not None else None
     metrics = dict(revenue_growth_pct=facts.get('revenue_growth_pct'),
         operating_margin_pct=100*opinc/rev if opinc is not None and rev else None,
-        fcf_margin_pct=100*fcf/rev if fcf is not None and rev else None,
+        fcf_margin_pct=100*fcf/cash_revenue if fcf is not None and cash_revenue else None,
         net_debt=debt-cash if debt is not None and cash is not None else None,
         net_debt_ebitda=(debt-cash)/ebitda if None not in (debt,cash) and ebitda else None,
         fcf_yield_pct=100*valuation_fcf/market_cap if valuation_fcf is not None and market_cap else None,
@@ -556,7 +670,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         reported_pe=market_cap/earnings if market_cap and earnings is not None and earnings > 0 else None,
         valuation_pe=market_cap/valuation_earnings if market_cap and valuation_earnings is not None and valuation_earnings > 0 else None,
         earnings_yield_pct=100*valuation_earnings/market_cap if market_cap and valuation_earnings is not None else None,
-        cash_conversion_pct=100*fcf/earnings if fcf is not None and earnings is not None and earnings > 0 else None,
+        cash_conversion_pct=100*fcf/common_earnings if fcf is not None and common_earnings is not None and common_earnings > 0 else None,
         cycle_revenue_growth_pct=cycle_growth,
         cover_pct=100*ngv/price if ngv is not None and price else None)
     raw = dict(zip(('g','p','c','b','v','r','d'), (metrics[k] for k in (
@@ -578,7 +692,8 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     explanation = [dict(key=key, label=assessment.LABELS[key], value=components[key],
         nominal_weight=weight, effective_weight=weight if components[key] is not None else 0.,
         contribution=components[key]*weight if components[key] is not None else None,
-        source='Calculated from dated primary financial inputs' if facts.get('primary_current') else
+        source='Calculated from reported financial inputs and a dated primary common-equity bridge' if common_basis.get('source_urls') else
+            'Calculated from dated primary financial inputs' if facts.get('primary_current') else
             'Calculated from dated yfinance financial inputs') for key,weight in assessment.WEIGHTS.items()]
     overlay = dict(fcf=valuation_fcf/1e6 if valuation_fcf is not None and valuation_fcf > 0 and factor else None,
         fcf_ttm=fcf/1e6 if fcf is not None and facts.get('basis')=='TTM' else None,
@@ -601,6 +716,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             revenue_growth=facts.get('revenue_growth_periods', []),
             share_change=facts.get('share_change_periods', [])),
         annual_fcf_series=facts.get('annual_fcf_series', []),
+        common_equity_basis=common_basis or None,
         positioning=dict(short_interest=facts.get('short_interest')),
         events=dict(earnings=facts.get('earnings'), last_reported=facts.get('last_earnings')),
         quote_observed_at=q.get('observed_at'), warnings=warnings, source_urls=facts.get('source_urls',[]),
@@ -622,6 +738,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         overlay=overlay, score_explanation=dict(schema='score-explanation-v1', status='DECOMPOSED',
             total=score, components=explanation, denominator=1.,
             sum_contributions=score, reconciles=True if complete else None),
+        valuation_input_conflicts=conflicts,
         review_status='REVIEW_REQUIRED', can_approve=False)
 
 

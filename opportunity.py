@@ -11,7 +11,7 @@ import autoscore
 from integrity import finite_number, positive_number
 
 
-VERSION = 'opportunity-v18'
+VERSION = 'opportunity-v18.1'
 PRICE_METRICS = ('valuation_pe','reported_pe','fcf_yield_pct','market_cap','cover_pct',
                  'earnings_yield_pct','shareholder_yield_pct')
 # v18: free-cash-flow yield and reverse-DCF expectations are both functions of
@@ -88,20 +88,21 @@ def profile(row, values, metrics):
                 confidence='HEURISTIC', sector=sector)
 
 
-def fits(row, ranges, cover, spec):
+def fits(row, ranges, cover, spec, *, unknown_cover=False):
     """The frozen regime formula, with bounds replacing missing balance/payout."""
-    if cover is None or row.get('sector') not in set().union(*(
+    if (cover is None and not unknown_cover) or row.get('sector') not in set().union(*(
             set(x) for x in spec['affinity'].values())):
         return {}, {}
-    duration = max(-spec['clamp'], min(spec['clamp'], (cover-.60)*100))
+    durations = ([-spec['clamp'], spec['clamp']] if cover is None else
+                 [max(-spec['clamp'], min(spec['clamp'], (cover-.60)*100))])
     exact, bounds = {}, {}
     for regime in REGIMES:
-        common = (50 + spec['multiplier']*spec['affinity'][regime].get(row.get('sector'),0)
-                  + spec['duration'][regime]*duration)
+        common = 50 + spec['multiplier']*spec['affinity'][regime].get(row.get('sector'),0)
+        duration_parts = [spec['duration'][regime]*duration for duration in durations]
         parts = [spec['balance'][regime]*(x-6) for x in ranges['b']]
         payouts = [spec['payout'][regime]*(x-6) for x in ranges['r']]
-        lower = round(max(0.,min(100.,common+min(parts)+min(payouts))),1)
-        upper = round(max(0.,min(100.,common+max(parts)+max(payouts))),1)
+        lower = round(max(0.,min(100.,common+min(duration_parts)+min(parts)+min(payouts))),1)
+        upper = round(max(0.,min(100.,common+max(duration_parts)+max(parts)+max(payouts))),1)
         bounds[regime] = [lower,upper]
         exact[regime] = lower if lower == upper else None
     return exact, bounds
@@ -153,6 +154,14 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
                     and not row.get('midcycle') else None)
     values['expectations'] = curve((dynamic.get('valuation') or {}).get('reverse_dcf_growth_pct'),
                                   [(-5,10),(0,9),(3,8),(6,6.5),(10,5),(15,3),(25,1)])
+    conflicts = copy.deepcopy(dynamic.get('valuation_input_conflicts') or [])
+    if conflicts:
+        # Also guard old/cached calculated packets: a typed monetary input
+        # defect cannot be bypassed by their previously calculated multiples.
+        for key in ('fcfy', 'pe', 'expectations'):
+            values[key] = None
+        for key in ('fcf_yield_pct', 'valuation_pe', 'earnings_yield_pct', 'cover_pct'):
+            metrics[key] = None
     flags, caps = [], []
     if row.get('midcycle'):
         # Commodity growth uses the cash-cycle years, like the valuation inputs;
@@ -193,9 +202,9 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
         business['tags'] = [x for x in business['tags'] if x != 'VALUE'] or ['UNCLASSIFIED']
         for key in ('fcfy','pe','expectations'):
             values[key],ranges[key] = None,[0.,10.]
-    ngv = positive_number((dynamic.get('valuation') or {}).get('ngv_per_share'))
+    ngv = positive_number((dynamic.get('valuation') or {}).get('ngv_per_share')) if not conflicts else None
     cover = ngv/row['price'] if price_current and ngv else None
-    regime_fit, fit_bounds = fits(row,ranges,cover,spec)
+    regime_fit, fit_bounds = fits(row,ranges,cover,spec,unknown_cover=bool(conflicts))
     mix = regime_mix(regime, weights)
     current = weighted_fit(fit_bounds, mix)
     values['macro'] = current[0]/10 if current and current[0] == current[1] else None
@@ -230,7 +239,7 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
     upper = sum(WEIGHTS[k]*ranges[k][1] for k in WEIGHTS)
     missing = [k for k in WEIGHTS if values[k] is None]
     core = all(values[k] is not None for k in ('p','c','fcfy','expectations')) and balance_supported
-    available = price_current and current is not None and core
+    available = price_current and current is not None and core and not conflicts
     point = lower if not missing and available else None
     result_lower,result_upper = min(maximums[0],lower),min(maximums[1],upper)
     signal = label(result_lower) if available and label(result_lower) == label(result_upper) else None
@@ -245,10 +254,11 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
         quote_observed_at=row.get('quote_observed_at'),quote_status=qstatus,
         expires_at=(deadline+timedelta(hours=96)).isoformat() if deadline else None,
         score=min(maximums[0],point) if point is not None else None,label=signal,
-        score_lower=result_lower if price_current else None,score_upper=result_upper if price_current else None,
+        score_lower=result_lower if price_current and not conflicts else None,
+        score_upper=result_upper if price_current and not conflicts else None,
         uncapped_score=point,score_cap=maximums[0] if maximums[0]==maximums[1] else None,
         score_cap_bounds=maximums,caps=caps,withdrawn=not price_current,
-        status='COMPLETE' if point is not None else 'BOUNDED' if signal else 'PARTIAL',
+        status='BLOCKED_INPUTS' if conflicts else 'COMPLETE' if point is not None else 'BOUNDED' if signal else 'PARTIAL',
         signal_basis='AUTOMATIC_MODEL',review_status='REVIEW_REQUIRED',
         fundamental_score=fundamental,
         quality_score=quality if all(values[k] is not None for k in ('p','c','b')) else None,
@@ -257,13 +267,15 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
         valuation_bounds=valuation_bounds if price_current else None,
         profile=business,current_regime=regime,regime_weights=mix,
         macro_basis='REGIME_WEIGHTED' if len(mix) > 1 else 'SINGLE_REGIME',
+        regime_fit_basis='UNKNOWN_COVER_BOUNDS' if conflicts else 'REPORTED_COVER',
         regime_fit=regime_fit,regime_fit_bounds=fit_bounds,
         current_fit=current[0] if current and current[0] == current[1] else None,
         current_fit_bounds=current,regime_model=spec['version'],
         metrics=metrics if price_current else {k:v for k,v in metrics.items() if k not in PRICE_METRICS},
         financial_period=period,financial_fetched_at=dynamic.get('fetched_at'),
         cash_flow_policy=(dynamic.get('parameters') or {}).get('cash_flow_policy'),
-        implied_growth_pct=(dynamic.get('valuation') or {}).get('reverse_dcf_growth_pct') if price_current else None,
+        implied_growth_pct=(dynamic.get('valuation') or {}).get('reverse_dcf_growth_pct') if price_current and not conflicts else None,
+        valuation_input_conflicts=conflicts,
         components=explanation,missing_components=missing,flags=flags,
         short_interest=copy.deepcopy((dynamic.get('positioning') or {}).get('short_interest')),
         insider=copy.deepcopy(row.get('insider_activity')))
@@ -360,6 +372,8 @@ def price_thresholds(row, *, regime, spec, as_of=None, weights=None):
     then names the non-price cap that stops it."""
     current = assess(row, regime=regime, spec=spec, as_of=as_of, weights=weights)
     base = positive_number(row.get('price'))
+    if current.get('valuation_input_conflicts'):
+        return dict(buy=None, strong_buy=None, blocker='VALUATION_INPUT_CONFLICT', basis=None)
     if current.get('withdrawn') or base is None:
         return dict(buy=None, strong_buy=None, blocker='PRICE_MODEL_UNAVAILABLE', basis=None)
     fcf = finite_number(((row.get('dynamic_analysis') or {}).get('inputs') or {}).get('valuation_fcf'))

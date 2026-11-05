@@ -1,6 +1,6 @@
 {
   "schema": "source-reviews-v1",
-  "as_of": "2026-11-02",
+  "as_of": "2026-11-05",
   "window_start": "2026-07-16",
   "window_end": "2026-10-14",
   "entries": {
@@ -6489,7 +6489,7 @@
       "listing": "OXY / NYSE / USD",
       "valuation": {
         "status": "PARTIAL",
-        "reason": "2026-11-02 deep analysis. Q2 2026 primary release: FCF before working capital 3,021m, principal debt 11,818m (YE2025 20,427m), cash 4,150m; OxyChem sale closed 2 Jan 2026 (adjusted 9,472m). Berkshire 10-Q: ~8.5bn 8% preferred, redeemable Aug 2029 at 105%; 83.9m warrants at 59.59 USD. The model NGV 115.92 USD equals FY2022-25 mean FCF 7,051m (12,313/6,612/5,176/4,105) per share at ~6.1%; the mean includes 2022 peak oil and pre-sale OxyChem periods, and fcf/shares ignores 680m/yr preferred dividends. Conditional, unapproved research DCF (10% cost of equity, 4,800m pre-preferred FCF at 65 USD WTI, 230m per 1 USD/bbl): bear/base/bull 38.79/63.14/96.10 USD with mid-cycle WTI 62/70/82; probability-weighted 64.08 USD at p 30/45/25. At the ~61.70 USD reference (2 Nov intraday) implied long-run WTI is about 69-73 USD versus ~69 USD for the Dec-2028 future (24 Aug). Commodity normalization, OxyChem-free annual cash flow and the Tronox tax contingency (~2.4bn) remain unverified. Report: https://usubillaga.github.io/InvestorAce/earnings/oxy-deep-dive-2026-11-02.html",
+        "reason": "2026-11-05 source reconciliation. New: original SEC filings provide comparable FY2023-25 operations without OxyChem. Error: consolidated operating cash was paired with continuing-only capex; preferred cash payments and earnings deductions were conflated. Correction: cash capex includes the signed accrual adjustment, actual paid preferred dividends are deducted once, and already-common earnings are retained. FY2022 and current TTM preferred cash remain unconfirmed. Valuation stays blocked; commodity normalization and other senior/minority claims remain open. The earlier deep dive and its conditional scenarios are retained in review_history and the linked report.",
         "sources": [
           {
             "title": "Occidental Q2 2026 earnings release (SEC 8-K)",
@@ -6509,9 +6509,176 @@
             "title": "InvestorAce Occidental deep dive and PDF",
             "url": "https://usubillaga.github.io/InvestorAce/earnings/oxy-deep-dive-2026-11-02.html",
             "published_at": "2026-11-02"
+          },
+          {
+            "title": "Occidental Petroleum Corporation 2025 Form 10-K",
+            "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026009059/oxy-20251231.htm",
+            "published_at": "2026-02-18"
+          },
+          {
+            "title": "Occidental Petroleum Corporation 2024 Form 10-K",
+            "url": "https://www.sec.gov/Archives/edgar/data/797468/000079746825000029/oxy-20241231.htm",
+            "published_at": "2025-02-18"
+          },
+          {
+            "title": "Occidental Petroleum Corporation 2023 Form 10-K",
+            "url": "https://www.sec.gov/Archives/edgar/data/797468/000079746824000034/oxy-20231231.htm",
+            "published_at": "2024-02-14"
+          },
+          {
+            "title": "Occidental Petroleum Corporation Quarterly Report, June 30, 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026053388/oxy-20260630.htm",
+            "published_at": "2026-08-05"
           }
         ],
-        "review_decision": "No normalized annual FCF/NGV change until an OxyChem-free, after-preferred owner cash-flow bridge is reviewed. Automatic label unchanged; manual approval stays blocked by open objections."
+        "review_decision": "2026-11-05 input reconciliation: FY2023-25 continuing cash/earnings bridges from original SEC filings are attached, including actual paid preferred dividends and cash-capex accrual adjustments. Current TTM preferred cash is unconfirmed, so monetary conflicts and automatic valuation remain blocked. Already-common earnings must not receive a second preferred deduction. No target valuation or replacement score is imported.",
+        "input_conflicts": [
+          {
+            "code": "DISPOSED_BUSINESS_IN_CYCLE_PROXY",
+            "detected_at": "2026-11-02",
+            "reason": "OxyChem was sold on 2026-01-02; the FY2022-25 cash-flow and earnings averages lack a continuing-operations bridge."
+          },
+          {
+            "code": "COMMON_EQUITY_CLAIMS_OMITTED",
+            "detected_at": "2026-11-02",
+            "reason": "The cash-flow and earnings proxies do not reconcile the Berkshire preferred claims to common equity (about USD680m annual preferred dividends)."
+          }
+        ],
+        "common_equity_bridge": {
+          "schema": "common-equity-bridge-v1",
+          "symbol": "OXY",
+          "currency": "USD",
+          "units": "currency_units",
+          "published_at": "2026-08-05T23:59:59+00:00",
+          "fetched_at": "2026-11-05T00:00:00+00:00",
+          "required_scope": "CONTINUING",
+          "preferred_claims_required": true,
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/797468/000162828026009059/oxy-20251231.htm",
+            "https://www.sec.gov/Archives/edgar/data/797468/000079746825000029/oxy-20241231.htm",
+            "https://www.sec.gov/Archives/edgar/data/797468/000079746824000034/oxy-20231231.htm",
+            "https://www.sec.gov/Archives/edgar/data/797468/000162828026053388/oxy-20260630.htm"
+          ],
+          "periods": [
+            {
+              "period": "2026-06-30",
+              "basis": "TTM",
+              "scope": "CONTINUING",
+              "earnings_scope": "CONTINUING",
+              "operating_cash_flow": 11323000000.0,
+              "capex": 6242000000.0,
+              "capex_reported": 6183000000.0,
+              "capital_accrual_change": -59000000.0,
+              "net_income": 4118000000.0,
+              "net_income_before_noncontrolling": 4175000000.0,
+              "noncontrolling_earnings": 57000000.0,
+              "net_income_common": 3439000000.0,
+              "revenue": 23926000000.0,
+              "preferred_cash_paid": null,
+              "preferred_earnings_deduction": 679000000.0,
+              "preferred_claims_known": true,
+              "preferred_outstanding": 8287000000.0,
+              "dividends_total": 1655000000.0,
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/797468/000162828026009059/oxy-20251231.htm",
+                "https://www.sec.gov/Archives/edgar/data/797468/000162828026053388/oxy-20260630.htm"
+              ],
+              "calculation": "FY2025 - H1 2025 + H1 2026",
+              "limitations": "Historical cash proxy before other common-equity claims and commodity normalization; preferred principal redemptions are separate financing cash flows."
+            },
+            {
+              "period": "2025-12-31",
+              "basis": "FY",
+              "scope": "CONTINUING",
+              "earnings_scope": "CONTINUING",
+              "operating_cash_flow": 9606000000.0,
+              "capex": 6395000000.0,
+              "capex_reported": 6427000000.0,
+              "capital_accrual_change": 32000000.0,
+              "net_income": 2064000000.0,
+              "net_income_before_noncontrolling": 2107000000.0,
+              "noncontrolling_earnings": 43000000.0,
+              "net_income_common": 1385000000.0,
+              "revenue": 21593000000.0,
+              "preferred_cash_paid": 679000000.0,
+              "preferred_earnings_deduction": 679000000.0,
+              "preferred_claims_known": true,
+              "preferred_outstanding": 8287000000.0,
+              "dividends_total": 1594000000.0,
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/797468/000162828026009059/oxy-20251231.htm"
+              ],
+              "calculation": "FY2025 OxyChem-recast operations; paid preferred cash from the original annual filing",
+              "limitations": "Historical cash proxy before other common-equity claims and commodity normalization; preferred principal redemptions are separate financing cash flows."
+            },
+            {
+              "period": "2024-12-31",
+              "basis": "FY",
+              "scope": "CONTINUING",
+              "earnings_scope": "CONTINUING",
+              "operating_cash_flow": 10519000000.0,
+              "capex": 6163000000.0,
+              "capex_reported": 6263000000.0,
+              "capital_accrual_change": 100000000.0,
+              "net_income": 2844000000.0,
+              "net_income_before_noncontrolling": 2866000000.0,
+              "noncontrolling_earnings": 22000000.0,
+              "net_income_common": 2165000000.0,
+              "revenue": 22019000000.0,
+              "preferred_cash_paid": 679000000.0,
+              "preferred_earnings_deduction": 679000000.0,
+              "preferred_claims_known": true,
+              "preferred_outstanding": 8287000000.0,
+              "dividends_total": 1446000000.0,
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/797468/000162828026009059/oxy-20251231.htm",
+                "https://www.sec.gov/Archives/edgar/data/797468/000079746825000029/oxy-20241231.htm"
+              ],
+              "calculation": "FY2025 OxyChem-recast operations; paid preferred cash from the original annual filing",
+              "limitations": "Historical cash proxy before other common-equity claims and commodity normalization; preferred principal redemptions are separate financing cash flows."
+            },
+            {
+              "period": "2023-12-31",
+              "basis": "FY",
+              "scope": "CONTINUING",
+              "earnings_scope": "CONTINUING",
+              "operating_cash_flow": 10235000000.0,
+              "capex": 5718000000.0,
+              "capex_reported": 5696000000.0,
+              "capital_accrual_change": -22000000.0,
+              "net_income": 3332000000.0,
+              "net_income_before_noncontrolling": 3332000000.0,
+              "noncontrolling_earnings": 0.0,
+              "net_income_common": 2409000000.0,
+              "revenue": 23156000000.0,
+              "preferred_cash_paid": 762000000.0,
+              "preferred_earnings_deduction": 923000000.0,
+              "preferred_claims_known": true,
+              "preferred_outstanding": 8287000000.0,
+              "dividends_total": 1365000000.0,
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/797468/000162828026009059/oxy-20251231.htm",
+                "https://www.sec.gov/Archives/edgar/data/797468/000079746824000034/oxy-20231231.htm"
+              ],
+              "calculation": "FY2025 OxyChem-recast operations; paid preferred cash from the original annual filing",
+              "limitations": "Historical cash proxy before other common-equity claims and commodity normalization; preferred principal redemptions are separate financing cash flows."
+            }
+          ],
+          "limitations": [
+            "H1 2025/2026 preferred cash payments are not separately confirmed; TTM paid preferred cash remains unknown.",
+            "Continuing FY2022 figures are unavailable and excluded from the mean.",
+            "2023 cash preferred dividends 762m differ from the 923m earnings deduction (736m dividends + 151m premium + 36m carrying-value adjustment).",
+            "Preferred book carrying amount is not a verified redemption/liquidation value for enterprise EPV.",
+            "The primary bridge does not certify sustainable commodity cash flow or resolve other historical objections."
+          ],
+          "issuer_key": "OXY"
+        },
+        "review_history": [
+          {
+            "as_of": "2026-11-02",
+            "reason": "2026-11-02 deep analysis. Q2 2026 primary release: FCF before working capital 3,021m, principal debt 11,818m (YE2025 20,427m), cash 4,150m; OxyChem sale closed 2 Jan 2026 (adjusted 9,472m). Berkshire 10-Q: ~8.5bn 8% preferred, redeemable Aug 2029 at 105%; 83.9m warrants at 59.59 USD. The model NGV 115.92 USD equals FY2022-25 mean FCF 7,051m (12,313/6,612/5,176/4,105) per share at ~6.1%; the mean includes 2022 peak oil and pre-sale OxyChem periods, and fcf/shares ignores 680m/yr preferred dividends. Conditional, unapproved research DCF (10% cost of equity, 4,800m pre-preferred FCF at 65 USD WTI, 230m per 1 USD/bbl): bear/base/bull 38.79/63.14/96.10 USD with mid-cycle WTI 62/70/82; probability-weighted 64.08 USD at p 30/45/25. At the ~61.70 USD reference (2 Nov intraday) implied long-run WTI is about 69-73 USD versus ~69 USD for the Dec-2028 future (24 Aug). Commodity normalization, OxyChem-free annual cash flow and the Tronox tax contingency (~2.4bn) remain unverified. Report: https://usubillaga.github.io/InvestorAce/earnings/oxy-deep-dive-2026-11-02.html"
+          }
+        ]
       },
       "insider": {
         "status": "PARTIAL",

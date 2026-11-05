@@ -1,10 +1,17 @@
-"""Dated reviews and optional issuer financial facts; narrative never overrides scores."""
+"""Dated reviews, issuer facts and explicit monetary input conflicts.
+
+Review prose/status never overrides scores. Typed input conflicts invalidate
+the affected valuation inputs until a reviewed financial bridge replaces them.
+"""
+import copy
 import json
 import math
 from datetime import date, datetime
 from html import escape
 from pathlib import Path
 from urllib.parse import urlsplit
+
+import equity_basis
 
 
 VALUATION_STATUSES = {'SOURCE_CHECKED', 'PARTIAL', 'UNAVAILABLE', 'NOT_APPLICABLE'}
@@ -43,6 +50,13 @@ def _url(value):
         raise ValueError('Review source requires a valid HTTPS URL')
 
 
+def valuation_input_conflicts(section, *, as_of):
+    """Concrete input defects known at the cutoff, not generic pending review."""
+    cutoff = as_of.date() if isinstance(as_of, datetime) else as_of
+    return copy.deepcopy([item for item in section.get('input_conflicts', [])
+                          if _date(item['detected_at']) <= cutoff])
+
+
 def load(payload=None):
     """Validate before publication; incomplete coverage cannot certify no activity."""
     if payload is None:
@@ -70,10 +84,30 @@ def load(payload=None):
                     if not source['title']:
                         raise ValueError('Review sources require a title')
             dcf = entry['valuation'].get('dcf')
+            conflicts = entry['valuation'].get('input_conflicts', [])
+            if not isinstance(conflicts, list):
+                raise ValueError('Valuation input conflicts must be a list')
+            codes = set()
+            for conflict in conflicts:
+                if (not isinstance(conflict, dict) or not isinstance(conflict.get('code'), str)
+                        or not conflict['code'].strip() or conflict['code'] in codes
+                        or not isinstance(conflict.get('reason'), str) or not conflict['reason'].strip()
+                        or not entry['valuation']['sources']):
+                    raise ValueError('Valuation input conflict requires unique code, reason and sources')
+                if _date(conflict.get('detected_at')) > asof:
+                    raise ValueError('Valuation input conflict postdates the register')
+                codes.add(conflict['code'])
             if dcf is not None:
                 if _date(dcf['as_of']) > asof:
                     raise ValueError('DCF review postdates the register')
                 dcf_results(dcf)
+            bridge = entry['valuation'].get('common_equity_bridge')
+            if bridge is not None:
+                if bridge.get('issuer_key') != ticker:
+                    raise ValueError('Common-equity bridge belongs to another register issuer')
+                _, fetched = equity_basis.validate(bridge, symbol=bridge.get('symbol'), currency=bridge.get('currency'))
+                if fetched.date() > asof:
+                    raise ValueError('Common-equity bridge postdates the register')
             insider = entry['insider']
             for checked in (insider.get('reviewed_at'),
                             insider.get('coverage', {}).get('checked_through')):

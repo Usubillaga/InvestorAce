@@ -36,3 +36,43 @@ test('the fiscal age deadline withdraws a signal even with a fresh quote',()=>{
   assert.equal(view.projectOpportunity(source,{now:'2026-10-28T12:00:00Z'}).label,'Buy');
   assert.equal(view.projectOpportunity(source,{now:'2026-10-29T12:00:00Z'}).label,null);
 });
+test('a concrete valuation input conflict cannot revive an old Buy packet',()=>{
+  const source={...frozen(),schema:'opportunity-v18.1',
+    valuation_input_conflicts:[{code:'COMMON_EQUITY_CLAIMS_OMITTED',reason:'Preferred claims missing'}]};
+  const result=view.projectOpportunity(source,{now:'2026-10-28T12:00:00Z'});
+  for(const key of ['label','score','score_lower','score_upper','implied_growth_pct']) assert.equal(result[key],null,key);
+  assert.equal(result.status,'BLOCKED_INPUTS');
+  assert.equal(result.metrics.valuation_pe,undefined);
+  assert.equal(source.label,'Buy');
+});
+test('conflicted cached valuation breakdowns cannot retain old exact values',()=>{
+  const source={...frozen(),schema:'opportunity-v18.1',valuation_bounds:[9,9],
+    valuation_input_conflicts:[{code:'COMMON_EQUITY_CLAIMS_OMITTED',reason:'Preferred claims missing'}]};
+  const result=view.projectOpportunity(source,{now:'2026-10-28T12:00:00Z'});
+  assert.equal(result.components[0].value,null);
+  assert.equal(result.components[0].contribution,null);
+  assert.equal(result.components[1].value,9);
+  assert.deepEqual(result.valuation_bounds,[0,10]);
+  assert.equal(result.current_fit,null);
+  assert.deepEqual(result.regime_fit_bounds,{});
+  const targets=['components','regimes'].map(field=>({dataset:{opportunityField:field},
+    replaceChildren(...rows){this.rows=rows;}}));
+  const original=global.document;
+  global.document={documentElement:{lang:'en'},
+    querySelectorAll:()=>[{dataset:{opportunity:'OXY'},querySelectorAll:()=>targets}],
+    createElement:()=>({append(cell){this.cell=cell;}})};
+  try{
+    view.refreshOpportunityNodes({OXY:result});
+    for(const target of targets) assert.equal(target.rows[0].cell.textContent,'Valuation blocked');
+  }finally{global.document=original;}
+});
+test('freshly recalculated safe regime bounds survive the valuation block',()=>{
+  const source={...frozen(),schema:'opportunity-v18.1',status:'BLOCKED_INPUTS',
+    regime_fit_basis:'UNKNOWN_COVER_BOUNDS',current_fit:null,current_fit_bounds:[34,74],
+    regime_fit:{REFLATION:null},regime_fit_bounds:{REFLATION:[34,74]},
+    valuation_input_conflicts:[{code:'COMMON_EQUITY_CLAIMS_OMITTED',reason:'Preferred claims missing'}]};
+  const result=view.projectOpportunity(source,{now:'2026-10-28T12:00:00Z'});
+  assert.deepEqual(result.current_fit_bounds,[34,74]);
+  assert.deepEqual(result.regime_fit_bounds,{REFLATION:[34,74]});
+  assert.equal(result.label,null);
+});

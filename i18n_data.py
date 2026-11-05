@@ -1408,3 +1408,11 @@ TRANSLATIONS['es'].update({'The current fit is weighted over the regimes the mac
 # Opportunity v18 weights (2026-11-04).
 TRANSLATIONS['de'].update({'Financial quality 45% · Valuation & expectations 25% (cash flow 15%, P/E 10%) · Current regime 15% · Growth 10% · Shareholder returns & dilution 5%.': 'Finanzqualität 45% · Bewertung und Erwartungen 25% (Cashflow 15%, KGV 10%) · Aktuelles Regime 15% · Wachstum 10% · Aktionärsrendite und Verwässerung 5%.'})
 TRANSLATIONS['es'].update({'Financial quality 45% · Valuation & expectations 25% (cash flow 15%, P/E 10%) · Current regime 15% · Growth 10% · Shareholder returns & dilution 5%.': 'Calidad financiera 45% · Valoración y expectativas 25% (flujo de caja 15%, PER 10%) · Régimen actual 15% · Crecimiento 10% · Retorno al accionista y dilución 5%.'})
+
+TRANSLATIONS['de'].update({'Valuation blocked': 'Bewertung blockiert'})
+TRANSLATIONS['es'].update({'Valuation blocked': 'Valoración bloqueada'})
+# Input-conflict codes shown verbatim (policy, status, blocker, conflict codes).
+for _language in ('de', 'es'):
+    TRANSLATIONS[_language].update({code: code for code in (
+        'BLOCKED_INPUT_CONFLICT', 'BLOCKED_INPUTS', 'VALUATION_INPUT_CONFLICT',
+        'DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'COMMON_EQUITY_CLAIMS_OMITTED')})
