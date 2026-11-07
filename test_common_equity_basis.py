@@ -107,6 +107,18 @@ class CommonEquityBasis(unittest.TestCase):
         # A continuing proxy still does not certify the enterprise EPV bridge.
         self.assertIsNone(engine.epv(dict(epv_value=67., dynamic_analysis=result)))
 
+    def test_cash_growth_never_compares_two_business_perimeters(self):
+        tk = self.disposal(ticker_fixture())
+        for row in ('Net Income Discontinuous Operations', 'Cash From Discontinued Operating Activities',
+                    'Cash From Discontinued Investing Activities'):
+            frame = tk.income_stmt if row.startswith('Net Income') else tk.cashflow
+            frame.loc[row, frame.columns[1:]] = float('nan')     # only FY2025 is recast
+        result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
+        scopes = [r['scope'] for r in result['common_equity_basis']['annual'][:2]]
+        self.assertEqual(scopes, ['CONTINUING', 'REPORTED'])
+        self.assertIsNone(result['metrics']['fcf_growth_pct'])
+        self.assertEqual(result['parameters']['growth_rate_pct'], 0.)
+
     def test_continuing_operating_cash_can_be_derived_from_the_discontinued_row(self):
         tk = self.disposal(ticker_fixture())
         tk.cashflow = tk.cashflow.drop('Cash Flow From Continuing Operating Activities')

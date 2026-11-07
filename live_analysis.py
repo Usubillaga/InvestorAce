@@ -627,7 +627,10 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     if common_basis:
         annual = common_basis['annual_fcf_series']
         historical = None
-        if len(annual) >= 2:
+        # Growth never compares two business perimeters (a continuing year
+        # against a year that still holds the sold business).
+        scopes = {r.get('scope', 'REPORTED') for r in (common_basis.get('annual') or [])[:2]}
+        if len(annual) >= 2 and len(scopes) == 1:
             a, b = annual[:2]
             av, bv = finite_number(a['value']), positive_number(b['value'])
             gap = (datetime.fromisoformat(a['period'])-datetime.fromisoformat(b['period'])).days
