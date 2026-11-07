@@ -1416,3 +1416,30 @@ for _language in ('de', 'es'):
     TRANSLATIONS[_language].update({code: code for code in (
         'BLOCKED_INPUT_CONFLICT', 'BLOCKED_INPUTS', 'VALUATION_INPUT_CONFLICT',
         'DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'COMMON_EQUITY_CLAIMS_OMITTED')})
+# Common-equity inputs (2026-11-07): engine-detected conflicts and the input-gap list.
+TRANSLATIONS['de'].update({
+    'Operating cash and capital spending lack a matching business scope.': 'Operativer Cashflow und Investitionen haben keinen übereinstimmenden Geschäftsumfang.',
+    'Paid preferred dividends are unavailable for the current financial window.': 'Gezahlte Vorzugsdividenden sind für den aktuellen Berichtszeitraum nicht verfügbar.',
+    'A complete common-equity cash/earnings bridge is unavailable for at least three comparable years.': 'Eine vollständige Überleitung von Cashflow und Gewinn auf die Stammaktionäre fehlt für mindestens drei vergleichbare Jahre.',
+    'Input gaps': 'Eingabelücken',
+    'Valuations withheld by typed input conflicts, and commodity cycles valued while the current window lacks a matched issuer bridge. Issuer bridges are dated per reporting window; a newer provider window needs a new issuer check.': 'Wegen typisierter Eingabekonflikte zurückgehaltene Bewertungen sowie Rohstoffzyklen, die bewertet werden, obwohl dem aktuellen Zeitraum eine passende Emittenten-Überleitung fehlt. Emittenten-Überleitungen sind je Berichtszeitraum datiert; ein neuerer Zeitraum des Datenanbieters erfordert eine neue Prüfung beim Emittenten.',
+    'Provider window': 'Zeitraum des Datenanbieters',
+    'Input conflicts': 'Eingabekonflikte',
+    'Issuer bridge windows': 'Zeiträume der Emittenten-Überleitung',
+    'current window open': 'aktueller Zeitraum offen',
+    'No open input gaps.': 'Keine offenen Eingabelücken.',
+    'FY': 'GJ',
+})
+TRANSLATIONS['es'].update({
+    'Operating cash and capital spending lack a matching business scope.': 'El flujo de caja operativo y la inversión no cubren el mismo perímetro de negocio.',
+    'Paid preferred dividends are unavailable for the current financial window.': 'Los dividendos preferentes pagados no están disponibles para el período financiero actual.',
+    'A complete common-equity cash/earnings bridge is unavailable for at least three comparable years.': 'Falta un puente completo de caja y beneficio para los accionistas ordinarios en al menos tres años comparables.',
+    'Input gaps': 'Lagunas de datos',
+    'Valuations withheld by typed input conflicts, and commodity cycles valued while the current window lacks a matched issuer bridge. Issuer bridges are dated per reporting window; a newer provider window needs a new issuer check.': 'Valoraciones retenidas por conflictos de datos tipificados y ciclos de materias primas valorados aunque el período actual carece de un puente del emisor coincidente. Los puentes del emisor están fechados por período de reporte; un período más reciente del proveedor requiere una nueva comprobación con el emisor.',
+    'Provider window': 'Período del proveedor',
+    'Input conflicts': 'Conflictos de datos',
+    'Issuer bridge windows': 'Períodos del puente del emisor',
+    'current window open': 'período actual abierto',
+    'No open input gaps.': 'Sin lagunas de datos abiertas.',
+    'FY': 'EF',
+})

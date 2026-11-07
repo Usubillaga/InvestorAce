@@ -31,16 +31,29 @@ ALIASES = {
     'debt': ('Total Debt',),
     'cash': ('Cash And Cash Equivalents', 'Cash Cash Equivalents And Short Term Investments'),
     'shares': ('Ordinary Shares Number',),
+    # Row names as yfinance 0.2.66 serves them (const.py keys through
+    # utils.camel2title). Yahoo has no separate continuing-operations capex
+    # row; the earlier names 'Cash Flow From Discontinued Operating
+    # Activities' and 'Capital Expenditure From Continuing Operations' never
+    # occur, so every discontinued line left the whole valuation unresolved.
     'net_income_common': ('Net Income Common Stockholders',),
     'preferred_earnings': ('Preferred Stock Dividends',),
-    'preferred_paid': ('Preferred Stock Dividend Paid', 'Preferred Dividends Paid'),
+    'preferred_paid': ('Preferred Stock Dividend Paid',),
     'preferred_outstanding': ('Preferred Stock', 'Preferred Stock Equity'),
     'common_dividends': ('Common Stock Dividend Paid',),
-    'continuing_ocf': ('Cash Flow From Continuing Operating Activities', 'Operating Cash Flow From Continuing Operations'),
-    'discontinued_ocf': ('Cash Flow From Discontinued Operating Activities',),
-    'continuing_capex': ('Capital Expenditure From Continuing Operations',),
+    'continuing_ocf': ('Cash Flow From Continuing Operating Activities',),
+    'continuing_income': ('Net Income From Continuing Operation Net Minority Interest',),
+    'discontinued_ocf': ('Cash From Discontinued Operating Activities',),
+    'discontinued_investing': ('Cash From Discontinued Investing Activities',),
+    'discontinued_cash': ('Cash Flow From Discontinued Operation',),
     'discontinued_income': ('Net Income Discontinuous Operations',),
 }
+# Discontinued amounts at or below this share of the window's net income and
+# operating cash stay in the reported figures. Pfizer's legacy line was
+# USD -5m over the nine months to September 2026 against USD 5,710m of net
+# income, yet it withdrew Pfizer's signal from 6 November 2026.
+DISCONTINUED_MATERIALITY = .05
+DISCONTINUED_CASH = ('discontinued_ocf', 'discontinued_investing', 'discontinued_cash')
 TABLES = {'g': autoscore.GROWTH, 'p': autoscore.PROFIT, 'c': autoscore.CASHGEN,
           'b': autoscore.BALANCE, 'v': autoscore.VALUE, 'r': autoscore.RETURNS,
           'd': autoscore.DILUTION}
@@ -120,36 +133,75 @@ def _cash(frame, columns):
     return ocf, capex, fcf
 
 
+def _event_total(frame, key, columns):
+    """Sum of an event row (discontinued operations); None when no period reports it.
+
+    Yahoo leaves the row empty in periods without such an event, so an empty
+    period counts as zero once any period of the window reports the row."""
+    values = [_value(frame, key, c) for c in columns]
+    return None if all(v is None for v in values) else sum(v or 0. for v in values)
+
+
+def _material_discontinued(amounts, net_income, operating_cash):
+    """Discontinued earnings or cash above 5% of the window's total, or with no total."""
+    def large(amount, total):
+        return amount not in (None, 0.) and (total in (None, 0.) or
+                                             abs(amount) > DISCONTINUED_MATERIALITY * abs(total))
+    cash = max((abs(amounts[k]) for k in DISCONTINUED_CASH if amounts[k] is not None), default=None)
+    return large(amounts['discontinued_income'], net_income) or large(cash, operating_cash)
+
+
 def _equity_row(cf, income, balance, dates, basis):
-    """Only create metadata when the provider actually discloses a claim/scope row."""
+    """Only create metadata when the provider actually discloses a claim/scope row.
+
+    A material discontinued business moves the window to continuing operations
+    only when the provider separates its cash flows (a discontinued operating,
+    investing or combined cash row) and reports continuing operating cash; the
+    remaining investing rows, capex included, then belong to the continuing
+    business. Without that separation the scope stays unresolved."""
     if not dates:
         return None
     paid = _total(cf, 'preferred_paid', dates)
     deduction = _total(income, 'preferred_earnings', dates)
     common = _total(income, 'net_income_common', dates)
     outstanding = _value(balance, 'preferred_outstanding', dates[0])
-    discontinued = any(_value(frame, key, c) not in (None, 0.) for c in dates for frame, key in
-        ((cf, 'discontinued_ocf'), (income, 'discontinued_income')))
+    amounts = {key: _event_total(income if key == 'discontinued_income' else cf, key, dates)
+               for key in ('discontinued_income',) + DISCONTINUED_CASH}
+    discontinued = any(v not in (None, 0.) for v in amounts.values())
     if all(x is None for x in (paid, deduction, common, outstanding)) and not discontinued:
         return None
     ocf, capex, reported = _cash(cf, dates)
-    cont_ocf = _total(cf, 'continuing_ocf', dates)
-    cont_capex = [_value(cf, 'continuing_capex', c) for c in dates]
-    cont_capex = sum(abs(x) for x in cont_capex) if all(x is not None for x in cont_capex) else None
-    scope = 'UNRESOLVED' if discontinued else 'REPORTED'
-    if cont_ocf is not None and cont_capex is not None:
-        ocf, capex, scope = cont_ocf, abs(cont_capex), 'CONTINUING'
-    # A consolidated common-income row is not continuing common income.
-    if discontinued:
+    net_income, revenue = _total(income, 'net_income', dates), _total(income, 'revenue', dates)
+    material = discontinued and _material_discontinued(amounts, net_income, ocf)
+    scope = earnings_scope = 'REPORTED'
+    if material:
+        scope = earnings_scope = 'UNRESOLVED'
+        separated = any(amounts[k] not in (None, 0.) for k in DISCONTINUED_CASH)
+        continuing = _total(cf, 'continuing_ocf', dates)
+        if continuing is None and amounts['discontinued_ocf'] is not None and ocf is not None:
+            continuing = ocf - amounts['discontinued_ocf']
+        if separated and continuing is not None and capex is not None:
+            ocf, scope = continuing, 'CONTINUING'
+        # A consolidated common-income row is not continuing common income;
+        # the continuing parent income row is, before preferred deductions.
         common = None
+        continuing_income = _total(income, 'continuing_income', dates)
+        if continuing_income is not None:
+            net_income, earnings_scope = continuing_income, 'CONTINUING'
     return dict(period=dates[0].date().isoformat(), basis=basis, scope=scope,
-        earnings_scope='UNRESOLVED' if discontinued else scope,
-        revenue_scope='UNRESOLVED' if discontinued else scope,
-        operating_cash_flow=ocf, capex=capex, net_income=_total(income, 'net_income', dates),
+        earnings_scope=earnings_scope,
+        # Reported revenue excludes discontinued operations (ASC 205-20, IFRS 5).
+        revenue_scope=scope,
+        operating_cash_flow=ocf, capex=capex, net_income=net_income,
         reported_fcf=reported,
-        net_income_common=common, revenue=_total(income, 'revenue', dates),
+        net_income_common=common, revenue=revenue,
         preferred_cash_paid=paid, preferred_earnings_deduction=deduction,
         preferred_outstanding=outstanding, has_discontinued_operations=discontinued,
+        discontinued_material=material,
+        discontinued_net_income=amounts['discontinued_income'],
+        discontinued_operating_cash_flow=amounts['discontinued_ocf'],
+        discontinued_investing_cash_flow=amounts['discontinued_investing'],
+        discontinued_cash_flow=amounts['discontinued_cash'],
         common_dividends_paid=_total(cf, 'common_dividends', dates),
         dividends_total=_total(cf, 'dividends', dates), source='YAHOO_STATEMENT_ROWS')
 
@@ -432,7 +484,7 @@ def prefer_primary(provider, primary, *, as_of):
                     row.update(operating_cash_flow=None, capex=None)
                 if field == 'net_income':
                     row['net_income_common'] = None
-                if row.get('has_discontinued_operations') or row.get('scope') == 'CONTINUING':
+                if equity_basis.material_discontinued(row) or row.get('scope') == 'CONTINUING':
                     row['scope'] = primary.get('operating_scope', 'UNRESOLVED')
         if (provider.get('financial_period') or '') <= primary['financial_period']:
             identity = (primary['financial_period'], primary['basis'])
@@ -525,6 +577,18 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         inputs['common_fcf'] = fcf
         inputs['common_net_income'] = current_common['common_net_income']
         warnings.append('Common-equity bridge uses period-matched preferred cash payments and earnings deductions; raw inputs are retained.')
+        bridged = [current_common] + list(common_basis.get('annual') or [])[:5]
+        if any(r.get('preferred_cash_basis') == 'DECLARED_STABLE_BALANCE' for r in bridged):
+            warnings.append('Preferred cash dividends are not reported separately; the same-window declared '
+                            'dividend on an unchanged preferred balance is deducted.')
+        if any(r.get('has_discontinued_operations') and r.get('discontinued_material') is False for r in bridged):
+            warnings.append('Discontinued operations at or below 5% of net income and operating cash '
+                            'stay in the reported figures.')
+        if current_common.get('scope') == 'CONTINUING':
+            warnings.append('Cash flow and earnings use continuing operations; the disposed business is excluded.')
+        if common_basis.get('current_window_open'):
+            warnings.append('The current window lacks a matched common-equity bridge; current cash ratios are '
+                            'unknown and the cycle valuation uses the bridged years.')
     valuation_fcf = fcf
     policy = 'REPORTED_FCF_PROXY'
     cash_cycle_periods = []
@@ -727,6 +791,8 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             cash_flow_calculation=facts.get('cash_flow_calculation'),
             leverage_ebitda_basis=leverage_basis, earnings_basis=earnings_basis,
             shares_basis=facts.get('shares_basis'),
+            common_equity_scope=current_common.get('scope') if current_common else None,
+            preferred_cash_basis=current_common.get('preferred_cash_basis') if current_common else None,
             cushion_tolerance_pp=cushion_tolerance,
             risk_free_pct=100*rf if rf is not None else None, market_premium_pct=100*premium if premium is not None else None,
             discount_rate_basis='COST_OF_EQUITY', cash_flow_basis='LEVERED_FCF_PROXY',

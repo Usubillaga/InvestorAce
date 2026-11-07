@@ -92,16 +92,20 @@ def short(item):
 
 
 def conflicts(ticker, item):
-    """Analyst-recorded input conflicts, kept as original-language review text.
+    """Input conflicts: analyst-recorded ones as original-language review text.
 
-    The reasons come from source_reviews.json, not from the UI catalog; an id
-    starting with 'review-' makes the localizer show them as source text with
-    its original-language notice instead of reporting untranslated UI prose."""
+    Recorded reasons come from source_reviews.json, not from the UI catalog; an
+    id starting with 'review-' makes the localizer show them as source text
+    with its original-language notice. Conflicts the calculator detects itself
+    (origin ENGINE) are first-party UI text and use the catalog."""
     found = item.get('valuation_input_conflicts') or []
-    if not found:
-        return ''
-    return ('<div id="review-input-conflicts-'+escape(ticker,quote=True)+'">'
-            +''.join('<p class="opportunity-caps">'+escape(c['reason'])+'</p>' for c in found)+'</div>')
+    recorded = [c for c in found if c.get('origin') != 'ENGINE']
+    detected = [c for c in found if c.get('origin') == 'ENGINE']
+    html = ''.join('<p class="opportunity-caps">'+escape(c['reason'])+'</p>' for c in detected)
+    if recorded:
+        html = ('<div id="review-input-conflicts-'+escape(ticker,quote=True)+'">'
+                +''.join('<p class="opportunity-caps">'+escape(c['reason'])+'</p>' for c in recorded)+'</div>'+html)
+    return html
 
 
 def implausible_short(s):

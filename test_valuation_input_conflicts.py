@@ -43,9 +43,28 @@ class ValuationInputConflicts(unittest.TestCase):
                 engine.refresh_dynamic_analysis(cache_path=path, as_of=ASOF, ticker_factory=offline)
             return json.loads(path.read_text())['entries']['OXY']
 
-    def test_known_oxy_input_faults_block_fresh_and_cached_purchase_values(self):
+    def test_issuer_bridge_replaces_the_blocked_oxy_values_with_the_common_cycle(self):
+        # FY2023-25 continuing cash after paid preferred dividends (3,755 /
+        # 3,677 / 2,532m) from the original filings; June TTM after the
+        # declared 679m on the unchanged Berkshire balance.
         for fresh in (False, True):
             with self.subTest(fresh=fresh):
+                self.refresh(fresh)
+                analysis = self.row['dynamic_analysis']
+                self.assertEqual(analysis['valuation_input_conflicts'], [])
+                self.assertEqual(analysis['inputs']['fcf'], 4793000000.)
+                self.assertAlmostEqual(analysis['inputs']['valuation_fcf'], (3755e6+3677e6+2532e6)/3)
+                self.assertAlmostEqual(analysis['valuation']['ngv_per_share'], 43.00464, places=5)
+                self.assertEqual(analysis['parameters']['preferred_cash_basis'], 'DECLARED_STABLE_BALANCE')
+                result = engine.opportunity(self.row, regime='INFLATION', as_of=ASOF)
+                self.assertEqual(result['label'], 'Hold Positive')
+                self.assertLess(result['price_thresholds']['buy'], 57.33)
+
+    def test_known_oxy_input_faults_block_without_the_issuer_bridge(self):
+        doc = source_review.load()
+        doc['entries']['OXY']['valuation'].pop('common_equity_bridge')
+        for fresh in (False, True):
+            with self.subTest(fresh=fresh), patch.object(engine.SOURCE_REVIEW, 'load', return_value=doc):
                 cached = self.refresh(fresh)
                 analysis = self.row['dynamic_analysis']
                 self.assertIsNone(analysis['valuation']['ngv_per_share'])
@@ -59,10 +78,6 @@ class ValuationInputConflicts(unittest.TestCase):
                 result = engine.opportunity(self.row, regime='INFLATION', as_of=ASOF)
                 self.assertIsNone(result['label'])
                 self.assertIsNone(result['score'])
-                # A known preferred claim with unconfirmed TTM cash payments
-                # also makes common cash generation unknown; keep its bounds.
-                self.assertIsNone(result['quality_score'])
-                self.assertIsNone(analysis['components']['c'])
                 self.assertIsNotNone(result['quality_bounds'])
                 self.assertEqual(len(result['regime_fit_bounds']), 5)
                 self.assertIsNone(result['price_thresholds']['buy'])
@@ -70,6 +85,20 @@ class ValuationInputConflicts(unittest.TestCase):
                 self.assertIn('Valuation blocked', opportunity_view.signal(result))
                 self.assertIn('OxyChem', opportunity_view.detail('OXY', result))
                 self.assertIsNone(engine.score(self.row))
+
+    def test_an_incomplete_bridged_cycle_keeps_the_oxy_conflicts(self):
+        # Without its FY2023 row the bridge covers two continuing years; the
+        # pre-sale FY2023/FY2022 provider years cannot fill the third.
+        doc = source_review.load()
+        bridge = doc['entries']['OXY']['valuation']['common_equity_bridge']
+        bridge['periods'] = [p for p in bridge['periods'] if p['period'] != '2023-12-31']
+        with patch.object(engine.SOURCE_REVIEW, 'load', return_value=doc):
+            self.refresh(False)
+        analysis = self.row['dynamic_analysis']
+        self.assertEqual({c['code'] for c in analysis['valuation_input_conflicts']},
+                         {'DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'COMMON_EQUITY_CLAIMS_OMITTED'})
+        self.assertIsNone(analysis['valuation']['ngv_per_share'])
+        self.assertIsNone(engine.opportunity(self.row, regime='INFLATION', as_of=ASOF)['label'])
 
     def test_calculator_cannot_ignore_explicit_input_conflicts(self):
         self.facts['valuation_input_conflicts'] = [CONFLICT]

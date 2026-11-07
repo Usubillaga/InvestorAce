@@ -1630,6 +1630,47 @@ def populate_epv(force=False):
         _epv_cache_write(cache)
 
 
+def input_gaps(reviews=None):
+    """Valuations withheld by typed input conflicts, with the issuer-bridge coverage.
+
+    The issuer fallback (common_equity_bridge in source_reviews.json) is dated
+    per reporting window. It never rolls into a newer provider window, so a
+    new quarter needs a new issuer check; this list names those cases, and the
+    commodity cycles valued while their current window is open."""
+    try:
+        entries = (SOURCE_REVIEW.load() if reviews is None else reviews).get('entries', {})
+    except Exception:
+        entries = {}
+    gaps = {}
+    for ticker, d in DATA.items():
+        analysis = d.get('dynamic_analysis') or {}
+        conflicts = [c.get('code') for c in analysis.get('valuation_input_conflicts') or []]
+        basis = analysis.get('common_equity_basis') or {}
+        bridge = ((entries.get(ticker) or {}).get('valuation') or {}).get('common_equity_bridge') or {}
+        windows = sorted({f"{p.get('period')} {p.get('basis')}" for p in bridge.get('periods', [])}, reverse=True)
+        window = ' '.join(str(x) for x in (analysis.get('financial_period'), analysis.get('basis')) if x) or '—'
+        if conflicts or basis.get('current_window_open') or (windows and window not in windows):
+            gaps[ticker] = dict(window=window, conflicts=conflicts,
+                                current_window_open=bool(basis.get('current_window_open')),
+                                issuer_bridge_windows=windows, issuer_bridge_current=window in windows)
+    return gaps
+
+
+def input_gap_box(gaps):
+    rows = ''.join(
+        '<tr><td class="tk">' + escape(t) + '</td><td>' + escape(g['window']) + '</td><td>'
+        + escape(', '.join(g['conflicts']) if g['conflicts'] else
+                 'current window open' if g['current_window_open'] else 'none')
+        + '</td><td>' + escape(', '.join(g['issuer_bridge_windows']) or 'none') + '</td></tr>'
+        for t, g in sorted(gaps.items()))
+    return ('<div class="box"><h2>Input gaps</h2><p>Valuations withheld by typed input conflicts, and '
+            'commodity cycles valued while the current window lacks a matched issuer bridge. Issuer '
+            'bridges are dated per reporting window; a newer provider window needs a new issuer check.</p>'
+            + ('<div class="table-scroll"><table><thead><tr><th>Ticker</th><th>Provider window</th>'
+               '<th>Input conflicts</th><th>Issuer bridge windows</th></tr></thead><tbody>' + rows
+               + '</tbody></table></div>' if rows else '<p>No open input gaps.</p>') + '</div>')
+
+
 def data_quality():
     missing = {t: d.get('price_note') or 'no quote'
                for t, d in DATA.items() if positive_number(d.get('price')) is None}
@@ -1637,7 +1678,8 @@ def data_quality():
             'quotes_available': len(DATA) - len(missing), 'quotes_total': len(DATA),
             'missing_quotes': missing,
             'held_missing_quotes': sorted(t for t in missing if DATA[t].get('held')),
-            'wacc_fallbacks': {t: d['wacc_note'] for t, d in DATA.items() if d.get('wacc_note')}}
+            'wacc_fallbacks': {t: d['wacc_note'] for t, d in DATA.items() if d.get('wacc_note')},
+            'input_gaps': input_gaps()}
 
 
 def filing_monitoring(payload=None):
@@ -2848,7 +2890,8 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
                        if quality['held_missing_quotes'] else '')
                     + ('<p>Manual discount-rate fallbacks: '
                        + escape('; '.join(f'{t}: {note}' for t, note in quality['wacc_fallbacks'].items()))
-                       + '</p>' if quality['wacc_fallbacks'] else '') + '</div>')
+                       + '</p>' if quality['wacc_fallbacks'] else '') + '</div>'
+                    + input_gap_box(quality['input_gaps']))
     explanations = {t: dict(score=score_components(d), regimes=regime_fit_components(d),
                             ngv=ngv(d), cover=cover(d), implied_growth=implied_growth(d),
                             cushion=cushion(d)) for t, d in DATA.items()}
@@ -2885,3 +2928,9 @@ if __name__ == '__main__':
     print(f'{len(DATA)} tickers; quote coverage {data_quality()["status"]}; '
           f'committed build {published["run_id"]}; report {published["report_path"]}')
     if bad: print('PRICE ISSUES:', json.dumps(bad, indent=1), file=sys.stderr)
+    gaps = data_quality()['input_gaps']
+    if gaps:
+        print('INPUT GAPS (issuer check needed):', '; '.join(
+            f"{t} {g['window']} {','.join(g['conflicts']) or 'current window open'}"
+            + ('' if g['issuer_bridge_current'] else f" (issuer bridge: {', '.join(g['issuer_bridge_windows']) or 'none'})")
+            for t, g in sorted(gaps.items())))
