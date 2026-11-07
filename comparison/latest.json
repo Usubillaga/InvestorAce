@@ -1,6 +1,6 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-07T02:43:29.381098+00:00",
+ "generated_at": "2026-11-07T16:14:53.282731+00:00",
  "universe_count": 85,
  "rows": [
   {
@@ -2222,8 +2222,8 @@
    "sector": "Consumer Cyclical",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-10-31T13:03:29.499468+00:00",
-   "attempted_at": "2026-10-31T13:03:29.499468+00:00",
+   "retrieved_at": "2026-11-07T16:14:53.282731+00:00",
+   "attempted_at": "2026-11-07T16:14:53.282731+00:00",
    "status": "OK",
    "annual": [
     {
@@ -2351,7 +2351,7 @@
     "shares_outstanding": 12319335.0,
     "float_shares": 11386164.0,
     "float_pct": 92.42515119525527,
-    "retrieved_at": "2026-10-31T13:03:29.499468+00:00"
+    "retrieved_at": "2026-11-07T16:14:53.282731+00:00"
    },
    "warnings": [],
    "sources": [
@@ -6175,7 +6175,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-07T02:43:29.381098+00:00",
+   "attempted_at": "2026-11-07T16:14:53.282731+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
