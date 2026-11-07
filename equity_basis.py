@@ -21,6 +21,57 @@ MONEY_FIELDS = ('operating_cash_flow', 'capex', 'net_income', 'net_income_common
 PREFERRED_AMOUNTS = ('preferred_cash_paid', 'preferred_earnings_deduction', 'preferred_outstanding')
 CORRECTION_FIELDS = MONEY_FIELDS + ('preferred_claims_known',)
 RESOLVABLE = {'DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'COMMON_EQUITY_CLAIMS_OMITTED'}
+# Largest change of the preferred balance across a window for which its
+# declared dividend stands in for an undisclosed cash payment. P&G's ESOP
+# preferred fell 777m -> 747m (-3.9%) over the September 2026 TTM through
+# conversions; OXY's Berkshire preferred stayed at 8,287m from 2023 to June
+# 2026. OXY's 2023 redemptions (9,762m -> 8,287m) fail the test: that year's
+# 923m deduction included a 151m premium against 762m of cash dividends.
+STABLE_PREFERRED = .05
+
+
+def material_discontinued(row):
+    """A discontinued business large enough to change the row's perimeter.
+
+    Rows extracted before the materiality field existed keep the
+    conservative reading of any discontinued line."""
+    material = row.get('discontinued_material')
+    return bool(row.get('has_discontinued_operations') if material is None else material)
+
+
+def _year_before(day):
+    try:
+        return day.replace(year=day.year-1)
+    except ValueError:  # February 29
+        return day.replace(year=day.year-1, day=28)
+
+
+def _overlaps(row, period):
+    """True when a twelve-month row and the twelve months to `period` share any days."""
+    if not period or not row.get('period'):
+        return False
+    end, other = date.fromisoformat(period), date.fromisoformat(row['period'])
+    return other > _year_before(end) and _year_before(other) < end
+
+
+def _stable_preferred(rows, period):
+    """Known preferred balances stay within 5% from the window's opening to its end."""
+    if not period:
+        return False
+    end = date.fromisoformat(period)
+    opening = _year_before(end)
+    balances = []
+    for row in rows:
+        balance = finite_number(row.get('preferred_outstanding'))
+        if balance is not None:
+            balances.append((date.fromisoformat(row['period']), abs(balance)))
+    balances.sort()
+    before = [b for day, b in balances if day <= opening]
+    inside = [b for day, b in balances if opening < day <= end]
+    if not before or not inside:
+        return False
+    values = [before[-1]] + inside
+    return max(values) > 0 and min(values) >= (1-STABLE_PREFERRED) * max(values)
 
 
 def _validate_reconciliations(row, fields):
@@ -101,10 +152,7 @@ def _preferred_in_window(rows, period):
     if not period:
         return False
     end = date.fromisoformat(period)
-    try:
-        opening = end.replace(year=end.year-1)
-    except ValueError:  # February 29
-        opening = end.replace(year=end.year-1, day=28)
+    opening = _year_before(end)
     balances = []
     for row in rows:
         day = date.fromisoformat(row['period'])
@@ -119,14 +167,17 @@ def _preferred_in_window(rows, period):
 
 def _reported_current(facts, rows):
     inputs = facts.get('inputs') or {}
-    unresolved_scope = any(r.get('has_discontinued_operations') or r.get('scope') in
-                           ('UNRESOLVED', 'CONTINUING') for r in rows)
+    # Only rows that share days with the current window can put a disposed
+    # business or a recast perimeter into it; Broadcom's FY2024 VMware sale
+    # says nothing about a later SEC catch-up window.
+    unresolved_scope = any((material_discontinued(r) or r.get('scope') in ('UNRESOLVED', 'CONTINUING'))
+                           and _overlaps(r, facts.get('financial_period')) for r in rows)
     return dict(inputs, period=facts.get('financial_period'), basis=facts.get('basis'),
                 scope='UNRESOLVED' if unresolved_scope else 'REPORTED',
                 reported_fcf=inputs.get('fcf'), dividends_total=inputs.get('dividends'))
 
 
-def _normalise(row, *, required_scope=None, preferred_required=False):
+def _normalise(row, *, required_scope=None, preferred_required=False, declared_ok=False):
     result = copy.deepcopy(row)
     for field in MONEY_FIELDS:
         result.setdefault(field, None)
@@ -139,7 +190,20 @@ def _normalise(row, *, required_scope=None, preferred_required=False):
     if before is None and matched and scope == 'REPORTED' and not known:
         before = finite_number(row.get('reported_fcf'))
     # Missing payments never become zero when a preferred obligation is known.
-    fcf = before-abs(paid) if before is not None and paid is not None else before if not known else None
+    # Cash paid wins. When the issuer reports only the declared dividend
+    # (P&G's ESOP preferred, OXY's Berkshire preferred in Yahoo's rows), that
+    # same-window declaration is the claim if the balance did not move: no
+    # redemption premium sits in it and equal quarterly payments leave the
+    # payable unchanged. A moved balance keeps the claim unknown.
+    if paid is not None:
+        claim, claim_basis = abs(paid), 'PAID'
+    elif known and declared_ok and deduction is not None:
+        claim, claim_basis = abs(deduction), 'DECLARED_STABLE_BALANCE'
+    elif not known:
+        claim, claim_basis = 0., 'NO_PREFERRED_CLAIM'
+    else:
+        claim, claim_basis = None, None
+    fcf = before-claim if before is not None and claim is not None else None
     earnings = finite_number(row.get('net_income'))
     method = 'ALREADY_COMMON' if common is not None else 'REPORTED_PARENT_EARNINGS'
     if common is None:
@@ -152,9 +216,9 @@ def _normalise(row, *, required_scope=None, preferred_required=False):
     dividend = finite_number(row.get('common_dividends_paid'))
     total = finite_number(row.get('dividends_total'))
     if dividend is None and total is not None:
-        dividend = (abs(total)-abs(paid) if paid is not None and abs(total) >= abs(paid)
-                    else abs(total) if not known else None)
+        dividend = abs(total)-claim if claim is not None and abs(total) >= claim else None
     result.update(common_fcf=fcf, fcf_before_preferred=before, common_net_income=common,
+                  preferred_cash_claim=claim, preferred_cash_basis=claim_basis,
                   comparable_revenue=row.get('revenue') if matched and row.get('revenue_scope', scope) == scope else None,
                   common_dividends_paid=dividend, preferred_claims_known=known,
                   scope_matched=matched, earnings_method=method,
@@ -225,7 +289,8 @@ def apply(facts, *, as_of):
     preferred_required = explicit_claim or _preferred_in_window(claim_rows, current_key[0])
     if current is None:
         current = _reported_current(facts, rows)
-    current = _normalise(current, required_scope=scope, preferred_required=preferred_required)
+    current = _normalise(current, required_scope=scope, preferred_required=preferred_required,
+                         declared_ok=_stable_preferred(claim_rows, current_key[0]))
     current['reported_fcf'] = (facts.get('inputs') or {}).get('fcf')
     current['reported_net_income'] = (facts.get('inputs') or {}).get('net_income')
     annual = []
@@ -240,7 +305,8 @@ def apply(facts, *, as_of):
             row = dict(period=period, basis='FY', scope='REPORTED', net_income=income_raw.get(period),
                        revenue=revenue_raw.get(period))
         annual_preferred = explicit_claim or _preferred_in_window(claim_rows, period)
-        adjusted = _normalise(row, required_scope=scope, preferred_required=annual_preferred)
+        adjusted = _normalise(row, required_scope=scope, preferred_required=annual_preferred,
+                              declared_ok=_stable_preferred(claim_rows, period))
         if not annual_preferred and scope is None and period not in annual_rows:
             adjusted['common_fcf'] = finite_number(cash_raw.get(period))
         adjusted['reported_fcf'] = cash_raw.get(period)
@@ -254,33 +320,43 @@ def apply(facts, *, as_of):
         selected.append(row)
     consecutive = all(300 <= (date.fromisoformat(a['period'])-date.fromisoformat(b['period'])).days <= 400
                       for a, b in zip(selected, selected[1:]))
-    cycle_complete = (not facts.get('midcycle') or (len(selected) >= 3 and consecutive
+    midcycle = bool(facts.get('midcycle'))
+    cycle_complete = (not midcycle or (len(selected) >= 3 and consecutive
                       and all(r['common_net_income'] is not None for r in selected)))
-    complete = (current['common_fcf'] is not None and current['common_net_income'] is not None
-                and current['scope_matched'] and cycle_complete)
+    current_complete = (current['common_fcf'] is not None and current['common_net_income'] is not None
+                        and current['scope_matched'])
+    current_reasons = []
+    if not current['scope_matched']:
+        current_reasons.append(('DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'Operating cash and capital spending lack a matching business scope.'))
+    if preferred_required and current.get('preferred_cash_claim') is None:
+        current_reasons.append(('COMMON_EQUITY_CLAIMS_OMITTED', 'Paid preferred dividends are unavailable for the current financial window.'))
+    # A commodity value and its multiple use the cycle years only. When an
+    # issuer bridge fixes their perimeter (scope) and at least three of them
+    # are complete on it, an open current window withdraws the current cash
+    # ratios, not the cycle valuation. Without such a bridge, a disposal in
+    # the current window still means the older years hold the sold business.
+    cycle_bridged = midcycle and scope is not None and cycle_complete
     resolved = []
-    if current_full_bridge and complete:
+    if (current_full_bridge and current_complete and cycle_complete) or cycle_bridged:
         resolved = [c for c in conflicts if c['code'] in RESOLVABLE]
         conflicts = [c for c in conflicts if c['code'] not in RESOLVABLE]
-    reasons = []
-    if not current['scope_matched']:
-        reasons.append(('DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'Operating cash and capital spending lack a matching business scope.'))
-    if preferred_required and current.get('preferred_cash_paid') is None:
-        reasons.append(('COMMON_EQUITY_CLAIMS_OMITTED', 'Paid preferred dividends are unavailable for the current financial window.'))
-    if facts.get('midcycle') and not cycle_complete and (preferred_required or scope):
+    reasons = [] if cycle_bridged else list(current_reasons)
+    if midcycle and not cycle_complete and (preferred_required or scope):
         reasons.append(('COMMON_EQUITY_CLAIMS_OMITTED', 'A complete common-equity cash/earnings bridge is unavailable for at least three comparable years.'))
     for code, reason in reasons:
         if code not in {c['code'] for c in conflicts}:
-            conflicts.append(dict(code=code, reason=reason, detected_at=as_of.date().isoformat()))
+            conflicts.append(dict(code=code, reason=reason, detected_at=as_of.date().isoformat(),
+                                  origin='ENGINE'))
     result['valuation_input_conflicts'] = conflicts
     result['common_equity_basis'] = dict(schema=SCHEMA, current=current, annual=annual,
         required_scope=scope, preferred_claims_required=preferred_required,
+        current_window_open=[reason for _, reason in current_reasons] if cycle_bridged else [],
         resolved_input_conflicts=resolved,
         annual_fcf_series=[dict(period=r['period'], value=r['common_fcf']) for r in annual],
         annual_net_income_series=[dict(period=r['period'], value=r['common_net_income']) for r in annual],
         annual_revenue_series=[dict(period=r['period'], value=r['comparable_revenue']) for r in annual],
         enterprise_epv_compatible=not preferred_required and scope is None and all(
-            r.get('scope') == 'REPORTED' and not r.get('has_discontinued_operations') for r in rows))
+            r.get('scope', 'REPORTED') == 'REPORTED' and not material_discontinued(r) for r in rows))
     if primary_applied:
         result['common_equity_basis'].update(published_at=primary['published_at'], fetched_at=primary['fetched_at'],
                                             source_urls=primary['source_urls'])

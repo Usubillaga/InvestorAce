@@ -298,6 +298,11 @@
       'Provider EBITDA is missing; leverage uses operating income as a conservative floor.': 'Das EBITDA des Datenanbieters fehlt; die Verschuldung verwendet das operative Ergebnis als vorsichtige Untergrenze.',
       'Net income exceeds operating income (non-operating gains or tax benefits); the earnings multiple uses operating income.': 'Der Nettogewinn übersteigt das operative Ergebnis (nicht operative Gewinne oder Steuereffekte); das KGV verwendet das operative Ergebnis.',
       'The quoted line is one share class of several; valuation uses the whole-company count (smaller of the market-value-implied and diluted average counts).': 'Die notierte Linie ist eine von mehreren Aktiengattungen; die Bewertung verwendet die Aktienzahl des Gesamtunternehmens (kleinerer Wert aus Marktwert-Ableitung und verwässertem Durchschnitt).',
+      'Common-equity bridge uses period-matched preferred cash payments and earnings deductions; raw inputs are retained.': 'Die Überleitung auf Stammaktionäre verwendet periodengleiche Vorzugsdividenden-Zahlungen und Ergebnisabzüge; die Rohdaten bleiben erhalten.',
+      'Preferred cash dividends are not reported separately; the same-window declared dividend on an unchanged preferred balance is deducted.': 'Gezahlte Vorzugsdividenden sind nicht gesondert ausgewiesen; abgezogen wird die im selben Zeitraum beschlossene Dividende bei unverändertem Vorzugskapital.',
+      'Discontinued operations at or below 5% of net income and operating cash stay in the reported figures.': 'Aufgegebene Geschäftsbereiche mit höchstens 5 % des Nettogewinns und des operativen Cashflows bleiben in den gemeldeten Zahlen.',
+      'Cash flow and earnings use continuing operations; the disposed business is excluded.': 'Cashflow und Gewinn beziehen sich auf fortgeführte Geschäftsbereiche; der abgegebene Bereich ist ausgeschlossen.',
+      'The current window lacks a matched common-equity bridge; current cash ratios are unknown and the cycle valuation uses the bridged years.': 'Dem aktuellen Zeitraum fehlt eine passende Überleitung auf Stammaktionäre; aktuelle Cashflow-Kennzahlen sind unbekannt, die Zyklusbewertung verwendet die übergeleiteten Jahre.',
     };
     const scenarioLabels = {bear:'Bär', base:'Basis', bull:'Bulle'};
     const periods = analysis.metric_periods || {};

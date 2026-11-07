@@ -6,7 +6,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import patch
 
+import pandas as pd
+
+import i18n
 import live_analysis
+import opportunity_view
 import sec_quarters
 import source_review
 from test_live_analysis import ticker_fixture
@@ -76,17 +80,149 @@ class CommonEquityBasis(unittest.TestCase):
         result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
         self.assertIsNone(result['valuation']['ngv_per_share'])
 
-    def test_continuing_cash_does_not_certify_consolidated_epv_or_revenue(self):
-        tk = ticker_fixture()
-        tk.cashflow.loc['Cash Flow From Discontinued Operating Activities'] = [5e6] * 3
-        tk.income_stmt.loc['Net Income Discontinuous Operations'] = [2e6] * 3
-        tk.cashflow.loc['Cash Flow From Continuing Operating Activities'] = [115e6] * 3
-        tk.cashflow.loc['Capital Expenditure From Continuing Operations'] = [-20e6] * 3
-        result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
-        self.assertEqual(result['inputs']['valuation_fcf'], 95e6)
-        self.assertIsNone(result['inputs']['valuation_net_income'])
-        self.assertIsNone(result['metrics']['fcf_margin_pct'])
+    @staticmethod
+    def disposal(tk, *, separated=True, continuing_income=True):
+        """A material disposal (20% of income and of operating cash) in yfinance's own row names."""
+        tk.income_stmt.loc['Net Income Discontinuous Operations'] = [30e6] * 3
+        if continuing_income:
+            tk.income_stmt.loc['Net Income From Continuing Operation Net Minority Interest'] = [120e6] * 3
+        if separated:
+            tk.cashflow.loc['Cash From Discontinued Operating Activities'] = [25e6] * 3
+            tk.cashflow.loc['Cash From Discontinued Investing Activities'] = [-6e6] * 3
+            tk.cashflow.loc['Cash Flow From Continuing Operating Activities'] = [95e6] * 3
+        return tk
+
+    def test_separated_disposal_uses_continuing_cash_earnings_and_revenue(self):
+        result = calculate(live_analysis.extract(self.disposal(ticker_fixture()), 'UNREGISTERED', as_of=ASOF))
+        current = result['common_equity_basis']['current']
+        self.assertEqual(current['scope'], 'CONTINUING')
+        self.assertTrue(current['discontinued_material'])
+        self.assertEqual(current['discontinued_operating_cash_flow'], 25e6)
+        self.assertEqual(result['inputs']['fcf'], 100e6)                 # raw provider value survives
+        self.assertEqual(result['inputs']['valuation_fcf'], 75e6)        # 95 continuing OCF - 20 capex
+        self.assertEqual(result['inputs']['valuation_net_income'], 120e6)
+        self.assertAlmostEqual(result['metrics']['fcf_margin_pct'], 7.5)  # revenue excludes the sold unit
+        self.assertEqual(result['valuation_input_conflicts'], [])
+        self.assertEqual(result['parameters']['common_equity_scope'], 'CONTINUING')
+        # A continuing proxy still does not certify the enterprise EPV bridge.
         self.assertIsNone(engine.epv(dict(epv_value=67., dynamic_analysis=result)))
+
+    def test_cash_growth_never_compares_two_business_perimeters(self):
+        tk = self.disposal(ticker_fixture())
+        for row in ('Net Income Discontinuous Operations', 'Cash From Discontinued Operating Activities',
+                    'Cash From Discontinued Investing Activities'):
+            frame = tk.income_stmt if row.startswith('Net Income') else tk.cashflow
+            frame.loc[row, frame.columns[1:]] = float('nan')     # only FY2025 is recast
+        result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
+        scopes = [r['scope'] for r in result['common_equity_basis']['annual'][:2]]
+        self.assertEqual(scopes, ['CONTINUING', 'REPORTED'])
+        self.assertIsNone(result['metrics']['fcf_growth_pct'])
+        self.assertEqual(result['parameters']['growth_rate_pct'], 0.)
+
+    def test_continuing_operating_cash_can_be_derived_from_the_discontinued_row(self):
+        tk = self.disposal(ticker_fixture())
+        tk.cashflow = tk.cashflow.drop('Cash Flow From Continuing Operating Activities')
+        result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
+        self.assertEqual(result['inputs']['valuation_fcf'], 75e6)        # 120 total - 25 discontinued - 20
+
+    def test_material_disposal_without_separated_cash_stays_unresolved(self):
+        tk = self.disposal(ticker_fixture(), separated=False)
+        result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
+        self.assertEqual(result['common_equity_basis']['current']['scope'], 'UNRESOLVED')
+        self.assertIsNone(result['valuation']['ngv_per_share'])
+        self.assertEqual([c['code'] for c in result['valuation_input_conflicts']],
+                         ['DISPOSED_BUSINESS_IN_CYCLE_PROXY'])
+
+    def test_continuing_cash_without_continuing_income_leaves_the_multiple_unknown(self):
+        tk = self.disposal(ticker_fixture(), continuing_income=False)
+        result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
+        self.assertEqual(result['inputs']['valuation_fcf'], 75e6)
+        self.assertIsNone(result['inputs']['valuation_net_income'])
+
+    def test_quarters_after_a_disposal_count_as_zero_discontinued(self):
+        # OXY-like TTM to September: only the oldest quarter still holds the
+        # sold business; Yahoo leaves the later quarters of those rows empty.
+        tk = ticker_fixture()
+        quarters = pd.to_datetime(['2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'])
+        nan = float('nan')
+        tk.quarterly_cashflow = pd.DataFrame(
+            [[30e6] * 4, [-5e6] * 4, [nan, nan, nan, 10e6], [nan, nan, nan, -2e6]],
+            index=['Operating Cash Flow', 'Capital Expenditure', 'Cash From Discontinued Operating Activities',
+                   'Cash From Discontinued Investing Activities'], columns=quarters)
+        tk.quarterly_income_stmt = pd.DataFrame(
+            [[250e6] * 4, [50e6] * 4, [40e6, 40e6, 40e6, 60e6], [nan, nan, nan, 20e6], [40e6] * 4],
+            index=['Total Revenue', 'Operating Income', 'Net Income', 'Net Income Discontinuous Operations',
+                   'Net Income From Continuing Operation Net Minority Interest'], columns=quarters)
+        facts = live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF)
+        self.assertEqual(facts['basis'], 'TTM')
+        current = next(r for r in facts['equity_periods'] if r['basis'] == 'TTM')
+        self.assertEqual((current['discontinued_operating_cash_flow'], current['discontinued_net_income']),
+                         (10e6, 20e6))
+        result = calculate(facts)
+        self.assertEqual(result['common_equity_basis']['current']['scope'], 'CONTINUING')
+        self.assertEqual(result['inputs']['valuation_fcf'], 90e6)        # 120 - 10 discontinued - 20
+        self.assertEqual(result['inputs']['valuation_net_income'], 160e6)
+
+    def test_immaterial_legacy_discontinued_line_keeps_reported_figures(self):
+        # Pfizer: USD -5m over nine months against USD 5,710m of net income.
+        tk = ticker_fixture()
+        tk.income_stmt.loc['Net Income Discontinuous Operations'] = [-.5e6] * 3
+        tk.cashflow.loc['Cash From Discontinued Operating Activities'] = [-.4e6] * 3
+        result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
+        current = result['common_equity_basis']['current']
+        self.assertEqual(current['scope'], 'REPORTED')
+        self.assertIs(current['discontinued_material'], False)
+        self.assertEqual(result['inputs']['valuation_fcf'], 100e6)
+        self.assertEqual(result['inputs']['valuation_net_income'], 150e6)
+        self.assertEqual(result['valuation_input_conflicts'], [])
+        self.assertTrue(any('at or below 5%' in w for w in result['warnings']))
+        self.assertEqual(engine.epv(dict(epv_value=67., dynamic_analysis=result)), 67.)
+
+    def test_rows_extracted_before_the_materiality_field_stay_conservative(self):
+        facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
+                               preferred_earnings_deduction=None, has_discontinued_operations=True,
+                               scope='UNRESOLVED')
+        self.assertTrue(calculate(facts)['valuation_input_conflicts'])
+
+    def test_a_disposal_outside_the_current_window_does_not_reach_it(self):
+        # Broadcom's FY2024 VMware disposal against a later window without its
+        # own provider row (an SEC catch-up packet, for example).
+        facts = live_analysis.extract(ticker_fixture(), 'TEST', as_of=ASOF)
+        facts['equity_periods'] = [dict(period='2023-12-31', basis='FY', scope='UNRESOLVED',
+                                        has_discontinued_operations=True, discontinued_material=True)]
+        result = calculate(facts)
+        self.assertEqual(result['common_equity_basis']['current']['scope'], 'REPORTED')
+        self.assertEqual(result['inputs']['valuation_fcf'], 100e6)
+        facts['equity_periods'][0]['period'] = '2025-06-30'
+        facts['equity_periods'][0]['basis'] = 'TTM'
+        self.assertIsNone(calculate(facts)['inputs']['valuation_fcf'])
+
+    def test_declared_dividend_on_an_unchanged_balance_is_the_cash_claim(self):
+        facts = facts_with_row(preferred_cash_paid=None, preferred_outstanding=200e6)
+        facts['equity_periods'].append(dict(period='2024-12-31', basis='FY', scope='REPORTED',
+                                            preferred_outstanding=200e6))
+        result = calculate(facts)
+        current = result['common_equity_basis']['current']
+        self.assertEqual(current['preferred_cash_basis'], 'DECLARED_STABLE_BALANCE')
+        self.assertIsNone(current['preferred_cash_paid'])                # the raw field stays unknown
+        self.assertEqual(result['inputs']['valuation_fcf'], 88e6)        # 100 - 12 declared
+        self.assertEqual(result['valuation_input_conflicts'], [])
+        self.assertTrue(any('declared dividend' in w for w in result['warnings']))
+        # Cash paid, when reported, wins over the declaration.
+        facts['equity_periods'][0]['preferred_cash_paid'] = 10e6
+        self.assertEqual(calculate(facts)['inputs']['valuation_fcf'], 90e6)
+
+    def test_a_moved_preferred_balance_keeps_the_cash_claim_unknown(self):
+        # Issues, conversions and redemptions (OXY 2023: 9,762m -> 8,287m with
+        # a 151m premium in the deduction) break the declared-to-paid link.
+        for opening in (300e6, 0., None):
+            with self.subTest(opening=opening):
+                facts = facts_with_row(preferred_cash_paid=None, preferred_outstanding=200e6)
+                facts['equity_periods'].append(dict(period='2024-12-31', basis='FY', scope='REPORTED',
+                                                    preferred_outstanding=opening))
+                result = calculate(facts)
+                self.assertIsNone(result['inputs']['valuation_fcf'])
+                self.assertTrue(result['valuation_input_conflicts'])
 
     def test_ordinary_company_keeps_its_formulas(self):
         facts = live_analysis.extract(ticker_fixture(), 'TEST', as_of=ASOF)
@@ -265,10 +401,17 @@ class DatedPrimaryBridge(unittest.TestCase):
         self.assertEqual(result['inputs']['fcf'], 4793e6)
         self.assertEqual(basis['current']['fcf_before_preferred'], 5081e6)
         self.assertEqual(basis['current']['common_net_income'], 3439e6)
-        self.assertIsNone(basis['current']['common_fcf'])
-        self.assertIsNone(result['valuation']['dcf_per_share'])
-        self.assertTrue(result['valuation_input_conflicts'])
+        # June 2026 TTM: cash paid is not separately confirmed, the declared
+        # 679m on the unchanged 8,287m Berkshire balance is the claim.
+        self.assertIsNone(basis['current']['preferred_cash_paid'])
+        self.assertEqual(basis['current']['preferred_cash_basis'], 'DECLARED_STABLE_BALANCE')
+        self.assertEqual(basis['current']['common_fcf'], 4402e6)
+        self.assertEqual(result['valuation_input_conflicts'], [])
+        self.assertAlmostEqual(result['inputs']['valuation_fcf'], (2532e6+3677e6+3755e6)/3)
+        self.assertIsNotNone(result['valuation']['dcf_per_share'])
+        # 2023 had redemptions: its cash dividend, not the 923m deduction, counts.
         self.assertEqual(rows['2023-12-31']['preferred_cash_paid'], 762e6)
+        self.assertEqual(rows['2023-12-31']['preferred_cash_basis'], 'PAID')
         self.assertEqual(rows['2023-12-31']['preferred_earnings_deduction'], 923e6)
 
     def test_future_retrieval_does_not_rewrite_a_past_observation(self):
@@ -298,10 +441,35 @@ class DatedPrimaryBridge(unittest.TestCase):
         self.assertAlmostEqual(result['inputs']['valuation_fcf'], (2532e6+3677e6+3755e6)/3)
         self.assertAlmostEqual(result['metrics']['fcf_margin_pct'], 100*4402/23926)
         self.assertEqual(result['parameters']['earnings_basis'], 'CYCLE_MEAN')
-        # A later provider quarter must not inherit the completed June bridge.
+        self.assertEqual(result['common_equity_basis']['current']['preferred_cash_basis'], 'PAID')
+        # A later provider quarter does not inherit the completed June bridge:
+        # its current cash ratios are unknown. The commodity value rests on the
+        # FY2023-25 years, which the issuer bridge still covers completely.
         self.facts['financial_period'] = '2026-09-30'
         result = calculate(self.facts)
+        self.assertEqual(result['valuation_input_conflicts'], [])
+        self.assertIsNone(result['common_equity_basis']['current']['common_fcf'])
+        self.assertIsNone(result['metrics']['fcf_margin_pct'])
+        self.assertTrue(result['common_equity_basis']['current_window_open'])
+        self.assertAlmostEqual(result['inputs']['valuation_fcf'], (2532e6+3677e6+3755e6)/3)
+        self.assertTrue(any('current window lacks' in w for w in result['warnings']))
+
+    def test_a_current_valuation_never_inherits_an_earlier_window_bridge(self):
+        # Outside a commodity cycle the current window is the valuation input.
+        self.facts.update(midcycle=False, financial_period='2026-09-30')
+        result = calculate(self.facts)
         self.assertTrue(result['valuation_input_conflicts'])
+        self.assertIsNone(result['inputs']['valuation_fcf'])
+
+    def test_a_cycle_without_an_issuer_scope_still_blocks_on_a_current_disposal(self):
+        facts = facts_with_row(preferred_claims_known=False, preferred_cash_paid=None,
+                               preferred_earnings_deduction=None, scope='UNRESOLVED',
+                               has_discontinued_operations=True, discontinued_material=True)
+        facts.update(midcycle=True,
+                     annual_fcf_series=[dict(period=f'{y}-12-31', value=100e6) for y in (2024, 2023, 2022)],
+                     annual_net_income_series=[dict(period=f'{y}-12-31', value=150e6) for y in (2024, 2023, 2022)])
+        result = calculate(facts)
+        self.assertIn('DISPOSED_BUSINESS_IN_CYCLE_PROXY', [c['code'] for c in result['valuation_input_conflicts']])
         self.assertIsNone(result['inputs']['valuation_fcf'])
 
     def test_register_issuer_and_listing_symbol_are_distinct_identities(self):
@@ -406,6 +574,36 @@ class PrimaryFieldCorrections(unittest.TestCase):
             reason='Current provider scope has not been reconciled.', detected_at='2026-11-01')]
         result = calculate(facts)
         self.assertEqual(result['valuation_input_conflicts'], facts['valuation_input_conflicts'])
+
+
+class InputGapsAndDisplay(unittest.TestCase):
+    def test_engine_conflicts_are_translated_and_recorded_ones_stay_source_text(self):
+        tk = CommonEquityBasis.disposal(ticker_fixture(), separated=False)
+        result = calculate(live_analysis.extract(tk, 'UNREGISTERED', as_of=ASOF))
+        self.assertEqual(result['valuation_input_conflicts'][0]['origin'], 'ENGINE')
+        html = ('<html><body>' + opportunity_view.conflicts(
+            'TEST', dict(valuation_input_conflicts=result['valuation_input_conflicts'])) + '</body></html>')
+        self.assertNotIn('review-input-conflicts', html)
+        self.assertEqual(i18n.translation_gaps(html), [])
+        self.assertIn('Geschäftsumfang', i18n.localize(html, 'de'))
+
+    def test_input_gaps_name_stale_issuer_bridges_and_blocked_valuations(self):
+        reviews = source_review.load()
+        rows = {'OXY': dict(dynamic_analysis=dict(financial_period='2026-09-30', basis='TTM',
+                                                  valuation_input_conflicts=[],
+                                                  common_equity_basis=dict(current_window_open=['open']))),
+                'PG': dict(dynamic_analysis=dict(financial_period='2026-09-30', basis='TTM',
+                                                 valuation_input_conflicts=[])),
+                'SMCI': dict(dynamic_analysis=dict(financial_period='2026-09-30', basis='TTM',
+                    valuation_input_conflicts=[dict(code='COMMON_EQUITY_CLAIMS_OMITTED', reason='Missing.')]))}
+        with patch.object(engine, 'DATA', rows):
+            gaps = engine.input_gaps(reviews)
+            box = engine.input_gap_box(gaps)
+        self.assertEqual(sorted(gaps), ['OXY', 'SMCI'])       # PG's bridge covers its current window
+        self.assertFalse(gaps['OXY']['issuer_bridge_current'])
+        self.assertIn('2026-06-30 TTM', gaps['OXY']['issuer_bridge_windows'])
+        self.assertEqual(gaps['SMCI']['conflicts'], ['COMMON_EQUITY_CLAIMS_OMITTED'])
+        self.assertEqual(i18n.translation_gaps('<html><body>' + box + '</body></html>'), [])
 
 
 if __name__ == '__main__':

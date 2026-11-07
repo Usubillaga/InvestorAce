@@ -39,12 +39,17 @@ value adjustment. It is not the 762 paid cash-dividend figure. The separate 1,66
 preferred redemption cash flow already includes its premium.
 
 TTM is FY2025 minus H1 2025 plus H1 2026. Separately paid H1 preferred cash was not
-confirmed; the 340 declared each half does not establish payment. Current common
-FCF therefore remains unknown. Comparable FY2022 continuing figures are also
-unavailable. OXY keeps both recorded conflicts and no automatic purchase label,
-score, NGV or DCF. Cash-generation and payout quality are unknown rather than
-retaining the previous overstated values; other observed components and bounds
-remain available.
+confirmed. Comparable FY2022 continuing figures are unavailable and stay out of the
+mean.
+
+*Superseded on 2026-11-07* ([review](common-equity-review-2026-11-07.md)): the
+preferred balance stayed at 8,287 from 2023 to June 2026, so the 679 declared in
+the TTM is the cash claim (`DECLARED_STABLE_BALANCE`; paid cash still wins where
+reported). TTM common cash is 5,081 - 679 = 4,402. Both recorded conflicts resolve
+on these matched data; OXY is valued on the FY2023-25 continuing cycle mean of
+3,321 (NGV about USD 43 against a USD 56–57 quote, automatic label Hold Positive).
+A later provider quarter still never inherits this June row: its current cash
+ratios are unknown until an issuer check, while the bridged cycle keeps the value.
 
 EPV cannot bypass a monetary conflict or rely on annual enterprise inputs whose
 perimeter/preferred-capital bridge is missing, including a previously cached EPV.

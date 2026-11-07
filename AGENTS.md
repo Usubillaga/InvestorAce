@@ -23,6 +23,13 @@ review; v18 keeps its structure and changes the weights below.
 - Keep legacy score APIs, frozen history, primary research, sources, alerts
   and open objections. Reconfiguration never resolves an old objection by
   assertion and never deletes Zoetis or other universe members.
+- Common-equity inputs (`equity_basis.py`): cash after paid preferred
+  dividends, or the same-window declared dividend while the preferred balance
+  moves less than 5%; continuing operations when a material disposal (above 5%)
+  is separated in the provider rows, otherwise the window stays blocked.
+  Issuer bridges in `source_reviews.json` are dated per reporting window and
+  never roll forward; the build's input-gap list names the windows that need
+  a new issuer check.
 - Antero Resources, Zoetis and WKL are calibration cases for behavior, not
   hardcoded recommendations. Commodity peak multiples do not substitute for
   multi-year valuation inputs. A low P/E alone is insufficient.
