@@ -25,6 +25,7 @@ import opportunity_view as OPPORTUNITY_VIEW
 import earnings_view as EARNINGS_VIEW
 import sec_quarters as SEC_QUARTERS
 import market_pulse as MARKET_PULSE
+import war_scenario as WAR
 from company_reports import pdf_urls
 import i18n
 from integrity import (atomic_text, atomic_json, finite_number, positive_number,
@@ -1498,10 +1499,10 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
                     and ASSESSMENT.quote_status(cached_quote,as_of)=='DATED'):
                 row.update(cached_quote,price_ts=previous.get('fetched_at'),quote_time_status='CACHED_DATED',
                     price_note='Live quote unavailable; dated cached market quote retained within 96 hours.')
-        analysis = LIVE_ANALYSIS.calculate(facts,
-            quote=dict(price=row.get('price'), observed_at=row.get('quote_observed_at')),
+        pricing = dict(quote=dict(price=row.get('price'), observed_at=row.get('quote_observed_at')),
             risk_free=WACC.resolve_risk_free()/100., mrp=WACC.MARKET_RISK_PREMIUM/100., as_of=as_of,
             cushion_tolerance=CUSHION_TOL)
+        analysis = LIVE_ANALYSIS.calculate(facts, **pricing)
         analysis['data_status'] = 'CACHED_INPUTS' if cached else 'FRESH_INPUTS' if valid else 'UNAVAILABLE'
         if facts.get('primary_current'):
             analysis['data_status'] = 'PRIMARY_INPUTS'
@@ -1522,6 +1523,11 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
         if row.get('fcf') is not None:
             row.pop('na', None)
         row['dynamic_analysis'] = analysis
+        # War case for producers: the same facts with the reported TTM treated as
+        # sustainable. Shown as a scenario only; the label keeps the cycle mean.
+        row.pop('spot_analysis', None)
+        if row.get('midcycle'):
+            row['spot_analysis'] = LIVE_ANALYSIS.calculate(dict(facts, midcycle=False), **pricing)
         # Refresh WACC's market-cap weight from this packet too. Enterprise
         # EPV uses WACC, while dynamic equity-cash scenarios use ke.
         if (analysis['metrics'].get('market_cap') and analysis['inputs'].get('debt') is not None
@@ -1810,6 +1816,8 @@ def observation(macro, bundle, captured_at=None):
     rec['_rates'] = (WACC.provenance() if WACC is not None else None)
     if rec['_rates'] is not None:
         rec['_rates']['live_10y'] = LIVE_10Y
+    for t, d in DATA.items():
+        rec[t]['war'] = WAR.case(d, opportunity, regime=current_regime, as_of=cutoff, weights=regime_weights)
     rec['_portfolio'] = portfolio_regime()
     rec['_data_quality'] = data_quality()
     rec['_filing_monitoring'] = monitoring

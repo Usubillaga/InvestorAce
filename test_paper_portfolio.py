@@ -59,6 +59,41 @@ class PaperPortfolioTests(unittest.TestCase):
             Path(tmp, 'x.json').write_text(json.dumps(d))
             self.assertIn('D', pp.tracked_symbols(date(2026, 11, 8), tmp))
 
+    def test_entry_is_the_first_close_on_or_after_the_entry_date(self):
+        # Only Friday's close is known when Monday's build runs before the close: no entry yet.
+        early = pp.merge_series([snapshot({'A': [['2026-11-06', 90.]], 'B': [['2026-11-06', 50.]],
+                                           'C': [['2026-11-06', 10.]], '^GSPC': [['2026-11-06', 6990.]]})])
+        r = pp.evaluate(doc(), early, as_of=date(2026, 11, 9))
+        self.assertTrue(all(h['status'] == 'NO_PRICE' for h in r['holdings']))
+        self.assertIsNone(r['portfolio_return_pct'])
+        a = next(h for h in pp.evaluate(doc(), self.series())['holdings'] if h['ticker'] == 'A')
+        self.assertEqual((a['entry_close_date'], a['entry_close']), ('2026-11-09', 100.))
+
+    def test_nothing_is_held_before_the_entry_date(self):
+        r = pp.evaluate(doc(), self.series(), as_of=date(2026, 11, 8))
+        self.assertEqual(r['status'], 'PENDING')
+        self.assertIsNone(r['portfolio_return_pct'])
+        self.assertIn('starts with the close of 2026-11-09', pp.report(r))
+
+    def test_page_is_built_from_committed_snapshots(self):
+        from datetime import datetime, timezone
+        with tempfile.TemporaryDirectory() as tmp:
+            Path(tmp, 'paper_trades').mkdir()
+            Path(tmp, 'paper_trades', 'x.json').write_text(json.dumps(doc()))
+            runs = Path(tmp, 'history', 'runs')
+            runs.mkdir(parents=True)
+            Path(runs, '20261110T230000-a.json').write_text(json.dumps(
+                snapshot({'A': [['2026-11-09', 100.], ['2026-11-10', 104.]], '^GSPC': [['2026-11-09', 7000.]]})))
+            build = dict(record=snapshot({'A': [['2026-11-11', 106.]]}))
+            pages = pp.site_pages(tmp, build, now=datetime(2026, 11, 11, 23, 30, tzinfo=timezone.utc))
+            self.assertEqual([str(p) for p, _ in pages], ['paper-test.html'])
+            html = pages[0][1]
+            self.assertIn('Running: valued to 2026-11-11', html)
+            self.assertIn('+6.00%', html)
+            self.assertIn('Not priced yet', html)
+            Path(tmp, 'paper_trades', 'x.json').unlink()
+            self.assertEqual(pp.site_pages(tmp, build), [])
+
     def test_tracking_window_and_frozen_file(self):
         with tempfile.TemporaryDirectory() as tmp:
             Path(tmp, 'x.json').write_text(json.dumps(doc()))

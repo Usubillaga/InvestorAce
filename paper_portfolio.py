@@ -7,7 +7,7 @@ reads entry and exit closes from committed snapshots and never from
 hindsight. Nothing here changes a score, a label or the real portfolio.
 """
 import json
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -53,6 +53,18 @@ def _close_on_or_before(series, day):
     return best
 
 
+def _close_on_or_after(series, day):
+    """First close on or after `day`: the first price executable after the decision."""
+    for when, value in sorted(series or []):
+        if when >= day and value:
+            return (when, value)
+    return None
+
+
+def _days(day, n):
+    return (date.fromisoformat(day) + timedelta(days=n)).isoformat()
+
+
 def merge_series(snapshots):
     """{symbol: {date: close}} merged over several snapshots' pulse.tracked."""
     merged = {}
@@ -68,10 +80,11 @@ def merge_series(snapshots):
 def _leg(holdings, series, entry, exit_):
     rows, weight_used, total = [], 0., 0.
     for h in holdings:
-        start = _close_on_or_before(series.get(h['yahoo']), entry)
+        start = _close_on_or_after(series.get(h['yahoo']), entry)
+        if start and (start[0] > _days(entry, 4) or start[0] > exit_):
+            start = None                       # no entry close yet, or only a late one
         end = _close_on_or_before(series.get(h['yahoo']), exit_)
-        stale = lambda close, day: close[0] < (date.fromisoformat(day) - timedelta(days=4)).isoformat()
-        if not start or not end or stale(start, entry) or stale(end, exit_):
+        if not start or not end or end[0] < start[0] or end[0] < _days(exit_, -4):
             rows.append(dict(h, status='NO_PRICE'))   # missing or stale close: never 0% by default
             continue
         change = 100 * (end[1] / start[1] - 1)
@@ -86,6 +99,19 @@ def evaluate(doc, series, as_of=None):
     """Weighted returns of the holdings, the control basket and the benchmark."""
     exit_ = min(doc['exit_date'], (as_of or date.fromisoformat(doc['exit_date'])).isoformat())
     entry = doc['entry_date']
+    if exit_ < entry:
+        # Before the entry date nothing is held; no return is computed.
+        pending = lambda hs: [dict(h, status='PENDING') for h in hs]
+        pick = doc.get('discretionary') or {}
+        return dict(name=doc['name'], entry_date=entry, valued_to=None, final=False, status='PENDING',
+                    portfolio_return_pct=None, priced_weight_pct=0., holdings=pending(doc['holdings']),
+                    control_return_pct=None, control_priced_weight_pct=0.,
+                    control=pending((doc.get('control_basket') or {}).get('holdings', [])),
+                    benchmark_return_pct=None, excess_vs_benchmark_pct=None, excess_vs_control_pct=None,
+                    discretionary_name=pick.get('name'), discretionary=pending(pick.get('holdings', [])),
+                    discretionary_return_pct=None,
+                    discretionary_sleeve_pct=float(pick.get('sleeve_weight_pct') or 0.),
+                    combined_return_pct=None, excess_combined_vs_benchmark_pct=None)
     holdings, portfolio, used = _leg(doc['holdings'], series, entry, exit_)
     control_rows, control, control_used = _leg((doc.get('control_basket') or {}).get('holdings', []),
                                                series, entry, exit_)
@@ -98,8 +124,9 @@ def evaluate(doc, series, as_of=None):
     sleeve = float(pick.get('sleeve_weight_pct') or 0.) if pick_rows else 0.
     combined = ((100 - sleeve) * portfolio + sleeve * pick_return) / 100 \
         if None not in (portfolio, pick_return) and sleeve else None
-    return dict(name=doc['name'], entry_date=entry, valued_to=exit_, final=exit_ == doc['exit_date'],
-                discretionary_name=pick.get('name'), discretionary=pick_rows,
+    final = exit_ == doc['exit_date']
+    return dict(name=doc['name'], entry_date=entry, valued_to=exit_, final=final,
+                status='FINAL' if final else 'RUNNING', discretionary_name=pick.get('name'), discretionary=pick_rows,
                 discretionary_return_pct=pick_return, discretionary_sleeve_pct=sleeve,
                 combined_return_pct=combined,
                 excess_combined_vs_benchmark_pct=combined - bench if None not in (combined, bench) else None,
@@ -113,6 +140,8 @@ def evaluate(doc, series, as_of=None):
 def report(result):
     """Short markdown summary for the user."""
     pct = lambda v: '—' if v is None else ('%+.2f%%' % v)
+    if result.get('status') == 'PENDING':
+        return f"**{result['name']}** · starts with the close of {result['entry_date']}; nothing held yet."
     lines = [f"**{result['name']}** · {result['entry_date']} → {result['valued_to']}"
              + ('' if result['final'] else ' (interim)'),
              f"InvestorAce Buy portfolio {pct(result['portfolio_return_pct'])} · "
@@ -136,6 +165,113 @@ def report(result):
     if missing:
         lines.append('\nNot priced: ' + ', '.join(missing))
     return '\n'.join(lines)
+
+
+PAGE = 'paper-test.html'
+
+
+def _pct(value, css=True):
+    from html import escape
+    if value is None:
+        return '<span class="muted">—</span>'
+    text = escape('%+.2f%%' % value)
+    return f'<span class="{"up" if value > 0 else "down" if value < 0 else ""}">{text}</span>' if css else text
+
+
+def _price(h, key):
+    value = h.get(key)
+    return '<span class="muted">—</span>' if value is None else format(value, ',.2f')
+
+
+def render(results, docs, *, now):
+    """One page with every paper portfolio: rules, live result, holdings."""
+    from html import escape
+    from war_scenario import shell, label
+    body = ['<h1>Paper test</h1><p class="lead">A fictitious portfolio that checks whether the automatic '
+            'InvestorAce Buy labels beat the market out of sample. Holdings, weights and dates were frozen '
+            'before the entry date; prices come only from the nightly builds, never from hindsight. '
+            f'Updated {escape(now.strftime("%Y-%m-%d %H:%M"))} UTC.</p>']
+    for result, doc in zip(results, docs):
+        status = result['status']
+        state = {'PENDING': f"Not started: entry at the close of {result['entry_date']}",
+                 'RUNNING': f"Running: valued to {result['valued_to']} (interim)",
+                 'FINAL': f"Final: {result['entry_date']} → {result['valued_to']}"}[status]
+        sleeve = result.get('discretionary_sleeve_pct') or 0.
+        tiles = [('InvestorAce Buy portfolio', result['portfolio_return_pct']),
+                 ('S&P 500', result['benchmark_return_pct']),
+                 ('Excess vs S&P 500', result['excess_vs_benchmark_pct']),
+                 ('Earnings-IV basket (control)', result['control_return_pct'])]
+        if result.get('discretionary'):
+            tiles += [('Your pick: ' + ', '.join(h['ticker'] for h in result['discretionary']),
+                       result['discretionary_return_pct']),
+                      (f'Combined {100 - sleeve:.0f}% model + {sleeve:.0f}% pick', result['combined_return_pct'])]
+        body.append(f'<h2>{escape(doc["name"])}</h2><p><b>{escape(state)}</b> · exit at the close of '
+                    f'{escape(doc["exit_date"])}</p><div class="tiles">'
+                    + ''.join(f'<div class="tile"><span>{escape(name)}</span><b>{_pct(value)}</b></div>'
+                              for name, value in tiles) + '</div>')
+        rule = str(doc.get('weight_rule') or '').strip().rstrip('.')
+        rule = rule[len('Weight '):] if rule.lower().startswith('weight ') else rule
+        body.append('<div class="note"><b>Rules.</b> Holdings: every Buy label in the '
+                    f'{escape(str(doc.get("signal_snapshot_captured", ""))[:10])} snapshot '
+                    f'(model {escape(str(doc.get("model", "")))}, regime {escape(str(doc.get("regime", "")))}). '
+                    f'Weights: {escape(rule)}. Entry: first close on or after {escape(doc["entry_date"])}; '
+                    f'exit: last close on or before {escape(doc["exit_date"])}, each in its listing currency. '
+                    'A missing or stale close is shown as not priced, never as 0%. Control: the earnings-week '
+                    'implied-volatility list, equal weight. Benchmark: S&P 500 price index.</div>')
+        rows = []
+        for h in sorted(result['holdings'], key=lambda h: -h['weight_pct']):
+            contribution = h['weight_pct'] * h['return_pct'] / 100 if h.get('return_pct') is not None else None
+            rows.append(f'<tr><td><b>{escape(h["ticker"])}</b></td><td class="l">{label(h.get("label"), h.get("score"))}</td>'
+                        f'<td>{h["weight_pct"]:.1f}%</td><td>{_price(h, "signal_price")} {escape(h.get("currency", ""))}</td>'
+                        f'<td>{_price(h, "entry_close")}</td><td>{_price(h, "exit_close")}</td>'
+                        f'<td>{_pct(h.get("return_pct"))}</td><td>{_pct(contribution)}</td></tr>')
+        body.append('<h2>Model holdings</h2><div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Label</th>'
+                    '<th>Weight</th><th>Signal price</th><th>Entry close</th><th>Latest close</th><th>Return</th>'
+                    '<th>Contribution</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>')
+        if result.get('discretionary'):
+            pick = doc.get('discretionary') or {}
+            rows = ''.join(f'<tr><td><b>{escape(h["ticker"])}</b></td><td class="l">{label(h.get("label"), h.get("score"))}</td>'
+                           f'<td>{_price(h, "signal_price")}</td><td>{_price(h, "entry_close")}</td>'
+                           f'<td>{_price(h, "exit_close")}</td><td>{_pct(h.get("return_pct"))}</td></tr>'
+                           for h in result['discretionary'])
+            body.append(f'<h2>{escape(result.get("discretionary_name") or "Your pick")} · {sleeve:.0f}% sleeve</h2>'
+                        f'<p class="lead">{escape(pick.get("rationale", ""))}</p><div class="tw"><table><thead><tr>'
+                        '<th>Ticker</th><th class="l">Model label</th><th>Signal price</th><th>Entry close</th>'
+                        '<th>Latest close</th><th>Return</th></tr></thead><tbody>' + rows + '</tbody></table></div>')
+        rows = ''.join(f'<tr><td><b>{escape(h["ticker"])}</b></td><td>{_pct(h.get("implied_move_pct"), css=False).replace("+", "±")}</td>'
+                       f'<td class="l">{label(h.get("investorace_label"))}</td><td>{_price(h, "entry_close")}</td>'
+                       f'<td>{_price(h, "exit_close")}</td><td>{_pct(h.get("return_pct"))}</td></tr>'
+                       for h in sorted(result['control'], key=lambda h: h['ticker']))
+        body.append('<h2>Control basket</h2><div class="tw"><table><thead><tr><th>Ticker</th><th>Implied move</th>'
+                    '<th class="l">InvestorAce label</th><th>Entry close</th><th>Latest close</th><th>Return</th>'
+                    '</tr></thead><tbody>' + rows + '</tbody></table></div>')
+        missing = [h['ticker'] for h in result['holdings'] + result['control'] + result.get('discretionary', [])
+                   if h['status'] == 'NO_PRICE']
+        if missing:
+            body.append('<div class="note">Not priced yet: ' + escape(', '.join(missing)) + '</div>')
+    body.append('<div class="note">Paper money only. Research, not an approved purchase recommendation.</div>')
+    return shell('Paper test', ''.join(body))
+
+
+def site_pages(root, build, *, now=None):
+    """paper-test.html from committed snapshots; empty when no portfolio exists."""
+    now = now or datetime.now(timezone.utc)
+    docs = load(Path(root) / 'paper_trades')
+    if not docs:
+        return []
+    start = min(date.fromisoformat(d['entry_date']) for d in docs) - timedelta(days=7)
+    snapshots = []
+    for path in sorted((Path(root) / 'history' / 'runs').glob('*.json')):
+        try:
+            stamp = datetime.strptime(path.name[:8], '%Y%m%d').date()
+        except ValueError:
+            continue
+        if stamp >= start:
+            snapshots.append(json.loads(path.read_text(encoding='utf-8')))
+    snapshots.append(build['record'])
+    series = merge_series(snapshots)
+    results = [evaluate(doc, series, now.date()) for doc in docs]
+    return [(Path(PAGE), render(results, docs, now=now))]
 
 
 def main(argv=None):
