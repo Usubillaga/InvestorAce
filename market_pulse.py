@@ -113,20 +113,31 @@ def summarize(closes, universe_closes, fear_greed=None, as_of=None):
                          'AAII sentiment survey (no free machine-readable source)'])
 
 
-def read(universe_symbols=(), download=None, fear_greed=None, as_of=None):
-    """Fetch one year of closes for indices and universe; None if Yahoo fails."""
+TRACKED_SESSIONS = 30
+
+
+def read(universe_symbols=(), download=None, fear_greed=None, as_of=None, tracked_symbols=()):
+    """Fetch one year of closes for indices and universe; None if Yahoo fails.
+
+    `tracked_symbols` (open paper portfolios) are downloaded too and their
+    last closes are recorded in pulse['tracked'], so later evaluations read
+    dated closes from committed snapshots."""
     try:
         if download is None:
             import yfinance as yf
             download = yf.download
-        symbols = [s for s, _ in INDICES] + sorted(set(universe_symbols))
+        symbols = [s for s, _ in INDICES] + sorted(set(universe_symbols) | set(tracked_symbols))
         frame = download(symbols, period='1y', interval='1d', auto_adjust=False,
                          progress=False, threads=True, group_by='column')
     except Exception:
         return None
     closes = {s: _series(frame, s) for s, _ in INDICES}
     universe = {s: _series(frame, s) for s in set(universe_symbols)}
-    return summarize(closes, universe, _fear_greed(fear_greed), as_of)
+    pulse = summarize(closes, universe, _fear_greed(fear_greed), as_of)
+    if tracked_symbols:
+        pulse['tracked'] = {s: [[d, round(v, 6)] for d, v in _series(frame, s)[-TRACKED_SESSIONS:]]
+                            for s in sorted(set(tracked_symbols))}
+    return pulse
 
 
 def _number(value, digits=2):

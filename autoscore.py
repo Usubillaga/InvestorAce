@@ -43,6 +43,14 @@ CLOCK_GUESS = {
     "Health Ins":"DIV","MedTech":"DIV","Media":"DIV",
 }
 
+# Yahoo's sector names that the regime table spells differently. An unmapped
+# sector stops the build (it would score 0 regime affinity silently).
+SECTOR_ALIAS = {"Basic Materials": "Materials"}
+# Commodity producers are valued on the multi-year cycle mean, never on a
+# peak-price TTM (AGENTS.md); the label stays capped until review.
+COMMODITY_SECTORS = ("Energy", "Materials")
+
+
 def _finite(x):
     if isinstance(x, bool):
         return None
@@ -82,7 +90,8 @@ def _fin(tk):
     except Exception:
         pass
 
-    out["sector"] = info.get("sector","") or ""
+    sector = info.get("sector","") or ""
+    out["sector"] = SECTOR_ALIAS.get(sector, sector)
     out["name"] = info.get("longName","") or ""
     dy = _finite(info.get("dividendYield"))
     # A missing distribution is unknown, and a positive untagged yield has
@@ -287,6 +296,10 @@ def auto_row(symbol, r=0.080):
         normalization_status='REVIEW_REQUIRED',
         sanity=(round(f["lo"] * .5, 2), round(f["hi"] * 2, 2)) if f["lo"] is not None and f["hi"] is not None else None,
     )
+    if f["sector"] in COMMODITY_SECTORS:
+        row["midcycle"] = True
+        warn.append(f'{f["sector"]} producer: valued on the multi-year cycle mean (midcycle=True), '
+                    'not on the TTM cash flow.')
     if na_reason:
         row["na"] = na_reason
     return row, warn
