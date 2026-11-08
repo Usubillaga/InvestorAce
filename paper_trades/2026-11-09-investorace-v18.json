@@ -326,5 +326,21 @@
   "benchmark": {
     "name": "S&P 500",
     "yahoo": "^GSPC"
+  },
+  "discretionary": {
+    "name": "User's pick: OXY on the Iran-war oil premium",
+    "rationale": "Added by the user on 2026-11-08 against the model label: oil above 100 USD may persist while the Iran war continues. Kept as a separate sleeve so the model test stays clean.",
+    "sleeve_weight_pct": 10.0,
+    "holdings": [
+      {
+        "ticker": "OXY",
+        "yahoo": "OXY",
+        "label": "Hold Positive",
+        "score": 6.667,
+        "weight_pct": 100.0,
+        "signal_price": 56.38,
+        "signal_quote_date": "2026-11-06"
+      }
+    ]
   }
 }

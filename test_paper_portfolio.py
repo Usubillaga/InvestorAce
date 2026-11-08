@@ -45,6 +45,20 @@ class PaperPortfolioTests(unittest.TestCase):
         self.assertEqual((a['exit_close_date'], a['exit_close']), ('2026-11-20', 108.))
         self.assertEqual(next(h for h in r['holdings'] if h['ticker'] == 'B')['status'], 'NO_PRICE')
 
+    def test_user_pick_is_a_separate_sleeve(self):
+        d = dict(doc(), discretionary=dict(name='Pick', sleeve_weight_pct=10.,
+                                           holdings=[dict(ticker='D', yahoo='D', weight_pct=100.)]))
+        series = dict(self.series(), D=[('2026-11-09', 50.), ('2026-11-23', 60.)])
+        r = pp.evaluate(d, series)
+        self.assertAlmostEqual(r['portfolio_return_pct'], 5.0)   # model result unchanged
+        self.assertAlmostEqual(r['discretionary_return_pct'], 20.0)
+        self.assertAlmostEqual(r['combined_return_pct'], 0.9 * 5 + 0.1 * 20)
+        self.assertIn('combined (90% model + 10% pick) +6.50%', pp.report(r))
+        self.assertIsNone(pp.evaluate(d, self.series())['combined_return_pct'])   # unpriced pick: no blend
+        with tempfile.TemporaryDirectory() as tmp:
+            Path(tmp, 'x.json').write_text(json.dumps(d))
+            self.assertIn('D', pp.tracked_symbols(date(2026, 11, 8), tmp))
+
     def test_tracking_window_and_frozen_file(self):
         with tempfile.TemporaryDirectory() as tmp:
             Path(tmp, 'x.json').write_text(json.dumps(doc()))
@@ -55,6 +69,8 @@ class PaperPortfolioTests(unittest.TestCase):
         for d in real:
             self.assertAlmostEqual(sum(h['weight_pct'] for h in d['holdings']), 100., delta=0.1)
             self.assertLess(d['signal_snapshot_captured'][:10], d['entry_date'])
+            for pick in (d.get('discretionary') or {}).get('holdings', []):
+                self.assertNotIn(pick['ticker'], {h['ticker'] for h in d['holdings']})
 
     def test_pulse_records_tracked_closes(self):
         import pandas as pd
