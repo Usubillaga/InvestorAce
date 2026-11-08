@@ -3,7 +3,7 @@
  "entries": {
   "ADBE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "ADBE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -265,7 +265,7 @@
   },
   "ASML.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "ASML.AS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -527,7 +527,7 @@
   },
   "RIVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "RIVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -797,7 +797,7 @@
   },
   "ROAD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "ROAD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1055,7 +1055,7 @@
   },
   "CRM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CRM",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1325,7 +1325,7 @@
   },
   "NVDA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "NVDA",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1595,7 +1595,7 @@
   },
   "SPGI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "SPGI",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -1865,7 +1865,7 @@
   },
   "SAN.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "SAN.PA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2127,7 +2127,7 @@
   },
   "APP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "APP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2519,7 +2519,7 @@
   },
   "WKL.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "WKL.AS",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -2753,7 +2753,7 @@
   },
   "MC.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "MC.PA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -2987,7 +2987,7 @@
   },
   "UBER": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "UBER",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3257,7 +3257,7 @@
   },
   "AVGO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "AVGO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -3515,7 +3515,7 @@
   },
   "ONON": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "ONON",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3777,7 +3777,7 @@
   },
   "PFE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "PFE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4072,7 +4072,7 @@
   },
   "ROL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "ROL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4342,7 +4342,7 @@
   },
   "LULU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "LULU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4612,7 +4612,7 @@
   },
   "PL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "PL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4907,7 +4907,7 @@
   },
   "MSFT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "MSFT",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5169,7 +5169,7 @@
   },
   "AAPL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "AAPL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5556,7 +5556,7 @@
   },
   "CVX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CVX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5818,7 +5818,7 @@
   },
   "AMAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "AMAT",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -6076,7 +6076,7 @@
   },
   "PHR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "PHR",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -6371,7 +6371,7 @@
   },
   "RCAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "RCAT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6629,7 +6629,7 @@
   },
   "ADSK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "ADSK",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -7000,7 +7000,7 @@
   },
   "GILD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "GILD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7262,7 +7262,7 @@
   },
   "AG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "AG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7532,7 +7532,7 @@
   },
   "BABA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "BABA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7794,7 +7794,7 @@
   },
   "BYRN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "BYRN",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -8089,7 +8089,7 @@
   },
   "FSLR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "FSLR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8359,7 +8359,7 @@
   },
   "SITE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "SITE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8621,7 +8621,7 @@
   },
   "TSLA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "TSLA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8891,7 +8891,7 @@
   },
   "PG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "PG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9153,7 +9153,7 @@
   },
   "CSGP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CSGP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9423,7 +9423,7 @@
   },
   "OXY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "OXY",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -9693,7 +9693,7 @@
   },
   "SPCX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "SPCX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9914,7 +9914,7 @@
   },
   "REP.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "REP.MC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10168,7 +10168,7 @@
   },
   "AWK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "AWK",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10438,7 +10438,7 @@
   },
   "MRVL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "MRVL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -10708,7 +10708,7 @@
   },
   "AR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "AR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11228,7 +11228,7 @@
   },
   "CNX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CNX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11740,7 +11740,7 @@
   },
   "BNTX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "BNTX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12010,7 +12010,7 @@
   },
   "INTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "INTC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12272,7 +12272,7 @@
   },
   "CRWV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CRWV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -12530,7 +12530,7 @@
   },
   "NBIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "NBIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -13190,7 +13190,7 @@
   },
   "TEM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "TEM",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13485,7 +13485,7 @@
   },
   "ISRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "ISRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13747,7 +13747,7 @@
   },
   "VST": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "VST",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -14017,7 +14017,7 @@
   },
   "SE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "SE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -14279,7 +14279,7 @@
   },
   "UNH": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "UNH",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14549,7 +14549,7 @@
   },
   "CMCSA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CMCSA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14819,7 +14819,7 @@
   },
   "NVO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "NVO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15081,7 +15081,7 @@
   },
   "META": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "META",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15351,7 +15351,7 @@
   },
   "DIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "DIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -15609,7 +15609,7 @@
   },
   "PEP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "PEP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16174,7 +16174,7 @@
   },
   "WIX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "WIX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -16436,7 +16436,7 @@
   },
   "GRAB": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "GRAB",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16706,7 +16706,7 @@
   },
   "NOW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "NOW",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -17218,7 +17218,7 @@
   },
   "TTD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "TTD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -17488,7 +17488,7 @@
   },
   "NKE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "NKE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -17758,7 +17758,7 @@
   },
   "ZTS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "ZTS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18020,7 +18020,7 @@
   },
   "IBST.L": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "IBST.L",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -18254,7 +18254,7 @@
   },
   "NFLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "NFLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18524,7 +18524,7 @@
   },
   "AMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "AMD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18794,7 +18794,7 @@
   },
   "GOOGL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "GOOGL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -19056,7 +19056,7 @@
   },
   "INTU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "INTU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -19326,7 +19326,7 @@
   },
   "CLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -19596,7 +19596,7 @@
   },
   "GIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "GIS",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -19858,7 +19858,7 @@
   },
   "O": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "O",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20128,7 +20128,7 @@
   },
   "BBW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "BBW",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -20398,7 +20398,7 @@
   },
   "BKNG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "BKNG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20668,7 +20668,7 @@
   },
   "MO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "MO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -21180,7 +21180,7 @@
   },
   "CEG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CEG",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -21450,7 +21450,7 @@
   },
   "CSCO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "CSCO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -21720,7 +21720,7 @@
   },
   "HIMS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "HIMS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -21990,7 +21990,7 @@
   },
   "MNDY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "MNDY",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -22260,7 +22260,7 @@
   },
   "NRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "NRG",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -22530,7 +22530,7 @@
   },
   "TTWO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-08T13:02:44.021904+00:00",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
    "symbol": "TTWO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -22795,6 +22795,812 @@
     "https://finance.yahoo.com/quote/TTWO/financials/",
     "https://finance.yahoo.com/quote/TTWO/balance-sheet/",
     "https://finance.yahoo.com/quote/TTWO/key-statistics/"
+   ],
+   "last_earnings": null
+  },
+  "B": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
+   "symbol": "B",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 20655000000.0,
+    "operating_income": 10769000000.0,
+    "net_income": 6527000000.0,
+    "ebitda": 14555000000.0,
+    "operating_cash_flow": 9406000000.0,
+    "capex": 4218000000.0,
+    "fcf": 5188000000.0,
+    "dividends": -1533000000.0,
+    "depreciation": 2114000000.0,
+    "debt": 4682000000.0,
+    "cash": 5927000000.0,
+    "shares": 1645884419.0
+   },
+   "equity_periods": [
+    {
+     "period": "2026-06-30",
+     "basis": "TTM",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 9406000000.0,
+     "capex": 4218000000.0,
+     "net_income": 6527000000.0,
+     "reported_fcf": 5188000000.0,
+     "net_income_common": 6527000000.0,
+     "revenue": 20655000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -1533000000.0,
+     "dividends_total": -1533000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2025-12-31",
+     "basis": "FY",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 7689000000.0,
+     "capex": 3821000000.0,
+     "net_income": 4993000000.0,
+     "reported_fcf": 3868000000.0,
+     "net_income_common": 4993000000.0,
+     "revenue": 16956000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -890000000.0,
+     "dividends_total": -890000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2024-12-31",
+     "basis": "FY",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 4491000000.0,
+     "capex": 3174000000.0,
+     "net_income": 2144000000.0,
+     "reported_fcf": 1317000000.0,
+     "net_income_common": 2144000000.0,
+     "revenue": 12922000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -696000000.0,
+     "dividends_total": -696000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2023-12-31",
+     "basis": "FY",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 3732000000.0,
+     "capex": 3086000000.0,
+     "net_income": 1272000000.0,
+     "reported_fcf": 646000000.0,
+     "net_income_common": 1272000000.0,
+     "revenue": 11397000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -700000000.0,
+     "dividends_total": -700000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2022-12-31",
+     "basis": "FY",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 3481000000.0,
+     "capex": 3049000000.0,
+     "net_income": 432000000.0,
+     "reported_fcf": 432000000.0,
+     "net_income_common": 432000000.0,
+     "revenue": 11013000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -1143000000.0,
+     "dividends_total": -1143000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    }
+   ],
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 1.2,
+   "quote_price": 40.56,
+   "quote_observed_at": "2026-11-06T21:02:18+00:00",
+   "quote_type": "EQUITY",
+   "short_interest": {
+    "pct_float": null,
+    "days_to_cover": 1.85,
+    "shares": 14502915.0,
+    "prior_month_shares": 16279526.0,
+    "settlement_date": "2026-10-15",
+    "change_pct": -10.913161722276188,
+    "source": "YAHOO_EXCHANGE_REPORTED"
+   },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
+   "earnings": {
+    "date": "2026-11-09",
+    "date_end": null,
+    "estimated": false,
+    "source": "YAHOO"
+   },
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 31.218077696950928,
+   "share_change_pct": -2.9957732503736234,
+   "annual_fcf_growth_pct": 193.69779802581624,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 3868000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1317000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 646000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 432000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 4993000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 2144000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1272000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 432000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "annual_revenue_series": [
+    {
+     "period": "2025-12-31",
+     "value": 16956000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 12922000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 11397000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 11013000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "listed_class_shares": 1645884419.0,
+   "implied_shares": 1645884419.0,
+   "diluted_average_shares": 1666000000.0,
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/B/cash-flow/",
+    "https://finance.yahoo.com/quote/B/financials/",
+    "https://finance.yahoo.com/quote/B/balance-sheet/",
+    "https://finance.yahoo.com/quote/B/key-statistics/"
+   ],
+   "last_earnings": null
+  },
+  "CTVA": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
+   "symbol": "CTVA",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 17812000000.0,
+    "operating_income": 1583000000.0,
+    "net_income": 1009000000.0,
+    "ebitda": 2825000000.0,
+    "operating_cash_flow": 1211000000.0,
+    "capex": 582000000.0,
+    "fcf": 629000000.0,
+    "dividends": -484000000.0,
+    "depreciation": 1242000000.0,
+    "debt": 4875000000.0,
+    "cash": 2365000000.0,
+    "shares": 667196000.0
+   },
+   "equity_periods": [
+    {
+     "period": "2026-03-31",
+     "basis": "TTM",
+     "scope": "CONTINUING",
+     "earnings_scope": "CONTINUING",
+     "revenue_scope": "CONTINUING",
+     "operating_cash_flow": 2673000000.0,
+     "capex": 578000000.0,
+     "net_income": 1252000000.0,
+     "reported_fcf": 2046000000.0,
+     "net_income_common": null,
+     "revenue": 17889000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": true,
+     "discontinued_material": true,
+     "discontinued_net_income": -90000000.0,
+     "discontinued_operating_cash_flow": -49000000.0,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": null,
+     "dividends_total": -480000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2025-12-31",
+     "basis": "FY",
+     "scope": "CONTINUING",
+     "earnings_scope": "CONTINUING",
+     "revenue_scope": "CONTINUING",
+     "operating_cash_flow": 3457000000.0,
+     "capex": 591000000.0,
+     "net_income": 1193000000.0,
+     "reported_fcf": 2815000000.0,
+     "net_income_common": null,
+     "revenue": 17401000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": true,
+     "discontinued_material": true,
+     "discontinued_net_income": -99000000.0,
+     "discontinued_operating_cash_flow": -51000000.0,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": null,
+     "dividends_total": -475000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2024-12-31",
+     "basis": "FY",
+     "scope": "CONTINUING",
+     "earnings_scope": "CONTINUING",
+     "revenue_scope": "CONTINUING",
+     "operating_cash_flow": 2296000000.0,
+     "capex": 597000000.0,
+     "net_income": 851000000.0,
+     "reported_fcf": 1548000000.0,
+     "net_income_common": null,
+     "revenue": 16908000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": true,
+     "discontinued_material": true,
+     "discontinued_net_income": 56000000.0,
+     "discontinued_operating_cash_flow": -151000000.0,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -458000000.0,
+     "dividends_total": -458000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2023-12-31",
+     "basis": "FY",
+     "scope": "CONTINUING",
+     "earnings_scope": "CONTINUING",
+     "revenue_scope": "CONTINUING",
+     "operating_cash_flow": 1809000000.0,
+     "capex": 595000000.0,
+     "net_income": 929000000.0,
+     "reported_fcf": 1174000000.0,
+     "net_income_common": null,
+     "revenue": 17226000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": true,
+     "discontinued_material": true,
+     "discontinued_net_income": -194000000.0,
+     "discontinued_operating_cash_flow": -40000000.0,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -439000000.0,
+     "dividends_total": -439000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2022-12-31",
+     "basis": "FY",
+     "scope": "CONTINUING",
+     "earnings_scope": "CONTINUING",
+     "revenue_scope": "CONTINUING",
+     "operating_cash_flow": 912000000.0,
+     "capex": 605000000.0,
+     "net_income": 1205000000.0,
+     "reported_fcf": 267000000.0,
+     "net_income_common": null,
+     "revenue": 17455000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": true,
+     "discontinued_material": true,
+     "discontinued_net_income": -58000000.0,
+     "discontinued_operating_cash_flow": -40000000.0,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -418000000.0,
+     "dividends_total": -418000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    }
+   ],
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": null,
+   "quote_price": 11.9,
+   "quote_observed_at": "2026-11-06T21:00:03+00:00",
+   "quote_type": "EQUITY",
+   "short_interest": {
+    "pct_float": 6.5799996,
+    "days_to_cover": 1.38,
+    "shares": 38568625.0,
+    "prior_month_shares": 20671603.0,
+    "settlement_date": "2026-10-15",
+    "change_pct": 86.57781401858384,
+    "source": "YAHOO_EXCHANGE_REPORTED"
+   },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
+   "earnings": {
+    "date": "2026-11-11",
+    "date_end": null,
+    "estimated": false,
+    "source": "YAHOO"
+   },
+   "shares_basis": "SEC_COVER_PAGE",
+   "shares_asof": "2026-07-24",
+   "revenue_growth_pct": 2.9157795126567354,
+   "share_change_pct": -1.959174148002829,
+   "annual_fcf_growth_pct": 81.84754521963823,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": 2815000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1548000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1174000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 267000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1094000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 907000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 735000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1147000000.0
+    }
+   ],
+   "annual_revenue_series": [
+    {
+     "period": "2025-12-31",
+     "value": 17401000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 16908000000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 17226000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 17455000000.0
+    }
+   ],
+   "listed_class_shares": 667196000.0,
+   "implied_shares": 667196000.0,
+   "diluted_average_shares": 673600000.0,
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/CTVA/cash-flow/",
+    "https://finance.yahoo.com/quote/CTVA/financials/",
+    "https://finance.yahoo.com/quote/CTVA/balance-sheet/",
+    "https://finance.yahoo.com/quote/CTVA/key-statistics/",
+    "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/",
+    "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000025/"
+   ],
+   "last_earnings": null,
+   "financial_source": "SEC_COMPANYFACTS",
+   "sec_flags": [
+    "OPERATING_INCOME_PROXY"
+   ],
+   "yahoo_financial_period": "2026-03-31"
+  },
+  "FNV": {
+   "schema": "dynamic-analysis-v1",
+   "fetched_at": "2026-11-08T13:38:12.348671+00:00",
+   "symbol": "FNV",
+   "financial_period": "2026-06-30",
+   "period_ends": [
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31",
+    "2025-09-30"
+   ],
+   "basis": "TTM",
+   "inputs": {
+    "revenue": 2316600000.0,
+    "operating_income": 1752600000.0,
+    "net_income": 1477800000.0,
+    "ebitda": 2221000000.0,
+    "operating_cash_flow": 1777400000.0,
+    "capex": 886000000.0,
+    "fcf": 891400000.0,
+    "dividends": -299000000.0,
+    "depreciation": 336200000.0,
+    "debt": null,
+    "cash": 1014200000.0,
+    "shares": 192855530.0
+   },
+   "equity_periods": [
+    {
+     "period": "2026-06-30",
+     "basis": "TTM",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 1777400000.0,
+     "capex": 886000000.0,
+     "net_income": 1477800000.0,
+     "reported_fcf": 891400000.0,
+     "net_income_common": 1477800000.0,
+     "revenue": 2316600000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": null,
+     "dividends_total": -299000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2025-12-31",
+     "basis": "FY",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 1493700000.0,
+     "capex": 2196700000.0,
+     "net_income": 1112100000.0,
+     "reported_fcf": -703000000.0,
+     "net_income_common": 1112100000.0,
+     "revenue": 1822800000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -275100000.0,
+     "dividends_total": -275100000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2024-12-31",
+     "basis": "FY",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 829500000.0,
+     "capex": 408000000.0,
+     "net_income": 552100000.0,
+     "reported_fcf": 421500000.0,
+     "net_income_common": 552100000.0,
+     "revenue": 1113600000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -242400000.0,
+     "dividends_total": -242400000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2023-12-31",
+     "basis": "FY",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 991200000.0,
+     "capex": 521600000.0,
+     "net_income": -466400000.0,
+     "reported_fcf": 469600000.0,
+     "net_income_common": -466400000.0,
+     "revenue": 1219000000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -233000000.0,
+     "dividends_total": -233000000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    },
+    {
+     "period": "2022-12-31",
+     "basis": "FY",
+     "scope": "REPORTED",
+     "earnings_scope": "REPORTED",
+     "revenue_scope": "REPORTED",
+     "operating_cash_flow": 999500000.0,
+     "capex": 141500000.0,
+     "net_income": 700600000.0,
+     "reported_fcf": 858000000.0,
+     "net_income_common": 700600000.0,
+     "revenue": 1315700000.0,
+     "preferred_cash_paid": null,
+     "preferred_earnings_deduction": null,
+     "preferred_outstanding": null,
+     "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
+     "common_dividends_paid": -197600000.0,
+     "dividends_total": -197600000.0,
+     "source": "YAHOO_STATEMENT_ROWS"
+    }
+   ],
+   "financial_currency": "USD",
+   "currency": "USD",
+   "beta": 0.931,
+   "quote_price": 254.95,
+   "quote_observed_at": "2026-11-06T21:00:03+00:00",
+   "quote_type": "EQUITY",
+   "short_interest": {
+    "pct_float": null,
+    "days_to_cover": 6.2,
+    "shares": 4450606.0,
+    "prior_month_shares": 4120057.0,
+    "settlement_date": "2026-10-15",
+    "change_pct": 8.022922983832515,
+    "source": "YAHOO_EXCHANGE_REPORTED"
+   },
+   "dividends_basis": "CASH_FLOW_STATEMENT",
+   "earnings": {
+    "date": "2026-11-11",
+    "date_end": null,
+    "estimated": false,
+    "source": "YAHOO"
+   },
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
+   "revenue_growth_pct": 63.685344827586206,
+   "share_change_pct": 0.12775567747831396,
+   "annual_fcf_growth_pct": -266.785290628707,
+   "revenue_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "share_change_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+   "annual_fcf_series": [
+    {
+     "period": "2025-12-31",
+     "value": -703000000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 421500000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 469600000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 858000000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "annual_net_income_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1112100000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 552100000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": -466400000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 700600000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "annual_revenue_series": [
+    {
+     "period": "2025-12-31",
+     "value": 1822800000.0
+    },
+    {
+     "period": "2024-12-31",
+     "value": 1113600000.0
+    },
+    {
+     "period": "2023-12-31",
+     "value": 1219000000.0
+    },
+    {
+     "period": "2022-12-31",
+     "value": 1315700000.0
+    },
+    {
+     "period": "2021-12-31",
+     "value": null
+    }
+   ],
+   "listed_class_shares": 192855530.0,
+   "implied_shares": 192855530.0,
+   "diluted_average_shares": 193300000.0,
+   "cash_growth_periods": [
+    "2025-12-31",
+    "2024-12-31"
+   ],
+   "source_urls": [
+    "https://finance.yahoo.com/quote/FNV/cash-flow/",
+    "https://finance.yahoo.com/quote/FNV/financials/",
+    "https://finance.yahoo.com/quote/FNV/balance-sheet/",
+    "https://finance.yahoo.com/quote/FNV/key-statistics/"
    ],
    "last_earnings": null
   }
