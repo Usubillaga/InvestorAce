@@ -41,6 +41,12 @@ class AutoScoreIntegrity(unittest.TestCase):
         with patch.object(autoscore.yf, 'Ticker', return_value=object()), patch.object(autoscore, '_fin', return_value=financials()):
             self.assertNotIn('midcycle', autoscore.auto_row('AAA')[0])
 
+    def test_every_commodity_producer_in_the_universe_uses_the_cycle_mean(self):
+        import engine
+        peak = [t for t, d in engine.DATA.items()
+                if d.get('sector') in autoscore.COMMODITY_SECTORS and d.get('fcf') is not None and not d.get('midcycle')]
+        self.assertEqual(peak, [])
+
     def test_yahoo_basic_materials_maps_to_the_regime_sector(self):
         import engine
         tk = SimpleNamespace(fast_info={}, get_info=lambda: {'sector': 'Basic Materials'},
