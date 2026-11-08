@@ -32,6 +32,24 @@ class AutoScoreIntegrity(unittest.TestCase):
         self.assertEqual(len(row['sub']), 6)
         self.assertEqual(row['normalization_status'], 'REVIEW_REQUIRED')
 
+    def test_commodity_draft_uses_the_cycle_mean(self):
+        data = financials() | dict(sector='Materials')
+        with patch.object(autoscore.yf, 'Ticker', return_value=object()), patch.object(autoscore, '_fin', return_value=data):
+            row, warnings = autoscore.auto_row('AAA')
+        self.assertTrue(row['midcycle'])
+        self.assertTrue(any('cycle mean' in w for w in warnings))
+        with patch.object(autoscore.yf, 'Ticker', return_value=object()), patch.object(autoscore, '_fin', return_value=financials()):
+            self.assertNotIn('midcycle', autoscore.auto_row('AAA')[0])
+
+    def test_yahoo_basic_materials_maps_to_the_regime_sector(self):
+        import engine
+        tk = SimpleNamespace(fast_info={}, get_info=lambda: {'sector': 'Basic Materials'},
+            quarterly_cashflow=pd.DataFrame(), quarterly_balance_sheet=pd.DataFrame(),
+            quarterly_income_stmt=pd.DataFrame(), income_stmt=pd.DataFrame())
+        sector = autoscore._fin(tk)['sector']
+        self.assertEqual(sector, 'Materials')
+        self.assertTrue(all(sector in engine.AFF[r] for r in engine.REGIMES))
+
     def test_ttm_is_not_compared_to_prior_annual_period(self):
         quarters = pd.to_datetime(['2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'])
         annual = pd.to_datetime(['2025-12-31', '2024-12-31'])
