@@ -107,8 +107,17 @@ def summarize(closes, universe_closes, fear_greed=None, as_of=None):
                                         score=fear_greed['value'])
     scores = [c['score'] for c in components.values()]
     heat = round(sum(scores) / len(scores), 1) if len(scores) >= 3 else None
+    # Oil context for the war scenarios: is the producers' reported year war-priced?
+    wti = closes.get('CL=F') or []
+    oil = None
+    if wti:
+        mean = lambda xs: round(sum(xs) / len(xs), 2)
+        values = [v for _, v in wti]
+        oil = dict(symbol='CL=F', last=round(values[-1], 2), date=wti[-1][0],
+                   avg_63=mean(values[-63:]) if len(values) >= 63 else None,
+                   avg_252=mean(values[-252:]) if len(values) >= 200 else None)
     return dict(schema='market-pulse-v1', as_of=(as_of or datetime.now(timezone.utc)).isoformat(),
-                moves=moves, components=components, heat=heat, band=band(heat),
+                moves=moves, components=components, heat=heat, band=band(heat), oil=oil,
                 omitted=['BofA Bull & Bear (no free machine-readable source)',
                          'AAII sentiment survey (no free machine-readable source)'])
 
