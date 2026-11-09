@@ -111,7 +111,7 @@ class Coverage(unittest.TestCase):
         symbols = [e for e, _, _ in cm.INDUSTRY_ETFS]
         self.assertEqual(len(symbols), len(set(symbols)))
         self.assertEqual({g for _, _, g in cm.INDUSTRY_ETFS}, set(cm.GROUPS))
-        for needed in ('KRE', 'ITB', 'XRT', 'JETS', 'OIH', 'COPX', 'LIT', 'GXG', 'EWZ', 'EWJ'):
+        for needed in ('KRE', 'ITB', 'XRT', 'JETS', 'OIH', 'COPX', 'LIT', 'COLO', 'EWZ', 'EWJ'):
             self.assertIn(needed, symbols)
         self.assertTrue(set(cm.SECTOR_ETF.values()) | set(cm.TICKER_ETF.values()) <= set(symbols))
 
