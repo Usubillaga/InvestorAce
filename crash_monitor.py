@@ -277,7 +277,7 @@ INDUSTRY_ETFS = (
     ('EZU', 'Eurozone', 'Country'), ('EWC', 'Canada', 'Country'), ('EWA', 'Australia', 'Country'),
     ('EWY', 'South Korea', 'Country'), ('EWT', 'Taiwan', 'Country'), ('INDA', 'India', 'Country'),
     ('FXI', 'China large caps', 'Country'), ('EWZ', 'Brazil', 'Country'), ('EWW', 'Mexico', 'Country'),
-    ('GXG', 'Colombia', 'Country'), ('ARGT', 'Argentina', 'Country'), ('EZA', 'South Africa', 'Country'),
+    ('COLO', 'Colombia', 'Country'), ('ARGT', 'Argentina', 'Country'), ('EZA', 'South Africa', 'Country'),
     ('TUR', 'Turkey', 'Country'), ('EEM', 'Emerging markets', 'Country'),
 )
 GROUPS = ('US sector', 'US industry', 'Theme', 'Country')
