@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-11-09",
+  "period_start": "2026-11-02",
+  "period_end": "2026-11-09",
+  "data_cutoff": "2026-11-09T07:45:00+01:00",
+  "summary": "[Wahrscheinlich] Democrats won both chambers of Congress on 3 November, and oil fell about 13% in a week (WTI 90.83 USD) on hopes of a US–Iran deal. Strong US jobs lifted the odds of a December Fed hike to about 77%. The regime stays INFLATION, but REFLATION gains weight; euro area inflation rose to 4.0% and the peso weakened to 3237.83 per USD.",
+  "priority_review": "1) Does the October CPI on 10 November keep the inflation score above the threshold? 2) Do the war-case Buy prices of OXY, CVX and DVN still hold with WTI near 91 USD? 3) Does the weaker peso change the COP risk flag?",
+  "items": [
+    {
+      "section": "regime",
+      "authors": "InvestorAce build (FRED, Yahoo); CNBC",
+      "source_url": "https://www.cnbc.com/2026/11/06/oil-price-today-brent-wti.html",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Oil prices tumble for the week as investors weigh Iran conflict risk after midterm elections",
+          "url": "https://www.cnbc.com/2026/11/06/oil-price-today-brent-wti.html",
+          "publication_date": "2026-11-06"
+        },
+        {
+          "title": "Consumer Price Index for All Urban Consumers (CPIAUCSL)",
+          "url": "https://fred.stlouisfed.org/series/CPIAUCSL",
+          "publication_date": "2026-10-15"
+        }
+      ],
+      "title": "Regime stays INFLATION as oil drops 13% and REFLATION gains weight",
+      "publication_date": "15 October – 8 November 2026",
+      "what_changed": "[Sicher] The 8 November build reads INFLATION with an inflation score of 0.59 (previous edition 0.56) and a growth score of 0.74; the regime weights are 60% INFLATION and 36% REFLATION, and the market-price reading alone already says REFLATION. [Sicher] WTI settled at 90.83 USD on 6 November, against 104.12 on 30 October (−12.76%); Brent settled at 98.32. The VIX closed at 25.64 and the market thermometer reads 35.8 of 100 (fear).",
+      "investorace_implication": "[Wahrscheinlich] Cheaper oil lowers the inflation impulse while jobs data keep growth firm, which is the path from INFLATION to REFLATION. That would favour growth and technology over defensive cash payers. [Vermutung] The war-case Buy prices of oil producers assume today's cash flows persist; a lasting oil drop weakens them first.",
+      "review_question": "Does the inflation score stay above the threshold after the October CPI on 10 November, and does WTI hold near 90 USD?",
+      "limitations": "Reports put Brent's weekly drop at 13% to 16%. Regime weights are not a forecast."
+    },
+    {
+      "section": "usa",
+      "authors": "U.S. Bureau of Labor Statistics; Northeastern University; 24/7 Wall St.",
+      "source_url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Sicher",
+      "sources": [
+        {
+          "title": "Employment Situation Summary - 2026 M10 Results",
+          "url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+          "publication_date": "2026-11-06"
+        },
+        {
+          "title": "2026 midterm election results: Who won the key House and Senate races?",
+          "url": "https://news.northeastern.edu/2026/11/03/midterm-election-results-analysis-2026/",
+          "publication_date": "2026-11-03"
+        },
+        {
+          "title": "Odds of a December Rate Hike Jump to 77% After a Blowout Jobs Report",
+          "url": "https://247wallst.com/investing/2026/11/07/odds-of-a-december-rate-hike-jump-to-77-after-a-blowout-jobs-report/",
+          "publication_date": "2026-11-07"
+        },
+        {
+          "title": "CPI Home : U.S. Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/cpi/",
+          "publication_date": "2026-10-14"
+        }
+      ],
+      "title": "Jobs beat forecasts; Democrats take Congress; December hike odds near 77%",
+      "publication_date": "3–7 November 2026",
+      "what_changed": "[Sicher] The BLS reported on 6 November that payrolls rose by 165 thousand in October against forecasts of about 60 to 65 thousand; unemployment was 4.1% and average hourly earnings rose 0.4% to 38.00 USD. [Wahrscheinlich] In the 3 November midterms Democrats won control of the House and the Senate; the new Congress sits from January 2027. [Wahrscheinlich] Futures priced about a 77% chance of a 25 basis point hike at the 8–9 December FOMC; the 2-year yield rose to about 4.51% and the 10-year to about 4.87%.",
+      "investorace_implication": "[Wahrscheinlich] Strong hiring and hike pricing keep the risk-free input near 5% valid. Divided government from January means fiscal laws need both parties; tariffs and other executive measures continue unless courts or Congress change them.",
+      "review_question": "Next: October CPI on 10 November, Fed speakers, FOMC on 8–9 December.",
+      "limitations": "Election counts were preliminary; hike odds are market pricing, not Fed guidance. Party proposals for 2027 were not verified."
+    },
+    {
+      "section": "eu",
+      "authors": "Eurostat; European Central Bank",
+      "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-04112026-ap",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Sicher",
+      "sources": [
+        {
+          "title": "Euro area annual inflation up to 4.0% - Euro indicators - Eurostat",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-04112026-ap",
+          "publication_date": "2026-11-04"
+        },
+        {
+          "title": "GDP up by 0.4% in the euro area and by 0.5% in the EU - Euro indicators - Eurostat",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-30102026-ap",
+          "publication_date": "2026-10-30"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-11-06"
+        }
+      ],
+      "title": "Euro area inflation rises to 4.0% as energy climbs 20.8%",
+      "publication_date": "30 October – 6 November 2026",
+      "what_changed": "[Sicher] Eurostat's flash estimate of 4 November puts euro area inflation at 4.0% in October, up from 3.8%; energy rose 20.8% and services 3.3%. [Sicher] Third-quarter GDP rose 0.4% on the quarter and 1.3% on the year (flash of 30 October). [Sicher] ECB reference rate on 6 November: 1 EUR = 1.1165 USD, against 1.1172 on 30 October, a euro weakening of about 0.06%.",
+      "investorace_implication": "[Wahrscheinlich] Energy-driven inflation near 4% with growth still positive keeps an ECB hike possible and weighs on rate-sensitive European equities. The week's oil drop would ease energy inflation only if it lasts into November and December.",
+      "review_question": "Next: second GDP estimate on 13 November and final October inflation on 18 November.",
+      "limitations": "Core inflation for October was not confirmed against Eurostat."
+    },
+    {
+      "section": "colombia",
+      "authors": "DANE; Infobae; dolar-colombia.com; ECB",
+      "source_url": "https://www.dane.gov.co/files/operaciones/IPC/sep2026/bol-IPC-sep2026.pdf",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "neither",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Boletín técnico Bogotá 7 de octubre de 2026",
+          "url": "https://www.dane.gov.co/files/operaciones/IPC/sep2026/bol-IPC-sep2026.pdf",
+          "publication_date": "2026-10-07"
+        },
+        {
+          "title": "Entidades financieras anticiparon que la inflación anual subiría a 6,38% en octubre, según encuesta internacional",
+          "url": "https://www.infobae.com/colombia/2026/11/07/entidades-financieras-anticiparon-que-la-inflacion-anual-subiria-a-638-en-octubre-segun-encuesta-internacional/",
+          "publication_date": "2026-11-07"
+        },
+        {
+          "title": "Dólar TRM Hoy en Colombia",
+          "url": "https://www.dolar-colombia.com/en",
+          "publication_date": "2026-11-07"
+        },
+        {
+          "title": "Euro foreign exchange reference rates",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+          "publication_date": "2026-11-06"
+        }
+      ],
+      "title": "Correction: inflation was 6.29%; tax bill under negotiation; peso weakens to 3237.83",
+      "publication_date": "7 October – 7 November 2026",
+      "what_changed": "[Sicher] Correction: DANE's September headline inflation was 6.29% year on year, not 6.03% as stated in the 2 November edition. [Wahrscheinlich] Analysts expect October at about 6.33% to 6.38%; DANE publishes on 9 November, after this cut-off. [Wahrscheinlich] The De la Espriella government's Ley de Rescate tax bill, filed on 29 October, widens VAT and cuts spending; Goldman Sachs expects a diluted version before the 16 December deadline. [Wahrscheinlich] The TRM valid from 7 to 9 November is 1 USD = 3237.83 COP, against 3182.99 in the previous edition, a peso depreciation of about 1.72%. Derived from the ECB rate of 6 November and this TRM: 1 EUR = 3615.0 COP (previous edition: 3556.0), about 1.66% weaker peso.",
+      "investorace_implication": "[Wahrscheinlich] Rising inflation, a weaker peso and an open fiscal package keep pressure on Banco de la República, whose board split 4–3 in October. For a COP-based investor, USD and EUR assets gained about 1.7% in pesos this week.",
+      "review_question": "Next: October CPI on 9 November; does Congress move the tax bill before 16 December?",
+      "limitations": "EUR/COP is derived from quotes on different dates. A reported IMF loan was not verified and is left out."
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Wahrscheinlich] Los demócratas ganaron ambas cámaras del Congreso el 3 de noviembre y el petróleo cayó cerca de 13 % en una semana (WTI 90,83 USD) por la esperanza de un acuerdo entre EE. UU. e Irán. El fuerte empleo en EE. UU. elevó a cerca de 77 % la probabilidad de una subida de la Fed en diciembre. El régimen sigue en INFLACIÓN, pero REFLACIÓN gana peso; la inflación de la zona euro subió a 4,0 % y el peso se debilitó a 3237,83 por USD.",
+      "priority_review": "1) ¿Mantiene el IPC de octubre del 10 de noviembre la puntuación de inflación por encima del umbral? 2) ¿Siguen valiendo los precios de compra del escenario de guerra de OXY, CVX y DVN con el WTI cerca de 91 USD? 3) ¿Cambia el peso más débil la alerta de riesgo COP?",
+      "items": [
+        {
+          "source_url": "https://www.cnbc.com/2026/11/06/oil-price-today-brent-wti.html",
+          "title": "El régimen sigue en INFLACIÓN mientras el petróleo cae 13 % y REFLACIÓN gana peso",
+          "publication_date": "15 de octubre a 8 de noviembre de 2026",
+          "what_changed": "[Sicher] El build del 8 de noviembre lee INFLACIÓN con una puntuación de inflación de 0,59 (edición anterior 0,56) y una puntuación de crecimiento de 0,74; los pesos de régimen son 60 % INFLACIÓN y 36 % REFLACIÓN, y la lectura solo de precios de mercado ya indica REFLACIÓN. [Sicher] El WTI cerró en 90,83 USD el 6 de noviembre, frente a 104,12 el 30 de octubre (−12,76 %); el Brent cerró en 98,32. El VIX cerró en 25,64 y el termómetro de mercado marca 35,8 de 100 (miedo).",
+          "investorace_implication": "[Wahrscheinlich] Un petróleo más barato reduce el impulso de inflación mientras el empleo mantiene firme el crecimiento: ese es el camino de INFLACIÓN a REFLACIÓN, que favorece crecimiento y tecnología frente a pagadores defensivos de caja. [Vermutung] Los precios de compra del escenario de guerra de los productores de petróleo suponen que los flujos de caja actuales persisten; una caída duradera del petróleo los debilita primero.",
+          "review_question": "¿Se mantiene la puntuación de inflación por encima del umbral tras el IPC de octubre del 10 de noviembre, y aguanta el WTI cerca de 90 USD?",
+          "limitations": "Los reportes sitúan la caída semanal del Brent entre 13 % y 16 %. Los pesos de régimen no son un pronóstico."
+        },
+        {
+          "source_url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+          "title": "El empleo supera previsiones; los demócratas ganan el Congreso; probabilidad de subida en diciembre cerca de 77 %",
+          "publication_date": "3 a 7 de noviembre de 2026",
+          "what_changed": "[Sicher] El BLS informó el 6 de noviembre que las nóminas subieron en 165 mil en octubre frente a previsiones de cerca de 60 a 65 mil; el desempleo fue 4,1 % y el salario medio por hora subió 0,4 % a 38,00 USD. [Wahrscheinlich] En las elecciones de mitad de mandato del 3 de noviembre los demócratas ganaron el control de la Cámara y del Senado; el nuevo Congreso inicia en enero de 2027. [Wahrscheinlich] Los futuros descontaban cerca de 77 % de probabilidad de una subida de 25 puntos básicos en el FOMC del 8 y 9 de diciembre; el rendimiento a 2 años subió a cerca de 4,51 % y el de 10 años a cerca de 4,87 %.",
+          "investorace_implication": "[Wahrscheinlich] La fuerte contratación y la probabilidad de subida mantienen válido el insumo libre de riesgo cerca de 5 %. Un gobierno dividido desde enero implica que las leyes fiscales necesitan a ambos partidos; los aranceles y otras medidas ejecutivas siguen salvo que tribunales o el Congreso los cambien.",
+          "review_question": "Próximo: IPC de octubre el 10 de noviembre, discursos de la Fed, FOMC el 8 y 9 de diciembre.",
+          "limitations": "Los conteos eran preliminares; la probabilidad de subida es precio de mercado, no orientación de la Fed. No se verificaron propuestas de los partidos para 2027."
+        },
+        {
+          "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-04112026-ap",
+          "title": "La inflación de la zona euro sube a 4,0 % con la energía en 20,8 %",
+          "publication_date": "30 de octubre a 6 de noviembre de 2026",
+          "what_changed": "[Sicher] La estimación preliminar de Eurostat del 4 de noviembre sitúa la inflación de la zona euro en 4,0 % en octubre, frente a 3,8 %; la energía subió 20,8 % y los servicios 3,3 %. [Sicher] El PIB del tercer trimestre creció 0,4 % trimestral y 1,3 % anual (preliminar del 30 de octubre). [Sicher] Tipo de referencia del BCE el 6 de noviembre: 1 EUR = 1,1165 USD, frente a 1,1172 el 30 de octubre, un debilitamiento del euro de cerca de 0,06 %.",
+          "investorace_implication": "[Wahrscheinlich] Una inflación impulsada por la energía cerca de 4 % con crecimiento aún positivo mantiene posible una subida del BCE y pesa sobre las acciones europeas sensibles a tipos. La caída del petróleo de esta semana solo aliviaría la inflación energética si dura hasta noviembre y diciembre.",
+          "review_question": "Próximo: segunda estimación del PIB el 13 de noviembre e inflación final de octubre el 18 de noviembre.",
+          "limitations": "La inflación subyacente de octubre no se confirmó con Eurostat."
+        },
+        {
+          "source_url": "https://www.dane.gov.co/files/operaciones/IPC/sep2026/bol-IPC-sep2026.pdf",
+          "title": "Corrección: la inflación fue 6,29 %; reforma tributaria en negociación; el peso se debilita a 3237,83",
+          "publication_date": "7 de octubre a 7 de noviembre de 2026",
+          "what_changed": "[Sicher] Corrección: la inflación total de septiembre del DANE fue 6,29 % anual, no 6,03 % como se indicó en la edición del 2 de noviembre. [Wahrscheinlich] Los analistas esperan para octubre cerca de 6,33 % a 6,38 %; el DANE publica el 9 de noviembre, después de este corte. [Wahrscheinlich] La Ley de Rescate del gobierno De la Espriella, radicada el 29 de octubre, amplía el IVA y recorta gasto; Goldman Sachs espera una versión diluida antes del plazo del 16 de diciembre. [Wahrscheinlich] La TRM vigente del 7 al 9 de noviembre es 1 USD = 3237,83 COP, frente a 3182,99 en la edición anterior, una depreciación del peso de cerca de 1,72 %. Derivado del tipo del BCE del 6 de noviembre y esta TRM: 1 EUR = 3615,0 COP (edición anterior: 3556,0), un peso cerca de 1,66 % más débil.",
+          "investorace_implication": "[Wahrscheinlich] La inflación al alza, un peso más débil y un paquete fiscal abierto mantienen la presión sobre el Banco de la República, cuya junta se dividió 4–3 en octubre. Para un inversionista en COP, los activos en USD y EUR ganaron cerca de 1,7 % en pesos esta semana.",
+          "review_question": "Próximo: IPC de octubre el 9 de noviembre; ¿avanza el Congreso la reforma antes del 16 de diciembre?",
+          "limitations": "El EUR/COP se deriva de cotizaciones de fechas distintas. Un préstamo del FMI reportado no se verificó y se omite."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Wahrscheinlich] Die Demokraten gewannen am 3. November beide Kammern des Kongresses, und Öl fiel binnen einer Woche um etwa 13 % (WTI 90,83 USD) auf Hoffnungen auf eine Einigung zwischen den USA und Iran. Starke US-Arbeitsmarktdaten hoben die Wahrscheinlichkeit einer Fed-Erhöhung im Dezember auf etwa 77 %. Das Regime bleibt INFLATION, aber REFLATION gewinnt Gewicht; die Inflation im Euroraum stieg auf 4,0 %, und der Peso schwächte sich auf 3237,83 je USD ab.",
+      "priority_review": "1) Hält der Oktober-VPI am 10. November den Inflationswert über der Schwelle? 2) Gelten die Kaufpreise im Kriegsszenario für OXY, CVX und DVN noch bei WTI um 91 USD? 3) Ändert der schwächere Peso das COP-Risikosignal?",
+      "items": [
+        {
+          "source_url": "https://www.cnbc.com/2026/11/06/oil-price-today-brent-wti.html",
+          "title": "Regime bleibt INFLATION, während Öl um 13 % fällt und REFLATION Gewicht gewinnt",
+          "publication_date": "15. Oktober – 8. November 2026",
+          "what_changed": "[Sicher] Der Build vom 8. November liest INFLATION mit einem Inflationswert von 0,59 (vorige Ausgabe 0,56) und einem Wachstumswert von 0,74; die Regimegewichte sind 60 % INFLATION und 36 % REFLATION, und die reine Marktpreis-Lesung zeigt bereits REFLATION. [Sicher] WTI schloss am 6. November bei 90,83 USD, gegenüber 104,12 am 30. Oktober (−12,76 %); Brent schloss bei 98,32. Der VIX schloss bei 25,64, und das Marktthermometer zeigt 35,8 von 100 (Angst).",
+          "investorace_implication": "[Wahrscheinlich] Billigeres Öl senkt den Inflationsimpuls, während die Arbeitsmarktdaten das Wachstum stützen: Das ist der Weg von INFLATION zu REFLATION, der Wachstum und Technologie gegenüber defensiven Cash-Zahlern begünstigt. [Vermutung] Die Kaufpreise der Ölproduzenten im Kriegsszenario setzen voraus, dass die heutigen Cashflows anhalten; ein dauerhafter Ölpreisrückgang schwächt sie zuerst.",
+          "review_question": "Bleibt der Inflationswert nach dem Oktober-VPI am 10. November über der Schwelle, und hält WTI um 90 USD?",
+          "limitations": "Berichte nennen für Brent einen Wochenverlust von 13 % bis 16 %. Die Regimegewichte sind keine Prognose."
+        },
+        {
+          "source_url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+          "title": "Arbeitsmarkt schlägt Erwartungen; Demokraten übernehmen den Kongress; Erhöhungswahrscheinlichkeit im Dezember um 77 %",
+          "publication_date": "3.–7. November 2026",
+          "what_changed": "[Sicher] Das BLS meldete am 6. November, dass die Beschäftigung im Oktober um 165 Tausend stieg, bei Erwartungen von etwa 60 bis 65 Tausend; die Arbeitslosenquote lag bei 4,1 %, und der durchschnittliche Stundenlohn stieg um 0,4 % auf 38,00 USD. [Wahrscheinlich] Bei den Zwischenwahlen am 3. November gewannen die Demokraten die Kontrolle über Repräsentantenhaus und Senat; der neue Kongress tritt im Januar 2027 zusammen. [Wahrscheinlich] Futures preisten eine Wahrscheinlichkeit von etwa 77 % für eine Erhöhung um 25 Basispunkte beim FOMC am 8. und 9. Dezember ein; die 2-jährige Rendite stieg auf etwa 4,51 %, die 10-jährige auf etwa 4,87 %.",
+          "investorace_implication": "[Wahrscheinlich] Starke Einstellungen und eingepreiste Erhöhungen lassen den risikofreien Zins nahe 5 % gültig. Eine geteilte Regierung ab Januar bedeutet, dass Fiskalgesetze beide Parteien brauchen; Zölle und andere Exekutivmaßnahmen laufen weiter, sofern Gerichte oder der Kongress sie nicht ändern.",
+          "review_question": "Als Nächstes: Oktober-VPI am 10. November, Reden von Fed-Mitgliedern, FOMC am 8. und 9. Dezember.",
+          "limitations": "Die Wahlergebnisse waren vorläufig; die Erhöhungswahrscheinlichkeit ist Marktpreis, keine Fed-Orientierung. Vorschläge der Parteien für 2027 wurden nicht geprüft."
+        },
+        {
+          "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-04112026-ap",
+          "title": "Inflation im Euroraum steigt auf 4,0 %, Energie um 20,8 %",
+          "publication_date": "30. Oktober – 6. November 2026",
+          "what_changed": "[Sicher] Die Schnellschätzung von Eurostat vom 4. November setzt die Inflation im Euroraum für Oktober auf 4,0 %, nach 3,8 %; Energie stieg um 20,8 %, Dienstleistungen um 3,3 %. [Sicher] Das BIP stieg im dritten Quartal um 0,4 % zum Vorquartal und um 1,3 % zum Vorjahr (Schnellschätzung vom 30. Oktober). [Sicher] EZB-Referenzkurs am 6. November: 1 EUR = 1,1165 USD, gegenüber 1,1172 am 30. Oktober, eine Euro-Abschwächung von etwa 0,06 %.",
+          "investorace_implication": "[Wahrscheinlich] Energiegetriebene Inflation nahe 4 % bei weiter positivem Wachstum hält eine EZB-Erhöhung möglich und belastet zinssensitive europäische Aktien. Der Ölpreisrückgang dieser Woche würde die Energieinflation nur dämpfen, wenn er bis in den November und Dezember anhält.",
+          "review_question": "Als Nächstes: zweite BIP-Schätzung am 13. November und endgültige Oktober-Inflation am 18. November.",
+          "limitations": "Die Kerninflation für Oktober wurde nicht mit Eurostat abgeglichen."
+        },
+        {
+          "source_url": "https://www.dane.gov.co/files/operaciones/IPC/sep2026/bol-IPC-sep2026.pdf",
+          "title": "Korrektur: Inflation lag bei 6,29 %; Steuerreform in Verhandlung; Peso schwächt sich auf 3237,83 ab",
+          "publication_date": "7. Oktober – 7. November 2026",
+          "what_changed": "[Sicher] Korrektur: Die Gesamtinflation laut DANE lag im September bei 6,29 % zum Vorjahr, nicht bei 6,03 % wie in der Ausgabe vom 2. November angegeben. [Wahrscheinlich] Analysten erwarten für Oktober etwa 6,33 % bis 6,38 %; das DANE veröffentlicht am 9. November, nach diesem Stichtag. [Wahrscheinlich] Das am 29. Oktober eingebrachte Steuergesetz Ley de Rescate der Regierung De la Espriella verbreitert die Mehrwertsteuer und kürzt Ausgaben; Goldman Sachs erwartet vor der Frist am 16. Dezember eine abgeschwächte Fassung. [Wahrscheinlich] Die TRM gültig vom 7. bis 9. November ist 1 USD = 3237,83 COP, gegenüber 3182,99 in der vorigen Ausgabe, eine Peso-Abwertung von etwa 1,72 %. Abgeleitet aus dem EZB-Kurs vom 6. November und dieser TRM: 1 EUR = 3615,0 COP (vorige Ausgabe: 3556,0), ein um etwa 1,66 % schwächerer Peso.",
+          "investorace_implication": "[Wahrscheinlich] Steigende Inflation, ein schwächerer Peso und ein offenes Fiskalpaket halten den Druck auf die Banco de la República hoch, deren Vorstand sich im Oktober 4–3 teilte. Für einen Anleger in COP gewannen USD- und EUR-Anlagen diese Woche in Pesos etwa 1,7 %.",
+          "review_question": "Als Nächstes: Oktober-VPI am 9. November; bringt der Kongress die Steuerreform vor dem 16. Dezember voran?",
+          "limitations": "EUR/COP ist aus Kursen verschiedener Tage abgeleitet. Ein gemeldeter IWF-Kredit wurde nicht geprüft und bleibt weg."
+        }
+      ]
+    }
+  }
+}
