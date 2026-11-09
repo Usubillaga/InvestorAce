@@ -389,7 +389,12 @@ The Claude edition (`claude-daily.html`) now appears weekly on Mondays.
 ## Crash monitor
 
 `crash-monitor.html` applies Greenwood, Shleifer & You ("Bubbles for Fama",
-JFE 2019) to industry ETFs and USD universe stocks: a run-up is a 24-month
+JFE 2019) to two sources chosen independently of the universe: all 49 US
+industries from every listed stock (French data, monthly lag; industries with
+fewer than 10 firms are named and left out, as in the history) and a fixed
+list of about 70 ETFs by area (US sectors and industries, themes, countries
+including Colombia). Universe stocks are only mapped to an ETF and listed
+separately. A run-up is a 24-month
 return above 100%, raw and net of the market; a crash is a 40% fall from the
 running peak within 24 months. Base rates come from Kenneth French's 49
 value-weighted US industries since 1926, stored in

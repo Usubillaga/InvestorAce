@@ -176,6 +176,23 @@ def baseline(industries, market, firms, *, min_firms=MIN_FIRMS):
     return dict(n=total, crashes=hits, p=hits / total if total else None)
 
 
+RECENT_MONTHS = 72
+
+
+def recent_series(industries, firms, market, months=RECENT_MONTHS):
+    """The last six years of every industry and the market, as index levels."""
+    market_by = dict(market)
+    start = [ym for ym, _ in market][-months]
+    def levels(rows):
+        return [[ym, round(v, 5)] for (ym, _), v in zip(rows, index([r for _, r in rows]))]
+    out = {}
+    for name, series in sorted(industries.items()):
+        rows = [(ym, r) for ym, r in series if ym in market_by and ym >= start]
+        if len(rows) > HORIZON:
+            out[name] = dict(firms=(firms.get(name) or {}).get(rows[-1][0]), levels=levels(rows))
+    return dict(market=levels([(ym, r) for ym, r in market if ym >= start]), industries=out)
+
+
 def calibrate(industries, firms, market, *, source_end=None):
     found = [e for name, series in sorted(industries.items())
              for e in episodes(name, series, market, firms.get(name) or {})]
@@ -212,7 +229,8 @@ def calibrate(industries, firms, market, *, source_end=None):
                 after_drawdown=after_drawdown,
                 paths=dict(crash=mean_path(crashed), calm=mean_path(calm), months=list(range(-HORIZON, HORIZON + 1))),
                 episodes=[{k: (round(v, 4) if isinstance(v, float) else v) for k, v in e.items() if k != 'path'}
-                          for e in done])
+                          for e in done],
+                recent=recent_series(industries, firms, market))
 
 
 def refresh_calibration(fetch=None, path=CALIBRATION):
@@ -223,27 +241,70 @@ def refresh_calibration(fetch=None, path=CALIBRATION):
     industry_zip, factor_zip = (fetch(FF_BASE + name) for name in FF_FILES)
     industries, firms, market = load_french(industry_zip, factor_zip)
     result = calibrate(industries, firms, market, source_end=str(max(ym for ym, _ in market)))
-    Path(path).write_text(json.dumps(result, indent=1, sort_keys=True) + '\n', encoding='utf-8')
+    Path(path).write_text(json.dumps(result, sort_keys=True, separators=(',', ':')) + '\n', encoding='utf-8')
     return result
 
 
 # --- live monitor ---------------------------------------------------------
 
+# A fixed list by area, independent of the universe. Themes are younger and more
+# concentrated than industries; countries are measured in USD against the S&P 500.
 INDUSTRY_ETFS = (
-    ('SOXX', 'Semiconductors'), ('IGV', 'Software'), ('XLK', 'Technology'), ('XLC', 'Communication services'),
-    ('XLY', 'Consumer discretionary'), ('KWEB', 'China internet'), ('XLP', 'Consumer staples'),
-    ('XLE', 'Energy'), ('GDX', 'Gold miners'), ('SIL', 'Silver miners'), ('XLB', 'Materials'),
-    ('XLV', 'Health care'), ('XBI', 'Biotech'), ('XLU', 'Utilities'), ('NLR', 'Nuclear and power'),
-    ('XLI', 'Industrials'), ('ITA', 'Aerospace and defence'), ('UFO', 'Space'), ('TAN', 'Solar'),
-    ('XLRE', 'Real estate'), ('XLF', 'Financials and data'),
+    ('XLK', 'Technology', 'US sector'), ('XLC', 'Communication services', 'US sector'),
+    ('XLY', 'Consumer discretionary', 'US sector'), ('XLP', 'Consumer staples', 'US sector'),
+    ('XLE', 'Energy', 'US sector'), ('XLB', 'Materials', 'US sector'), ('XLV', 'Health care', 'US sector'),
+    ('XLF', 'Financials', 'US sector'), ('XLI', 'Industrials', 'US sector'), ('XLRE', 'Real estate', 'US sector'),
+    ('XLU', 'Utilities', 'US sector'),
+    ('SOXX', 'Semiconductors', 'US industry'), ('IGV', 'Software', 'US industry'),
+    ('SKYY', 'Cloud computing', 'US industry'), ('CIBR', 'Cybersecurity', 'US industry'),
+    ('XTL', 'Telecom', 'US industry'), ('XRT', 'Retail', 'US industry'), ('ITB', 'Homebuilders', 'US industry'),
+    ('JETS', 'Airlines', 'US industry'), ('PEJ', 'Leisure and entertainment', 'US industry'),
+    ('XOP', 'Oil and gas producers', 'US industry'), ('OIH', 'Oil services', 'US industry'),
+    ('XME', 'Metals and mining', 'US industry'), ('COPX', 'Copper miners', 'US industry'),
+    ('GDX', 'Gold miners', 'US industry'), ('SIL', 'Silver miners', 'US industry'),
+    ('LIT', 'Lithium and batteries', 'US industry'), ('MOO', 'Agribusiness', 'US industry'),
+    ('XBI', 'Biotech', 'US industry'), ('XPH', 'Pharmaceuticals', 'US industry'),
+    ('IHI', 'Medical devices', 'US industry'), ('IHF', 'Health care providers', 'US industry'),
+    ('KBE', 'Banks', 'US industry'), ('KRE', 'Regional banks', 'US industry'), ('KIE', 'Insurance', 'US industry'),
+    ('IAI', 'Brokers and exchanges', 'US industry'), ('IYT', 'Transportation', 'US industry'),
+    ('ITA', 'Aerospace and defence', 'US industry'), ('PAVE', 'Infrastructure', 'US industry'),
+    ('BOTZ', 'Robotics and AI', 'Theme'), ('UFO', 'Space', 'Theme'), ('TAN', 'Solar', 'Theme'),
+    ('ICLN', 'Clean energy', 'Theme'), ('NLR', 'Nuclear and power', 'Theme'), ('URA', 'Uranium', 'Theme'),
+    ('WGMI', 'Bitcoin miners', 'Theme'), ('ARKK', 'Disruptive innovation', 'Theme'),
+    ('KWEB', 'China internet', 'Theme'),
+    ('EWJ', 'Japan', 'Country'), ('EWG', 'Germany', 'Country'), ('EWU', 'United Kingdom', 'Country'),
+    ('EWQ', 'France', 'Country'), ('EWP', 'Spain', 'Country'), ('EWI', 'Italy', 'Country'),
+    ('EZU', 'Eurozone', 'Country'), ('EWC', 'Canada', 'Country'), ('EWA', 'Australia', 'Country'),
+    ('EWY', 'South Korea', 'Country'), ('EWT', 'Taiwan', 'Country'), ('INDA', 'India', 'Country'),
+    ('FXI', 'China large caps', 'Country'), ('EWZ', 'Brazil', 'Country'), ('EWW', 'Mexico', 'Country'),
+    ('GXG', 'Colombia', 'Country'), ('ARGT', 'Argentina', 'Country'), ('EZA', 'South Africa', 'Country'),
+    ('TUR', 'Turkey', 'Country'), ('EEM', 'Emerging markets', 'Country'),
 )
+GROUPS = ('US sector', 'US industry', 'Theme', 'Country')
+FRENCH_GROUP = 'All US stocks (French 49)'
+FRENCH_NAMES = {
+    'Agric': 'Agriculture', 'Food': 'Food products', 'Soda': 'Candy and soda', 'Beer': 'Beer and liquor',
+    'Smoke': 'Tobacco', 'Toys': 'Recreation', 'Fun': 'Entertainment', 'Books': 'Printing and publishing',
+    'Hshld': 'Consumer goods', 'Clths': 'Apparel', 'Hlth': 'Health care services', 'MedEq': 'Medical equipment',
+    'Drugs': 'Pharmaceuticals', 'Chems': 'Chemicals', 'Rubbr': 'Rubber and plastics', 'Txtls': 'Textiles',
+    'BldMt': 'Construction materials', 'Cnstr': 'Construction', 'Steel': 'Steel', 'FabPr': 'Fabricated products',
+    'Mach': 'Machinery', 'ElcEq': 'Electrical equipment', 'Autos': 'Autos and trucks', 'Aero': 'Aircraft',
+    'Ships': 'Ships and railroad equipment', 'Guns': 'Defence', 'Gold': 'Precious metals',
+    'Mines': 'Industrial metal mining', 'Coal': 'Coal', 'Oil': 'Oil and gas', 'Util': 'Utilities',
+    'Telcm': 'Communication', 'PerSv': 'Personal services', 'BusSv': 'Business services',
+    'Hardw': 'Computer hardware', 'Softw': 'Software', 'Chips': 'Chips and electronic equipment',
+    'LabEq': 'Measuring and control equipment', 'Paper': 'Business supplies', 'Boxes': 'Shipping containers',
+    'Trans': 'Transportation', 'Whlsl': 'Wholesale', 'Rtail': 'Retail', 'Meals': 'Restaurants and hotels',
+    'Banks': 'Banks', 'Insur': 'Insurance', 'RlEst': 'Real estate', 'Fin': 'Trading and finance',
+    'Other': 'Other',
+}
 MARKET = 'SPY'
 SECTOR_ETF = {
     'Semis': 'SOXX', 'Software': 'IGV', 'Ad Tech': 'IGV', 'Technology': 'XLK', 'AI Infra': 'XLK',
     'AdTech': 'XLC', 'Communication Services': 'XLC', 'Media': 'XLC',
     'Consumer Cyclical': 'XLY', 'Apparel': 'XLY', 'Automotive': 'XLY', 'Restaurant': 'XLY', 'Luxury': 'XLY',
     'Platform': 'XLY', 'Consumer Defensive': 'XLP', 'Staples': 'XLP', 'Energy': 'XLE', 'Midstream': 'XLE',
-    'Materials': 'XLB', 'Healthcare': 'XLV', 'Pharma': 'XLV', 'MedTech': 'XLV', 'Health Ins': 'XLV',
+    'Materials': 'XLB', 'Healthcare': 'XLV', 'Pharma': 'XPH', 'MedTech': 'IHI', 'Health Ins': 'IHF',
     'Health Data': 'XLV', 'Animal Health': 'XLV', 'Biotech': 'XBI', 'Utilities': 'XLU', 'Industrials': 'XLI',
     'Services': 'XLI', 'Aerospace': 'ITA', 'Space': 'UFO', 'Real Estate': 'XLRE', 'REIT': 'XLRE',
     'Info Svcs': 'XLF',
@@ -363,6 +424,30 @@ def fresh_calibration(path=CALIBRATION, now=None, fetch=None, log=print):
         return current
 
 
+def french_left_out(calibration):
+    """Industries below the firm minimum, with their latest firm count."""
+    recent = ((calibration or {}).get('recent') or {}).get('industries') or {}
+    return sorted([name, int(item.get('firms') or 0)] for name, item in recent.items()
+                  if (item.get('firms') or 0) < MIN_FIRMS)
+
+
+def french_status(calibration):
+    """All 49 US industries from the stored French series (every listed stock, monthly lag)."""
+    recent = (calibration or {}).get('recent') or {}
+    if not recent.get('market'):
+        return []
+    to_date = lambda ym: f'{ym // 100}-{ym % 100:02d}-01'
+    market = [(to_date(ym), v) for ym, v in recent['market']]
+    out = []
+    for name, item in sorted((recent.get('industries') or {}).items()):
+        if (item.get('firms') or 0) < MIN_FIRMS:
+            continue
+        series = [(to_date(ym), v) for ym, v in item['levels']]
+        out.append(dict(etf=name, name=FRENCH_NAMES.get(name, name), group=FRENCH_GROUP, members=[],
+                        firms=item.get('firms'), **status(series, market, calibration)))
+    return out
+
+
 def read(rows, download=None, calibration=None, as_of=None):
     """Industry ETFs and USD universe stocks, from five years of monthly closes."""
     calibration = calibration or load_calibration()
@@ -371,7 +456,7 @@ def read(rows, download=None, calibration=None, as_of=None):
             import yfinance as yf
             download = yf.download
         stocks = {t: r.get('yf') or t for t, r in rows.items() if (r.get('cur') or 'USD') == 'USD'}
-        symbols = sorted({e for e, _ in INDUSTRY_ETFS} | {MARKET} | set(stocks.values()))
+        symbols = sorted({e for e, _, _ in INDUSTRY_ETFS} | {MARKET} | set(stocks.values()))
         frame = download(symbols, period='5y', interval='1mo', auto_adjust=True, progress=False,
                          threads=True, group_by='column')
     except Exception:
@@ -382,8 +467,8 @@ def read(rows, download=None, calibration=None, as_of=None):
     members = {}
     for ticker, row in rows.items():
         members.setdefault(industry_of(ticker, row), []).append(ticker)
-    industries = [dict(etf=etf, name=name, members=sorted(members.get(etf, [])),
-                       **status(_monthly(frame, etf), market, calibration)) for etf, name in INDUSTRY_ETFS]
+    industries = [dict(etf=etf, name=name, group=group, members=sorted(members.get(etf, [])),
+                       **status(_monthly(frame, etf), market, calibration)) for etf, name, group in INDUSTRY_ETFS]
     universe = []
     for ticker, symbol in sorted(stocks.items()):
         result = status(_monthly(frame, symbol), market, None)
@@ -396,7 +481,9 @@ def read(rows, download=None, calibration=None, as_of=None):
                                                    'after_drawdown', 'paths', 'episodes_total', 'open_episodes')}
         summary['episodes'] = len(calibration.get('episodes', []))
     return dict(schema=SCHEMA, as_of=(as_of or datetime.now(timezone.utc)).isoformat(timespec='seconds'),
-                market=MARKET, industries=industries, stocks=universe, calibration=summary)
+                market=MARKET, industries=industries, french=french_status(calibration),
+                french_left_out=french_left_out(calibration), stocks=universe,
+                calibration=summary)
 
 
 # --- page -----------------------------------------------------------------
@@ -471,10 +558,13 @@ def render(monitor, *, now=None):
             f'{escape(cal.get("source", ""))}, to {escape(str(cal.get("source_end", "")))}, industries with at least '
             f'{(cal.get("rules") or {}).get("min_firms", MIN_FIRMS)} firms. The paper reports about 53% for its own '
             'sample; this replication counts every complete episode. Ranges are 90% intervals.</div>')
-    flagged = [i for i in monitor.get('industries', []) if i.get('state') in ('RUN_UP', 'CRASHED')]
-    body.append('<h2>Industries in a run-up</h2>')
+    french, etfs = monitor.get('french') or [], monitor.get('industries') or []
+    flagged = [i for i in french + etfs if i.get('state') in ('RUN_UP', 'CRASHED')]
+    body.append('<h2>In a run-up now</h2><p class="lead">Two independent sources, neither chosen from the universe: '
+                f'all 49 US industries from every listed stock (French data, to {escape(str(cal.get("source_end", "")))}, '
+                f'monthly) and {len(etfs)} ETFs by area (US sectors, industries, themes and countries, latest close).</p>')
     if not flagged:
-        body.append('<p class="muted">No industry ETF meets the run-up rule today.</p>')
+        body.append('<p class="muted">No industry or ETF meets the run-up rule today.</p>')
     for ind in flagged:
         prob = ind.get('probability')
         separation = ind.get('separation_month')
@@ -483,27 +573,48 @@ def render(monitor, *, now=None):
             ind.get('path_closer_to'),
             f'too early to compare: the two historical averages only separate after about {separation} months'
             if separation else 'not comparable')
+        french_row = ind.get('group') == FRENCH_GROUP
+        last_tile = (f'<div class="tile"><span>Data to</span><b>{escape(str(ind.get("date", ""))[:7])}</b></div>'
+                     if french_row else
+                     f'<div class="tile"><span>Crash line (price)</span><b>{ind["crash_line"]:,.2f}</b></div>')
         body.append(
             f'<h3>{escape(ind["etf"])} · {escape(ind["name"])} · {escape(STATES[ind["state"]])}</h3>'
-            '<div class="tiles">'
+            f'<p class="muted">{escape(ind.get("group") or "")}</p><div class="tiles">'
             f'<div class="tile"><span>Identified</span><b>{escape(ind["start"][:7])}</b></div>'
             f'<div class="tile"><span>Run-up then (net of market)</span><b>{_pct(ind["run_up_net"])}</b></div>'
             f'<div class="tile"><span>From peak now</span><b>{_pct(ind["drawdown"])}</b></div>'
-            f'<div class="tile"><span>Crash line (price)</span><b>{ind["crash_line"]:,.2f}</b></div>'
-            '</div>'
+            + last_tile + '</div>'
             + (f'<p>Historical crash rate: {_odds(prob)} · basis: {escape(prob["basis"])} · path: '
                f'{escape(closer)}.</p>' if prob else '')
             + (chart(ind, cal['paths']) if cal.get('paths') else ''))
         if ind['members']:
             body.append(f'<p class="muted">Universe members: {escape(", ".join(ind["members"]))}</p>')
-    rows = ''.join(
-        f'<tr><td><b>{escape(i["etf"])}</b></td><td class="l">{escape(i["name"])}</td>'
-        f'<td>{_pct(i.get("raw_24m"))}</td><td>{_pct(i.get("net_24m"))}</td>'
-        f'<td class="l">{escape(STATES[i["state"]])}</td><td class="l muted">{escape(", ".join(i["members"]))}</td></tr>'
-        for i in sorted(monitor.get('industries', []), key=lambda i: -(i.get('net_24m') or -9)))
-    body.append('<h2>All industries</h2><div class="tw"><table><thead><tr><th>ETF</th><th class="l">Industry</th>'
-                '<th>24 m return</th><th>Net of S&amp;P 500</th><th class="l">Status</th><th class="l">Universe</th>'
-                '</tr></thead><tbody>' + rows + '</tbody></table></div>')
+    def table(items, first, group_column):
+        rows = ''.join(
+            f'<tr><td><b>{escape(i["etf"])}</b></td><td class="l">{escape(i["name"])}</td>'
+            + (f'<td class="l muted">{escape(i.get("group") or "")}</td>' if group_column else '')
+            + f'<td>{_pct(i.get("raw_24m"))}</td><td>{_pct(i.get("net_24m"))}</td>'
+            f'<td class="l">{escape(STATES[i["state"]])}</td>'
+            f'<td class="l muted">{escape(", ".join(i.get("members") or []))}</td></tr>'
+            for i in items)
+        return ('<div class="tw"><table><thead><tr><th>' + first + '</th><th class="l">Name</th>'
+                + ('<th class="l">Area</th>' if group_column else '')
+                + '<th>24 m return</th><th>Net of S&amp;P 500</th><th class="l">Status</th>'
+                  '<th class="l">Universe</th></tr></thead><tbody>' + rows + '</tbody></table></div>')
+    by_net = lambda i: -(i.get('net_24m') if i.get('net_24m') is not None else -9)
+    if french:
+        body.append(f'<h2>All 49 US industries</h2><p class="lead">Every US-listed stock, value-weighted, data to '
+                    f'{escape(str(cal.get("source_end", "")))}.</p>' + table(sorted(french, key=by_net), 'Code', False))
+        left = monitor.get('french_left_out') or []
+        if left:
+            body.append(f'<p class="muted">Left out with fewer than {MIN_FIRMS} listed firms, as in the history: '
+                        + escape(', '.join(f'{FRENCH_NAMES.get(n, n)} ({k})' for n, k in left))
+                        + '. Gold and silver are covered by the GDX and SIL ETFs below.</p>')
+    order = {g: n for n, g in enumerate(GROUPS)}
+    body.append('<h2>ETFs by area</h2><p class="lead">Themes are younger and more concentrated than industries; '
+                'countries are measured in USD against the S&amp;P 500, so the US industry history applies only '
+                'loosely to them.</p>'
+                + table(sorted(etfs, key=lambda i: (order.get(i.get('group'), 9), by_net(i))), 'ETF', True))
     hot = [s for s in monitor.get('stocks', []) if s.get('state') in ('RUN_UP', 'CRASHED')
            or (s.get('net_24m') or 0) > RUN_UP]
     rows = ''.join(
