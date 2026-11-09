@@ -95,6 +95,27 @@ class Rules(unittest.TestCase):
         self.assertEqual(set(cal['after_drawdown']), {'20', '30'})
 
 
+class Coverage(unittest.TestCase):
+    def test_all_49_industries_come_from_the_stored_french_series(self):
+        cal = cm.load_calibration()
+        recent = cal['recent']
+        self.assertEqual(len(recent['industries']), 49)
+        rows = cm.french_status(cal)
+        left = cm.french_left_out(cal)
+        self.assertEqual(len(rows) + len(left), 49)
+        self.assertTrue(all(row['group'] == cm.FRENCH_GROUP for row in rows))
+        self.assertTrue(all(k < cm.MIN_FIRMS for _, k in left))
+        self.assertTrue(all(name in cm.FRENCH_NAMES for name in recent['industries']))
+
+    def test_etf_list_covers_every_area_independently_of_the_universe(self):
+        symbols = [e for e, _, _ in cm.INDUSTRY_ETFS]
+        self.assertEqual(len(symbols), len(set(symbols)))
+        self.assertEqual({g for _, _, g in cm.INDUSTRY_ETFS}, set(cm.GROUPS))
+        for needed in ('KRE', 'ITB', 'XRT', 'JETS', 'OIH', 'COPX', 'LIT', 'GXG', 'EWZ', 'EWJ'):
+            self.assertIn(needed, symbols)
+        self.assertTrue(set(cm.SECTOR_ETF.values()) | set(cm.TICKER_ETF.values()) <= set(symbols))
+
+
 class Refresh(unittest.TestCase):
     def test_stale_calibration_is_refreshed_and_failure_keeps_the_old_one(self):
         from datetime import datetime, timezone
@@ -169,7 +190,7 @@ class Live(unittest.TestCase):
         n = len(self.EARLY)
         run = self.prices(self.EARLY)
         flat = self.prices([0.004] * n)
-        closes = {etf: flat for etf, _ in cm.INDUSTRY_ETFS}
+        closes = {etf: flat for etf, _, _ in cm.INDUSTRY_ETFS}
         closes.update(SOXX=run, SPY=flat, NVDA=run, KO=flat)
         rows = {'NVDA': dict(yf='NVDA', cur='USD', sector='Semis'),
                 'KO': dict(yf='KO', cur='USD', sector='Consumer Defensive'),
@@ -184,7 +205,7 @@ class Live(unittest.TestCase):
         self.assertEqual([str(p) for p, _ in pages], ['crash-monitor.html'])
         html = pages[0][1]
         for text in ('SOXX · Semiconductors', '<svg', 'Already fell 20% from the peak', 'NVDA', 'Bubbles for Fama',
-                     'too early to compare'):
+                     'too early to compare', 'All 49 US industries', 'ETFs by area', 'Colombia', 'Left out with fewer'):
             self.assertIn(text, html)
         self.assertEqual(cm.site_pages('.', dict(record={'_evidence': {'macro': {}}})), [])
         self.assertIsNone(cm.read(rows, download=lambda *a, **k: (_ for _ in ()).throw(RuntimeError('offline'))))
