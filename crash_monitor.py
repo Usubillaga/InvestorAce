@@ -312,6 +312,11 @@ def status(series, market, calibration):
             basis = 'Volatility ' + ('rising' if rising else 'not rising') + ' at identification'
             odds = split['yes' if rising else 'no']
         out['probability'] = dict(basis=basis, **odds)
+        separation = separation_month(calibration['paths'])
+        out['separation_month'] = separation
+        if separation is None or out['months_since'] < separation:
+            out['path_closer_to'] = None          # both averages still sit near 1.0
+            return out
         months = range(1, out['months_since'] + 1)
         def distance(reference):
             pairs = [(out['path'][HORIZON + k], reference[HORIZON + k]) for k in months
@@ -320,6 +325,15 @@ def status(series, market, calibration):
         crash, calm = distance(calibration['paths']['crash']), distance(calibration['paths']['calm'])
         out['path_closer_to'] = None if None in (crash, calm) else 'crash' if crash < calm else 'calm'
     return out
+
+
+def separation_month(paths, gap=.05):
+    """First month after identification where the crash and no-crash averages differ by `gap`."""
+    for k in range(1, HORIZON + 1):
+        a, b = paths['crash'][HORIZON + k], paths['calm'][HORIZON + k]
+        if a is not None and b is not None and abs(a - b) >= gap:
+            return k
+    return None
 
 
 def load_calibration(path=CALIBRATION):
@@ -463,9 +477,12 @@ def render(monitor, *, now=None):
         body.append('<p class="muted">No industry ETF meets the run-up rule today.</p>')
     for ind in flagged:
         prob = ind.get('probability')
-        closer = {'crash': 'closer to the crash average', 'calm': 'closer to the no-crash average'}.get(
-            ind.get('path_closer_to'), '—')
-        early = ' The first 6 to 8 months hardly separate the two averages.' if ind['months_since'] < 8 else ''
+        separation = ind.get('separation_month')
+        closer = {'crash': f'closer to the crash average after {ind["months_since"]} months',
+                  'calm': f'closer to the no-crash average after {ind["months_since"]} months'}.get(
+            ind.get('path_closer_to'),
+            f'too early to compare: the two historical averages only separate after about {separation} months'
+            if separation else 'not comparable')
         body.append(
             f'<h3>{escape(ind["etf"])} · {escape(ind["name"])} · {escape(STATES[ind["state"]])}</h3>'
             '<div class="tiles">'
@@ -474,8 +491,8 @@ def render(monitor, *, now=None):
             f'<div class="tile"><span>From peak now</span><b>{_pct(ind["drawdown"])}</b></div>'
             f'<div class="tile"><span>Crash line (price)</span><b>{ind["crash_line"]:,.2f}</b></div>'
             '</div>'
-            + (f'<p>Historical crash rate: {_odds(prob)} · basis: {escape(prob["basis"])} · path so far: '
-               f'{escape(closer)} after {ind["months_since"]} months.{early}</p>' if prob else '')
+            + (f'<p>Historical crash rate: {_odds(prob)} · basis: {escape(prob["basis"])} · path: '
+               f'{escape(closer)}.</p>' if prob else '')
             + (chart(ind, cal['paths']) if cal.get('paths') else ''))
         if ind['members']:
             body.append(f'<p class="muted">Universe members: {escape(", ".join(ind["members"]))}</p>')

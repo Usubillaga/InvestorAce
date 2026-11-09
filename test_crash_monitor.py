@@ -132,9 +132,11 @@ class Live(unittest.TestCase):
             out.append(out[-1] * (1 + r))
         return out
 
+    EARLY = [0.002] * 30 + [2.25 ** (1 / 24) - 1] * 24 + [-0.08] * 3     # identified ~5 months ago
+
     def test_status_of_an_open_run_up_uses_the_drawdown_odds(self):
         cal = cm.load_calibration()
-        returns = [0.002] * 30 + [2.5 ** (1 / 24) - 1] * 24 + [-0.05] * 5
+        returns = self.EARLY
         stamps = [f'{m // 100}-{m % 100:02d}-01' for m in months(len(returns))]
         series = list(zip(stamps, self.prices(returns)))
         market = list(zip(stamps, self.prices([0.004] * len(returns))))
@@ -142,7 +144,19 @@ class Live(unittest.TestCase):
         self.assertEqual(out['state'], 'RUN_UP')
         self.assertEqual(out['probability']['basis'], 'Already fell 20% from the peak')
         self.assertAlmostEqual(out['crash_line'], .6 * out['peak'])
-        self.assertIn(out['path_closer_to'], ('crash', 'calm'))
+        self.assertEqual(out['separation_month'], cm.separation_month(cal['paths']))
+        self.assertLess(out['months_since'], out['separation_month'])
+        self.assertIsNone(out['path_closer_to'])          # too early: the averages have not separated
+
+    def test_paths_are_compared_only_after_the_averages_separate(self):
+        cal = cm.load_calibration()
+        k = cm.separation_month(cal['paths'])
+        self.assertTrue(4 <= k <= 12)
+        returns = [0.002] * 30 + [2.5 ** (1 / 24) - 1] * 24 + [-0.04] * (k + 2)
+        stamps = [f'{m // 100}-{m % 100:02d}-01' for m in months(len(returns))]
+        series = list(zip(stamps, self.prices(returns)))
+        market = list(zip(stamps, self.prices([0.004] * len(returns))))
+        self.assertEqual(cm.status(series, market, cal)['path_closer_to'], 'crash')
 
     def test_a_closed_window_is_no_longer_an_open_run_up(self):
         returns = [0.002] * 30 + [2.5 ** (1 / 24) - 1] * 24 + [0.003] * 30
@@ -152,8 +166,8 @@ class Live(unittest.TestCase):
         self.assertEqual(cm.status(series, market, cm.load_calibration())['state'], 'NO_RUN_UP')
 
     def test_read_builds_industries_and_stocks_and_the_page(self):
-        n = 59
-        run = self.prices([0.002] * 30 + [2.5 ** (1 / 24) - 1] * 24 + [-0.05] * 5)
+        n = len(self.EARLY)
+        run = self.prices(self.EARLY)
         flat = self.prices([0.004] * n)
         closes = {etf: flat for etf, _ in cm.INDUSTRY_ETFS}
         closes.update(SOXX=run, SPY=flat, NVDA=run, KO=flat)
@@ -169,7 +183,8 @@ class Live(unittest.TestCase):
         pages = cm.site_pages('.', dict(record=record))
         self.assertEqual([str(p) for p, _ in pages], ['crash-monitor.html'])
         html = pages[0][1]
-        for text in ('SOXX · Semiconductors', '<svg', 'Already fell 20% from the peak', 'NVDA', 'Bubbles for Fama'):
+        for text in ('SOXX · Semiconductors', '<svg', 'Already fell 20% from the peak', 'NVDA', 'Bubbles for Fama',
+                     'too early to compare'):
             self.assertIn(text, html)
         self.assertEqual(cm.site_pages('.', dict(record={'_evidence': {'macro': {}}})), [])
         self.assertIsNone(cm.read(rows, download=lambda *a, **k: (_ for _ in ()).throw(RuntimeError('offline'))))
