@@ -116,6 +116,23 @@ class Coverage(unittest.TestCase):
         self.assertTrue(set(cm.SECTOR_ETF.values()) | set(cm.TICKER_ETF.values()) <= set(symbols))
 
 
+class Ordering(unittest.TestCase):
+    def test_crash_first_then_closest_to_the_line_then_closest_to_a_run_up(self):
+        rows = [dict(etf='CALM', state='NO_RUN_UP', raw_24m=.2, net_24m=.1),
+                dict(etf='NEAR_FAR', state='NO_RUN_UP', raw_24m=.9, net_24m=.65),
+                dict(etf='NEAR', state='NO_RUN_UP', raw_24m=1.2, net_24m=.97),
+                dict(etf='SAFE', state='RUN_UP', price=100., crash_line=50.),
+                dict(etf='EDGE', state='RUN_UP', price=100., crash_line=94.),
+                dict(etf='DONE', state='CRASHED', price=50., crash_line=60.)]
+        ordered = [r['etf'] for r in sorted(rows, key=cm.watch)]
+        self.assertEqual(ordered, ['DONE', 'EDGE', 'SAFE', 'NEAR', 'NEAR_FAR', 'CALM'])
+        self.assertEqual([cm.watch(r)[2] for r in sorted(rows, key=cm.watch)],
+                         ['crash', 'risk', 'risk', 'near', 'near', 'other'])
+        self.assertAlmostEqual(cm.run_up_gap(rows[2]), .03)
+        self.assertEqual(cm.distance(rows[4]), 'a further 6% fall reaches the crash line')
+        self.assertEqual(cm.distance(rows[2]), '3 points from a run-up')
+
+
 class Refresh(unittest.TestCase):
     def test_stale_calibration_is_refreshed_and_failure_keeps_the_old_one(self):
         from datetime import datetime, timezone
@@ -205,7 +222,8 @@ class Live(unittest.TestCase):
         self.assertEqual([str(p) for p, _ in pages], ['crash-monitor.html'])
         html = pages[0][1]
         for text in ('SOXX · Semiconductors', '<svg', 'Already fell 20% from the peak', 'NVDA', 'Bubbles for Fama',
-                     'too early to compare', 'All 49 US industries', 'ETFs by area', 'Colombia', 'Left out with fewer'):
+                     'too early to compare', 'All 49 US industries', 'ETFs by area', 'Colombia', 'Left out with fewer',
+                     'Watch list', '<tr class="risk"><td><b>SOXX'):
             self.assertIn(text, html)
         self.assertEqual(cm.site_pages('.', dict(record={'_evidence': {'macro': {}}})), [])
         self.assertIsNone(cm.read(rows, download=lambda *a, **k: (_ for _ in ()).throw(RuntimeError('offline'))))
