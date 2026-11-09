@@ -1944,6 +1944,11 @@ def run_build():
                     tracked_symbols=paper_portfolio.tracked_symbols(datetime.now(timezone.utc).date()))
             except Exception as exc:
                 print('Market pulse unavailable:', type(exc).__name__)
+            try:
+                import crash_monitor
+                macro['crash_monitor'] = crash_monitor.read(DATA, calibration=crash_monitor.fresh_calibration())
+            except Exception as exc:
+                print('Crash monitor unavailable:', type(exc).__name__)
         if macro.get('pulse'):
             print('Market pulse: heat', macro['pulse'].get('heat'), 'from', sorted(macro['pulse'].get('components', {})))
         bundle = EVIDENCE.model_bundle(Path(__file__).parent)

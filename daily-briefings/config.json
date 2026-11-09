@@ -9,5 +9,6 @@
   "schedule_labels": {
     "es": "Todos los días, alrededor de las 08:00, hora de Berlín",
     "de": "Täglich, gegen 08:00 Uhr, Berliner Zeit"
-  }
+  },
+  "retired_on": "2026-11-09"
 }

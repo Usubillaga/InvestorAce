@@ -377,6 +377,29 @@ A second daily edition written by Claude is published beside it at
 compared. It follows the same four-section contract without the word limit;
 see [claude-briefings/README.md](claude-briefings/README.md).
 
+### Retired series
+
+A series whose `config.json` has `"retired_on": "YYYY-MM-DD"` leaves the site:
+no pages, no navigation links. Its JSON editions stay in the repository. It
+returns automatically as soon as an edition dated after that day is added.
+Retired on 2026-11-09 because they had stopped: Friday research (last edition
+2026-10-17), Monday briefing (2026-10-26) and the ChatGPT daily (2026-11-05).
+The Claude edition (`claude-daily.html`) now appears weekly on Mondays.
+
+## Crash monitor
+
+`crash-monitor.html` applies Greenwood, Shleifer & You ("Bubbles for Fama",
+JFE 2019) to industry ETFs and USD universe stocks: a run-up is a 24-month
+return above 100%, raw and net of the market; a crash is a 40% fall from the
+running peak within 24 months. Base rates come from Kenneth French's 49
+value-weighted US industries since 1926, stored in
+`history/_crash_calibration.json`; the nightly build refreshes it when it is
+older than 35 days (`python crash_monitor.py --calibrate` does it by hand).
+The page gives probabilities with 90% intervals, the crash line in price and
+the path against the historical crash and no-crash averages. It is
+information next to the score and never changes a score, a label or the
+paper test.
+
 ## Layout
 
 | File | Role |
