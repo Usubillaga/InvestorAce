@@ -85,6 +85,7 @@ def shell(title, body):
             f'<title>InvestorAce · {escape(title)}</title><style>{CSS}</style></head><body><main>'
             '<nav><strong>InvestorAce</strong><a href="index.html">Scoreboard</a>'
             '<a href="paper-test.html">Paper test</a><a href="war-scenarios.html">War scenarios</a>'
+            '<a href="crash-monitor.html">Crash monitor</a>'
             '<a href="scanner.html">Stock scanner</a></nav>' + body + '</main></body></html>')
 
 
