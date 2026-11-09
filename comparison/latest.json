@@ -1,6 +1,6 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-08T14:46:44.382503+00:00",
+ "generated_at": "2026-11-09T11:02:04.229808+00:00",
  "universe_count": 94,
  "rows": [
   {
@@ -2538,8 +2538,8 @@
    "sector": "Consumer Cyclical",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-01T23:34:48.380643+00:00",
-   "attempted_at": "2026-11-01T23:34:48.380643+00:00",
+   "retrieved_at": "2026-11-09T11:02:04.229808+00:00",
+   "attempted_at": "2026-11-09T11:02:04.229808+00:00",
    "status": "OK",
    "annual": [
     {
@@ -2664,10 +2664,10 @@
     }
    ],
    "market": {
-    "shares_outstanding": 751380500.0,
-    "float_shares": 748961055.0,
-    "float_pct": 99.67800002794856,
-    "retrieved_at": "2026-11-01T23:34:48.380643+00:00"
+    "shares_outstanding": 743701257.0,
+    "float_shares": 741276791.0,
+    "float_pct": 99.67400001315313,
+    "retrieved_at": "2026-11-09T11:02:04.229808+00:00"
    },
    "warnings": [],
    "sources": [
@@ -7123,7 +7123,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-08T14:46:44.382503+00:00",
+   "attempted_at": "2026-11-09T11:02:04.229808+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
@@ -8087,8 +8087,8 @@
    "sector": "Consumer Defensive",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-01T23:34:48.380643+00:00",
-   "attempted_at": "2026-11-01T23:34:48.380643+00:00",
+   "retrieved_at": "2026-11-09T11:02:04.229808+00:00",
+   "attempted_at": "2026-11-09T11:02:04.229808+00:00",
    "status": "OK",
    "annual": [
     {
@@ -8100,7 +8100,7 @@
      "net_income": 6947000000.0,
      "ebitda": 10832000000.0,
      "shares_diluted": 1683000000.0,
-     "shares_basic": 1683000000.0,
+     "shares_basic": 1681310680.0,
      "debt": 25709000000.0,
      "cash": 4474000000.0,
      "equity": -3502000000.0,
@@ -8214,9 +8214,9 @@
    ],
    "market": {
     "shares_outstanding": 1663436915.0,
-    "float_shares": 1660159944.0,
-    "float_pct": 99.80299998332067,
-    "retrieved_at": "2026-11-01T23:34:48.380643+00:00"
+    "float_shares": 1660143310.0,
+    "float_pct": 99.80200000551268,
+    "retrieved_at": "2026-11-09T11:02:04.229808+00:00"
    },
    "warnings": [],
    "sources": [
