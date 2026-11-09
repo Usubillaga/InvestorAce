@@ -504,6 +504,41 @@ def _odds(p):
             f"{p['crashes']} of {p['n']})</span>")
 
 
+NEAR_GAP = .40      # within 40 points of the run-up rule counts as approaching one
+
+
+def run_up_gap(row):
+    """Points still missing to the run-up rule (both raw and net of market above 100%)."""
+    raw, net = row.get('raw_24m'), row.get('net_24m')
+    if raw is None or net is None:
+        return None
+    return max(0., RUN_UP - raw, RUN_UP - net)
+
+
+def watch(row):
+    """Ordering by risk: crash reached, then closest to the crash line, then closest to a run-up."""
+    state = row.get('state')
+    if state == 'CRASHED':
+        return (0, 0., 'crash')
+    if state == 'RUN_UP' and row.get('crash_line') and row.get('price'):
+        return (1, 1 - row['crash_line'] / row['price'], 'risk')     # further fall needed
+    gap = run_up_gap(row) if state == 'NO_RUN_UP' else None
+    if gap is not None and gap <= NEAR_GAP:
+        return (2, gap, 'near')
+    return (3, -(row.get('net_24m') if row.get('net_24m') is not None else -9), 'other')
+
+
+def distance(row):
+    rank, value, kind = watch(row)
+    if kind == 'crash':
+        return 'crash reached'
+    if kind == 'risk':
+        return f'a further {100 * value:.0f}% fall reaches the crash line'
+    if kind == 'near':
+        return f'{100 * value:.0f} points from a run-up'
+    return '—'
+
+
 def chart(industry, paths):
     """Inline SVG: crash and calm averages, this industry and its crash line."""
     width, height, left, right, top, bottom = 720, 300, 44, 12, 12, 28
@@ -559,7 +594,22 @@ def render(monitor, *, now=None):
             f'{(cal.get("rules") or {}).get("min_firms", MIN_FIRMS)} firms. The paper reports about 53% for its own '
             'sample; this replication counts every complete episode. Ranges are 90% intervals.</div>')
     french, etfs = monitor.get('french') or [], monitor.get('industries') or []
-    flagged = [i for i in french + etfs if i.get('state') in ('RUN_UP', 'CRASHED')]
+    flagged = sorted((i for i in french + etfs if i.get('state') in ('RUN_UP', 'CRASHED')), key=watch)
+    watched = sorted((i for i in french + etfs if watch(i)[2] != 'other'), key=watch)
+    body.append('<h2>Watch list</h2><p class="lead"><span class="key crash">red</span> crash reached or in a run-up, '
+                'closest to the crash line first; <span class="key near">green</span> approaching a run-up, closest to '
+                'the rule first. Green means momentum towards a possible bubble, not a buy signal; red means the '
+                'historical crash odds below, not a forecast of which falls next.</p>')
+    rows = ''.join(
+        f'<tr class="{watch(i)[2]}"><td><b>{escape(i["etf"])}</b></td><td class="l">{escape(i["name"])}</td>'
+        f'<td class="l muted">{escape(i.get("group") or "")}</td><td class="l">{escape(distance(i))}</td>'
+        f'<td>{_odds(i.get("probability")) if i.get("probability") else "—"}</td>'
+        f'<td>{_pct(i.get("raw_24m"))}</td><td>{_pct(i.get("net_24m"))}</td></tr>' for i in watched)
+    body.append('<div class="tw"><table><thead><tr><th>Code</th><th class="l">Name</th><th class="l">Source</th>'
+                '<th class="l">Distance</th><th>Historical crash rate</th><th>24 m return</th>'
+                '<th>Net of S&amp;P 500</th></tr></thead><tbody>'
+                + (rows or '<tr><td colspan="7" class="l muted">Nothing on the watch list today.</td></tr>')
+                + '</tbody></table></div>')
     body.append('<h2>In a run-up now</h2><p class="lead">Two independent sources, neither chosen from the universe: '
                 f'all 49 US industries from every listed stock (French data, to {escape(str(cal.get("source_end", "")))}, '
                 f'monthly) and {len(etfs)} ETFs by area (US sectors, industries, themes and countries, latest close).</p>')
@@ -591,42 +641,39 @@ def render(monitor, *, now=None):
             body.append(f'<p class="muted">Universe members: {escape(", ".join(ind["members"]))}</p>')
     def table(items, first, group_column):
         rows = ''.join(
-            f'<tr><td><b>{escape(i["etf"])}</b></td><td class="l">{escape(i["name"])}</td>'
+            f'<tr class="{watch(i)[2]}"><td><b>{escape(i["etf"])}</b></td><td class="l">{escape(i["name"])}</td>'
             + (f'<td class="l muted">{escape(i.get("group") or "")}</td>' if group_column else '')
-            + f'<td>{_pct(i.get("raw_24m"))}</td><td>{_pct(i.get("net_24m"))}</td>'
-            f'<td class="l">{escape(STATES[i["state"]])}</td>'
+            + f'<td class="l">{escape(STATES[i["state"]])}</td><td class="l">{escape(distance(i))}</td>'
+            f'<td>{_pct(i.get("raw_24m"))}</td><td>{_pct(i.get("net_24m"))}</td>'
             f'<td class="l muted">{escape(", ".join(i.get("members") or []))}</td></tr>'
-            for i in items)
+            for i in sorted(items, key=watch))
         return ('<div class="tw"><table><thead><tr><th>' + first + '</th><th class="l">Name</th>'
                 + ('<th class="l">Area</th>' if group_column else '')
-                + '<th>24 m return</th><th>Net of S&amp;P 500</th><th class="l">Status</th>'
+                + '<th class="l">Status</th><th class="l">Distance</th><th>24 m return</th><th>Net of S&amp;P 500</th>'
                   '<th class="l">Universe</th></tr></thead><tbody>' + rows + '</tbody></table></div>')
-    by_net = lambda i: -(i.get('net_24m') if i.get('net_24m') is not None else -9)
     if french:
         body.append(f'<h2>All 49 US industries</h2><p class="lead">Every US-listed stock, value-weighted, data to '
-                    f'{escape(str(cal.get("source_end", "")))}.</p>' + table(sorted(french, key=by_net), 'Code', False))
+                    f'{escape(str(cal.get("source_end", "")))}. Same order and colours as the watch list.</p>'
+                    + table(french, 'Code', False))
         left = monitor.get('french_left_out') or []
         if left:
             body.append(f'<p class="muted">Left out with fewer than {MIN_FIRMS} listed firms, as in the history: '
                         + escape(', '.join(f'{FRENCH_NAMES.get(n, n)} ({k})' for n, k in left))
                         + '. Gold and silver are covered by the GDX and SIL ETFs below.</p>')
-    order = {g: n for n, g in enumerate(GROUPS)}
-    body.append('<h2>ETFs by area</h2><p class="lead">Themes are younger and more concentrated than industries; '
-                'countries are measured in USD against the S&amp;P 500, so the US industry history applies only '
-                'loosely to them.</p>'
-                + table(sorted(etfs, key=lambda i: (order.get(i.get('group'), 9), by_net(i))), 'ETF', True))
-    hot = [s for s in monitor.get('stocks', []) if s.get('state') in ('RUN_UP', 'CRASHED')
-           or (s.get('net_24m') or 0) > RUN_UP]
+    body.append('<h2>ETFs by area</h2><p class="lead">Same order and colours as the watch list. Themes are younger and '
+                'more concentrated than industries; countries are measured in USD against the S&amp;P 500, so the US '
+                'industry history applies only loosely to them.</p>' + table(etfs, 'ETF', True))
+    hot = [s for s in monitor.get('stocks', []) if watch(s)[2] != 'other']
     rows = ''.join(
-        f'<tr><td><b>{escape(s["ticker"])}</b></td><td>{_pct(s.get("raw_24m"))}</td><td>{_pct(s.get("net_24m"))}</td>'
-        f'<td>{_pct(s.get("drawdown"))}</td><td class="l">{escape(STATES[s["state"]])}</td>'
-        f'<td class="l">{escape(s.get("industry") or "—")}</td></tr>'
-        for s in sorted(hot, key=lambda s: -(s.get('net_24m') or 0)))
-    body.append('<h2>Universe stocks with a bubble-sized run-up</h2><p class="lead">Single stocks swing more than '
-                'industries, so the industry crash rates above apply only loosely. USD listings only.</p>'
-                + ('<div class="tw"><table><thead><tr><th>Ticker</th><th>24 m return</th><th>Net of S&amp;P 500</th>'
-                   '<th>From peak since run-up</th><th class="l">Status</th><th class="l">Industry ETF</th></tr>'
-                   '</thead><tbody>' + rows + '</tbody></table></div>' if rows else
+        f'<tr class="{watch(s)[2]}"><td><b>{escape(s["ticker"])}</b></td><td class="l">{escape(STATES[s["state"]])}</td>'
+        f'<td class="l">{escape(distance(s))}</td><td>{_pct(s.get("raw_24m"))}</td><td>{_pct(s.get("net_24m"))}</td>'
+        f'<td>{_pct(s.get("drawdown"))}</td><td class="l">{escape(s.get("industry") or "—")}</td></tr>'
+        for s in sorted(hot, key=watch))
+    body.append('<h2>Universe stocks: crash risk and approaching run-ups</h2><p class="lead">Single stocks swing more '
+                'than industries, so the industry crash rates above apply only loosely. USD listings only.</p>'
+                + ('<div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Status</th><th class="l">Distance</th>'
+                   '<th>24 m return</th><th>Net of S&amp;P 500</th><th>From peak since run-up</th>'
+                   '<th class="l">Industry ETF</th></tr></thead><tbody>' + rows + '</tbody></table></div>' if rows else
                    '<p class="muted">None today.</p>'))
     if cal.get('splits'):
         rows = ''.join(f'<tr><td class="l">{escape(x["text"])}</td><td>{_odds(x["yes"])}</td><td>{_odds(x["no"])}</td></tr>'

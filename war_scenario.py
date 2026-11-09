@@ -76,6 +76,8 @@ font-weight:600;font-size:13px}tr:last-child td{border-bottom:0}.up{color:var(--
 .muted{color:var(--muted)}.note{background:var(--panel);border:1px solid var(--line);border-radius:10px;
 padding:12px 16px;color:var(--muted);margin:16px 0}.lbl{font-weight:650}
 .lbl-Strong-Buy,.lbl-Buy{color:var(--up)}.lbl-Sell,.lbl-Hold-Negative{color:var(--down)}
+tr.crash td{background:#3d1418}tr.risk td{background:#2a1518}tr.near td{background:#112619}
+.key{padding:1px 8px;border-radius:6px;color:var(--text)}.key.crash{background:#5a1c22}.key.near{background:#1c4a2c}
 """
 
 
