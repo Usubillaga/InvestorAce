@@ -3,7 +3,7 @@
  "entries": {
   "ADBE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "ADBE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -266,7 +266,7 @@
   },
   "ASML.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "ASML.AS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -421,8 +421,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 1.333,
-   "quote_price": 1343.8,
-   "quote_observed_at": "2026-11-09T16:39:00+00:00",
+   "quote_price": 1347.0,
+   "quote_observed_at": "2026-11-10T10:51:14+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -529,7 +529,7 @@
   },
   "RIVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "RIVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -800,7 +800,7 @@
   },
   "ROAD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "ROAD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1059,7 +1059,7 @@
   },
   "CRM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "CRM",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1330,7 +1330,7 @@
   },
   "NVDA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "NVDA",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1601,7 +1601,7 @@
   },
   "SPGI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "SPGI",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -1872,7 +1872,7 @@
   },
   "SAN.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "SAN.PA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2027,8 +2027,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.256,
-   "quote_price": 85.76,
-   "quote_observed_at": "2026-11-09T16:38:09+00:00",
+   "quote_price": 85.64,
+   "quote_observed_at": "2026-11-10T10:51:19+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": null,
@@ -2135,7 +2135,7 @@
   },
   "APP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "APP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2528,7 +2528,7 @@
   },
   "WKL.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "WKL.AS",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -2655,8 +2655,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.2,
-   "quote_price": 88.82,
-   "quote_observed_at": "2026-11-09T16:39:46+00:00",
+   "quote_price": 88.22,
+   "quote_observed_at": "2026-11-10T10:51:21+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -2763,7 +2763,7 @@
   },
   "MC.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "MC.PA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -2890,8 +2890,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.896,
-   "quote_price": 402.45,
-   "quote_observed_at": "2026-11-09T16:37:41+00:00",
+   "quote_price": 407.55,
+   "quote_observed_at": "2026-11-10T10:51:06+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -2998,7 +2998,7 @@
   },
   "UBER": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "UBER",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3269,7 +3269,7 @@
   },
   "AVGO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "AVGO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -3528,7 +3528,7 @@
   },
   "ONON": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "ONON",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -3791,7 +3791,7 @@
   },
   "PFE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "PFE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4087,7 +4087,7 @@
   },
   "ROL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "ROL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4358,7 +4358,7 @@
   },
   "LULU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "LULU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4629,7 +4629,7 @@
   },
   "PL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "PL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4925,7 +4925,7 @@
   },
   "MSFT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "MSFT",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5188,7 +5188,7 @@
   },
   "AAPL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "AAPL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5576,7 +5576,7 @@
   },
   "CVX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "CVX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5839,7 +5839,7 @@
   },
   "AMAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "AMAT",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -6098,7 +6098,7 @@
   },
   "PHR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "PHR",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -6394,7 +6394,7 @@
   },
   "RCAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "RCAT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6653,7 +6653,7 @@
   },
   "ADSK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "ADSK",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -7025,7 +7025,7 @@
   },
   "GILD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "GILD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7288,7 +7288,7 @@
   },
   "AG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "AG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7559,7 +7559,7 @@
   },
   "BABA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "BABA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7822,7 +7822,7 @@
   },
   "BYRN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "BYRN",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -8118,7 +8118,7 @@
   },
   "FSLR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "FSLR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8389,7 +8389,7 @@
   },
   "SITE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "SITE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8652,7 +8652,7 @@
   },
   "TSLA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "TSLA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8923,7 +8923,7 @@
   },
   "PG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "PG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9186,7 +9186,7 @@
   },
   "CSGP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "CSGP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9733,7 +9733,7 @@
   },
   "SPCX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "SPCX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9955,7 +9955,7 @@
   },
   "REP.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "REP.MC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10110,8 +10110,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": -0.181,
-   "quote_price": 29.36,
-   "quote_observed_at": "2026-11-09T16:42:40+00:00",
+   "quote_price": 28.6,
+   "quote_observed_at": "2026-11-10T10:51:42+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -10210,7 +10210,7 @@
   },
   "AWK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "AWK",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10481,7 +10481,7 @@
   },
   "MRVL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "MRVL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -10752,7 +10752,7 @@
   },
   "AR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "AR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11023,7 +11023,7 @@
   },
   "DVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "DVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11182,7 +11182,7 @@
    "quote_observed_at": "2026-11-09T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
-    "pct_float": null,
+    "pct_float": 2.42,
     "days_to_cover": 2.31,
     "shares": 26347799.0,
     "prior_month_shares": 31640100.0,
@@ -11294,7 +11294,7 @@
   },
   "CNX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "CNX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11565,7 +11565,7 @@
   },
   "MRNA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "MRNA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11724,7 +11724,7 @@
    "quote_observed_at": "2026-11-09T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
-    "pct_float": 9.98,
+    "pct_float": 9.83,
     "days_to_cover": 1.86,
     "shares": 32603398.0,
     "prior_month_shares": 32872787.0,
@@ -11828,7 +11828,7 @@
   },
   "BNTX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "BNTX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12099,7 +12099,7 @@
   },
   "INTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "INTC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12362,7 +12362,7 @@
   },
   "CRWV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "CRWV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -12621,7 +12621,7 @@
   },
   "NBIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "NBIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -12917,7 +12917,7 @@
   },
   "OPEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "OPEN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13303,7 +13303,7 @@
   },
   "TEM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "TEM",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13599,7 +13599,7 @@
   },
   "ISRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "ISRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13758,7 +13758,7 @@
    "quote_observed_at": "2026-11-09T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
-    "pct_float": 2.08,
+    "pct_float": 2.12,
     "days_to_cover": 3.49,
     "shares": 7325463.0,
     "prior_month_shares": 8117017.0,
@@ -13862,7 +13862,7 @@
   },
   "VST": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "VST",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14021,7 +14021,7 @@
    "quote_observed_at": "2026-11-09T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
-    "pct_float": 3.4299999999999997,
+    "pct_float": 3.44,
     "days_to_cover": 1.42,
     "shares": 9946752.0,
     "prior_month_shares": 9701865.0,
@@ -14133,7 +14133,7 @@
   },
   "SE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "SE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -14396,7 +14396,7 @@
   },
   "UNH": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "UNH",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14667,7 +14667,7 @@
   },
   "CMCSA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "CMCSA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14938,7 +14938,7 @@
   },
   "NVO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "NVO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15201,7 +15201,7 @@
   },
   "META": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "META",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15472,7 +15472,7 @@
   },
   "DIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "DIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -15731,7 +15731,7 @@
   },
   "PEP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "PEP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16002,7 +16002,7 @@
   },
   "BSX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "BSX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16298,7 +16298,7 @@
   },
   "WIX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "WIX",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -16561,7 +16561,7 @@
   },
   "GRAB": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "GRAB",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16832,7 +16832,7 @@
   },
   "NOW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "NOW",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -17103,7 +17103,7 @@
   },
   "MCD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "MCD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -17643,7 +17643,7 @@
   },
   "NKE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "NKE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -17914,7 +17914,7 @@
   },
   "ZTS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "ZTS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18177,7 +18177,7 @@
   },
   "IBST.L": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "IBST.L",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -18304,8 +18304,8 @@
    "financial_currency": "GBP",
    "currency": "GBp",
    "beta": 0.832,
-   "quote_price": 77.3,
-   "quote_observed_at": "2026-11-09T16:39:57+00:00",
+   "quote_price": 77.8146,
+   "quote_observed_at": "2026-11-10T10:41:46+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -18412,7 +18412,7 @@
   },
   "NFLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "NFLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18683,7 +18683,7 @@
   },
   "AMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "AMD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18954,7 +18954,7 @@
   },
   "GOOGL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "GOOGL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -19217,7 +19217,7 @@
   },
   "INTU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "INTU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -19488,7 +19488,7 @@
   },
   "CLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "CLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -19759,7 +19759,7 @@
   },
   "GIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "GIS",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -20022,7 +20022,7 @@
   },
   "O": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "O",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20293,7 +20293,7 @@
   },
   "BBW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "BBW",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -20564,7 +20564,7 @@
   },
   "BKNG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "BKNG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20835,7 +20835,7 @@
   },
   "MO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "MO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -21621,7 +21621,7 @@
   },
   "CSCO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "CSCO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -22169,7 +22169,7 @@
   },
   "MNDY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "MNDY",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -22338,9 +22338,9 @@
    },
    "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
-    "date": "2026-11-09",
+    "date": "2027-02-08",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -22436,6 +22436,7 @@
     "https://finance.yahoo.com/quote/MNDY/balance-sheet/",
     "https://finance.yahoo.com/quote/MNDY/key-statistics/"
    ],
+   "beta_basis": "CARRIED_FROM_PREVIOUS_FETCH",
    "last_earnings": "2026-11-09"
   },
   "NRG": {
@@ -22596,7 +22597,7 @@
    "quote_observed_at": "2026-11-09T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
-    "pct_float": 3.8,
+    "pct_float": 3.81,
     "days_to_cover": 1.89,
     "shares": 5978131.0,
     "prior_month_shares": 5836515.0,
@@ -22881,9 +22882,9 @@
    },
    "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
-    "date": "2026-11-09",
+    "date": "2027-02-09",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "SEC_COVER_PAGE",
@@ -22991,7 +22992,7 @@
   },
   "B": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "B",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -23160,9 +23161,9 @@
    },
    "dividends_basis": "CASH_FLOW_STATEMENT",
    "earnings": {
-    "date": "2026-11-09",
+    "date": "2027-02-04",
     "date_end": null,
-    "estimated": false,
+    "estimated": true,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -23258,6 +23259,7 @@
     "https://finance.yahoo.com/quote/B/balance-sheet/",
     "https://finance.yahoo.com/quote/B/key-statistics/"
    ],
+   "beta_basis": "CARRIED_FROM_PREVIOUS_FETCH",
    "last_earnings": "2026-11-09"
   },
   "CTVA": {
@@ -23528,7 +23530,7 @@
   },
   "FNV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "FNV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -23799,7 +23801,7 @@
   },
   "FICO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "FICO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -23958,7 +23960,7 @@
    "quote_observed_at": "2026-11-09T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
-    "pct_float": 13.54,
+    "pct_float": 13.700000000000001,
     "days_to_cover": 2.07,
     "shares": 2427000.0,
     "prior_month_shares": 1939188.0,
@@ -24070,7 +24072,7 @@
   },
   "GDDY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "GDDY",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -24341,7 +24343,7 @@
   },
   "GEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "GEN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -24612,7 +24614,7 @@
   },
   "MU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "MU",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -24883,7 +24885,7 @@
   },
   "TPR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T07:56:41.461759+00:00",
+   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
    "symbol": "TPR",
    "financial_period": "2026-09-30",
    "period_ends": [
