@@ -180,6 +180,17 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
         ranges['b'] = [minimum,9.5]
         balance_supported = True
         flags.append('BALANCE_LOWER_BOUND')
+    liabilities = finite_number(inputs.get('liabilities'))
+    if (values['b'] is None and debt is None and liabilities is not None and liabilities >= 0
+            and cash is not None and ebitda):
+        # No debt row: borrowings cannot exceed total liabilities, so net debt
+        # is at most liabilities minus cash. A bound, not an assumed zero.
+        minimum = autoscore._band((liabilities-cash)/ebitda,autoscore.BALANCE,default=None)
+        ranges['b'] = [minimum,9.5]
+        if minimum == 9.5:
+            values['b'] = 9.5
+        balance_supported = True
+        flags.append('BALANCE_LOWER_BOUND')
     if (dynamic.get('valuation') or {}).get('reverse_dcf_bound'):
         flags.append('REQUIRED_GROWTH_' + dynamic['valuation']['reverse_dcf_bound'])
     if row.get('midcycle'):
