@@ -7,6 +7,7 @@ reads entry and exit closes from committed snapshots and never from
 hindsight. Nothing here changes a score, a label or the real portfolio.
 """
 import json
+import math
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -65,15 +66,26 @@ def _days(day, n):
     return (date.fromisoformat(day) + timedelta(days=n)).isoformat()
 
 
+US_CLOSE_UTC = '21:05'      # NYSE closes at 21:00 UTC in winter; summer is earlier, so this is conservative
+
+
 def merge_series(snapshots):
-    """{symbol: {date: close}} merged over several snapshots' pulse.tracked."""
+    """{symbol: [(date, close)]} merged over several snapshots' pulse.tracked.
+
+    A build that ran during the trading day records that day's partial bar. It is not a close, so a row dated
+    on the capture day counts only when the build ran after the US close; later snapshots overwrite earlier."""
     merged = {}
     for snapshot in snapshots:
-        tracked = ((((snapshot or {}).get('_evidence') or {}).get('macro') or {}).get('pulse') or {}).get('tracked') or {}
+        evidence = (snapshot or {}).get('_evidence') or {}
+        tracked = (((evidence.get('macro') or {}).get('pulse') or {}).get('tracked')) or {}
+        captured = str(evidence.get('captured_at') or '')
+        day, clock = captured[:10], captured[11:16]
+        partial_day = day if captured and clock < US_CLOSE_UTC else None
         for symbol, rows in tracked.items():
             target = merged.setdefault(symbol, {})
             for when, value in rows:
-                target[when] = value
+                if when != partial_day:
+                    target[when] = value
     return {s: sorted(v.items()) for s, v in merged.items()}
 
 
@@ -95,7 +107,51 @@ def _leg(holdings, series, entry, exit_):
     return rows, (total / weight_used if weight_used else None), weight_used
 
 
+def _size(rows, amount, fx):
+    """Whole shares per position. Sizing uses the entry close once known, else the signal price.
+
+    `fx` converts a listing currency to USD at a rate fixed in the portfolio file; it only sizes the
+    positions and values them in dollars, returns stay in each listing currency."""
+    cost = value = 0.
+    for h in rows:
+        rate = (fx or {}).get(h.get('currency') or 'USD', 1.)
+        price = h.get('entry_close') or h.get('signal_price')
+        if not price or not rate:
+            continue
+        shares = math.floor(amount * h['weight_pct'] / 100 / (price * rate))
+        spent = shares * price * rate
+        latest = h.get('exit_close')
+        h.update(shares=shares, cost_usd=spent, sizing_price=price,
+                 sizing='ENTRY_CLOSE' if h.get('entry_close') else 'SIGNAL_PRICE',
+                 value_usd=shares * latest * rate if latest and h.get('entry_close') else spent)
+        cost += spent
+        value += h['value_usd']
+    return cost, value
+
+
+def _capital(doc, result):
+    """Dollar sizing of the model sleeve and the pick sleeve; the portfolio file fixes capital and FX."""
+    capital = doc.get('capital_usd')
+    if not capital:
+        return
+    sleeve = float(result.get('discretionary_sleeve_pct') or 0.)
+    fx = doc.get('fx_usd') or {}
+    cost = value = 0.
+    for rows, amount in ((result['holdings'], capital * (100 - sleeve) / 100),
+                         (result.get('discretionary') or [], capital * sleeve / 100)):
+        c, v = _size(rows, amount, fx)
+        cost, value = cost + c, value + v
+    result.update(capital_usd=float(capital), invested_usd=cost, cash_usd=capital - cost, value_usd=value + (capital - cost),
+                  pnl_usd=value - cost, fx_usd=fx)
+
+
 def evaluate(doc, series, as_of=None):
+    result = _evaluate(doc, series, as_of)
+    _capital(doc, result)
+    return result
+
+
+def _evaluate(doc, series, as_of=None):
     """Weighted returns of the holdings, the control basket and the benchmark."""
     exit_ = min(doc['exit_date'], (as_of or date.fromisoformat(doc['exit_date'])).isoformat())
     entry = doc['entry_date']
@@ -155,11 +211,15 @@ def report(result):
         lines += [f"{result['discretionary_name']}: {picks} · "
                   f"combined ({100 - sleeve:.0f}% model + {sleeve:.0f}% pick) {pct(result['combined_return_pct'])}"
                   f" · vs S&P 500 {pct(result['excess_combined_vs_benchmark_pct'])}"]
-    lines += ['', '| Ticker | Label | Weight | Entry | Exit | Return |', '|---|---|---|---|---|---|']
+    if result.get('capital_usd'):
+        lines.append(f"Capital ${result['capital_usd']:,.0f}: invested ${result['invested_usd']:,.0f}, cash "
+                     f"${result['cash_usd']:,.0f}, value ${result['value_usd']:,.0f}, gain/loss ${result['pnl_usd']:+,.0f}")
+    lines += ['', '| Ticker | Label | Weight | Shares | Entry | Exit | Return |', '|---|---|---|---|---|---|---|']
     ranked = lambda h: -h['return_pct'] if h.get('return_pct') is not None else float('inf')
     for h in sorted(result['holdings'], key=ranked):
         lines.append(f"| {h['ticker']} | {h['label']} {h['score']:.2f} | {h['weight_pct']:.1f}% | "
-                     f"{h.get('entry_close', '—')} | {h.get('exit_close', '—')} | {pct(h.get('return_pct'))} |")
+                     f"{h.get('shares', '—')} | {h.get('entry_close', '—')} | {h.get('exit_close', '—')} | "
+                     f"{pct(h.get('return_pct'))} |")
     missing = [h['ticker'] for h in result['holdings'] + result['control'] + result.get('discretionary', [])
                if h['status'] != 'PRICED']
     if missing:
@@ -205,46 +265,75 @@ def render(results, docs, *, now):
             tiles += [('Your pick: ' + ', '.join(h['ticker'] for h in result['discretionary']),
                        result['discretionary_return_pct']),
                       (f'Combined {100 - sleeve:.0f}% model + {sleeve:.0f}% pick', result['combined_return_pct'])]
+        if not result['control']:
+            tiles = [t for t in tiles if not t[0].startswith('Earnings-IV')]
+        money = lambda v: format(v, ',.0f')
+        dollars = ''
+        if result.get('capital_usd'):
+            pnl = result.get('pnl_usd') or 0.
+            dollars = ('<div class="tiles">'
+                       f'<div class="tile"><span>Capital</span><b>${money(result["capital_usd"])}</b></div>'
+                       f'<div class="tile"><span>Invested (whole shares)</span><b>${money(result["invested_usd"])}</b></div>'
+                       f'<div class="tile"><span>Cash left</span><b>${money(result["cash_usd"])}</b></div>'
+                       f'<div class="tile"><span>Value now</span><b>${money(result["value_usd"])}</b></div>'
+                       f'<div class="tile"><span>Gain / loss</span><b class="{"up" if pnl > 0 else "down" if pnl < 0 else ""}">'
+                       f'{"+" if pnl >= 0 else "−"}${money(abs(pnl))}</b></div></div>')
         body.append(f'<h2>{escape(doc["name"])}</h2><p><b>{escape(state)}</b> · exit at the close of '
                     f'{escape(doc["exit_date"])}</p><div class="tiles">'
                     + ''.join(f'<div class="tile"><span>{escape(name)}</span><b>{_pct(value)}</b></div>'
-                              for name, value in tiles) + '</div>')
+                              for name, value in tiles) + '</div>' + dollars)
         rule = str(doc.get('weight_rule') or '').strip().rstrip('.')
         rule = rule[len('Weight '):] if rule.lower().startswith('weight ') else rule
-        body.append('<div class="note"><b>Rules.</b> Holdings: every Buy label in the '
-                    f'{escape(str(doc.get("signal_snapshot_captured", ""))[:10])} snapshot '
+        selection = doc.get('selection_note') or ('every Buy label in the '
+                    f'{str(doc.get("signal_snapshot_captured", ""))[:10]} snapshot')
+        sizing = ''
+        if doc.get('capital_usd'):
+            fx = ', '.join(f'1 {k} = {v} USD' for k, v in (doc.get('fx_usd') or {}).items())
+            sizing = (f' Sizing: ${money(doc["capital_usd"])} split by weight, whole shares at the entry close'
+                      + (f' (fixed rate {escape(fx)} for sizing and dollar values only)' if fx else '')
+                      + '; the rest stays cash.')
+        body.append('<div class="note"><b>Rules.</b> Holdings: ' + escape(selection) + ' '
                     f'(model {escape(str(doc.get("model", "")))}, regime {escape(str(doc.get("regime", "")))}). '
                     f'Weights: {escape(rule)}. Entry: first close on or after {escape(doc["entry_date"])}; '
                     f'exit: last close on or before {escape(doc["exit_date"])}, each in its listing currency. '
-                    'A missing or stale close is shown as not priced, never as 0%. Control: the earnings-week '
-                    'implied-volatility list, equal weight. Benchmark: S&P 500 price index.</div>')
+                    'A missing or stale close is shown as not priced, never as 0%. '
+                    + ('Control: the earnings-week implied-volatility list, equal weight. ' if result['control'] else '')
+                    + 'Benchmark: S&P 500 price index.' + escape(sizing) + '</div>')
         rows = []
         for h in sorted(result['holdings'], key=lambda h: -h['weight_pct']):
             contribution = h['weight_pct'] * h['return_pct'] / 100 if h.get('return_pct') is not None else None
+            have = h.get('shares') is not None
             rows.append(f'<tr><td><b>{escape(h["ticker"])}</b></td><td class="l">{label(h.get("label"), h.get("score"))}</td>'
-                        f'<td>{h["weight_pct"]:.1f}%</td><td>{_price(h, "signal_price")} {escape(h.get("currency", ""))}</td>'
+                        f'<td>{h["weight_pct"]:.1f}%</td>'
+                        + (f'<td><b>{h["shares"]:,}</b></td><td>${money(h["cost_usd"])}</td>' if have else '')
+                        + f'<td>{_price(h, "signal_price")} {escape(h.get("currency", ""))}</td>'
                         f'<td>{_price(h, "entry_close")}</td><td>{_price(h, "exit_close")}</td>'
                         f'<td>{_pct(h.get("return_pct"))}</td><td>{_pct(contribution)}</td></tr>')
+        sized = result.get('capital_usd') is not None
         body.append('<h2>Model holdings</h2><div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Label</th>'
-                    '<th>Weight</th><th>Signal price</th><th>Entry close</th><th>Latest close</th><th>Return</th>'
+                    '<th>Weight</th>' + ('<th>Shares</th><th>Invested</th>' if sized else '')
+                    + '<th>Signal price</th><th>Entry close</th><th>Latest close</th><th>Return</th>'
                     '<th>Contribution</th></tr></thead><tbody>' + ''.join(rows) + '</tbody></table></div>')
         if result.get('discretionary'):
             pick = doc.get('discretionary') or {}
             rows = ''.join(f'<tr><td><b>{escape(h["ticker"])}</b></td><td class="l">{label(h.get("label"), h.get("score"))}</td>'
-                           f'<td>{_price(h, "signal_price")}</td><td>{_price(h, "entry_close")}</td>'
+                           + (f'<td><b>{h["shares"]:,}</b></td><td>${money(h["cost_usd"])}</td>' if h.get('shares') is not None else '')
+                           + f'<td>{_price(h, "signal_price")}</td><td>{_price(h, "entry_close")}</td>'
                            f'<td>{_price(h, "exit_close")}</td><td>{_pct(h.get("return_pct"))}</td></tr>'
                            for h in result['discretionary'])
             body.append(f'<h2>{escape(result.get("discretionary_name") or "Your pick")} · {sleeve:.0f}% sleeve</h2>'
                         f'<p class="lead">{escape(pick.get("rationale", ""))}</p><div class="tw"><table><thead><tr>'
-                        '<th>Ticker</th><th class="l">Model label</th><th>Signal price</th><th>Entry close</th>'
+                        '<th>Ticker</th><th class="l">Model label</th>' + ('<th>Shares</th><th>Invested</th>' if sized else '')
+                        + '<th>Signal price</th><th>Entry close</th>'
                         '<th>Latest close</th><th>Return</th></tr></thead><tbody>' + rows + '</tbody></table></div>')
         rows = ''.join(f'<tr><td><b>{escape(h["ticker"])}</b></td><td>{_pct(h.get("implied_move_pct"), css=False).replace("+", "±")}</td>'
                        f'<td class="l">{label(h.get("investorace_label"))}</td><td>{_price(h, "entry_close")}</td>'
                        f'<td>{_price(h, "exit_close")}</td><td>{_pct(h.get("return_pct"))}</td></tr>'
                        for h in sorted(result['control'], key=lambda h: h['ticker']))
-        body.append('<h2>Control basket</h2><div class="tw"><table><thead><tr><th>Ticker</th><th>Implied move</th>'
-                    '<th class="l">InvestorAce label</th><th>Entry close</th><th>Latest close</th><th>Return</th>'
-                    '</tr></thead><tbody>' + rows + '</tbody></table></div>')
+        if result['control']:
+            body.append('<h2>Control basket</h2><div class="tw"><table><thead><tr><th>Ticker</th><th>Implied move</th>'
+                        '<th class="l">InvestorAce label</th><th>Entry close</th><th>Latest close</th><th>Return</th>'
+                        '</tr></thead><tbody>' + rows + '</tbody></table></div>')
         missing = [h['ticker'] for h in result['holdings'] + result['control'] + result.get('discretionary', [])
                    if h['status'] == 'NO_PRICE']
         if missing:
