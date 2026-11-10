@@ -347,5 +347,6 @@
   "fx_usd": {
     "EUR": 1.1228
   },
-  "capital_note": "Added 2026-11-10 at the user's request: 28,000 USD, 90% model sleeve and 10% OXY sleeve, whole shares at the entry close. Holdings, weights and dates are unchanged."
+  "capital_note": "Added 2026-11-10 at the user's request: 28,000 USD, 90% model sleeve and 10% OXY sleeve, whole shares at the entry close. Holdings, weights and dates are unchanged.",
+  "short_name": "Test 1 · 7 Nov Buys"
 }

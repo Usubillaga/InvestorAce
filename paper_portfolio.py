@@ -243,6 +243,29 @@ def _price(h, key):
     return '<span class="muted">—</span>' if value is None else format(value, ',.2f')
 
 
+def combine(results, docs):
+    """Both portfolios as one view: totals and one position table. Evaluation stays separate per test."""
+    parts = [(r, d) for r, d in zip(results, docs) if r.get('capital_usd')]
+    if len(parts) < 2:
+        return None
+    rows = []
+    for r, d in parts:
+        name = d.get('short_name') or d['name']
+        for h in r['holdings']:
+            rows.append(dict(h, portfolio=name))
+        for h in r.get('discretionary') or []:
+            rows.append(dict(h, portfolio=name + ' · your pick'))
+    rows = [h for h in rows if h.get('shares') is not None]
+    capital = sum(r['capital_usd'] for r, _ in parts)
+    invested = sum(r['invested_usd'] for r, _ in parts)
+    value = sum(r['value_usd'] for r, _ in parts)
+    for h in rows:
+        h['gain_usd'] = h['value_usd'] - h['cost_usd']
+    return dict(capital_usd=capital, invested_usd=invested, cash_usd=capital - invested, value_usd=value,
+                pnl_usd=value - capital, return_on_invested_pct=100 * (value - capital) / invested if invested else None,
+                rows=sorted(rows, key=lambda h: -h['cost_usd']))
+
+
 def render(results, docs, *, now):
     """One page with every paper portfolio: rules, live result, holdings."""
     from html import escape
@@ -251,6 +274,30 @@ def render(results, docs, *, now):
             'InvestorAce Buy labels beat the market out of sample. Holdings, weights and dates were frozen '
             'before the entry date; prices come only from the nightly builds, never from hindsight. '
             f'Updated {escape(now.strftime("%Y-%m-%d %H:%M"))} UTC.</p>']
+    together = combine(results, docs)
+    if together:
+        money0 = lambda v: format(v, ',.0f')
+        gain = together['pnl_usd']
+        css = 'up' if gain > 0 else 'down' if gain < 0 else ''
+        trs = ''.join(
+            f'<tr><td><b>{escape(h["ticker"])}</b></td><td class="l muted">{escape(h["portfolio"])}</td>'
+            f'<td class="l">{label(h.get("label"), h.get("score"))}</td><td><b>{h["shares"]:,}</b></td>'
+            f'<td>${money0(h["cost_usd"])}</td><td>${money0(h["value_usd"])}</td>'
+            f'<td class="{"up" if h["gain_usd"] > 0 else "down" if h["gain_usd"] < 0 else ""}">'
+            f'{"+" if h["gain_usd"] >= 0 else "−"}${money0(abs(h["gain_usd"]))}</td>'
+            f'<td>{_pct(h.get("return_pct"))}</td></tr>' for h in together['rows'])
+        body.append(
+            '<h2>Both portfolios together</h2><p class="lead">One view of every position. Each test keeps its own '
+            'entry date, benchmark comparison and result below; they are not merged, so the first test stays a clean '
+            'out-of-sample check.</p><div class="tiles">'
+            f'<div class="tile"><span>Capital (two tests)</span><b>${money0(together["capital_usd"])}</b></div>'
+            f'<div class="tile"><span>Invested</span><b>${money0(together["invested_usd"])}</b></div>'
+            f'<div class="tile"><span>Cash left</span><b>${money0(together["cash_usd"])}</b></div>'
+            f'<div class="tile"><span>Value now</span><b>${money0(together["value_usd"])}</b></div>'
+            f'<div class="tile"><span>Gain / loss</span><b class="{css}">{"+" if gain >= 0 else "−"}${money0(abs(gain))}'
+            f'</b></div></div><div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Portfolio</th>'
+            '<th class="l">Label</th><th>Shares</th><th>Invested</th><th>Value now</th><th>Gain / loss</th>'
+            '<th>Return</th></tr></thead><tbody>' + trs + '</tbody></table></div>')
     for result, doc in zip(results, docs):
         status = result['status']
         state = {'PENDING': f"Not started: entry at the close of {result['entry_date']}",
