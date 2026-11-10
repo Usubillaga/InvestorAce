@@ -80,6 +80,25 @@ class OpportunityTests(unittest.TestCase):
         self.assertIsNone(dynamic['inputs']['cash'])
         self.assertIn('BALANCE_LOWER_BOUND',result['flags'])
 
+    def test_missing_debt_row_is_bounded_by_total_liabilities(self):
+        base=self.assess(row())
+        value=row();dynamic=value['dynamic_analysis'];dynamic['components']['b']=None
+        dynamic['inputs']['debt']=None;dynamic['metrics']['net_debt_ebitda']=None
+        # Liabilities below cash: net debt cannot be positive, the balance note is known.
+        dynamic['inputs']['liabilities']=dynamic['inputs']['cash']*.5
+        covered=self.assess(copy.deepcopy(value))
+        self.assertIn('BALANCE_LOWER_BOUND',covered['flags'])
+        self.assertNotIn('b',covered['missing_components'])
+        self.assertIsNotNone(covered['score'])
+        self.assertEqual(covered['label'],base['label'])
+        self.assertIsNone(dynamic['inputs']['debt'])            # never written as zero
+        # Large liabilities: only a lower bound, the score stays a range.
+        ebitda=dynamic['inputs'].get('leverage_ebitda') or dynamic['inputs']['ebitda']
+        dynamic['inputs']['liabilities']=dynamic['inputs']['cash']+3.5*ebitda
+        wide=self.assess(copy.deepcopy(value))
+        self.assertIsNone(wide['score'])
+        self.assertLess(wide['score_lower'],wide['score_upper'])
+
     def test_uncertain_quality_gate_does_not_truncate_an_attainable_strong_buy(self):
         value=row();dynamic=value['dynamic_analysis']
         # g=8.5 (v17: 7.0) keeps the completed case a Strong Buy under the v18

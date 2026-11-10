@@ -309,7 +309,7 @@ SECTOR_ETF = {
     'Services': 'XLI', 'Aerospace': 'ITA', 'Space': 'UFO', 'Real Estate': 'XLRE', 'REIT': 'XLRE',
     'Info Svcs': 'XLF',
 }
-TICKER_ETF = {'AMAT': 'SOXX', 'AMD': 'SOXX', 'FSLR': 'TAN', 'MSFT': 'IGV', 'INTU': 'IGV', 'ADSK': 'IGV',
+TICKER_ETF = {'AMAT': 'SOXX', 'AMD': 'SOXX', 'MU': 'SOXX', 'FSLR': 'TAN', 'MSFT': 'IGV', 'INTU': 'IGV', 'ADSK': 'IGV',
               'MNDY': 'IGV', 'AG': 'SIL', 'B': 'GDX', 'FNV': 'GDX', 'CEG': 'NLR', 'VST': 'NLR', 'NRG': 'NLR',
               'BABA': 'KWEB', 'RCAT': 'ITA', 'BYRN': 'ITA'}
 

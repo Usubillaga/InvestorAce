@@ -29,6 +29,9 @@ ALIASES = {
     'fcf': ('Free Cash Flow',),
     'dividends': ('Cash Dividends Paid', 'Common Stock Dividend Paid'),
     'debt': ('Total Debt',),
+    # Yahoo omits 'Total Debt' for companies without borrowings. Debt is part
+    # of total liabilities, so that total is a sourced upper bound for it.
+    'liabilities': ('Total Liabilities Net Minority Interest', 'Total Liabilities'),
     'cash': ('Cash And Cash Equivalents', 'Cash Cash Equivalents And Short Term Investments'),
     'shares': ('Ordinary Shares Number',),
     # Row names as yfinance 0.2.66 serves them (const.py keys through
@@ -342,7 +345,7 @@ def extract(ticker, symbol, *, as_of):
         dividends_basis = 'PROVIDER_ZERO_TRAILING_DIVIDEND'
     balance = next((b for b in (frames['qbalance'], frames['balance'])
                     if b is not None and end is not None and end in b.columns), None)
-    values.update({key: _value(balance, key, end) for key in ('debt', 'cash')})
+    values.update({key: _value(balance, key, end) for key in ('debt', 'cash', 'liabilities')})
     equity_rows = []
     current_equity = _equity_row(selected_cf, selected_income, balance, dates, basis)
     if current_equity:
