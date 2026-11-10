@@ -124,6 +124,25 @@ class PaperPortfolioTests(unittest.TestCase):
         self.assertGreaterEqual(r['cash_usd'], 0)
         self.assertIn('Capital $10,000', pp.report(r))
 
+    def test_both_portfolios_are_shown_together_without_merging_their_results(self):
+        from datetime import datetime, timezone
+        first = dict(doc(), capital_usd=10000, fx_usd={}, short_name='Test 1')
+        second = dict(doc(), capital_usd=5000, fx_usd={}, short_name='Test 2', name='Second',
+                      holdings=[dict(ticker='E', yahoo='E', label='Buy', score=8., weight_pct=100., currency='USD')],
+                      control_basket=None)
+        series = dict(self.series(), E=[('2026-11-09', 20.), ('2026-11-23', 25.)])
+        results = [pp.evaluate(first, series), pp.evaluate(second, series)]
+        together = pp.combine(results, [first, second])
+        self.assertEqual(together['capital_usd'], 15000)
+        self.assertEqual({h['portfolio'] for h in together['rows']}, {'Test 1', 'Test 2'})
+        self.assertAlmostEqual(together['value_usd'], sum(r['value_usd'] for r in results))
+        self.assertAlmostEqual(together['pnl_usd'], sum(r['pnl_usd'] for r in results))
+        self.assertAlmostEqual(results[0]['portfolio_return_pct'], pp.evaluate(first, series)['portfolio_return_pct'])
+        self.assertIsNone(pp.combine(results[:1], [first]))
+        page = pp.render(results, [first, second], now=datetime(2026, 11, 24, tzinfo=timezone.utc))
+        self.assertIn('Both portfolios together', page)
+        self.assertEqual(page.count('Control basket'), 1)
+
     def test_sizing_before_the_entry_close_uses_the_signal_price(self):
         d = dict(doc(), capital_usd=10000, fx_usd={})
         for h, price in zip(d['holdings'], (90., 50.)):
