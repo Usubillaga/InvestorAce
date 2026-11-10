@@ -1,0 +1,63 @@
+{
+  "schema": "paper-portfolio-v1",
+  "name": "InvestorAce v18 new Buys, November 2026",
+  "created": "2026-11-10",
+  "signal_snapshot": "20261110T044520524869-0d0898ccd86a48c4ab352659b02a9664",
+  "signal_snapshot_captured": "2026-11-10T04:45:20.524869+00:00",
+  "model": "opportunity-v18.1",
+  "regime": "INFLATION",
+  "entry_date": "2026-11-10",
+  "exit_date": "2026-11-23",
+  "entry_rule": "Close of 10 Nov 2026. The signal snapshot was captured before the US market opened that day, so no later information is used.",
+  "selection_note": "the four stocks that turned Buy after the 7 Nov test snapshot because the scanner added them to the universe (MU, GEN, FICO, GDDY); the first test stays untouched",
+  "weight_rule": "Weight proportional to (score - 6.5), same rule as the first test.",
+  "currency_note": "All four are USD listings.",
+  "capital_usd": 28000,
+  "fx_usd": {},
+  "benchmark": {
+    "name": "S&P 500",
+    "yahoo": "^GSPC"
+  },
+  "holdings": [
+    {
+      "ticker": "MU",
+      "yahoo": "MU",
+      "label": "Buy",
+      "score": 7.871,
+      "currency": "USD",
+      "signal_price": 733.15,
+      "signal_quote_date": "2026-11-09",
+      "weight_pct": 24.85
+    },
+    {
+      "ticker": "GEN",
+      "yahoo": "GEN",
+      "label": "Buy",
+      "score": 8.251,
+      "currency": "USD",
+      "signal_price": 29.8,
+      "signal_quote_date": "2026-11-09",
+      "weight_pct": 31.74
+    },
+    {
+      "ticker": "FICO",
+      "yahoo": "FICO",
+      "label": "Buy",
+      "score": 7.473,
+      "currency": "USD",
+      "signal_price": 723.76,
+      "signal_quote_date": "2026-11-09",
+      "weight_pct": 17.64
+    },
+    {
+      "ticker": "GDDY",
+      "yahoo": "GDDY",
+      "label": "Buy",
+      "score": 7.921,
+      "currency": "USD",
+      "signal_price": 111.71,
+      "signal_quote_date": "2026-11-09",
+      "weight_pct": 25.77
+    }
+  ]
+}
