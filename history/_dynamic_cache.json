@@ -3,7 +3,7 @@
  "entries": {
   "ADBE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "ADBE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -158,8 +158,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.383,
-   "quote_price": 237.32,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 236.7,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 5.17,
@@ -266,7 +266,7 @@
   },
   "ASML.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "ASML.AS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -421,8 +421,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 1.333,
-   "quote_price": 1347.0,
-   "quote_observed_at": "2026-11-10T10:51:14+00:00",
+   "quote_price": 1361.0,
+   "quote_observed_at": "2026-11-10T16:38:56+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -529,7 +529,7 @@
   },
   "RIVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "RIVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -684,8 +684,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.644,
-   "quote_price": 14.01,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 13.7,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 14.310001,
@@ -800,7 +800,7 @@
   },
   "ROAD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "ROAD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -955,8 +955,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.932,
-   "quote_price": 85.3,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 81.64,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 7.6499999999999995,
@@ -1059,7 +1059,7 @@
   },
   "CRM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CRM",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1073,7 +1073,7 @@
     "revenue": 43938000000.0,
     "operating_income": 9455000000.0,
     "net_income": 9662000000.0,
-    "ebitda": null,
+    "ebitda": 16588000000.0,
     "operating_cash_flow": 15750000000.0,
     "capex": 596000000.0,
     "fcf": 15154000000.0,
@@ -1214,8 +1214,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.233,
-   "quote_price": 214.94,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 213.48,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.92,
@@ -1230,7 +1230,7 @@
    "earnings": {
     "date": "2026-12-02",
     "date_end": null,
-    "estimated": true,
+    "estimated": false,
     "source": "YAHOO"
    },
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
@@ -1330,7 +1330,7 @@
   },
   "NVDA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "NVDA",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1485,8 +1485,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.247,
-   "quote_price": 178.67,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 168.89,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.2999999,
@@ -1601,7 +1601,7 @@
   },
   "SPGI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "SPGI",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -1756,8 +1756,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.033,
-   "quote_price": 471.09,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 473.38,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.55,
@@ -1872,7 +1872,7 @@
   },
   "SAN.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "SAN.PA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2027,8 +2027,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.256,
-   "quote_price": 85.64,
-   "quote_observed_at": "2026-11-10T10:51:19+00:00",
+   "quote_price": 85.95,
+   "quote_observed_at": "2026-11-10T16:35:09+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": null,
@@ -2135,7 +2135,7 @@
   },
   "APP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "APP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2290,8 +2290,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.498,
-   "quote_price": 410.0,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 395.51,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.88,
@@ -2430,8 +2430,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.537,
-   "quote_price": 110.51,
-   "quote_observed_at": "2026-11-09T21:03:23+00:00",
+   "quote_price": 110.46,
+   "quote_observed_at": "2026-11-10T21:02:20+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.1199999999999999,
@@ -2528,7 +2528,7 @@
   },
   "WKL.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "WKL.AS",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -2655,8 +2655,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.2,
-   "quote_price": 88.22,
-   "quote_observed_at": "2026-11-10T10:51:21+00:00",
+   "quote_price": 87.42,
+   "quote_observed_at": "2026-11-10T16:37:35+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -2763,7 +2763,7 @@
   },
   "MC.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "MC.PA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -2890,8 +2890,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.896,
-   "quote_price": 407.55,
-   "quote_observed_at": "2026-11-10T10:51:06+00:00",
+   "quote_price": 401.0,
+   "quote_observed_at": "2026-11-10T16:39:07+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -2998,7 +2998,7 @@
   },
   "UBER": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "UBER",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3153,8 +3153,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.308,
-   "quote_price": 71.17,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 70.05,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.4899999999999998,
@@ -3269,7 +3269,7 @@
   },
   "AVGO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "AVGO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -3424,8 +3424,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.508,
-   "quote_price": 319.48,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 331.98,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.1400000000000001,
@@ -3528,44 +3528,44 @@
   },
   "ONON": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "ONON",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 3220400000.0,
-    "operating_income": 444000000.0,
-    "net_income": 396300000.0,
-    "ebitda": 592000000.0,
-    "operating_cash_flow": 525400000.0,
-    "capex": 96300000.0,
-    "fcf": 429100000.0,
+    "revenue": 3357400000.0,
+    "operating_income": 514300000.0,
+    "net_income": 440200000.0,
+    "ebitda": 697800000.0,
+    "operating_cash_flow": 526400000.0,
+    "capex": 113200000.0,
+    "fcf": 413200000.0,
     "dividends": 0.0,
-    "depreciation": 138800000.0,
-    "debt": 562500000.0,
-    "cash": 1204700000.0,
-    "liabilities": 1331500000.0,
+    "depreciation": 151200000.0,
+    "debt": 732600000.0,
+    "cash": 1339000000.0,
+    "liabilities": 1485200000.0,
     "shares": 334214703.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": 525400000.0,
-     "capex": 96300000.0,
-     "net_income": 396300000.0,
-     "reported_fcf": 429100000.0,
-     "net_income_common": 396300000.0,
-     "revenue": 3220400000.0,
+     "operating_cash_flow": 526400000.0,
+     "capex": 113200000.0,
+     "net_income": 440200000.0,
+     "reported_fcf": 413200000.0,
+     "net_income_common": 440200000.0,
+     "revenue": 3357400000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": null,
      "preferred_outstanding": null,
@@ -3683,8 +3683,8 @@
    "financial_currency": "CHF",
    "currency": "USD",
    "beta": 2.079,
-   "quote_price": 37.53,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 34.7,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 13.100000000000001,
@@ -3776,7 +3776,7 @@
    ],
    "listed_class_shares": 301715535.0,
    "implied_shares": 334214703.0,
-   "diluted_average_shares": 639942367.0,
+   "diluted_average_shares": 631033921.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -3791,7 +3791,7 @@
   },
   "PFE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "PFE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3971,8 +3971,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.297,
-   "quote_price": 29.23,
-   "quote_observed_at": "2026-11-09T21:02:53+00:00",
+   "quote_price": 29.36,
+   "quote_observed_at": "2026-11-10T21:03:43+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.42,
@@ -4087,7 +4087,7 @@
   },
   "ROL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "ROL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4242,8 +4242,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.72,
-   "quote_price": 38.74,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 38.42,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 8.540000000000001,
@@ -4358,7 +4358,7 @@
   },
   "LULU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "LULU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4513,8 +4513,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.841,
-   "quote_price": 112.53,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 110.37,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 15.43,
@@ -4629,7 +4629,7 @@
   },
   "PL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "PL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4809,8 +4809,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.27,
-   "quote_price": 14.37,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 14.27,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 12.1700004,
@@ -4823,9 +4823,9 @@
    },
    "dividends_basis": "PROVIDER_ZERO_TRAILING_DIVIDEND",
    "earnings": {
-    "date": "2026-12-09",
+    "date": "2026-12-10",
     "date_end": null,
-    "estimated": true,
+    "estimated": false,
     "source": "YAHOO"
    },
    "shares_basis": "ALL_CLASSES_MIN_IMPLIED_DILUTED",
@@ -4925,7 +4925,7 @@
   },
   "MSFT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "MSFT",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5080,8 +5080,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.045,
-   "quote_price": 545.18,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 533.16,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.88,
@@ -5102,7 +5102,7 @@
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
    "revenue_growth_pct": 17.788686799846666,
-   "share_change_pct": -0.09629408426985453,
+   "share_change_pct": -0.07699527634038583,
    "annual_fcf_growth_pct": -6.457108544776635,
    "revenue_growth_periods": [
     "2026-06-30",
@@ -5188,7 +5188,7 @@
   },
   "AAPL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "AAPL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5343,8 +5343,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.089,
-   "quote_price": 350.69,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 348.51,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.91,
@@ -5482,8 +5482,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.269,
-   "quote_price": 96.03,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 96.91,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.16,
@@ -5576,7 +5576,7 @@
   },
   "CVX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CVX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5731,8 +5731,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.453,
-   "quote_price": 210.78,
-   "quote_observed_at": "2026-11-09T21:02:31+00:00",
+   "quote_price": 211.22,
+   "quote_observed_at": "2026-11-10T21:01:51+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.3200001,
@@ -5839,7 +5839,7 @@
   },
   "AMAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "AMAT",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -5994,8 +5994,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.673,
-   "quote_price": 370.55,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 372.53,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.79,
@@ -6098,7 +6098,7 @@
   },
   "PHR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "PHR",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -6278,8 +6278,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.725,
-   "quote_price": 12.9,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 13.13,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 6.1100002,
@@ -6394,7 +6394,7 @@
   },
   "RCAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "RCAT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -6549,8 +6549,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.675,
-   "quote_price": 4.5,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 4.21,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 27.060000000000002,
@@ -6653,7 +6653,7 @@
   },
   "ADSK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "ADSK",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -6808,8 +6808,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.245,
-   "quote_price": 263.35,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 260.11,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.8299997999999995,
@@ -7025,7 +7025,7 @@
   },
   "GILD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "GILD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7180,8 +7180,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.372,
-   "quote_price": 169.32,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 170.87,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.63,
@@ -7288,7 +7288,7 @@
   },
   "AG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "AG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7443,8 +7443,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.191,
-   "quote_price": 15.87,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 14.94,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -7559,7 +7559,7 @@
   },
   "BABA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "BABA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7714,8 +7714,8 @@
    "financial_currency": "CNY",
    "currency": "USD",
    "beta": 0.401,
-   "quote_price": 105.38,
-   "quote_observed_at": "2026-11-09T21:03:29+00:00",
+   "quote_price": 102.72,
+   "quote_observed_at": "2026-11-10T21:02:18+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.54,
@@ -7822,7 +7822,7 @@
   },
   "BYRN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "BYRN",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -8002,8 +8002,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.785,
-   "quote_price": 3.93,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 4.16,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 10.0600004,
@@ -8118,7 +8118,7 @@
   },
   "FSLR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "FSLR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8273,8 +8273,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.709,
-   "quote_price": 191.61,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 180.98,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 14.099999999999998,
@@ -8389,7 +8389,7 @@
   },
   "SITE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "SITE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8544,8 +8544,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.299,
-   "quote_price": 117.44,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 116.16,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 11.1999996,
@@ -8652,7 +8652,7 @@
   },
   "TSLA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "TSLA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8807,8 +8807,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.743,
-   "quote_price": 378.05,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 379.78,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.1300000999999997,
@@ -8923,7 +8923,7 @@
   },
   "PG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "PG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9078,8 +9078,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.361,
-   "quote_price": 168.32,
-   "quote_observed_at": "2026-11-09T21:03:05+00:00",
+   "quote_price": 168.66,
+   "quote_observed_at": "2026-11-10T21:01:30+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.95,
@@ -9186,7 +9186,7 @@
   },
   "CSGP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CSGP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9341,8 +9341,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.78,
-   "quote_price": 31.24,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 30.33,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.7600000000000002,
@@ -9457,52 +9457,55 @@
   },
   "OXY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T01:43:35.619048+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "OXY",
    "financial_period": "2026-09-30",
    "period_ends": [
-    "2026-09-30"
+    "2026-09-30",
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 24974000000.0,
-    "operating_income": 7106000000.0,
-    "net_income": 7505000000.0,
-    "ebitda": 14489000000.0,
+    "revenue": 21614000000.0,
+    "operating_income": 6872000000.0,
+    "net_income": 8230000000.0,
+    "ebitda": 14392000000.0,
     "operating_cash_flow": 11858000000.0,
-    "capex": 5993000000.0,
-    "fcf": 5865000000.0,
-    "dividends": -1655000000.0,
-    "depreciation": 7383000000.0,
-    "debt": 10895000000.0,
+    "capex": 5218000000.0,
+    "fcf": 6640000000.0,
+    "dividends": -1679000000.0,
+    "depreciation": 7043000000.0,
+    "debt": 12617000000.0,
     "cash": 3884000000.0,
-    "liabilities": 37977000000.0,
-    "shares": 999894745.0
+    "liabilities": 36000000000.0,
+    "shares": 999637371.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "CONTINUING",
      "earnings_scope": "CONTINUING",
      "revenue_scope": "CONTINUING",
-     "operating_cash_flow": 11323000000.0,
-     "capex": 6183000000.0,
-     "net_income": 3873000000.0,
-     "reported_fcf": 4793000000.0,
+     "operating_cash_flow": 12314000000.0,
+     "capex": 5218000000.0,
+     "net_income": 4869000000.0,
+     "reported_fcf": 6640000000.0,
      "net_income_common": null,
-     "revenue": 21671000000.0,
+     "revenue": 21614000000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": 679000000.0,
      "preferred_outstanding": 8287000000.0,
      "has_discontinued_operations": true,
      "discontinued_material": true,
-     "discontinued_net_income": 3381000000.0,
-     "discontinued_operating_cash_flow": -347000000.0,
-     "discontinued_investing_cash_flow": 9461000000.0,
+     "discontinued_net_income": 3361000000.0,
+     "discontinued_operating_cash_flow": -456000000.0,
+     "discontinued_investing_cash_flow": 9430000000.0,
      "discontinued_cash_flow": null,
      "common_dividends_paid": null,
-     "dividends_total": -1655000000.0,
+     "dividends_total": -1679000000.0,
      "source": "YAHOO_STATEMENT_ROWS"
     },
     {
@@ -9609,8 +9612,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.149,
-   "quote_price": 55.76,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 56.9,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.02,
@@ -9628,8 +9631,8 @@
     "estimated": false,
     "source": "YAHOO"
    },
-   "shares_basis": "SEC_COVER_PAGE",
-   "shares_asof": "2026-10-31",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
    "revenue_growth_pct": -1.93469276533903,
    "share_change_pct": 5.068786654458024,
    "annual_fcf_growth_pct": -20.691653786707885,
@@ -9710,7 +9713,7 @@
    ],
    "listed_class_shares": 999637371.0,
    "implied_shares": 999637371.0,
-   "diluted_average_shares": 1012200000.0,
+   "diluted_average_shares": 1012800000.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -9719,21 +9722,14 @@
     "https://finance.yahoo.com/quote/OXY/cash-flow/",
     "https://finance.yahoo.com/quote/OXY/financials/",
     "https://finance.yahoo.com/quote/OXY/balance-sheet/",
-    "https://finance.yahoo.com/quote/OXY/key-statistics/",
-    "https://www.sec.gov/Archives/edgar/data/797468/000162828026009059/",
-    "https://www.sec.gov/Archives/edgar/data/797468/000162828026072198/"
+    "https://finance.yahoo.com/quote/OXY/key-statistics/"
    ],
-   "last_earnings": "2026-11-09",
-   "financial_source": "SEC_COMPANYFACTS",
-   "sec_flags": [
-    "OPERATING_INCOME_PROXY",
-    "DIVIDENDS_NOT_TAGGED"
-   ],
-   "yahoo_financial_period": "2026-06-30"
+   "beta_basis": "CARRIED_FROM_PREVIOUS_FETCH",
+   "last_earnings": "2026-11-09"
   },
   "SPCX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "SPCX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9863,8 +9859,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": null,
-   "quote_price": 142.07,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 143.09,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.4400001000000002,
@@ -9955,7 +9951,7 @@
   },
   "REP.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "REP.MC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10110,8 +10106,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": -0.181,
-   "quote_price": 28.6,
-   "quote_observed_at": "2026-11-10T10:51:42+00:00",
+   "quote_price": 28.69,
+   "quote_observed_at": "2026-11-10T16:35:24+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -10210,7 +10206,7 @@
   },
   "AWK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "AWK",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10365,8 +10361,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.545,
-   "quote_price": 149.22,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 150.36,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.090000400000001,
@@ -10481,7 +10477,7 @@
   },
   "MRVL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "MRVL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -10636,8 +10632,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.327,
-   "quote_price": 154.6,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 154.39,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.2800000000000002,
@@ -10752,7 +10748,7 @@
   },
   "AR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "AR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10907,8 +10903,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.481,
-   "quote_price": 36.36,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 37.63,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.35,
@@ -11023,7 +11019,7 @@
   },
   "DVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "DVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11178,8 +11174,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.477,
-   "quote_price": 42.4,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 43.41,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.42,
@@ -11294,7 +11290,7 @@
   },
   "CNX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CNX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11449,8 +11445,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.594,
-   "quote_price": 36.03,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 36.93,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 16.66,
@@ -11565,7 +11561,7 @@
   },
   "MRNA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "MRNA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11720,8 +11716,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.166,
-   "quote_price": 269.0,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 250.83,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.83,
@@ -11828,7 +11824,7 @@
   },
   "BNTX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "BNTX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11983,8 +11979,8 @@
    "financial_currency": "EUR",
    "currency": "USD",
    "beta": 1.331,
-   "quote_price": 87.51,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 87.21,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.58,
@@ -12099,7 +12095,7 @@
   },
   "INTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "INTC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12254,8 +12250,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.426,
-   "quote_price": 59.37,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 58.13,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.7999999,
@@ -12362,7 +12358,7 @@
   },
   "CRWV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CRWV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -12517,8 +12513,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": null,
-   "quote_price": 48.98,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 48.73,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 22.399999,
@@ -12621,7 +12617,7 @@
   },
   "NBIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "NBIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -12644,7 +12640,7 @@
     "debt": 10171000000.0,
     "cash": 8042100000.0,
     "liabilities": 17621000000.0,
-    "shares": 271855218.0
+    "shares": 253898194.0
    },
    "equity_periods": [
     {
@@ -12801,8 +12797,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.539,
-   "quote_price": 141.45,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 134.0,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 20.18,
@@ -12900,8 +12896,8 @@
      "value": null
     }
    ],
-   "listed_class_shares": 238400165.0,
-   "implied_shares": 271855218.0,
+   "listed_class_shares": 220406311.0,
+   "implied_shares": 253898194.0,
    "diluted_average_shares": 280381615.0,
    "cash_growth_periods": [
     "2025-12-31",
@@ -12917,7 +12913,7 @@
   },
   "OPEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "OPEN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13072,8 +13068,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 3.784,
-   "quote_price": 1.41,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 1.31,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 27.439999999999998,
@@ -13211,8 +13207,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.331,
-   "quote_price": 172.38,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 173.38,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.02,
@@ -13303,7 +13299,7 @@
   },
   "TEM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "TEM",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13483,8 +13479,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 3.613,
-   "quote_price": 84.44,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 80.54,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 24.95,
@@ -13599,7 +13595,7 @@
   },
   "ISRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "ISRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13754,8 +13750,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.439,
-   "quote_price": 460.56,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 450.04,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.12,
@@ -13862,7 +13858,7 @@
   },
   "VST": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "VST",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13885,7 +13881,7 @@
     "debt": 21146000000.0,
     "cash": 2743000000.0,
     "liabilities": 38566000000.0,
-    "shares": 339000000.0
+    "shares": 339394683.0
    },
    "equity_periods": [
     {
@@ -14017,8 +14013,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.375,
-   "quote_price": 133.92,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 131.18,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.44,
@@ -14116,8 +14112,8 @@
      "value": null
     }
    ],
-   "listed_class_shares": 339000000.0,
-   "implied_shares": 339000000.0,
+   "listed_class_shares": 339394683.0,
+   "implied_shares": 339394683.0,
    "diluted_average_shares": 337852657.0,
    "cash_growth_periods": [
     "2025-12-31",
@@ -14133,7 +14129,7 @@
   },
   "SE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "SE",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -14288,8 +14284,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.563,
-   "quote_price": 77.96,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 76.8,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.5100000000000002,
@@ -14396,7 +14392,7 @@
   },
   "UNH": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "UNH",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14551,8 +14547,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.52,
-   "quote_price": 397.62,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 405.12,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.7500000000000002,
@@ -14667,7 +14663,7 @@
   },
   "CMCSA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CMCSA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14822,8 +14818,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.707,
-   "quote_price": 24.51,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 24.75,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.4600001,
@@ -14938,7 +14934,7 @@
   },
   "NVO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "NVO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14961,7 +14957,7 @@
     "debt": 134480000000.0,
     "cash": 44151000000.0,
     "liabilities": 381358000000.0,
-    "shares": 4409245124.0
+    "shares": 4408355124.0
    },
    "equity_periods": [
     {
@@ -15093,8 +15089,8 @@
    "financial_currency": "DKK",
    "currency": "USD",
    "beta": 0.368,
-   "quote_price": 41.38,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 40.7,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.17999995,
@@ -15184,8 +15180,8 @@
      "value": 176954000000.0
     }
    ],
-   "listed_class_shares": 3334373124.0,
-   "implied_shares": 4409245124.0,
+   "listed_class_shares": 3333483124.0,
+   "implied_shares": 4408355124.0,
    "diluted_average_shares": 4416886544.0,
    "cash_growth_periods": [
     "2025-12-31",
@@ -15201,7 +15197,7 @@
   },
   "META": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "META",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15356,8 +15352,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.279,
-   "quote_price": 641.37,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 641.39,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.28,
@@ -15472,7 +15468,7 @@
   },
   "DIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "DIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -15627,8 +15623,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.426,
-   "quote_price": 119.12,
-   "quote_observed_at": "2026-11-09T21:02:07+00:00",
+   "quote_price": 119.21,
+   "quote_observed_at": "2026-11-10T21:01:39+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.17999995,
@@ -15731,7 +15727,7 @@
   },
   "PEP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "PEP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15886,8 +15882,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.321,
-   "quote_price": 141.88,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 143.61,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.25,
@@ -16182,8 +16178,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.585,
-   "quote_price": 44.02,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 44.7,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.8099999,
@@ -16298,44 +16294,44 @@
   },
   "WIX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "WIX",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 2133692000.0,
-    "operating_income": -181369000.0,
-    "net_income": -174648000.0,
-    "ebitda": -145681000.0,
-    "operating_cash_flow": 421122000.0,
-    "capex": 10656000.0,
-    "fcf": 410466000.0,
+    "revenue": 2198663000.0,
+    "operating_income": -190409000.0,
+    "net_income": -187754000.0,
+    "ebitda": -154321000.0,
+    "operating_cash_flow": 370705000.0,
+    "capex": 13050000.0,
+    "fcf": 357655000.0,
     "dividends": 0.0,
-    "depreciation": 32520000.0,
-    "debt": 2038659000.0,
-    "cash": 262776000.0,
-    "liabilities": 3590454000.0,
-    "shares": 41849511.0
+    "depreciation": 32920000.0,
+    "debt": 2021411000.0,
+    "cash": 703434000.0,
+    "liabilities": 3587900000.0,
+    "shares": 58314152.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": 421122000.0,
-     "capex": 10656000.0,
-     "net_income": -174648000.0,
-     "reported_fcf": 410466000.0,
-     "net_income_common": -174648000.0,
-     "revenue": 2133692000.0,
+     "operating_cash_flow": 370705000.0,
+     "capex": 13050000.0,
+     "net_income": -187754000.0,
+     "reported_fcf": 357655000.0,
+     "net_income_common": -187754000.0,
+     "revenue": 2198663000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": null,
      "preferred_outstanding": null,
@@ -16453,8 +16449,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.027,
-   "quote_price": 69.75,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 64.38,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 18.23,
@@ -16544,9 +16540,9 @@
      "value": 1387666000.0
     }
    ],
-   "listed_class_shares": 41849511.0,
-   "implied_shares": 41849511.0,
-   "diluted_average_shares": 42965089.0,
+   "listed_class_shares": 58314152.0,
+   "implied_shares": 58314152.0,
+   "diluted_average_shares": 42324613.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -16561,7 +16557,7 @@
   },
   "GRAB": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "GRAB",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16716,8 +16712,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.833,
-   "quote_price": 3.44,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 3.35,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 5.52,
@@ -16832,7 +16828,7 @@
   },
   "NOW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "NOW",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16987,8 +16983,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.984,
-   "quote_price": 102.76,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 99.61,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.69,
@@ -17103,7 +17099,7 @@
   },
   "MCD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "MCD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -17258,8 +17254,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.431,
-   "quote_price": 281.44,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 282.17,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.1300000999999997,
@@ -17366,41 +17362,44 @@
   },
   "TTD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T01:43:35.619048+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "TTD",
    "financial_period": "2026-09-30",
    "period_ends": [
-    "2026-09-30"
+    "2026-09-30",
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
     "revenue": 2986670000.0,
     "operating_income": 517703000.0,
     "net_income": 329391000.0,
-    "ebitda": 644174000.0,
+    "ebitda": 671074000.0,
     "operating_cash_flow": 1115257000.0,
-    "capex": 253068000.0,
-    "fcf": 862189000.0,
+    "capex": 268294000.0,
+    "fcf": 846963000.0,
     "dividends": 0.0,
     "depreciation": 126471000.0,
-    "debt": 434110000.0,
-    "cash": 1649668000.0,
-    "liabilities": 3190094000.0,
+    "debt": 581290000.0,
+    "cash": 1229288000.0,
+    "liabilities": 3245141000.0,
     "shares": 470197000.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": 1081674000.0,
-     "capex": 233037000.0,
-     "net_income": 406888000.0,
-     "reported_fcf": 848637000.0,
-     "net_income_common": 406888000.0,
-     "revenue": 2990138000.0,
+     "operating_cash_flow": 1115257000.0,
+     "capex": 268294000.0,
+     "net_income": 329391000.0,
+     "reported_fcf": 846963000.0,
+     "net_income_common": 329391000.0,
+     "revenue": 2986670000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": null,
      "preferred_outstanding": 0.0,
@@ -17518,8 +17517,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.036,
-   "quote_price": 14.93,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 15.42,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 22.1,
@@ -17537,8 +17536,8 @@
     "estimated": false,
     "source": "YAHOO"
    },
-   "shares_basis": "SEC_DILUTED_AVG",
-   "shares_asof": "2026-09-30",
+   "shares_basis": "ALL_CLASSES_MIN_IMPLIED_DILUTED",
+   "shares_asof": null,
    "revenue_growth_pct": 18.465611733489972,
    "share_change_pct": -4.06731693747846,
    "annual_fcf_growth_pct": 23.808575033918732,
@@ -17619,7 +17618,7 @@
    ],
    "listed_class_shares": 429686475.0,
    "implied_shares": 472795104.0,
-   "diluted_average_shares": 4699480.0,
+   "diluted_average_shares": 470197000.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -17628,22 +17627,14 @@
     "https://finance.yahoo.com/quote/TTD/cash-flow/",
     "https://finance.yahoo.com/quote/TTD/financials/",
     "https://finance.yahoo.com/quote/TTD/balance-sheet/",
-    "https://finance.yahoo.com/quote/TTD/key-statistics/",
-    "https://www.sec.gov/Archives/edgar/data/1671933/000167193326000014/",
-    "https://www.sec.gov/Archives/edgar/data/1671933/000167193326000116/"
+    "https://finance.yahoo.com/quote/TTD/key-statistics/"
    ],
-   "last_earnings": "2026-11-09",
-   "financial_source": "SEC_COMPANYFACTS",
-   "sec_flags": [
-    "DIVIDENDS_NOT_TAGGED",
-    "SHARES_DILUTED_AVG",
-    "DEBT_NOT_TAGGED"
-   ],
-   "yahoo_financial_period": "2026-06-30"
+   "beta_basis": "CARRIED_FROM_PREVIOUS_FETCH",
+   "last_earnings": "2026-11-09"
   },
   "NKE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "NKE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -17798,8 +17789,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.031,
-   "quote_price": 39.88,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 38.67,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 10.850000399999999,
@@ -17914,7 +17905,7 @@
   },
   "ZTS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "ZTS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18069,8 +18060,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.678,
-   "quote_price": 82.32,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 82.46,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.8699997,
@@ -18177,7 +18168,7 @@
   },
   "IBST.L": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "IBST.L",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -18304,8 +18295,8 @@
    "financial_currency": "GBP",
    "currency": "GBp",
    "beta": 0.832,
-   "quote_price": 77.8146,
-   "quote_observed_at": "2026-11-10T10:41:46+00:00",
+   "quote_price": 75.75,
+   "quote_observed_at": "2026-11-10T16:35:14+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -18412,7 +18403,7 @@
   },
   "NFLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "NFLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18567,8 +18558,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.606,
-   "quote_price": 63.95,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 63.26,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.11,
@@ -18683,7 +18674,7 @@
   },
   "AMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "AMD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18838,8 +18829,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.542,
-   "quote_price": 508.58,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 515.21,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.33,
@@ -18954,7 +18945,7 @@
   },
   "GOOGL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "GOOGL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -19109,8 +19100,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.226,
-   "quote_price": 288.15,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 287.38,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.3300001000000001,
@@ -19217,7 +19208,7 @@
   },
   "INTU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "INTU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -19372,8 +19363,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.921,
-   "quote_price": 338.23,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 340.44,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.45,
@@ -19488,7 +19479,7 @@
   },
   "CLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -19643,8 +19634,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.581,
-   "quote_price": 105.53,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 106.6,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.7799994,
@@ -19759,7 +19750,7 @@
   },
   "GIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "GIS",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -19914,8 +19905,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": -0.012,
-   "quote_price": 34.88,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 34.6,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.24,
@@ -20022,7 +20013,7 @@
   },
   "O": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "O",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20177,8 +20168,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.649,
-   "quote_price": 59.5,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 59.54,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.5900002,
@@ -20293,7 +20284,7 @@
   },
   "BBW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "BBW",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -20448,8 +20439,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.084,
-   "quote_price": 31.61,
-   "quote_observed_at": "2026-11-09T21:00:02+00:00",
+   "quote_price": 30.09,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 26.680002,
@@ -20564,7 +20555,7 @@
   },
   "BKNG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "BKNG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20719,8 +20710,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.153,
-   "quote_price": 163.49,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 159.26,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.52,
@@ -20835,7 +20826,7 @@
   },
   "MO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "MO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20990,8 +20981,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.463,
-   "quote_price": 75.81,
-   "quote_observed_at": "2026-11-09T21:02:17+00:00",
+   "quote_price": 76.34,
+   "quote_observed_at": "2026-11-10T21:01:35+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.4,
@@ -21106,44 +21097,53 @@
   },
   "SMCI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-07T02:41:00.740406+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "SMCI",
    "financial_period": "2026-09-30",
    "period_ends": [
-    "2026-09-30"
+    "2026-09-30",
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
     "revenue": 53991114000.0,
     "operating_income": 4652723000.0,
     "net_income": 3656373000.0,
-    "ebitda": 4708422000.0,
+    "ebitda": 4962060000.0,
     "operating_cash_flow": -6326384000.0,
     "capex": 171317000.0,
     "fcf": -6497701000.0,
     "dividends": 0.0,
-    "depreciation": 55699000.0,
-    "debt": 8760913000.0,
-    "cash": 6912596000.0,
+    "depreciation": 98491000.0,
+    "debt": 8688988000.0,
+    "cash": 6897497000.0,
+    "liabilities": 19658333000.0,
     "shares": 659227367.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": -6809886000.0,
-     "capex": 161999000.0,
-     "net_income": 2230453000.0,
-     "reported_fcf": -6971885000.0,
-     "net_income_common": 2195842000.0,
-     "revenue": 39063072000.0,
+     "operating_cash_flow": -6326384000.0,
+     "capex": 171317000.0,
+     "net_income": 3656373000.0,
+     "reported_fcf": -6497701000.0,
+     "net_income_common": 3621762000.0,
+     "revenue": 53991114000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": null,
      "preferred_outstanding": 4226258000.0,
      "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
      "common_dividends_paid": 0.0,
      "dividends_total": null,
      "source": "YAHOO_STATEMENT_ROWS"
@@ -21164,6 +21164,11 @@
      "preferred_earnings_deduction": 13088000.0,
      "preferred_outstanding": 4226258000.0,
      "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
      "common_dividends_paid": null,
      "dividends_total": null,
      "source": "YAHOO_STATEMENT_ROWS"
@@ -21184,6 +21189,11 @@
      "preferred_earnings_deduction": null,
      "preferred_outstanding": 0.0,
      "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
      "common_dividends_paid": null,
      "dividends_total": null,
      "source": "YAHOO_STATEMENT_ROWS"
@@ -21204,6 +21214,11 @@
      "preferred_earnings_deduction": null,
      "preferred_outstanding": null,
      "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
      "common_dividends_paid": null,
      "dividends_total": null,
      "source": "YAHOO_STATEMENT_ROWS"
@@ -21224,6 +21239,11 @@
      "preferred_earnings_deduction": null,
      "preferred_outstanding": null,
      "has_discontinued_operations": false,
+     "discontinued_material": false,
+     "discontinued_net_income": null,
+     "discontinued_operating_cash_flow": null,
+     "discontinued_investing_cash_flow": null,
+     "discontinued_cash_flow": null,
      "common_dividends_paid": null,
      "dividends_total": null,
      "source": "YAHOO_STATEMENT_ROWS"
@@ -21232,8 +21252,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.181,
-   "quote_price": 28.6,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 27.79,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 13.54,
@@ -21251,8 +21271,8 @@
     "estimated": true,
     "source": "YAHOO"
    },
-   "shares_basis": "SEC_COVER_PAGE",
-   "shares_asof": "2026-10-31",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
    "revenue_growth_pct": 77.78535103837869,
    "share_change_pct": 10.560807125291728,
    "annual_fcf_growth_pct": -554.9918097512905,
@@ -21323,9 +21343,9 @@
      "value": 7123482000.0
     }
    ],
-   "listed_class_shares": 656965384.0,
-   "implied_shares": 656965384.0,
-   "diluted_average_shares": 705001000.0,
+   "listed_class_shares": 659227367.0,
+   "implied_shares": 659227367.0,
+   "diluted_average_shares": 749351000.0,
    "cash_growth_periods": [
     "2026-06-30",
     "2025-06-30"
@@ -21334,55 +21354,50 @@
     "https://finance.yahoo.com/quote/SMCI/cash-flow/",
     "https://finance.yahoo.com/quote/SMCI/financials/",
     "https://finance.yahoo.com/quote/SMCI/balance-sheet/",
-    "https://finance.yahoo.com/quote/SMCI/key-statistics/",
-    "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000022/",
-    "https://www.sec.gov/Archives/edgar/data/1375365/000137536526000027/"
+    "https://finance.yahoo.com/quote/SMCI/key-statistics/"
    ],
-   "last_earnings": "2026-11-03",
-   "financial_source": "SEC_COMPANYFACTS",
-   "sec_flags": [
-    "DIVIDENDS_NOT_TAGGED",
-    "DEBT_NOT_TAGGED"
-   ],
-   "yahoo_financial_period": "2026-06-30"
+   "last_earnings": "2026-11-03"
   },
   "CEG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T01:43:35.619048+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CEG",
    "financial_period": "2026-09-30",
    "period_ends": [
-    "2026-09-30"
+    "2026-09-30",
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
     "revenue": 34250000000.0,
-    "operating_income": 6002000000.0,
+    "operating_income": 5489000000.0,
     "net_income": 4370000000.0,
-    "ebitda": 9556000000.0,
+    "ebitda": 9404000000.0,
     "operating_cash_flow": 5784000000.0,
     "capex": 4447000000.0,
     "fcf": 1337000000.0,
     "dividends": -580000000.0,
-    "depreciation": 3554000000.0,
+    "depreciation": 2574000000.0,
     "debt": 23387000000.0,
     "cash": 603000000.0,
-    "liabilities": 65931000000.0,
-    "shares": 351608504.0
+    "liabilities": 66146000000.0,
+    "shares": 354307379.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": 4206000000.0,
-     "capex": 3897000000.0,
-     "net_income": 3465000000.0,
-     "reported_fcf": 309000000.0,
-     "net_income_common": 3465000000.0,
-     "revenue": 31270000000.0,
+     "operating_cash_flow": 5784000000.0,
+     "capex": 4447000000.0,
+     "net_income": 4370000000.0,
+     "reported_fcf": 1337000000.0,
+     "net_income_common": 4370000000.0,
+     "revenue": 34250000000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": null,
      "preferred_outstanding": null,
@@ -21392,8 +21407,8 @@
      "discontinued_operating_cash_flow": null,
      "discontinued_investing_cash_flow": null,
      "discontinued_cash_flow": null,
-     "common_dividends_paid": -551000000.0,
-     "dividends_total": -551000000.0,
+     "common_dividends_paid": -580000000.0,
+     "dividends_total": -580000000.0,
      "source": "YAHOO_STATEMENT_ROWS"
     },
     {
@@ -21500,8 +21515,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.127,
-   "quote_price": 276.09,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 267.76,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.75,
@@ -21519,8 +21534,8 @@
     "estimated": false,
     "source": "YAHOO"
    },
-   "shares_basis": "SEC_COVER_PAGE",
-   "shares_asof": "2026-10-31",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
    "revenue_growth_pct": 8.337576374745414,
    "share_change_pct": -0.17514496320779616,
    "annual_fcf_growth_pct": null,
@@ -21601,7 +21616,7 @@
    ],
    "listed_class_shares": 354307379.0,
    "implied_shares": 354307379.0,
-   "diluted_average_shares": 360000000.0,
+   "diluted_average_shares": 354000000.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -21610,18 +21625,13 @@
     "https://finance.yahoo.com/quote/CEG/cash-flow/",
     "https://finance.yahoo.com/quote/CEG/financials/",
     "https://finance.yahoo.com/quote/CEG/balance-sheet/",
-    "https://finance.yahoo.com/quote/CEG/key-statistics/",
-    "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000032/",
-    "https://www.sec.gov/Archives/edgar/data/1868275/000186827526000119/"
+    "https://finance.yahoo.com/quote/CEG/key-statistics/"
    ],
-   "last_earnings": "2026-11-09",
-   "financial_source": "SEC_COMPANYFACTS",
-   "sec_flags": [],
-   "yahoo_financial_period": "2026-06-30"
+   "last_earnings": "2026-11-09"
   },
   "CSCO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "CSCO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -21776,8 +21786,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.002,
-   "quote_price": 98.65,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 98.15,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.53,
@@ -21892,11 +21902,14 @@
   },
   "HIMS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T01:43:35.619048+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "HIMS",
    "financial_period": "2026-09-30",
    "period_ends": [
-    "2026-09-30"
+    "2026-09-30",
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
@@ -21905,28 +21918,28 @@
     "net_income": -190844000.0,
     "ebitda": -124743000.0,
     "operating_cash_flow": 180122000.0,
-    "capex": 171900000.0,
-    "fcf": 8222000.0,
+    "capex": 171878000.0,
+    "fcf": 8244000.0,
     "dividends": 0.0,
     "depreciation": 107732000.0,
-    "debt": 1546239000.0,
-    "cash": 712221000.0,
-    "liabilities": 3304742000.0,
-    "shares": 233821898.0
+    "debt": 1560756000.0,
+    "cash": 605604000.0,
+    "liabilities": 3191565000.0,
+    "shares": 224935790.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": 263450000.0,
-     "capex": 201816000.0,
-     "net_income": -142030000.0,
-     "reported_fcf": 61634000.0,
-     "net_income_common": -142030000.0,
-     "revenue": 2578112000.0,
+     "operating_cash_flow": 180122000.0,
+     "capex": 171878000.0,
+     "net_income": -190844000.0,
+     "reported_fcf": 8244000.0,
+     "net_income_common": -190844000.0,
+     "revenue": 2869509000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": null,
      "preferred_outstanding": null,
@@ -22044,8 +22057,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.502,
-   "quote_price": 22.94,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 19.13,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 27.55,
@@ -22063,8 +22076,8 @@
     "estimated": false,
     "source": "YAHOO"
    },
-   "shares_basis": "SEC_DILUTED_AVG",
-   "shares_asof": "2026-09-30",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
    "revenue_growth_pct": 58.998627849109454,
    "share_change_pct": 2.901826204478075,
    "annual_fcf_growth_pct": -71.05135781056198,
@@ -22145,7 +22158,7 @@
    ],
    "listed_class_shares": 224935790.0,
    "implied_shares": 233313413.0,
-   "diluted_average_shares": 231746126.0,
+   "diluted_average_shares": 233821898.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -22154,22 +22167,14 @@
     "https://finance.yahoo.com/quote/HIMS/cash-flow/",
     "https://finance.yahoo.com/quote/HIMS/financials/",
     "https://finance.yahoo.com/quote/HIMS/balance-sheet/",
-    "https://finance.yahoo.com/quote/HIMS/key-statistics/",
-    "https://www.sec.gov/Archives/edgar/data/1773751/000177375126000022/",
-    "https://www.sec.gov/Archives/edgar/data/1773751/000177375126000246/"
+    "https://finance.yahoo.com/quote/HIMS/key-statistics/"
    ],
-   "last_earnings": "2026-11-09",
-   "financial_source": "SEC_COMPANYFACTS",
-   "sec_flags": [
-    "DIVIDENDS_NOT_TAGGED",
-    "SHARES_DILUTED_AVG",
-    "DEBT_NOT_TAGGED"
-   ],
-   "yahoo_financial_period": "2026-06-30"
+   "beta_basis": "CARRIED_FROM_PREVIOUS_FETCH",
+   "last_earnings": "2026-11-09"
   },
   "MNDY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "MNDY",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -22324,8 +22329,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.055,
-   "quote_price": 79.93,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 76.38,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 15.07,
@@ -22441,41 +22446,44 @@
   },
   "NRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T01:43:35.619048+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "NRG",
    "financial_period": "2026-09-30",
    "period_ends": [
-    "2026-09-30"
+    "2026-09-30",
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
     "revenue": 34956000000.0,
-    "operating_income": 2685000000.0,
+    "operating_income": 2757000000.0,
     "net_income": 1258000000.0,
-    "ebitda": 4497000000.0,
+    "ebitda": 4541000000.0,
     "operating_cash_flow": 2168000000.0,
-    "capex": 1479000000.0,
-    "fcf": 689000000.0,
-    "dividends": -439000000.0,
-    "depreciation": 1812000000.0,
-    "debt": 23052000000.0,
+    "capex": 1533000000.0,
+    "fcf": 635000000.0,
+    "dividends": -454000000.0,
+    "depreciation": 1154000000.0,
+    "debt": 23130000000.0,
     "cash": 148000000.0,
-    "liabilities": 35085000000.0,
-    "shares": 210021280.0
+    "liabilities": 35024000000.0,
+    "shares": 209982924.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": 1555000000.0,
-     "capex": 1239000000.0,
-     "net_income": 849000000.0,
-     "reported_fcf": 316000000.0,
-     "net_income_common": 782000000.0,
-     "revenue": 33125000000.0,
+     "operating_cash_flow": 2168000000.0,
+     "capex": 1533000000.0,
+     "net_income": 1258000000.0,
+     "reported_fcf": 635000000.0,
+     "net_income_common": 1191000000.0,
+     "revenue": 34956000000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": 67000000.0,
      "preferred_outstanding": 650000000.0,
@@ -22486,7 +22494,7 @@
      "discontinued_investing_cash_flow": null,
      "discontinued_cash_flow": null,
      "common_dividends_paid": null,
-     "dividends_total": -439000000.0,
+     "dividends_total": -454000000.0,
      "source": "YAHOO_STATEMENT_ROWS"
     },
     {
@@ -22593,8 +22601,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.201,
-   "quote_price": 97.4,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 97.11,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.81,
@@ -22612,8 +22620,8 @@
     "estimated": false,
     "source": "YAHOO"
    },
-   "shares_basis": "SEC_COVER_PAGE",
-   "shares_asof": "2026-10-31",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
    "revenue_growth_pct": 9.18236757909705,
    "share_change_pct": -4.14261337924795,
    "annual_fcf_growth_pct": -57.87444933920705,
@@ -22692,9 +22700,9 @@
      "value": null
     }
    ],
-   "listed_class_shares": 210210483.0,
-   "implied_shares": 210210483.0,
-   "diluted_average_shares": 212000000.0,
+   "listed_class_shares": 209982924.0,
+   "implied_shares": 209982924.0,
+   "diluted_average_shares": 210000000.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -22703,54 +22711,50 @@
     "https://finance.yahoo.com/quote/NRG/cash-flow/",
     "https://finance.yahoo.com/quote/NRG/financials/",
     "https://finance.yahoo.com/quote/NRG/balance-sheet/",
-    "https://finance.yahoo.com/quote/NRG/key-statistics/",
-    "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000004/",
-    "https://www.sec.gov/Archives/edgar/data/1013871/000101387126000025/"
+    "https://finance.yahoo.com/quote/NRG/key-statistics/"
    ],
-   "last_earnings": "2026-11-09",
-   "financial_source": "SEC_COMPANYFACTS",
-   "sec_flags": [
-    "DIVIDENDS_NOT_TAGGED"
-   ],
-   "yahoo_financial_period": "2026-06-30"
+   "last_earnings": "2026-11-09"
   },
   "TTWO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T01:43:35.619048+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "TTWO",
    "financial_period": "2026-09-30",
    "period_ends": [
-    "2026-09-30"
+    "2026-09-30",
+    "2026-06-30",
+    "2026-03-31",
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
     "revenue": 6409700000.0,
-    "operating_income": -180800000.0,
+    "operating_income": -181100000.0,
     "net_income": -240500000.0,
-    "ebitda": 14800000.0,
+    "ebitda": 1185800000.0,
     "operating_cash_flow": 367100000.0,
     "capex": 269100000.0,
     "fcf": 98000000.0,
     "dividends": 0.0,
-    "depreciation": 195600000.0,
-    "debt": 2944700000.0,
-    "cash": 1673600000.0,
-    "liabilities": 5455800000.0,
-    "shares": 187213488.0
+    "depreciation": 1246500000.0,
+    "debt": 2911400000.0,
+    "cash": 1149400000.0,
+    "liabilities": 5697100000.0,
+    "shares": 186980443.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": 500200000.0,
-     "capex": 162700000.0,
-     "net_income": -320400000.0,
-     "reported_fcf": 337500000.0,
-     "net_income_common": -320400000.0,
-     "revenue": 6686500000.0,
+     "operating_cash_flow": 367100000.0,
+     "capex": 269100000.0,
+     "net_income": -240500000.0,
+     "reported_fcf": 98000000.0,
+     "net_income_common": -240500000.0,
+     "revenue": 6409700000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": null,
      "preferred_outstanding": 0.0,
@@ -22868,8 +22872,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.918,
-   "quote_price": 207.4,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 224.64,
+   "quote_observed_at": "2026-11-10T21:00:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 5.1799998,
@@ -22887,8 +22891,8 @@
     "estimated": true,
     "source": "YAHOO"
    },
-   "shares_basis": "SEC_COVER_PAGE",
-   "shares_asof": "2026-10-26",
+   "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
+   "shares_asof": null,
    "revenue_growth_pct": 18.155353592729327,
    "share_change_pct": 4.660369311330714,
    "annual_fcf_growth_pct": null,
@@ -22969,7 +22973,7 @@
    ],
    "listed_class_shares": 186980443.0,
    "implied_shares": 186980443.0,
-   "diluted_average_shares": 186200000.0,
+   "diluted_average_shares": 187100000.0,
    "cash_growth_periods": [
     "2026-03-31",
     "2025-03-31"
@@ -22978,58 +22982,51 @@
     "https://finance.yahoo.com/quote/TTWO/cash-flow/",
     "https://finance.yahoo.com/quote/TTWO/financials/",
     "https://finance.yahoo.com/quote/TTWO/balance-sheet/",
-    "https://finance.yahoo.com/quote/TTWO/key-statistics/",
-    "https://www.sec.gov/Archives/edgar/data/946581/000162828026037434/",
-    "https://www.sec.gov/Archives/edgar/data/946581/000162828026072254/"
+    "https://finance.yahoo.com/quote/TTWO/key-statistics/"
    ],
-   "last_earnings": "2026-11-09",
-   "financial_source": "SEC_COMPANYFACTS",
-   "sec_flags": [
-    "DIVIDENDS_NOT_TAGGED",
-    "DEBT_PARTIAL"
-   ],
-   "yahoo_financial_period": "2026-06-30"
+   "beta_basis": "CARRIED_FROM_PREVIOUS_FETCH",
+   "last_earnings": "2026-11-09"
   },
   "B": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "B",
-   "financial_period": "2026-06-30",
+   "financial_period": "2026-09-30",
    "period_ends": [
+    "2026-09-30",
     "2026-06-30",
     "2026-03-31",
-    "2025-12-31",
-    "2025-09-30"
+    "2025-12-31"
    ],
    "basis": "TTM",
    "inputs": {
-    "revenue": 20655000000.0,
-    "operating_income": 10769000000.0,
-    "net_income": 6527000000.0,
-    "ebitda": 14555000000.0,
-    "operating_cash_flow": 9406000000.0,
-    "capex": 4218000000.0,
-    "fcf": 5188000000.0,
-    "dividends": -1533000000.0,
-    "depreciation": 2114000000.0,
-    "debt": 4682000000.0,
-    "cash": 5927000000.0,
-    "liabilities": 15499000000.0,
-    "shares": 1645884419.0
+    "revenue": 21580000000.0,
+    "operating_income": 11223000000.0,
+    "net_income": 6542000000.0,
+    "ebitda": 14859000000.0,
+    "operating_cash_flow": 9473000000.0,
+    "capex": 4597000000.0,
+    "fcf": 4876000000.0,
+    "dividends": -1559000000.0,
+    "depreciation": 2221000000.0,
+    "debt": 4680000000.0,
+    "cash": 5589000000.0,
+    "liabilities": 15504000000.0,
+    "shares": 1628633000.0
    },
    "equity_periods": [
     {
-     "period": "2026-06-30",
+     "period": "2026-09-30",
      "basis": "TTM",
      "scope": "REPORTED",
      "earnings_scope": "REPORTED",
      "revenue_scope": "REPORTED",
-     "operating_cash_flow": 9406000000.0,
-     "capex": 4218000000.0,
-     "net_income": 6527000000.0,
-     "reported_fcf": 5188000000.0,
-     "net_income_common": 6527000000.0,
-     "revenue": 20655000000.0,
+     "operating_cash_flow": 9473000000.0,
+     "capex": 4597000000.0,
+     "net_income": 6542000000.0,
+     "reported_fcf": 4876000000.0,
+     "net_income_common": 6542000000.0,
+     "revenue": 21580000000.0,
      "preferred_cash_paid": null,
      "preferred_earnings_deduction": null,
      "preferred_outstanding": null,
@@ -23039,8 +23036,8 @@
      "discontinued_operating_cash_flow": null,
      "discontinued_investing_cash_flow": null,
      "discontinued_cash_flow": null,
-     "common_dividends_paid": -1533000000.0,
-     "dividends_total": -1533000000.0,
+     "common_dividends_paid": -1559000000.0,
+     "dividends_total": -1559000000.0,
      "source": "YAHOO_STATEMENT_ROWS"
     },
     {
@@ -23147,8 +23144,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.2,
-   "quote_price": 42.27,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 39.69,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -23246,9 +23243,9 @@
      "value": null
     }
    ],
-   "listed_class_shares": 1645884419.0,
-   "implied_shares": 1645884419.0,
-   "diluted_average_shares": 1666000000.0,
+   "listed_class_shares": 1628633000.0,
+   "implied_shares": 1628633000.0,
+   "diluted_average_shares": 1641000000.0,
    "cash_growth_periods": [
     "2025-12-31",
     "2024-12-31"
@@ -23415,8 +23412,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": null,
-   "quote_price": 12.11,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 12.17,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 6.5799996,
@@ -23521,7 +23518,7 @@
     "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000004/",
     "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000025/"
    ],
-   "last_earnings": null,
+   "last_earnings": "2026-11-11",
    "financial_source": "SEC_COMPANYFACTS",
    "sec_flags": [
     "OPERATING_INCOME_PROXY"
@@ -23530,7 +23527,7 @@
   },
   "FNV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "FNV",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -23553,7 +23550,7 @@
     "debt": null,
     "cash": 1014200000.0,
     "liabilities": 681500000.0,
-    "shares": 192873810.0
+    "shares": 192855530.0
    },
    "equity_periods": [
     {
@@ -23685,8 +23682,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.931,
-   "quote_price": 263.46,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 255.79,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -23784,8 +23781,8 @@
      "value": null
     }
    ],
-   "listed_class_shares": 192873810.0,
-   "implied_shares": 192873810.0,
+   "listed_class_shares": 192855530.0,
+   "implied_shares": 192855530.0,
    "diluted_average_shares": 193300000.0,
    "cash_growth_periods": [
     "2025-12-31",
@@ -23797,11 +23794,11 @@
     "https://finance.yahoo.com/quote/FNV/balance-sheet/",
     "https://finance.yahoo.com/quote/FNV/key-statistics/"
    ],
-   "last_earnings": null
+   "last_earnings": "2026-11-11"
   },
   "FICO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "FICO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -23956,8 +23953,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.338,
-   "quote_price": 723.76,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 730.66,
+   "quote_observed_at": "2026-11-10T21:00:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 13.700000000000001,
@@ -24072,7 +24069,7 @@
   },
   "GDDY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "GDDY",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -24227,8 +24224,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.941,
-   "quote_price": 111.71,
-   "quote_observed_at": "2026-11-09T21:00:03+00:00",
+   "quote_price": 113.13,
+   "quote_observed_at": "2026-11-10T21:00:03+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 8.129999999999999,
@@ -24343,7 +24340,7 @@
   },
   "GEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "GEN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -24498,8 +24495,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.237,
-   "quote_price": 29.8,
-   "quote_observed_at": "2026-11-09T21:00:01+00:00",
+   "quote_price": 30.01,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 6.329999999999999,
@@ -24614,7 +24611,7 @@
   },
   "MU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "MU",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -24769,8 +24766,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.398,
-   "quote_price": 733.15,
-   "quote_observed_at": "2026-11-09T21:00:00+00:00",
+   "quote_price": 725.11,
+   "quote_observed_at": "2026-11-10T21:00:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.0,
@@ -24885,7 +24882,7 @@
   },
   "TPR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-10T11:07:36.110392+00:00",
+   "fetched_at": "2026-11-11T02:50:00.548967+00:00",
    "symbol": "TPR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -25040,8 +25037,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.46,
-   "quote_price": 136.07,
-   "quote_observed_at": "2026-11-09T21:03:26+00:00",
+   "quote_price": 135.62,
+   "quote_observed_at": "2026-11-10T21:00:28+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 8.790000000000001,
