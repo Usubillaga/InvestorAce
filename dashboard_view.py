@@ -43,12 +43,14 @@ JS = r"""
   const count=document.getElementById('dashboard-count'), empty=document.getElementById('dashboard-empty');
   document.getElementById('dashboard-controls').hidden=false;
   table.dataset.compact='true';
+  const companyNames={ALM:'Almirall', ELE:'Endesa', LMT:'Lockheed Martin', OKLO:'Oklo', TEAM:'Atlassian'};
   const normalize=value=>value.normalize('NFKD').replace(/\p{M}/gu,'').toLocaleLowerCase();
   function filter(){
     const term=normalize(query.value.trim());
     let visible=0;
     rows.forEach(row=>{
-      row.hidden=!(normalize(row.dataset.dashboardSearch+' '+row.cells[2].textContent).includes(term)
+      const company=companyNames[row.dataset.assessment] || '';
+      row.hidden=!(normalize(row.dataset.dashboardSearch+' '+company+' '+row.cells[2].textContent).includes(term)
         && (!held.checked || row.dataset.dashboardHeld==='1'));
       if(!row.hidden) visible++;
     });
@@ -70,7 +72,10 @@ JS = r"""
     if(!target) return;
     for(let node=target;node;node=node.parentElement){if(node.tagName==='DETAILS') node.open=true;}
     if(portfolio && typeof window.revealZiel==='function') window.revealZiel();
-    requestAnimationFrame(()=>target.scrollIntoView({block:'start'}));
+    requestAnimationFrame(()=>{
+      target.scrollIntoView({block:'start'});
+      if(target===query) query.focus({preventScroll:true});
+    });
   }
   document.querySelector('[data-dashboard-nav]').addEventListener('click',event=>{
     const link=event.target.closest('a');if(link) openSection(link.hash);
@@ -97,7 +102,7 @@ def render(header, table, *, stats, sections, alert=''):
                     for label, value in stats)
     # A section may carry a fifth element: True renders it open by default.
     sections = [tuple(s) + (False,) * (5 - len(s)) for s in sections]
-    nav = '<a href="#universe">My universe</a>' + ''.join(
+    nav = '<a href="#dashboard-query">Find a company</a><a href="#universe">My universe</a>' + ''.join(
         '<a href="#' + escape(key, quote=True) + '">' + escape(title) + '</a>'
         for key, title, _, _, _ in sections)
     groups = ''.join('<details class="dashboard-section" id="' + escape(key, quote=True)
@@ -106,8 +111,8 @@ def render(header, table, *, stats, sections, alert=''):
                      + '</div></details>' for key, title, description, content, is_open in sections)
     return ('<main id="investorace-dashboard"><header class="dashboard-hero">' + header
             + '</header><div class="dashboard-stats">' + cards
-            + '</div>' + alert + '<nav class="dashboard-nav" data-dashboard-nav aria-label="Report sections">'
-            + nav + '</nav><section id="universe" aria-labelledby="universe-title">'
+            + '</div><nav class="dashboard-nav" data-dashboard-nav aria-label="Report sections">'
+            + nav + '</nav>' + alert + '<section id="universe" aria-labelledby="universe-title">'
             '<div class="dashboard-heading"><h2 id="universe-title">My universe</h2>'
             '<p>Ranked by discounted quality and the current regime.</p></div>'
             '<div class="dashboard-controls" id="dashboard-controls" hidden>'
