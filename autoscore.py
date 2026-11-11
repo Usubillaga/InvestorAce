@@ -296,6 +296,8 @@ def auto_row(symbol, r=0.080):
         normalization_status='REVIEW_REQUIRED',
         sanity=(round(f["lo"] * .5, 2), round(f["hi"] * 2, 2)) if f["lo"] is not None and f["hi"] is not None else None,
     )
+    if f.get("name"):
+        row["name"] = f["name"]   # searchable on the Scoreboard
     if f["sector"] in COMMODITY_SECTORS:
         row["midcycle"] = True
         warn.append(f'{f["sector"]} producer: valued on the multi-year cycle mean (midcycle=True), '

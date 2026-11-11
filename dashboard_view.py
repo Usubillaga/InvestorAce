@@ -43,14 +43,12 @@ JS = r"""
   const count=document.getElementById('dashboard-count'), empty=document.getElementById('dashboard-empty');
   document.getElementById('dashboard-controls').hidden=false;
   table.dataset.compact='true';
-  const companyNames={ALM:'Almirall', ELE:'Endesa', LMT:'Lockheed Martin', OKLO:'Oklo', TEAM:'Atlassian'};
   const normalize=value=>value.normalize('NFKD').replace(/\p{M}/gu,'').toLocaleLowerCase();
   function filter(){
     const term=normalize(query.value.trim());
     let visible=0;
     rows.forEach(row=>{
-      const company=companyNames[row.dataset.assessment] || '';
-      row.hidden=!(normalize(row.dataset.dashboardSearch+' '+company+' '+row.cells[2].textContent).includes(term)
+      row.hidden=!(normalize(row.dataset.dashboardSearch+' '+row.cells[2].textContent).includes(term)
         && (!held.checked || row.dataset.dashboardHeld==='1'));
       if(!row.hidden) visible++;
     });
