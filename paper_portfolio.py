@@ -107,42 +107,67 @@ def _leg(holdings, series, entry, exit_):
     return rows, (total / weight_used if weight_used else None), weight_used
 
 
-def _size(rows, amount, fx):
-    """Whole shares per position. Sizing uses the entry close once known, else the signal price.
+def _size(rows, amount, fx, account='USD'):
+    """Whole shares per position, never more than `amount` in total.
 
-    `fx` converts a listing currency to USD at a rate fixed in the portfolio file; it only sizes the
-    positions and values them in dollars, returns stay in each listing currency."""
-    cost = value = 0.
+    Rounding down first, then the leftover cash buys one more share at a time for the position furthest below
+    its target, as long as the cash covers it. Sizing uses the entry close once known, else the signal price.
+    `fx` gives the value of one unit of each listing currency in the account currency, at a rate fixed in the
+    portfolio file; it only sizes and values the positions, returns stay in each listing currency."""
+    sized = []
     for h in rows:
-        rate = (fx or {}).get(h.get('currency') or 'USD', 1.)
+        currency = h.get('currency') or 'USD'
+        rate = 1. if currency == account else (fx or {}).get(currency)
         price = h.get('entry_close') or h.get('signal_price')
-        if not price or not rate:
-            continue
-        shares = math.floor(amount * h['weight_pct'] / 100 / (price * rate))
-        spent = shares * price * rate
+        if price and rate:
+            unit = price * rate
+            target = amount * h['weight_pct'] / 100
+            sized.append([h, unit, target, math.floor(target / unit)])
+    cash = amount - sum(unit * n for _, unit, _, n in sized)
+    while True:
+        short = [x for x in sized if x[2] - x[1] * x[3] > 0 and x[1] <= cash + 1e-9]
+        if not short:
+            break
+        pick = max(short, key=lambda x: x[2] - x[1] * x[3])
+        pick[3] += 1
+        cash -= pick[1]
+    cost = value = 0.
+    for h, unit, _, shares in sized:
         latest = h.get('exit_close')
-        h.update(shares=shares, cost_usd=spent, sizing_price=price,
+        rate = unit / (h.get('entry_close') or h.get('signal_price'))
+        h.update(shares=shares, cost=shares * unit, sizing_price=h.get('entry_close') or h.get('signal_price'),
                  sizing='ENTRY_CLOSE' if h.get('entry_close') else 'SIGNAL_PRICE',
-                 value_usd=shares * latest * rate if latest and h.get('entry_close') else spent)
-        cost += spent
-        value += h['value_usd']
+                 value_now=shares * latest * rate if latest and h.get('entry_close') else shares * unit)
+        cost += h['cost']
+        value += h['value_now']
     return cost, value
 
 
 def _capital(doc, result):
-    """Dollar sizing of the model sleeve and the pick sleeve; the portfolio file fixes capital and FX."""
-    capital = doc.get('capital_usd')
+    """Sizing of the model sleeve and the pick sleeve in the account currency; the file fixes capital and FX."""
+    capital = doc.get('capital')
     if not capital:
         return
+    account = doc.get('account_currency') or 'USD'
     sleeve = float(result.get('discretionary_sleeve_pct') or 0.)
-    fx = doc.get('fx_usd') or {}
+    fx = doc.get('fx') or {}
     cost = value = 0.
     for rows, amount in ((result['holdings'], capital * (100 - sleeve) / 100),
                          (result.get('discretionary') or [], capital * sleeve / 100)):
-        c, v = _size(rows, amount, fx)
+        c, v = _size(rows, amount, fx, account)
         cost, value = cost + c, value + v
-    result.update(capital_usd=float(capital), invested_usd=cost, cash_usd=capital - cost, value_usd=value + (capital - cost),
-                  pnl_usd=value - cost, fx_usd=fx)
+    result.update(capital=float(capital), invested=cost, cash=capital - cost, value_now=value + (capital - cost),
+                  pnl=value - cost, fx=fx, account_currency=account)
+
+
+SYMBOL = {'EUR': '€', 'USD': '$'}
+
+
+def signed(value, cur, money):
+    """+€12 / −€49 with whole units; a rounding residue never shows as −€0."""
+    value = round(value)
+    css = 'up' if value > 0 else 'down' if value < 0 else ''
+    return f'<span class="{css}">{"−" if value < 0 else "+"}{cur}{money(abs(value))}</span>'
 
 
 def evaluate(doc, series, as_of=None):
@@ -211,9 +236,10 @@ def report(result):
         lines += [f"{result['discretionary_name']}: {picks} · "
                   f"combined ({100 - sleeve:.0f}% model + {sleeve:.0f}% pick) {pct(result['combined_return_pct'])}"
                   f" · vs S&P 500 {pct(result['excess_combined_vs_benchmark_pct'])}"]
-    if result.get('capital_usd'):
-        lines.append(f"Capital ${result['capital_usd']:,.0f}: invested ${result['invested_usd']:,.0f}, cash "
-                     f"${result['cash_usd']:,.0f}, value ${result['value_usd']:,.0f}, gain/loss ${result['pnl_usd']:+,.0f}")
+    if result.get('capital'):
+        cur = SYMBOL.get(result.get('account_currency'), '')
+        lines.append(f"Capital {cur}{result['capital']:,.0f}: invested {cur}{result['invested']:,.0f}, cash "
+                     f"{cur}{result['cash']:,.0f}, value {cur}{result['value_now']:,.0f}, gain/loss {result['pnl']:+,.0f} {cur}")
     lines += ['', '| Ticker | Label | Weight | Shares | Entry | Exit | Return |', '|---|---|---|---|---|---|---|']
     ranked = lambda h: -h['return_pct'] if h.get('return_pct') is not None else float('inf')
     for h in sorted(result['holdings'], key=ranked):
@@ -245,7 +271,7 @@ def _price(h, key):
 
 def combine(results, docs):
     """Both portfolios as one view: totals and one position table. Evaluation stays separate per test."""
-    parts = [(r, d) for r, d in zip(results, docs) if r.get('capital_usd')]
+    parts = [(r, d) for r, d in zip(results, docs) if r.get('capital')]
     if len(parts) < 2:
         return None
     rows = []
@@ -256,14 +282,42 @@ def combine(results, docs):
         for h in r.get('discretionary') or []:
             rows.append(dict(h, portfolio=name + ' · your pick'))
     rows = [h for h in rows if h.get('shares') is not None]
-    capital = sum(r['capital_usd'] for r, _ in parts)
-    invested = sum(r['invested_usd'] for r, _ in parts)
-    value = sum(r['value_usd'] for r, _ in parts)
+    capital = sum(r['capital'] for r, _ in parts)
+    invested = sum(r['invested'] for r, _ in parts)
+    value = sum(r['value_now'] for r, _ in parts)
     for h in rows:
-        h['gain_usd'] = h['value_usd'] - h['cost_usd']
-    return dict(capital_usd=capital, invested_usd=invested, cash_usd=capital - invested, value_usd=value,
-                pnl_usd=value - capital, return_on_invested_pct=100 * (value - capital) / invested if invested else None,
-                rows=sorted(rows, key=lambda h: -h['cost_usd']))
+        h['gain'] = h['value_now'] - h['cost']
+    return dict(capital=capital, invested=invested, cash=capital - invested, value_now=value,
+                pnl=value - capital, return_on_invested_pct=100 * (value - capital) / invested if invested else None,
+                rows=sorted(rows, key=lambda h: -h['cost']))
+
+
+def comparison(results, docs):
+    """Side-by-side figures per test and together: returns against the S&P 500 and the controls."""
+    cols = []
+    for r, d in zip(results, docs):
+        moved = [h for h in r['holdings'] if h.get('return_pct') is not None
+                 and (h.get('exit_close_date') or '') > (h.get('entry_close_date') or '')]
+        ranked = sorted(moved, key=lambda h: -h['return_pct'])
+        invested = r.get('invested')
+        cols.append(dict(name=d.get('short_name') or d['name'], since=r['entry_date'], model=r['portfolio_return_pct'],
+                         bench=r['benchmark_return_pct'], control=r['control_return_pct'] if r['control'] else None,
+                         pick=r.get('discretionary_return_pct'), invested=invested, pnl=r.get('pnl'),
+                         total=100 * r['pnl'] / invested if invested and r.get('pnl') is not None and r['status'] != 'PENDING'
+                         else None,
+                         best=ranked[:3], worst=ranked[::-1][:3] if len(ranked) > 3 else []))
+    priced = [c for c in cols if c['invested'] and c['total'] is not None]
+    if len(cols) > 1 and priced:
+        invested = sum(c['invested'] for c in priced)
+        pnl = sum(c['pnl'] for c in priced)
+        with_bench = [c for c in priced if c['bench'] is not None]
+        bench = (sum(c['bench'] * c['invested'] for c in with_bench) / sum(c['invested'] for c in with_bench)
+                 if with_bench else None)
+        cols.append(dict(name='Together', since=min(c['since'] for c in priced), model=None, bench=bench, control=None,
+                         pick=None, invested=invested, pnl=pnl, total=100 * pnl / invested, best=[], worst=[]))
+    for c in cols:
+        c['excess'] = c['total'] - c['bench'] if None not in (c['total'], c['bench']) else None
+    return cols
 
 
 def render(results, docs, *, now):
@@ -277,25 +331,45 @@ def render(results, docs, *, now):
     together = combine(results, docs)
     if together:
         money0 = lambda v: format(v, ',.0f')
-        gain = together['pnl_usd']
+        cur = SYMBOL.get(docs[0].get('account_currency') or 'USD', '')
+        gain = together['pnl']
+        cols = comparison(results, docs)
+        names = lambda hs: ', '.join(f'{h["ticker"]} {h["return_pct"]:+.1f}%' for h in hs) or '—'
+        money_cell = lambda v: '—' if v is None else signed(v, cur, money0)
+        spec = [('InvestorAce Buys (model)', lambda c: _pct(c['model'])),
+                ('S&P 500, same dates', lambda c: _pct(c['bench'])),
+                ('Earnings-IV control basket', lambda c: _pct(c['control'])),
+                ('Your pick (OXY)', lambda c: _pct(c['pick'])),
+                ('All positions incl. pick', lambda c: f'<b>{_pct(c["total"])}</b>'),
+                ('Excess vs S&P 500', lambda c: f'<b>{_pct(c["excess"])}</b>'),
+                ('Gain / loss', lambda c: money_cell(c['pnl'])),
+                ('Best', lambda c: escape(names(c['best']))),
+                ('Weakest', lambda c: escape(names(c['worst'])))]
+        compare_table = ('<h3>Comparison</h3><div class="tw"><table><thead><tr><th class="l"></th>'
+                         + ''.join(f'<th>{escape(c["name"])}<br><small class="muted">since {escape(c["since"])}</small></th>'
+                                   for c in cols) + '</tr></thead><tbody>'
+                         + ''.join('<tr><td class="l">' + escape(label_) + '</td>' + ''.join(f'<td>{cell(c)}</td>' for c in cols)
+                                   + '</tr>' for label_, cell in spec)
+                         + '</tbody></table></div><p class="muted">"All positions" is the gain on invested money in the '
+                         'account currency, including the OXY pick; "Together" weighs both tests by invested money, its '
+                         'S&amp;P 500 figure too. Each test is compared with the S&amp;P 500 over its own dates.</p>')
         css = 'up' if gain > 0 else 'down' if gain < 0 else ''
         trs = ''.join(
             f'<tr><td><b>{escape(h["ticker"])}</b></td><td class="l muted">{escape(h["portfolio"])}</td>'
             f'<td class="l">{label(h.get("label"), h.get("score"))}</td><td><b>{h["shares"]:,}</b></td>'
-            f'<td>${money0(h["cost_usd"])}</td><td>${money0(h["value_usd"])}</td>'
-            f'<td class="{"up" if h["gain_usd"] > 0 else "down" if h["gain_usd"] < 0 else ""}">'
-            f'{"+" if h["gain_usd"] >= 0 else "−"}${money0(abs(h["gain_usd"]))}</td>'
+            f'<td>{cur}{money0(h["cost"])}</td><td>{cur}{money0(h["value_now"])}</td>'
+            f'<td>{signed(h["gain"], cur, money0)}</td>'
             f'<td>{_pct(h.get("return_pct"))}</td></tr>' for h in together['rows'])
         body.append(
             '<h2>Both portfolios together</h2><p class="lead">One view of every position. Each test keeps its own '
             'entry date, benchmark comparison and result below; they are not merged, so the first test stays a clean '
             'out-of-sample check.</p><div class="tiles">'
-            f'<div class="tile"><span>Capital (two tests)</span><b>${money0(together["capital_usd"])}</b></div>'
-            f'<div class="tile"><span>Invested</span><b>${money0(together["invested_usd"])}</b></div>'
-            f'<div class="tile"><span>Cash left</span><b>${money0(together["cash_usd"])}</b></div>'
-            f'<div class="tile"><span>Value now</span><b>${money0(together["value_usd"])}</b></div>'
-            f'<div class="tile"><span>Gain / loss</span><b class="{css}">{"+" if gain >= 0 else "−"}${money0(abs(gain))}'
-            f'</b></div></div><div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Portfolio</th>'
+            f'<div class="tile"><span>Capital (one account)</span><b>{cur}{money0(together["capital"])}</b></div>'
+            f'<div class="tile"><span>Invested</span><b>{cur}{money0(together["invested"])}</b></div>'
+            f'<div class="tile"><span>Cash left</span><b>{cur}{money0(together["cash"])}</b></div>'
+            f'<div class="tile"><span>Value now</span><b>{cur}{money0(together["value_now"])}</b></div>'
+            f'<div class="tile"><span>Gain / loss</span><b class="{css}">{"+" if gain >= 0 else "−"}{cur}{money0(abs(gain))}'
+            f'</b></div></div>' + compare_table + '<h3>Every position</h3><div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Portfolio</th>'
             '<th class="l">Label</th><th>Shares</th><th>Invested</th><th>Value now</th><th>Gain / loss</th>'
             '<th>Return</th></tr></thead><tbody>' + trs + '</tbody></table></div>')
     for result, doc in zip(results, docs):
@@ -315,16 +389,17 @@ def render(results, docs, *, now):
         if not result['control']:
             tiles = [t for t in tiles if not t[0].startswith('Earnings-IV')]
         money = lambda v: format(v, ',.0f')
+        cur = SYMBOL.get(doc.get('account_currency') or 'USD', '')
         dollars = ''
-        if result.get('capital_usd'):
-            pnl = result.get('pnl_usd') or 0.
+        if result.get('capital'):
+            pnl = result.get('pnl') or 0.
             dollars = ('<div class="tiles">'
-                       f'<div class="tile"><span>Capital</span><b>${money(result["capital_usd"])}</b></div>'
-                       f'<div class="tile"><span>Invested (whole shares)</span><b>${money(result["invested_usd"])}</b></div>'
-                       f'<div class="tile"><span>Cash left</span><b>${money(result["cash_usd"])}</b></div>'
-                       f'<div class="tile"><span>Value now</span><b>${money(result["value_usd"])}</b></div>'
+                       f'<div class="tile"><span>Capital</span><b>{cur}{money(result["capital"])}</b></div>'
+                       f'<div class="tile"><span>Invested (whole shares)</span><b>{cur}{money(result["invested"])}</b></div>'
+                       f'<div class="tile"><span>Cash left</span><b>{cur}{money(result["cash"])}</b></div>'
+                       f'<div class="tile"><span>Value now</span><b>{cur}{money(result["value_now"])}</b></div>'
                        f'<div class="tile"><span>Gain / loss</span><b class="{"up" if pnl > 0 else "down" if pnl < 0 else ""}">'
-                       f'{"+" if pnl >= 0 else "−"}${money(abs(pnl))}</b></div></div>')
+                       f'{"+" if pnl >= 0 else "−"}{cur}{money(abs(pnl))}</b></div></div>')
         body.append(f'<h2>{escape(doc["name"])}</h2><p><b>{escape(state)}</b> · exit at the close of '
                     f'{escape(doc["exit_date"])}</p><div class="tiles">'
                     + ''.join(f'<div class="tile"><span>{escape(name)}</span><b>{_pct(value)}</b></div>'
@@ -334,9 +409,9 @@ def render(results, docs, *, now):
         selection = doc.get('selection_note') or ('every Buy label in the '
                     f'{str(doc.get("signal_snapshot_captured", ""))[:10]} snapshot')
         sizing = ''
-        if doc.get('capital_usd'):
-            fx = ', '.join(f'1 {k} = {v} USD' for k, v in (doc.get('fx_usd') or {}).items())
-            sizing = (f' Sizing: ${money(doc["capital_usd"])} split by weight, whole shares at the entry close'
+        if doc.get('capital'):
+            fx = ', '.join(f'1 {k} = {v} {doc.get("account_currency") or "USD"}' for k, v in (doc.get('fx') or {}).items())
+            sizing = (f' Sizing: {cur}{money(doc["capital"])} split by weight, whole shares at the entry close'
                       + (f' (fixed rate {escape(fx)} for sizing and dollar values only)' if fx else '')
                       + '; the rest stays cash.')
         body.append('<div class="note"><b>Rules.</b> Holdings: ' + escape(selection) + ' '
@@ -352,11 +427,11 @@ def render(results, docs, *, now):
             have = h.get('shares') is not None
             rows.append(f'<tr><td><b>{escape(h["ticker"])}</b></td><td class="l">{label(h.get("label"), h.get("score"))}</td>'
                         f'<td>{h["weight_pct"]:.1f}%</td>'
-                        + (f'<td><b>{h["shares"]:,}</b></td><td>${money(h["cost_usd"])}</td>' if have else '')
+                        + (f'<td><b>{h["shares"]:,}</b></td><td>{cur}{money(h["cost"])}</td>' if have else '')
                         + f'<td>{_price(h, "signal_price")} {escape(h.get("currency", ""))}</td>'
                         f'<td>{_price(h, "entry_close")}</td><td>{_price(h, "exit_close")}</td>'
                         f'<td>{_pct(h.get("return_pct"))}</td><td>{_pct(contribution)}</td></tr>')
-        sized = result.get('capital_usd') is not None
+        sized = result.get('capital') is not None
         body.append('<h2>Model holdings</h2><div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Label</th>'
                     '<th>Weight</th>' + ('<th>Shares</th><th>Invested</th>' if sized else '')
                     + '<th>Signal price</th><th>Entry close</th><th>Latest close</th><th>Return</th>'
@@ -364,7 +439,7 @@ def render(results, docs, *, now):
         if result.get('discretionary'):
             pick = doc.get('discretionary') or {}
             rows = ''.join(f'<tr><td><b>{escape(h["ticker"])}</b></td><td class="l">{label(h.get("label"), h.get("score"))}</td>'
-                           + (f'<td><b>{h["shares"]:,}</b></td><td>${money(h["cost_usd"])}</td>' if h.get('shares') is not None else '')
+                           + (f'<td><b>{h["shares"]:,}</b></td><td>{cur}{money(h["cost"])}</td>' if h.get('shares') is not None else '')
                            + f'<td>{_price(h, "signal_price")}</td><td>{_price(h, "entry_close")}</td>'
                            f'<td>{_price(h, "exit_close")}</td><td>{_pct(h.get("return_pct"))}</td></tr>'
                            for h in result['discretionary'])

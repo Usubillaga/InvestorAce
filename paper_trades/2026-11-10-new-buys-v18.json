@@ -12,8 +12,6 @@
   "selection_note": "the four stocks that turned Buy after the 7 Nov test snapshot because the scanner added them to the universe (MU, GEN, FICO, GDDY); the first test stays untouched",
   "weight_rule": "Weight proportional to (score - 6.5), same rule as the first test.",
   "currency_note": "All four are USD listings.",
-  "capital_usd": 28000,
-  "fx_usd": {},
   "benchmark": {
     "name": "S&P 500",
     "yahoo": "^GSPC"
@@ -60,5 +58,11 @@
       "weight_pct": 25.77
     }
   ],
-  "short_name": "Test 2 · new Buys"
+  "short_name": "Test 2 · new Buys",
+  "capital": 6819.1,
+  "account_currency": "EUR",
+  "fx": {
+    "USD": 0.890631
+  },
+  "capital_note": "One paper account of 28,000 EUR for both tests (user request 2026-11-11). Each Buy gets the same euros per weight point (score - 6.5) in both tests, as if all 19 were bought together; OXY keeps 10% of test 1. USD positions are sized at a fixed 1 USD = 0.890631 EUR (1 EUR = 1.1228 USD). Holdings, weights and dates are unchanged."
 }

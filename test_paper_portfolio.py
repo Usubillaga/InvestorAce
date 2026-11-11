@@ -106,11 +106,11 @@ class PaperPortfolioTests(unittest.TestCase):
         self.assertEqual(only_partial['A'], [])       # no close yet: the position stays NO_PRICE, not mispriced
 
     def test_capital_is_split_into_whole_shares_with_cash_left(self):
-        d = dict(doc(), capital_usd=10000, fx_usd={},
+        d = dict(doc(), capital=10000, fx={},
                  discretionary=dict(name='Pick', sleeve_weight_pct=10.,
                                     holdings=[dict(ticker='D', yahoo='D', weight_pct=100., currency='USD')]))
         d['holdings'][1]['currency'] = 'EUR'
-        d['fx_usd'] = {'EUR': 1.5}
+        d['fx'] = {'EUR': 1.5}
         series = dict(self.series(), D=[('2026-11-09', 40.), ('2026-11-23', 50.)])
         r = pp.evaluate(d, series)
         a, b = r['holdings']
@@ -118,40 +118,84 @@ class PaperPortfolioTests(unittest.TestCase):
         self.assertEqual(b['shares'], 30)               # 9000 * 25% = 2250 / (50 EUR * 1.5)
         self.assertEqual(r['discretionary'][0]['shares'], 25)    # 1000 / 40
         invested = 67 * 100 + 30 * 50 * 1.5 + 25 * 40
-        self.assertAlmostEqual(r['invested_usd'], invested)
-        self.assertAlmostEqual(r['cash_usd'], 10000 - invested)
-        self.assertAlmostEqual(r['pnl_usd'], 67 * 10 + 30 * -5 * 1.5 + 25 * 10)
-        self.assertGreaterEqual(r['cash_usd'], 0)
+        self.assertAlmostEqual(r['invested'], invested)
+        self.assertAlmostEqual(r['cash'], 10000 - invested)
+        self.assertAlmostEqual(r['pnl'], 67 * 10 + 30 * -5 * 1.5 + 25 * 10)
+        self.assertGreaterEqual(r['cash'], 0)
         self.assertIn('Capital $10,000', pp.report(r))
 
     def test_both_portfolios_are_shown_together_without_merging_their_results(self):
         from datetime import datetime, timezone
-        first = dict(doc(), capital_usd=10000, fx_usd={}, short_name='Test 1')
-        second = dict(doc(), capital_usd=5000, fx_usd={}, short_name='Test 2', name='Second',
+        first = dict(doc(), capital=10000, fx={}, short_name='Test 1')
+        second = dict(doc(), capital=5000, fx={}, short_name='Test 2', name='Second',
                       holdings=[dict(ticker='E', yahoo='E', label='Buy', score=8., weight_pct=100., currency='USD')],
                       control_basket=None)
         series = dict(self.series(), E=[('2026-11-09', 20.), ('2026-11-23', 25.)])
         results = [pp.evaluate(first, series), pp.evaluate(second, series)]
         together = pp.combine(results, [first, second])
-        self.assertEqual(together['capital_usd'], 15000)
+        self.assertEqual(together['capital'], 15000)
         self.assertEqual({h['portfolio'] for h in together['rows']}, {'Test 1', 'Test 2'})
-        self.assertAlmostEqual(together['value_usd'], sum(r['value_usd'] for r in results))
-        self.assertAlmostEqual(together['pnl_usd'], sum(r['pnl_usd'] for r in results))
+        self.assertAlmostEqual(together['value_now'], sum(r['value_now'] for r in results))
+        self.assertAlmostEqual(together['pnl'], sum(r['pnl'] for r in results))
         self.assertAlmostEqual(results[0]['portfolio_return_pct'], pp.evaluate(first, series)['portfolio_return_pct'])
         self.assertIsNone(pp.combine(results[:1], [first]))
         page = pp.render(results, [first, second], now=datetime(2026, 11, 24, tzinfo=timezone.utc))
         self.assertIn('Both portfolios together', page)
         self.assertEqual(page.count('Control basket'), 1)
 
+    def test_euro_account_sizes_dollar_listings_with_the_fixed_rate_and_compares_both_tests(self):
+        from datetime import datetime, timezone
+        first = dict(doc(), capital=9000, account_currency='EUR', fx={'USD': .5}, short_name='Test 1')
+        second = dict(doc(), capital=1000, account_currency='EUR', fx={'USD': .5}, short_name='Test 2', name='Second',
+                      holdings=[dict(ticker='E', yahoo='E', label='Buy', score=8., weight_pct=100., currency='USD')],
+                      control_basket=None)
+        series = dict(self.series(), E=[('2026-11-09', 20.), ('2026-11-23', 25.)])
+        results = [pp.evaluate(first, series), pp.evaluate(second, series)]
+        self.assertEqual(results[1]['holdings'][0]['shares'], 100)          # 1000 EUR / (20 USD * 0.5)
+        self.assertAlmostEqual(results[1]['pnl'], 100 * 5 * .5)
+        cols = pp.comparison(results, [first, second])
+        self.assertEqual([c['name'] for c in cols], ['Test 1', 'Test 2', 'Together'])
+        self.assertIsNone(cols[1]['control'])
+        together = cols[2]
+        self.assertAlmostEqual(together['pnl'], results[0]['pnl'] + results[1]['pnl'])
+        self.assertAlmostEqual(together['total'], 100 * together['pnl'] / together['invested'])
+        page = pp.render(results, [first, second], now=datetime(2026, 11, 24, tzinfo=timezone.utc))
+        for text in ('Comparison', 'S&amp;P 500, same dates', 'Together', '€', 'Capital (one account)', 'Weakest'):
+            self.assertIn(text, page)
+        self.assertNotIn('$', page.split('<body>')[1])
+
+    def test_leftover_cash_buys_more_shares_without_exceeding_the_capital(self):
+        d = dict(doc(), capital=1000, fx={})
+        d['holdings'] = [dict(ticker='A', yahoo='A', label='Buy', score=8., weight_pct=60., currency='USD'),
+                         dict(ticker='B', yahoo='B', label='Buy', score=8., weight_pct=40., currency='USD')]
+        series = dict(self.series(), A=[('2026-11-09', 350.), ('2026-11-23', 350.)], B=[('2026-11-09', 30.), ('2026-11-23', 30.)])
+        r = pp.evaluate(d, series)
+        a, b = r['holdings']
+        # Rounding down alone: A 1 share (350) and B 13 (390), 260 idle. A's next share (350) no longer fits;
+        # B is still 10 below its 400 target, so the leftover buys one more B share.
+        self.assertEqual((a['shares'], b['shares']), (1, 14))
+        self.assertAlmostEqual(r['invested'], 350 + 14 * 30)
+        self.assertLessEqual(r['invested'], 1000)
+
+    def test_no_negative_zero_and_no_best_list_before_prices_move(self):
+        self.assertIn('+€0', pp.signed(-0.3, '€', lambda v: format(v, ',.0f')))
+        self.assertIn('−€49', pp.signed(-49.2, '€', lambda v: format(v, ',.0f')))
+        flat = dict(doc(), capital=1000, fx={})
+        series = {k: [v[0]] if k != '^GSPC' else v for k, v in self.series().items()}
+        series['A'] = [('2026-11-09', 100.)]
+        series['B'] = [('2026-11-09', 50.)]
+        col = pp.comparison([pp.evaluate(flat, series, date(2026, 11, 9))], [flat])[0]
+        self.assertEqual(col['best'], [])
+
     def test_sizing_before_the_entry_close_uses_the_signal_price(self):
-        d = dict(doc(), capital_usd=10000, fx_usd={})
+        d = dict(doc(), capital=10000, fx={})
         for h, price in zip(d['holdings'], (90., 50.)):
             h['signal_price'] = price
         r = pp.evaluate(d, self.series(), as_of=date(2026, 11, 8))
         self.assertEqual(r['status'], 'PENDING')
         self.assertEqual(r['holdings'][0]['sizing'], 'SIGNAL_PRICE')
         self.assertEqual(r['holdings'][0]['shares'], 83)          # 7500 / 90
-        self.assertNotIn('capital_usd', pp.evaluate(doc(), self.series()))
+        self.assertNotIn('capital', pp.evaluate(doc(), self.series()))
 
     def test_second_portfolio_has_no_control_and_the_first_stays_untouched(self):
         docs = {d['_file']: d for d in pp.load()}
@@ -159,7 +203,11 @@ class PaperPortfolioTests(unittest.TestCase):
         self.assertEqual({h['ticker'] for h in second['holdings']}, {'MU', 'GEN', 'FICO', 'GDDY'})
         self.assertFalse({h['ticker'] for h in first['holdings']} & {h['ticker'] for h in second['holdings']})
         self.assertEqual(len(first['holdings']), 15)
-        self.assertEqual(first['capital_usd'], 28000)
+        self.assertAlmostEqual(first['capital'] + second['capital'], 28000, places=2)
+        self.assertEqual({first['account_currency'], second['account_currency']}, {'EUR'})
+        # The same euros per weight point in both tests (OXY keeps 10% of test 1).
+        per_point = lambda d, share: d['capital'] * share / sum(h['score'] - 6.5 for h in d['holdings'])
+        self.assertAlmostEqual(per_point(first, .9), per_point(second, 1.), places=1)
         self.assertAlmostEqual(sum(h['weight_pct'] for h in second['holdings']), 100., delta=0.01)
         self.assertNotIn('control_basket', second)
 
