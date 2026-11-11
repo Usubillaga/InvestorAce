@@ -311,7 +311,7 @@ SECTOR_ETF = {
 }
 TICKER_ETF = {'AMAT': 'SOXX', 'AMD': 'SOXX', 'MU': 'SOXX', 'FSLR': 'TAN', 'MSFT': 'IGV', 'INTU': 'IGV', 'ADSK': 'IGV',
               'MNDY': 'IGV', 'AG': 'SIL', 'B': 'GDX', 'FNV': 'GDX', 'CEG': 'NLR', 'VST': 'NLR', 'NRG': 'NLR',
-              'BABA': 'KWEB', 'RCAT': 'ITA', 'BYRN': 'ITA'}
+              'BABA': 'KWEB', 'RCAT': 'ITA', 'BYRN': 'ITA', 'LMT': 'ITA', 'TEAM': 'IGV', 'OKLO': 'NLR'}
 
 
 def industry_of(ticker, row):
