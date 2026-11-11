@@ -4918,5 +4918,166 @@
    "norm_years_available": 3,
    "capex_years_available": 4
   }
+ },
+ "ALM.MC": {
+  "asof": "2026-11-11",
+  "inputs": {
+   "input_schema": "epv-inputs-v2-aligned-known-debt",
+   "revenue": [
+    1108084000.0,
+    985721000.0,
+    894516000.0,
+    863248000.0
+   ],
+   "gross_profit": [
+    871613000.0,
+    767680000.0,
+    682037000.0,
+    662534000.0
+   ],
+   "rd": [
+    96000000.0,
+    79005000.0,
+    66908000.0,
+    64278000.0
+   ],
+   "rd_source": "reported",
+   "sga": [
+    130051000.0,
+    131574000.0,
+    119142000.0,
+    42430000.0
+   ],
+   "capex": [
+    137308000.0,
+    161431000.0,
+    159304000.0,
+    116480000.0,
+    null
+   ],
+   "dep_amort": [
+    151183000.0,
+    139084000.0,
+    124316000.0,
+    120636000.0,
+    null
+   ],
+   "tax_rate": 0.380050505050505,
+   "tax_source": "yahoo-latest-effective",
+   "net_debt": 5090000.0,
+   "shares": 214630834.0,
+   "norm_years_available": 3,
+   "capex_years_available": 4
+  }
+ },
+ "ELE.MC": {
+  "asof": "2026-11-11",
+  "inputs": {
+   "input_schema": "epv-inputs-v2-aligned-known-debt",
+   "revenue": [
+    21020000000.0,
+    20927000000.0,
+    25064000000.0,
+    32540000000.0,
+    null
+   ],
+   "gross_profit": [
+    7288000000.0,
+    7764000000.0,
+    8766000000.0,
+    9174000000.0,
+    null
+   ],
+   "rd": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rd_source": "assumed-zero-unavailable",
+   "sga": [
+    349000000.0,
+    322000000.0,
+    341000000.0,
+    339000000.0,
+    null
+   ],
+   "capex": [
+    1844000000.0,
+    1846000000.0,
+    2284000000.0,
+    2132000000.0,
+    null
+   ],
+   "dep_amort": [
+    2060000000.0,
+    1903000000.0,
+    1768000000.0,
+    1653000000.0,
+    null
+   ],
+   "tax_rate": 0.23361921097770155,
+   "tax_source": "yahoo-latest-effective",
+   "net_debt": 10700000000.0,
+   "shares": 1038804244.0,
+   "norm_years_available": 3,
+   "capex_years_available": 4
+  }
+ },
+ "TEAM": {
+  "asof": "2026-11-11",
+  "inputs": {
+   "input_schema": "epv-inputs-v2-aligned-known-debt",
+   "revenue": [
+    6572308000.0,
+    5215304000.0,
+    4358603000.0,
+    3534647000.0,
+    null
+   ],
+   "gross_profit": [
+    5575478000.0,
+    4320453000.0,
+    3555108000.0,
+    2900882000.0,
+    null
+   ],
+   "rd": [
+    3269257000.0,
+    2669312000.0,
+    2184111000.0,
+    1869881000.0,
+    null
+   ],
+   "rd_source": "reported",
+   "sga": [
+    2273660000.0,
+    1766898000.0,
+    1475688000.0,
+    1366323000.0,
+    null
+   ],
+   "capex": [
+    34060000.0,
+    44850000.0,
+    33112000.0,
+    25812000.0,
+    null
+   ],
+   "dep_amort": [
+    140668000.0,
+    92375000.0,
+    78738000.0,
+    60923000.0,
+    null
+   ],
+   "tax_rate": 0.6,
+   "tax_source": "yahoo-latest-effective",
+   "net_debt": -6602000.0,
+   "shares": 253401877.0,
+   "norm_years_available": 3,
+   "capex_years_available": 4
+  }
  }
 }
