@@ -343,10 +343,11 @@
       }
     ]
   },
-  "capital_usd": 28000,
-  "fx_usd": {
-    "EUR": 1.1228
-  },
-  "capital_note": "Added 2026-11-10 at the user's request: 28,000 USD, 90% model sleeve and 10% OXY sleeve, whole shares at the entry close. Holdings, weights and dates are unchanged.",
-  "short_name": "Test 1 · 7 Nov Buys"
+  "capital_note": "One paper account of 28,000 EUR for both tests (user request 2026-11-11). Each Buy gets the same euros per weight point (score - 6.5) in both tests, as if all 19 were bought together; OXY keeps 10% of test 1. USD positions are sized at a fixed 1 USD = 0.890631 EUR (1 EUR = 1.1228 USD). Holdings, weights and dates are unchanged.",
+  "short_name": "Test 1 · 7 Nov Buys",
+  "capital": 21180.9,
+  "account_currency": "EUR",
+  "fx": {
+    "USD": 0.890631
+  }
 }
