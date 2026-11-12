@@ -102,7 +102,7 @@ def levels(close=100., sma36=95., sma50=92., sma200=80., resistance=90., support
 
 
 class UserRules(unittest.TestCase):
-    """v1.2: 36/50/200-day confirmation, support and resistance, O'Neil turned around."""
+    """v1.2/1.3: 36/50/200-day confirmation, support and resistance; the fast-drop rule was removed."""
     def test_needs_all_three_averages_once_the_build_has_them(self):
         rec = record(A=stock(levels=levels()), B=stock(levels=levels(sma36=101.)),       # below the 36-day
                      C=stock(levels=levels(sma50=105.)), D=stock(levels=levels(sma36=None)),
@@ -121,19 +121,15 @@ class UserRules(unittest.TestCase):
                      B=stock(score=7.2, levels=levels(sma50=97., support=90.)))
         self.assertEqual([o['ticker'] for o in ar.plan(account(), rec, {}, TODAY)['orders']], ['B', 'A'])
 
-    def test_fast_drop_blocks_buying_for_eight_weeks_and_sells_a_holding(self):
+    def test_a_fast_drop_no_longer_blocks_or_sells(self):
         drop = dict(date='2026-11-20', pct=-23.5)
         rec = record(A=stock(levels=levels(drop=drop)), B=stock(levels=levels()))
-        p = ar.plan(account(), rec, {}, TODAY)
-        self.assertEqual([o['ticker'] for o in p['orders']], ['B'])
-        old = {'A': days('2026-09-01', [1] * 60)}
-        old_rec = record(A=stock(levels=levels(drop=dict(date='2026-09-02', pct=-25.))))
-        self.assertEqual([o['ticker'] for o in ar.plan(account(), old_rec, old, TODAY)['orders']], ['A'])
+        self.assertEqual([o['ticker'] for o in ar.plan(account(), rec, {}, TODAY)['orders']], ['A', 'B'])
         doc = account(('paper-order: BUY 10 A', '2026-11-16T12:00:00Z'))
         series = {'A': days('2026-11-16', [100, 104, 103])}
         held = ar.plan(doc, record(captured='2026-11-18', A=stock(levels=levels(close=103., drop=dict(
             date='2026-11-18', pct=-20.5)))), series, date(2026, 11, 18))
-        self.assertEqual([o['rule'] for o in held['orders']], ['FAST_DROP'])
+        self.assertEqual(held['orders'], [])
 
     def test_sell_below_the_50_day_average_only_at_a_loss(self):
         doc = account(('paper-order: BUY 10 A', '2026-11-16T12:00:00Z'))

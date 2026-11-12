@@ -29,7 +29,7 @@ CANCEL = re.compile(r'^\s*paper-order:\s*CANCEL\s+#?(\d{1,7})\s*$', re.I)
 
 
 def new_account(opened):
-    return dict(schema=SCHEMA, name="Active trading · Claude's trading rules v1.2", capital=10000.,
+    return dict(schema=SCHEMA, name="Active trading · Claude's trading rules v1.3", capital=10000.,
                 account_currency='EUR', fx={'USD': 0.89063}, opened=opened,
                 cost_rate=0.001, fx_note='Fixed rate 1 EUR = 1.1228 USD, the same as the model paper tests; '
                         'currency moves are not part of the result.',
@@ -237,15 +237,15 @@ def _universe(record):
 
 
 RULES_HTML = (
-    '<details class="note" open><summary><b>Trading rules v1.2 (Claude), v1.1 fixed 2026-11-12 before the first order; v1.2 adds your averages, support/resistance and fast-drop rules</b></summary><ul>'
+    '<details class="note" open><summary><b>Trading rules v1.3 (Claude), v1.1 fixed 2026-11-12 before the first order; v1.2 adds your averages and support/resistance rules</b></summary><ul>'
     '<li><b>Buy</b> only InvestorAce Buy or Strong Buy, above the 36-day (awakening), 50-day (first confirmation) and 200-day (full confirmation) averages, not within 3% under an unbroken prior high (resistance), at or above the 21-day average and '
     'at most 3 ATR above it, no report in the next 5 days, and only while the S&amp;P 500 is above its 200-day '
-    'average. At most 2 positions per sector. A stock that rose 2% or more on a report in the last 10 days ranks first (post-earnings drift), one that fell 2% or more is skipped; then a stock within 5% above its support (50-day average or 20-day low); then the model score. No buy for 40 sessions after a fall of 20% or more within 2 weeks.</li>'
+    'average. At most 2 positions per sector. A stock that rose 2% or more on a report in the last 10 days ranks first (post-earnings drift), one that fell 2% or more is skipped; then a stock within 5% above its support (50-day average or 20-day low); then the model score.</li>'
     '<li><b>Size</b>: risk 1% of equity per trade at the stop, at most 20% per position, at most 8 positions, '
     '3% cash kept. Every fill pays 0.10% for commission and slippage.</li>'
     '<li><b>Sell</b>: stop at −8% (−5% in a correction); stop to the entry price after +10%; after +20% the stop '
     'trails 10% under the highest close; half sold at +25% (once); sold before a report without a +10% cushion; '
-    'sold after a fall of 20% within 2 weeks, below the 200-day average, below the 50-day average while at a loss, when the label falls to Hold Negative or Sell, or after 15 sessions with '
+    'sold below the 200-day average, below the 50-day average while at a loss, when the label falls to Hold Negative or Sell, or after 15 sessions with '
     'less than +2%.</li>'
     '<li><b>8-week rule</b> (O\'Neil): a position up 20% within 15 sessions is held 40 sessions; only the stop at '
     'the entry price applies, not the label or the other exits.</li>'

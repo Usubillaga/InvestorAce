@@ -1,6 +1,6 @@
 {
   "schema": "active-account-v1",
-  "name": "Active trading · Claude's trading rules v1.2",
+  "name": "Active trading · Claude's trading rules v1.3",
   "capital": 10000.0,
   "account_currency": "EUR",
   "fx": {
