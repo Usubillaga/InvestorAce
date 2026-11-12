@@ -1,0 +1,44 @@
+name: backtest
+
+# Runs backtest.py where Yahoo is reachable and commits backtests/latest.{json,md}
+# to the branch it ran on. Pushes made with GITHUB_TOKEN start no new workflow runs.
+on:
+  push:
+    branches: ['claude/**']
+    paths:
+      - 'backtest.py'
+      - '.github/workflows/backtest.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install
+        run: pip install -r requirements-research.txt
+      - name: Run backtest
+        run: |
+          python backtest.py
+          cat backtests/latest.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Commit results
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          git config user.name  "investorace-bot"
+          git config user.email "investorace-bot@users.noreply.github.com"
+          git add backtests/latest.json backtests/latest.md
+          git commit -q -m "backtest: results $(date -u +%F)" || exit 0
+          for attempt in 1 2 3 4; do
+            git pull -q --rebase origin "$BRANCH" && git push -q origin "HEAD:$BRANCH" && exit 0
+            sleep $((attempt * 5))
+          done
+          exit 1
