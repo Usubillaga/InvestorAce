@@ -6,22 +6,22 @@ Technical rules only (no InvestorAce label, which has no history); universe = to
 
 | Distance to 36-day avg | days | stocks | 21-day mean | 63-day mean | 63-day vs S&P | P(−10% within 21 d) | P(63 d < 0) |
 |---|---|---|---|---|---|---|---|
-| -100..0% | 61170 | 110 | 1.35% | 4.54% | 1.17% | 26.57% | 46.87% |
-| 0..10% | 52006 | 110 | 1.04% | 3.12% | 0.38% | 20.23% | 47.37% |
-| 10..20% | 10120 | 109 | 1.65% | 5.38% | 2.74% | 30.99% | 48.1% |
-| 20..30% | 2165 | 78 | 3.45% | 9.58% | 7.19% | 40.37% | 47.39% |
+| -100..0% | 60627 | 109 | 1.36% | 4.58% | 1.21% | 26.58% | 46.84% |
+| 0..10% | 51467 | 109 | 1.04% | 3.12% | 0.38% | 20.24% | 47.42% |
+| 10..20% | 10011 | 108 | 1.71% | 5.48% | 2.84% | 30.93% | 48.14% |
+| 20..30% | 2164 | 77 | 3.46% | 9.6% | 7.21% | 40.34% | 47.37% |
 | 30..+% | 1485 | 49 | 6.32% | 17.09% | 14.62% | 51.85% | 46.26% |
 
-## 2 · Breakouts above the prior 60-session high (in an uptrend) · failure rate 33.52%
+## 2 · Breakouts above the prior 60-session high (in an uptrend) · failure rate 33.61%
 
 | Case | days | 5-day mean | 21-day mean | 63-day mean | 63-day vs S&P |
 |---|---|---|---|---|---|
-| all_uptrend_days | 51296 | 0.37% | 1.65% | 5.09% | 2.07% |
-| breakout_day | 3165 | 0.24% | 1.74% | 4.94% | 2.02% |
-| breakout_failed | 1061 | -4.22% | -4.99% | -0.77% | -2.82% |
-| breakout_held | 2104 | 2.49% | 5.13% | 7.81% | 4.46% |
-| confirmed_second_close | 2295 | 0.24% | 1.89% | 5.34% | 2.39% |
-| just_under_resistance | 14615 | 0.23% | 1.03% | 3.16% | 0.16% |
+| all_uptrend_days | 50759 | 0.37% | 1.66% | 5.1% | 2.08% |
+| breakout_day | 3130 | 0.25% | 1.77% | 4.98% | 2.07% |
+| breakout_failed | 1052 | -4.21% | -4.94% | -0.66% | -2.69% |
+| breakout_held | 2078 | 2.51% | 5.17% | 7.83% | 4.48% |
+| confirmed_second_close | 2267 | 0.25% | 1.93% | 5.4% | 2.46% |
+| just_under_resistance | 14449 | 0.22% | 1.02% | 3.11% | 0.11% |
 
 "breakout_failed" and "breakout_held" use the next 10 sessions to sort the cases, so they are not tradable signals; they show how much a failure costs.
 
@@ -29,13 +29,14 @@ Technical rules only (no InvestorAce label, which has no history); universe = to
 
 | Variant | CAGR | max drawdown | Sharpe | trades | win rate | avg trade | avg days |
 |---|---|---|---|---|---|---|---|
-| base_v1_5 | 32.17% | -45.92% | 0.85 | 274 | 29.2% | 5.27% | 30.1 |
-| no_buy_above_30pct_36d | 24.1% | -44.95% | 0.75 | 269 | 29.74% | 4.02% | 30.2 |
-| sell_above_30pct_36d | 11.88% | -34.17% | 0.47 | 358 | 33.52% | 1.67% | 23.1 |
-| wait_under_resistance | 31.23% | -34.04% | 0.88 | 291 | 29.9% | 5.21% | 28.0 |
-| two_closes_above_resistance | 29.76% | -42.15% | 0.81 | 291 | 31.27% | 4.73% | 28.4 |
-| sell_failed_breakout | 33.41% | -38.71% | 0.91 | 284 | 30.28% | 5.35% | 29.1 |
+| base_v1_5 | 29.76% | -43.11% | 0.81 | 261 | 30.27% | 5.25% | 31.7 |
+| no_buy_above_30pct_36d | 24.71% | -44.47% | 0.76 | 263 | 30.42% | 4.24% | 31.0 |
+| sell_above_30pct_36d | 14.36% | -36.11% | 0.52 | 344 | 34.01% | 1.87% | 23.9 |
+| wait_under_resistance | 33.54% | -40.06% | 0.89 | 294 | 29.59% | 5.17% | 27.8 |
+| two_closes_above_resistance | 30.05% | -43.98% | 0.79 | 283 | 31.8% | 4.69% | 29.3 |
+| sell_failed_breakout | 31.85% | -44.22% | 0.84 | 273 | 31.14% | 5.39% | 30.2 |
+| wait_res_and_sell_failed | 26.64% | -35.58% | 0.78 | 300 | 30.0% | 4.1% | 27.1 |
 
 S&P 500 buy and hold: CAGR 10.39%, max drawdown -25.43%.
 
-Symbols: 110 · generated 2026-11-12T13:12+00:00
+Symbols: 109 · generated 2026-11-12T13:13+00:00
