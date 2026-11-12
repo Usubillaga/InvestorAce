@@ -1,0 +1,74 @@
+//@version=5
+// InvestorAce · Oliver Kell's price cycle (study version)
+// Concepts as described by Kell: 10/20 EMAs, base 'n break, wedge pop,
+// EMA crossback, exhaustion extension. Parameters mirror backtest.py so
+// the chart shows what the InvestorAce backtest tested.
+// Not investment advice. Results of a one-year contest do not prove an edge.
+strategy("InvestorAce · Kell cycle", overlay=true, initial_capital=10000,
+     commission_type=strategy.commission.percent, commission_value=0.1,
+     default_qty_type=strategy.fixed, pyramiding=0)
+
+// ---- inputs
+fastLen   = input.int(10, "Fast EMA", minval=2)
+slowLen   = input.int(20, "Slow EMA", minval=3)
+baseLen   = input.int(10, "Base length (sessions)", minval=3)
+baseMax   = input.float(12.0, "Max base width %", step=0.5)
+breakVol  = input.float(1.5, "Volume x 50-day avg for base 'n break", step=0.1)
+popVol    = input.float(1.2, "Volume x 50-day avg for wedge pop", step=0.1)
+exhaustPct = input.float(30.0, "Exhaustion: % over the 36-day SMA", step=1.0)
+riskPct   = input.float(1.0, "Risk per trade % of equity", step=0.25)
+stopPct   = input.float(8.0, "Initial stop %", step=0.5)
+useTrend  = input.bool(true, "Only long above the 200-day SMA")
+useExhaustExit = input.bool(false, "Sell into exhaustion extension (failed in the InvestorAce backtest)")
+
+// ---- levels
+emaF = ta.ema(close, fastLen)
+emaS = ta.ema(close, slowLen)
+sma36 = ta.sma(close, 36)
+sma200 = ta.sma(close, 200)
+baseHigh = ta.highest(close[1], baseLen)
+baseLow  = ta.lowest(close[1], baseLen)
+volRatio = volume / ta.sma(volume[1], 50)
+aboveEmas = close > emaF and close > emaS
+trendOk = not useTrend or close > sma200
+
+baseTight = (baseHigh / baseLow - 1) * 100 <= baseMax
+baseBreak = aboveEmas and close > baseHigh and baseTight and volRatio >= breakVol
+wedgePop  = aboveEmas and not (close[1] > emaF[1] and close[1] > emaS[1]) and volRatio >= popVol
+crossback = close < emaF and close < emaS
+exhaustion = close > sma36 * (1 + exhaustPct / 100)
+
+// ---- entries: size so that the stop costs riskPct of equity
+qty = math.floor(strategy.equity * riskPct / 100 / (close * stopPct / 100))
+if strategy.position_size == 0 and trendOk and (baseBreak or wedgePop) and qty > 0
+    strategy.entry("Long", strategy.long, qty=qty, comment=baseBreak ? "Base 'n break" : "Wedge pop")
+
+// ---- exits: initial stop, trailing to breakeven after +10%, crossback, optional exhaustion
+var float entryPx = na
+var float peak = na
+if strategy.position_size > 0 and na(entryPx)
+    entryPx := strategy.position_avg_price
+    peak := close
+if strategy.position_size > 0
+    peak := math.max(peak, close)
+    floorPx = entryPx * (1 - stopPct / 100)
+    floorPx := peak >= entryPx * 1.10 ? math.max(floorPx, entryPx) : floorPx
+    floorPx := peak >= entryPx * 1.20 ? math.max(floorPx, peak * 0.90) : floorPx
+    strategy.exit("Stop", "Long", stop=floorPx)
+    if crossback
+        strategy.close("Long", comment="EMA crossback")
+    if useExhaustExit and exhaustion
+        strategy.close("Long", comment="Exhaustion")
+if strategy.position_size == 0
+    entryPx := na
+    peak := na
+
+// ---- chart
+plot(emaF, "EMA 10", color=color.new(color.teal, 0), linewidth=2)
+plot(emaS, "EMA 20", color=color.new(color.orange, 0), linewidth=2)
+plot(sma200, "SMA 200", color=color.new(color.gray, 30))
+plotshape(baseBreak and trendOk, "Base 'n break", shape.triangleup, location.belowbar, color.new(color.green, 0), text="BnB", size=size.tiny)
+plotshape(wedgePop and trendOk, "Wedge pop", shape.circle, location.belowbar, color.new(color.lime, 0), text="Pop", size=size.tiny)
+plotshape(crossback and not crossback[1], "EMA crossback", shape.xcross, location.abovebar, color.new(color.red, 0), text="Xback", size=size.tiny)
+plotshape(exhaustion and not exhaustion[1], "Exhaustion extension", shape.diamond, location.abovebar, color.new(color.purple, 0), text="Exh", size=size.tiny)
+bgcolor(exhaustion ? color.new(color.purple, 92) : na)
