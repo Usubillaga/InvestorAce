@@ -29,7 +29,7 @@ CANCEL = re.compile(r'^\s*paper-order:\s*CANCEL\s+#?(\d{1,7})\s*$', re.I)
 
 
 def new_account(opened):
-    return dict(schema=SCHEMA, name='Active trading · your own orders', capital=10000.,
+    return dict(schema=SCHEMA, name="Active trading · Claude's trading rules v1", capital=10000.,
                 account_currency='EUR', fx={'USD': 0.89063}, opened=opened,
                 fx_note='Fixed rate 1 EUR = 1.1228 USD, the same as the model paper tests; '
                         'currency moves are not part of the result.',
@@ -231,6 +231,22 @@ def _universe(record):
     return rows
 
 
+RULES_HTML = (
+    '<details class="note" open><summary><b>Trading rules v1 (Claude), fixed 2026-11-12</b></summary><ul>'
+    '<li><b>Buy</b> only InvestorAce Buy or Strong Buy, above the 200-day average, at or above the 21-day average and '
+    'at most 3 ATR above it, no report in the next 5 days, and only while the S&amp;P 500 is above its 200-day '
+    'average. A report in the last 10 days ranks first (post-earnings drift), then the model score.</li>'
+    '<li><b>Size</b>: risk 1% of equity per trade at the stop, at most 20% per position, at most 8 positions, '
+    '3% cash kept.</li>'
+    '<li><b>Sell</b>: stop at −8% (−5% in a correction); stop to the entry price after +10%; after +20% the stop '
+    'trails 10% under the highest close; half sold at +25% (once); sold before a report without a +10% cushion; '
+    'sold below the 200-day average, when the label falls to Hold Negative or Sell, or after 15 sessions with '
+    'less than +2%.</li>'
+    '<li><b>8-week rule</b> (O\'Neil): a position up 20% within 15 sessions is held 40 sessions; only the stop at '
+    'the entry price applies.</li>'
+    '<li>Decided each weekday from the last committed build (the previous close); orders fill at that day\'s close. '
+    'Sources: O\'Neil, Minervini, Elder/Van Tharp position sizing, Bernard &amp; Thomas (1989).</li></ul></details>')
+
 TRADE_CSS = """
 .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;background:var(--panel);
 border:1px solid var(--line);border-radius:10px;padding:16px;margin:16px 0}
@@ -299,14 +315,14 @@ def render(doc, result, record, *, now):
         f'<td>{"—" if o.get("fill_price") is None else format(o["fill_price"], ",.2f")}</td>'
         f'<td>{_money(o.get("amount"))}</td><td>{_signed(o.get("realized")) if "realized" in o else "—"}</td></tr>'
         for o in sorted(result['orders'], key=lambda o: -o['id']))
-    body = (f'<h1>Active trading</h1><p class="lead">Your own paper account, separate from the model\'s paper tests, '
-            f'so you can compare your decisions with the model. Opened {escape(doc["opened"])} with '
+    body = (f'<h1>Active trading</h1><p class="lead">{escape(doc.get("name") or "")}. A paper account separate from '
+            f'the model\'s paper tests, so trading rules can be compared with the model. Opened {escape(doc["opened"])} with '
             f'{_money(doc["capital"])}. Valued at the closes up to {escape(result["as_of"])}; built '
             f'{escape(now.strftime("%Y-%m-%d %H:%M"))} UTC.</p>'
             f'<div class="tiles">{tiles}</div>'
             + ('' if result['priced'] else '<p class="muted">A position has no close yet; the total is withheld '
                'instead of being shown without it.</p>')
-            + '<h2>Place an order</h2><div class="form">'
+            + RULES_HTML + '<h2>Place an order</h2><div class="form">'
             '<label>Ticker<select id="trade-ticker"></select></label>'
             '<label>Shares<input id="trade-shares" type="number" min="1" step="1" value="10"></label>'
             '<div class="side"><label><input type="radio" name="trade-side" value="BUY" checked> Buy</label>'
