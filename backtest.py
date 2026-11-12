@@ -32,6 +32,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / 'backtests'
 YEARS = 5
+HISTORY_YEARS = 14
+WINDOWS = (('2014-01-01', '2018-01-01'), ('2018-01-01', '2022-01-01'), ('2022-01-01', None))
 WARMUP = 260
 COST = 0.001
 CAPITAL = 10000.
@@ -73,11 +75,11 @@ def _drawdown_within(close, n):
     return future.min(axis=1) / close - 1
 
 
-def event_study(frames, spx, start):
+def event_study(frames, spx, start, end=None):
     rows = []
     spx_fwd = {n: _fwd(spx, n) for n in HORIZONS}
     for symbol, f in frames.items():
-        d = f.loc[f.index >= start].copy()
+        d = f.loc[(f.index >= start) & ((f.index < end) if end is not None else True)].copy()
         if d.empty:
             continue
         for n in HORIZONS:
@@ -140,9 +142,9 @@ VARIANTS = {
 }
 
 
-def simulate(frames, spx, sectors, start, **rule):
+def simulate(frames, spx, sectors, start, end=None, **rule):
     """Daily decisions on close t, fills at close t+1 (the live system: last night's build, today's close)."""
-    dates = spx.index[spx.index >= start]
+    dates = spx.index[(spx.index >= start) & ((spx.index < end) if end is not None else True)]
     spx_sma = spx.rolling(200).mean()
     cash, pos, trades, curve, cooldown = CAPITAL, {}, [], [], {}
     close = pd.DataFrame({s: f['close'] for s, f in frames.items()})
@@ -260,6 +262,42 @@ def _metrics(curve, trades):
 
 
 # ---------------------------------------------------------------- report
+def windows(frames, spx, sectors):
+    """The same variants in separate periods: a rule is only trusted if it helps in each of them."""
+    out = []
+    for lo, hi in WINDOWS:
+        start, end = pd.Timestamp(lo), (pd.Timestamp(hi) if hi else None)
+        sel = spx[(spx.index >= start) & ((spx.index < end) if end is not None else True)]
+        if len(sel) < 250:
+            continue
+        active = sum(1 for f in frames.values() if f.loc[sel.index[0]:sel.index[-1], 'sma200'].notna().any())
+        es = event_study(frames, spx, start, end)
+        out.append(dict(window=f'{sel.index[0].date()} → {sel.index[-1].date()}', symbols=active,
+                        spx=_metrics(sel / sel.iloc[0] * CAPITAL, []),
+                        breakouts={k: es['breakouts'][k] for k in ('failure_rate', 'all_uptrend_days', 'breakout_failed',
+                                                                    'just_under_resistance')},
+                        extension_30=es['extension_36']['30..+%'],
+                        portfolio={name: simulate(frames, spx, sectors, start, end, **rule)
+                                   for name, rule in VARIANTS.items()}))
+    return out
+
+
+def robustness(wins):
+    """Per variant: in how many windows it beat the base on return, drawdown and Sharpe."""
+    out = {}
+    for name in VARIANTS:
+        if name == 'base_v1_5':
+            continue
+        better = dict(cagr=0, max_drawdown=0, sharpe=0)
+        for w in wins:
+            base, var = w['portfolio']['base_v1_5'], w['portfolio'][name]
+            for k in better:
+                if None not in (base.get(k), var.get(k)) and var[k] > base[k]:
+                    better[k] += 1
+        out[name] = dict(better, windows=len(wins))
+    return out
+
+
 def report(result):
     lines = [f"# Backtest of the technical rules · {result['window']}", '',
              'Technical rules only (no InvestorAce label, which has no history); universe = today\'s members '
@@ -287,7 +325,28 @@ def report(result):
         lines.append(f"| {k} | {v['cagr']}% | {v['max_drawdown']}% | {v['sharpe']} | {v['trades']} | "
                      f"{v.get('win_rate')}% | {v.get('avg_trade')}% | {v.get('avg_held')} |")
     s = result['spx']
-    lines += ['', f"S&P 500 buy and hold: CAGR {s['cagr']}%, max drawdown {s['max_drawdown']}%.", '',
+    lines += ['', f"S&P 500 buy and hold: CAGR {s['cagr']}%, max drawdown {s['max_drawdown']}%.", '']
+    wins = result.get('windows') or []
+    if wins:
+        lines += ['## 4 · Separate periods (same variants)', '',
+                  'Members enter a period once they have 200 days of prices, so early periods hold fewer stocks.', '']
+        for w in wins:
+            sp, b, x = w['spx'], w['breakouts'], w['extension_30']
+            lines += [f"### {w['window']} · {w['symbols']} stocks · S&P CAGR {sp['cagr']}%, max drawdown {sp['max_drawdown']}%", '',
+                      f"Breakout failure rate {b['failure_rate']}% · 63-day mean: uptrend days {b['all_uptrend_days']['fwd63_mean']}%, "
+                      f"just under resistance {b['just_under_resistance']['fwd63_mean']}%, failed breakouts "
+                      f"{b['breakout_failed']['fwd63_mean']}% · more than 30% above the 36-day average: n={x['n']}, "
+                      f"63-day {x['fwd63_mean']}%, P(−10% in 21 d) {x['p_drop10_in_21']}%", '',
+                      '| Variant | CAGR | max drawdown | Sharpe | trades |', '|---|---|---|---|---|']
+            for k, v in w['portfolio'].items():
+                lines.append(f"| {k} | {v['cagr']}% | {v['max_drawdown']}% | {v['sharpe']} | {v['trades']} |")
+            lines.append('')
+        lines += ['### Robustness: windows in which a variant beat the base (higher is better for all three)', '',
+                  '| Variant | CAGR | max drawdown (less deep) | Sharpe |', '|---|---|---|---|']
+        for k, v in robustness(wins).items():
+            lines.append(f"| {k} | {v['cagr']}/{v['windows']} | {v['max_drawdown']}/{v['windows']} | {v['sharpe']}/{v['windows']} |")
+        lines.append('')
+    lines += [
               f"Symbols: {result['symbols']} · generated {result['generated_at']}"]
     return '\n'.join(lines) + '\n'
 
@@ -297,7 +356,7 @@ def main():
     import engine
     symbols = {key: row.get('yf') or key for key, row in engine.DATA.items()}
     sectors = {key: row.get('sector') for key, row in engine.DATA.items()}
-    period = f'{YEARS + 2}y'
+    period = f'{HISTORY_YEARS}y'
     raw = yf.download(sorted(set(symbols.values())) + ['^GSPC'], period=period, auto_adjust=True,
                       progress=False, threads=True, group_by='column')
     spx = raw['Close']['^GSPC'].dropna()
@@ -316,7 +375,7 @@ def main():
         f = indicators(frame['c'], frame['h'], frame['l']).reindex(spx.index)
         frames[key] = f
     spx_curve = (spx[spx.index >= start] / spx[spx.index >= start].iloc[0]) * CAPITAL
-    result = dict(schema='backtest-v1', generated_at=datetime.now(timezone.utc).isoformat(timespec='minutes'),
+    result = dict(schema='backtest-v2', windows=windows(frames, spx, sectors), generated_at=datetime.now(timezone.utc).isoformat(timespec='minutes'),
                   window=f'{start.date()} → {spx.index[-1].date()}', symbols=len(frames),
                   event_study=event_study(frames, spx, start),
                   portfolio={name: simulate(frames, spx, sectors, start, **rule) for name, rule in VARIANTS.items()},
