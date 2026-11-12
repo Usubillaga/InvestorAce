@@ -44,6 +44,7 @@ class Intake(unittest.TestCase):
         self.assertFalse(place(doc, 'paper-order: BUY 2 MU', 1, '2026-11-12T15:00:00Z')[0])   # same issue twice
         self.assertEqual([o['ticker'] for o in doc['orders']], ['MU', 'ELE'])
         self.assertNotIn('fill_price', doc['orders'][0])          # intake never fills
+        self.assertNotIn('resistance', doc['orders'][0])
 
 
 class Replay(unittest.TestCase):
@@ -103,6 +104,20 @@ class Replay(unittest.TestCase):
         self.assertEqual(out[3]['status'], 'FILLED')
 
 
+class Weakness(unittest.TestCase):
+    def test_flags_for_weaker_purchases(self):
+        rec = {'A': dict(opportunity=dict(label='Buy')), 'B': dict(opportunity=dict(label='Hold Positive')),
+               '_evidence': dict(inputs={
+                   'A': dict(timing=dict(close=98., sma36=90., sma50=88., resistance=100.)),
+                   'B': dict(timing=dict(close=140., sma36=100., sma50=95., resistance=150.))})}
+        self.assertEqual(at.weakness('A', rec), ['just under its high 100.00'])
+        flags = at.weakness('B', rec)
+        self.assertIn('label Hold Positive', flags)
+        self.assertIn('+40% over 36-day avg: volatile', flags)
+        self.assertIn('near the stop', at.weakness('A', rec, entry=104., close=98.))
+        self.assertIn('below 50-day avg', at.weakness('A', rec, close=87.))
+
+
 class Page(unittest.TestCase):
     def record(self):
         return {'MU': dict(price=120., opportunity=dict(label='Buy', score=7.9, price=120.,
@@ -144,6 +159,7 @@ class Page(unittest.TestCase):
         text = (Path(__file__).parent / '.github' / 'workflows' / 'paper-order.yml').read_text()
         self.assertIn("github.event.issue.author_association == 'OWNER'", text)
         self.assertIn('ORDER_TITLE: ${{ github.event.issue.title }}', text)
+        self.assertIn('ORDER_BODY: ${{ github.event.issue.body }}', text)
         self.assertNotIn('run: python active_trading.py intake "${{', text)
         self.assertNotIn('concurrency:', text)   # a group cancels all but one pending order
         self.assertIn('git reset -q --hard "origin/$BRANCH"', text)   # parallel orders re-record on the new main

@@ -39,4 +39,61 @@ Technical rules only (no InvestorAce label, which has no history); universe = to
 
 S&P 500 buy and hold: CAGR 10.39%, max drawdown -25.43%.
 
-Symbols: 110 · generated 2026-11-12T13:16+00:00
+## 4 · Separate periods (same variants)
+
+Members enter a period once they have 200 days of prices, so early periods hold fewer stocks.
+
+### 2014-01-02 → 2017-12-29 · 85 stocks · S&P CAGR 9.94%, max drawdown -14.16%
+
+Breakout failure rate 22.73% · 63-day mean: uptrend days 4.67%, just under resistance 4.32%, failed breakouts 0.57% · more than 30% above the 36-day average: n=208, 63-day 13.81%, P(−10% in 21 d) 53.85%
+
+| Variant | CAGR | max drawdown | Sharpe | trades |
+|---|---|---|---|---|
+| base_v1_5 | 20.46% | -29.66% | 0.64 | 151 |
+| no_buy_above_30pct_36d | 18.0% | -29.66% | 0.59 | 150 |
+| sell_above_30pct_36d | 19.75% | -26.47% | 0.69 | 154 |
+| wait_under_resistance | 19.73% | -37.02% | 0.64 | 149 |
+| two_closes_above_resistance | 20.31% | -30.61% | 0.65 | 155 |
+| sell_failed_breakout | 19.85% | -29.56% | 0.69 | 145 |
+| wait_res_and_sell_failed | 20.1% | -35.88% | 0.64 | 150 |
+
+### 2018-01-02 → 2021-12-31 · 99 stocks · S&P CAGR 15.33%, max drawdown -33.92%
+
+Breakout failure rate 30.89% · 63-day mean: uptrend days 5.71%, just under resistance 3.29%, failed breakouts 0.87% · more than 30% above the 36-day average: n=765, 63-day 18.96%, P(−10% in 21 d) 50.46%
+
+| Variant | CAGR | max drawdown | Sharpe | trades |
+|---|---|---|---|---|
+| base_v1_5 | 22.48% | -39.63% | 0.65 | 228 |
+| no_buy_above_30pct_36d | 31.87% | -23.91% | 0.93 | 221 |
+| sell_above_30pct_36d | 30.09% | -27.84% | 0.9 | 252 |
+| wait_under_resistance | 24.4% | -26.54% | 0.83 | 227 |
+| two_closes_above_resistance | 28.11% | -28.27% | 0.79 | 221 |
+| sell_failed_breakout | 31.27% | -27.15% | 0.86 | 235 |
+| wait_res_and_sell_failed | 24.02% | -27.34% | 0.76 | 254 |
+
+### 2022-01-03 → 2026-11-11 · 110 stocks · S&P CAGR 10.0%, max drawdown -25.43%
+
+Breakout failure rate 33.32% · 63-day mean: uptrend days 5.57%, just under resistance 3.45%, failed breakouts -0.44% · more than 30% above the 36-day average: n=1474, 63-day 17.48%, P(−10% in 21 d) 51.49%
+
+| Variant | CAGR | max drawdown | Sharpe | trades |
+|---|---|---|---|---|
+| base_v1_5 | 34.99% | -45.96% | 0.89 | 262 |
+| no_buy_above_30pct_36d | 26.57% | -44.95% | 0.8 | 257 |
+| sell_above_30pct_36d | 13.76% | -34.19% | 0.51 | 346 |
+| wait_under_resistance | 33.8% | -34.07% | 0.93 | 279 |
+| two_closes_above_resistance | 32.34% | -42.16% | 0.85 | 281 |
+| sell_failed_breakout | 35.5% | -38.71% | 0.94 | 270 |
+| wait_res_and_sell_failed | 29.67% | -35.62% | 0.86 | 286 |
+
+### Robustness: windows in which a variant beat the base (higher is better for all three)
+
+| Variant | CAGR | max drawdown (less deep) | Sharpe |
+|---|---|---|---|
+| no_buy_above_30pct_36d | 1/3 | 2/3 | 1/3 |
+| sell_above_30pct_36d | 1/3 | 3/3 | 2/3 |
+| wait_under_resistance | 1/3 | 2/3 | 2/3 |
+| two_closes_above_resistance | 1/3 | 2/3 | 2/3 |
+| sell_failed_breakout | 2/3 | 3/3 | 3/3 |
+| wait_res_and_sell_failed | 1/3 | 2/3 | 1/3 |
+
+Symbols: 110 · generated 2026-11-12T13:45+00:00

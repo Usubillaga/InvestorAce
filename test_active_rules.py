@@ -135,6 +135,34 @@ class UserRules(unittest.TestCase):
         self.assertEqual(rule(levels(close=97., sma50=95.)), [])
 
 
+class FailedBreakout(unittest.TestCase):
+    """v1.6: the user's failed-breakout exit, kept because it helped in all three backtest periods."""
+    def test_a_breakout_entry_records_the_old_high_in_the_order_and_its_issue_body(self):
+        rec = record(A=stock(levels=levels(close=100., resistance=97.)), B=stock(levels=levels(resistance=120.)))
+        orders = {o['ticker']: o for o in ar.plan(account(), rec, {}, TODAY)['orders']}
+        self.assertEqual(orders['A']['resistance'], 97.)
+        self.assertIsNone(orders['B']['resistance'])
+        self.assertIn('resistance: 97.0000', ar.body(orders['A']))
+        self.assertNotIn('resistance:', ar.body(orders['B']))
+        doc = account()
+        at.intake(doc, ar.title(orders['A']), issue=9, created_at='2026-12-01T12:00:00Z',
+                  universe={'A': dict(yf='A', cur='USD')}, body=ar.body(orders['A']))
+        self.assertEqual(doc['orders'][0]['resistance'], 97.)
+
+    def test_sold_when_back_3_percent_under_the_old_high_within_10_sessions(self):
+        def plan(closes, res=100.):
+            doc = account()
+            at.intake(doc, 'paper-order: BUY 10 A', issue=1, created_at='2026-11-16T12:00:00Z',
+                      universe={'A': dict(yf='A', cur='USD')}, body=f'resistance: {res}')
+            series = {'A': days('2026-11-16', closes)}
+            today = date.fromisoformat(series['A'][-1][0])
+            return [o['rule'] for o in ar.plan(doc, record(captured=today.isoformat(), A=stock(
+                levels=levels(close=closes[-1], sma36=90., sma50=90., sma200=80.))), series, today)['orders']]
+        self.assertEqual(plan([103, 98]), [])                      # 98 > 97: still inside the zone
+        self.assertEqual(plan([103, 96.5]), ['FAILED_BREAKOUT'])
+        self.assertEqual(plan([103] + [104] * 10 + [96.5]), [])    # after 10 sessions the rule no longer applies
+
+
 class Exits(unittest.TestCase):
     def held(self, closes, **kw):
         doc = account(('paper-order: BUY 10 A', '2026-11-16T12:00:00Z'))
