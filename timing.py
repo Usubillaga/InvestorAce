@@ -12,6 +12,8 @@ SIGNAL_LOOKBACK_SESSIONS = 20
 SIGNAL_MIN_BARS = 201
 PARAMETERS = {'sma': 200, 'ema': 21, 'atr': 14}
 STALE_AFTER_CALENDAR_DAYS = 7
+LEVELS = {'sma_fast': 36, 'sma_mid': 50, 'resistance_sessions': 60, 'breakout_sessions': 5,
+          'support_sessions': 20, 'drop_sessions': 10, 'drop_lookback': 40, 'drop_pct': -20.}
 
 
 def _signal_observation():
@@ -69,7 +71,32 @@ def unavailable(reason, as_of=None):
                 history_start=None, last_bar=None, bars=0, age_calendar_days=None,
                 input_sha256=None, close=None, sma200=None, ema21=None,
                 atr14=None, trend=None, distance_sma_pct=None, extension_atr=None,
+                sma36=None, sma50=None, resistance=None, support=None, fast_drop=None,
                 signal=_signal_observation())
+
+
+def _levels(closes, dates):
+    """36- and 50-day averages, nearest resistance and support, and the latest fast drop.
+
+    Resistance is the highest close of the 60 sessions before the last 5 (a prior high the
+    stock has to clear); support is the lowest close of the last 20 sessions. A fast drop is
+    a close 20% or more under the highest close of the 10 sessions before it, within the
+    last 40 sessions (O'Neil's 8-week rule turned around)."""
+    n = len(closes)
+    fast, mid = LEVELS['sma_fast'], LEVELS['sma_mid']
+    window = closes[-(LEVELS['resistance_sessions'] + LEVELS['breakout_sessions']):-LEVELS['breakout_sessions']]
+    drop = None
+    k = LEVELS['drop_sessions']
+    for i in range(max(k, n - LEVELS['drop_lookback']), n):
+        prior = max(closes[i - k:i])
+        pct = 100 * (closes[i] / prior - 1)
+        if pct <= LEVELS['drop_pct']:
+            drop = dict(date=dates[i], pct=pct)
+    return dict(sma36=sum(closes[-fast:]) / fast if n >= fast else None,
+                sma50=sum(closes[-mid:]) / mid if n >= mid else None,
+                resistance=max(window) if window else None,
+                support=min(closes[-LEVELS['support_sessions']:]),
+                fast_drop=drop)
 
 
 def calculate(history, as_of=None):
@@ -137,6 +164,7 @@ def calculate(history, as_of=None):
     result.update(status='AVAILABLE', reason='', close=close, sma200=sma, ema21=ema,
                   atr14=atr, trend=trend, distance_sma_pct=100 * (close / sma - 1),
                   extension_atr=(close - ema) / atr if atr > 0 else None)
+    result.update(_levels(closes, [row[0][:10] for row in values]))
     if atr <= 0:
         result.update(status='PARTIAL', reason='ATR is zero; extension is unavailable.')
     if result['age_calendar_days'] > STALE_AFTER_CALENDAR_DAYS:
