@@ -8,6 +8,8 @@ on:
     paths:
       - 'backtest.py'
       - '.github/workflows/backtest.yml'
+  schedule:
+    - cron: '17 5 1 * *'        # 1st of each month, on main
   workflow_dispatch:
 
 permissions:

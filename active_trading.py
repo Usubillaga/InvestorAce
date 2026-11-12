@@ -270,6 +270,8 @@ border:1px solid var(--line);border-radius:10px;padding:16px;margin:16px 0}
 .form select,.form input{background:#0d0f14;color:var(--text);border:1px solid var(--line);border-radius:8px;
 padding:9px 10px;font:inherit}.form button{grid-column:1/-1;padding:12px;border-radius:8px;border:0;
 background:var(--accent);color:#10140a;font-weight:700;font-size:16px;cursor:pointer}
+.flag{display:inline-block;margin:1px 3px 1px 0;padding:1px 7px;border-radius:6px;background:#3a2a10;
+color:#ffcf7a;font-size:12px}tr.weak td{background:#1f1a10}
 .form .est{grid-column:1/-1;color:var(--muted)}.side{display:flex;gap:8px}.side label{flex-direction:row;
 align-items:center;gap:6px;color:var(--text)}
 """
@@ -309,6 +311,36 @@ TRADE_JS = r"""
 """
 
 
+def weakness(ticker, record, *, entry=None, close=None):
+    """Flags that mark a weaker purchase. Each one rests on the backtest (backtests/latest.md) or on a rule:
+    just under an unbroken prior high (weaker 63-day returns in all three periods), more than 30% over the
+    36-day average (a 10% drop within a month in about half the cases), below the 36- or 50-day average,
+    a label that is no longer Buy, and a close within 3% of the -8% stop."""
+    timing = (((record.get('_evidence') or {}).get('inputs') or {}).get(ticker) or {}).get('timing') or {}
+    label = ((record.get(ticker) or {}).get('opportunity') or {}).get('label')
+    close = close or timing.get('close')
+    flags = []
+    if label and label not in ('Buy', 'Strong Buy'):
+        flags.append(f'label {label}')
+    if close:
+        res, s36, s50 = timing.get('resistance'), timing.get('sma36'), timing.get('sma50')
+        if res and res * 0.97 <= close < res:
+            flags.append(f'just under its high {res:.2f}')
+        if s50 and close < s50:
+            flags.append('below 50-day avg')
+        elif s36 and close < s36:
+            flags.append('below 36-day avg')
+        if s36 and close > s36 * 1.30:
+            flags.append(f'+{100 * (close / s36 - 1):.0f}% over 36-day avg: volatile')
+        if entry and close <= entry * 0.92 * 1.03:
+            flags.append('near the stop')
+    return flags
+
+
+def _flags(flags):
+    return ' '.join(f'<span class="flag">{escape(f)}</span>' for f in flags) or '<span class="muted">—</span>'
+
+
 def render(doc, result, record, *, now):
     from war_scenario import shell
     universe = _universe(record)
@@ -318,12 +350,26 @@ def render(doc, result, record, *, now):
         ('Return', _signed(result['return_pct'], pct=True)),
         ('S&amp;P 500 since opening', _signed(result['benchmark_pct'], pct=True))])
     labels = {r['t']: r for r in universe}
+    def entry_of(p):
+        rate = 1. if p['currency'] == doc['account_currency'] else (doc.get('fx') or {}).get(p['currency'])
+        return p['cost'] / (p['shares'] * rate) if rate and p['shares'] else None
+
+    pos_flags = {p['ticker']: weakness(p['ticker'], record, entry=entry_of(p), close=p['last_close'])
+                 for p in result['positions']}
     rows = ''.join(
-        f'<tr><td><b>{escape(p["ticker"])}</b></td><td class="l">{escape(str((labels.get(p["ticker"]) or {}).get("label") or "—"))}</td>'
+        f'<tr{" class=weak" if pos_flags[p["ticker"]] else ""}><td><b>{escape(p["ticker"])}</b></td><td class="l">{escape(str((labels.get(p["ticker"]) or {}).get("label") or "—"))}</td>'
         f'<td>{p["shares"]}</td><td>{_money(p["cost"])}</td><td>{"—" if p["last_close"] is None else format(p["last_close"], ",.2f")} '
         f'{escape(p["currency"])}</td><td>{escape(str(p["last_date"] or "—"))}</td><td>{_money(p["value"])}</td>'
-        f'<td>{_signed(p["pnl"])}</td><td>{_signed(p["pnl_pct"], pct=True)}</td></tr>'
-        for p in sorted(result['positions'], key=lambda p: -(p['value'] or 0)))
+        f'<td>{_signed(p["pnl"])}</td><td>{_signed(p["pnl_pct"], pct=True)}</td>'
+        f'<td class="l">{_flags(pos_flags[p["ticker"]])}</td></tr>'
+        for p in sorted(result['positions'], key=lambda p: (not pos_flags[p['ticker']], -(p['value'] or 0))))
+    pending = [o for o in result['orders'] if o['side'] == 'BUY' and o['status'] == 'PENDING']
+    pend_flags = {o['id']: weakness(o['ticker'], record) for o in pending}
+    pending_html = ('<h3>Pending buys</h3><div class="tw"><table><thead><tr><th>#</th><th class="l">Order</th>'
+                    '<th class="l">Watch</th></tr></thead><tbody>' + ''.join(
+                        f'<tr{" class=weak" if pend_flags[o["id"]] else ""}><td>#{o["id"]}</td><td class="l">BUY '
+                        f'{o["shares"]} <b>{escape(o["ticker"])}</b></td><td class="l">{_flags(pend_flags[o["id"]])}</td></tr>'
+                        for o in pending) + '</tbody></table></div>') if pending else ''
     orders = ''.join(
         f'<tr><td>#{o["id"]}</td><td class="l">{escape(o["side"])} {o["shares"]} <b>{escape(o["ticker"])}</b></td>'
         f'<td>{escape(str(o["submitted_at"])[:16].replace("T", " "))}</td><td class="l">{escape(o["status"])}'
@@ -354,8 +400,9 @@ def render(doc, result, record, *, now):
             f'{escape(doc.get("fx_note") or "")}</div>'
             '<h2>Positions</h2><div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Model label</th>'
             '<th>Shares</th><th>Cost</th><th>Last close</th><th>Date</th><th>Value</th><th>Gain/loss</th><th>%</th>'
-            '</tr></thead><tbody>' + (rows or '<tr><td colspan="9" class="l muted">No positions yet.</td></tr>')
-            + '</tbody></table></div><h2>Orders</h2><div class="tw"><table><thead><tr><th>#</th><th class="l">Order</th>'
+            '<th class="l">Watch</th></tr></thead><tbody>'
+            + (rows or '<tr><td colspan="10" class="l muted">No positions yet.</td></tr>') + '</tbody></table></div>'
+            + pending_html + '<h2>Orders</h2><div class="tw"><table><thead><tr><th>#</th><th class="l">Order</th>'
             '<th>Submitted (UTC)</th><th class="l">Status</th><th>Fill date</th><th>Fill price</th><th>Amount</th>'
             '<th>Realized</th></tr></thead><tbody>'
             + (orders or '<tr><td colspan="8" class="l muted">No orders yet.</td></tr>') + '</tbody></table></div>'

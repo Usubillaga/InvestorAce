@@ -86,7 +86,7 @@ def shell(title, body):
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>InvestorAce · {escape(title)}</title><style>{CSS}</style></head><body><main>'
             '<nav><strong>InvestorAce</strong><a href="index.html">Scoreboard</a>'
-            '<a href="paper-test.html">Paper test</a><a href="trade.html">Active trading</a><a href="war-scenarios.html">War scenarios</a>'
+            '<a href="paper-test.html">Paper test</a><a href="trade.html">Active trading</a><a href="backtest.html">Backtest</a><a href="war-scenarios.html">War scenarios</a>'
             '<a href="crash-monitor.html">Crash monitor</a>'
             '<a href="scanner.html">Stock scanner</a></nav>' + body + '</main></body></html>')
 

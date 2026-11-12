@@ -351,6 +351,52 @@ def report(result):
     return '\n'.join(lines) + '\n'
 
 
+PAGE = 'backtest.html'
+
+
+def _md_to_html(md):
+    """The report's own Markdown (headings, paragraphs, pipe tables) as HTML; nothing else is needed."""
+    from html import escape
+    out, table = [], []
+
+    def flush():
+        if table:
+            head, *body = [r for r in table if not set(r.replace('|', '').strip()) <= set('-: ')]
+            cells = lambda r: [c.strip() for c in r.strip().strip('|').split('|')]
+            out.append('<div class="tw"><table><thead><tr>' + ''.join(f'<th>{escape(c)}</th>' for c in cells(head))
+                       + '</tr></thead><tbody>' + ''.join('<tr>' + ''.join(f'<td>{escape(c)}</td>' for c in cells(r))
+                                                          + '</tr>' for r in body) + '</tbody></table></div>')
+            table.clear()
+    for line in md.splitlines():
+        if line.startswith('|'):
+            table.append(line)
+            continue
+        flush()
+        if line.startswith('### '):
+            out.append(f'<h3>{escape(line[4:])}</h3>')
+        elif line.startswith('## '):
+            out.append(f'<h2>{escape(line[3:])}</h2>')
+        elif line.startswith('# '):
+            out.append(f'<h1>{escape(line[2:])}</h1>')
+        elif line.strip():
+            out.append(f'<p class="lead">{escape(line)}</p>')
+    flush()
+    return ''.join(out)
+
+
+def site_pages(root, build=None):
+    """backtest.html from the committed results; empty until a backtest has run."""
+    from war_scenario import shell
+    path = Path(root) / 'backtests' / 'latest.json'
+    if not path.exists():
+        return []
+    result = json.loads(path.read_text(encoding='utf-8'))
+    intro = ('<div class="note">Updated by the backtest workflow on the first day of each month and whenever '
+             'backtest.py changes. Only rules that help in every period are adopted into the trading rules '
+             '(see Active trading).</div>')
+    return [(Path(PAGE), shell('Backtest', intro + _md_to_html(report(result))))]
+
+
 def main():
     import yfinance as yf
     import engine

@@ -104,6 +104,20 @@ class Replay(unittest.TestCase):
         self.assertEqual(out[3]['status'], 'FILLED')
 
 
+class Weakness(unittest.TestCase):
+    def test_flags_for_weaker_purchases(self):
+        rec = {'A': dict(opportunity=dict(label='Buy')), 'B': dict(opportunity=dict(label='Hold Positive')),
+               '_evidence': dict(inputs={
+                   'A': dict(timing=dict(close=98., sma36=90., sma50=88., resistance=100.)),
+                   'B': dict(timing=dict(close=140., sma36=100., sma50=95., resistance=150.))})}
+        self.assertEqual(at.weakness('A', rec), ['just under its high 100.00'])
+        flags = at.weakness('B', rec)
+        self.assertIn('label Hold Positive', flags)
+        self.assertIn('+40% over 36-day avg: volatile', flags)
+        self.assertIn('near the stop', at.weakness('A', rec, entry=104., close=98.))
+        self.assertIn('below 50-day avg', at.weakness('A', rec, close=87.))
+
+
 class Page(unittest.TestCase):
     def record(self):
         return {'MU': dict(price=120., opportunity=dict(label='Buy', score=7.9, price=120.,

@@ -53,3 +53,16 @@ class Runs(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class Page(unittest.TestCase):
+    def test_page_from_committed_results(self):
+        import tempfile
+        from pathlib import Path
+        self.assertEqual(bt.site_pages(tempfile.mkdtemp()), [])
+        pages = bt.site_pages(Path(__file__).parent)
+        if pages:                                  # the repository carries a committed result
+            html = pages[0][1]
+            self.assertIn('<table>', html)
+            self.assertIn('first day of each month', html)
+            self.assertNotIn('| ---', html)
