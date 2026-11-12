@@ -267,3 +267,18 @@ class TimingIntegration(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class Levels(unittest.TestCase):
+    def test_averages_support_resistance_and_fast_drop(self):
+        import timing
+        closes = [100. + i for i in range(80)] + [150., 140., 130., 120., 110.]
+        dates = [f'd{i:03d}' for i in range(len(closes))]
+        out = timing._levels(closes, dates)
+        self.assertAlmostEqual(out['sma36'], sum(closes[-36:]) / 36)
+        self.assertAlmostEqual(out['sma50'], sum(closes[-50:]) / 50)
+        self.assertEqual(out['resistance'], max(closes[-65:-5]))
+        self.assertEqual(out['support'], min(closes[-20:]))
+        self.assertEqual(out['fast_drop']['date'], 'd084')            # 110 vs the 10-session high of 179
+        self.assertLessEqual(out['fast_drop']['pct'], -20)
+        self.assertIsNone(timing._levels([100.] * 60, [f'd{i}' for i in range(60)])['fast_drop'])

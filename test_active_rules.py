@@ -9,10 +9,11 @@ TODAY = date(2026, 12, 1)
 
 
 def stock(label='Buy', score=7.5, price=100., trend='ABOVE_SMA200', ext=1.0, next_report=None, last_report=None,
-          sector=None):
+          sector=None, levels=None):
     events = {'earnings': {'date': next_report}, 'last_reported': last_report}
     return (dict(opportunity=dict(label=label, score=score, price=price)),
-            dict(yf=None, cur='USD', sector=sector, timing=dict(status='AVAILABLE', trend=trend, extension_atr=ext),
+            dict(yf=None, cur='USD', sector=sector,
+                 timing=dict(dict(status='AVAILABLE', trend=trend, extension_atr=ext), **(levels or {})),
                  dynamic_analysis=dict(events=events)))
 
 
@@ -93,6 +94,54 @@ class Entries(unittest.TestCase):
     def test_at_most_eight_positions(self):
         rec = record(**{t: stock(score=7 + i / 10) for i, t in enumerate('ABCDEFGHIJ')})
         self.assertEqual(len(ar.plan(account(), rec, {}, TODAY)['orders']), ar.MAX_POSITIONS)
+
+
+def levels(close=100., sma36=95., sma50=92., sma200=80., resistance=90., support=93., drop=None):
+    return dict(close=close, sma36=sma36, sma50=sma50, sma200=sma200, resistance=resistance, support=support,
+                fast_drop=drop)
+
+
+class UserRules(unittest.TestCase):
+    """v1.2: 36/50/200-day confirmation, support and resistance, O'Neil turned around."""
+    def test_needs_all_three_averages_once_the_build_has_them(self):
+        rec = record(A=stock(levels=levels()), B=stock(levels=levels(sma36=101.)),       # below the 36-day
+                     C=stock(levels=levels(sma50=105.)), D=stock(levels=levels(sma36=None)),
+                     E=stock())                                                          # older build: v1.1 rule
+        self.assertEqual([o['ticker'] for o in ar.plan(account(), rec, {}, TODAY)['orders']], ['A', 'E'])
+
+    def test_no_buy_just_under_resistance_but_a_breakout_is_fine(self):
+        rec = record(A=stock(levels=levels(resistance=102.)), B=stock(levels=levels(resistance=99.)),
+                     C=stock(levels=levels(resistance=110.)))
+        p = ar.plan(account(), rec, {}, TODAY)
+        self.assertEqual([o['ticker'] for o in p['orders']], ['B', 'C'])
+        self.assertTrue(any('just under resistance' in n for n in p['notes']))
+
+    def test_near_support_ranks_before_a_higher_score(self):
+        rec = record(A=stock(score=8.5, levels=levels(sma50=80., support=80.)),
+                     B=stock(score=7.2, levels=levels(sma50=97., support=90.)))
+        self.assertEqual([o['ticker'] for o in ar.plan(account(), rec, {}, TODAY)['orders']], ['B', 'A'])
+
+    def test_fast_drop_blocks_buying_for_eight_weeks_and_sells_a_holding(self):
+        drop = dict(date='2026-11-20', pct=-23.5)
+        rec = record(A=stock(levels=levels(drop=drop)), B=stock(levels=levels()))
+        p = ar.plan(account(), rec, {}, TODAY)
+        self.assertEqual([o['ticker'] for o in p['orders']], ['B'])
+        old = {'A': days('2026-09-01', [1] * 60)}
+        old_rec = record(A=stock(levels=levels(drop=dict(date='2026-09-02', pct=-25.))))
+        self.assertEqual([o['ticker'] for o in ar.plan(account(), old_rec, old, TODAY)['orders']], ['A'])
+        doc = account(('paper-order: BUY 10 A', '2026-11-16T12:00:00Z'))
+        series = {'A': days('2026-11-16', [100, 104, 103])}
+        held = ar.plan(doc, record(captured='2026-11-18', A=stock(levels=levels(close=103., drop=dict(
+            date='2026-11-18', pct=-20.5)))), series, date(2026, 11, 18))
+        self.assertEqual([o['rule'] for o in held['orders']], ['FAST_DROP'])
+
+    def test_sell_below_the_50_day_average_only_at_a_loss(self):
+        doc = account(('paper-order: BUY 10 A', '2026-11-16T12:00:00Z'))
+        series = {'A': days('2026-11-16', [100, 97])}
+        rule = lambda lv: [o['rule'] for o in ar.plan(doc, record(captured='2026-11-17', A=stock(levels=lv)),
+                                                       series, date(2026, 11, 17))['orders']]
+        self.assertEqual(rule(levels(close=97., sma50=99.)), ['SMA50'])
+        self.assertEqual(rule(levels(close=97., sma50=95.)), [])
 
 
 class Exits(unittest.TestCase):

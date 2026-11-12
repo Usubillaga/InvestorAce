@@ -1,4 +1,5 @@
-"""Claude's trading rules for the active paper account (rules v1.1, fixed 2026-11-12 before the first order).
+"""Claude's trading rules for the active paper account (rules v1.2; v1.1 fixed 2026-11-12 before the first order, v1.2
+adds the user's moving-average, support/resistance and fast-drop rules the same day).
 
 The rules are written down before the first order and applied mechanically, so the
 account measures these rules, not ad-hoc decisions. Sources (from memory of the
@@ -21,7 +22,7 @@ from pathlib import Path
 import active_trading as at
 from earnings_view import status as earnings_status
 
-VERSION = 'claude-rules-v1.1'
+VERSION = 'claude-rules-v1.2'
 MAX_POSITIONS = 8
 RISK_PER_TRADE = 0.01          # of equity, lost if the stop is hit
 STOP = 0.08                    # O'Neil: cut every loss at 7-8%
@@ -39,6 +40,9 @@ PEAD_DAYS = 10                 # a report in the last 10 days with a positive re
 PEAD_REACTION = 0.02           # close after the report vs close before it
 MAX_PER_SECTOR = 2             # positions per sector
 MAX_BUILD_AGE_DAYS = 4         # no orders from an older build
+RESISTANCE_ZONE = 0.03         # no buy within 3% under an unbroken prior high
+SUPPORT_ZONE = 0.05            # within 5% above the 50-day average or the 20-day low ranks first
+FAST_DROP_BLOCK = 40           # sessions without a buy after a -20% drop in 2 weeks (O'Neil turned around)
 TIME_STOP_SESSIONS, TIME_STOP_GAIN = 15, 0.02
 MAX_EXTENSION_ATR = 3.0        # do not chase more than 3 ATR above the 21-day average
 COOLDOWN_SESSIONS = 10         # no re-entry right after a sale
@@ -78,6 +82,27 @@ def reaction(series, symbol, reported):
     if not before or not after:
         return None
     return after[0] / before[-1] - 1
+
+
+def confirmation(timing):
+    """User's averages: above the 36-day = awakening, the 50-day = first confirmation,
+    the 200-day = full confirmation. None when the build has no 36/50-day averages yet."""
+    if 'sma36' not in timing:
+        return None
+    close = timing.get('close')
+    levels = [timing.get('sma36'), timing.get('sma50'), timing.get('sma200')]
+    if close is None or None in levels:
+        return 'UNKNOWN'
+    return sum(close > level for level in levels)
+
+
+def fast_drop(timing, series, symbol, today_s):
+    """The -20%-in-2-weeks drop of the build, if it lies within the last 40 sessions."""
+    drop = timing.get('fast_drop')
+    if not drop:
+        return None
+    rows = [d for d, _ in series.get(symbol) or [] if drop['date'] <= d <= today_s]
+    return drop if not rows or len(rows) <= FAST_DROP_BLOCK else None
 
 
 def build_age_days(record, today):
@@ -150,8 +175,13 @@ def plan(doc, record, series, today):
         elif nxt is not None and (nxt - today).days <= EARNINGS_EXIT_DAYS and gain < EARNINGS_CUSHION:
             sell(p['shares'], 'EARNINGS', f'report on {nxt} without a +{EARNINGS_CUSHION:.0%} cushion '
                                           f'({gain:+.1%})')
+        elif fast_drop(timing, series, p['yahoo'], today_s):
+            d = timing['fast_drop']
+            sell(p['shares'], 'FAST_DROP', f'fell {d["pct"]:.1f}% within 2 weeks ({d["date"]})')
         elif timing.get('trend') == 'BELOW_SMA200':
             sell(p['shares'], 'TREND', 'close below the 200-day average')
+        elif timing.get('sma50') and close < timing['sma50'] and gain < 0:
+            sell(p['shares'], 'SMA50', 'close below the 50-day average while at a loss')
         elif len(path) >= TIME_STOP_SESSIONS and gain < TIME_STOP_GAIN:
             sell(p['shares'], 'TIME_STOP', f'{len(path)} sessions and only {gain:+.1%}')
         else:
@@ -187,6 +217,20 @@ def plan(doc, record, series, today):
         ext = timing.get('extension_atr')
         if ext is None or ext < 0 or ext > MAX_EXTENSION_ATR:
             continue
+        level = confirmation(timing)
+        if level is not None and level != 3:          # v1.2: above the 36-, 50- and 200-day averages
+            continue
+        drop = fast_drop(timing, series, inp.get('yf') or ticker, today_s)
+        if drop:
+            notes.append(f'{ticker}: skipped, fell {drop["pct"]:.1f}% within 2 weeks on {drop["date"]}')
+            continue
+        last = timing.get('close') or price
+        resistance = timing.get('resistance')
+        if resistance and resistance * (1 - RESISTANCE_ZONE) <= last < resistance:
+            notes.append(f'{ticker}: skipped, {last:.2f} just under resistance {resistance:.2f}')
+            continue
+        near_support = any(level and level <= last <= level * (1 + SUPPORT_ZONE)
+                           for level in (timing.get('sma50'), timing.get('support')))
         e = _earnings(record, ticker, today)
         if e['next'] is not None and (e['next'] - today).days <= EARNINGS_BLACKOUT_DAYS:
             continue
@@ -197,8 +241,9 @@ def plan(doc, record, series, today):
                 notes.append(f'{ticker}: skipped, fell {move:.1%} on its report of {e["last"]}')
                 continue
             pead = move is not None and move >= PEAD_REACTION   # unknown reaction: no priority
-        candidates.append((not pead, -(opp.get('score') or 0), ticker, price, cur, pead, inp.get('sector')))
-    for _, negscore, ticker, price, cur, pead, sector in sorted(candidates):
+        candidates.append((not pead, not near_support, -(opp.get('score') or 0), ticker, price, cur, pead,
+                           inp.get('sector')))
+    for _, _, negscore, ticker, price, cur, pead, sector in sorted(candidates):
         if slots <= 0:
             break
         if sector and sectors.get(sector, 0) >= MAX_PER_SECTOR:   # an unknown sector is not capped
