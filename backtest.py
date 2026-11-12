@@ -39,12 +39,13 @@ COST = 0.001
 CAPITAL = 10000.
 RESISTANCE_SESSIONS, BREAKOUT_GAP = 60, 5
 EXT_LIMIT = 0.30            # the user's "more than 30% above the 36-day average"
+BASE_SESSIONS, BASE_MAX_RANGE, BREAK_VOLUME, POP_VOLUME = 10, 0.12, 1.5, 1.2
 FAIL_WINDOW = 10            # a breakout fails if it closes 3% under the old high within 10 sessions
 HORIZONS = (5, 21, 63)
 
 
 # ---------------------------------------------------------------- indicators
-def indicators(close, high, low):
+def indicators(close, high, low, volume=None):
     """Per-symbol frame of the levels the rules use; every value uses data up to that close only."""
     out = pd.DataFrame({'close': close})
     out['sma36'] = close.rolling(36).mean()
@@ -52,6 +53,11 @@ def indicators(close, high, low):
     out['sma200'] = close.rolling(200).mean()
     out['sma21'] = close.rolling(21).mean()
     out['ema21'] = close.ewm(span=21, adjust=False).mean()
+    out['ema10'] = close.ewm(span=10, adjust=False).mean()          # Oliver Kell's 10/20 EMAs
+    out['ema20'] = close.ewm(span=20, adjust=False).mean()
+    out['base_high'] = close.shift(1).rolling(BASE_SESSIONS).max()   # Kell's base: the prior 10 closes
+    out['base_low'] = close.shift(1).rolling(BASE_SESSIONS).min()
+    out['vol_ratio'] = (volume / volume.shift(1).rolling(50).mean()) if volume is not None else np.nan
     prev = close.shift(1)
     tr = pd.concat([high - low, (high - prev).abs(), (low - prev).abs()], axis=1).max(axis=1)
     out['atr'] = tr.ewm(alpha=1 / 14, adjust=False).mean()
@@ -61,6 +67,8 @@ def indicators(close, high, low):
     out['mad'] = out['sma21'] / out['sma200']
     above = close > out['res']
     out['prev_above'] = above.shift(1, fill_value=False)
+    over = (close > out['ema10']) & (close > out['ema20'])
+    out['ema_pop'] = over & ~over.shift(1, fill_value=False)        # Kell's wedge pop: back over both EMAs
     return out
 
 
@@ -131,7 +139,9 @@ def _pct(x):
 
 
 # ---------------------------------------------------------------- portfolio simulation
+BASE = 'base_v1_6'
 VARIANTS = {
+    'base_v1_6': dict(sell_failed_breakout=True),
     'base_v1_5': dict(),
     'no_buy_above_30pct_36d': dict(skip_extended=True),
     'sell_above_30pct_36d': dict(sell_extended=True),
@@ -139,6 +149,10 @@ VARIANTS = {
     'two_closes_above_resistance': dict(confirm_breakout=True),
     'sell_failed_breakout': dict(sell_failed_breakout=True),
     'wait_res_and_sell_failed': dict(skip_near_res=True, sell_failed_breakout=True),
+    'kell_crossback_exit': dict(sell_failed_breakout=True, ema_crossback=True),
+    'kell_base_n_break_entry': dict(sell_failed_breakout=True, base_break=True),
+    'kell_wedge_pop_entry': dict(sell_failed_breakout=True, wedge_pop=True),
+    'kell_full': dict(sell_failed_breakout=True, base_break=True, wedge_pop=True, ema_crossback=True),
 }
 
 
@@ -183,6 +197,8 @@ def simulate(frames, spx, sectors, start, end=None, **rule):
             elif (rule.get('sell_failed_breakout') and p.get('res') and p['held'] <= FAIL_WINDOW
                   and c < p['res'] * 0.97):
                 why = 'FAILED_BREAKOUT'
+            elif rule.get('ema_crossback') and c < f['ema10'] and c < f['ema20']:
+                why = 'EMA_CROSSBACK'
             elif c < f['sma200']:
                 why = 'TREND'
             elif c < f['sma50'] and c < e:
@@ -222,6 +238,15 @@ def simulate(frames, spx, sectors, start, end=None, **rule):
                 continue
             if rule.get('confirm_breakout') and not np.isnan(res) and c > res and not f['prev_above']:
                 continue                       # first close above the old high: wait for a second one
+            if rule.get('base_break') or rule.get('wedge_pop'):
+                above_emas = c > f['ema10'] and c > f['ema20']
+                vol = f['vol_ratio']
+                tight = f['base_high'] / f['base_low'] - 1 <= BASE_MAX_RANGE
+                breaks = (rule.get('base_break') and above_emas and c > f['base_high'] and tight
+                          and vol >= BREAK_VOLUME)
+                pops = rule.get('wedge_pop') and f['ema_pop'] and vol >= POP_VOLUME
+                if not (breaks or pops):
+                    continue
             cands.append((-f['mad'], s, c, res))
         for _, s, c, res in sorted(cands):
             if len(pos) >= 8:
@@ -286,15 +311,18 @@ def robustness(wins):
     """Per variant: in how many windows it beat the base on return, drawdown and Sharpe."""
     out = {}
     for name in VARIANTS:
-        if name == 'base_v1_5':
+        if name in (BASE, 'base_v1_5'):
             continue
         better = dict(cagr=0, max_drawdown=0, sharpe=0)
         for w in wins:
-            base, var = w['portfolio']['base_v1_5'], w['portfolio'][name]
+            if name not in w['portfolio']:
+                continue                       # results written by an older version
+            base = w['portfolio'].get(BASE) or w['portfolio']['base_v1_5']
+            var = w['portfolio'][name]
             for k in better:
                 if None not in (base.get(k), var.get(k)) and var[k] > base[k]:
                     better[k] += 1
-        out[name] = dict(better, windows=len(wins))
+        out[name] = dict(better, windows=sum(name in w['portfolio'] for w in wins))
     return out
 
 
@@ -341,9 +369,9 @@ def report(result):
             for k, v in w['portfolio'].items():
                 lines.append(f"| {k} | {v['cagr']}% | {v['max_drawdown']}% | {v['sharpe']} | {v['trades']} |")
             lines.append('')
-        lines += ['### Robustness: windows in which a variant beat the base (higher is better for all three)', '',
+        lines += [f'### Robustness: windows in which a variant beat {BASE} (the current rules)', '',
                   '| Variant | CAGR | max drawdown (less deep) | Sharpe |', '|---|---|---|---|']
-        for k, v in robustness(wins).items():
+        for k, v in ((k, v) for k, v in robustness(wins).items() if v['windows']):
             lines.append(f"| {k} | {v['cagr']}/{v['windows']} | {v['max_drawdown']}/{v['windows']} | {v['sharpe']}/{v['windows']} |")
         lines.append('')
     lines += [
@@ -411,14 +439,14 @@ def main():
     frames = {}
     for key, sym in symbols.items():
         try:
-            c, h, lo = (raw[k][sym] for k in ('Close', 'High', 'Low'))
+            c, h, lo, v = (raw[k][sym] for k in ('Close', 'High', 'Low', 'Volume'))
         except KeyError:
             continue
-        frame = pd.DataFrame({'c': c, 'h': h, 'l': lo}).dropna()
+        frame = pd.DataFrame({'c': c, 'h': h, 'l': lo, 'v': v}).dropna(subset=['c', 'h', 'l'])
         if len(frame) < WARMUP + 60:
             continue
         frame.index = frame.index.tz_localize(None) if frame.index.tz is not None else frame.index
-        f = indicators(frame['c'], frame['h'], frame['l']).reindex(spx.index)
+        f = indicators(frame['c'], frame['h'], frame['l'], frame['v']).reindex(spx.index)
         frames[key] = f
     spx_curve = (spx[spx.index >= start] / spx[spx.index >= start].iloc[0]) * CAPITAL
     result = dict(schema='backtest-v2', windows=windows(frames, spx, sectors), generated_at=datetime.now(timezone.utc).isoformat(timespec='minutes'),
