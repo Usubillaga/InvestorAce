@@ -136,6 +136,7 @@ VARIANTS = {
     'wait_under_resistance': dict(skip_near_res=True),
     'two_closes_above_resistance': dict(confirm_breakout=True),
     'sell_failed_breakout': dict(sell_failed_breakout=True),
+    'wait_res_and_sell_failed': dict(skip_near_res=True, sell_failed_breakout=True),
 }
 
 
