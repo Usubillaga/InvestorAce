@@ -1,4 +1,4 @@
-"""Claude's trading rules for the active paper account (rules v1, fixed 2026-11-12).
+"""Claude's trading rules for the active paper account (rules v1.1, fixed 2026-11-12 before the first order).
 
 The rules are written down before the first order and applied mechanically, so the
 account measures these rules, not ad-hoc decisions. Sources (from memory of the
@@ -21,7 +21,7 @@ from pathlib import Path
 import active_trading as at
 from earnings_view import status as earnings_status
 
-VERSION = 'claude-rules-v1'
+VERSION = 'claude-rules-v1.1'
 MAX_POSITIONS = 8
 RISK_PER_TRADE = 0.01          # of equity, lost if the stop is hit
 STOP = 0.08                    # O'Neil: cut every loss at 7-8%
@@ -35,7 +35,10 @@ FAST_GAIN, FAST_SESSIONS, HOLD_SESSIONS = 0.20, 15, 40   # O'Neil 8-week rule
 EARNINGS_CUSHION = 0.10        # hold through a report only with +10% or more
 EARNINGS_EXIT_DAYS = 3         # calendar days before a report
 EARNINGS_BLACKOUT_DAYS = 5     # no new position this close to a report
-PEAD_DAYS = 10                 # a report in the last 10 days ranks a candidate first
+PEAD_DAYS = 10                 # a report in the last 10 days with a positive reaction ranks first
+PEAD_REACTION = 0.02           # close after the report vs close before it
+MAX_PER_SECTOR = 2             # positions per sector
+MAX_BUILD_AGE_DAYS = 4         # no orders from an older build
 TIME_STOP_SESSIONS, TIME_STOP_GAIN = 15, 0.02
 MAX_EXTENSION_ATR = 3.0        # do not chase more than 3 ATR above the 21-day average
 COOLDOWN_SESSIONS = 10         # no re-entry right after a sale
@@ -64,6 +67,27 @@ def _earnings(record, ticker, today):
     return earnings_status(_inputs(record, ticker), today)
 
 
+def reaction(series, symbol, reported):
+    """Close of the first session after the report over the last close before it, minus 1.
+
+    Covers reports before the open and after the close. None while either close is missing."""
+    day = reported.isoformat()
+    rows = series.get(symbol) or []
+    before = [c for d, c in rows if d < day]
+    after = [c for d, c in rows if d > day]
+    if not before or not after:
+        return None
+    return after[0] / before[-1] - 1
+
+
+def build_age_days(record, today):
+    captured = str((record.get('_evidence') or {}).get('captured_at') or '')[:10]
+    try:
+        return (today - date.fromisoformat(captured)).days
+    except ValueError:
+        return None
+
+
 def plan(doc, record, series, today):
     """Orders for today's close and the reason for each decision."""
     today_s = today.isoformat()
@@ -71,6 +95,10 @@ def plan(doc, record, series, today):
     regime = market(record)
     stop = STOP_CORRECTION if regime == 'CORRECTION' else STOP
     orders, notes = [], [f'market {regime}; stop {stop:.0%}']
+    age = build_age_days(record, today)
+    if age is None or age > MAX_BUILD_AGE_DAYS:
+        return dict(version=VERSION, date=today_s, market=regime, orders=[], equity=state['value'], cash=state['cash'],
+                    notes=[f'no orders: the build is {age} days old (limit {MAX_BUILD_AGE_DAYS})'])
     filled = [o for o in state['orders'] if o['status'] == 'FILLED']
     pending = {o['ticker'] for o in state['orders'] if o['status'] == 'PENDING'}
     held = {p['ticker']: p for p in state['positions']}
@@ -109,14 +137,14 @@ def plan(doc, record, series, today):
             floor = max(floor, entry)
         if peak_gain >= TRAIL_AT and not holding:
             floor = max(floor, peak * (1 - TRAIL))
-        if opp.get('label') in EXIT_LABELS:
-            sell(p['shares'], 'LABEL', f'model label is now {opp["label"]}')
-        elif close <= floor:
+        if close <= floor:
             sell(p['shares'], 'STOP', f'close {close:.2f} at or below the stop {floor:.2f} '
                                       f'(entry {entry:.2f}, highest {peak:.2f})')
         elif holding:
             notes.append(f'{ticker}: 8-week hold (+{FAST_GAIN:.0%} within {FAST_SESSIONS} sessions), '
                          f'session {len(path)} of {HOLD_SESSIONS}')
+        elif opp.get('label') in EXIT_LABELS:
+            sell(p['shares'], 'LABEL', f'model label is now {opp["label"]}')
         elif gain >= TAKE_PROFIT and not partial and p['shares'] >= 2:
             sell(p['shares'] // 2, 'TAKE_PROFIT', f'+{gain:.1%}: half sold, the rest trails')
         elif nxt is not None and (nxt - today).days <= EARNINGS_EXIT_DAYS and gain < EARNINGS_CUSHION:
@@ -138,6 +166,10 @@ def plan(doc, record, series, today):
     cash = state['cash'] - doc['capital'] * CASH_RESERVE
     recent_sales = {o['ticker'] for o in filled if o['side'] == 'SELL' and
                     len(_sessions(series, o['yahoo'], o['fill_date'], today_s)) <= COOLDOWN_SESSIONS}
+    sectors = {}
+    for ticker in set(held) - selling | (pending - set(held)):
+        sector = _inputs(record, ticker).get('sector')
+        sectors[sector] = sectors.get(sector, 0) + 1
     candidates = []
     for ticker in sorted(k for k in record if not k.startswith('_') and isinstance(record[k], dict)):
         if ticker in held or ticker in pending or ticker in recent_sales:
@@ -158,17 +190,30 @@ def plan(doc, record, series, today):
         e = _earnings(record, ticker, today)
         if e['next'] is not None and (e['next'] - today).days <= EARNINGS_BLACKOUT_DAYS:
             continue
-        pead = e['last'] is not None and 0 <= (today - e['last']).days <= PEAD_DAYS
-        candidates.append((not pead, -(opp.get('score') or 0), ticker, price, cur, pead))
-    for _, negscore, ticker, price, cur, pead in sorted(candidates)[:max(slots, 0)]:
+        pead = False
+        if e['last'] is not None and 0 <= (today - e['last']).days <= PEAD_DAYS:
+            move = reaction(series, inp.get('yf') or ticker, e['last'])
+            if move is not None and move <= -PEAD_REACTION:
+                notes.append(f'{ticker}: skipped, fell {move:.1%} on its report of {e["last"]}')
+                continue
+            pead = move is not None and move >= PEAD_REACTION   # unknown reaction: no priority
+        candidates.append((not pead, -(opp.get('score') or 0), ticker, price, cur, pead, inp.get('sector')))
+    for _, negscore, ticker, price, cur, pead, sector in sorted(candidates):
+        if slots <= 0:
+            break
+        if sector and sectors.get(sector, 0) >= MAX_PER_SECTOR:   # an unknown sector is not capped
+            notes.append(f'{ticker}: skipped, already {MAX_PER_SECTOR} positions in {sector}')
+            continue
         unit = price * (1. if cur == doc['account_currency'] else doc['fx'][cur])
         n = math.floor(min(equity * RISK_PER_TRADE / (stop * unit), equity * MAX_POSITION / unit, cash / unit))
         if n < 1:
             notes.append(f'{ticker}: no cash for one share')
             continue
         cash -= n * unit
+        slots -= 1
+        sectors[sector] = sectors.get(sector, 0) + 1
         orders.append(dict(side='BUY', ticker=ticker, shares=n, rule='ENTRY',
-                           reason=f'{"post-earnings drift, " if pead else ""}label score {-negscore:.2f}, '
+                           reason=f'{"rose on its report, " if pead else ""}label score {-negscore:.2f}, '
                                   f'above the 200-day average, not extended; about €{n * unit:,.0f}'))
     return dict(version=VERSION, date=today_s, market=regime, orders=orders, notes=notes,
                 equity=equity, cash=state['cash'])

@@ -12,7 +12,7 @@ UNIVERSE = {'MU': dict(yf='MU', cur='USD'), 'ELE': dict(yf='ELE.MC', cur='EUR'),
 
 
 def account(**kw):
-    doc = at.new_account('2026-11-12')
+    doc = dict(at.new_account('2026-11-12'), cost_rate=0.)     # costs are tested in test_active_rules
     doc.update(kw)
     return doc
 
@@ -149,6 +149,7 @@ class Page(unittest.TestCase):
     def test_committed_account_has_ten_thousand_euros(self):
         doc = at.load()
         self.assertEqual((doc['capital'], doc['account_currency'], doc['opened']), (10000., 'EUR', '2026-11-12'))
+        self.assertEqual(doc['cost_rate'], 0.001)
 
 
 if __name__ == '__main__':
