@@ -545,7 +545,7 @@ def render_page(issue, issues, config, archived=False, series='research', langua
 
 def add_research_link(html, include_daily=False, include_claude=False, include_scanner=False,
                       include_comparison=False, include_enagas=False, include_paper=False, include_war=False,
-                      include_crash=False, include_market=True, include_research=True):
+                      include_crash=False, include_market=True, include_research=True, include_trade=False):
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
@@ -561,6 +561,8 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                    if include_enagas else '')
     paper_link = ('<a href="paper-test.html" style="color:#c1d98b;font-weight:700">Paper test ↗</a>'
                   if include_paper else '')
+    trade_link = ('<a href="trade.html" style="color:#c1d98b;font-weight:700">Active trading ↗</a>'
+                  if include_trade else '')
     war_link = ('<a href="war-scenarios.html" style="color:#c1d98b;font-weight:700">War scenarios ↗</a>'
                 if include_war else '')
     crash_link = ('<a href="crash-monitor.html" style="color:#c1d98b;font-weight:700">Crash monitor ↗</a>'
@@ -572,7 +574,7 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
     nav = ('<nav id="investorace-research-nav" aria-label="Research" '
            'style="margin:0 0 22px;padding:12px 16px;border:1px solid #2a3040;'
            'border-radius:10px;background:#141821;display:flex;gap:16px;flex-wrap:wrap">'
-           + paper_link + war_link + crash_link + scanner_link + comparison_link + enagas_link + daily_link
+           + paper_link + trade_link + war_link + crash_link + scanner_link + comparison_link + enagas_link + daily_link
            + market_link + research_link + '</nav>')
     # Upgrade the old one-link navigation too; repeated builds stay idempotent.
     pattern = r'<nav\b[^>]*\bid=["\']investorace-research-nav["\'][^>]*>.*?</nav>'
@@ -637,7 +639,7 @@ def build_site(root, output, require_committed=False):
         print('Using the legacy scoreboard; no paired generation exists yet.')
     from enagas_valuation import site_pages as enagas_pages
     enagas_review_pages = enagas_pages(root, build=committed_build)
-    paper_pages, war_pages, crash_pages = [], [], []
+    paper_pages, war_pages, crash_pages, trade_pages = [], [], [], []
     if committed_build is not None:
         from paper_portfolio import site_pages as paper_site_pages
         from war_scenario import site_pages as war_site_pages
@@ -645,19 +647,21 @@ def build_site(root, output, require_committed=False):
         paper_pages = paper_site_pages(root, committed_build)
         war_pages = war_site_pages(root, committed_build)
         crash_pages = crash_site_pages(root, committed_build)
+        from active_trading import site_pages as trade_site_pages
+        trade_pages = trade_site_pages(root, committed_build)
     scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in published,
                                    include_claude='claude' in published, include_scanner=committed_build is not None,
                                    include_comparison=committed_build is not None,
                                    include_enagas=bool(enagas_review_pages),
                                    include_paper=bool(paper_pages), include_war=bool(war_pages),
                                    include_crash=bool(crash_pages), include_market='market' in published,
-                                   include_research='research' in published)
+                                   include_research='research' in published, include_trade=bool(trade_pages))
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
     scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language))
                    for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
-    pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages
+    pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages + trade_pages
     # Prepare dated earnings artifacts before replacing any published page.
     earnings = root / 'earnings'
     if earnings.is_dir():

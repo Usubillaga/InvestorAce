@@ -1,0 +1,77 @@
+name: paper-order
+
+# Records one paper order for trade.html. The order is only written down here;
+# its fill is replayed later from committed closes (active_trading.py). Paper
+# only: no broker is connected and nothing is sent to a market.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: paper-order
+  cancel-in-progress: false
+
+jobs:
+  record:
+    if: >
+      startsWith(github.event.issue.title, 'paper-order:') &&
+      github.event.issue.author_association == 'OWNER'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install
+        run: pip install -r requirements-research.txt
+
+      - name: Record order
+        id: order
+        # The issue title is untrusted text: passed via env, parsed by a strict regex.
+        env:
+          ORDER_TITLE: ${{ github.event.issue.title }}
+          ORDER_ISSUE: ${{ github.event.issue.number }}
+          ORDER_CREATED_AT: ${{ github.event.issue.created_at }}
+        run: python active_trading.py intake
+
+      - name: Commit
+        if: steps.order.outputs.accepted == 'true'
+        env:
+          ORDER_ISSUE: ${{ github.event.issue.number }}
+        run: |
+          git config user.name  "investorace-bot"
+          git config user.email "investorace-bot@users.noreply.github.com"
+          git add paper_trades/active-account.json
+          git commit -m "paper order #$ORDER_ISSUE"
+          for attempt in 1 2 3 4; do
+            git pull --rebase origin "${{ github.event.repository.default_branch }}" && git push && exit 0
+            sleep $((attempt * 5))
+          done
+          exit 1
+
+      - name: Reply and close
+        if: always() && steps.order.outcome != 'skipped'
+        uses: actions/github-script@v8
+        env:
+          ACCEPTED: ${{ steps.order.outputs.accepted }}
+          MESSAGE: ${{ steps.order.outputs.message }}
+        with:
+          script: |
+            const accepted = process.env.ACCEPTED === 'true';
+            const message = process.env.MESSAGE || 'The order could not be recorded; see the workflow log.';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
+              body: (accepted ? '✅ ' : '❌ ') + message +
+                '\n\nPaper trading only. The account is shown on trade.html after the next nightly build.'
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
+              state: 'closed', state_reason: accepted ? 'completed' : 'not_planned'
+            });
