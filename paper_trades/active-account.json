@@ -35,6 +35,15 @@
       "currency": "USD",
       "shares": 12,
       "submitted_at": "2026-11-12T12:44:51Z"
+    },
+    {
+      "id": 164,
+      "side": "BUY",
+      "ticker": "MO",
+      "yahoo": "MO",
+      "currency": "USD",
+      "shares": 18,
+      "submitted_at": "2026-11-12T12:44:53Z"
     }
   ],
   "cost_rate": 0.001
