@@ -145,6 +145,8 @@ class Page(unittest.TestCase):
         self.assertIn("github.event.issue.author_association == 'OWNER'", text)
         self.assertIn('ORDER_TITLE: ${{ github.event.issue.title }}', text)
         self.assertNotIn('run: python active_trading.py intake "${{', text)
+        self.assertNotIn('concurrency:', text)   # a group cancels all but one pending order
+        self.assertIn('git reset -q --hard "origin/$BRANCH"', text)   # parallel orders re-record on the new main
 
     def test_committed_account_has_ten_thousand_euros(self):
         doc = at.load()
