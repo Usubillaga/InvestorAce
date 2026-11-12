@@ -102,24 +102,19 @@ def levels(close=100., sma36=95., sma50=92., sma200=80., resistance=90., support
 
 
 class UserRules(unittest.TestCase):
-    """v1.2/1.3: 36/50/200-day confirmation, support and resistance; the fast-drop rule was removed."""
+    """v1.2-1.4: 36/50/200-day confirmation; fast-drop, resistance and support rules removed."""
     def test_needs_all_three_averages_once_the_build_has_them(self):
         rec = record(A=stock(levels=levels()), B=stock(levels=levels(sma36=101.)),       # below the 36-day
                      C=stock(levels=levels(sma50=105.)), D=stock(levels=levels(sma36=None)),
                      E=stock())                                                          # older build: v1.1 rule
         self.assertEqual([o['ticker'] for o in ar.plan(account(), rec, {}, TODAY)['orders']], ['A', 'E'])
 
-    def test_no_buy_just_under_resistance_but_a_breakout_is_fine(self):
-        rec = record(A=stock(levels=levels(resistance=102.)), B=stock(levels=levels(resistance=99.)),
-                     C=stock(levels=levels(resistance=110.)))
-        p = ar.plan(account(), rec, {}, TODAY)
-        self.assertEqual([o['ticker'] for o in p['orders']], ['B', 'C'])
-        self.assertTrue(any('just under resistance' in n for n in p['notes']))
-
-    def test_near_support_ranks_before_a_higher_score(self):
-        rec = record(A=stock(score=8.5, levels=levels(sma50=80., support=80.)),
-                     B=stock(score=7.2, levels=levels(sma50=97., support=90.)))
-        self.assertEqual([o['ticker'] for o in ar.plan(account(), rec, {}, TODAY)['orders']], ['B', 'A'])
+    def test_no_resistance_block_and_no_support_priority(self):
+        """v1.4: being near a prior high is not a reason to wait (George & Hwang 2004)."""
+        rec = record(A=stock(score=7.2, levels=levels(resistance=102.)),
+                     B=stock(score=8.5, levels=levels(sma50=80., support=80.)),
+                     C=stock(score=7.9, levels=levels(sma50=97., support=96.)))
+        self.assertEqual([o['ticker'] for o in ar.plan(account(), rec, {}, TODAY)['orders']], ['B', 'C', 'A'])
 
     def test_a_fast_drop_no_longer_blocks_or_sells(self):
         drop = dict(date='2026-11-20', pct=-23.5)
