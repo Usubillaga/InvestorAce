@@ -26,6 +26,15 @@
       "currency": "EUR",
       "shares": 14,
       "submitted_at": "2026-11-12T12:44:54Z"
+    },
+    {
+      "id": 163,
+      "side": "BUY",
+      "ticker": "GDDY",
+      "yahoo": "GDDY",
+      "currency": "USD",
+      "shares": 12,
+      "submitted_at": "2026-11-12T12:44:51Z"
     }
   ],
   "cost_rate": 0.001
