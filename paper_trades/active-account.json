@@ -17,6 +17,15 @@
       "currency": "USD",
       "shares": 45,
       "submitted_at": "2026-11-12T12:44:49Z"
+    },
+    {
+      "id": 165,
+      "side": "BUY",
+      "ticker": "WKL",
+      "yahoo": "WKL.AS",
+      "currency": "EUR",
+      "shares": 14,
+      "submitted_at": "2026-11-12T12:44:54Z"
     }
   ],
   "cost_rate": 0.001
