@@ -8,6 +8,16 @@
   },
   "opened": "2026-11-12",
   "fx_note": "Fixed rate 1 EUR = 1.1228 USD, the same as the model paper tests; currency moves are not part of the result.",
-  "orders": [],
+  "orders": [
+    {
+      "id": 162,
+      "side": "BUY",
+      "ticker": "GEN",
+      "yahoo": "GEN",
+      "currency": "USD",
+      "shares": 45,
+      "submitted_at": "2026-11-12T12:44:49Z"
+    }
+  ],
   "cost_rate": 0.001
 }
