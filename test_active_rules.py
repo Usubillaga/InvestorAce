@@ -45,11 +45,11 @@ def days(start, closes):
 
 
 class Entries(unittest.TestCase):
-    def test_only_buy_labels_in_an_uptrend_not_extended_and_away_from_reports(self):
+    def test_only_buy_labels_in_an_uptrend_not_extended_and_a_coming_report_is_no_reason_to_wait(self):
         rec = record(A=stock(score=8.0), B=stock(label='Hold Positive'), C=stock(trend='BELOW_SMA200'),
                      D=stock(ext=4.5), E=stock(next_report='2026-12-03'), F=stock(ext=-0.5))
         p = ar.plan(account(), rec, {}, TODAY)
-        self.assertEqual([o['ticker'] for o in p['orders']], ['A'])
+        self.assertEqual([o['ticker'] for o in p['orders']], ['A', 'E'])   # E reports in 2 days
 
     def test_post_earnings_drift_ranks_first_then_score(self):
         rec = record(A=stock(score=8.5), B=stock(score=7.1, last_report='2026-11-26'), C=stock(score=7.9),
@@ -155,10 +155,8 @@ class Exits(unittest.TestCase):
         self.assertEqual(self.only(self.held([100] * 16 + [112, 124, 131, 118])), None)   # above 131 x 0.9
         self.assertEqual(self.only(self.held([100] * 16 + [112, 124, 131, 117])), 'STOP')
 
-    def test_take_half_profit_once_at_twenty_five_percent(self):
-        plan = self.held([100] * 17 + [104, 110, 118, 126])
-        sell = [o for o in plan['orders'] if o['side'] == 'SELL'][0]
-        self.assertEqual((sell['rule'], sell['shares']), ('TAKE_PROFIT', 5))
+    def test_winners_are_not_cut_at_twenty_five_percent(self):
+        self.assertEqual(self.only(self.held([100] * 17 + [104, 110, 118, 126])), None)
 
     def test_eight_week_hold_overrides_trailing_and_profit_taking(self):
         plan = self.held([100, 110, 121, 126, 140, 128])
@@ -167,15 +165,14 @@ class Exits(unittest.TestCase):
         self.assertEqual(self.only(self.held([100, 110, 121, 126, 140, 100])), 'STOP')               # the stop does not
         self.assertTrue(any('8-week hold' in n for n in plan['notes']))
 
-    def test_sell_before_a_report_without_a_cushion(self):
-        self.assertEqual(self.only(self.held([100, 103], next_report='2026-11-19')), 'EARNINGS')
-        self.assertEqual(self.only(self.held([100, 111], next_report='2026-11-19')), None)
+    def test_holds_through_a_report(self):
+        self.assertEqual(self.only(self.held([100, 103], next_report='2026-11-19')), None)
 
     def test_label_trend_and_time_stops(self):
         self.assertEqual(self.only(self.held([100, 101], label='Hold Negative')), 'LABEL')
         self.assertEqual(self.only(self.held([100, 101], trend='BELOW_SMA200')), 'TREND')
-        self.assertEqual(self.only(self.held([100] * 16)), 'TIME_STOP')
-        self.assertEqual(self.only(self.held([100] * 10)), None)
+        self.assertEqual(self.only(self.held([100] * 16)), None)          # no 15-session time stop
+        self.assertEqual(self.only(self.held([100] * 251 + [101])), 'MAX_HOLD')
 
     def test_correction_tightens_the_stop_to_five_percent(self):
         doc = account(('paper-order: BUY 10 A', '2026-11-16T12:00:00Z'))

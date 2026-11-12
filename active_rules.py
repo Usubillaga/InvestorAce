@@ -2,7 +2,11 @@
 adds the user's moving-average, support/resistance and fast-drop rules the same day; v1.3 removes the
 fast-drop rule again at the user's request, before it ever applied; v1.4 drops the resistance block and
 the support priority because the evidence points the other way: stocks near their highs tend to keep
-outperforming (George & Hwang 2004, The 52-Week High and Momentum Investing).
+outperforming (George & Hwang 2004, The 52-Week High and Momentum Investing); v1.5 keeps only rules with
+evidence: no sale before a report and no buy blackout (stocks earn more in announcement months: Frazzini &
+Lamont 2007, Barber et al. 2013), no half sale at +25% and no 15-session time stop (momentum persists for
+3-12 months: Jegadeesh & Titman 1993; selling winners early is the costly disposition effect: Odean 1998),
+and a sale after 12 months because momentum profits reverse after about a year (Jegadeesh & Titman 1993).
 
 The rules are written down before the first order and applied mechanically, so the
 account measures these rules, not ad-hoc decisions. Sources (from memory of the
@@ -25,7 +29,7 @@ from pathlib import Path
 import active_trading as at
 from earnings_view import status as earnings_status
 
-VERSION = 'claude-rules-v1.4'
+VERSION = 'claude-rules-v1.5'
 MAX_POSITIONS = 8
 RISK_PER_TRADE = 0.01          # of equity, lost if the stop is hit
 STOP = 0.08                    # O'Neil: cut every loss at 7-8%
@@ -34,16 +38,12 @@ MAX_POSITION = 0.20            # of equity
 CASH_RESERVE = 0.03            # of capital, never spent
 BREAKEVEN_AT = 0.10            # after +10% the stop moves to the entry price
 TRAIL_AT, TRAIL = 0.20, 0.10   # after +20% the stop trails 10% under the highest close
-TAKE_PROFIT = 0.25             # sell half at +25% (once)
 FAST_GAIN, FAST_SESSIONS, HOLD_SESSIONS = 0.20, 15, 40   # O'Neil 8-week rule
-EARNINGS_CUSHION = 0.10        # hold through a report only with +10% or more
-EARNINGS_EXIT_DAYS = 3         # calendar days before a report
-EARNINGS_BLACKOUT_DAYS = 5     # no new position this close to a report
 PEAD_DAYS = 10                 # a report in the last 10 days with a positive reaction ranks first
 PEAD_REACTION = 0.02           # close after the report vs close before it
 MAX_PER_SECTOR = 2             # positions per sector
 MAX_BUILD_AGE_DAYS = 4         # no orders from an older build
-TIME_STOP_SESSIONS, TIME_STOP_GAIN = 15, 0.02
+MAX_HOLD_SESSIONS = 252        # momentum reverses after about 12 months
 MAX_EXTENSION_ATR = 3.0        # do not chase more than 3 ATR above the 21-day average
 COOLDOWN_SESSIONS = 10         # no re-entry right after a sale
 BUY_LABELS = ('Buy', 'Strong Buy')
@@ -131,19 +131,17 @@ def plan(doc, record, series, today):
         if close is None:
             notes.append(f'{ticker}: no close, no decision')
             continue
-        first, partial, count = None, False, 0
+        first, count = None, 0
         for o in sorted((o for o in filled if o['ticker'] == ticker), key=lambda o: (o['fill_date'], o['id'])):
             if count == 0:
-                first, partial = o['fill_date'], False   # a new position starts
+                first = o['fill_date']   # a new position starts
             count += o['shares'] if o['side'] == 'BUY' else -o['shares']
-            partial = partial or o['side'] == 'SELL'
         path = _sessions(series, p['yahoo'], first, today_s)
         peak = max([c for _, c in path] + [close])
         gain, peak_gain = close / entry - 1, peak / entry - 1
         early = path[:FAST_SESSIONS + 1]
         fast = any(c / entry - 1 >= FAST_GAIN for _, c in early)
         holding = fast and len(path) <= HOLD_SESSIONS
-        nxt = _earnings(record, ticker, today)['next']
 
         def sell(n, rule, why):
             orders.append(dict(side='SELL', ticker=ticker, shares=n, rule=rule, reason=why))
@@ -161,17 +159,12 @@ def plan(doc, record, series, today):
                          f'session {len(path)} of {HOLD_SESSIONS}')
         elif opp.get('label') in EXIT_LABELS:
             sell(p['shares'], 'LABEL', f'model label is now {opp["label"]}')
-        elif gain >= TAKE_PROFIT and not partial and p['shares'] >= 2:
-            sell(p['shares'] // 2, 'TAKE_PROFIT', f'+{gain:.1%}: half sold, the rest trails')
-        elif nxt is not None and (nxt - today).days <= EARNINGS_EXIT_DAYS and gain < EARNINGS_CUSHION:
-            sell(p['shares'], 'EARNINGS', f'report on {nxt} without a +{EARNINGS_CUSHION:.0%} cushion '
-                                          f'({gain:+.1%})')
         elif timing.get('trend') == 'BELOW_SMA200':
             sell(p['shares'], 'TREND', 'close below the 200-day average')
         elif timing.get('sma50') and close < timing['sma50'] and gain < 0:
             sell(p['shares'], 'SMA50', 'close below the 50-day average while at a loss')
-        elif len(path) >= TIME_STOP_SESSIONS and gain < TIME_STOP_GAIN:
-            sell(p['shares'], 'TIME_STOP', f'{len(path)} sessions and only {gain:+.1%}')
+        elif len(path) >= MAX_HOLD_SESSIONS:
+            sell(p['shares'], 'MAX_HOLD', f'{len(path)} sessions held; momentum fades after about a year')
         else:
             notes.append(f'{ticker}: hold ({gain:+.1%}, stop {floor:.2f})')
 
@@ -209,8 +202,6 @@ def plan(doc, record, series, today):
         if level is not None and level != 3:          # v1.2: above the 36-, 50- and 200-day averages
             continue
         e = _earnings(record, ticker, today)
-        if e['next'] is not None and (e['next'] - today).days <= EARNINGS_BLACKOUT_DAYS:
-            continue
         pead = False
         if e['last'] is not None and 0 <= (today - e['last']).days <= PEAD_DAYS:
             move = reaction(series, inp.get('yf') or ticker, e['last'])
