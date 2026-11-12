@@ -1957,8 +1957,10 @@ def run_build():
         if macro.get('ok'):   # same market-data availability as the regime reading
             try:
                 import paper_portfolio
+                import active_trading
                 macro['pulse'] = MARKET_PULSE.read(universe_symbols=[d.get('yf', t) for t, d in DATA.items()],
-                    tracked_symbols=paper_portfolio.tracked_symbols(datetime.now(timezone.utc).date()))
+                    tracked_symbols=sorted(set(paper_portfolio.tracked_symbols(datetime.now(timezone.utc).date()))
+                                           | set(active_trading.tracked_symbols())))
             except Exception as exc:
                 print('Market pulse unavailable:', type(exc).__name__)
             try:

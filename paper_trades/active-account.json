@@ -1,0 +1,12 @@
+{
+  "schema": "active-account-v1",
+  "name": "Active trading · your own orders",
+  "capital": 10000.0,
+  "account_currency": "EUR",
+  "fx": {
+    "USD": 0.89063
+  },
+  "opened": "2026-11-12",
+  "fx_note": "Fixed rate 1 EUR = 1.1228 USD, the same as the model paper tests; currency moves are not part of the result.",
+  "orders": []
+}
