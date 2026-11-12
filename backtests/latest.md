@@ -6,8 +6,8 @@ Technical rules only (no InvestorAce label, which has no history); universe = to
 
 | Distance to 36-day avg | days | stocks | 21-day mean | 63-day mean | 63-day vs S&P | P(−10% within 21 d) | P(63 d < 0) |
 |---|---|---|---|---|---|---|---|
-| -100..0% | 61170 | 110 | 1.35% | 4.54% | 1.17% | 26.57% | 46.87% |
-| 0..10% | 52006 | 110 | 1.04% | 3.12% | 0.38% | 20.23% | 47.37% |
+| -100..0% | 61171 | 110 | 1.35% | 4.54% | 1.17% | 26.57% | 46.87% |
+| 0..10% | 52005 | 110 | 1.04% | 3.12% | 0.38% | 20.23% | 47.36% |
 | 10..20% | 10120 | 109 | 1.65% | 5.38% | 2.74% | 30.99% | 48.1% |
 | 20..30% | 2165 | 78 | 3.45% | 9.58% | 7.19% | 40.37% | 47.39% |
 | 30..+% | 1485 | 49 | 6.32% | 17.09% | 14.62% | 51.85% | 46.26% |
@@ -96,4 +96,4 @@ Breakout failure rate 33.32% · 63-day mean: uptrend days 5.57%, just under resi
 | sell_failed_breakout | 2/3 | 3/3 | 3/3 |
 | wait_res_and_sell_failed | 1/3 | 2/3 | 1/3 |
 
-Symbols: 110 · generated 2026-11-12T13:30+00:00
+Symbols: 110 · generated 2026-11-12T13:45+00:00
