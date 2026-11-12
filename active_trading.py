@@ -29,9 +29,9 @@ CANCEL = re.compile(r'^\s*paper-order:\s*CANCEL\s+#?(\d{1,7})\s*$', re.I)
 
 
 def new_account(opened):
-    return dict(schema=SCHEMA, name="Active trading · Claude's trading rules v1", capital=10000.,
+    return dict(schema=SCHEMA, name="Active trading · Claude's trading rules v1.1", capital=10000.,
                 account_currency='EUR', fx={'USD': 0.89063}, opened=opened,
-                fx_note='Fixed rate 1 EUR = 1.1228 USD, the same as the model paper tests; '
+                cost_rate=0.001, fx_note='Fixed rate 1 EUR = 1.1228 USD, the same as the model paper tests; '
                         'currency moves are not part of the result.',
                 orders=[])
 
@@ -147,30 +147,33 @@ def replay(doc, series, as_of):
             o.update(fill_date=hit[0], fill_price=hit[1])
             events.append(o)
         out.append(o)
-    cash, held, realized = float(doc['capital']), {}, 0.
+    cash, held, realized, fees = float(doc['capital']), {}, 0., 0.
+    cost_rate = float(doc.get('cost_rate') or 0.)
     for o in sorted(events, key=lambda e: (e['fill_date'], cutoff(e['fill_date'], e['yahoo']), e['id'])):
         rate = _rate(doc, o['currency'])
         amount = o['shares'] * o['fill_price'] * rate
         position = held.setdefault(o['ticker'], dict(ticker=o['ticker'], yahoo=o['yahoo'], currency=o['currency'],
                                                      shares=0, cost=0.))
+        fee = amount * cost_rate               # commission and slippage, charged on every fill
         if o['side'] == 'BUY':
-            if amount > cash + 1e-9:
-                o.update(status='REJECTED', reason=f'not enough cash ({cash:,.2f} EUR for {amount:,.2f} EUR)')
+            if amount + fee > cash + 1e-9:
+                o.update(status='REJECTED', reason=f'not enough cash ({cash:,.2f} EUR for {amount + fee:,.2f} EUR)')
                 continue
-            cash -= amount
+            cash -= amount + fee
             position['shares'] += o['shares']
-            position['cost'] += amount
+            position['cost'] += amount + fee
         else:
             if o['shares'] > position['shares']:
                 o.update(status='REJECTED', reason=f'only {position["shares"]} shares held')
                 continue
             basis = position['cost'] * o['shares'] / position['shares']
-            cash += amount
-            realized += amount - basis
-            o['realized'] = amount - basis
+            cash += amount - fee
+            realized += amount - fee - basis
+            o['realized'] = amount - fee - basis
             position['shares'] -= o['shares']
             position['cost'] -= basis
-        o.update(status='FILLED', amount=amount)
+        fees += fee
+        o.update(status='FILLED', amount=amount, fee=fee)
     positions = []
     for p in held.values():
         if not p['shares']:
@@ -188,7 +191,7 @@ def replay(doc, series, as_of):
     if start and end and end[0] >= start[0]:
         bench = 100 * (end[1] / start[1] - 1)
     return dict(as_of=as_of, capital=float(doc['capital']), cash=cash, positions=positions, orders=out,
-                realized=realized, value=value, pnl=None if value is None else value - float(doc['capital']),
+                realized=realized, fees=fees, value=value, pnl=None if value is None else value - float(doc['capital']),
                 return_pct=None if value is None else 100 * (value / float(doc['capital']) - 1),
                 benchmark_pct=bench, priced=priced)
 
@@ -198,12 +201,14 @@ def _first_on_or_after(series, symbol, day):
     return rows[0] if rows else None
 
 
-def tracked_symbols(path=FILE):
-    """Symbols whose closes the nightly build must record: held, pending, and the benchmark."""
+def tracked_symbols(path=FILE, universe=None):
+    """Symbols whose closes the nightly build must record: ordered symbols, the benchmark and, for the
+    trading rules (price reaction to a report), every universe member."""
     doc = load(path)
     if doc is None:
         return []
-    return sorted({o['yahoo'] for o in doc.get('orders', []) if o.get('yahoo')} | {BENCHMARK})
+    members = {row.get('yf') or key for key, row in (universe or {}).items()}
+    return sorted({o['yahoo'] for o in doc.get('orders', []) if o.get('yahoo')} | {BENCHMARK} | members)
 
 
 def _money(value, digits=0):
@@ -232,19 +237,19 @@ def _universe(record):
 
 
 RULES_HTML = (
-    '<details class="note" open><summary><b>Trading rules v1 (Claude), fixed 2026-11-12</b></summary><ul>'
+    '<details class="note" open><summary><b>Trading rules v1.1 (Claude), fixed 2026-11-12 before the first order</b></summary><ul>'
     '<li><b>Buy</b> only InvestorAce Buy or Strong Buy, above the 200-day average, at or above the 21-day average and '
     'at most 3 ATR above it, no report in the next 5 days, and only while the S&amp;P 500 is above its 200-day '
-    'average. A report in the last 10 days ranks first (post-earnings drift), then the model score.</li>'
+    'average. At most 2 positions per sector. A stock that rose 2% or more on a report in the last 10 days ranks first (post-earnings drift), one that fell 2% or more is skipped; then the model score.</li>'
     '<li><b>Size</b>: risk 1% of equity per trade at the stop, at most 20% per position, at most 8 positions, '
-    '3% cash kept.</li>'
+    '3% cash kept. Every fill pays 0.10% for commission and slippage.</li>'
     '<li><b>Sell</b>: stop at −8% (−5% in a correction); stop to the entry price after +10%; after +20% the stop '
     'trails 10% under the highest close; half sold at +25% (once); sold before a report without a +10% cushion; '
     'sold below the 200-day average, when the label falls to Hold Negative or Sell, or after 15 sessions with '
     'less than +2%.</li>'
     '<li><b>8-week rule</b> (O\'Neil): a position up 20% within 15 sessions is held 40 sessions; only the stop at '
-    'the entry price applies.</li>'
-    '<li>Decided each weekday from the last committed build (the previous close); orders fill at that day\'s close. '
+    'the entry price applies, not the label or the other exits.</li>'
+    '<li>Decided each weekday from the last committed build (the previous close); orders fill at that day\'s close. No orders from a build older than 4 days. '
     'Sources: O\'Neil, Minervini, Elder/Van Tharp position sizing, Bernard &amp; Thomas (1989).</li></ul></details>')
 
 TRADE_CSS = """
