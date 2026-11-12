@@ -44,6 +44,7 @@ class Intake(unittest.TestCase):
         self.assertFalse(place(doc, 'paper-order: BUY 2 MU', 1, '2026-11-12T15:00:00Z')[0])   # same issue twice
         self.assertEqual([o['ticker'] for o in doc['orders']], ['MU', 'ELE'])
         self.assertNotIn('fill_price', doc['orders'][0])          # intake never fills
+        self.assertNotIn('resistance', doc['orders'][0])
 
 
 class Replay(unittest.TestCase):
@@ -144,6 +145,7 @@ class Page(unittest.TestCase):
         text = (Path(__file__).parent / '.github' / 'workflows' / 'paper-order.yml').read_text()
         self.assertIn("github.event.issue.author_association == 'OWNER'", text)
         self.assertIn('ORDER_TITLE: ${{ github.event.issue.title }}', text)
+        self.assertIn('ORDER_BODY: ${{ github.event.issue.body }}', text)
         self.assertNotIn('run: python active_trading.py intake "${{', text)
         self.assertNotIn('concurrency:', text)   # a group cancels all but one pending order
         self.assertIn('git reset -q --hard "origin/$BRANCH"', text)   # parallel orders re-record on the new main

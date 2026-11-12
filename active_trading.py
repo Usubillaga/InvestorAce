@@ -25,11 +25,12 @@ EU_SUFFIXES = ('.MC', '.AS', '.PA', '.DE', '.MI', '.BR', '.LS', '.CO', '.ST', '.
 US_CUTOFF = '19:30'      # NYSE closes 20:00 UTC in summer, 21:00 in winter
 EU_CUTOFF = '15:00'      # European cash markets close about 16:30 UTC
 ORDER = re.compile(r'^\s*paper-order:\s*(BUY|SELL)\s+(\d{1,6})\s+([A-Za-z0-9.\-^=]{1,15})\s*$', re.I)
+RESISTANCE = re.compile(r'^\s*resistance:\s*([0-9]{1,7}(?:\.[0-9]{1,6})?)\s*$', re.I | re.M)
 CANCEL = re.compile(r'^\s*paper-order:\s*CANCEL\s+#?(\d{1,7})\s*$', re.I)
 
 
 def new_account(opened):
-    return dict(schema=SCHEMA, name="Active trading · Claude's trading rules v1.5", capital=10000.,
+    return dict(schema=SCHEMA, name="Active trading · Claude's trading rules v1.6", capital=10000.,
                 account_currency='EUR', fx={'USD': 0.89063}, opened=opened,
                 cost_rate=0.001, fx_note='Fixed rate 1 EUR = 1.1228 USD, the same as the model paper tests; '
                         'currency moves are not part of the result.',
@@ -72,7 +73,7 @@ def resolve(symbol, universe):
     return None, None
 
 
-def intake(doc, title, *, issue, created_at, universe):
+def intake(doc, title, *, issue, created_at, universe, body=''):
     """Append one order (or a cancel) and return (accepted, message). Never fills."""
     try:
         side, amount, symbol = parse(title)
@@ -97,8 +98,12 @@ def intake(doc, title, *, issue, created_at, universe):
     currency = row.get('cur') or 'USD'
     if currency != doc.get('account_currency') and currency not in (doc.get('fx') or {}):
         return False, f'{key} is listed in {currency}; only EUR and USD listings can be traded for now'
-    orders.append(dict(id=issue, side=side, ticker=key, yahoo=row.get('yf') or key, currency=currency,
-                       shares=amount, submitted_at=created_at))
+    order = dict(id=issue, side=side, ticker=key, yahoo=row.get('yf') or key, currency=currency,
+                 shares=amount, submitted_at=created_at)
+    match = RESISTANCE.search(body or '') if side == 'BUY' else None
+    if match and float(match.group(1)) > 0:
+        order['resistance'] = float(match.group(1))     # breakout entry: the old high, for the failed-breakout exit
+    orders.append(order)
     return True, (f'{side} {amount} {key} recorded; it fills at the close of the first session whose '
                   f'cut-off is after {created_at} (see trade.html)')
 
@@ -237,7 +242,7 @@ def _universe(record):
 
 
 RULES_HTML = (
-    '<details class="note" open><summary><b>Trading rules v1.5 (Claude): only rules with evidence</b> '
+    '<details class="note" open><summary><b>Trading rules v1.6 (Claude): only rules with evidence</b> '
     '(v1.1 fixed 2026-11-12 before the first order)</summary><ul>'
     '<li><b>Buy</b> only InvestorAce Buy or Strong Buy, above the 36-, 50- and 200-day averages (trend over several '
     'horizons: Han, Zhou &amp; Zhu 2016), at or above the 21-day average and at most 3 ATR above it, and only while '
@@ -250,7 +255,7 @@ RULES_HTML = (
     '3% cash kept. Every fill pays 0.10% for commission and slippage.</li>'
     '<li><b>Sell</b>: stop at −8% (−5% in a correction); stop to the entry price after +10%; after +20% the stop '
     'trails 10% under the highest close; sold below the 200-day average, below the 50-day average while at a loss, '
-    'when the label falls to Hold Negative or Sell, and after 12 months (momentum reverses after about a year: '
+    'when a breakout entry closes 3% under the old high within 10 sessions (your rule: the only proposed rule that improved Sharpe and drawdown in each of three backtest periods, 2014-2026), when the label falls to Hold Negative or Sell, and after 12 months (momentum reverses after about a year: '
     'Jegadeesh &amp; Titman 1993). Winners are not cut early (Odean 1998: selling winners early is costly); stops '
     'help when prices trend (Kaminski &amp; Lo 2014).</li>'
     '<li><b>8-week rule</b> (O\'Neil, practitioner rule without an academic test): a position up 20% within 15 '
@@ -390,7 +395,8 @@ def main(argv=None):
     import engine
     doc = load() or new_account(datetime.now(timezone.utc).date().isoformat())
     accepted, message = intake(doc, os.environ.get('ORDER_TITLE', ''), issue=int(os.environ['ORDER_ISSUE']),
-                               created_at=os.environ['ORDER_CREATED_AT'], universe=engine.DATA)
+                               created_at=os.environ['ORDER_CREATED_AT'], universe=engine.DATA,
+                               body=os.environ.get('ORDER_BODY', ''))
     if accepted:
         save(doc)
     print(('ACCEPTED: ' if accepted else 'REJECTED: ') + message)

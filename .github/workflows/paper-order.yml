@@ -39,6 +39,7 @@ jobs:
         # resets to the new main and records the order again (intake is idempotent).
         env:
           ORDER_TITLE: ${{ github.event.issue.title }}
+          ORDER_BODY: ${{ github.event.issue.body }}
           ORDER_ISSUE: ${{ github.event.issue.number }}
           ORDER_CREATED_AT: ${{ github.event.issue.created_at }}
           BRANCH: ${{ github.event.repository.default_branch }}

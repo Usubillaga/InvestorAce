@@ -6,7 +6,9 @@ outperforming (George & Hwang 2004, The 52-Week High and Momentum Investing); v1
 evidence: no sale before a report and no buy blackout (stocks earn more in announcement months: Frazzini &
 Lamont 2007, Barber et al. 2013), no half sale at +25% and no 15-session time stop (momentum persists for
 3-12 months: Jegadeesh & Titman 1993; selling winners early is the costly disposition effect: Odean 1998),
-and a sale after 12 months because momentum profits reverse after about a year (Jegadeesh & Titman 1993).
+and a sale after 12 months because momentum profits reverse after about a year (Jegadeesh & Titman 1993);
+v1.6 adds the user's failed-breakout exit, the only proposed rule that helped in each of three periods of
+the backtest (backtests/latest.md: Sharpe and drawdown better in 2014-17, 2018-21 and 2022-26).
 
 The rules are written down before the first order and applied mechanically, so the
 account measures these rules, not ad-hoc decisions. Sources (from memory of the
@@ -29,7 +31,7 @@ from pathlib import Path
 import active_trading as at
 from earnings_view import status as earnings_status
 
-VERSION = 'claude-rules-v1.5'
+VERSION = 'claude-rules-v1.6'
 MAX_POSITIONS = 8
 RISK_PER_TRADE = 0.01          # of equity, lost if the stop is hit
 STOP = 0.08                    # O'Neil: cut every loss at 7-8%
@@ -44,6 +46,7 @@ PEAD_REACTION = 0.02           # close after the report vs close before it
 MAX_PER_SECTOR = 2             # positions per sector
 MAX_BUILD_AGE_DAYS = 4         # no orders from an older build
 MAX_HOLD_SESSIONS = 252        # momentum reverses after about 12 months
+FAIL_SESSIONS, FAIL_ZONE = 10, 0.97   # a breakout entry closing 3% under the old high within 10 sessions
 MAX_EXTENSION_ATR = 3.0        # do not chase more than 3 ATR above the 21-day average
 COOLDOWN_SESSIONS = 10         # no re-entry right after a sale
 BUY_LABELS = ('Buy', 'Strong Buy')
@@ -131,11 +134,12 @@ def plan(doc, record, series, today):
         if close is None:
             notes.append(f'{ticker}: no close, no decision')
             continue
-        first, count = None, 0
+        first, opening, count = None, None, 0
         for o in sorted((o for o in filled if o['ticker'] == ticker), key=lambda o: (o['fill_date'], o['id'])):
             if count == 0:
-                first = o['fill_date']   # a new position starts
+                first, opening = o['fill_date'], o   # a new position starts
             count += o['shares'] if o['side'] == 'BUY' else -o['shares']
+        broke_out = (opening or {}).get('resistance')
         path = _sessions(series, p['yahoo'], first, today_s)
         peak = max([c for _, c in path] + [close])
         gain, peak_gain = close / entry - 1, peak / entry - 1
@@ -157,6 +161,9 @@ def plan(doc, record, series, today):
         elif holding:
             notes.append(f'{ticker}: 8-week hold (+{FAST_GAIN:.0%} within {FAST_SESSIONS} sessions), '
                          f'session {len(path)} of {HOLD_SESSIONS}')
+        elif broke_out and len(path) <= FAIL_SESSIONS and close < broke_out * FAIL_ZONE:
+            sell(p['shares'], 'FAILED_BREAKOUT', f'bought on a breakout over {broke_out:.2f}, back at {close:.2f} '
+                                                 f'within {len(path)} sessions')
         elif opp.get('label') in EXIT_LABELS:
             sell(p['shares'], 'LABEL', f'model label is now {opp["label"]}')
         elif timing.get('trend') == 'BELOW_SMA200':
@@ -209,8 +216,10 @@ def plan(doc, record, series, today):
                 notes.append(f'{ticker}: skipped, fell {move:.1%} on its report of {e["last"]}')
                 continue
             pead = move is not None and move >= PEAD_REACTION   # unknown reaction: no priority
-        candidates.append((not pead, -(opp.get('score') or 0), ticker, price, cur, pead, inp.get('sector')))
-    for _, negscore, ticker, price, cur, pead, sector in sorted(candidates):
+        res = timing.get('resistance')
+        breakout = res if res and (timing.get('close') or price) > res else None
+        candidates.append((not pead, -(opp.get('score') or 0), ticker, price, cur, pead, inp.get('sector'), breakout))
+    for _, negscore, ticker, price, cur, pead, sector, breakout in sorted(candidates, key=lambda c: c[:3]):
         if slots <= 0:
             break
         if sector and sectors.get(sector, 0) >= MAX_PER_SECTOR:   # an unknown sector is not capped
@@ -224,15 +233,25 @@ def plan(doc, record, series, today):
         cash -= n * unit
         slots -= 1
         sectors[sector] = sectors.get(sector, 0) + 1
-        orders.append(dict(side='BUY', ticker=ticker, shares=n, rule='ENTRY',
+        orders.append(dict(side='BUY', ticker=ticker, shares=n, rule='ENTRY', resistance=breakout,
                            reason=f'{"rose on its report, " if pead else ""}label score {-negscore:.2f}, '
-                                  f'above the 200-day average, not extended; about €{n * unit:,.0f}'))
+                                  f'above the 200-day average, not extended'
+                                  f'{f", breakout over {breakout:.2f}" if breakout else ""}; about €{n * unit:,.0f}'))
     return dict(version=VERSION, date=today_s, market=regime, orders=orders, notes=notes,
                 equity=equity, cash=state['cash'])
 
 
 def title(order):
     return f'paper-order: {order["side"]} {order["shares"]} {order["ticker"]}'
+
+
+def body(order):
+    """Issue body; a breakout entry carries its old high so the failed-breakout exit can be checked later."""
+    lines = [f'Rule: {order["rule"]}. Reason: {order["reason"]}.']
+    if order.get('resistance'):
+        lines.append(f'resistance: {order["resistance"]:.4f}')
+    lines.append(f"Placed automatically by Claude's trading rules {VERSION.split('-')[-1]} (paper only).")
+    return '\n\n'.join(lines)
 
 
 def main(argv=None):
@@ -250,7 +269,8 @@ def main(argv=None):
                  for p in sorted((root / 'history' / 'runs').glob('*.json'))
                  if p.name[:8] >= (date.fromisoformat(doc['opened']) - timedelta(days=90)).strftime('%Y%m%d')]
     result = plan(doc, build['record'], merge_series(snapshots + [build['record']]), today)
-    print(json.dumps(dict(result, titles=[title(o) for o in result['orders']]), indent=2))
+    print(json.dumps(dict(result, titles=[title(o) for o in result['orders']],
+                          bodies=[body(o) for o in result['orders']]), indent=2))
     return 0
 
 
