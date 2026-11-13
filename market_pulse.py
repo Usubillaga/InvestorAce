@@ -55,6 +55,37 @@ def _series(frame, symbol):
     return [(idx.date().isoformat(), float(v)) for idx, v in column.dropna().items() if math.isfinite(float(v))]
 
 
+EU_SUFFIXES = ('.MC', '.AS', '.PA', '.DE', '.MI', '.BR', '.LS', '.CO', '.ST', '.HE', '.SW', '.L')
+US_CLOSED_UTC, EU_CLOSED_UTC = '21:00', '16:30'   # winter closes; summer closes are an hour earlier
+
+
+def add_quote_closes(pulse, rows):
+    """Fill the latest session from the build's own regular-market quotes when the bulk daily download
+    does not have it yet (Yahoo updates index bars sooner than stock bars).
+
+    A quote counts as that day's close only if it was observed after the listing's close, and only for a
+    date later than the last downloaded bar; nothing earlier is touched. The symbols filled are listed."""
+    tracked = (pulse or {}).get('tracked')
+    if not tracked:
+        return []
+    filled = []
+    for symbol, series in tracked.items():
+        row = rows.get(symbol) or {}
+        observed, price = str(row.get('quote_observed_at') or ''), row.get('price')
+        if row.get('quote_time_status') != 'REGULAR_MARKET' or len(observed) < 16 or not price:
+            continue
+        day, clock = observed[:10], observed[11:16]
+        closed = EU_CLOSED_UTC if symbol.upper().endswith(EU_SUFFIXES) else US_CLOSED_UTC
+        if clock < closed or (series and day <= series[-1][0]):
+            continue
+        series.append([day, round(float(price), 6)])
+        del series[:-TRACKED_SESSIONS]
+        filled.append(symbol)
+    if filled:
+        pulse['tracked_from_quote'] = sorted(filled)
+    return filled
+
+
 def _fear_greed(fetch=None):
     try:
         if fetch is not None:

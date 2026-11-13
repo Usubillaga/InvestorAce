@@ -1962,6 +1962,7 @@ def run_build():
                 macro['pulse'] = MARKET_PULSE.read(universe_symbols=[d.get('yf', t) for t, d in DATA.items()],
                     tracked_symbols=sorted(set(paper_portfolio.tracked_symbols(datetime.now(timezone.utc).date()))
                                            | set(active_trading.tracked_symbols(universe=DATA))))
+                MARKET_PULSE.add_quote_closes(macro['pulse'], {d.get('yf', t): d for t, d in DATA.items()})
             except Exception as exc:
                 print('Market pulse unavailable:', type(exc).__name__)
             try:
