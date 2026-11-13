@@ -1,6 +1,6 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-13T02:00:07.247937+00:00",
+ "generated_at": "2026-11-13T03:38:47.578910+00:00",
  "universe_count": 112,
  "rows": [
   {
@@ -9019,7 +9019,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-13T02:00:07.247937+00:00",
+   "attempted_at": "2026-11-13T03:38:47.578910+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
@@ -12037,8 +12037,8 @@
    "sector": "Real Estate",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-06T03:30:36.693739+00:00",
-   "attempted_at": "2026-11-06T03:30:36.693739+00:00",
+   "retrieved_at": "2026-11-13T03:38:47.578910+00:00",
+   "attempted_at": "2026-11-13T03:38:47.578910+00:00",
    "status": "PARTIAL",
    "annual": [
     {
@@ -12163,14 +12163,12 @@
     }
    ],
    "market": {
-    "shares_outstanding": 946218033.0,
-    "float_shares": 948828775.0,
-    "float_pct": null,
-    "retrieved_at": "2026-11-06T03:30:36.693739+00:00"
+    "shares_outstanding": 950997048.0,
+    "float_shares": 948838285.0,
+    "float_pct": 99.77300003143648,
+    "retrieved_at": "2026-11-13T03:38:47.578910+00:00"
    },
-   "warnings": [
-    "FLOAT_EXCEEDS_SHARES"
-   ],
+   "warnings": [],
    "sources": [
     {
      "label": "Yahoo Finance \u00b7 Income statement",
