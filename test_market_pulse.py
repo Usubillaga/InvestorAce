@@ -54,3 +54,21 @@ class PulseTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class QuoteCloses(unittest.TestCase):
+    def test_fills_the_missing_session_from_a_quote_after_the_close(self):
+        import market_pulse as mp
+        pulse = dict(tracked={'GEN': [['2026-11-11', 30.64]], 'WKL.AS': [['2026-11-11', 88.42]],
+                              'MO': [['2026-11-11', 77.39]], 'AB': [['2026-11-12', 10.0]], 'X': [['2026-11-11', 5.0]]})
+        rows = {'GEN': dict(price=29.69, quote_observed_at='2026-11-12T21:00:01+00:00', quote_time_status='REGULAR_MARKET'),
+                'WKL.AS': dict(price=89.5, quote_observed_at='2026-11-12T16:35:20+00:00', quote_time_status='REGULAR_MARKET'),
+                'MO': dict(price=77.9, quote_observed_at='2026-11-12T18:30:00+00:00', quote_time_status='REGULAR_MARKET'),
+                'AB': dict(price=11.0, quote_observed_at='2026-11-12T21:00:00+00:00', quote_time_status='REGULAR_MARKET'),
+                'X': dict(price=6.0, quote_observed_at='2026-11-12T21:00:00+00:00', quote_time_status='CACHED_DATED')}
+        self.assertEqual(mp.add_quote_closes(pulse, rows), ['GEN', 'WKL.AS'])
+        self.assertEqual(pulse['tracked']['GEN'][-1], ['2026-11-12', 29.69])
+        self.assertEqual(pulse['tracked']['MO'][-1][0], '2026-11-11')      # intraday quote: not a close
+        self.assertEqual(pulse['tracked']['AB'], [['2026-11-12', 10.0]])   # the download already has the day
+        self.assertEqual(pulse['tracked']['X'][-1][0], '2026-11-11')       # cached quote: not used
+        self.assertEqual(pulse['tracked_from_quote'], ['GEN', 'WKL.AS'])
