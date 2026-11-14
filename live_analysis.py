@@ -27,6 +27,9 @@ ALIASES = {
     'operating_cash_flow': ('Operating Cash Flow', 'Total Cash From Operating Activities'),
     'capex': ('Capital Expenditure', 'Capital Expenditures'),
     'fcf': ('Free Cash Flow',),
+    # Added back inside operating cash flow although it pays staff with the
+    # owners' shares; the valuation cash flow deducts it (see calculate).
+    'sbc': ('Stock Based Compensation',),
     'dividends': ('Cash Dividends Paid', 'Common Stock Dividend Paid'),
     'debt': ('Total Debt',),
     # Yahoo omits 'Total Debt' for companies without borrowings. Debt is part
@@ -335,6 +338,7 @@ def extract(ticker, symbol, *, as_of):
     values = {key: _total(selected_income, key, dates) for key in
               ('revenue', 'operating_income', 'net_income', 'ebitda')}
     values.update(operating_cash_flow=ocf, capex=capex, fcf=fcf,
+                  stock_based_compensation=_total(selected_cf, 'sbc', dates),
                   dividends=_total(selected_cf, 'dividends', dates),
                   depreciation=_total(selected_cf, 'depreciation', dates))
     dividends_basis = 'CASH_FLOW_STATEMENT' if values['dividends'] is not None else None
@@ -408,6 +412,8 @@ def extract(ticker, symbol, *, as_of):
         cash_flow_calculation='OCF_MINUS_ABS_CAPEX' if ocf is not None and capex is not None else 'YAHOO_REPORTED_FCF',
         annual_fcf_series=[dict(period=c.date().isoformat(), value=_cash(cf, [c])[2])
                            for c in list(cf.columns[:5])] if cf is not None else [],
+        annual_sbc_series=[dict(period=c.date().isoformat(), value=_value(cf, 'sbc', c))
+                           for c in list(cf.columns[:5])] if cf is not None else [],
         annual_net_income_series=[dict(period=c.date().isoformat(), value=_value(income, 'net_income', c))
                            for c in list(income.columns[:5])] if income is not None else [],
         annual_revenue_series=[dict(period=c.date().isoformat(), value=_value(income, 'revenue', c))
@@ -455,6 +461,13 @@ def prefer_primary(provider, primary, *, as_of):
                   ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest', 'earnings') if k in provider}
         result.update(copy.deepcopy(primary))
         result.update(market)
+        same_window = (provider.get('financial_period') == primary['financial_period']
+                       and provider.get('basis') == primary.get('basis'))
+        if same_window and 'stock_based_compensation' not in inputs:
+            # Issuer packets carry no stock-compensation line; the provider's
+            # figure for the identical window stays, never one from another period.
+            result['inputs']['stock_based_compensation'] = (provider.get('inputs') or {}).get(
+                'stock_based_compensation')
         result['primary_current'] = True
     for key in ('annual_fcf_series', 'annual_net_income_series', 'annual_revenue_series'):
         series = {item['period']: copy.deepcopy(item) for item in provider.get(key, [])}
@@ -615,6 +628,29 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         cash_cycle_periods = dates if aligned else []
         policy = 'MIDCYCLE_MEAN_PROXY'
         warnings.append('Commodity value uses a multi-year reported cash-flow mean; acquisitions and normalization still require review.')
+    # Stock-based compensation is added back in operating cash flow, yet it is
+    # pay settled in the owners' shares: Adobe's FY2025 cash flow of USD 9.9bn
+    # holds USD 1.9bn of it. The valuation cash flow deducts the same-window
+    # amount. An unreported amount stays unknown: nothing is deducted or
+    # estimated, and the output says so.
+    stock_compensation, stock_compensation_basis = None, 'NOT_REPORTED'
+    if facts.get('midcycle'):
+        by_period = {item.get('period'): finite_number(item.get('value'))
+                     for item in facts.get('annual_sbc_series') or []}
+        cycle = [by_period.get(period) for period in cash_cycle_periods]
+        if cycle and all(value is not None and value >= 0 for value in cycle):
+            stock_compensation, stock_compensation_basis = sum(cycle)/len(cycle), 'CYCLE_MEAN_DEDUCTED'
+    else:
+        reported = finite_number(inputs.get('stock_based_compensation'))
+        if reported is not None and reported >= 0:
+            stock_compensation, stock_compensation_basis = reported, 'SAME_WINDOW_DEDUCTED'
+    inputs['fcf_before_stock_compensation'] = valuation_fcf
+    if valuation_fcf is not None and stock_compensation is not None:
+        valuation_fcf -= stock_compensation
+    elif valuation_fcf is not None:
+        warnings.append('Stock-based compensation is not reported for this window; '
+                        'the valuation cash flow is before that cost.')
+    inputs['valuation_stock_compensation'] = stock_compensation
     conflicts = copy.deepcopy(facts.get('valuation_input_conflicts') or [])
     if conflicts:
         # A known invalid perimeter/senior-claim bridge is not a pending
@@ -795,6 +831,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
             currency_factor=factor,
             cash_flow_policy=policy,
             cash_flow_calculation=facts.get('cash_flow_calculation'),
+            stock_compensation_basis=stock_compensation_basis,
             leverage_ebitda_basis=leverage_basis, earnings_basis=earnings_basis,
             shares_basis=facts.get('shares_basis'),
             common_equity_scope=current_common.get('scope') if current_common else None,
