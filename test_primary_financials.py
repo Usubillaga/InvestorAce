@@ -56,7 +56,15 @@ class PrimaryFinancials(unittest.TestCase):
     def test_cycle_and_valuation_reproduce_dated_calculations(self):
         facts=live_analysis.prefer_primary(self.provider,self.primary,as_of=NOW)
         facts['midcycle']=True
-        result=live_analysis.calculate(facts,quote=dict(price=42.11,observed_at='2026-10-28T20:03:53+00:00'),
+        quote=dict(price=42.11,observed_at='2026-10-28T20:03:53+00:00')
+        # The ledger of 28 October 2026 predates the stock-compensation deduction;
+        # with the provider's later series the same cycle is lower by its mean.
+        periods=[item['period'] for item in facts['annual_fcf_series'][:5]]
+        facts['annual_sbc_series']=[dict(period=period,value=50e6) for period in periods]
+        net=live_analysis.calculate(facts,quote=quote,risk_free=.05045000076293945,mrp=.0472,as_of=NOW)
+        self.assertAlmostEqual(net['inputs']['valuation_fcf'],728386500-50e6)
+        facts.pop('annual_sbc_series')
+        result=live_analysis.calculate(facts,quote=quote,
             risk_free=.05045000076293945,mrp=.0472,as_of=NOW)
         self.assertAlmostEqual(result['inputs']['valuation_fcf'],728386500)
         self.assertAlmostEqual(result['metrics']['reported_pe'],9.40825954,places=5)
