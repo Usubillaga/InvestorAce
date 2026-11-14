@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-11-14",
+  "period_start": "2026-11-05",
+  "period_end": "2026-11-14",
+  "data_cutoff": "2026-11-14T08:27:00+01:00",
+  "summary": "[Sicher] US hiring picked up, while monthly core inflation held steady. Washington extended targeted shipping-fee relief while threatening higher tariffs on Mexico. Coverage starts after 2026-11-05T08:20:55+01:00; older readings are dated.",
+  "priority_review": "[Wahrscheinlich] Which import costs could still reach retail prices? Can European margins absorb energy and currency costs? Does Colombia's fiscal bill secure credible financing? Keep fundamental score, unweighted regime fit and portfolio sizing separate.",
+  "items": [
+    {
+      "section": "regime",
+      "authors": "USTR; Reuters; BLS; InvestorAce analysis",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "source_url": "https://www.federalregister.gov/d/2026-22867",
+      "title": "Shipping-fee relief helps at the margin; Mexico tariff risk remains",
+      "publication_date": "New evidence: 2026-11-09 to 2026-11-13",
+      "what_changed": "[Sicher] USTR's 2026-11-10 notice extends the China-related Section 301 shipping-fee suspension from 2026-11-09 through 2027-01-09 at 23:59 ET. President Trump threatened to double Mexico tariffs on 2026-11-12; Mexico's President Sheinbaum said on 2026-11-13 the caravan was not heading to the border. No implementing tariff order was verified.",
+      "investorace_implication": "[Wahrscheinlich] Extending the suspension avoids a freight-cost increase. Higher Mexico duties would raise costs in integrated auto supply chains. Passing costs on sustains inflation; absorbing them squeezes margins. Persistent inflation can keep rates higher and reduce valuations.",
+      "review_question": "[Vermutung] Strengthening demand and accelerating prices would favour reflation. A supply shock with weaker output increases stagflation risk; widespread job and output losses would raise recession risk. Easing inflation with steady growth would favour disinflation and Goldilocks.",
+      "limitations": "[Sicher] BLS on 2026-11-10: October headline CPI rose 0.4% monthly after 0.6%; core rose 0.3% again. The 2025 federal shutdown left October headline and core annual comparisons unavailable. On 2026-11-13 Treasury Secretary Bessent opposed hiking on the Iran war's energy shock; Chicago Fed President Goolsbee pointed to broader price pressure. Neither statement is a rate decision.",
+      "sources": [
+        {
+          "title": "USTR: Notice of Modification of Section 301 Action — Maritime, Logistics, and Shipbuilding",
+          "url": "https://www.federalregister.gov/d/2026-22867",
+          "publication_date": "2026-11-10"
+        },
+        {
+          "title": "Reuters: Mexico's Sheinbaum says migrant caravan not moving toward US now as Trump threatens tariffs",
+          "url": "https://www.reuters.com/world/americas/no-migrant-caravans-headed-us-says-mexico-president-2026-11-13/",
+          "publication_date": "2026-11-13"
+        },
+        {
+          "title": "BLS: Consumer Price Index — October 2026",
+          "url": "https://www.bls.gov/news.release/archives/cpi_11102026.htm",
+          "publication_date": "2026-11-10"
+        },
+        {
+          "title": "Reuters: Bessent, Fed's Goolsbee divided on role of energy shock in inflation",
+          "url": "https://www.reuters.com/business/us-treasury-chief-says-fed-should-not-hike-rates-over-energy-shock-tied-iran-war-2026-11-13/",
+          "publication_date": "2026-11-13"
+        }
+      ]
+    },
+    {
+      "section": "usa",
+      "authors": "BLS; BEA; Federal Reserve; CMS; U.S. Congress; U.S. Court of International Trade; InvestorAce analysis",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "source_url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
+      "title": "Payrolls strengthen while budget and coverage decisions remain open",
+      "publication_date": "New evidence: 2026-11-06 to 2026-11-13; older baselines: 2026-10-28 and 2026-10-29",
+      "what_changed": "[Sicher] BLS reported October nonfarm payrolls up 165 thousand and unemployment at 4.1% on 2026-11-06. September payroll growth was revised from 29 to 60 thousand. Older baselines: BEA's third-quarter real GDP grew 3.4% annualised (2026-10-29); the Fed held 3.75%–4.00% (2026-10-28).",
+      "investorace_implication": "[Sicher] On 2026-11-13, CMS offered an optional Medicaid grace period through 2027-06-30: participating states would not deny or end coverage solely for failing work requirements. On 2026-11-12, Democrats Pallone and Wyden urged letting all states defer those penalties until systems are tested. The conservative administration's option leaves the statutory requirement intact.",
+      "review_question": "[Wahrscheinlich] Both approaches could preserve coverage and public spending relative to immediate enforcement while reducing paperwork errors. Costs and employment effects depend on state uptake and implementation. The letter itself changes no rule.",
+      "limitations": "[Sicher] JEC's 2026-11-13 update puts October's deficit at USD 404.06 billion versus USD 284.35 billion a year earlier; one month is no annual trend. Funding expires 2026-12-11 without an extension. The Canada tariff case had a 2026-11-13 deadline for briefs supporting the plaintiff; no merits ruling was verified.",
+      "sources": [
+        {
+          "title": "BLS: The Employment Situation — October 2026",
+          "url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
+          "publication_date": "2026-11-06"
+        },
+        {
+          "title": "BEA: GDP (Advance Estimate), 3rd Quarter 2026",
+          "url": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026",
+          "publication_date": "2026-10-29"
+        },
+        {
+          "title": "Federal Reserve issues FOMC statement",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+          "publication_date": "2026-10-28"
+        },
+        {
+          "title": "CMS Announces a Hold Harmless Period to Strengthen Medicaid Work Requirement Systems and Improve Beneficiary Experience",
+          "url": "https://www.cms.gov/newsroom/press-releases/cms-announces-hold-harmless-period-strengthen-medicaid-work-requirement-systems-improve-beneficiary",
+          "publication_date": "2026-11-13"
+        },
+        {
+          "title": "Pallone and Wyden Call on Trump Administration to Immediately Delay Implementation of Medicaid Paperwork Requirements",
+          "url": "https://democrats-energycommerce.house.gov/media/press-releases/pallone-and-wyden-call-trump-administration-immediately-delay-implementation",
+          "publication_date": "2026-11-12"
+        },
+        {
+          "title": "Joint Economic Committee: Monthly Fiscal Update — October 2026",
+          "url": "https://www.jec.senate.gov/public/vendor/_accounts/JEC-R/fiscal/Monthly%20Fiscal%20Update.html",
+          "publication_date": "2026-11-13"
+        },
+        {
+          "title": "Van Hollen, Bennet, Sanders, Duckworth Release Joint Statement Opposing Spending Package That Funds Trump's War on Iran",
+          "url": "https://www.vanhollen.senate.gov/news/press-releases/van-hollen-bennet-sanders-duckworth-release-joint-statement-opposing-spending-package-that-funds-trumps-war-on-iran",
+          "publication_date": "2026-11-12"
+        },
+        {
+          "title": "U.S. Court of International Trade: Scheduling order in Gellert Global Group Corp. v. United States of America, 1:26-cv-04636",
+          "url": "https://trace.law/monitor/cases/gellert-global-group-corp-v-united-states-of-america-8b2465716afc7d5a",
+          "publication_date": "2026-10-28"
+        }
+      ]
+    },
+    {
+      "section": "eu",
+      "authors": "Eurostat; ECB; Council of the EU; Reuters; Official Journal of the EU; InvestorAce analysis",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap",
+      "title": "Output grows, employment stalls and industry awaits carbon relief",
+      "publication_date": "New evidence: 2026-11-11 to 2026-11-13; earlier policy and inflation readings dated below",
+      "what_changed": "[Sicher] Eurostat's 2026-11-13 flash estimate kept third-quarter GDP growth at 0.4% for the euro area and 0.5% for the EU quarter-on-quarter; employment was flat in both. Older baselines: October flash euro-area inflation 4.0% yearly (2026-11-04); ECB deposit rate 2.50% (2026-10-29).",
+      "investorace_implication": "[Sicher] On 2026-11-12 EU leaders backed continued Ukraine talks after a prisoner swap agreement in principle; no broad ceasefire was verified. That day, EU lawmakers also provisionally agreed on more free carbon allowances for eligible energy-intensive plants. [Wahrscheinlich] Adoption could protect their margins; exposure to fuel disruption remains.",
+      "review_question": "[Sicher] ECB reference: 2026-11-13, 1 EUR = 1.1052 USD versus 1.1081 on 2026-11-12; EUR fell 0.26%, USD strengthened. The standard fixing is around 14:10 CET. [Wahrscheinlich] Dollar inputs cost more in euros, squeezing unhedged importers and purchasing power; dollar earnings translate into more euros.",
+      "limitations": "[Sicher] GDP and inflation remain preliminary. No exact fixing time is published. Under the EU regulation published 2026-06-30, certain steel and aluminium concessions may be suspended if US duties on EU steel and aluminium derivatives still exceed 15% at year-end. This safeguard is conditional.",
+      "sources": [
+        {
+          "title": "Eurostat: GDP up by 0.4% and employment stable in the euro area — flash estimate",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap",
+          "publication_date": "2026-11-13"
+        },
+        {
+          "title": "Eurostat: Euro area annual inflation up to 4.0% — October flash estimate",
+          "url": "https://ec.europa.eu/eurostat/en/web/products-euro-indicators/w/2-04112026-ap",
+          "publication_date": "2026-11-04"
+        },
+        {
+          "title": "ECB: Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp261029~9a493adf17.en.html",
+          "publication_date": "2026-10-29"
+        },
+        {
+          "title": "Emissions trading system: Council and Parliament agree to boost free carbon allowances for energy-intensive industries",
+          "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/12/emissions-trading-system-council-and-parliament-agree-to-boost-free-carbon-allowances-for-energy-intensive-industries/",
+          "publication_date": "2026-11-12"
+        },
+        {
+          "title": "Joint statement by President Costa and President von der Leyen following their meeting with President Zelenskyy in Dublin",
+          "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/12/joint-statement-by-president-costa-and-president-von-der-leyen-following-their-meeting-with-president-zelenskyy-in-dublin/",
+          "publication_date": "2026-11-12"
+        },
+        {
+          "title": "Reuters: Russia, Ukraine reach deal on prisoner swap as US says lack of trust holds back talks",
+          "url": "https://www.reuters.com/world/europe/us-russia-ukraine-start-second-day-abu-dhabi-peace-talks-2026-11-11/",
+          "publication_date": "2026-11-11"
+        },
+        {
+          "title": "Regulation (EU) 2026/1455 on the adjustment of customs duties on imports of certain goods originating in the United States of America",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX%3A32026R1455",
+          "publication_date": "2026-06-30"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations for 12 and 13 November 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-11-13"
+        }
+      ]
+    },
+    {
+      "section": "colombia",
+      "authors": "DANE; Banco de la República; Minhacienda; Associated Press; Superintendencia Financiera de Colombia; ECB; InvestorAce analysis",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "source_url": "https://www.dane.gov.co/files/operaciones/EMMET/bol-EMMET-sep2026.pdf",
+      "title": "Factories produce more with fewer workers while fiscal talks begin",
+      "publication_date": "New evidence: 2026-11-05 to 2026-11-14; employment baseline: 2026-10-30",
+      "what_changed": "[Sicher] DANE's bulletin dated 2026-11-13 shows September real manufacturing output up 1.5% year-on-year and employment down 1.4%, provisionally. September national unemployment was 8.0% (2026-10-30). October CPI rose 6.30% yearly (2026-11-09). Banrep's 2026-11-05 minutes confirm the 12.25% hold on 2026-10-30.",
+      "investorace_implication": "[Sicher] President De La Espriella's government opened working groups on its fiscal bill, which proposes spending cuts with lawmakers on 2026-11-11. AP reported a fatal attack in Santa Rosa del Sur on 2026-11-07, citing the army. [Wahrscheinlich] High rates constrain credit. Credible fiscal savings could lower borrowing costs; regional insecurity can add local operating costs.",
+      "review_question": "[Sicher] SFC TRM: 1 USD = 3316.70 COP, valid from 2026-11-14 using 2026-11-13 trades, versus 3301.91 valid 2026-11-13 using 2026-11-12 trades. USD rose 0.45%, COP weakened. Derived 1 EUR = 3665.62 COP (3316.70 × 1.1052) versus 3658.85 (3301.91 × 1.1081); EUR gained 0.19% against COP.",
+      "limitations": "[Sicher] The crosses pair the same trading dates with ECB observations around 14:10 CET; the TRM averages trades and has no single timestamp. There is no weekend trade in these rates. The bill remains under discussion; national cost effects from the attack are unverified.",
+      "sources": [
+        {
+          "title": "DANE: Encuesta Mensual Manufacturera con Enfoque Territorial, septiembre de 2026",
+          "url": "https://www.dane.gov.co/files/operaciones/EMMET/bol-EMMET-sep2026.pdf",
+          "publication_date": "2026-11-13"
+        },
+        {
+          "title": "DANE: Boletín técnico Índice de Precios al Consumidor, octubre de 2026",
+          "url": "https://www.dane.gov.co/files/operaciones/IPC/oct2026/bol-IPC-oct2026.pdf",
+          "publication_date": "2026-11-09"
+        },
+        {
+          "title": "DANE: Empleo y desocupación, septiembre de 2026",
+          "url": "https://www.dane.gov.co/estadisticas-por-tema/mercado-laboral/empleo-y-desempleo",
+          "publication_date": "2026-10-30"
+        },
+        {
+          "title": "Minutas BanRep: La Junta Directiva decidió por mayoría mantener inalterada la tasa de interés de política en 12,25%",
+          "url": "https://banrep.gov.co/es/noticias/junta-directiva/minutas-banrep-octubre-2026",
+          "publication_date": "2026-11-05"
+        },
+        {
+          "title": "Minhacienda: Gobierno y Congreso inician mesas de trabajo sobre la Ley de Rescate",
+          "url": "https://www.minhacienda.gov.co/documents/20119/2969910/Comunicado%2B-%2BArranca%2Bla%2Boperacio%CC%81n%2Brescate.pdf/18531c2c-df7d-8d3a-b0be-d8fc42c41871?download=true&t=1794424938132&version=1.0",
+          "publication_date": "2026-11-11"
+        },
+        {
+          "title": "Associated Press: Drone attack on a Colombian military base leaves 3 soldiers dead",
+          "url": "https://apnews.com/article/7eb8bd82e98900f790b6d4e35eb702ec",
+          "publication_date": "2026-11-07"
+        },
+        {
+          "title": "Superintendencia Financiera de Colombia: TRM histórico, tasas vigentes a partir del 13 y 14 de noviembre de 2026",
+          "url": "https://www.datos.gov.co/resource/mcec-87by.json?%24where=vigenciadesde+between+%272026-11-12T00%3A00%3A00%27+and+%272026-11-15T00%3A00%3A00%27&%24limit=5",
+          "publication_date": "2026-11-14"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations for 12 and 13 November 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-11-13"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] Repuntó la contratación estadounidense; la inflación subyacente mensual se mantuvo. Washington prorrogó la suspensión de ciertas tasas marítimas y amenazó con subir aranceles a México. Cobertura posterior a 2026-11-05T08:20:55+01:00; referencias anteriores fechadas.",
+      "priority_review": "[Wahrscheinlich] ¿Qué costes de importación llegarían al consumidor? ¿Resisten los márgenes europeos los costes energéticos y cambiarios? ¿Consigue Colombia financiación creíble para su proyecto fiscal? Separar puntuación fundamental, encaje de régimen sin ponderar y tamaño de cartera.",
+      "items": [
+        {
+          "source_url": "https://www.federalregister.gov/d/2026-22867",
+          "title": "Alivio marítimo acotado; persiste el riesgo arancelario para México",
+          "publication_date": "Nueva evidencia: 2026-11-09 a 2026-11-13",
+          "what_changed": "[Sicher] Aviso USTR del 2026-11-10: suspensión de tasas marítimas vinculadas a China bajo Sección 301 prorrogada desde 2026-11-09 hasta 2027-01-09 a las 23:59 ET. El presidente Trump amenazó el 2026-11-12 con duplicar aranceles a México; la presidenta Sheinbaum dijo el 2026-11-13 que la caravana no iba hacia la frontera. Sin orden de aplicación verificada.",
+          "investorace_implication": "[Wahrscheinlich] Prorrogar la suspensión evita encarecer el flete. Mayores aranceles a México elevarían costes en cadenas automotrices integradas. Trasladarlos a precios sostiene la inflación; absorberlos comprime márgenes. Si persiste, la inflación puede mantener tipos altos y reducir valoraciones.",
+          "review_question": "[Vermutung] Demanda más fuerte y precios que se aceleran favorecerían la reflación. Un choque de oferta con menor producción eleva el riesgo de estanflación; caídas generalizadas de empleo y producción elevarían el de recesión. Menor inflación con crecimiento estable favorecería desinflación y Goldilocks.",
+          "limitations": "[Sicher] BLS, 2026-11-10: el IPC general de octubre subió 0.4% mensual tras 0.6%; el subyacente volvió a subir 0.3%. El cierre federal de 2025 impide calcular las tasas interanuales de ambos índices en octubre. El 2026-11-13, el secretario del Tesoro Bessent rechazó subir tipos por el choque energético de la guerra con Irán; Goolsbee, presidente de la Fed de Chicago, señaló presiones más amplias. Son declaraciones, no decisiones."
+        },
+        {
+          "source_url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
+          "title": "Aumenta el empleo; siguen abiertas las decisiones sobre presupuesto y cobertura",
+          "publication_date": "Nueva evidencia: 2026-11-06 a 2026-11-13; referencias anteriores: 2026-10-28 y 2026-10-29",
+          "what_changed": "[Sicher] BLS, 2026-11-06: octubre sumó 165 mil empleos no agrícolas; desempleo de 4.1%. El aumento de septiembre se revisó de 29 a 60 mil. Referencias anteriores: PIB real del tercer trimestre creció 3.4% anualizado, BEA (2026-10-29); Fed mantuvo 3.75%–4.00% (2026-10-28).",
+          "investorace_implication": "[Sicher] CMS ofreció el 2026-11-13 un periodo de gracia opcional de Medicaid hasta 2027-06-30: estados participantes no denegarían ni retirarían cobertura solo por incumplir requisitos laborales. Los demócratas Pallone y Wyden pidieron el 2026-11-12 permitir a todos los estados aplazar esas sanciones hasta probar sus sistemas. La opción del Gobierno conservador mantiene la exigencia legal.",
+          "review_question": "[Wahrscheinlich] Ambos enfoques podrían preservar cobertura y gasto público frente a la aplicación inmediata y reducir errores administrativos. Los costes y efectos laborales dependen de la adopción e implementación estatal. La carta no cambia ninguna norma.",
+          "limitations": "[Sicher] Según JEC (2026-11-13), déficit de octubre: USD 404.06 mil millones frente a USD 284.35 mil millones un año antes; un mes no define una tendencia anual. La financiación vence el 2026-12-11 sin prórroga. El 2026-11-13 venció el plazo para escritos a favor del demandante en el caso arancelario canadiense; no se verificó fallo de fondo."
+        },
+        {
+          "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap",
+          "title": "Crece la producción, se estanca el empleo y la industria espera alivio en emisiones",
+          "publication_date": "Nueva evidencia: 2026-11-11 a 2026-11-13; referencias anteriores fechadas en el texto",
+          "what_changed": "[Sicher] Eurostat mantuvo el 2026-11-13 su estimación preliminar de crecimiento trimestral del tercer trimestre: 0.4% en la eurozona y 0.5% en la UE, con empleo plano en ambas. Referencias anteriores: inflación preliminar de octubre en la eurozona, 4.0% interanual (2026-11-04); depósito BCE, 2.50% (2026-10-29).",
+          "investorace_implication": "[Sicher] El 2026-11-12 líderes de la UE respaldaron continuar las conversaciones sobre Ucrania tras el acuerdo preliminar de canje de prisioneros; sin tregua amplia verificada. Ese día, legisladores europeos pactaron provisionalmente más derechos gratuitos para instalaciones elegibles intensivas en energía. [Wahrscheinlich] Adoptarlos podría proteger sus márgenes; persiste el riesgo de interrupciones de combustible.",
+          "review_question": "[Sicher] Referencia BCE del 2026-11-13: 1 EUR = 1.1052 USD frente a 1.1081 el 2026-11-12; EUR cayó 0.26%, USD se fortaleció. Fijación habitual hacia las 14:10 CET. [Wahrscheinlich] Insumos en dólares más caros en euros presionan a importadores sin cobertura y erosionan el poder adquisitivo; ganancias en dólares valen más en euros.",
+          "limitations": "[Sicher] PIB e inflación preliminares; hora exacta de fijación sin publicar. La norma de la UE publicada el 2026-06-30 permite suspender ciertas concesiones de acero y aluminio si los aranceles estadounidenses a derivados europeos de acero y aluminio superan 15% al cierre del año. Salvaguardia condicional."
+        },
+        {
+          "source_url": "https://www.dane.gov.co/files/operaciones/EMMET/bol-EMMET-sep2026.pdf",
+          "title": "Las fábricas producen más con menos personal y comienza el diálogo fiscal",
+          "publication_date": "Nueva evidencia: 2026-11-05 a 2026-11-14; referencia laboral: 2026-10-30",
+          "what_changed": "[Sicher] Boletín DANE fechado 2026-11-13: en septiembre, producción manufacturera real subió 1.5% interanual y el empleo cayó 1.4%, cifras provisionales. Desempleo nacional de septiembre: 8.0% (2026-10-30). El IPC de octubre subió 6.30% interanual (2026-11-09). Las actas de Banrep del 2026-11-05 confirman el 12.25% mantenido el 2026-10-30.",
+          "investorace_implication": "[Sicher] El Gobierno del presidente De La Espriella abrió mesas con legisladores el 2026-11-11 sobre su proyecto fiscal, que propone recortes. AP informó de un ataque mortal en Santa Rosa del Sur el 2026-11-07, citando al Ejército. [Wahrscheinlich] Tipos altos restringen crédito. Ahorros fiscales creíbles podrían abaratar financiación; la inseguridad regional puede elevar costes operativos locales.",
+          "review_question": "[Sicher] TRM SFC: 1 USD = 3316.70 COP, vigente desde 2026-11-14 con operaciones del 2026-11-13, frente a 3301.91 vigente el 2026-11-13 con operaciones del 2026-11-12. USD subió 0.45%, COP se debilitó. Derivado: 1 EUR = 3665.62 COP (3316.70 × 1.1052) frente a 3658.85 (3301.91 × 1.1081); EUR ganó 0.19% frente a COP.",
+          "limitations": "[Sicher] Los cruces emparejan fechas de negociación con observaciones BCE hacia las 14:10 CET; la TRM promedia operaciones sin hora única. Sin operaciones de fin de semana. El proyecto sigue en discusión; no se verificaron costes nacionales del ataque."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Die US-Beschäftigung legte stärker zu, während die monatliche Kerninflation unverändert blieb. Washington verlängerte die Aussetzung bestimmter Schifffahrtsgebühren und drohte Mexiko mit höheren Zöllen. Berichtszeitraum nach 2026-11-05T08:20:55+01:00; ältere Daten sind datiert.",
+      "priority_review": "[Wahrscheinlich] Welche Importkosten könnten bei Verbrauchern ankommen? Halten europäische Margen den Energie- und Wechselkurskosten stand? Findet Kolumbien eine glaubwürdige Finanzierung für seinen Gesetzentwurf zur Haushaltskonsolidierung? Fundamental-Score, ungewichteten Regime-Fit und Positionsgrößen getrennt halten.",
+      "items": [
+        {
+          "source_url": "https://www.federalregister.gov/d/2026-22867",
+          "title": "Entlastung bei Schifffahrtsgebühren; Mexikos Zollrisiko bleibt",
+          "publication_date": "Neue Belege: 2026-11-09 bis 2026-11-13",
+          "what_changed": "[Sicher] Die USTR-Mitteilung vom 2026-11-10 verlängert die Aussetzung China-bezogener Schifffahrtsgebühren nach Section 301 vom 2026-11-09 bis zum 2027-01-09 um 23:59 ET. Präsident Trump drohte am 2026-11-12 mit doppelten Zöllen für Mexiko. Mexikos Präsidentin Sheinbaum sagte am 2026-11-13, die Karawane ziehe nicht zur Grenze. Eine Durchführungsanordnung wurde nicht verifiziert.",
+          "investorace_implication": "[Wahrscheinlich] Die Verlängerung verhindert höhere Frachtkosten. Höhere Mexiko-Zölle würden integrierte Autolieferketten verteuern. Preisweitergabe hält die Inflation hoch; tragen Unternehmen die Kosten selbst, sinken Margen. Anhaltende Inflation kann die Zinsen hoch halten und Bewertungen drücken.",
+          "review_question": "[Vermutung] Anziehende Nachfrage und beschleunigte Preissteigerungen sprächen für Reflation. Ein Angebotsschock bei schwächerer Produktion erhöht das Stagflationsrisiko; breite Beschäftigungs- und Produktionsverluste würden das Rezessionsrisiko erhöhen. Sinkende Inflation bei stabilem Wachstum spräche für Disinflation und Goldilocks.",
+          "limitations": "[Sicher] BLS vom 2026-11-10: Der Gesamt-VPI stieg im Oktober um 0,4% zum Vormonat nach 0,6%; der Kern-VPI erneut um 0,3%. Wegen der Haushaltssperre 2025 fehlen beide Oktober-Jahresvergleiche. Am 2026-11-13 sprach sich Finanzminister Bessent gegen eine Zinserhöhung wegen des Energieschocks durch den Iran-Krieg aus; der Chicago-Fed-Präsident Goolsbee verwies auf breiteren Preisdruck. Das sind Aussagen, keine Zinsbeschlüsse."
+        },
+        {
+          "source_url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
+          "title": "Der Stellenzuwachs steigt; Haushalt und Versicherungsschutz bleiben offen",
+          "publication_date": "Neue Belege: 2026-11-06 bis 2026-11-13; ältere Eckdaten: 2026-10-28 und 2026-10-29",
+          "what_changed": "[Sicher] Das BLS meldete am 2026-11-06 für Oktober 165 Tausend zusätzliche Stellen außerhalb der Landwirtschaft und 4,1% Arbeitslosigkeit. Der September-Zuwachs wurde von 29 auf 60 Tausend revidiert. Ältere Eckdaten: reales BIP im dritten Quartal annualisiert um 3,4% gestiegen laut BEA (2026-10-29); Fed hielt 3,75%–4,00% (2026-10-28).",
+          "investorace_implication": "[Sicher] CMS bot am 2026-11-13 eine optionale Medicaid-Schonfrist bis 2027-06-30 an. Teilnehmende Bundesstaaten würden den Versicherungsschutz nicht allein wegen nicht erfüllter Arbeitsauflagen verweigern oder entziehen. Die Demokraten Pallone und Wyden forderten am 2026-11-12 Aufschub dieser Sanktionen für alle Bundesstaaten, bis deren Systeme getestet sind. Die Option der konservativen Regierung lässt die gesetzliche Pflicht bestehen.",
+          "review_question": "[Wahrscheinlich] Beide Ansätze könnten gegenüber sofortiger Durchsetzung den Versicherungsschutz und die öffentlichen Ausgaben aufrechterhalten und Verwaltungsfehler verringern. Kosten und Beschäftigungseffekte hängen von Teilnahme und Umsetzung der Bundesstaaten ab. Das Schreiben ändert keine Regel.",
+          "limitations": "[Sicher] Laut JEC vom 2026-11-13 betrug das Oktoberdefizit 404,06 Milliarden USD gegenüber 284,35 Milliarden USD im Vorjahresmonat; ein Monat ergibt keinen Jahrestrend. Ohne Verlängerung läuft die Finanzierung am 2026-12-11 aus. Im Kanada-Zollverfahren war am 2026-11-13 Frist für Schriftsätze zugunsten des Klägers; ein Sachurteil wurde nicht verifiziert."
+        },
+        {
+          "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-13112026-ap",
+          "title": "Produktion wächst, Beschäftigung stagniert und Industrie wartet auf Entlastung bei Emissionen",
+          "publication_date": "Neue Belege: 2026-11-11 bis 2026-11-13; ältere Eckdaten im Text datiert",
+          "what_changed": "[Sicher] Eurostats Schnellschätzung vom 2026-11-13 beließ das BIP-Wachstum im dritten Quartal bei 0,4% im Euroraum und 0,5% in der EU zum Vorquartal. Die Beschäftigung stagnierte in beiden. Ältere Eckdaten: vorläufige Oktober-Inflation im Euroraum 4,0% zum Vorjahr (2026-11-04); EZB-Einlagensatz 2,50% (2026-10-29).",
+          "investorace_implication": "[Sicher] Am 2026-11-12 unterstützten EU-Spitzen weitere Ukraine-Gespräche nach einer Grundsatzeinigung über einen Gefangenenaustausch. Eine umfassende Waffenruhe wurde nicht verifiziert. Am selben Tag einigten sich die EU-Gesetzgeber vorläufig auf mehr kostenlose Emissionszertifikate für berechtigte energieintensive Anlagen. [Wahrscheinlich] Die Verabschiedung könnte deren Margen schützen; das Risiko von Brennstoffengpässen bleibt.",
+          "review_question": "[Sicher] EZB-Referenz vom 2026-11-13: 1 EUR = 1,1052 USD gegenüber 1,1081 am 2026-11-12; der EUR verlor 0,26%, der USD gewann. Die übliche Kursfeststellung erfolgt gegen 14:10 MEZ. [Wahrscheinlich] Vorleistungen in Dollar verteuern sich in Euro. Das belastet ungesicherte Importeure und die Kaufkraft; Dollargewinne sind in Euro mehr wert.",
+          "limitations": "[Sicher] BIP und Inflation sind vorläufig. Die genaue Kursfeststellungszeit ist nicht veröffentlicht. Nach der am 2026-06-30 veröffentlichten EU-Verordnung können bestimmte Stahl- und Aluminiumvergünstigungen ausgesetzt werden, wenn US-Zölle auf Stahl- und Aluminiumderivate aus der EU am Jahresende noch über 15% liegen. Die Schutzmaßnahme ist an diese Bedingung geknüpft."
+        },
+        {
+          "source_url": "https://www.dane.gov.co/files/operaciones/EMMET/bol-EMMET-sep2026.pdf",
+          "title": "Fabriken produzieren mehr mit weniger Personal, Haushaltsgespräche beginnen",
+          "publication_date": "Neue Belege: 2026-11-05 bis 2026-11-14; Arbeitsmarktbasis: 2026-10-30",
+          "what_changed": "[Sicher] DANE-Bericht vom 2026-11-13: Im September stieg die reale Produktion im verarbeitenden Gewerbe gegenüber dem Vorjahr um 1,5%, die Beschäftigung in der Fertigung sank um 1,4%. Beide Werte sind vorläufig. Landesweite September-Arbeitslosigkeit: 8,0% (2026-10-30). Der Oktober-VPI stieg jährlich um 6,30% (2026-11-09). Banreps Protokoll vom 2026-11-05 bestätigt den unveränderten Leitzins von 12,25% vom 2026-10-30.",
+          "investorace_implication": "[Sicher] Präsident De La Espriellas Regierung eröffnete am 2026-11-11 Arbeitsgruppen mit Abgeordneten über ihren Gesetzentwurf mit Ausgabenkürzungen. AP berichtete unter Berufung auf das Heer am 2026-11-07 über einen tödlichen Angriff in Santa Rosa del Sur. [Wahrscheinlich] Hohe Zinsen bremsen Kredite. Glaubwürdige Haushaltseinsparungen könnten Kredite verbilligen; regionale Unsicherheit kann örtliche Betriebskosten erhöhen.",
+          "review_question": "[Sicher] SFC-TRM: 1 USD = 3316,70 COP, gültig ab 2026-11-14 auf Basis von Geschäften am 2026-11-13, gegenüber 3301,91 gültig am 2026-11-13 aus Geschäften vom 2026-11-12. Der USD gewann 0,45%, der COP verlor. Abgeleitet: 1 EUR = 3665,62 COP (3316,70 × 1,1052) gegenüber 3658,85 (3301,91 × 1,1081); der EUR gewann 0,19% gegenüber dem COP.",
+          "limitations": "[Sicher] Die Kreuzkurse verbinden dieselben Handelstage mit EZB-Beobachtungen gegen 14:10 MEZ. Die TRM mittelt Geschäfte und hat keinen einzelnen Zeitstempel. In diesen Kursen steckt kein Wochenendhandel. Der Entwurf wird weiter beraten; landesweite Kosteneffekte des Angriffs sind nicht verifiziert."
+        }
+      ]
+    }
+  }
+}
