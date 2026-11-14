@@ -88,7 +88,7 @@ def shell(title, body):
             '<nav><strong>InvestorAce</strong><a href="index.html">Scoreboard</a>'
             '<a href="paper-test.html">Paper test</a><a href="trade.html">Active trading</a><a href="backtest.html">Backtest</a><a href="war-scenarios.html">War scenarios</a>'
             '<a href="crash-monitor.html">Crash monitor</a>'
-            '<a href="scanner.html">Stock scanner</a></nav>' + body + '</main></body></html>')
+            '<a href="scanner.html">Stock scanner</a><a href="earnings.html">Earnings reports</a></nav>' + body + '</main></body></html>')
 
 
 def money(value, digits=2):

@@ -165,6 +165,24 @@ class ResearchPublicationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             research.add_research_link('<html><body>truncated')
 
+    def test_earnings_reports_get_an_index_page_and_a_navigation_link(self):
+        self.assertEqual(research.earnings_index(self.root / 'earnings'), [])
+        folder = self.root / 'earnings'
+        folder.mkdir()
+        (folder / 'dlo-q3-2026.html').write_text(
+            '<html><head><title>DLO · Q3 2026 Results</title></head><body>'
+            '<div class="sub">Quarter ended 30 Sep 2026 · reported 12 Nov 2026</div></body></html>')
+        (folder / 'dlo-q3-2026.pdf').write_bytes(b'%PDF')
+        (folder / 'old.html').write_text('<html><head><title>Old report</title></head><body></body></html>')
+        ((path, html),) = research.earnings_index(folder)
+        self.assertEqual(str(path), 'earnings.html')
+        for text in ('DLO · Q3 2026 Results', 'reported 12 Nov 2026', 'href="earnings/dlo-q3-2026.html"',
+                     'href="earnings/dlo-q3-2026.pdf"', 'href="earnings/old.html"'):
+            self.assertIn(text, html)
+        self.assertNotIn('old.pdf', html)
+        self.assertIn('href="earnings.html"', research.add_research_link(self.html, include_earnings=True))
+        self.assertNotIn('href="earnings.html"', research.add_research_link(self.html))
+
     def test_monday_and_friday_keep_separate_latest_issues_and_archives(self):
         friday = {**example(), 'summary': 'Friday research only.'}
         self.write('2026-10-16.json', friday)
