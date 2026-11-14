@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ENS · Q2 FY2027 Results</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Swap this palette per company — keep it a dark theme with one
+       accent color for emphasis/links plus red/green for miss/beat.
+       Shown: a navy/blue tech palette. A defense stock might go
+       gunmetal + red, healthcare a clinical teal, consumer something
+       warmer — vary it the way the six reference reports did. */
+    --bg:#15120B;
+    --panel:#1E1A10;
+    --panel2:#252014;
+    --line:#3D3420;
+    --text:#EAEDF7;
+    --muted:#8C93B0;
+    --accent:#E8A33D;
+    --red:#E0685A;
+    --green:#4FBE8E;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 480px at 10% -10%, rgba(79,190,142,0.09), transparent 60%),
+      radial-gradient(900px 480px at 100% 0%, rgba(232,163,61,0.09), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter','Poppins','Liberation Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:36px 22px 60px;}
+
+  .hero{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:26px;flex-wrap:wrap;gap:16px;}
+  .ticker{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:13px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+  h1{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans',sans-serif;font-size:clamp(28px,4.4vw,44px);font-weight:800;margin:0;line-height:1.08;}
+  .sub{color:var(--muted);font-size:14.5px;margin-top:8px;}
+  .datebox{text-align:right;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:12.5px;color:var(--muted);}
+  .datebox b{color:var(--text);display:block;font-size:14px;margin-bottom:2px;}
+
+  .verdict{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:30px;background:var(--panel);}
+  .verdict>div{padding:20px 22px;border-left:1px solid var(--line);}
+  .verdict>div:first-child{border-left:none;}
+  .vlabel{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+  .vmain{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans',sans-serif;font-weight:700;font-size:21px;}
+  .stamp{display:inline-block;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.06em;padding:3px 9px;border-radius:5px;margin-top:8px;}
+  .stamp.beat{background:rgba(79,190,142,0.14);color:var(--green);border:1px solid rgba(79,190,142,0.4);}
+  .stamp.inline{background:rgba(232,163,61,0.14);color:var(--accent);border:1px solid rgba(232,163,61,0.4);}
+  .stamp.miss{background:rgba(224,104,90,0.14);color:var(--red);border:1px solid rgba(224,104,90,0.4);}
+  .vsmall{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;color:var(--muted);font-size:12px;margin-top:6px;}
+
+  .pipeline{margin-bottom:34px;}
+  .pipeline h2{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans',sans-serif;font-size:15px;margin:0 0 14px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
+  .flow{display:flex;align-items:stretch;gap:0;}
+  .flow-node{flex:1;background:var(--panel);border:1px solid var(--line);padding:16px 18px;}
+  .flow-node:first-child{border-radius:10px 0 0 10px;}
+  .flow-node:last-child{border-radius:0 10px 10px 0;border-left:none;}
+  .flow-node:not(:first-child){border-left:none;}
+  .flow-node.hi{background:linear-gradient(180deg, rgba(232,163,61,0.10), rgba(232,163,61,0.02));border-color:var(--accent);}
+  .fn-label{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;}
+  .fn-val{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:22px;font-weight:600;margin-top:6px;}
+  .fn-sub{font-size:11.5px;color:var(--muted);margin-top:4px;}
+  .arrow{align-self:center;color:var(--accent);font-size:18px;padding:0 8px;}
+
+  .section-title{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans',sans-serif;font-weight:700;font-size:17px;margin:0 0 4px;}
+  .section-note{color:var(--muted);font-size:12.5px;margin-bottom:14px;}
+  table{width:100%;border-collapse:collapse;margin-bottom:34px;font-size:14px;}
+  thead th{text-align:right;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-weight:600;font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:1px solid var(--line);}
+  thead th:first-child{text-align:left;}
+  tbody td{padding:11px 12px;border-bottom:1px solid rgba(42,49,80,0.6);text-align:right;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:13.5px;}
+  tbody td:first-child{text-align:left;font-family:'Inter','Poppins','Liberation Sans',sans-serif;color:var(--text);font-weight:500;}
+  .pos{color:var(--green);}
+  .neg{color:var(--red);}
+  .hlrow td{background:rgba(232,163,61,0.05);}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:34px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 22px;}
+  .card h3{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans',sans-serif;font-size:14.5px;margin:0 0 12px;color:var(--accent);}
+  .card ul{margin:0;padding-left:18px;color:var(--text);font-size:13.5px;line-height:1.6;}
+  .card li{margin-bottom:6px;}
+  .card li::marker{color:var(--muted);}
+
+  .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:34px;}
+  .seg-card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;}
+  .seg-name{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+  .seg-note{font-size:13px;line-height:1.5;color:var(--text);}
+
+  /* OPTIONAL MODULE: price target range + analyst revision table */
+  .pt-box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:34px;}
+  .pt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px;}
+  .pt-item{text-align:center;}
+  .pt-item .pt-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+  .pt-item .pt-val{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:26px;font-weight:600;}
+  .pt-bar{position:relative;height:10px;background:var(--panel2);border-radius:6px;margin:18px 0 10px;}
+  .pt-bar .range{position:absolute;top:0;bottom:0;background:linear-gradient(90deg, rgba(224,104,90,0.5), rgba(212,167,44,0.6), rgba(79,190,142,0.5));border-radius:6px;left:0;width:100%;}
+  .pt-bar .marker{position:absolute;top:-6px;width:2px;height:22px;background:var(--text);}
+  .pt-bar .marker::after{content:attr(data-label);position:absolute;top:24px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:11px;color:var(--text);white-space:nowrap;}
+  .pt-table{width:100%;border-collapse:collapse;margin-top:36px;font-size:13px;}
+  .pt-table th{text-align:left;font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;padding:6px 10px;border-bottom:1px solid var(--line);}
+  .pt-table td{padding:7px 10px;border-bottom:1px solid rgba(42,49,80,0.5);font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;}
+  .pt-table td:first-child{font-family:'Inter','Poppins','Liberation Sans',sans-serif;}
+
+  /* OPTIONAL MODULE: SWOT (strengths / opportunities / weaknesses / threats) */
+  .swot{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px;}
+  .swot-card{border-radius:10px;padding:18px 20px;border:1px solid var(--line);}
+  .swot-card h4{margin:0 0 10px;font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans',sans-serif;font-size:16px;letter-spacing:.04em;text-transform:uppercase;}
+  .swot-card ul{margin:0;padding-left:16px;font-size:13px;line-height:1.55;color:var(--text);}
+  .swot-card li{margin-bottom:5px;}
+  .swot-s{background:rgba(79,190,142,0.06);border-color:rgba(79,190,142,0.3);} .swot-s h4{color:var(--green);}
+  .swot-o{background:rgba(232,163,61,0.06);border-color:rgba(232,163,61,0.3);} .swot-o h4{color:var(--accent);}
+  .swot-w{background:rgba(140,147,176,0.08);border-color:rgba(140,147,176,0.3);} .swot-w h4{color:var(--muted);}
+  .swot-t{background:rgba(224,104,90,0.06);border-color:rgba(224,104,90,0.3);} .swot-t h4{color:var(--red);}
+
+  .footer{border-top:1px solid var(--line);padding-top:18px;margin-top:10px;font-size:11.5px;color:var(--muted);font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+  @media(max-width:640px){
+    .verdict{grid-template-columns:1fr;}
+    .verdict>div{border-left:none;border-top:1px solid var(--line);}
+    .verdict>div:first-child{border-top:none;}
+    .flow{flex-direction:column;}
+    .flow-node:first-child{border-radius:10px 10px 0 0;}
+    .flow-node:last-child{border-radius:0 0 10px 10px;}
+    .flow-node:not(:first-child){border-left:1px solid var(--line);border-top:none;}
+    .arrow{transform:rotate(90deg);padding:2px 0;}
+    .grid2{grid-template-columns:1fr;}
+    .seg{grid-template-columns:1fr;}
+    .swot{grid-template-columns:1fr;}
+    table{font-size:12px;}
+  }
+
+  .ia{background:var(--panel2);border:1px solid var(--accent);border-radius:10px;padding:18px 22px;margin-bottom:34px;}
+  .ia h3{font-family:'Barlow Condensed','DejaVu Sans Condensed','Liberation Sans',sans-serif;margin:0 0 10px;font-size:15px;color:var(--accent);}
+  .ia-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:10px;}
+  .ia-grid div{font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:17px;font-weight:600;}
+  .ia-grid span{display:block;font-family:'Inter','Poppins','Liberation Sans',sans-serif;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:400;margin-bottom:4px;}
+  .ia p,.mgmt p{font-size:13px;line-height:1.55;margin:6px 0;}
+  .mgmt{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin-bottom:34px;}
+  .mgmt ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.6;}
+  .pt-bar .marker.lo::after{left:0;transform:none;}
+  .pt-bar .marker.hi::after{left:auto;right:0;transform:none;}
+  .flag{color:var(--muted);font-size:11.5px;}
+  @media(max-width:640px){.ia-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <div class="ticker">NYSE: ENS — EnerSys</div>
+      <h1>Q2 FY2027 Results</h1>
+      <div class="sub">Quarter ended 4 Oct 2026 · reported 11 Nov 2026 after the close; call 12 Nov</div>
+    </div>
+    <div class="datebox"><b>Quarter ended</b>4 Oct 2026<br>vs. Q2 FY2026</div>
+  </div>
+
+  <div class="verdict">
+    <div><div class="vlabel">Verdict</div><div class="vmain">EPS in range, sales below the company's own guide</div><div class="vsmall">Tax credits carry a large share of the earnings</div></div>
+    <div><div class="vlabel">Stock reaction</div><div class="vmain" style="color:var(--red);">−3.1%</div><span class="stamp miss">FADED ON DAY TWO</span><div class="vsmall">11 Nov $147.65 → 12 Nov $147.80 → 13 Nov $143.00</div></div>
+    <div><div class="vlabel">Revenue vs. consensus</div><div class="vmain">$949.9M <span style="color:var(--muted);font-size:14px;">/ ~$968M est.†</span></div><span class="stamp miss">MISS ≈ −1.9%† · BELOW $955–995M GUIDE</span></div>
+  </div>
+
+  <div class="pipeline">
+    <h2>Adjusted EPS landed in range, but sales were flat, missed the company's own guide, and the Q3 outlook steps down.</h2>
+    <div class="flow">
+      <div class="flow-node"><div class="fn-label">Q2 FY2026 adj. EPS</div><div class="fn-val">≈$2.65</div><div class="fn-sub">derived from +21.5%</div></div>
+      <div class="arrow">→</div>
+      <div class="flow-node"><div class="fn-label">Q2 FY2027 adj. EPS</div><div class="fn-val">$3.22</div><div class="fn-sub">Guide $3.15–3.25; ≈$2.06 without 45X credits and tariff refunds†</div></div>
+      <div class="arrow">→</div>
+      <div class="flow-node hi"><div class="fn-label">Q3 FY2027 guide</div><div class="fn-val" style="color:var(--red);">$3.05–3.15</div><div class="fn-sub">Revenue $935–975M</div></div>
+    </div>
+  </div>
+
+  <div class="section-title">Why a beat on EPS did not lift the stock</div>
+  <div class="section-note"></div>
+  <div class="grid2">
+    <div class="card"><h3>Supportive</h3><ul><li>Adjusted EPS $3.22 (+21.5%), in the top half of the $3.15–3.25 guide; GAAP EPS $2.42 (+34%).</li><li>Defense-heavy PPS sales $104M, +21%.</li><li>NIS (data-centre and telecom power) $449M, +3%.</li><li>Ultralife acquisition† adds defense and specialty batteries.</li></ul></div>
+    <div class="card"><h3>What weighed on it</h3><ul><li>Net sales $949.9M, −0.1% y/y and below the $955–995M guide (FX cited).</li><li>IRC 45X manufacturing credits were $44.4M; without them and tariff refunds, adjusted EPS is about $2.06†.</li><li>Q3 guide: adjusted EPS $3.05–3.15, below the Q2 print.</li><li>45X credits depend on US policy; a valuation built on reported EPS over-weights them.</li></ul></div>
+  </div>
+
+  <div class="section-title">Key figures</div>
+  <div class="section-note">USD millions except EPS. Prior-year values marked "derived" are calculated from the reported growth rate.</div>
+  <table>
+    <thead><tr><th>Metric</th><th>Q2 FY2026</th><th>Q2 FY2027</th><th>YoY Δ</th></tr></thead>
+    <tbody>
+      <tr><td>Net sales</td><td>951.3</td><td>949.9</td><td class="neg">−0.1%</td></tr>
+      <tr class="hlrow"><td>GAAP diluted EPS</td><td>≈$1.81 (derived)</td><td>$2.42</td><td class="pos">+34%</td></tr>
+      <tr class="hlrow"><td>Adjusted diluted EPS</td><td>≈$2.65 (derived)</td><td>$3.22</td><td class="pos">+21.5%</td></tr>
+      <tr><td>IRC 45X credits</td><td>—</td><td>44.4</td><td class="">n/a</td></tr>
+      <tr><td>Adj. EPS ex 45X and tariff refunds†</td><td>—</td><td>≈$2.06</td><td class="">n/a</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">Sales by segment</div>
+  <div class="section-note">Q2 FY2027, year-over-year change</div>
+  <div class="seg"><div class="seg-card"><div class="seg-name">NIS</div>
+      <div class="seg-note" style="font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:19px;color:var(--text);">$449M</div>
+      <div class="seg-note" style="margin-top:4px;color:var(--green);">+3% · network and data-centre power</div></div><div class="seg-card"><div class="seg-name">PPS</div>
+      <div class="seg-note" style="font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:19px;color:var(--text);">$104M</div>
+      <div class="seg-note" style="margin-top:4px;color:var(--green);">+21% · defense batteries</div></div><div class="seg-card"><div class="seg-name">Other segments</div>
+      <div class="seg-note" style="font-family:'IBM Plex Mono','DejaVu Sans Mono','Liberation Mono',monospace;font-size:19px;color:var(--text);">≈$397M</div>
+      <div class="seg-note" style="margin-top:4px;color:var(--muted);">derived remainder of total sales</div></div></div>
+
+  
+
+  <div class="section-title">What management said</div>
+  <div class="section-note">From published summaries of the release and call. The call transcript was not read in full for this report.</div>
+  <div class="mgmt"><ul><li>Q3 FY2027 guide: revenue $935–975M, adjusted EPS $3.05–3.15.</li><li>Sales shortfall versus guidance attributed to FX.</li><li>Ultralife acquisition announced to build out defense and specialty batteries†.</li></ul></div>
+
+  <div class="ia">
+    <h3>InvestorAce read</h3>
+    <div class="ia-grid">
+      <div><span>Automatic label</span>Buy</div>
+      <div><span>Opportunity score</span>7.34</div>
+      <div><span>Buy up to</span>$203.69</div>
+      <div><span>Last close</span>$143.00</div>
+    </div>
+    <p>The price is 30% below the Buy-up-to, so price is not the risk to the label. The question is quality of earnings: if the valuation input treats 45X credits as recurring, the P/E looks cheaper than the business is. A low P/E alone is not enough for a Buy; flat sales and a lower Q3 guide make a score drift down more likely than up.</p>
+    <p class="flag">Automatic model label from the 13 Nov 2026 build, not an independently approved purchase recommendation. Analyst review status is shown separately on the scoreboard.</p>
+  </div>
+
+  <div class="footer">
+    <span>Source: EnerSys Q2 FY2027 earnings release (11 Nov 2026) as reported by financial press; prices from the InvestorAce build.<br>† not cross-checked against the primary filing. "derived" = calculated from the reported growth rate.</span>
+    <span>Not financial advice</span>
+  </div>
+</div>
+</body>
+</html>
