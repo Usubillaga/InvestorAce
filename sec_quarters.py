@@ -64,6 +64,8 @@ def newer_packet(facts, metrics, cik, today):
         depreciation=dep,
         operating_cash_flow=metrics.get('operating_cash_flow'), capex=metrics.get('capex'),
         fcf=metrics['fcf'], shares=metrics['shares'],
+        # Same SEC window or unknown; never the older Yahoo window's amount.
+        stock_based_compensation=metrics.get('stock_based_compensation'),
         dividends=-abs(metrics['dividends']) if metrics.get('dividends') is not None else old.get('dividends'),
         debt=metrics['debt'] if metrics.get('debt') is not None else old.get('debt'),
         cash=metrics['cash'] if metrics.get('cash') is not None else old.get('cash'))

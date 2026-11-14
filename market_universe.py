@@ -88,6 +88,7 @@ CAPEX = ('PaymentsToAcquirePropertyPlantAndEquipment', 'PaymentsToAcquireProduct
 DEPRECIATION = ('DepreciationDepletionAndAmortization', 'DepreciationAndAmortization',
                 'DepreciationAmortizationAndAccretionNet', 'Depreciation')
 DIVIDENDS = ('PaymentsOfDividends', 'PaymentsOfDividendsCommonStock')
+STOCK_COMPENSATION = ('ShareBasedCompensation', 'AllocatedShareBasedCompensationExpense')
 NET_INCOME = ('NetIncomeLoss', 'NetIncomeLossAvailableToCommonStockholdersBasic', 'ProfitLoss')
 DILUTED_SHARES = ('WeightedAverageNumberOfDilutedSharesOutstanding',)
 DEBT_TOTAL = ('LongTermDebt',)                      # includes current maturities
@@ -714,6 +715,7 @@ def _flows(companyfacts, revenue_facts, w, today):
         flags.append('CAPEX_NOT_TAGGED' if depreciation is not None else 'CAPEX_AND_DA_MISSING')
     return dict(revenue=revenue, basis=basis, operating=operating, cash_flow=cash_flow,
                 capex=capex, depreciation=depreciation, dividends=measure(DIVIDENDS),
+                stock_compensation=measure(STOCK_COMPENSATION),
                 net_income=measure(NET_INCOME), flags=flags)
 
 
@@ -841,6 +843,8 @@ def company_metrics(companyfacts, today):
                 fcf=cash_flow['value'] - abs(capex['value']) if capex else None,
                 depreciation=depreciation['value'] if depreciation else None,
                 dividends=dividends['value'] if dividends else None,
+                stock_based_compensation=(flows['stock_compensation']['value']
+                                          if flows.get('stock_compensation') else None),
                 net_income=flows['net_income']['value'] if flows.get('net_income') else None,
                 dividends_verified=dividends is not None and dividends['value'] >= 0,
                 shares=shares, shares_basis=shares_basis, share_change_pct=change,

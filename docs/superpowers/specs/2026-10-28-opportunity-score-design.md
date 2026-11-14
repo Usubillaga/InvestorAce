@@ -55,3 +55,15 @@ Validation: behavioral regression fixtures for discounted quality, expensive
 quality, cash/debt traps, commodity normalization, missing inputs, changing
 regimes, stale quotes, label boundaries and frontend expiry; then full Python,
 JavaScript, lint and desktop/mobile checks. Publish through a tested PR.
+
+Stock-based compensation (2026-11-14): operating cash flow adds stock pay
+back, so OCF - capex overstated owner cash flow for heavy issuers. The
+valuation cash flow now deducts the same-window amount (Yahoo 'Stock Based
+Compensation', SEC ShareBasedCompensation after a catch-up, the cycle-year mean
+for commodity rows). Weights do not change. Replay of the 2026-11-14 build with
+aggregator TTM figures (not issuer filings): ADBE 8.36 -> 8.20 and Buy-up-to
+419 -> 366; INTU 7.96 -> 7.72 and 506 -> 422; TTD 7.63 -> 6.86, Buy -> Hold
+Positive, 24.69 -> 14.53; GDDY score unchanged, 227 -> 200; GEN 8.24 -> 8.10,
+47.20 -> 43.34. Rejected in the same review: regime-dependent weights and fixed
+point penalties for an EPV gap (no calibration), and a pre-earnings buy block
+(contradicts the announcement-premium evidence behind the trading rules).

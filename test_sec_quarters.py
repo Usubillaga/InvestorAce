@@ -44,6 +44,15 @@ class SecQuarterTests(unittest.TestCase):
         stale = sec_quarters.newer_packet(dict(YAHOO, inputs=dict(YAHOO['inputs'], depreciation=999e6)),
                                           metrics, 1, TODAY)
         self.assertAlmostEqual(stale['inputs']['depreciation'], 420e6)
+        # No SEC tag in this fixture: the older Yahoo window's stock pay is not carried over.
+        carried = sec_quarters.newer_packet(dict(YAHOO, inputs=dict(YAHOO['inputs'], stock_based_compensation=5e8)),
+                                            metrics, 1, TODAY)
+        self.assertIsNone(carried['inputs']['stock_based_compensation'])
+        tagged = calendar_company()
+        gaap = tagged['facts']['us-gaap']
+        gaap['ShareBasedCompensation'] = copy.deepcopy(gaap['PaymentsOfDividends'])
+        same_window = sec_quarters.newer_packet(YAHOO, mu.company_metrics(tagged, TODAY), 1, TODAY)
+        self.assertAlmostEqual(same_window['inputs']['stock_based_compensation'], 300e6 + 160e6 - 150e6)
         self.assertEqual(packet['inputs']['shares'], 97e6)
         self.assertLess(packet['inputs']['dividends'], 0)
         self.assertEqual(packet['yahoo_financial_period'], '2026-03-31')

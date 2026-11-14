@@ -30,6 +30,11 @@ review; v18 keeps its structure and changes the weights below.
   Issuer bridges in `source_reviews.json` are dated per reporting window and
   never roll forward; the build's input-gap list names the windows that need
   a new issuer check.
+- The valuation cash flow (FCF yield, reverse DCF, no-growth value, Buy-up-to)
+  deducts same-window stock-based compensation, which operating cash flow adds
+  back. An unreported amount is not estimated: nothing is deducted and the
+  output says so. Reported cash ratios (FCF margin, cash conversion) and the
+  component weights are unchanged.
 - Antero Resources, Zoetis and WKL are calibration cases for behavior, not
   hardcoded recommendations. Commodity peak multiples do not substitute for
   multi-year valuation inputs. A low P/E alone is insufficient.

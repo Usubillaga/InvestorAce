@@ -375,3 +375,53 @@ class BetaFloorTests(unittest.TestCase):
         normal = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
         self.assertAlmostEqual(normal['parameters']['discount_rate_pct'], 100 * (.05 + 1.1 * .05))
         self.assertFalse(any('floor' in w for w in normal['warnings']))
+
+
+class StockCompensationTests(unittest.TestCase):
+    """Operating cash flow adds stock pay back; the valuation cash flow deducts it."""
+    def module(self):
+        return importlib.import_module('live_analysis')
+
+    def fixture(self, sbc):
+        ticker = ticker_fixture()
+        if sbc is not None:
+            ticker.cashflow.loc['Stock Based Compensation'] = sbc
+        return ticker
+
+    def test_same_window_stock_pay_is_deducted_from_the_valuation_cash_flow_only(self):
+        m = self.module()
+        plain = m.calculate(m.extract(self.fixture(None), 'X', as_of=ASOF), risk_free=.05, mrp=.05, as_of=ASOF)
+        facts = m.extract(self.fixture([25e6, 20e6, 15e6]), 'X', as_of=ASOF)
+        self.assertEqual(facts['inputs']['stock_based_compensation'], 25e6)
+        result = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertEqual(result['inputs']['fcf_before_stock_compensation'], 100e6)
+        self.assertEqual(result['inputs']['valuation_fcf'], 75e6)
+        self.assertEqual(result['parameters']['stock_compensation_basis'], 'SAME_WINDOW_DEDUCTED')
+        self.assertAlmostEqual(result['valuation']['ngv_per_share'], .75 * plain['valuation']['ngv_per_share'])
+        self.assertAlmostEqual(result['metrics']['fcf_yield_pct'], .75 * plain['metrics']['fcf_yield_pct'])
+        # Reported cash ratios keep the reported cash flow.
+        self.assertEqual(result['metrics']['fcf_margin_pct'], plain['metrics']['fcf_margin_pct'])
+        self.assertEqual(result['inputs']['fcf'], 100e6)
+
+    def test_unreported_stock_pay_stays_unknown_and_is_never_estimated(self):
+        m = self.module()
+        result = m.calculate(m.extract(self.fixture(None), 'X', as_of=ASOF), risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertEqual(result['inputs']['valuation_fcf'], 100e6)
+        self.assertIsNone(result['inputs']['valuation_stock_compensation'])
+        self.assertEqual(result['parameters']['stock_compensation_basis'], 'NOT_REPORTED')
+        self.assertTrue(any('Stock-based compensation is not reported' in w for w in result['warnings']))
+        old = m.extract(self.fixture(None), 'X', as_of=ASOF)
+        del old['inputs']['stock_based_compensation'], old['annual_sbc_series']    # facts stored before this field
+        self.assertEqual(m.calculate(old, risk_free=.05, mrp=.05, as_of=ASOF)['inputs']['valuation_fcf'], 100e6)
+
+    def test_cycle_mean_deducts_the_same_years_or_nothing(self):
+        m = self.module()
+        facts = m.extract(self.fixture([30e6, 20e6, 10e6]), 'DVN', as_of=ASOF)
+        facts.update(midcycle=True)
+        result = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertEqual(result['inputs']['valuation_fcf'], 100e6 - 20e6)
+        self.assertEqual(result['parameters']['stock_compensation_basis'], 'CYCLE_MEAN_DEDUCTED')
+        facts['annual_sbc_series'][1]['value'] = None
+        partial = m.calculate(facts, risk_free=.05, mrp=.05, as_of=ASOF)
+        self.assertEqual(partial['inputs']['valuation_fcf'], 100e6)
+        self.assertEqual(partial['parameters']['stock_compensation_basis'], 'NOT_REPORTED')
