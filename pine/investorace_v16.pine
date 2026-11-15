@@ -1,0 +1,126 @@
+//@version=5
+// InvestorAce · Claude's trading rules v1.6 for one symbol (active_rules.py)
+//
+// Runs in TradingView's Strategy Tester on the free Basic plan: add it to a
+// daily chart and open "Strategy Tester". It applies the price rules of the
+// active paper account to the symbol on the chart.
+//
+// What it cannot know: the InvestorAce label (Buy/Strong Buy), earnings
+// reactions, sector caps and the eight-position limit. Set "InvestorAce label
+// is Buy or Strong Buy" yourself; the backtest assumes the label held over the
+// whole period, which flatters the result.
+//
+// Fills: TradingView fills at the next bar's open. The paper account fills at
+// the close of the session after the build, so results differ slightly.
+// Not investment advice. A backtest of one symbol is not evidence of an edge.
+strategy("InvestorAce · rules v1.6", overlay=true, initial_capital=10000,
+     commission_type=strategy.commission.percent, commission_value=0.1,
+     default_qty_type=strategy.fixed, pyramiding=0)
+
+// ---- inputs (defaults = active_rules.py)
+labelOk     = input.bool(true, "InvestorAce label is Buy or Strong Buy")
+marketSym   = input.symbol("SP:SPX", "Market index for the trend filter")
+riskPct     = input.float(1.0, "Risk per trade % of equity", step=0.25)
+maxPosPct   = input.float(20.0, "Max position % of equity", step=1.0)
+stopUp      = input.float(8.0, "Stop % (market uptrend)", step=0.5)
+stopDown    = input.float(5.0, "Stop % (market correction)", step=0.5)
+breakevenAt = input.float(10.0, "Move stop to entry after +%", step=1.0)
+trailAt     = input.float(20.0, "Trail after +%", step=1.0)
+trailPct    = input.float(10.0, "Trail % under the highest close", step=1.0)
+fastGain    = input.float(20.0, "8-week rule: gain %", step=1.0)
+fastBars    = input.int(15, "8-week rule: within sessions")
+holdBars    = input.int(40, "8-week rule: hold sessions")
+failBars    = input.int(10, "Failed breakout: within sessions")
+failZone    = input.float(3.0, "Failed breakout: % under the old high", step=0.5)
+maxExtAtr   = input.float(3.0, "Max extension over the 21-day EMA (ATR)", step=0.5)
+maxHold     = input.int(252, "Max hold (sessions)")
+cooldown    = input.int(10, "No re-entry for sessions after a sale")
+
+// ---- levels (timing.py)
+sma36  = ta.sma(close, 36)
+sma50  = ta.sma(close, 50)
+sma200 = ta.sma(close, 200)
+ema21  = ta.ema(close, 21)
+atr14  = ta.rma(ta.tr(true), 14)
+ext    = (close - ema21) / atr14
+// Resistance: highest close of the 60 sessions that end 5 sessions ago.
+resistance = ta.highest(close[5], 60)
+
+mClose  = request.security(marketSym, "D", close, lookahead=barmerge.lookahead_off)
+mSma200 = request.security(marketSym, "D", ta.sma(close, 200), lookahead=barmerge.lookahead_off)
+uptrend = mClose > mSma200
+stopPct = (uptrend ? stopUp : stopDown) / 100
+
+// ---- position state
+var float entryPx   = na
+var float peak      = na
+var float breakLvl  = na
+var int   entryBar  = na
+var bool  wasFast   = false
+var int   exitBar   = na
+
+inPos = strategy.position_size > 0
+if inPos and na(entryBar)
+    entryPx  := strategy.position_avg_price
+    entryBar := bar_index
+    peak     := close
+    wasFast  := false
+if not inPos and not na(entryBar)
+    exitBar  := bar_index
+    entryBar := na
+    entryPx  := na
+    breakLvl := na
+
+// ---- exits (evaluated on the close, in active_rules.py order)
+var string why = ""
+float floorPx = na
+if inPos
+    held = bar_index - entryBar + 1
+    peak := math.max(peak, close)
+    gain = close / entryPx - 1
+    peakGain = peak / entryPx - 1
+    if held <= fastBars + 1 and gain >= fastGain / 100
+        wasFast := true
+    holding = wasFast and held <= holdBars
+    floorPx := entryPx * (1 - stopPct)
+    if peakGain >= breakevenAt / 100
+        floorPx := math.max(floorPx, entryPx)
+    if peakGain >= trailAt / 100 and not holding
+        floorPx := math.max(floorPx, peak * (1 - trailPct / 100))
+    why := ""
+    if close <= floorPx
+        why := "STOP"
+    else if holding
+        why := ""
+    else if not na(breakLvl) and held <= failBars and close < breakLvl * (1 - failZone / 100)
+        why := "FAILED_BREAKOUT"
+    else if not labelOk
+        why := "LABEL"
+    else if close < sma200
+        why := "TREND"
+    else if close < sma50 and gain < 0
+        why := "SMA50"
+    else if held >= maxHold
+        why := "MAX_HOLD"
+    if why != ""
+        strategy.close("Long", comment=why)
+
+// ---- entry
+cooled = na(exitBar) or bar_index - exitBar > cooldown
+entryOk = labelOk and uptrend and cooled and not inPos
+     and close > sma36 and close > sma50 and close > sma200
+     and ext >= 0 and ext <= maxExtAtr
+if entryOk
+    eq = strategy.equity
+    qty = math.floor(math.min(eq * riskPct / 100 / (stopPct * close), eq * maxPosPct / 100 / close))
+    if qty >= 1
+        breakLvl := close > resistance ? resistance : na
+        strategy.entry("Long", strategy.long, qty=qty, comment=close > resistance ? "ENTRY breakout" : "ENTRY")
+
+// ---- chart
+plot(floorPx, "Stop", color=color.new(color.red, 0), style=plot.style_linebr)
+plot(sma36, "SMA 36", color=color.new(color.yellow, 30))
+plot(sma50, "SMA 50", color=color.new(color.orange, 30))
+plot(sma200, "SMA 200", color=color.new(color.blue, 20), linewidth=2)
+plot(resistance, "Resistance (60 sessions)", color=color.new(color.gray, 50), style=plot.style_stepline)
+bgcolor(uptrend ? na : color.new(color.red, 92), title="Market correction")
