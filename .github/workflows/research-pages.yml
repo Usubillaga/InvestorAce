@@ -17,6 +17,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: write               # delete this run's Pages artifact after deploying
 
 # Share the scoreboard's Pages lock, and read main after any earlier deploy.
 concurrency:
@@ -49,3 +50,16 @@ jobs:
           path: public
       - id: deployment
         uses: actions/deploy-pages@v5
+      - name: Delete the Pages artifact once deployed
+        # The site artifact (about 64 MB) otherwise counts against the account's
+        # Actions storage for its one-day retention, after every deploy.
+        if: success()
+        continue-on-error: true     # the site is live; a failed cleanup must not mark the deploy red
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const {data} = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id: context.runId});
+            for (const artifact of data.artifacts.filter(a => a.name === 'github-pages')) {
+              await github.rest.actions.deleteArtifact({owner, repo, artifact_id: artifact.id});
+            }
