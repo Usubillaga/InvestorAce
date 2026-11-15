@@ -54,6 +54,7 @@ jobs:
         # The site artifact (about 64 MB) otherwise counts against the account's
         # Actions storage for its one-day retention, after every deploy.
         if: success()
+        continue-on-error: true     # the site is live; a failed cleanup must not mark the deploy red
         uses: actions/github-script@v8
         with:
           script: |
