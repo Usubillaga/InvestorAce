@@ -3,7 +3,7 @@
  "entries": {
   "ADBE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ADBE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -159,8 +159,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.383,
-   "quote_price": 243.08,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 247.355,
+   "quote_observed_at": "2026-11-16T15:14:35+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.8299997999999995,
@@ -289,7 +289,7 @@
   },
   "ASML.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ASML.AS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -445,8 +445,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 1.333,
-   "quote_price": 1325.0,
-   "quote_observed_at": "2026-11-16T10:17:07+00:00",
+   "quote_price": 1299.0,
+   "quote_observed_at": "2026-11-16T14:59:36+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -575,7 +575,7 @@
   },
   "RIVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "RIVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -731,8 +731,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.644,
-   "quote_price": 12.18,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 12.2006,
+   "quote_observed_at": "2026-11-16T15:14:37+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 15.14,
@@ -869,7 +869,7 @@
   },
   "ROAD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ROAD",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -1025,8 +1025,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.932,
-   "quote_price": 80.75,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 79.33,
+   "quote_observed_at": "2026-11-16T15:13:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 7.1499999999999995,
@@ -1147,7 +1147,7 @@
   },
   "CRM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CRM",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1161,7 +1161,7 @@
     "revenue": 43938000000.0,
     "operating_income": 9455000000.0,
     "net_income": 9662000000.0,
-    "ebitda": 16588000000.0,
+    "ebitda": null,
     "operating_cash_flow": 15750000000.0,
     "capex": 596000000.0,
     "fcf": 15154000000.0,
@@ -1303,8 +1303,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.233,
-   "quote_price": 217.84,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 215.49,
+   "quote_observed_at": "2026-11-16T15:14:39+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.6799999999999997,
@@ -1441,7 +1441,7 @@
   },
   "NVDA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "NVDA",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -1597,8 +1597,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.247,
-   "quote_price": 162.85,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 160.09,
+   "quote_observed_at": "2026-11-16T15:14:42+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.21,
@@ -1735,7 +1735,7 @@
   },
   "SPGI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "SPGI",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -1891,8 +1891,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.033,
-   "quote_price": 473.59,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 472.74,
+   "quote_observed_at": "2026-11-16T15:14:25+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.52,
@@ -2029,7 +2029,7 @@
   },
   "SAN.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "SAN.PA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2185,8 +2185,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.256,
-   "quote_price": 87.79,
-   "quote_observed_at": "2026-11-16T10:16:50+00:00",
+   "quote_price": 88.5,
+   "quote_observed_at": "2026-11-16T14:59:36+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": null,
@@ -2315,7 +2315,7 @@
   },
   "APP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "APP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -2471,8 +2471,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.498,
-   "quote_price": 409.1,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 411.28,
+   "quote_observed_at": "2026-11-16T15:14:44+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.83,
@@ -2633,8 +2633,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.537,
-   "quote_price": 108.52,
-   "quote_observed_at": "2026-11-13T21:02:23+00:00",
+   "quote_price": 109.78,
+   "quote_observed_at": "2026-11-16T15:14:38+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.23000005,
@@ -2731,7 +2731,7 @@
   },
   "WKL.AS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "WKL.AS",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -2859,8 +2859,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.2,
-   "quote_price": 90.88,
-   "quote_observed_at": "2026-11-16T10:15:40+00:00",
+   "quote_price": 90.84,
+   "quote_observed_at": "2026-11-16T14:59:38+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -2989,7 +2989,7 @@
   },
   "MC.PA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "MC.PA",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -3117,8 +3117,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.896,
-   "quote_price": 405.55,
-   "quote_observed_at": "2026-11-16T10:17:14+00:00",
+   "quote_price": 405.2,
+   "quote_observed_at": "2026-11-16T14:59:38+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -3247,7 +3247,7 @@
   },
   "UBER": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "UBER",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3403,8 +3403,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.308,
-   "quote_price": 69.69,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 70.07,
+   "quote_observed_at": "2026-11-16T15:14:49+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.3,
@@ -3541,7 +3541,7 @@
   },
   "AVGO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "AVGO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -3697,8 +3697,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.508,
-   "quote_price": 347.01,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 330.38,
+   "quote_observed_at": "2026-11-16T15:14:52+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.11,
@@ -3819,7 +3819,7 @@
   },
   "ONON": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ONON",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -3975,8 +3975,8 @@
    "financial_currency": "CHF",
    "currency": "USD",
    "beta": 2.079,
-   "quote_price": 33.63,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 32.8836,
+   "quote_observed_at": "2026-11-16T15:14:50+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 11.63,
@@ -4105,7 +4105,7 @@
   },
   "PFE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "PFE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4286,8 +4286,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.297,
-   "quote_price": 28.89,
-   "quote_observed_at": "2026-11-13T21:01:24+00:00",
+   "quote_price": 29.195,
+   "quote_observed_at": "2026-11-16T15:14:57+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.3599999,
@@ -4424,7 +4424,7 @@
   },
   "ROL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ROL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -4580,8 +4580,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.72,
-   "quote_price": 38.88,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 39.0,
+   "quote_observed_at": "2026-11-16T15:14:39+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.25,
@@ -4718,7 +4718,7 @@
   },
   "LULU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "LULU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -4874,8 +4874,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.841,
-   "quote_price": 105.65,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 106.4,
+   "quote_observed_at": "2026-11-16T15:14:58+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 13.22,
@@ -5012,7 +5012,7 @@
   },
   "PL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "PL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -5193,8 +5193,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.27,
-   "quote_price": 13.81,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 13.32,
+   "quote_observed_at": "2026-11-16T15:15:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 12.04,
@@ -5331,7 +5331,7 @@
   },
   "MSFT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "MSFT",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5487,8 +5487,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.045,
-   "quote_price": 523.88,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 518.995,
+   "quote_observed_at": "2026-11-16T15:15:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.8200000000000001,
@@ -5509,7 +5509,7 @@
    "shares_basis": "YAHOO_CURRENT_SNAPSHOT_UNDATED",
    "shares_asof": null,
    "revenue_growth_pct": 17.788686799846666,
-   "share_change_pct": -0.07699527634038583,
+   "share_change_pct": -0.09629408426985453,
    "annual_fcf_growth_pct": -6.457108544776635,
    "revenue_growth_periods": [
     "2026-06-30",
@@ -5617,7 +5617,7 @@
   },
   "AAPL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "AAPL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -5773,8 +5773,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.089,
-   "quote_price": 356.27,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 354.1829,
+   "quote_observed_at": "2026-11-16T15:15:04+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.0,
@@ -5934,8 +5934,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.269,
-   "quote_price": 99.25,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 100.32,
+   "quote_observed_at": "2026-11-16T15:15:07+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.11,
@@ -6028,7 +6028,7 @@
   },
   "CVX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CVX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -6184,8 +6184,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.453,
-   "quote_price": 219.89,
-   "quote_observed_at": "2026-11-13T21:00:47+00:00",
+   "quote_price": 217.46,
+   "quote_observed_at": "2026-11-16T15:15:06+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.35,
@@ -6314,7 +6314,7 @@
   },
   "AMAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "AMAT",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -6470,8 +6470,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.673,
-   "quote_price": 370.5,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 353.79,
+   "quote_observed_at": "2026-11-16T15:15:08+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.83,
@@ -6600,7 +6600,7 @@
   },
   "PHR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "PHR",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -6781,8 +6781,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.725,
-   "quote_price": 12.69,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 12.7799,
+   "quote_observed_at": "2026-11-16T15:14:37+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 5.9899997,
@@ -6919,7 +6919,7 @@
   },
   "RCAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "RCAT",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -7075,8 +7075,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.675,
-   "quote_price": 3.8,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 3.625,
+   "quote_observed_at": "2026-11-16T15:15:10+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 28.000000000000004,
@@ -7197,7 +7197,7 @@
   },
   "ADSK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ADSK",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -7353,8 +7353,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.245,
-   "quote_price": 264.42,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 267.37,
+   "quote_observed_at": "2026-11-16T15:15:07+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.9000002,
@@ -7588,7 +7588,7 @@
   },
   "GILD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "GILD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -7744,8 +7744,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.372,
-   "quote_price": 168.08,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 170.59,
+   "quote_observed_at": "2026-11-16T15:15:11+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.72,
@@ -7874,7 +7874,7 @@
   },
   "AG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "AG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8030,8 +8030,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.191,
-   "quote_price": 13.65,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 12.98,
+   "quote_observed_at": "2026-11-16T15:15:15+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -8168,7 +8168,7 @@
   },
   "BABA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "BABA",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -8324,8 +8324,8 @@
    "financial_currency": "CNY",
    "currency": "USD",
    "beta": 0.401,
-   "quote_price": 94.38,
-   "quote_observed_at": "2026-11-13T21:01:56+00:00",
+   "quote_price": 91.905,
+   "quote_observed_at": "2026-11-16T15:15:16+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.53,
@@ -8454,7 +8454,7 @@
   },
   "BYRN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "BYRN",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -8635,8 +8635,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.785,
-   "quote_price": 3.85,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 3.7001,
+   "quote_observed_at": "2026-11-16T15:14:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 10.3999995,
@@ -8773,7 +8773,7 @@
   },
   "FSLR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "FSLR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -8929,8 +8929,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.709,
-   "quote_price": 171.39,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 165.16,
+   "quote_observed_at": "2026-11-16T15:15:16+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 13.66,
@@ -9067,7 +9067,7 @@
   },
   "SITE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "SITE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9223,8 +9223,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.299,
-   "quote_price": 112.57,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 112.14,
+   "quote_observed_at": "2026-11-16T15:14:37+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.35,
@@ -9353,7 +9353,7 @@
   },
   "TSLA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "TSLA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9509,8 +9509,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.743,
-   "quote_price": 390.22,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 376.715,
+   "quote_observed_at": "2026-11-16T15:15:22+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.0299999,
@@ -9647,7 +9647,7 @@
   },
   "PG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "PG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -9803,8 +9803,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.361,
-   "quote_price": 169.8,
-   "quote_observed_at": "2026-11-13T21:02:17+00:00",
+   "quote_price": 173.1,
+   "quote_observed_at": "2026-11-16T15:15:21+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.97,
@@ -9933,7 +9933,7 @@
   },
   "CSGP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CSGP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10089,8 +10089,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.78,
-   "quote_price": 30.96,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 30.835,
+   "quote_observed_at": "2026-11-16T15:15:20+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.1300000000000003,
@@ -10227,7 +10227,7 @@
   },
   "OXY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "OXY",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10383,8 +10383,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.149,
-   "quote_price": 58.75,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 57.74,
+   "quote_observed_at": "2026-11-16T15:15:21+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.02,
@@ -10521,7 +10521,7 @@
   },
   "SPCX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "SPCX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10652,8 +10652,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": null,
-   "quote_price": 139.11,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 136.8305,
+   "quote_observed_at": "2026-11-16T15:15:26+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.0599999,
@@ -10758,7 +10758,7 @@
   },
   "REP.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "REP.MC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -10914,8 +10914,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": -0.181,
-   "quote_price": 30.82,
-   "quote_observed_at": "2026-11-16T10:17:33+00:00",
+   "quote_price": 30.33,
+   "quote_observed_at": "2026-11-16T15:00:24+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -11036,7 +11036,7 @@
   },
   "AWK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "AWK",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11192,8 +11192,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.545,
-   "quote_price": 149.6,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 151.68,
+   "quote_observed_at": "2026-11-16T15:15:30+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 10.459999999999999,
@@ -11330,7 +11330,7 @@
   },
   "MRVL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "MRVL",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -11486,8 +11486,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.327,
-   "quote_price": 156.76,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 145.855,
+   "quote_observed_at": "2026-11-16T15:15:31+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.4799999999999995,
@@ -11624,7 +11624,7 @@
   },
   "AR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "AR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -11780,8 +11780,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.481,
-   "quote_price": 38.74,
-   "quote_observed_at": "2026-11-13T21:00:03+00:00",
+   "quote_price": 37.995,
+   "quote_observed_at": "2026-11-16T15:15:22+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.1500002,
@@ -11918,7 +11918,7 @@
   },
   "DVN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "DVN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12074,8 +12074,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.477,
-   "quote_price": 46.58,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 45.48,
+   "quote_observed_at": "2026-11-16T15:15:29+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.4600001,
@@ -12212,7 +12212,7 @@
   },
   "CNX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CNX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12368,8 +12368,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.594,
-   "quote_price": 36.56,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 36.235,
+   "quote_observed_at": "2026-11-16T15:15:30+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 17.19,
@@ -12506,7 +12506,7 @@
   },
   "MRNA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "MRNA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12662,8 +12662,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.166,
-   "quote_price": 223.37,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 214.95,
+   "quote_observed_at": "2026-11-16T15:15:36+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.99,
@@ -12792,7 +12792,7 @@
   },
   "BNTX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "BNTX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -12948,8 +12948,8 @@
    "financial_currency": "EUR",
    "currency": "USD",
    "beta": 1.331,
-   "quote_price": 85.6,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 86.45,
+   "quote_observed_at": "2026-11-16T15:15:35+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.54,
@@ -13086,7 +13086,7 @@
   },
   "INTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "INTC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13242,8 +13242,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.426,
-   "quote_price": 59.66,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 56.32,
+   "quote_observed_at": "2026-11-16T15:15:40+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.8800000999999997,
@@ -13372,7 +13372,7 @@
   },
   "CRWV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CRWV",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13528,8 +13528,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": null,
-   "quote_price": 53.13,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 49.885,
+   "quote_observed_at": "2026-11-16T15:15:41+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 23.3,
@@ -13650,7 +13650,7 @@
   },
   "NBIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "NBIS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -13831,8 +13831,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.539,
-   "quote_price": 115.88,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 106.88,
+   "quote_observed_at": "2026-11-16T15:15:41+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 19.8,
@@ -13969,7 +13969,7 @@
   },
   "OPEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "OPEN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14125,8 +14125,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 3.784,
-   "quote_price": 1.19,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 1.1399,
+   "quote_observed_at": "2026-11-16T15:15:38+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 27.650000000000002,
@@ -14286,8 +14286,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.331,
-   "quote_price": 171.5,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 167.89,
+   "quote_observed_at": "2026-11-16T15:15:41+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 0.01,
@@ -14378,7 +14378,7 @@
   },
   "TEM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "TEM",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14559,8 +14559,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 3.613,
-   "quote_price": 71.6,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 67.44,
+   "quote_observed_at": "2026-11-16T15:15:43+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 24.09,
@@ -14697,7 +14697,7 @@
   },
   "ISRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ISRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -14853,8 +14853,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.439,
-   "quote_price": 443.59,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 439.79,
+   "quote_observed_at": "2026-11-16T15:15:24+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.0499999,
@@ -14983,7 +14983,7 @@
   },
   "VST": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "VST",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15139,8 +15139,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.375,
-   "quote_price": 133.01,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 129.38,
+   "quote_observed_at": "2026-11-16T15:15:46+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.52,
@@ -15277,7 +15277,7 @@
   },
   "SE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "SE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15433,8 +15433,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.563,
-   "quote_price": 75.36,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 73.45,
+   "quote_observed_at": "2026-11-16T15:15:40+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.6099999,
@@ -15563,7 +15563,7 @@
   },
   "UNH": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "UNH",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -15719,8 +15719,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.52,
-   "quote_price": 407.46,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 412.19,
+   "quote_observed_at": "2026-11-16T15:15:46+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.7399999999999998,
@@ -15857,7 +15857,7 @@
   },
   "CMCSA": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CMCSA",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16013,8 +16013,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.707,
-   "quote_price": 25.16,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 25.645,
+   "quote_observed_at": "2026-11-16T15:15:49+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.8499998,
@@ -16151,7 +16151,7 @@
   },
   "NVO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "NVO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16307,8 +16307,8 @@
    "financial_currency": "DKK",
    "currency": "USD",
    "beta": 0.368,
-   "quote_price": 41.63,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 41.91,
+   "quote_observed_at": "2026-11-16T15:15:48+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.21,
@@ -16437,7 +16437,7 @@
   },
   "META": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "META",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -16593,8 +16593,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.279,
-   "quote_price": 641.69,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 624.6754,
+   "quote_observed_at": "2026-11-16T15:15:49+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.4099999999999997,
@@ -16731,7 +16731,7 @@
   },
   "DIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "DIS",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -16887,8 +16887,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.426,
-   "quote_price": 118.97,
-   "quote_observed_at": "2026-11-13T21:01:20+00:00",
+   "quote_price": 118.9,
+   "quote_observed_at": "2026-11-16T15:15:52+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.2200001,
@@ -17009,7 +17009,7 @@
   },
   "PEP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "PEP",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -17165,8 +17165,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.321,
-   "quote_price": 145.44,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 147.6878,
+   "quote_observed_at": "2026-11-16T15:15:49+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.27,
@@ -17303,7 +17303,7 @@
   },
   "BSX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-15T12:03:36.115107+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "BSX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -17484,8 +17484,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.585,
-   "quote_price": 44.34,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 44.48,
+   "quote_observed_at": "2026-11-16T15:15:53+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.4300002000000003,
@@ -17622,7 +17622,7 @@
   },
   "WIX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "WIX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -17646,7 +17646,7 @@
     "debt": 2021411000.0,
     "cash": 703434000.0,
     "liabilities": 3587900000.0,
-    "shares": 58314152.0
+    "shares": 41849511.0
    },
    "equity_periods": [
     {
@@ -17778,8 +17778,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.027,
-   "quote_price": 67.17,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 65.035,
+   "quote_observed_at": "2026-11-16T15:15:46+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 19.309999,
@@ -17891,8 +17891,8 @@
      "value": 1387666000.0
     }
    ],
-   "listed_class_shares": 58314152.0,
-   "implied_shares": 58314152.0,
+   "listed_class_shares": 41849511.0,
+   "implied_shares": 41849511.0,
    "diluted_average_shares": 42324613.0,
    "cash_growth_periods": [
     "2025-12-31",
@@ -17908,7 +17908,7 @@
   },
   "GRAB": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "GRAB",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18064,8 +18064,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.833,
-   "quote_price": 3.24,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 3.2271,
+   "quote_observed_at": "2026-11-16T15:15:58+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 5.1,
@@ -18202,7 +18202,7 @@
   },
   "NOW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "NOW",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18358,8 +18358,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.984,
-   "quote_price": 102.25,
-   "quote_observed_at": "2026-11-13T21:00:03+00:00",
+   "quote_price": 99.475,
+   "quote_observed_at": "2026-11-16T15:15:57+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.6199998,
@@ -18496,7 +18496,7 @@
   },
   "MCD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "MCD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18652,8 +18652,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.431,
-   "quote_price": 271.97,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 277.25,
+   "quote_observed_at": "2026-11-16T15:16:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.8399999999999999,
@@ -18782,7 +18782,7 @@
   },
   "TTD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "TTD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -18938,8 +18938,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.036,
-   "quote_price": 15.68,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 14.91,
+   "quote_observed_at": "2026-11-16T15:16:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 19.209999,
@@ -19076,7 +19076,7 @@
   },
   "NKE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "NKE",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -19232,8 +19232,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.031,
-   "quote_price": 37.99,
-   "quote_observed_at": "2026-11-13T21:00:03+00:00",
+   "quote_price": 38.485,
+   "quote_observed_at": "2026-11-16T15:16:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.7200006,
@@ -19370,7 +19370,7 @@
   },
   "ZTS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ZTS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -19526,8 +19526,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.678,
-   "quote_price": 83.82,
-   "quote_observed_at": "2026-11-13T21:01:21+00:00",
+   "quote_price": 84.3599,
+   "quote_observed_at": "2026-11-16T15:15:48+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.67,
@@ -19656,7 +19656,7 @@
   },
   "IBST.L": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "IBST.L",
    "financial_period": "2025-12-31",
    "period_ends": [
@@ -19784,8 +19784,8 @@
    "financial_currency": "GBP",
    "currency": "GBp",
    "beta": 0.832,
-   "quote_price": 70.85,
-   "quote_observed_at": "2026-11-16T10:15:36+00:00",
+   "quote_price": 70.5334,
+   "quote_observed_at": "2026-11-16T15:00:09+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -19914,7 +19914,7 @@
   },
   "NFLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "NFLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20070,8 +20070,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.606,
-   "quote_price": 62.15,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 61.475,
+   "quote_observed_at": "2026-11-16T15:16:05+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.25,
@@ -20208,7 +20208,7 @@
   },
   "AMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "AMD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20364,8 +20364,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.542,
-   "quote_price": 534.06,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 509.36,
+   "quote_observed_at": "2026-11-16T15:16:06+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.3599999,
@@ -20502,7 +20502,7 @@
   },
   "GOOGL": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "GOOGL",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -20658,8 +20658,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.226,
-   "quote_price": 295.77,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 286.86,
+   "quote_observed_at": "2026-11-16T15:16:07+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.49,
@@ -20788,7 +20788,7 @@
   },
   "INTU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "INTU",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -20944,8 +20944,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.921,
-   "quote_price": 341.7,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 347.805,
+   "quote_observed_at": "2026-11-16T15:16:04+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.82,
@@ -21082,7 +21082,7 @@
   },
   "CLX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CLX",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -21238,8 +21238,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.581,
-   "quote_price": 109.46,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 109.36,
+   "quote_observed_at": "2026-11-16T15:16:04+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 10.290000000000001,
@@ -21376,7 +21376,7 @@
   },
   "GIS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "GIS",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -21532,8 +21532,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": -0.012,
-   "quote_price": 34.32,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 35.57,
+   "quote_observed_at": "2026-11-16T15:16:05+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 9.120000000000001,
@@ -21662,7 +21662,7 @@
   },
   "O": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "O",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -21818,8 +21818,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.649,
-   "quote_price": 58.82,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 59.18,
+   "quote_observed_at": "2026-11-16T15:16:12+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 5.06,
@@ -21956,7 +21956,7 @@
   },
   "BBW": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "BBW",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -22112,8 +22112,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.084,
-   "quote_price": 29.4,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 29.47,
+   "quote_observed_at": "2026-11-16T15:15:56+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 25.679999999999996,
@@ -22250,7 +22250,7 @@
   },
   "BKNG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "BKNG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -22406,8 +22406,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.153,
-   "quote_price": 159.58,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 158.36,
+   "quote_observed_at": "2026-11-16T15:16:16+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.32,
@@ -22544,7 +22544,7 @@
   },
   "MO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "MO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -22700,8 +22700,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.463,
-   "quote_price": 78.64,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 79.205,
+   "quote_observed_at": "2026-11-16T15:16:43+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.4400001000000002,
@@ -22838,7 +22838,7 @@
   },
   "SMCI": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "SMCI",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -22994,8 +22994,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.181,
-   "quote_price": 26.865,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 25.255,
+   "quote_observed_at": "2026-11-16T15:17:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 12.68,
@@ -23124,7 +23124,7 @@
   },
   "CEG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CEG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -23280,8 +23280,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.127,
-   "quote_price": 280.2,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 275.5,
+   "quote_observed_at": "2026-11-16T15:16:22+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.34,
@@ -23418,7 +23418,7 @@
   },
   "CSCO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CSCO",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -23574,8 +23574,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.002,
-   "quote_price": 95.64,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 94.86,
+   "quote_observed_at": "2026-11-16T15:16:25+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.55,
@@ -23704,7 +23704,7 @@
   },
   "HIMS": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "HIMS",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -23860,8 +23860,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.502,
-   "quote_price": 19.73,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 18.83,
+   "quote_observed_at": "2026-11-16T15:16:35+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 26.47,
@@ -23998,7 +23998,7 @@
   },
   "MNDY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "MNDY",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -24154,8 +24154,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.055,
-   "quote_price": 78.0,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 76.6742,
+   "quote_observed_at": "2026-11-16T15:16:19+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 15.590000000000002,
@@ -24292,7 +24292,7 @@
   },
   "NRG": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "NRG",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -24448,8 +24448,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.201,
-   "quote_price": 97.1,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 95.02,
+   "quote_observed_at": "2026-11-16T15:16:39+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.7100002,
@@ -24586,7 +24586,7 @@
   },
   "TTWO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "TTWO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -24742,8 +24742,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.918,
-   "quote_price": 227.82,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 221.97,
+   "quote_observed_at": "2026-11-16T15:17:05+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.99,
@@ -24880,7 +24880,7 @@
   },
   "B": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "B",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -25036,8 +25036,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.2,
-   "quote_price": 37.59,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 37.405,
+   "quote_observed_at": "2026-11-16T15:16:14+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -25325,8 +25325,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": null,
-   "quote_price": 9.43,
-   "quote_observed_at": "2026-11-13T21:02:29+00:00",
+   "quote_price": 9.1,
+   "quote_observed_at": "2026-11-16T15:16:26+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 8.6899996,
@@ -25442,7 +25442,7 @@
   },
   "FNV": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "FNV",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -25598,8 +25598,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.931,
-   "quote_price": 247.01,
-   "quote_observed_at": "2026-11-13T21:00:03+00:00",
+   "quote_price": 245.99,
+   "quote_observed_at": "2026-11-16T15:16:28+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -25736,7 +25736,7 @@
   },
   "FICO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "FICO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -25892,8 +25892,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.338,
-   "quote_price": 720.19,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 710.0201,
+   "quote_observed_at": "2026-11-16T15:15:21+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 14.29,
@@ -26030,7 +26030,7 @@
   },
   "GDDY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "GDDY",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -26186,8 +26186,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.941,
-   "quote_price": 114.12,
-   "quote_observed_at": "2026-11-13T21:00:03+00:00",
+   "quote_price": 113.92,
+   "quote_observed_at": "2026-11-16T15:16:16+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 7.249999999999999,
@@ -26324,7 +26324,7 @@
   },
   "GEN": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "GEN",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -26480,8 +26480,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.237,
-   "quote_price": 30.4,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 30.465,
+   "quote_observed_at": "2026-11-16T15:16:33+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 6.59,
@@ -26618,7 +26618,7 @@
   },
   "MU": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "MU",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -26774,8 +26774,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 2.398,
-   "quote_price": 778.31,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 720.25,
+   "quote_observed_at": "2026-11-16T15:16:45+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.07,
@@ -26912,7 +26912,7 @@
   },
   "TPR": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "TPR",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -27068,8 +27068,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.46,
-   "quote_price": 132.41,
-   "quote_observed_at": "2026-11-13T21:02:46+00:00",
+   "quote_price": 131.91,
+   "quote_observed_at": "2026-11-16T15:17:00+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 8.61,
@@ -27206,7 +27206,7 @@
   },
   "ALM.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ALM.MC",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -27362,8 +27362,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.081,
-   "quote_price": 10.7,
-   "quote_observed_at": "2026-11-16T10:14:18+00:00",
+   "quote_price": 10.68,
+   "quote_observed_at": "2026-11-16T15:00:45+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": null,
@@ -27484,7 +27484,7 @@
   },
   "ELE.MC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ELE.MC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -27640,8 +27640,8 @@
    "financial_currency": "EUR",
    "currency": "EUR",
    "beta": 0.499,
-   "quote_price": 45.45,
-   "quote_observed_at": "2026-11-16T10:17:52+00:00",
+   "quote_price": 45.3,
+   "quote_observed_at": "2026-11-16T15:00:22+00:00",
    "quote_type": "EQUITY",
    "short_interest": null,
    "dividends_basis": "CASH_FLOW_STATEMENT",
@@ -27770,7 +27770,7 @@
   },
   "LMT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "LMT",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -27926,8 +27926,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.081,
-   "quote_price": 596.04,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 589.2399,
+   "quote_observed_at": "2026-11-16T15:16:31+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 1.5,
@@ -28064,7 +28064,7 @@
   },
   "OKLO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "OKLO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -28220,8 +28220,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.313,
-   "quote_price": 23.92,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 23.44,
+   "quote_observed_at": "2026-11-16T15:16:50+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 21.88,
@@ -28358,7 +28358,7 @@
   },
   "TEAM": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "TEAM",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -28514,8 +28514,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.141,
-   "quote_price": 149.99,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 147.23,
+   "quote_observed_at": "2026-11-16T15:17:02+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 5.04,
@@ -28652,7 +28652,7 @@
   },
   "ALC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ALC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -28808,8 +28808,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.716,
-   "quote_price": 74.12,
-   "quote_observed_at": "2026-11-13T21:00:03+00:00",
+   "quote_price": 74.47,
+   "quote_observed_at": "2026-11-16T15:16:10+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -28938,7 +28938,7 @@
   },
   "CAE": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CAE",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -29094,8 +29094,8 @@
    "financial_currency": "CAD",
    "currency": "USD",
    "beta": 0.988,
-   "quote_price": 27.93,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 28.15,
+   "quote_observed_at": "2026-11-16T15:16:01+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -29232,7 +29232,7 @@
   },
   "DLO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "DLO",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -29389,7 +29389,7 @@
    "currency": "USD",
    "beta": 0.873,
    "quote_price": 13.69,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_observed_at": "2026-11-16T15:16:19+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 13.55,
@@ -29678,8 +29678,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.201,
-   "quote_price": 143.0,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 138.335,
+   "quote_observed_at": "2026-11-16T15:16:18+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 8.3100006,
@@ -29795,7 +29795,7 @@
   },
   "GIB-A.TO": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "GIB-A.TO",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -29951,8 +29951,8 @@
    "financial_currency": "CAD",
    "currency": "CAD",
    "beta": 0.17,
-   "quote_price": 116.83,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 116.97,
+   "quote_observed_at": "2026-11-16T15:16:08+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": null,
@@ -30081,7 +30081,7 @@
   },
   "INMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "INMD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -30237,8 +30237,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.963,
-   "quote_price": 13.27,
-   "quote_observed_at": "2026-11-13T21:00:01+00:00",
+   "quote_price": 13.22,
+   "quote_observed_at": "2026-11-16T15:14:21+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.4699997,
@@ -30527,8 +30527,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.63,
-   "quote_price": 39.42,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 39.725,
+   "quote_observed_at": "2026-11-16T15:16:59+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 14.59,
@@ -30653,7 +30653,7 @@
   },
   "CAT": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CAT",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -30809,8 +30809,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.64,
-   "quote_price": 600.2,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 579.9173,
+   "quote_observed_at": "2026-11-16T15:16:22+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 2.0,
@@ -30947,7 +30947,7 @@
   },
   "PAYX": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "PAYX",
    "financial_period": "2026-08-31",
    "period_ends": [
@@ -31103,8 +31103,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.796,
-   "quote_price": 115.68,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 116.9999,
+   "quote_observed_at": "2026-11-16T15:16:42+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 6.22,
@@ -31233,7 +31233,7 @@
   },
   "SSD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "SSD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -31389,8 +31389,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.36,
-   "quote_price": 198.01,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 198.45,
+   "quote_observed_at": "2026-11-16T15:15:06+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.4499997,
@@ -31527,7 +31527,7 @@
   },
   "PTC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "PTC",
    "financial_period": "2026-06-30",
    "period_ends": [
@@ -31683,8 +31683,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.91,
-   "quote_price": 196.0,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 196.105,
+   "quote_observed_at": "2026-11-16T15:16:51+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 6.15,
@@ -31805,7 +31805,7 @@
   },
   "CPAY": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "CPAY",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -31961,8 +31961,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.922,
-   "quote_price": 462.22,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 463.0825,
+   "quote_observed_at": "2026-11-16T15:16:55+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 5.82,
@@ -32099,7 +32099,7 @@
   },
   "SSNC": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "SSNC",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -32255,8 +32255,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.036,
-   "quote_price": 79.5,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 79.31,
+   "quote_observed_at": "2026-11-16T15:16:53+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.32,
@@ -32385,7 +32385,7 @@
   },
   "RMD": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "RMD",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -32541,8 +32541,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 0.763,
-   "quote_price": 239.53,
-   "quote_observed_at": "2026-11-13T21:00:02+00:00",
+   "quote_price": 240.97,
+   "quote_observed_at": "2026-11-16T15:16:37+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 7.48,
@@ -32679,7 +32679,7 @@
   },
   "NTAP": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "NTAP",
    "financial_period": "2026-07-31",
    "period_ends": [
@@ -32835,8 +32835,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.514,
-   "quote_price": 181.37,
-   "quote_observed_at": "2026-11-13T21:00:00+00:00",
+   "quote_price": 174.08,
+   "quote_observed_at": "2026-11-16T15:16:45+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 4.3999999999999995,
@@ -32973,7 +32973,7 @@
   },
   "ROK": {
    "schema": "dynamic-analysis-v1",
-   "fetched_at": "2026-11-16T10:33:16.647291+00:00",
+   "fetched_at": "2026-11-16T15:17:08.084805+00:00",
    "symbol": "ROK",
    "financial_period": "2026-09-30",
    "period_ends": [
@@ -33129,8 +33129,8 @@
    "financial_currency": "USD",
    "currency": "USD",
    "beta": 1.515,
-   "quote_price": 402.46,
-   "quote_observed_at": "2026-11-13T21:01:58+00:00",
+   "quote_price": 388.56,
+   "quote_observed_at": "2026-11-16T15:16:52+00:00",
    "quote_type": "EQUITY",
    "short_interest": {
     "pct_float": 3.7600000000000002,

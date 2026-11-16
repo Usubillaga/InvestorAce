@@ -1,6 +1,6 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-16T10:36:18.281660+00:00",
+ "generated_at": "2026-11-16T15:21:37.095612+00:00",
  "universe_count": 120,
  "rows": [
   {
@@ -2854,8 +2854,8 @@
    "sector": "Consumer Cyclical",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-09T11:02:04.229808+00:00",
-   "attempted_at": "2026-11-09T11:02:04.229808+00:00",
+   "retrieved_at": "2026-11-16T15:21:37.095612+00:00",
+   "attempted_at": "2026-11-16T15:21:37.095612+00:00",
    "status": "OK",
    "annual": [
     {
@@ -2983,7 +2983,7 @@
     "shares_outstanding": 743701257.0,
     "float_shares": 741276791.0,
     "float_pct": 99.67400001315313,
-    "retrieved_at": "2026-11-09T11:02:04.229808+00:00"
+    "retrieved_at": "2026-11-16T15:21:37.095612+00:00"
    },
    "warnings": [],
    "sources": [
@@ -9179,7 +9179,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-16T10:36:18.281660+00:00",
+   "attempted_at": "2026-11-16T15:21:37.095612+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
@@ -10301,8 +10301,8 @@
    "sector": "Consumer Defensive",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-09T11:02:04.229808+00:00",
-   "attempted_at": "2026-11-09T11:02:04.229808+00:00",
+   "retrieved_at": "2026-11-16T15:21:37.095612+00:00",
+   "attempted_at": "2026-11-16T15:21:37.095612+00:00",
    "status": "OK",
    "annual": [
     {
@@ -10430,7 +10430,7 @@
     "shares_outstanding": 1663436915.0,
     "float_shares": 1660143310.0,
     "float_pct": 99.80200000551268,
-    "retrieved_at": "2026-11-09T11:02:04.229808+00:00"
+    "retrieved_at": "2026-11-16T15:21:37.095612+00:00"
    },
    "warnings": [],
    "sources": [
