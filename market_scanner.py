@@ -420,7 +420,7 @@ def render_scan(scan):
         for scope, packets in scan.get('review_packets', {}).items()})
     payload = json.dumps(page_data, ensure_ascii=False, allow_nan=False).replace('<', '\\u003c').replace('&', '\\u0026')
     market = scan.get('market') or {}
-    fallback = ''.join('<tr><td>' + escape(c['ticker']) + '</td><td>' + escape(c['band'] or 'Ohne Score') +
+    fallback = ''.join('<tr><td>' + escape(c['ticker']) + '</td><td>' + escape(('Vorscore-' + c['band']) if c['band'] else 'Ohne Score') +
                        '</td><td>' + escape('—' if c['score'] is None else f'{c["score"]:.2f}') +
                        '</td><td>Marktscan · ungeprüft</td></tr>' for c in market.get('candidates', []))
     fallback += ''.join('<tr><td>' + escape(row['ticker']) + '</td><td>' +

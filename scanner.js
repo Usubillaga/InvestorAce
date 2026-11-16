@@ -23,6 +23,8 @@
   // Ranking uses the conservative lower bound even without a label: an
   // unlabelled 6.92-7.29 interval must not sort below a labelled Sell.
   const opportunityRank=r=>r.opportunity?(r.opportunity.score_lower??null):r.model_score;
+  // A market candidate's band comes from the preliminary screen, not the v18 model.
+  const prelim = band => band ? 'Vorscore-' + band : null;
   const opportunityBand=r=>r.opportunity?r.opportunity.label:r.model_band;
   const scoreText=o=>o.score!==null&&o.score!==undefined?num(o.score):
     o.score_lower!==null&&o.score_lower!==undefined?num(o.score_lower)+'–'+num(o.score_upper):'—';
@@ -165,7 +167,7 @@
     const held = c.in_universe ? ` · im Universum${c.universe_score !== null && c.universe_score !== undefined ? ' (Modell ' + num(c.universe_score) + ')' : ''}` : '';
     return `<tr>
       <td><span class="ticker">${esc(c.ticker)}</span><span class="subline">${esc(c.name)}</span><span class="subline">${esc(c.sector)} · ${esc(c.exchange)}${esc(held)}</span></td>
-      <td><span class="score">${num(c.score)}</span> / 10<br>${badge(c.band)}<span class="subline">${c.rank_eligible ? 'Vorscore · Gegenprüfung offen' : 'Score ausgesetzt · Daten prüfen'}</span><span class="subline">${num(c.coverage_weight*100,0)} % Scoregewicht berechenbar</span></td>
+      <td><span class="score">${num(c.score)}</span> / 10<br>${badge(prelim(c.band))}<span class="subline">${c.rank_eligible ? 'Vorscore · Gegenprüfung offen' : 'Score ausgesetzt · Daten prüfen'}</span><span class="subline">${num(c.coverage_weight*100,0)} % Scoregewicht berechenbar</span></td>
       <td>${num(c.price)} USD<span class="subline">${c.quote_status === 'DATED' ? 'Schluss ' + esc(day(c.price_date)) : esc({STALE:'Kurs veraltet',FUTURE:'Zukünftiges Kursdatum',TIME_UNKNOWN:'Kursdatum fehlt',MISSING:'Kurs fehlt'}[c.quote_status] || c.quote_status)}</span><span class="subline">Marktwert ${esc(money(c.metrics.market_cap))}</span></td>
       <td><span class="kv">Umsatz ${esc(signed(c.metrics.growth_pct))}</span><span class="kv">Op.-Marge ${esc(pct(c.metrics.operating_margin_pct))}</span><span class="kv">FCF-Rendite ${esc(pct(c.metrics.fcf_yield_pct))}</span><span class="kv">8%-Szenario/Kurs ${esc(pct(c.metrics.cover_pct, 0))}</span><span class="subline">${esc(c.basis)} bis ${esc(day(c.period_end))}</span></td>
       <td><span class="fit">${num(c.regime_fit?.[regime], 1)}</span><span class="subline">/ 100 · ${esc(regimeName[regime])}<br>ohne Scoregewicht</span></td>
@@ -203,7 +205,7 @@
       ['Marktwert', money(m.market_cap)], ['FCF-Rendite', pct(m.fcf_yield_pct)], ['Dividendenrendite', pct(m.dividend_yield_pct)], ['Aktienrückgang (Proxy, keine Cash-Rückkaufrendite)', pct(m.buyback_yield_pct)],
       ['FCF-Rechenszenario je Aktie (÷ 8 %, keine bestätigte NGV)', num(m.ngv_per_share) + ' USD'], ['Szenario / Kurs', pct(m.cover_pct, 0)],
     ];
-    return `<div class="detail-head"><div><p class="eyebrow">MARKTSCAN · VORSCORE</p><h2 id="detail-title">${esc(c.name)} <span class="small">${esc(c.ticker)} · ${esc(c.exchange)}</span></h2>${badge(c.band)} <span class="small">Screening-Score ${num(c.score)} · mechanisch, ungeprüft</span></div><button id="close-detail" aria-label="Analyse schließen">Schließen ×</button></div>
+    return `<div class="detail-head"><div><p class="eyebrow">MARKTSCAN · VORSCORE</p><h2 id="detail-title">${esc(c.name)} <span class="small">${esc(c.ticker)} · ${esc(c.exchange)}</span></h2>${badge(prelim(c.band))} <span class="small">Screening-Score ${num(c.score)} · mechanisch, ungeprüft</span></div><button id="close-detail" aria-label="Analyse schließen">Schließen ×</button></div>
       <div class="detail-grid"><div><h3>Warum auf der Liste?</h3>${strong.length ? '<ul>' + strong.map(line).join('') + '</ul>' : '<p>Keine Kategorie erreicht 8 Punkte; der Rang kommt aus einem breiten Mittelfeld.</p>'}
       <h3>Größte Schwächen</h3>${weak.length ? '<ul>' + weak.map(line).join('') + '</ul>' : '<p>Keine Kategorie unter 5,5 Punkten.</p>'}
       <h3>Datenbasis</h3><p>${esc(basis)}. Bilanz zum ${esc(day(c.balance_date))}. Schlusskurs vom ${esc(day(c.price_date))}. Sektor aus SIC ${esc(c.sic ?? '—')} (${esc(c.sic_description || 'ohne Beschreibung')}).</p>
