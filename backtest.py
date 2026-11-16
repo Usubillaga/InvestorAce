@@ -153,6 +153,11 @@ VARIANTS = {
     'kell_base_n_break_entry': dict(sell_failed_breakout=True, base_break=True),
     'kell_wedge_pop_entry': dict(sell_failed_breakout=True, wedge_pop=True),
     'kell_full': dict(sell_failed_breakout=True, base_break=True, wedge_pop=True, ema_crossback=True),
+    # A new entry right at the 200-day average can be sold by the TREND exit on the next small dip
+    # (CNX on 16 Nov 2026: 0.5% above it). Require a buffer above the average before buying.
+    'buffer_200d_1pct': dict(sell_failed_breakout=True, sma200_buffer=0.01),
+    'buffer_200d_2pct': dict(sell_failed_breakout=True, sma200_buffer=0.02),
+    'buffer_200d_3pct': dict(sell_failed_breakout=True, sma200_buffer=0.03),
 }
 
 
@@ -230,6 +235,8 @@ def simulate(frames, spx, sectors, start, end=None, **rule):
                 continue
             c = f['close']
             if not (c > f['sma36'] and c > f['sma50'] and c > f['sma200'] and 0 <= f['ext_atr'] <= 3):
+                continue
+            if c < f['sma200'] * (1 + rule.get('sma200_buffer', 0.)):
                 continue
             if rule.get('skip_extended') and f['ext36'] > EXT_LIMIT:
                 continue
