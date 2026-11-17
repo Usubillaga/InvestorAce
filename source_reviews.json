@@ -1,6 +1,6 @@
 {
   "schema": "source-reviews-v1",
-  "as_of": "2026-11-05",
+  "as_of": "2026-11-16",
   "window_start": "2026-07-16",
   "window_end": "2026-10-14",
   "entries": {
@@ -8578,6 +8578,47 @@
       "insider": {
         "status": "UNAVAILABLE",
         "reason": "Insider transactions were outside this financial input review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "VOW3": {
+      "issuer": "Volkswagen AG",
+      "listing": "VOW3.DE / Xetra / EUR (preference shares)",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Group free cash flow from the provider (-7,489m EUR TTM) includes Financial Services, where leased vehicles and loans are capital spending, so it is not cash available to shareholders. The issuer reports Automotive Division net cash flow instead: 4.4bn EUR in January-September 2026 including about 2.6bn of net M&A inflows (press-reported), guidance 3-6bn for 2026, automotive net liquidity about 33bn at 30 September. These figures have not been read from the interim report itself, so no valuation input is set. Pension provisions (Volkswagen AG about 21.4bn EUR under HGB) are debt-like and are not netted. Watch-only until an issuer bridge of automotive operating cash flow and investing activities for one dated window is entered.",
+        "sources": [
+          {
+            "title": "Volkswagen Group Q3 2026 interim report",
+            "url": "https://uploads.vw-mms.de/system/production/documents/cws/003/404/file_en/b99b69ac1fb4c2ee21ff12af3fcc339dd7d0f573/2026-10-29-volkswagen-group-q3-2026-interim-report-en.pdf?1793225491=",
+            "period": "2026-09-30",
+            "published_at": "2026-10-29",
+            "locator": "Automotive Division net cash flow and net liquidity; not read in this session (host not reachable)"
+          },
+          {
+            "title": "What Volkswagen (VOW3) Said on Its Q3 Earnings Call",
+            "url": "https://www.marketbeat.com/instant-alerts/transcript-what-volkswagen-vow3-said-on-its-q3-earnings-call-2026-10-29/",
+            "published_at": "2026-10-29"
+          },
+          {
+            "title": "Volkswagen Annual Report 2025: share counts",
+            "url": "https://annualreport2025.volkswagen-group.com/group-management-report/disclosures-required-under-takeover-law.html",
+            "published_at": "2026-03-10"
+          }
+        ],
+        "input_conflicts": [
+          {
+            "code": "GROUP_FCF_INCLUDES_FINANCIAL_SERVICES",
+            "detected_at": "2026-11-16",
+            "reason": "Consolidated operating cash flow minus capex mixes the Automotive Division with Financial Services lease and loan assets; it is not a common-equity cash flow and must not be capitalised."
+          }
+        ]
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this review.",
         "sources": [],
         "transactions": [],
         "limitations": []
