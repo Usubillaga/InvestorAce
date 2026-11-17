@@ -53,6 +53,15 @@
       "currency": "USD",
       "shares": 38,
       "submitted_at": "2026-11-16T12:46:09Z"
+    },
+    {
+      "id": 190,
+      "side": "SELL",
+      "ticker": "CNX",
+      "yahoo": "CNX",
+      "currency": "USD",
+      "shares": 38,
+      "submitted_at": "2026-11-17T12:44:55Z"
     }
   ],
   "cost_rate": 0.001
