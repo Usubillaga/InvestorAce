@@ -158,6 +158,8 @@ VARIANTS = {
     'buffer_200d_1pct': dict(sell_failed_breakout=True, sma200_buffer=0.01),
     'buffer_200d_2pct': dict(sell_failed_breakout=True, sma200_buffer=0.02),
     'buffer_200d_3pct': dict(sell_failed_breakout=True, sma200_buffer=0.03),
+    # User's idea (18 Nov 2026): when the S&P 500 closes below its 200-day average, sell everything.
+    'sell_all_in_correction': dict(sell_failed_breakout=True, exit_on_correction=True),
 }
 
 
@@ -193,7 +195,9 @@ def simulate(frames, spx, sectors, start, end=None, **rule):
             if p['peak'] >= e * 1.20 and not holding:
                 floor = max(floor, p['peak'] * 0.90)
             why = None
-            if c <= floor:
+            if rule.get('exit_on_correction') and not regime_up:
+                why = 'MARKET_CORRECTION'
+            elif c <= floor:
                 why = 'STOP'
             elif rule.get('sell_extended') and f['ext36'] > EXT_LIMIT:
                 why = 'EXTENDED'
