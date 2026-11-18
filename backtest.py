@@ -158,6 +158,12 @@ VARIANTS = {
     'buffer_200d_1pct': dict(sell_failed_breakout=True, sma200_buffer=0.01),
     'buffer_200d_2pct': dict(sell_failed_breakout=True, sma200_buffer=0.02),
     'buffer_200d_3pct': dict(sell_failed_breakout=True, sma200_buffer=0.03),
+    # User's idea (18 Nov 2026): when the S&P 500 closes below its 200-day average, sell everything.
+    'sell_all_in_correction': dict(sell_failed_breakout=True, exit_on_correction=True),
+    # Breadth: share of the universe above its own 200-day average (live value on 18 Nov 2026: 33%).
+    'sell_all_weak_breadth': dict(sell_failed_breakout=True, exit_breadth=0.40),
+    'sell_all_correction_and_weak_breadth': dict(sell_failed_breakout=True, exit_on_correction=True,
+                                                 exit_breadth=0.40, need_both=True),
 }
 
 
@@ -167,6 +173,8 @@ def simulate(frames, spx, sectors, start, end=None, **rule):
     spx_sma = spx.rolling(200).mean()
     cash, pos, trades, curve, cooldown = CAPITAL, {}, [], [], {}
     close = pd.DataFrame({s: f['close'] for s, f in frames.items()})
+    sma = pd.DataFrame({s: f['sma200'] for s, f in frames.items()})
+    breadth = ((close > sma) & sma.notna()).sum(axis=1) / sma.notna().sum(axis=1).replace(0, np.nan)
     for i, day in enumerate(dates[:-1]):
         nxt = dates[i + 1]
         px = close.loc[day]
@@ -193,7 +201,11 @@ def simulate(frames, spx, sectors, start, end=None, **rule):
             if p['peak'] >= e * 1.20 and not holding:
                 floor = max(floor, p['peak'] * 0.90)
             why = None
-            if c <= floor:
+            weak = rule.get('exit_breadth') is not None and breadth.get(day, np.nan) < rule['exit_breadth']
+            down = rule.get('exit_on_correction') and not regime_up
+            if (down and weak) if rule.get('need_both') else (down or weak):
+                why = 'MARKET_EXIT'
+            elif c <= floor:
                 why = 'STOP'
             elif rule.get('sell_extended') and f['ext36'] > EXT_LIMIT:
                 why = 'EXTENDED'
