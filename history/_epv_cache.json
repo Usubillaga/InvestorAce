@@ -5350,7 +5350,7 @@
   }
  },
  "CAT": {
-  "asof": "2026-11-12",
+  "asof": "2026-11-19",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [

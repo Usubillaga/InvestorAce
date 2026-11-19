@@ -1,6 +1,6 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-18T15:23:11.466438+00:00",
+ "generated_at": "2026-11-19T04:19:06.352667+00:00",
  "universe_count": 122,
  "rows": [
   {
@@ -800,8 +800,8 @@
    "sector": "Healthcare",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T23:50:32.362317+00:00",
-   "attempted_at": "2026-11-11T23:50:32.362317+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -926,10 +926,10 @@
     }
    ],
    "market": {
-    "shares_outstanding": 483400000.0,
-    "float_shares": 479441560.0,
-    "float_pct": 99.18112536201903,
-    "retrieved_at": "2026-11-11T23:50:32.362317+00:00"
+    "shares_outstanding": 480400000.0,
+    "float_shares": 478833896.0,
+    "float_pct": 99.67399999999999,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -958,8 +958,8 @@
    "sector": "Healthcare",
    "financial_currency": "EUR",
    "quote_currency": "EUR",
-   "retrieved_at": "2026-11-11T20:19:40.117574+00:00",
-   "attempted_at": "2026-11-11T20:19:40.117574+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -1087,7 +1087,7 @@
     "shares_outstanding": 217605462.0,
     "float_shares": 78273528.0,
     "float_pct": 35.970387544775875,
-    "retrieved_at": "2026-11-11T20:19:40.117574+00:00"
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -3486,8 +3486,8 @@
    "sector": "Industrials",
    "financial_currency": "CAD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T23:50:32.362317+00:00",
-   "attempted_at": "2026-11-11T23:50:32.362317+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -3612,10 +3612,10 @@
     }
    ],
    "market": {
-    "shares_outstanding": 320456259.0,
-    "float_shares": 289163705.0,
-    "float_pct": 90.2349999036842,
-    "retrieved_at": "2026-11-11T23:50:32.362317+00:00"
+    "shares_outstanding": 319338363.0,
+    "float_shares": 288046397.0,
+    "float_pct": 90.20100005961388,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -3644,8 +3644,8 @@
    "sector": "Industrials",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-12T01:23:32.728313+00:00",
-   "attempted_at": "2026-11-12T01:23:32.728313+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -3773,7 +3773,7 @@
     "shares_outstanding": 457594174.0,
     "float_shares": 456134449.0,
     "float_pct": 99.68100009070483,
-    "retrieved_at": "2026-11-12T01:23:32.728313+00:00"
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -4276,8 +4276,8 @@
    "sector": "Energy",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-12T03:58:57.581415+00:00",
-   "attempted_at": "2026-11-12T03:58:57.581415+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -4405,7 +4405,7 @@
     "shares_outstanding": 142861133.0,
     "float_shares": 138691017.0,
     "float_pct": 97.08100033057977,
-    "retrieved_at": "2026-11-12T03:58:57.581415+00:00"
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -4750,8 +4750,8 @@
    "sector": "AI Infra",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-12T03:58:57.581415+00:00",
-   "attempted_at": "2026-11-12T03:58:57.581415+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -4762,7 +4762,7 @@
      "operating_income": -46000000.0,
      "net_income": -1167000000.0,
      "ebitda": 2468000000.0,
-     "shares_diluted": 435000000.0,
+     "shares_diluted": 436000000.0,
      "shares_basic": 435000000.0,
      "debt": 29822000000.0,
      "cash": 3161000000.0,
@@ -4782,7 +4782,7 @@
      "net_debt_ebitda": 10.802674230145866,
      "debt_equity": 8.942128935532233,
      "revenue_growth": 167.9373368146214,
-     "dilution": -6.270006505507963
+     "dilution": -6.054535256095339
     },
     {
      "period_end": "2024-12-31",
@@ -4876,10 +4876,10 @@
     }
    ],
    "market": {
-    "shares_outstanding": 458871690.0,
-    "float_shares": 332744750.0,
-    "float_pct": 72.51368024033036,
-    "retrieved_at": "2026-11-12T03:58:57.581415+00:00"
+    "shares_outstanding": 465847732.0,
+    "float_shares": 339631541.0,
+    "float_pct": 72.90612740387883,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -5542,10 +5542,40 @@
    "sector": "Media",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-12T03:58:57.581415+00:00",
-   "attempted_at": "2026-11-12T03:58:57.581415+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
+    {
+     "period_end": "2026-09-30",
+     "basis": "FY",
+     "revenue": 102344000000.0,
+     "gross_profit": 38914000000.0,
+     "operating_income": 16497000000.0,
+     "net_income": 9899000000.0,
+     "ebitda": 21723000000.0,
+     "shares_diluted": 1759000000.0,
+     "shares_basic": 1754000000.0,
+     "debt": 47318000000.0,
+     "cash": 6679000000.0,
+     "equity": 111600000000.0,
+     "assets": 206138000000.0,
+     "liabilities": 87433000000.0,
+     "ocf": 19270000000.0,
+     "capex": 8698000000.0,
+     "stock_comp": 1645000000.0,
+     "buybacks": 9000000000.0,
+     "fcf": 10572000000.0,
+     "net_debt": 40639000000.0,
+     "gross_margin": 38.02274681466427,
+     "operating_margin": 16.119166731806455,
+     "net_margin": 9.672281716563747,
+     "fcf_margin": 10.3298678965059,
+     "net_debt_ebitda": 1.8707821203332873,
+     "debt_equity": 0.4239964157706093,
+     "revenue_growth": 8.386550172094264,
+     "dilution": -2.8713418001104385
+    },
     {
      "period_end": "2025-09-30",
      "basis": "FY",
@@ -5633,45 +5663,15 @@
      "fcf_margin": 5.508560372561813,
      "net_debt_ebitda": 2.9488068697877963,
      "debt_equity": 0.5025836800064466,
-     "revenue_growth": 7.465970358550322,
-     "dilution": 0.16420361247948545
-    },
-    {
-     "period_end": "2022-09-30",
-     "basis": "FY",
-     "revenue": 82722000000.0,
-     "gross_profit": 28321000000.0,
-     "operating_income": 6770000000.0,
-     "net_income": 3145000000.0,
-     "ebitda": 11997000000.0,
-     "shares_diluted": 1827000000.0,
-     "shares_basic": 1822000000.0,
-     "debt": 51608000000.0,
-     "cash": 11615000000.0,
-     "equity": 95008000000.0,
-     "assets": 203631000000.0,
-     "liabilities": 95253000000.0,
-     "ocf": 6010000000.0,
-     "capex": 4943000000.0,
-     "stock_comp": 977000000.0,
-     "buybacks": 0.0,
-     "fcf": 1067000000.0,
-     "net_debt": 39993000000.0,
-     "gross_margin": 34.23635792171369,
-     "operating_margin": 8.184038103527477,
-     "net_margin": 3.8018906699547883,
-     "fcf_margin": 1.2898624307922923,
-     "net_debt_ebitda": 3.3335833958489625,
-     "debt_equity": 0.5431963624115864,
      "revenue_growth": null,
      "dilution": null
     }
    ],
    "market": {
-    "shares_outstanding": 1726686902.0,
-    "float_shares": 1723889669.0,
-    "float_pct": 99.83799998733065,
-    "retrieved_at": "2026-11-12T03:58:57.581415+00:00"
+    "shares_outstanding": 1708029668.0,
+    "float_shares": 1705262660.0,
+    "float_pct": 99.83800000363928,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -5700,8 +5700,8 @@
    "sector": "Technology",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T23:50:32.362317+00:00",
-   "attempted_at": "2026-11-11T23:50:32.362317+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -5827,9 +5827,9 @@
    ],
    "market": {
     "shares_outstanding": 177506876.0,
-    "float_shares": 92152062.0,
-    "float_pct": 51.914643576962064,
-    "retrieved_at": "2026-11-11T23:50:32.362317+00:00"
+    "float_shares": 95627542.0,
+    "float_pct": 53.872584631594776,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -6016,8 +6016,8 @@
    "sector": "Utilities",
    "financial_currency": "EUR",
    "quote_currency": "EUR",
-   "retrieved_at": "2026-11-11T20:19:40.117574+00:00",
-   "attempted_at": "2026-11-11T20:19:40.117574+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -6145,7 +6145,7 @@
     "shares_outstanding": 1014650934.0,
     "float_shares": 284894008.0,
     "float_pct": 28.078031414890514,
-    "retrieved_at": "2026-11-11T20:19:40.117574+00:00"
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -6490,8 +6490,8 @@
    "sector": "Industrials",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T23:50:32.362317+00:00",
-   "attempted_at": "2026-11-11T23:50:32.362317+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -6616,10 +6616,10 @@
     }
    ],
    "market": {
-    "shares_outstanding": 36065224.0,
-    "float_shares": 35856767.0,
-    "float_pct": 99.42199998535986,
-    "retrieved_at": "2026-11-11T23:50:32.362317+00:00"
+    "shares_outstanding": 35586729.0,
+    "float_shares": 35378903.0,
+    "float_pct": 99.41600139759966,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -7438,10 +7438,40 @@
    "sector": "Technology",
    "financial_currency": "CAD",
    "quote_currency": "CAD",
-   "retrieved_at": "2026-11-11T23:50:32.362317+00:00",
-   "attempted_at": "2026-11-11T23:50:32.362317+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
+    {
+     "period_end": "2026-09-30",
+     "basis": "FY",
+     "revenue": 16573609000.0,
+     "gross_profit": 2706693000.0,
+     "operating_income": 2706693000.0,
+     "net_income": 1812648000.0,
+     "ebitda": 3134013000.0,
+     "shares_diluted": 211323445.0,
+     "shares_basic": 209950232.0,
+     "debt": 3955847000.0,
+     "cash": 501726000.0,
+     "equity": 10444865000.0,
+     "assets": 19343723000.0,
+     "liabilities": 8898858000.0,
+     "ocf": 2479406000.0,
+     "capex": 267512000.0,
+     "stock_comp": 63447000.0,
+     "buybacks": 1628166000.0,
+     "fcf": 2211894000.0,
+     "net_debt": 3454121000.0,
+     "gross_margin": 16.331343402634875,
+     "operating_margin": 16.331343402634875,
+     "net_margin": 10.936954045434522,
+     "fcf_margin": 13.345880188195583,
+     "net_debt_ebitda": 1.1021399719784186,
+     "debt_equity": 0.37873605834062957,
+     "revenue_growth": 4.1535196506583105,
+     "dilution": null
+    },
     {
      "period_end": "2025-09-30",
      "basis": "FY",
@@ -7529,45 +7559,15 @@
      "fcf_margin": 12.627549949777425,
      "net_debt_ebitda": 0.7918726606954439,
      "debt_equity": 0.4503190861839545,
-     "revenue_growth": 11.106992111182535,
-     "dilution": -2.126824367094571
-    },
-    {
-     "period_end": "2022-09-30",
-     "basis": "FY",
-     "revenue": 12867201000.0,
-     "gross_profit": 2090637000.0,
-     "operating_income": 2090637000.0,
-     "net_income": 1466142000.0,
-     "ebitda": 2528385000.0,
-     "shares_diluted": 242867445.0,
-     "shares_basic": 239262004.0,
-     "debt": 3976235000.0,
-     "cash": 1000316000.0,
-     "equity": 7272724000.0,
-     "assets": 15175420000.0,
-     "liabilities": 7902696000.0,
-     "ocf": 1864998000.0,
-     "capex": 293757000.0,
-     "stock_comp": 48996000.0,
-     "buybacks": 983691000.0,
-     "fcf": 1571241000.0,
-     "net_debt": 2975919000.0,
-     "gross_margin": 16.247799346571178,
-     "operating_margin": 16.247799346571178,
-     "net_margin": 11.394412817519521,
-     "fcf_margin": 12.211210503356558,
-     "net_debt_ebitda": 1.1770038977450032,
-     "debt_equity": 0.5467325585296513,
      "revenue_growth": null,
      "dilution": null
     }
    ],
    "market": {
-    "shares_outstanding": 182952649.0,
-    "float_shares": 163045195.0,
-    "float_pct": 89.11879433896581,
-    "retrieved_at": "2026-11-11T23:50:32.362317+00:00"
+    "shares_outstanding": 179986706.0,
+    "float_shares": 162516037.0,
+    "float_pct": 90.29335588818432,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -8546,8 +8546,8 @@
    "sector": "Healthcare",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T23:50:32.362317+00:00",
-   "attempted_at": "2026-11-11T23:50:32.362317+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -8558,8 +8558,8 @@
      "operating_income": 85387000.0,
      "net_income": 93831000.0,
      "ebitda": 86082000.0,
-     "shares_diluted": 65445000.0,
-     "shares_basic": 64633000.0,
+     "shares_diluted": 65444540.0,
+     "shares_basic": 64632820.0,
      "debt": 8227000.0,
      "cash": 555334000.0,
      "equity": 683198000.0,
@@ -8578,7 +8578,7 @@
      "net_debt_ebitda": -6.355649264654631,
      "debt_equity": 0.012041897078153039,
      "revenue_growth": -6.160560055519248,
-     "dilution": -18.799707185130966
+     "dilution": -18.800277925977394
     },
     {
      "period_end": "2024-12-31",
@@ -8673,9 +8673,9 @@
    ],
    "market": {
     "shares_outstanding": 57544172.0,
-    "float_shares": 49122157.0,
-    "float_pct": 85.36426069350689,
-    "retrieved_at": "2026-11-11T23:50:32.362317+00:00"
+    "float_shares": 48008834.0,
+    "float_pct": 83.429533055059,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -9353,8 +9353,8 @@
    "sector": "Industrials",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T20:19:40.117574+00:00",
-   "attempted_at": "2026-11-11T20:19:40.117574+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -9480,9 +9480,9 @@
    ],
    "market": {
     "shares_outstanding": 231004640.0,
-    "float_shares": 197612919.0,
-    "float_pct": 85.54499987532718,
-    "retrieved_at": "2026-11-11T20:19:40.117574+00:00"
+    "float_shares": 197538998.0,
+    "float_pct": 85.51300008519308,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -12674,8 +12674,8 @@
    "sector": "Utilities",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T20:19:40.117574+00:00",
-   "attempted_at": "2026-11-11T20:19:40.117574+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -12801,9 +12801,9 @@
    ],
    "market": {
     "shares_outstanding": 195289593.0,
-    "float_shares": 166703102.0,
-    "float_pct": 85.36199980712746,
-    "retrieved_at": "2026-11-11T20:19:40.117574+00:00"
+    "float_shares": 166640610.0,
+    "float_pct": 85.3300001500848,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -16756,8 +16756,8 @@
    "sector": "Technology",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T20:19:40.117574+00:00",
-   "attempted_at": "2026-11-11T20:19:40.117574+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -16882,10 +16882,10 @@
     }
    ],
    "market": {
-    "shares_outstanding": 159005198.0,
-    "float_shares": 156569438.0,
-    "float_pct": 98.46812555146782,
-    "retrieved_at": "2026-11-11T20:19:40.117574+00:00"
+    "shares_outstanding": 157719357.0,
+    "float_shares": 156541735.0,
+    "float_pct": 99.25334339272001,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
@@ -18814,8 +18814,8 @@
    "sector": "Consumer Cyclical",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-11T23:50:32.362317+00:00",
-   "attempted_at": "2026-11-11T23:50:32.362317+00:00",
+   "retrieved_at": "2026-11-19T04:19:06.352667+00:00",
+   "attempted_at": "2026-11-19T04:19:06.352667+00:00",
    "status": "OK",
    "annual": [
     {
@@ -18940,10 +18940,10 @@
     }
    ],
    "market": {
-    "shares_outstanding": 72988796.0,
-    "float_shares": 72067677.0,
-    "float_pct": 98.73799945953348,
-    "retrieved_at": "2026-11-11T23:50:32.362317+00:00"
+    "shares_outstanding": 72731308.0,
+    "float_shares": 71810530.0,
+    "float_pct": 98.73400049398259,
+    "retrieved_at": "2026-11-19T04:19:06.352667+00:00"
    },
    "warnings": [],
    "sources": [
