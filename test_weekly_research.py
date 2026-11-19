@@ -134,6 +134,26 @@ class ResearchPublicationTests(unittest.TestCase):
         self.assertIn('Verified report', (self.output / 'index.html').read_text())
         self.assertNotIn('Master Scoreboard', (self.output / 'index.html').read_text())
 
+    def test_invalid_paper_journal_does_not_block_verified_scoreboard(self):
+        history = self.root / 'history'
+        history.mkdir()
+        (history / '_current.json').write_text('{}')
+        verified = history / 'verified.html'
+        verified.write_text(self.html.replace('Master Scoreboard', 'Verified report'))
+        build = {'report_path': verified, 'record': {'_evidence': {
+                 'captured_at': '2026-10-17T00:00:00Z', 'inputs': {}}},
+                 'manifest': {'run_id': 'fixture'}}
+        for broken in ('{', '{}', json.dumps({'version': 1, 'decisions': [{'run': 'missing'}]})):
+            with self.subTest(journal=broken):
+                (history / 'codex_trading.json').write_text(broken)
+                with patch('evidence.current_build', return_value=build), self.assertLogs(level='WARNING'):
+                    research.build_site(self.root, self.output, require_committed=True)
+                for name in ('index.html', 'index.de.html', 'index.es.html'):
+                    self.assertIn('Verified report', (self.output / name).read_text())
+                page = (self.output / 'codex-trading.html').read_text()
+                self.assertIn('journal could not be verified', page)
+                self.assertNotIn('€10,000', page)
+
     def test_corrupt_committed_report_cannot_fall_back_to_mirror(self):
         (self.root / 'history').mkdir()
         (self.root / 'history' / '_current.json').write_text('{}')

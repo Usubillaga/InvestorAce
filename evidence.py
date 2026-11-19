@@ -285,6 +285,23 @@ def current_build(root='history'):
     return build
 
 
+def committed_builds(root, current=None):
+    """Yield verified builds reachable from one current pointer, newest first."""
+    build = current_build(root) if current is None else current
+    seen = set()
+    while True:
+        manifest = build['manifest']
+        run_id = manifest['run_id']
+        if run_id in seen:
+            raise ValueError('Cycle in committed build history')
+        seen.add(run_id)
+        yield build
+        previous = manifest.get('previous_run_id')
+        if previous is None:
+            return
+        build = _load_build(root, previous)
+
+
 def daily_records(root='history'):
     """First committed observation per UTC day, with legacy files preserved.
 
@@ -302,18 +319,7 @@ def daily_records(root='history'):
         except (OSError, ValueError):
             continue
     if (root / '_current.json').exists():
-        builds, seen = [], set()
-        build = current_build(root)
-        while True:
-            manifest = build['manifest']
-            if manifest['run_id'] in seen:
-                raise ValueError('Cycle in committed build history')
-            seen.add(manifest['run_id'])
-            builds.append(build)
-            previous = manifest.get('previous_run_id')
-            if previous is None:
-                break
-            build = _load_build(root, previous)
+        builds = list(committed_builds(root))
         first = {}
         for build in reversed(builds):
             first.setdefault(build['manifest']['day'], build)

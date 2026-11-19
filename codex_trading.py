@@ -1,5 +1,6 @@
 """Prospective, independently funded strategy comparison. One ledger owned by publish_build."""
 import json
+import logging
 from datetime import date, datetime, timedelta, timezone
 from html import escape
 from pathlib import Path
@@ -8,7 +9,7 @@ import opportunity
 from active_rules import confirmation, market, plan
 import active_trading
 from paper_portfolio import merge_series
-from evidence import current_build
+from evidence import canonical, committed_builds, current_build
 from integrity import atomic_json
 from war_scenario import shell
 
@@ -161,10 +162,9 @@ def breakout_comparison(ledger, record, now):
 
 
 def tracked_symbols(root):
-    path = Path(root) / FILE
-    if not path.exists():
+    doc = verified_ledger(root)
+    if doc is None:
         return []
-    doc = json.loads(path.read_text())
     symbols = set(doc.get('execution_closes', {}))
     for account in doc['accounts'].values():
         symbols.update(p['symbol'] for p in account['holdings'].values())
@@ -212,10 +212,53 @@ def advance(ledger, build, now):
 
 def update(root, now=None):
     root = Path(root)
-    path = root / FILE
-    ledger = json.loads(path.read_text()) if path.exists() else fresh()
-    if advance(ledger, current_build(root / 'history'), now or datetime.now(timezone.utc)):
-        atomic_json(path, ledger)
+    build = current_build(root / 'history')
+    ledger = verified_ledger(root, build)
+    if ledger is not None and advance(ledger, build, now or datetime.now(timezone.utc)):
+        try:
+            atomic_json(root / FILE, ledger)
+        except (OSError, ValueError) as exc:
+            logging.warning('Codex trading journal update skipped: %s', exc)
+
+
+def verified_ledger(root, build=None):
+    """Replay v1 decisions using only verified observations on the selected build's history."""
+    root = Path(root)
+    try:
+        ledger = json.loads((root / FILE).read_text(encoding='utf-8'))
+    except FileNotFoundError:
+        return fresh()
+    except (OSError, ValueError) as exc:
+        logging.warning('Codex trading journal unavailable: %s', exc)
+        return None
+
+    try:
+        if not isinstance(ledger, dict) or ledger.get('version') != 1:
+            raise ValueError('Unsupported journal format')
+        decisions = ledger['decisions']
+        if not isinstance(decisions, list):
+            raise ValueError('Invalid journal decisions')
+        replay = fresh()
+        if decisions:
+            lineage = committed_builds(root / 'history', current=build)
+            archived = []
+            for decision in reversed(decisions):
+                matched = next((item for item in lineage if item['manifest']['run_id'] == decision['run']), None)
+                if matched is None:
+                    raise ValueError('Journal decision has no matching committed build in order')
+                at = datetime.fromisoformat(decision['at'])
+                if at.utcoffset() != timedelta(0):
+                    raise ValueError('Journal decision time must be UTC')
+                archived.append((matched, at))
+            for matched, at in reversed(archived):
+                if not advance(replay, matched, at):
+                    raise ValueError('Journal decision cannot be replayed')
+        if canonical(replay) != canonical(ledger):
+            raise ValueError('Journal state differs from verified replay')
+        return replay
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+        logging.warning('Codex trading journal unavailable: %s', exc)
+        return None
 
 
 def table(headers, rows):
@@ -224,13 +267,16 @@ def table(headers, rows):
     return ('<div class="tw"><table><thead><tr>'+cells('th', headers)+'</tr></thead><tbody>'+body+'</tbody></table></div>')
 
 
-def site_pages(root):
-    path = Path(root) / FILE
-    ledger = json.loads(path.read_text()) if path.exists() else fresh()
-    latest = ledger['decisions'][-1] if ledger['decisions'] else None
+def site_pages(root, build=None):
     text = '<h1>Codex active trading</h1><p>Forward paper trading · EUR · gross dividends reinvested</p>'
+    ledger = verified_ledger(root, build)
+    if ledger is None:
+        text += '<p>Paper trading results are unavailable because the journal could not be verified.</p>'
+        return [(PAGE,shell('Codex active trading',text))]
+    latest = ledger['decisions'][-1] if ledger['decisions'] else None
     if latest:
         text += f'<p>Decision {escape(latest["at"][:16])} UTC · market close {escape(latest["session"])}</p>'
+        text += f'<p>Verified decision build <code>{escape(latest["run"])}</code></p>'
         if latest.get('market') and latest['market'] != 'UPTREND':
             text += '<p>Active entries paused. S&amp;P 500 trend: '+escape(latest['market'])+'.</p>'
     else:
