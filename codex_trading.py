@@ -6,7 +6,7 @@ from html import escape
 from pathlib import Path
 
 import opportunity
-from active_rules import confirmation, market, plan
+from active_rules import confirmation, market, plan, swing_entry
 import active_trading
 from paper_portfolio import merge_series
 from evidence import canonical, committed_builds, current_build
@@ -16,6 +16,8 @@ from war_scenario import shell
 FILE = Path('history/codex_trading.json')
 PAGE = Path('codex-trading.html')
 CAPITAL, COST = 10000., .001
+SWING_ENTRY_POLICY = 'fundamental-and-technical-v1'
+ENTRY_PAUSED = 'New swings require fundamental and technical confirmation.'
 NAMES = {'timing': 'Codex active · opportunity + timing', 'opportunity': 'Opportunity only',
          'fundamental': 'Fundamentals only'}
 
@@ -77,7 +79,7 @@ def settle(account, bars, rates, now):
             o['status'] = 'Expired'
 
 
-def decide(key, account, record, now):
+def decide(key, account, record, now, *, confirmed_swings=True):
     inputs = record['_evidence']['inputs']
     positions = account['holdings']
     pending = {o['ticker']: o for o in account['orders'] if o['status'] == 'Pending'}
@@ -85,13 +87,24 @@ def decide(key, account, record, now):
     slots = len(positions) + sum(o['side'] == 'Buy' for o in pending.values())
     sectors = [p['sector'] for p in positions.values()] + [o['sector'] for o in pending.values() if o['side'] == 'Buy']
     candidates = []
+    market_trend = market(record)
+
     def submit(t, side, amount, reason):
         inp = inputs[t]
-        account['orders'].append(dict(submitted=now.isoformat(), expires=(now.date()+timedelta(days=7)).isoformat(),
+        order = dict(submitted=now.isoformat(), expires=(now.date()+timedelta(days=7)).isoformat(),
             side=side, ticker=t, sector=inp['sector'], symbol=inp.get('yf') or t, currency=inp['cur'],
-            euros=amount, reason=reason, status='Pending'))
+            euros=amount, reason=reason, status='Pending')
+        if confirmed_swings and side == 'Buy':
+            order['entry_policy'] = SWING_ENTRY_POLICY
+        account['orders'].append(order)
     for ticker, inp in inputs.items():
         if ticker in pending or inp.get('cur') not in ('EUR','USD') or not inp.get('sector'):
+            continue
+        timing = inp.get('timing') or {}
+        technical = timing.get('status') == 'AVAILABLE'
+        if (confirmed_swings and ticker in positions and key == 'timing'
+                and technical and timing.get('trend') == 'BELOW_SMA200'):
+            submit(ticker, 'Sell', None, 'Close below SMA 200')
             continue
         signal = opportunity.project((record.get(ticker) or {}).get('opportunity'), as_of=now) or {}
         if signal.get('withdrawn'):
@@ -99,15 +112,16 @@ def decide(key, account, record, now):
         score = signal.get('fundamental_score' if key == 'fundamental' else 'score')
         if score is None:
             continue
-        timing = inp.get('timing') or {}
-        technical = timing.get('status') == 'AVAILABLE'
         if ticker in positions:
             if score < 6.5:
                 submit(ticker, 'Sell', None, f'Score {score:.3f} below 6.5')
             elif key == 'timing' and technical and timing.get('trend') == 'BELOW_SMA200':
                 submit(ticker, 'Sell', None, 'Close below SMA 200')
+        elif confirmed_swings:
+            if key == 'timing' and swing_entry(signal, timing, market_trend):
+                candidates.append((-score, ticker))
         elif score >= 7 and (key == 'fundamental' or signal.get('label') in ('Buy','Strong Buy')):
-            if key == 'timing' and not (market(record) == 'UPTREND' and technical and confirmation(timing) == 3
+            if key == 'timing' and not (market_trend == 'UPTREND' and technical and confirmation(timing) == 3
                                         and timing.get('extension_atr') is not None and 0 <= timing['extension_atr'] <= 3):
                 continue
             candidates.append((-score, ticker))
@@ -124,7 +138,7 @@ def decide(key, account, record, now):
         cash -= budget * (1 + COST)
 
 
-def breakout_comparison(ledger, record, now):
+def breakout_comparison(ledger, record, now, *, confirmed_swings):
     """Pair the existing active account rules with exactly one exit toggled."""
     twins = ledger.setdefault('breakout_comparison', {})
     frozen = ledger.setdefault('execution_closes', {})
@@ -146,7 +160,15 @@ def breakout_comparison(ledger, record, now):
             twins[version] = active_trading.new_account(now.date().isoformat())
             twins[version]['name'] = version
         doc = twins[version]
-        proposed = plan(doc, record, series, now.date(), decision_at=now, failed_breakout=version=='v1.6')
+        if confirmed_swings and not doc.get('entry_policy'):
+            existing = active_trading.replay(doc, series, now.date())['orders']
+            pending_buys = {o['id'] for o in existing if o['status'] == 'PENDING' and o['side'] == 'BUY'}
+            for order in doc['orders']:
+                if order['id'] in pending_buys:
+                    order['cancelled_at'] = now.isoformat()
+            doc['entry_policy'] = SWING_ENTRY_POLICY
+        proposed = plan(doc, record, series, now.date(), decision_at=now, failed_breakout=version=='v1.6',
+                        confirmed_swings=confirmed_swings)
         for order in proposed['orders']:
             t = order['ticker']
             inp = record['_evidence']['inputs'][t]
@@ -172,7 +194,12 @@ def tracked_symbols(root):
     return sorted(symbols)
 
 
-def advance(ledger, build, now):
+def advance(ledger, build, now, *, entry_policy=SWING_ENTRY_POLICY, include_exit_experiment=True):
+    if entry_policy not in (None, SWING_ENTRY_POLICY):
+        raise ValueError('Unsupported swing entry policy')
+    confirmed_swings = entry_policy == SWING_ENTRY_POLICY
+    if ledger['decisions'] and ledger['decisions'][-1].get('entry_policy') and not confirmed_swings:
+        raise ValueError('Swing entry policy cannot be reverted in the journal')
     record = build['record']
     evidence = record['_evidence']
     captured = datetime.fromisoformat(evidence['captured_at'])
@@ -193,6 +220,11 @@ def advance(ledger, build, now):
     rates = {d:v for d,v in pulse.get('paper_eurusd',[]) if d <= session and v > 0}
     outcomes = {}
     for key, account in ledger['accounts'].items():
+        if confirmed_swings:
+            for order in account['orders']:
+                if order['status'] == 'Pending' and order['side'] == 'Buy' and (
+                        key != 'timing' or order.get('entry_policy') != SWING_ENTRY_POLICY):
+                    order.update(status='Cancelled', detail=ENTRY_PAUSED)
         settle(account, bars, rates, now)
         gaps = []
         for t,p in account['holdings'].items():
@@ -202,11 +234,15 @@ def advance(ledger, build, now):
                 gaps.append(t)
         count = len(account['orders'])
         if not gaps:
-            decide(key, account, record, now)
+            decide(key, account, record, now, confirmed_swings=confirmed_swings)
         outcomes[key] = dict(equity=None if gaps else value(account), cash=account['cash'], gaps=gaps,
                              new_orders=len(account['orders'])-count)
-    breakout_comparison(ledger, record, now)
-    ledger['decisions'].append(dict(session=session, market=market(record), at=now.isoformat(), run=build['manifest']['run_id'], outcomes=outcomes))
+    if include_exit_experiment:
+        breakout_comparison(ledger, record, now, confirmed_swings=confirmed_swings)
+    decision = dict(session=session, market=market(record), at=now.isoformat(), run=build['manifest']['run_id'], outcomes=outcomes)
+    if confirmed_swings:
+        decision['entry_policy'] = entry_policy
+    ledger['decisions'].append(decision)
     return True
 
 
@@ -249,9 +285,9 @@ def verified_ledger(root, build=None):
                 at = datetime.fromisoformat(decision['at'])
                 if at.utcoffset() != timedelta(0):
                     raise ValueError('Journal decision time must be UTC')
-                archived.append((matched, at))
-            for matched, at in reversed(archived):
-                if not advance(replay, matched, at):
+                archived.append((matched, at, decision.get('entry_policy')))
+            for matched, at, entry_policy in reversed(archived):
+                if not advance(replay, matched, at, entry_policy=entry_policy):
                     raise ValueError('Journal decision cannot be replayed')
         if canonical(replay) != canonical(ledger):
             raise ValueError('Journal state differs from verified replay')
@@ -292,19 +328,25 @@ def site_pages(root, build=None):
         for ticker,p in a['holdings'].items():
             positions.append((name,ticker,p['day'],f'€{p["local_value"]/p["fx"]:,.2f}'))
         for o in a['orders']:
-            orders.append((o['submitted'][:16], name,o['side'],o['ticker'],o['status'],o.get('day','—'),
-                           format(o['euros'],',.2f') if o['euros'] is not None else '—',o.get('detail') or o['reason']))
+            paused = o['status'] == 'Pending' and o['side'] == 'Buy' and (
+                key != 'timing' or o.get('entry_policy') != SWING_ENTRY_POLICY)
+            orders.append((o['submitted'][:16], name,o['side'],o['ticker'],
+                           'Legacy entry blocked' if paused else o['status'],o.get('day','—'),
+                           format(o['euros'],',.2f') if o['euros'] is not None else '—',
+                           ENTRY_PAUSED if paused else o.get('detail') or o['reason']))
     text += table(('Strategy','Equity','Return','Cash','Gross traded','Fees','New orders','Price gaps'),summary)
     twins = [(v, f'€{doc["summary"]["cash"]:,.2f}', active_trading._money(doc['summary']['value']),
               doc['summary']['fills'],doc['summary']['pending']) for v,doc in ledger.get('breakout_comparison',{}).items()]
     if twins:
         text += '<h2>Failed-breakout exit experiment</h2><p>Identical active rules. Only v1.6 sells a failed breakout. Both use whole shares and the original account’s fixed FX and price-return basis.</p>'
         text += table(('Rules','Cash','Equity','Fills','Pending'),twins)
+    text += ('<p><a href="https://github.com/Usubillaga/InvestorAce/blob/main/docs/analysis/swing-confirmation-2026-11-20.md">'
+             'Swing entry validation · point-in-time pilot</a></p>')
     text += '<h2>Holdings</h2>' +(table(('Strategy','Ticker','Local mark date','EUR value'),positions) if positions else '<p>No filled positions.</p>')
     text += '<h2>Order journal</h2>'+(table(('Decision UTC','Strategy','Side','Ticker','Status','Execution date','EUR','Reason'),sorted(orders,reverse=True)) if orders else '<p>No orders recorded.</p>')
-    text += ('<h2>Trading rules</h2><p>Each strategy starts with €10,000. Buy from a score of 7 in rank order. '
+    text += ('<h2>Trading rules</h2><p>Each strategy starts with €10,000. New swings require a fundamental score of at least 7, and an Opportunity score of at least 7 with a Buy or Strong Buy label. '
              'Each entry commits 12% of equity, with eight positions and two per sector at most. Sell below 6.5. '
-             'The opportunity strategies require a Buy or Strong Buy for entry. The active strategy also requires '
+             'The Fundamentals and Opportunity accounts retain their history and can close existing positions. New swings also require '
              'an S&amp;P uptrend, a close above SMA 36/50/200 and extension of 0–3 ATR. It exits below SMA 200.</p>'
              '<p>Orders use fractional exposure at the next available close after the UTC decision date and expire '
              'after seven calendar days. Fees are 0.10% per fill. Local adjusted-close returns include reinvested '

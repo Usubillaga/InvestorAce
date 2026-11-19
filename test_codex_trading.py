@@ -5,7 +5,8 @@ from tempfile import TemporaryDirectory
 import unittest
 
 import evidence
-from codex_trading import FILE, advance, fresh, settle, site_pages, tracked_symbols, update, value
+from codex_trading import FILE, SWING_ENTRY_POLICY, advance, decide, fresh, settle, site_pages, tracked_symbols, update, value
+from test_active_rules import levels, record, stock
 
 
 def instant(day):
@@ -29,6 +30,50 @@ class PaperLedger(unittest.TestCase):
         settle(account, bars, rates, instant('2026-11-18'))
         self.assertAlmostEqual(value(account), expected)
         self.assertAlmostEqual(account['fees'], 1.2)
+
+    def test_new_swings_require_two_signals_and_only_use_the_timing_account(self):
+        now = instant('2026-11-19')
+        ref = record(captured='2026-11-18',
+                     A=stock(sector='Tech', levels=levels()), B=stock(sector='Tech', levels=levels(sma50=105)),
+                     C=stock(sector='Tech', levels=levels()), D=stock(sector='Tech'))
+        for ticker in ('A', 'B', 'C', 'D'):
+            ref[ticker]['opportunity']['fundamental_score'] = 7.5 if ticker != 'C' else 6.9
+        ledger = fresh()
+        for key, doc in ledger['accounts'].items():
+            decide(key, doc, ref, now)
+        self.assertEqual([o['ticker'] for o in ledger['accounts']['timing']['orders']], ['A'])
+        self.assertEqual(ledger['accounts']['timing']['orders'][0]['entry_policy'], SWING_ENTRY_POLICY)
+        self.assertFalse(ledger['accounts']['fundamental']['orders'])
+        self.assertFalse(ledger['accounts']['opportunity']['orders'])
+        ref['_evidence']['macro']['pulse']['components']['sp500_ma200']['value'] = -1
+        timing = fresh()['accounts']['timing']
+        decide('timing', timing, ref, now)
+        self.assertFalse(timing['orders'])
+
+    def test_cutover_cancels_legacy_buys_before_the_next_fill(self):
+        now = instant('2026-11-18')
+        ref = record(captured='2026-11-18', A=stock(sector='Tech', levels=levels()))
+        ref['A']['opportunity'].update(quote_observed_at='2026-11-18T21:00:00Z', fundamental_score=7.5)
+        ref['_evidence']['captured_at'] = now.isoformat()
+        ref['_evidence']['macro']['pulse']['tracked'] = {'^GSPC': [['2026-11-18', 6000]]}
+        build = {'manifest': {'run_id': 'old'}, 'record': ref}
+        ledger = fresh()
+        self.assertTrue(advance(ledger, build, now, entry_policy=None))
+        self.assertNotIn('entry_policy', ledger['decisions'][0])
+        self.assertTrue(all(len(a['orders']) == 1 for a in ledger['accounts'].values()))
+        now = instant('2026-11-19')
+        record_next = record(sp_vs_200=-1, captured='2026-11-19')
+        record_next['_evidence']['captured_at'] = now.isoformat()
+        record_next['_evidence']['macro']['pulse'].update(
+            tracked={'^GSPC': [['2026-11-19', 6000]]},
+            paper_returns={'A': [['2026-11-19', '2026-11-18', 1., 100.]]},
+            paper_eurusd=[['2026-11-19', 1.2]])
+        self.assertTrue(advance(ledger, {'manifest': {'run_id': 'new'}, 'record': record_next}, now))
+        self.assertEqual(ledger['decisions'][-1]['entry_policy'], SWING_ENTRY_POLICY)
+        for doc in ledger['accounts'].values():
+            self.assertEqual(doc['orders'][0]['status'], 'Cancelled')
+            self.assertEqual(doc['cash'], 10000.)
+            self.assertFalse(doc['holdings'])
 
     def test_one_decision_per_completed_session(self):
         now = instant('2026-11-19')

@@ -99,6 +99,19 @@ def confirmation(timing):
     return sum(close > level for level in levels)
 
 
+def swing_entry(signal, timing, market_trend):
+    """Require an independently supported fundamental score and a confirmed market and stock trend."""
+    fundamental = signal.get('fundamental_score')
+    opportunity_score = signal.get('score')
+    extension = timing.get('extension_atr')
+    return (not signal.get('withdrawn') and signal.get('label') in BUY_LABELS
+            and type(fundamental) in (int, float) and math.isfinite(fundamental) and fundamental >= 7
+            and type(opportunity_score) in (int, float) and math.isfinite(opportunity_score) and opportunity_score >= 7
+            and market_trend == 'UPTREND' and timing.get('status') == 'AVAILABLE'
+            and timing.get('trend') == 'ABOVE_SMA200' and confirmation(timing) == 3
+            and type(extension) in (int, float) and 0 <= extension <= MAX_EXTENSION_ATR)
+
+
 def build_age_days(record, today):
     captured = str((record.get('_evidence') or {}).get('captured_at') or '')[:10]
     try:
@@ -107,7 +120,7 @@ def build_age_days(record, today):
         return None
 
 
-def plan(doc, record, series, today, *, decision_at=None, failed_breakout=True):
+def plan(doc, record, series, today, *, decision_at=None, failed_breakout=True, confirmed_swings=False):
     """Orders for today's close and the reason for each decision."""
     decision_at = decision_at or datetime.combine(today, datetime.max.time(), timezone.utc)
     def signal(ticker):
@@ -207,6 +220,8 @@ def plan(doc, record, series, today, *, decision_at=None, failed_breakout=True):
             continue
         if timing.get('status') != 'AVAILABLE' or timing.get('trend') != 'ABOVE_SMA200':
             continue
+        if confirmed_swings and not swing_entry(opp, timing, regime):
+            continue
         ext = timing.get('extension_atr')
         if ext is None or ext < 0 or ext > MAX_EXTENSION_ATR:
             continue
@@ -275,7 +290,7 @@ def main(argv=None):
                  if p.name[:8] >= (date.fromisoformat(doc['opened']) - timedelta(days=90)).strftime('%Y%m%d')]
     now = datetime.now(timezone.utc)
     result = plan(doc, build['record'], merge_series(snapshots + [build['record']]), today,
-                  decision_at=now if today == now.date() else None)
+                  decision_at=now if today == now.date() else None, confirmed_swings=True)
     print(json.dumps(dict(result, titles=[title(o) for o in result['orders']],
                           bodies=[body(o) for o in result['orders']]), indent=2))
     return 0
