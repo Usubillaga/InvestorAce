@@ -1,9 +1,11 @@
 from datetime import datetime
-import unittest
-
-from codex_trading import fresh, settle, value, advance, site_pages
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import unittest
+
+import evidence
+from codex_trading import FILE, advance, fresh, settle, site_pages, tracked_symbols, update, value
 
 
 def instant(day):
@@ -39,3 +41,43 @@ class PaperLedger(unittest.TestCase):
         self.assertEqual(len(doc['decisions']), 1)
         with TemporaryDirectory() as folder:
             self.assertIn('Awaiting the first verified close',site_pages(Path(folder))[0][1])
+
+    def test_account_values_require_replay_from_committed_lineage(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            history = root / 'history'
+            bundle = {'sources': {'engine.py': 'fixture'}}
+            bundle['sha256'] = evidence.digest(bundle['sources'])
+
+            def publish(day):
+                pulse = {'tracked': {'^GSPC': [[day, 6000.]]}}
+                record = evidence.create_record({}, {}, {'pulse': pulse}, {}, bundle['sha256'],
+                                                instant(day).isoformat())
+                return evidence.publish_build(record, bundle, '<html>Report</html>',
+                                              root=history, report_path=root / 'index.html')
+
+            publish('2026-11-18')
+            first_pointer = (history / '_current.json').read_text()
+            update(root, now=instant('2026-11-18'))
+            journal = root / FILE
+            original = journal.read_text()
+            publish('2026-11-19')
+            newest = evidence.current_build(history)
+            self.assertIn('€10,000.00', site_pages(root, newest)[0][1])
+
+            doc = json.loads(original)
+            doc['accounts']['timing']['cash'] = 43210.
+            journal.write_text(json.dumps(doc))
+            with self.assertLogs(level='WARNING'):
+                self.assertNotIn('43,210', site_pages(root, newest)[0][1])
+                self.assertEqual(tracked_symbols(root), [])
+                update(root, now=instant('2026-11-19'))
+            self.assertEqual(json.loads(journal.read_text()), doc)
+
+            journal.write_text(original)
+            update(root, now=instant('2026-11-19'))
+            self.assertEqual(len(json.loads(journal.read_text())['decisions']), 2)
+            # An intact archived build outside the selected pointer's lineage is ineligible.
+            (history / '_current.json').write_text(first_pointer)
+            with self.assertLogs(level='WARNING'):
+                self.assertIn('journal could not be verified', site_pages(root)[0][1])

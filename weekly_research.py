@@ -689,7 +689,7 @@ def build_site(root, output, require_committed=False):
         from active_trading import site_pages as trade_site_pages
         from codex_trading import site_pages as codex_pages
         trade_pages = trade_site_pages(root, committed_build)
-        codex = codex_pages(root)
+        codex = codex_pages(root, committed_build)
         from backtest import site_pages as backtest_site_pages
         backtest_pages = backtest_site_pages(root)
         from stress_scenarios import site_pages as stress_site_pages
