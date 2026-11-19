@@ -102,6 +102,10 @@
           label:item.label||(item.valuation_input_conflicts?.length?blocked:absent),
           fit:range(item.current_fit,item.current_fit_bounds),growth:numeric(item.implied_growth_pct)+'%',
           metrics:metricNames[0]+' '+numeric(item.metrics?.valuation_pe)+' · '+metricNames[1]+' '+numeric(item.metrics?.fcf_yield_pct)+'% · '+metricNames[2]+' '+numeric(item.metrics?.operating_margin_pct)+'%'};
+        if(field==='decision-context'){
+          if(!item.label || item.withdrawn || item.quote_status!=='DATED') target.textContent='';
+          continue;
+        }
         if(field==='entry'){
           if(item.withdrawn||item.quote_status!=='DATED'||item.valuation_input_conflicts?.length){
             target.textContent={en:'Buy price unavailable',de:'Kaufpreis nicht verfügbar',es:'Precio de compra no disponible'}[language]||'Buy price unavailable';

@@ -45,9 +45,9 @@ def band(score):
     return next(name for limit, name in BANDS if score < limit) if score is not None else None
 
 
-def _series(frame, symbol):
+def _series(frame, symbol, field='Close'):
     try:
-        column = frame['Close'][symbol] if symbol in frame['Close'] else None
+        column = frame[field][symbol] if symbol in frame[field] else None
     except (KeyError, TypeError):
         column = None
     if column is None:
@@ -177,6 +177,17 @@ def read(universe_symbols=(), download=None, fear_greed=None, as_of=None, tracke
     if tracked_symbols:
         pulse['tracked'] = {s: [[d, round(v, 6)] for d, v in _series(frame, s)[-TRACKED_SESSIONS:]]
                             for s in sorted(set(tracked_symbols))}
+        # Freeze local gross total-return relatives from a single adjusted series.
+        # A relative remains valid when Yahoo later rescales its adjusted history.
+        total_returns = {}
+        for symbol in sorted(set(tracked_symbols)):
+            adjusted = [(d, v) for d, v in _series(frame, symbol, 'Adj Close') if v > 0]
+            raw = dict(_series(frame, symbol))
+            total_returns[symbol] = [[day, prev_day, round(value / prev, 10), raw[day]]
+                                     for (prev_day, prev), (day, value) in zip(adjusted, adjusted[1:])
+                                     if day in raw and raw[day] > 0][-TRACKED_SESSIONS:]
+        pulse['paper_returns'] = total_returns
+        pulse['paper_eurusd'] = _series(frame, 'EURUSD=X')[-TRACKED_SESSIONS:]
     return pulse
 
 

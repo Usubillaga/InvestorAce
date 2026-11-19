@@ -20,6 +20,9 @@ def stock(label='Buy', score=7.5, price=100., trend='ABOVE_SMA200', ext=1.0, nex
 def record(sp_vs_200=3.0, captured='2026-11-30', **stocks):
     rec, inputs = {}, {}
     for ticker, (row, inp) in stocks.items():
+        row['opportunity'].update(schema=ar.opportunity.VERSION, as_of=captured+'T00:00:00Z',
+                                  financial_period=captured, quote_observed_at=captured+'T23:59:59.999999Z',
+                                  quote_status='DATED', profile={'tags': []}, metrics={}, components=[])
         rec[ticker] = row
         inputs[ticker] = dict(inp, yf=ticker)
     rec['_evidence'] = dict(captured_at=captured + 'T23:30:00+00:00', inputs=inputs, macro=dict(pulse=dict(components=dict(sp500_ma200=dict(value=sp_vs_200)))))
@@ -50,6 +53,14 @@ class Entries(unittest.TestCase):
                      D=stock(ext=4.5), E=stock(next_report='2026-12-03'), F=stock(ext=-0.5))
         p = ar.plan(account(), rec, {}, TODAY)
         self.assertEqual([o['ticker'] for o in p['orders']], ['A', 'E'])   # E reports in 2 days
+
+    def test_expired_label_cannot_drive_entry_or_exit_on_a_fresh_build(self):
+        for label in ('Buy', 'Sell'):
+            rec = record(A=stock(label=label))
+            rec['A']['opportunity']['quote_observed_at'] = '2026-11-26T12:00:00Z'
+            doc = account() if label == 'Buy' else account(('paper-order: BUY 1 A', '2026-11-23T10:00:00Z'))
+            plan = ar.plan(doc, rec, {'A': [('2026-11-23', 100.)]}, TODAY)
+            self.assertEqual(plan['orders'], [])
 
     def test_post_earnings_drift_ranks_first_then_score(self):
         rec = record(A=stock(score=8.5), B=stock(score=7.1, last_report='2026-11-26'), C=stock(score=7.9),

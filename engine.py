@@ -917,6 +917,9 @@ def opportunity(d, *, regime, as_of=None, weights=None):
                 multiplier=REGIME_SECTOR_MULT,clamp=REGIME_DURATION_CLAMP,
                 version=REGIME_MODEL_VERSION)
     result = OPPORTUNITY.assess(d, regime=regime, as_of=as_of, spec=spec, weights=weights)
+    if d.get('midcycle') and result.get('label'):
+        result['cash_flow_sensitivity'] = OPPORTUNITY.cash_flow_sensitivity(
+            d, regime=regime, spec=spec, as_of=as_of, weights=weights)
     result['price_thresholds'] = (None if result.get('withdrawn') else
         OPPORTUNITY.price_thresholds(d, regime=regime, spec=spec, as_of=as_of, weights=weights))
     return result
@@ -1970,9 +1973,11 @@ def run_build():
             try:
                 import paper_portfolio
                 import active_trading
+                import codex_trading
                 macro['pulse'] = MARKET_PULSE.read(universe_symbols=[d.get('yf', t) for t, d in DATA.items()],
                     tracked_symbols=sorted(set(paper_portfolio.tracked_symbols(datetime.now(timezone.utc).date()))
-                                           | set(active_trading.tracked_symbols(universe=DATA))))
+                                           | set(active_trading.tracked_symbols(universe=DATA))
+                                           | set(codex_trading.tracked_symbols(Path(__file__).resolve().parent))))
                 MARKET_PULSE.add_quote_closes(macro['pulse'], {d.get('yf', t): d for t, d in DATA.items()})
             except Exception as exc:
                 print('Market pulse unavailable:', type(exc).__name__)
