@@ -44,6 +44,7 @@ def build_site(root):
         ['node', 'tests/comparison_duel.cjs'],
         ['node', 'tests/assessment_view.cjs'],
         [sys.executable, 'engine.py'],
+        [sys.executable, 'codex_trading.py'],
         [sys.executable, 'stock_compare.py', '--refresh'],
         [sys.executable, 'weekly_research.py', '--output', 'public', '--require-committed-report'],
     ]

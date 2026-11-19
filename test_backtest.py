@@ -44,6 +44,18 @@ class Runs(unittest.TestCase):
             self.assertGreater(m['final'], 0, name)
             self.assertLessEqual(m['max_drawdown'], 0, name)
 
+    def test_missing_quote_carries_equity_but_cannot_fill(self):
+        days = pd.bdate_range('2020-01-01', periods=275)
+        close = pd.Series(100 + np.arange(len(days)) * .02, index=days)
+        stock = bt.indicators(close, close + 1, close - 1)
+        normal = bt.simulate({'A': stock}, close, {}, days[-10])
+        stock.loc[days[-4], 'close'] = np.nan
+        gap = bt.simulate({'A': stock}, close, {}, days[-10])
+        self.assertEqual(normal['max_drawdown'], gap['max_drawdown'])
+        self.assertEqual(gap['longest_carried_mark'], {'A': 1})
+        stock.loc[days[-1], 'close'] = np.nan
+        self.assertEqual(bt.simulate({'A': stock}, close, {}, days[-10])['unpriced_at_end'], ['A'])
+
     def test_report_renders(self):
         res = dict(window='x', generated_at='y', symbols=12, event_study=bt.event_study(self.frames, self.spx, self.start),
                    portfolio={'base_v1_5': bt.simulate(self.frames, self.spx, {}, self.start)},

@@ -255,7 +255,7 @@ RULES_HTML = (
     '3% cash kept. Every fill pays 0.10% for commission and slippage.</li>'
     '<li><b>Sell</b>: stop at −8% (−5% in a correction); stop to the entry price after +10%; after +20% the stop '
     'trails 10% under the highest close; sold below the 200-day average, below the 50-day average while at a loss, '
-    'when a breakout entry closes 3% under the old high within 10 sessions (your rule: the only proposed rule that improved Sharpe and drawdown in each of three backtest periods, 2014-2026), when the label falls to Hold Negative or Sell, and after 12 months (momentum reverses after about a year: '
+    'when a breakout entry closes 3% under the old high within 10 sessions (your rule: an experimental exit with mixed results across historical periods), when the label falls to Hold Negative or Sell, and after 12 months (momentum reverses after about a year: '
     'Jegadeesh &amp; Titman 1993). Winners are not cut early (Odean 1998: selling winners early is costly); stops '
     'help when prices trend (Kaminski &amp; Lo 2014).</li>'
     '<li><b>8-week rule</b> (O\'Neil, practitioner rule without an academic test): a position up 20% within 15 '

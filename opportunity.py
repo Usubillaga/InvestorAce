@@ -352,6 +352,33 @@ def _at_price(row, price):
     return out
 
 
+def cash_flow_sensitivity(row, **context):
+    """Scenario-only change to the midcycle valuation cash flow; operating quality stays fixed."""
+    if not row.get('midcycle'):
+        return []
+    dynamic = row.get('dynamic_analysis') or {}
+    inputs = dynamic.get('inputs') or {}
+    val = dynamic.get('valuation') or {}
+    if not positive_number(inputs.get('valuation_fcf')) or not positive_number(val.get('ngv_per_share')):
+        return []
+    scenarios = []
+    for multiplier in (.8, 1.2):
+        shocked = copy.deepcopy(row)
+        packet = shocked['dynamic_analysis']
+        packet['inputs']['valuation_fcf'] *= multiplier
+        packet['valuation']['ngv_per_share'] *= multiplier
+        y = finite_number(packet['metrics'].get('fcf_yield_pct'))
+        if y is None:
+            return []
+        packet['metrics']['fcf_yield_pct'] = y * multiplier
+        priced = _at_price(shocked, row.get('price'))
+        if priced is None:
+            return []
+        scenario = assess(priced, **context)
+        scenarios.append(dict(change=round((multiplier-1)*100), label=scenario['label'], score=scenario['score']))
+    return scenarios
+
+
 def _blocker(result):
     """Why no price reaches Buy: the non-price condition that fails at 30% of the quote."""
     reasons = []

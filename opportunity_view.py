@@ -163,6 +163,24 @@ def guide(regime):
             'volatility, not a forecast.</div>')
 
 
+def decision_context(item):
+    value = item.get('score')
+    if value is None or not item.get('label'):
+        return ''
+    edge = min((3.5, 5.5, 7., 8.5), key=lambda n: abs(n-value))
+    text = f'Unrounded comparison: score {value:.4f}, {abs(value-edge):.4f} points '
+    text += ('below' if value < edge else 'above' if value > edge else 'at') + f' the {edge:g} threshold.'
+    parts = [p for p in item.get('components', []) if p.get('contribution') is not None]
+    if parts:
+        drag = max(parts, key=lambda p: p['weight']*10 - p['contribution'])
+        text += ' Largest weighted shortfall from 10: ' + drag['label'] + '.'
+    if item.get('uncapped_score') is not None and item['uncapped_score'] > value:
+        text += ' A model cap limits the label.'
+    for scenario in item.get('cash_flow_sensitivity', []):
+        text += f" Midcycle cash flow {scenario['change']:+d}%: {scenario['label'] or 'Incomplete'}."
+    return '<p data-opportunity-field="decision-context">'+escape(text)+'</p>'
+
+
 def detail(ticker,item):
     rows = []
     mix = item.get('regime_weights') or {}
@@ -176,7 +194,7 @@ def detail(ticker,item):
     return ('<details class="opportunity-stock decision-stock" id="opportunity-'+escape(ticker,quote=True)
         +'" data-opportunity="'+escape(ticker,quote=True)+'"><summary><b class="tk">'+escape(ticker)+'</b> '
         +signal(item)+' · '+score(item)+'</summary>'+tags(item)+metrics(item)
-        +conflicts(ticker, item)
+        +conflicts(ticker, item)+decision_context(item)
         +'<p class="opportunity-metrics">P/E proxy = market capitalization / corresponding net income, '
         'capped at operating income when non-operating gains lift net income above it. '
         'Commodity valuation and growth use cycle averages where available. Financial period: '

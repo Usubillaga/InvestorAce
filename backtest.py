@@ -148,6 +148,7 @@ VARIANTS = {
     'wait_under_resistance': dict(skip_near_res=True),
     'two_closes_above_resistance': dict(confirm_breakout=True),
     'sell_failed_breakout': dict(sell_failed_breakout=True),
+    'two_closes_and_sell_failed': dict(confirm_breakout=True, sell_failed_breakout=True),
     'wait_res_and_sell_failed': dict(skip_near_res=True, sell_failed_breakout=True),
     'kell_crossback_exit': dict(sell_failed_breakout=True, ema_crossback=True),
     'kell_base_n_break_entry': dict(sell_failed_breakout=True, base_break=True),
@@ -167,26 +168,47 @@ VARIANTS = {
 }
 
 
-def simulate(frames, spx, sectors, start, end=None, **rule):
+def portfolio_inputs(frames):
+    """Prepare the same dated signals once for all rule variants."""
+    close = pd.DataFrame({s: f['close'] for s, f in frames.items()})
+    sma = pd.DataFrame({s: f['sma200'] for s, f in frames.items()})
+    breadth = ((close > sma) & sma.notna()).sum(axis=1) / sma.notna().sum(axis=1).replace(0, np.nan)
+    candidates, rows = {}, {}
+    for symbol, frame in frames.items():
+        rows[symbol] = {}
+        for row in frame.itertuples():
+            rows[symbol][row.Index] = row
+            if (row.close > row.sma36 and row.close > row.sma50 and row.close > row.sma200
+                    and 0 <= row.ext_atr <= 3):
+                candidates.setdefault(row.Index, []).append((symbol, row))
+    return close, close.ffill(), breadth, candidates, rows
+
+
+def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
     """Daily decisions on close t, fills at close t+1 (the live system: last night's build, today's close)."""
     dates = spx.index[(spx.index >= start) & ((spx.index < end) if end is not None else True)]
     spx_sma = spx.rolling(200).mean()
     cash, pos, trades, curve, cooldown = CAPITAL, {}, [], [], {}
-    close = pd.DataFrame({s: f['close'] for s, f in frames.items()})
-    sma = pd.DataFrame({s: f['sma200'] for s, f in frames.items()})
-    breadth = ((close > sma) & sma.notna()).sum(axis=1) / sma.notna().sum(axis=1).replace(0, np.nan)
-    for i, day in enumerate(dates[:-1]):
-        nxt = dates[i + 1]
+    close, marks, breadth, candidates, rows = prepared or portfolio_inputs(frames)
+    stale_sessions = {}
+    for i, day in enumerate(dates):
         px = close.loc[day]
-        equity = cash + sum(p['shares'] * px.get(s, np.nan) for s, p in pos.items()
-                            if not np.isnan(px.get(s, np.nan)))
+        for s, p in pos.items():
+            p['stale'] = p.get('stale', 0) + 1 if pd.isna(px[s]) else 0
+            if p['stale']:
+                stale_sessions[s] = max(stale_sessions.get(s, 0), p['stale'])
+        equity = cash + sum(p['shares'] * marks.at[day, s] for s, p in pos.items())
         curve.append((day, equity))
+        if i == len(dates) - 1:
+            break
+        nxt = dates[i + 1]
+        buying_cash = cash - CAPITAL * .03
         regime_up = spx.loc[day] > spx_sma.loc[day]
         stop = 0.08 if regime_up else 0.05
         sells = []
         for s, p in pos.items():
-            f = frames[s].loc[day]
-            c = f['close']
+            f = rows[s][day]
+            c = f.close
             if np.isnan(c):
                 continue
             p['held'] += 1
@@ -207,23 +229,65 @@ def simulate(frames, spx, sectors, start, end=None, **rule):
                 why = 'MARKET_EXIT'
             elif c <= floor:
                 why = 'STOP'
-            elif rule.get('sell_extended') and f['ext36'] > EXT_LIMIT:
+            elif rule.get('sell_extended') and f.ext36 > EXT_LIMIT:
                 why = 'EXTENDED'
             elif holding:
                 why = None
             elif (rule.get('sell_failed_breakout') and p.get('res') and p['held'] <= FAIL_WINDOW
                   and c < p['res'] * 0.97):
                 why = 'FAILED_BREAKOUT'
-            elif rule.get('ema_crossback') and c < f['ema10'] and c < f['ema20']:
+            elif rule.get('ema_crossback') and c < f.ema10 and c < f.ema20:
                 why = 'EMA_CROSSBACK'
-            elif c < f['sma200']:
+            elif c < f.sma200:
                 why = 'TREND'
-            elif c < f['sma50'] and c < e:
+            elif c < f.sma50 and c < e:
                 why = 'SMA50'
             elif p['held'] >= 252:
                 why = 'MAX_HOLD'
             if why:
                 sells.append((s, why))
+        remaining = set(pos) - {s for s, _ in sells}
+        slots = 8 - len(remaining) if regime_up else 0
+        sector_count = {}
+        for s in remaining:
+            sector_count[sectors.get(s)] = sector_count.get(sectors.get(s), 0) + 1
+        cands = []
+        for s, f in candidates.get(day, ()):
+            if s in pos or (s in cooldown and i - cooldown[s] <= 10):
+                continue
+            c = f.close
+            if c < f.sma200 * (1 + rule.get('sma200_buffer', 0.)):
+                continue
+            if rule.get('skip_extended') and f.ext36 > EXT_LIMIT:
+                continue
+            res = f.res
+            if rule.get('skip_near_res') and not np.isnan(res) and res * 0.97 <= c < res:
+                continue
+            if rule.get('confirm_breakout') and not np.isnan(res) and c > res and not f.prev_above:
+                continue                       # first close above the old high: wait for a second one
+            if rule.get('base_break') or rule.get('wedge_pop'):
+                above_emas = c > f.ema10 and c > f.ema20
+                vol = f.vol_ratio
+                tight = f.base_high / f.base_low - 1 <= BASE_MAX_RANGE
+                breaks = (rule.get('base_break') and above_emas and c > f.base_high and tight
+                          and vol >= BREAK_VOLUME)
+                pops = rule.get('wedge_pop') and f.ema_pop and vol >= POP_VOLUME
+                if not (breaks or pops):
+                    continue
+            cands.append((-f.mad, s, c, res))
+        planned = []
+        for _, s, c, res in sorted(cands):
+            if len(planned) >= slots:
+                break
+            if sectors.get(s) and sector_count.get(sectors.get(s), 0) >= 2:
+                continue
+            eq = equity
+            shares = math.floor(min(eq * 0.01 / (stop * c), eq * 0.20 / c, buying_cash / (c * (1 + COST))))
+            if shares < 1 or shares * c < 50:
+                continue
+            buying_cash -= shares * c * (1 + COST)
+            planned.append((s, shares, res if c > res else None))
+            sector_count[sectors.get(s)] = sector_count.get(sectors.get(s), 0) + 1
         for s, why in sells:
             fill = close.at[nxt, s]
             if np.isnan(fill):
@@ -233,58 +297,23 @@ def simulate(frames, spx, sectors, start, end=None, **rule):
             trades.append(dict(symbol=s, ret=fill * (1 - COST) / (p['entry'] * (1 + COST)) - 1,
                                held=p['held'], why=why))
             cooldown[s] = i
-        if not regime_up or len(pos) >= 8:
-            continue
-        sector_count = {}
-        for s in pos:
-            sector_count[sectors.get(s)] = sector_count.get(sectors.get(s), 0) + 1
-        cands = []
-        for s, fr in frames.items():
-            if s in pos or (s in cooldown and i - cooldown[s] <= 10) or day not in fr.index:
-                continue
-            f = fr.loc[day]
-            if f[['close', 'sma36', 'sma50', 'sma200', 'ext_atr']].isna().any():
-                continue
-            c = f['close']
-            if not (c > f['sma36'] and c > f['sma50'] and c > f['sma200'] and 0 <= f['ext_atr'] <= 3):
-                continue
-            if c < f['sma200'] * (1 + rule.get('sma200_buffer', 0.)):
-                continue
-            if rule.get('skip_extended') and f['ext36'] > EXT_LIMIT:
-                continue
-            res = f['res']
-            if rule.get('skip_near_res') and not np.isnan(res) and res * 0.97 <= c < res:
-                continue
-            if rule.get('confirm_breakout') and not np.isnan(res) and c > res and not f['prev_above']:
-                continue                       # first close above the old high: wait for a second one
-            if rule.get('base_break') or rule.get('wedge_pop'):
-                above_emas = c > f['ema10'] and c > f['ema20']
-                vol = f['vol_ratio']
-                tight = f['base_high'] / f['base_low'] - 1 <= BASE_MAX_RANGE
-                breaks = (rule.get('base_break') and above_emas and c > f['base_high'] and tight
-                          and vol >= BREAK_VOLUME)
-                pops = rule.get('wedge_pop') and f['ema_pop'] and vol >= POP_VOLUME
-                if not (breaks or pops):
-                    continue
-            cands.append((-f['mad'], s, c, res))
-        for _, s, c, res in sorted(cands):
-            if len(pos) >= 8:
-                break
-            if sectors.get(s) and sector_count.get(sectors.get(s), 0) >= 2:
-                continue
+        for s, shares, resistance in planned:
             fill = close.at[nxt, s]
-            if np.isnan(fill):
+            if np.isnan(fill) or len(pos) >= 8:
                 continue
-            eq = equity
-            shares = min(eq * 0.01 / (stop * fill), eq * 0.20 / fill, (cash - CAPITAL * 0.03) / (fill * (1 + COST)))
-            if shares * fill < 50:
+            sector = sectors.get(s)
+            if sector and sum(sectors.get(t) == sector for t in pos) >= 2:
                 continue
-            cash -= shares * fill * (1 + COST)
-            pos[s] = dict(shares=shares, entry=fill, peak=fill, held=0, fast=False,
-                          res=res if c > res else None)
-            sector_count[sectors.get(s)] = sector_count.get(sectors.get(s), 0) + 1
+            cost = shares * fill * (1 + COST)
+            if cost > cash:
+                continue
+            cash -= cost
+            pos[s] = dict(shares=shares, entry=fill, peak=fill, held=0, fast=False, res=resistance)
     curve = pd.Series(dict(curve)).sort_index()
-    return _metrics(curve, trades)
+    result = _metrics(curve, trades)
+    result['longest_carried_mark'] = stale_sessions
+    result['unpriced_at_end'] = sorted(s for s in pos if pos[s].get('stale'))
+    return result
 
 
 def _metrics(curve, trades):
@@ -306,7 +335,7 @@ def _metrics(curve, trades):
 
 
 # ---------------------------------------------------------------- report
-def windows(frames, spx, sectors):
+def windows(frames, spx, sectors, prepared=None):
     """The same variants in separate periods: a rule is only trusted if it helps in each of them."""
     out = []
     for lo, hi in WINDOWS:
@@ -321,7 +350,7 @@ def windows(frames, spx, sectors):
                         breakouts={k: es['breakouts'][k] for k in ('failure_rate', 'all_uptrend_days', 'breakout_failed',
                                                                     'just_under_resistance')},
                         extension_30=es['extension_36']['30..+%'],
-                        portfolio={name: simulate(frames, spx, sectors, start, end, **rule)
+                        portfolio={name: simulate(frames, spx, sectors, start, end, prepared, **rule)
                                    for name, rule in VARIANTS.items()}))
     return out
 
@@ -347,9 +376,9 @@ def robustness(wins):
 
 def report(result):
     lines = [f"# Backtest of the technical rules · {result['window']}", '',
-             'Technical rules only (no InvestorAce label, which has no history); universe = today\'s members '
-             '(survivorship bias lifts every variant alike). Decide on close t, fill at close t+1, 0.10% per fill. '
-             'Compare the variants with each other.', '',
+             'Technical rules on current members. Historical membership and full label history are unavailable. '
+             'Survivorship bias may affect strategies differently. Decision on close t, fill at close t+1, 0.10% per fill. '
+             'Historical technical simulation uses local quote units and excludes FX. Compare variants within this simulation.', '',
              '## 1 · After a close far above the 36-day average', '',
              '| Distance to 36-day avg | days | stocks | 21-day mean | 63-day mean | 63-day vs S&P | P(−10% within 21 d) | P(63 d < 0) |',
              '|---|---|---|---|---|---|---|---|']
@@ -395,6 +424,27 @@ def report(result):
         lines.append('')
     lines += [
               f"Symbols: {result['symbols']} · generated {result['generated_at']}"]
+    if result.get('schema') == 'backtest-v3':
+        lines += ['', '## Valuation coverage', '',
+                  'Positions carry their last observed close on missing dates. No execution at a carried price. '
+                  'Extended gaps and terminal gaps leave delisting proceeds unresolved.', '',
+                  '| Variant | Longest gap (sessions) | Missing on final date |', '|---|---|---|']
+        for name, metrics in result['portfolio'].items():
+            longest = max(metrics['longest_carried_mark'].values(), default=0)
+            lines.append(f"| {name} | {longest} | {', '.join(metrics['unpriced_at_end']) or 'None'} |")
+    comparison = result.get('previous_method', {})
+    if comparison:
+        lines += ['', '## Change from the prior simulation', '', 'Same window and universe count. '
+                  'Ranks use published CAGR on the shared variants; ties share a rank. '
+                  'Differences include data refresh, share sizing, execution and carried marks.', '',
+                  '| Variant | Prior rank | Current rank | Prior CAGR | Current CAGR | Prior drawdown | Current drawdown |',
+                  '|---|---|---|---|---|---|---|']
+        for name, old in comparison.items():
+            cur = result['portfolio'][name]
+            rank = 1 + sum(result['portfolio'][k]['cagr'] > cur['cagr'] for k in comparison)
+            old_rank = 1 + sum(m['cagr'] > old['cagr'] for m in comparison.values())
+            lines.append(f"| {name} | {old_rank} | {rank} | {old['cagr']}% | {cur['cagr']}% | "
+                         f"{old['max_drawdown']}% | {cur['max_drawdown']}% |")
     return '\n'.join(lines) + '\n'
 
 
@@ -439,8 +489,9 @@ def site_pages(root, build=None):
         return []
     result = json.loads(path.read_text(encoding='utf-8'))
     intro = ('<div class="note">Updated by the backtest workflow on the first day of each month and whenever '
-             'backtest.py changes. Only rules that help in every period are adopted into the trading rules '
-             '(see Active trading).</div>')
+             'a manual run is requested. See Codex active trading for the prospective comparison.</div>')
+    if result.get('schema') != 'backtest-v3':
+        intro += '<p class="note">Legacy simulation: missing quotes could understate equity. Corrected results pending.</p>'
     return [(Path(PAGE), shell('Backtest', intro + _md_to_html(report(result))))]
 
 
@@ -452,8 +503,15 @@ def main():
     period = f'{HISTORY_YEARS}y'
     raw = yf.download(sorted(set(symbols.values())) + ['^GSPC'], period=period, auto_adjust=True,
                       progress=False, threads=True, group_by='column')
+    missing = [sym for sym in sorted(set(symbols.values()) | {'^GSPC'})
+               if sym not in raw.get('Close', {}) or raw['Close'][sym].dropna().empty]
+    if missing:
+        raise ValueError('No price history for ' + ', '.join(missing) + '; retaining previous report')
     spx = raw['Close']['^GSPC'].dropna()
     spx.index = spx.index.tz_localize(None) if spx.index.tz is not None else spx.index
+    # Yahoo can return a partial bar during a session. Use completed prior dates.
+    cutoff = pd.Timestamp.now(tz='America/New_York').normalize().tz_localize(None)
+    spx = spx[spx.index < cutoff]
     start = spx.index[-1] - pd.DateOffset(years=YEARS)
     frames = {}
     for key, sym in symbols.items():
@@ -467,13 +525,25 @@ def main():
         frame.index = frame.index.tz_localize(None) if frame.index.tz is not None else frame.index
         f = indicators(frame['c'], frame['h'], frame['l'], frame['v']).reindex(spx.index)
         frames[key] = f
+    if not frames or spx.empty:
+        raise ValueError('Missing price history; retaining the previous report')
     spx_curve = (spx[spx.index >= start] / spx[spx.index >= start].iloc[0]) * CAPITAL
-    result = dict(schema='backtest-v2', windows=windows(frames, spx, sectors), generated_at=datetime.now(timezone.utc).isoformat(timespec='minutes'),
+    prepared = portfolio_inputs(frames)
+    result = dict(schema='backtest-v3', windows=windows(frames, spx, sectors, prepared), generated_at=datetime.now(timezone.utc).isoformat(timespec='minutes'),
                   window=f'{start.date()} → {spx.index[-1].date()}', symbols=len(frames),
                   event_study=event_study(frames, spx, start),
-                  portfolio={name: simulate(frames, spx, sectors, start, **rule) for name, rule in VARIANTS.items()},
+                  portfolio={name: simulate(frames, spx, sectors, start, prepared=prepared, **rule) for name, rule in VARIANTS.items()},
                   spx=_metrics(spx_curve, []))
     OUT.mkdir(exist_ok=True)
+    previous_path = OUT / 'latest.json'
+    if previous_path.exists():
+        previous = json.loads(previous_path.read_text())
+        if (previous.get('window'), previous.get('symbols')) == (result['window'], result['symbols']):
+            if previous.get('schema') == 'backtest-v2':
+                result['previous_method'] = {k: {m:v[m] for m in ('cagr','max_drawdown')} for k,v in
+                                             previous['portfolio'].items() if k in result['portfolio']}
+            elif previous.get('previous_method'):
+                result['previous_method'] = previous['previous_method']
     (OUT / 'latest.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     (OUT / 'latest.md').write_text(report(result), encoding='utf-8')
     print(report(result))

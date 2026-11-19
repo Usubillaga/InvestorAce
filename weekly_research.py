@@ -546,7 +546,7 @@ def render_page(issue, issues, config, archived=False, series='research', langua
 def add_research_link(html, include_daily=False, include_claude=False, include_scanner=False,
                       include_comparison=False, include_enagas=False, include_paper=False, include_war=False,
                       include_crash=False, include_market=True, include_research=True, include_trade=False,
-                      include_backtest=False, include_earnings=False, include_stress=False):
+                      include_backtest=False, include_earnings=False, include_stress=False, include_codex=False):
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
@@ -564,6 +564,8 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                   if include_paper else '')
     trade_link = ('<a href="trade.html" style="color:#c1d98b;font-weight:700">Active trading ↗</a>'
                   if include_trade else '')
+    if include_codex:
+        trade_link += '<a href="codex-trading.html" style="color:#c1d98b;font-weight:700">Codex active trading ↗</a>'
     backtest_link = ('<a href="backtest.html" style="color:#c1d98b;font-weight:700">Backtest ↗</a>'
                      if include_backtest else '')
     backtest_link += ('<a href="earnings.html" style="color:#c1d98b;font-weight:700">Earnings reports ↗</a>'
@@ -676,6 +678,7 @@ def build_site(root, output, require_committed=False):
     from enagas_valuation import site_pages as enagas_pages
     enagas_review_pages = enagas_pages(root, build=committed_build)
     paper_pages, war_pages, crash_pages, trade_pages, backtest_pages, stress_pages = [], [], [], [], [], []
+    codex = []
     if committed_build is not None:
         from paper_portfolio import site_pages as paper_site_pages
         from war_scenario import site_pages as war_site_pages
@@ -684,7 +687,9 @@ def build_site(root, output, require_committed=False):
         war_pages = war_site_pages(root, committed_build)
         crash_pages = crash_site_pages(root, committed_build)
         from active_trading import site_pages as trade_site_pages
+        from codex_trading import site_pages as codex_pages
         trade_pages = trade_site_pages(root, committed_build)
+        codex = codex_pages(root)
         from backtest import site_pages as backtest_site_pages
         backtest_pages = backtest_site_pages(root)
         from stress_scenarios import site_pages as stress_site_pages
@@ -696,7 +701,7 @@ def build_site(root, output, require_committed=False):
                                    include_paper=bool(paper_pages), include_war=bool(war_pages),
                                    include_crash=bool(crash_pages), include_market='market' in published,
                                    include_research='research' in published, include_trade=bool(trade_pages),
-                                   include_backtest=bool(backtest_pages),
+                                   include_backtest=bool(backtest_pages), include_codex=bool(codex),
                                    include_earnings=bool(earnings_index(root / 'earnings')),
                                    include_stress=bool(stress_pages))
     # Translate the verified canonical report; never re-fetch or recalculate it.
@@ -705,7 +710,7 @@ def build_site(root, output, require_committed=False):
                    for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
     pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages + trade_pages + backtest_pages
-    pages += stress_pages
+    pages += stress_pages + codex
     pages += earnings_index(root / 'earnings')
     # Prepare dated earnings artifacts before replacing any published page.
     earnings = root / 'earnings'

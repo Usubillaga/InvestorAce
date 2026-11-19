@@ -7,8 +7,7 @@ evidence: no sale before a report and no buy blackout (stocks earn more in annou
 Lamont 2007, Barber et al. 2013), no half sale at +25% and no 15-session time stop (momentum persists for
 3-12 months: Jegadeesh & Titman 1993; selling winners early is the costly disposition effect: Odean 1998),
 and a sale after 12 months because momentum profits reverse after about a year (Jegadeesh & Titman 1993);
-v1.6 adds the user's failed-breakout exit, the only proposed rule that helped in each of three periods of
-the backtest (backtests/latest.md: Sharpe and drawdown better in 2014-17, 2018-21 and 2022-26).
+v1.6 adds the user's failed-breakout exit, an experimental rule whose relative Sharpe varies by period (backtests/latest.md).
 
 The rules are written down before the first order and applied mechanically, so the
 account measures these rules, not ad-hoc decisions. Sources (from memory of the
@@ -29,6 +28,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import active_trading as at
+import opportunity
 from earnings_view import status as earnings_status
 
 VERSION = 'claude-rules-v1.6'
@@ -107,8 +107,13 @@ def build_age_days(record, today):
         return None
 
 
-def plan(doc, record, series, today):
+def plan(doc, record, series, today, *, decision_at=None, failed_breakout=True):
     """Orders for today's close and the reason for each decision."""
+    decision_at = decision_at or datetime.combine(today, datetime.max.time(), timezone.utc)
+    def signal(ticker):
+        stored = (record.get(ticker) or {}).get('opportunity')
+        return opportunity.project(stored, as_of=decision_at) or {}
+
     today_s = today.isoformat()
     state = at.replay(doc, series, today_s)
     regime = market(record)
@@ -126,7 +131,7 @@ def plan(doc, record, series, today):
         if ticker in pending:
             notes.append(f'{ticker}: order pending, no decision')
             continue
-        opp = (record.get(ticker) or {}).get('opportunity') or {}
+        opp = signal(ticker)
         timing = _inputs(record, ticker).get('timing') or {}
         rate = 1. if p['currency'] == doc['account_currency'] else doc['fx'][p['currency']]
         entry = p['cost'] / (p['shares'] * rate)
@@ -161,7 +166,7 @@ def plan(doc, record, series, today):
         elif holding:
             notes.append(f'{ticker}: 8-week hold (+{FAST_GAIN:.0%} within {FAST_SESSIONS} sessions), '
                          f'session {len(path)} of {HOLD_SESSIONS}')
-        elif broke_out and len(path) <= FAIL_SESSIONS and close < broke_out * FAIL_ZONE:
+        elif failed_breakout and broke_out and len(path) <= FAIL_SESSIONS and close < broke_out * FAIL_ZONE:
             sell(p['shares'], 'FAILED_BREAKOUT', f'bought on a breakout over {broke_out:.2f}, back at {close:.2f} '
                                                  f'within {len(path)} sessions')
         elif opp.get('label') in EXIT_LABELS:
@@ -192,7 +197,7 @@ def plan(doc, record, series, today):
     for ticker in sorted(k for k in record if not k.startswith('_') and isinstance(record[k], dict)):
         if ticker in held or ticker in pending or ticker in recent_sales:
             continue
-        opp = record[ticker].get('opportunity') or {}
+        opp = signal(ticker)
         inp = _inputs(record, ticker)
         timing = inp.get('timing') or {}
         cur = inp.get('cur')
@@ -268,7 +273,9 @@ def main(argv=None):
     snapshots = [json.loads(p.read_text(encoding='utf-8'))
                  for p in sorted((root / 'history' / 'runs').glob('*.json'))
                  if p.name[:8] >= (date.fromisoformat(doc['opened']) - timedelta(days=90)).strftime('%Y%m%d')]
-    result = plan(doc, build['record'], merge_series(snapshots + [build['record']]), today)
+    now = datetime.now(timezone.utc)
+    result = plan(doc, build['record'], merge_series(snapshots + [build['record']]), today,
+                  decision_at=now if today == now.date() else None)
     print(json.dumps(dict(result, titles=[title(o) for o in result['orders']],
                           bodies=[body(o) for o in result['orders']]), indent=2))
     return 0
