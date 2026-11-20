@@ -45,6 +45,10 @@
      "net_pnl": 46.75507571455017
     }
    },
+   "fundamental_sides": [
+    "LONG",
+    "SHORT"
+   ],
    "positions": {
     "NRG": {
      "symbol": "NRG",
@@ -85,6 +89,7 @@
      "sma200": 131.2259803390503,
      "side": "SHORT",
      "action": "OPEN",
+     "entry_basis": "FUNDAMENTAL_AND_TECHNICAL",
      "fundamental_score": 4.2172500512913835,
      "quality_score": 3.388888888888889,
      "reason": "Trend and SMA36 crossing",
@@ -107,6 +112,7 @@
      "sma200": 43.9572109413147,
      "side": "SHORT",
      "action": "OPEN",
+     "entry_basis": "FUNDAMENTAL_AND_TECHNICAL",
      "fundamental_score": 4.7688379893686506,
      "quality_score": 4.977777777777778,
      "reason": "Trend and SMA36 crossing",
@@ -129,6 +135,7 @@
      "sma200": 277.45506301879885,
      "side": "SHORT",
      "action": "OPEN",
+     "entry_basis": "FUNDAMENTAL_AND_TECHNICAL",
      "fundamental_score": 4.675672827683724,
      "quality_score": 5.2888888888888905,
      "reason": "Trend and SMA36 crossing",
@@ -322,6 +329,7 @@
      "net_pnl": 22.631078510328468
     }
    },
+   "fundamental_sides": [],
    "positions": {
     "NRG": {
      "symbol": "NRG",
@@ -362,8 +370,9 @@
      "sma200": 131.2259803390503,
      "side": "SHORT",
      "action": "OPEN",
-     "fundamental_score": 4.2172500512913835,
-     "quality_score": 3.388888888888889,
+     "entry_basis": "TECHNICAL_ONLY",
+     "fundamental_score": null,
+     "quality_score": null,
      "reason": "Trend and SMA36 crossing",
      "execution_session": "2026-11-16",
      "status": "FILLED",
@@ -384,8 +393,9 @@
      "sma200": 193.93855743408204,
      "side": "LONG",
      "action": "OPEN",
-     "fundamental_score": 6.1992385229409335,
-     "quality_score": 7.022222222222223,
+     "entry_basis": "TECHNICAL_ONLY",
+     "fundamental_score": null,
+     "quality_score": null,
      "reason": "Trend and SMA36 crossing",
      "execution_session": "2026-11-16",
      "status": "FILLED",
@@ -426,8 +436,9 @@
      "sma200": 53.89445001602173,
      "side": "SHORT",
      "action": "OPEN",
-     "fundamental_score": 5.562200878318554,
-     "quality_score": 6.6000000000000005,
+     "entry_basis": "TECHNICAL_ONLY",
+     "fundamental_score": null,
+     "quality_score": null,
      "reason": "Trend and SMA36 crossing",
      "execution_session": "2026-11-17",
      "status": "FILLED",
@@ -448,8 +459,9 @@
      "sma200": 173.8844814300537,
      "side": "SHORT",
      "action": "OPEN",
-     "fundamental_score": 8.33099101448085,
-     "quality_score": 8.933333333333334,
+     "entry_basis": "TECHNICAL_ONLY",
+     "fundamental_score": null,
+     "quality_score": null,
      "reason": "Trend and SMA36 crossing",
      "execution_session": "2026-11-17",
      "status": "FILLED",
@@ -470,8 +482,9 @@
      "sma200": 239.0468138885498,
      "side": "LONG",
      "action": "OPEN",
-     "fundamental_score": 6.294237833461823,
-     "quality_score": 9.500000000000002,
+     "entry_basis": "TECHNICAL_ONLY",
+     "fundamental_score": null,
+     "quality_score": null,
      "reason": "Trend and SMA36 crossing",
      "execution_session": "2026-11-18",
      "status": "FILLED",
@@ -658,6 +671,289 @@
      "missing": []
     }
    ]
+  },
+  "forward_rules": {
+   "sessions": 31,
+   "decision_sessions": 5,
+   "first": "2026-10-08",
+   "last": "2026-11-19",
+   "final_equity": 10022.631078510329,
+   "return_pct": 0.22631078510328972,
+   "drawdown_pct": -0.13443414538801823,
+   "gap_sessions": 0,
+   "execution_fees": 1.5,
+   "borrow_cost": 0.1912136922675628,
+   "borrow_stress_cost": 0.478034230668907,
+   "by_side": {
+    "LONG": {
+     "entries": 0,
+     "exits": 0,
+     "net_pnl": 0.0
+    },
+    "SHORT": {
+     "entries": 3,
+     "exits": 0,
+     "net_pnl": 22.631078510328468
+    }
+   },
+   "fundamental_sides": [
+    "LONG"
+   ],
+   "positions": {
+    "NRG": {
+     "symbol": "NRG",
+     "side": "SHORT",
+     "opened_on": "2026-11-16",
+     "entry_close": 93.98999786376953,
+     "marked_on": "2026-11-19",
+     "marked_notional": 499.25524314870006
+    },
+    "BSX": {
+     "symbol": "BSX",
+     "side": "SHORT",
+     "opened_on": "2026-11-17",
+     "entry_close": 43.029998779296875,
+     "marked_on": "2026-11-19",
+     "marked_notional": 499.53524167919517
+    },
+    "BKNG": {
+     "symbol": "BKNG",
+     "side": "SHORT",
+     "opened_on": "2026-11-17",
+     "entry_close": 154.4600067138672,
+     "marked_on": "2026-11-19",
+     "marked_notional": 476.88722296950874
+    }
+   },
+   "pending": [],
+   "orders": [
+    {
+     "ticker": "NRG",
+     "symbol": "NRG",
+     "signal_session": "2026-11-13",
+     "submitted_at": "2026-11-14T07:13:54.476201-05:00",
+     "signal_build": "20261114T121354476201-aeb07bf92ee74976a9a5e09327c0849c",
+     "signal_close": 97.0999984741211,
+     "sma36": 97.42066277398004,
+     "sma50": 100.30240325927734,
+     "sma200": 131.2259803390503,
+     "side": "SHORT",
+     "action": "OPEN",
+     "entry_basis": "TECHNICAL_ONLY",
+     "fundamental_score": null,
+     "quality_score": null,
+     "reason": "Trend and SMA36 crossing",
+     "execution_session": "2026-11-16",
+     "status": "FILLED",
+     "price_build": "20261119T122659036057-5f0a56892f9c43abbac32f455aeaffa2",
+     "execution_close": 93.98999786376953,
+     "turnover": 500.0,
+     "fee": 0.5
+    },
+    {
+     "ticker": "BSX",
+     "symbol": "BSX",
+     "signal_session": "2026-11-16",
+     "submitted_at": "2026-11-17T00:21:15.124348-05:00",
+     "signal_build": "20261117T052115124348-ead3d970963d4601a151fe684a290e17",
+     "signal_close": 43.689998626708984,
+     "sma36": 43.85500007205539,
+     "sma50": 43.927599868774415,
+     "sma200": 53.89445001602173,
+     "side": "SHORT",
+     "action": "OPEN",
+     "entry_basis": "TECHNICAL_ONLY",
+     "fundamental_score": null,
+     "quality_score": null,
+     "reason": "Trend and SMA36 crossing",
+     "execution_session": "2026-11-17",
+     "status": "FILLED",
+     "price_build": "20261119T122659036057-5f0a56892f9c43abbac32f455aeaffa2",
+     "execution_close": 43.029998779296875,
+     "turnover": 500.0,
+     "fee": 0.5
+    },
+    {
+     "ticker": "BKNG",
+     "symbol": "BKNG",
+     "signal_session": "2026-11-16",
+     "submitted_at": "2026-11-17T00:21:15.124348-05:00",
+     "signal_build": "20261117T052115124348-ead3d970963d4601a151fe684a290e17",
+     "signal_close": 157.52999877929688,
+     "sma36": 159.14138878716363,
+     "sma50": 161.92575561523438,
+     "sma200": 173.8844814300537,
+     "side": "SHORT",
+     "action": "OPEN",
+     "entry_basis": "TECHNICAL_ONLY",
+     "fundamental_score": null,
+     "quality_score": null,
+     "reason": "Trend and SMA36 crossing",
+     "execution_session": "2026-11-17",
+     "status": "FILLED",
+     "price_build": "20261119T122659036057-5f0a56892f9c43abbac32f455aeaffa2",
+     "execution_close": 154.4600067138672,
+     "turnover": 500.0,
+     "fee": 0.5
+    }
+   ],
+   "daily_equity": [
+    {
+     "session": "2026-10-08",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-09",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-12",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-13",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-14",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-15",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-16",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-19",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-20",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-21",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-22",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-23",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-26",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-27",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-28",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-29",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-10-30",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-02",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-03",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-04",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-05",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-06",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-09",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-10",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-11",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-12",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-13",
+     "equity": 10000.0,
+     "missing": []
+    },
+    {
+     "session": "2026-11-16",
+     "equity": 9999.5,
+     "missing": []
+    },
+    {
+     "session": "2026-11-17",
+     "equity": 10010.335544439726,
+     "missing": []
+    },
+    {
+     "session": "2026-11-18",
+     "equity": 9996.878235400085,
+     "missing": []
+    },
+    {
+     "session": "2026-11-19",
+     "equity": 10022.631078510329,
+     "missing": []
+    }
+   ]
   }
  },
  "paper": {
@@ -684,6 +980,9 @@
     "net_pnl": null
    }
   },
+  "fundamental_sides": [
+   "LONG"
+  ],
   "positions": {},
   "pending": [],
   "orders": [],

@@ -24,6 +24,8 @@ PAGE = Path('codex-long-short.html')
 NY = ZoneInfo('America/New_York')
 # Declared before the first forward evaluation, in New York session dates.
 FORWARD_AFTER = '2026-11-20'
+CONFIRMED_SIDES = frozenset(('LONG', 'SHORT'))
+FORWARD_FUNDAMENTAL_SIDES = frozenset(('LONG',))
 CAPITAL, NOTIONAL = 10_000., 500.
 SLOTS, COST, BORROW, STRESS_BORROW = 3, .001, .02, .05
 TREND_SPREAD, MAX_ATR = .02, 3.
@@ -111,7 +113,7 @@ def confirmed(side, fundamental, quality):
     return fundamental <= SHORT_FUNDAMENTAL and quality <= SHORT_QUALITY
 
 
-def signal_orders(snapshot, prior, positions, require_fundamentals, last_equity):
+def signal_orders(snapshot, prior, positions, fundamental_sides, last_equity):
     if snapshot is None:
         return []
     exits, candidates = [], []
@@ -133,11 +135,13 @@ def signal_orders(snapshot, prior, positions, require_fundamentals, last_equity)
         side = entry_side(now, old[ticker][1])
         if side is None:
             continue
-        fundamental, quality = fundamentals(stored, snapshot['captured'])
-        if require_fundamentals and not confirmed(side, fundamental, quality):
+        needs_fundamentals = side in fundamental_sides
+        fundamental, quality = fundamentals(stored, snapshot['captured']) if needs_fundamentals else (None, None)
+        if needs_fundamentals and not confirmed(side, fundamental, quality):
             continue
         strength = abs(now['sma50'] / now['sma200'] - 1)
         candidates.append((-strength, ticker, dict(source, side=side, action='OPEN',
+            entry_basis='FUNDAMENTAL_AND_TECHNICAL' if needs_fundamentals else 'TECHNICAL_ONLY',
             fundamental_score=fundamental, quality_score=quality, reason='Trend and SMA36 crossing')))
     # Keep pre-order slots reserved until an exit fills. Failed exits cannot free a seat.
     slots = {side: SLOTS - sum(p['side'] == side for p in positions.values()) for side in ('LONG', 'SHORT')}
@@ -167,7 +171,7 @@ def marking_chain(day, pos, bars, catchup_bars):
     return list(reversed(chain)) if chain[-1]['previous'] == pos['marked_on'] else []
 
 
-def book_results(sessions, observations, bars, *, require_fundamentals, first=None, as_of, catchup_bars=None):
+def book_results(sessions, observations, bars, *, fundamental_sides, first=None, as_of, catchup_bars=None):
     sessions = list(sessions)
     catchup_bars = catchup_bars or {}
     start = bisect_left(sessions, first) if first else 0
@@ -188,7 +192,7 @@ def book_results(sessions, observations, bars, *, require_fundamentals, first=No
             old = observations.get(sessions[signal_index - 1]) if signal_index >= 1 else None
             if old and old['captured'] >= snap['captured']:
                 old = None
-            return signal_orders(snap, old, positions, require_fundamentals, last_equity), True
+            return signal_orders(snap, old, positions, fundamental_sides, last_equity), True
         return [], False
 
     for i in range(start, len(sessions)):
@@ -261,7 +265,8 @@ def book_results(sessions, observations, bars, *, require_fundamentals, first=No
                             exits=sum(o['action'] == 'CLOSE' and o['side'] == side for o in fills),
                             net_pnl=marked_pnl[side] if equity_curve and last_equity is not None else None)
                  for side in ('LONG', 'SHORT')},
-        positions=positions, pending=pending, orders=orders, daily_equity=equity_curve)
+        fundamental_sides=sorted(fundamental_sides), positions=positions, pending=pending, orders=orders,
+        daily_equity=equity_curve)
 
 
 def experiment(history, through_build=None):
@@ -286,10 +291,13 @@ def experiment(history, through_build=None):
             long_min_fundamental=LONG_FUNDAMENTAL, long_min_quality=LONG_QUALITY,
             short_max_fundamental=SHORT_FUNDAMENTAL, short_max_quality=SHORT_QUALITY),
         backtest={
-            'confirmed': book_results(retrospective, observations, bars, require_fundamentals=True, first=first, **kwargs),
-            'technical_only': book_results(retrospective, observations, bars, require_fundamentals=False, first=first, **kwargs),
+            'confirmed': book_results(retrospective, observations, bars, fundamental_sides=CONFIRMED_SIDES, first=first, **kwargs),
+            'technical_only': book_results(retrospective, observations, bars, fundamental_sides=(), first=first, **kwargs),
+            'forward_rules': book_results(retrospective, observations, bars,
+                                          fundamental_sides=FORWARD_FUNDAMENTAL_SIDES, first=first, **kwargs),
         },
-        paper=book_results(dates, observations, forward_bars, require_fundamentals=True, catchup_bars=bars,
+        paper=book_results(dates, observations, forward_bars,
+                           fundamental_sides=FORWARD_FUNDAMENTAL_SIDES, catchup_bars=bars,
                            first=(date.fromisoformat(FORWARD_AFTER) + timedelta(days=1)).isoformat(), **kwargs))
 
 
@@ -306,19 +314,23 @@ def render(report):
     bt = report['backtest']
     stats = table(('Sample', 'Window', 'Decision sessions', 'Long in / out', 'Short in / out', 'Long P&L (USD)',
                    'Short P&L (USD)', 'Net return', 'Observed max drawdown', 'Missing marks'),
-                  [summary('Backtest · confirmed', bt['confirmed']), summary('Backtest · technical only', bt['technical_only']),
-                   summary('Forward · confirmed', x)])
+                  [summary('Backtest · both sides confirmed', bt['confirmed']),
+                   summary('Backtest · both sides technical', bt['technical_only']),
+                   summary('Backtest · forward rules', bt['forward_rules']),
+                   summary('Forward paper account', x)])
     positions = table(('Ticker', 'Side', 'Entry date', 'Entry close', 'Last mark', 'Marked notional'),
         [(t, p['side'], p['opened_on'], f"${p['entry_close']:.2f}", p['marked_on'], f"${p['marked_notional']:.2f}")
          for t, p in sorted(x['positions'].items())]) if x['positions'] else '<p>No open paper positions.</p>'
     events = [*x['orders'], *x['pending']]
-    journal = table(('Setup', 'Execution', 'Ticker', 'Side', 'Action', 'Status'),
-        [(o['signal_session'], o.get('execution_session', '—'), o['ticker'], o['side'], o['action'], o['status'])
+    basis = {'TECHNICAL_ONLY': 'Technical only', 'FUNDAMENTAL_AND_TECHNICAL': 'Fundamental and technical'}
+    journal = table(('Setup', 'Execution', 'Ticker', 'Side', 'Action', 'Entry basis', 'Status'),
+        [(o['signal_session'], o.get('execution_session', '—'), o['ticker'], o['side'], o['action'],
+          basis.get(o.get('entry_basis'), '—'), o['status'])
          for o in reversed(events[-30:])]) if events else '<p>No forward orders yet.</p>'
     body = ('<h1>Codex long/short swing test</h1><p>Daily simulation in USD. '
             'The forward account starts after the 20 November 2026 session.</p>'
-            '<h2>Rules</h2><p>Long requires fundamental score ≥ 7 and quality ≥ 6. Short requires fundamental '
-            'score ≤ 5.5 and quality ≤ 6. SMA50 must be at least 2% above SMA200 for long or below for short. '
+            '<h2>Rules</h2><p>Forward longs require a fundamental score ≥ 7 and quality ≥ 6. '
+            'Forward shorts use technicals only. SMA50 must be at least 2% above SMA200 for long or below for short. '
             'The closing price must cross SMA36 in the same direction, finish beyond SMA50 and stay within '
             '3 ATR of SMA36. Exit when a completed close reverses across SMA36. Orders use the first session '
             'close after the setup is recorded before noon New York time. Setups expire after two sessions.</p>'
@@ -328,7 +340,8 @@ def render(report):
             'Historical locates, borrow recalls, spreads, taxes and margin mechanics are unavailable. '
             'Drawdown uses observed closes. The market trend and VIX are context for a later comparison.</p>'
             '<h2>Backtest and forward results</h2>' + stats
-            + '<p>The backtest uses archived point-in-time model inputs with reconstructed execution closes. '
+            + '<p>The comparison with fundamental confirmation on both sides requires a short fundamental score ≤ 5.5 '
+            'and quality ≤ 6. All backtests use archived point-in-time model inputs with reconstructed execution closes. '
             'Forward execution closes must be verified by noon New York time on the following calendar day. '
             'Late data can repair an open position’s next mark. Missed orders stay missed. '
             'A dash indicates no filled entries or an incomplete mark.</p>'

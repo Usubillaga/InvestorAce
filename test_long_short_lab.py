@@ -78,7 +78,7 @@ class LabTest(unittest.TestCase):
             e: {'T': dict(previous=d, relative=1, close=77.6, build='exit')},
         }
         as_of = datetime.fromisoformat(e + 'T17:00').replace(tzinfo=lab.NY)
-        result = lab.book_results(self.DAYS, observations, bars, require_fundamentals=True, as_of=as_of)
+        result = lab.book_results(self.DAYS, observations, bars, fundamental_sides=lab.CONFIRMED_SIDES, as_of=as_of)
         self.assertFalse(result['positions'])
         self.assertEqual([(o['action'], o['signal_session'], o['execution_session']) for o in result['orders']],
                          [('OPEN', b, c), ('CLOSE', d, e)])
@@ -88,8 +88,8 @@ class LabTest(unittest.TestCase):
         self.assertAlmostEqual(result['final_equity'], 10_099.1 - result['borrow_cost'])
 
         observations[b] = snapshot(b, c + 'T08:45', 97, score=7.)
-        confirmed = lab.book_results(self.DAYS, observations, bars, require_fundamentals=True, as_of=as_of)
-        control = lab.book_results(self.DAYS, observations, bars, require_fundamentals=False, as_of=as_of)
+        confirmed = lab.book_results(self.DAYS, observations, bars, fundamental_sides=lab.CONFIRMED_SIDES, as_of=as_of)
+        control = lab.book_results(self.DAYS, observations, bars, fundamental_sides=(), as_of=as_of)
         self.assertEqual(confirmed['orders'], [])
         self.assertEqual(control['by_side']['SHORT']['entries'], 1)
 
@@ -98,29 +98,29 @@ class LabTest(unittest.TestCase):
         observations = {a: snapshot(a, b + 'T08:45', 102), b: snapshot(b, c + 'T08:45', 97)}
         bars = {c: {'T': dict(previous=b, relative=1, close=97, build='open')}}
         as_of = datetime.fromisoformat(e + 'T17:00').replace(tzinfo=lab.NY)
-        result = lab.book_results([a,b,c,d], observations, bars, require_fundamentals=True, as_of=as_of)
+        result = lab.book_results([a,b,c,d], observations, bars, fundamental_sides=lab.CONFIRMED_SIDES, as_of=as_of)
         self.assertIsNone(result['final_equity'])
         self.assertEqual(result['gap_sessions'], 1)
         later = {**bars, e: {'T': dict(previous=d, relative=1, close=90, build='next')}}
         late_mark = {d: {'T': dict(day=d, previous=c, relative=.9,
                                   known_at=as_of, close=90, build='late')}}
-        recovered = lab.book_results(self.DAYS, observations, later, require_fundamentals=True,
+        recovered = lab.book_results(self.DAYS, observations, later, fundamental_sides=lab.CONFIRMED_SIDES,
                                      as_of=as_of, catchup_bars=late_mark)
         self.assertEqual(recovered['gap_sessions'], 1)
         self.assertEqual(recovered['positions']['T']['marked_on'], e)
         self.assertAlmostEqual(recovered['positions']['T']['marked_notional'], 450)
-        missed = lab.book_results([a,b,c], observations, {}, require_fundamentals=True, as_of=as_of)
+        missed = lab.book_results([a,b,c], observations, {}, fundamental_sides=lab.CONFIRMED_SIDES, as_of=as_of)
         self.assertEqual(missed['orders'][0]['status'], 'MISSED_PRICE')
         self.assertIsNone(missed['return_pct'])
 
         observations[b] = snapshot(b, c + 'T12:30', 97)
         bars[d] = {'T': dict(previous=c, relative=1, close=99, build='next')}
-        result = lab.book_results(self.DAYS, observations, bars, require_fundamentals=True, as_of=as_of)
+        result = lab.book_results(self.DAYS, observations, bars, fundamental_sides=lab.CONFIRMED_SIDES, as_of=as_of)
         self.assertEqual([(o['execution_session'], o['status']) for o in result['orders']], [(d, 'FILLED')])
         self.assertEqual(result['gap_sessions'], 1)
 
         observations[b] = snapshot(b, d + 'T12:30', 97)
-        result = lab.book_results(self.DAYS, observations, bars, require_fundamentals=True, as_of=as_of)
+        result = lab.book_results(self.DAYS, observations, bars, fundamental_sides=lab.CONFIRMED_SIDES, as_of=as_of)
         self.assertEqual(result['orders'], [])
 
     def test_long_entry_exit_and_forward_book_starts_empty(self):
@@ -136,15 +136,33 @@ class LabTest(unittest.TestCase):
             e: {'T': dict(previous=d, relative=1., close=116.6, build='exit')},
         }
         as_of = datetime.fromisoformat(e + 'T17:00').replace(tzinfo=lab.NY)
-        result = lab.book_results(self.DAYS, observations, bars, require_fundamentals=True, as_of=as_of)
+        result = lab.book_results(self.DAYS, observations, bars, fundamental_sides=lab.CONFIRMED_SIDES, as_of=as_of)
         self.assertEqual(result['by_side']['LONG']['entries'], 1)
         self.assertEqual(result['by_side']['LONG']['exits'], 1)
         self.assertAlmostEqual(result['final_equity'], 10048.95)
         self.assertEqual(result['borrow_cost'], 0)
-        forward = lab.book_results(self.DAYS, observations, bars, require_fundamentals=True,
+        forward = lab.book_results(self.DAYS, observations, bars, fundamental_sides=lab.CONFIRMED_SIDES,
                                    first=e, as_of=as_of)
         self.assertEqual(forward['orders'], [])
         self.assertIsNone(forward['return_pct'])
+
+    def test_forward_rules_allow_technical_shorts_and_keep_long_confirmation(self):
+        a, b, c, _, _ = self.DAYS
+        prior = snapshot(a, b + 'T08:45', 102)
+        today = snapshot(b, c + 'T08:45', 97)
+        prior['rows']['L'] = ('L', tech(a, 99, swap=True), None)
+        today['rows']['L'] = ('L', tech(b, 106, swap=True), None)
+        today['rows']['T'] = ('T', tech(b, 97), None)
+        orders = lab.signal_orders(today, prior, {}, lab.FORWARD_FUNDAMENTAL_SIDES, lab.CAPITAL)
+        self.assertEqual([(o['ticker'], o['side'], o['entry_basis']) for o in orders],
+                         [('T', 'SHORT', 'TECHNICAL_ONLY')])
+
+        today['rows']['L'] = ('L', tech(b, 106, swap=True), verified_opportunity(8, 7))
+        today['rows']['T'] = ('T', tech(b, 97), verified_opportunity(8, 8))
+        orders = lab.signal_orders(today, prior, {}, lab.FORWARD_FUNDAMENTAL_SIDES, lab.CAPITAL)
+        self.assertEqual({o['ticker']: o['entry_basis'] for o in orders},
+                         {'L': 'FUNDAMENTAL_AND_TECHNICAL', 'T': 'TECHNICAL_ONLY'})
+        self.assertIsNone(next(o['fundamental_score'] for o in orders if o['side'] == 'SHORT'))
 
     def test_unpaired_report_is_not_published(self):
         with tempfile.TemporaryDirectory() as folder:
