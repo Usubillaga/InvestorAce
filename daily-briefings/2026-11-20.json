@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-11-20",
+  "period_start": "2026-11-14",
+  "period_end": "2026-11-20",
+  "data_cutoff": "2026-11-20T08:17:38+01:00",
+  "summary": "[Sicher] Colombia's preliminary GDP contracted quarter-on-quarter while newly released Fed minutes reveal conditional support for further tightening. Neither establishes a global regime switch. Coverage begins after the last published cut-off, 2026-11-14T08:27:00+01:00; older baselines are identified.",
+  "priority_review": "[Wahrscheinlich] Can earnings absorb persistent input and financing costs? Do trade negotiations become enforceable relief? Can Colombia replace revenue removed from its fiscal proposal? Keep fundamental score, unweighted regime fit and portfolio sizing separate; no model changes or trades.",
+  "items": [
+    {
+      "section": "regime",
+      "authors": "Federal Reserve; Reuters; BLS; InvestorAce analysis",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "source_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20261028.htm",
+      "title": "Inflation persistence keeps tightening risk alive despite trade talks",
+      "publication_date": "New releases: 2026-11-18 and 2026-11-19; older CPI release: 2026-11-10",
+      "what_changed": "[Sicher] Minutes released 2026-11-18 describe the 2026-10-27–2026-10-28 Fed meeting: almost all participants considered further hikes likely appropriate under their baseline outlooks. This is no new rate decision. On 2026-11-19 Mexico's President Sheinbaum still sought a trade agreement with President Trump; implemented relief was not verified.",
+      "investorace_implication": "[Wahrscheinlich] Trade or energy restrictions can constrain supply and raise input costs. Passing costs through sustains inflation; absorbing them cuts profits. Persistent inflation limits rate relief, increasing refinancing costs and discount rates. Negotiations help only when effective changes reach supply chains.",
+      "review_question": "[Vermutung] Stronger demand with accelerating prices favours reflation; weak output plus supply-driven inflation raises stagflation risk. Broad contraction would raise recession risk. Lower inflation with resilient growth would favour disinflation/Goldilocks. These are scenarios, without invented probabilities.",
+      "limitations": "[Sicher] Older BLS reading, released 2026-11-10: October CPI rose 0.4% monthly, core 0.3%. Annual headline/core comparisons are unavailable because October 2025 collection was disrupted by the shutdown. October meeting views are not a current unanimous forecast.",
+      "sources": [
+        {
+          "title": "Federal Reserve: Minutes of the Federal Open Market Committee, October 27–28, 2026 — released November 18",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20261028.htm",
+          "publication_date": "2026-11-18"
+        },
+        {
+          "title": "Reuters: Mexico's Sheinbaum hopes to seal trade deal in next meeting with Trump",
+          "url": "https://www.reuters.com/world/china/mexicos-sheinbaum-hopes-seal-trade-deal-next-meeting-with-trump-2026-11-19/",
+          "publication_date": "2026-11-19"
+        },
+        {
+          "title": "BLS: Consumer Price Index — October 2026",
+          "url": "https://www.bls.gov/news.release/archives/cpi_11102026.htm",
+          "publication_date": "2026-11-10"
+        }
+      ]
+    },
+    {
+      "section": "usa",
+      "authors": "U.S. Department of Labor; BLS; BEA; Federal Reserve; Congress; Reuters; Axios; InvestorAce analysis",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "source_url": "https://www.dol.gov/ui/data.pdf",
+      "title": "Claims remain low; trade proposals point in different directions",
+      "publication_date": "New evidence: 2026-11-17 to 2026-11-19; older releases: 2026-10-28, 2026-10-29, 2026-11-06 and 2026-11-13",
+      "what_changed": "[Sicher] DOL's 2026-11-19 release: initial claims were 203 thousand in the week ending 2026-11-14 versus revised 202 thousand previously. Continuing claims rose to 1.763 million for 2026-11-07; the reference weeks differ. Older baselines: October unemployment 4.1%, nonfarm payroll gain 165 thousand (BLS, 2026-11-06); third-quarter real GDP 3.4% annualised (BEA, 2026-10-29).",
+      "investorace_implication": "[Sicher] Trump defended negotiated China trade arrangements on 2026-11-19. Democratic Senator Baldwin introduced S.5728 on 2026-11-17 to withdraw China's normal trade relations treatment. This liberal opposition proposal is not enacted; the conservative administration's remarks establish no new tariff reduction.",
+      "review_question": "[Wahrscheinlich] Compare import costs, producer protection, receipts and retaliation: negotiated relief could lower costs and protection; withdrawing normal treatment would generally raise both. Revenue and jobs depend on pass-through, substitution and foreign responses. Neither proposal guarantees growth.",
+      "limitations": "[Sicher] The Fed's target remains 3.75%–4.00% from 2026-10-28. JEC's older 2026-11-13 update reports October's deficit at USD 404.06 billion, not an annual projection. Funding faces the 2026-12-11 deadline. [Wahrscheinlich] Borrowing needs preserve refinancing risk; weekly claims alone establish neither recession nor acceleration.",
+      "sources": [
+        {
+          "title": "U.S. Department of Labor: Unemployment Insurance Weekly Claims — November 19, 2026",
+          "url": "https://www.dol.gov/ui/data.pdf",
+          "publication_date": "2026-11-19"
+        },
+        {
+          "title": "BLS: The Employment Situation — October 2026",
+          "url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
+          "publication_date": "2026-11-06"
+        },
+        {
+          "title": "BEA: GDP (Advance Estimate), 3rd Quarter 2026",
+          "url": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026",
+          "publication_date": "2026-10-29"
+        },
+        {
+          "title": "Federal Reserve: Minutes of the Federal Open Market Committee, October 27–28, 2026 — released November 18",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20261028.htm",
+          "publication_date": "2026-11-18"
+        },
+        {
+          "title": "Congressional Record — Senate, November 17, 2026: Introduction and referral of S.5728",
+          "url": "https://www.govinfo.gov/content/pkg/CREC-2026-11-17/pdf/CREC-2026-11-17-pt1-PgS5722-3.pdf",
+          "publication_date": "2026-11-17"
+        },
+        {
+          "title": "Reuters: Trump says Board of Trade has brought 'greater balance' to US-China ties",
+          "url": "https://www.reuters.com/world/trump-says-board-trade-has-brought-greater-balance-us-china-ties-2026-11-19/",
+          "publication_date": "2026-11-19"
+        },
+        {
+          "title": "Joint Economic Committee: Monthly Fiscal Update — October 2026",
+          "url": "https://www.jec.senate.gov/public/vendor/_accounts/JEC-R/fiscal/Monthly%20Fiscal%20Update.html",
+          "publication_date": "2026-11-13"
+        },
+        {
+          "title": "Axios: House Dems recoil at government shutdown fight over Iran",
+          "url": "https://www.axios.com/2026/11/19/government-shutdown-funding-iran-democrat",
+          "publication_date": "2026-11-19"
+        }
+      ]
+    },
+    {
+      "section": "eu",
+      "authors": "Eurostat; European Commission; ECB; Reuters; Official Journal of the EU; InvestorAce analysis",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-18112026-ap",
+      "title": "Final inflation confirms pressure while modest growth remains a forecast",
+      "publication_date": "New releases: 2026-11-17 to 2026-11-19; policy baselines: 2026-06-30 and 2026-10-29",
+      "what_changed": "[Sicher] Eurostat on 2026-11-18 confirmed October euro-area inflation at 4.0% yearly, unchanged from the flash estimate. The Commission's 2026-11-17 forecast projects 2027 growth of 1.4% for the EU and 1.2% for the euro area. These are annual forecasts.",
+      "investorace_implication": "[Sicher] The ECB's 2026-11-18 stability review flags AI valuations, fiscal imbalances and geopolitical risks. Ukraine's allies met in Berlin on 2026-11-19; a broad ceasefire was not verified. [Wahrscheinlich] Energy disruption squeezes industrial and transport margins; debt repricing can raise financing costs. Diplomatic declarations provide no guaranteed cost relief.",
+      "review_question": "[Sicher] ECB reference 2026-11-19: 1 EUR = 1.0992 USD versus 1.0968 on 2026-11-18; EUR gained 0.22%, USD weakened. Standard observations are around 14:10 CET; exact times are unpublished. [Wahrscheinlich] This eases dollar import costs but reduces euro-translated dollar earnings.",
+      "limitations": "[Sicher] The ECB's 2.50% deposit rate is the 2026-10-29 decision. The EU regulation published 2026-06-30 permits conditional suspension of certain concessions if US duties on EU steel/aluminium derivatives exceed 15% at year-end. Neither forecasts nor risk warnings establish realised outcomes.",
+      "sources": [
+        {
+          "title": "Eurostat: Annual inflation up to 4.0% in the euro area — October 2026",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-18112026-ap",
+          "publication_date": "2026-11-18"
+        },
+        {
+          "title": "European Commission: Autumn 2026 Economic Forecast shows continued growth amid higher inflation",
+          "url": "https://economy-finance.ec.europa.eu/economic-forecast-and-surveys/economic-forecasts/autumn-2026-economic-forecast-shows-continued-growth-amid-higher-inflation_en",
+          "publication_date": "2026-11-17"
+        },
+        {
+          "title": "ECB: Financial Stability Review, November 2026",
+          "url": "https://www.ecb.europa.eu/press/financial-stability-publications/fsr/html/ecb.fsr202611~e03b919d36.en.html",
+          "publication_date": "2026-11-18"
+        },
+        {
+          "title": "ECB: Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp261029~9a493adf17.en.html",
+          "publication_date": "2026-10-29"
+        },
+        {
+          "title": "Reuters: Ukraine's allies warn against Yalta-style carve-up as Trump meets 'friend' Putin",
+          "url": "https://www.reuters.com/world/china/ukraines-european-allies-meet-berlin-show-support-2026-11-19/",
+          "publication_date": "2026-11-19"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations — November 18 and 19, 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-11-19"
+        },
+        {
+          "title": "Regulation (EU) 2026/1455: Adjustment of customs duties on certain imports originating in the United States",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX%3A32026R1455",
+          "publication_date": "2026-06-30"
+        }
+      ]
+    },
+    {
+      "section": "colombia",
+      "authors": "DANE; Banco de la República; El Heraldo; El Espectador; Superintendencia Financiera de Colombia; ECB; InvestorAce analysis",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "source_url": "https://www.dane.gov.co/files/operaciones/PIB/bol-PIB-IIItrim2026.pdf",
+      "title": "Quarterly GDP contracts while fiscal concessions leave financing questions",
+      "publication_date": "New evidence: 2026-11-17 to 2026-11-20; older releases: 2026-10-30, 2026-11-05 and 2026-11-09",
+      "what_changed": "[Sicher] DANE's 2026-11-17 preliminary third-quarter real GDP rose 0.5% year-on-year but fell 0.8% quarter-on-quarter, seasonally/calendar adjusted. Older readings: September unemployment 8.0% (2026-10-30); October inflation 6.30% yearly (2026-11-09); policy rate 12.25%, held 2026-10-30 and documented in minutes on 2026-11-05.",
+      "investorace_implication": "[Sicher] El Heraldo on 2026-11-19 reports Hacienda's 2026-11-18 announced withdrawal of proposed VAT increases on basic foods, farm inputs and prepaid health plans. Approval is unverified. [Wahrscheinlich] This could protect purchasing power but reduces planned revenue; alternative funding matters for borrowing costs. High rates also constrain credit.",
+      "review_question": "[Sicher] SFC: 1 USD = 3415.10 COP, valid 2026-11-20 from 2026-11-19 trades, versus 3326.96 valid 2026-11-19 from 2026-11-18 trades. USD gained 2.65%, COP weakened. Derived 1 EUR = 3753.88 COP = 3415.10 × ECB 1.0992 (2026-11-19); prior 3649.01 = 3326.96 × 1.0968 (2026-11-18). EUR gained 2.87% against COP.",
+      "limitations": "[Sicher] Crosses align trading dates, not simultaneous fixes: TRM averages trades; ECB observes around 14:10 CET. El Espectador on 2026-11-19 reports President De La Espriella's announced Valle del Cauca airstrike; outcomes were not independently verified for this briefing. One quarterly fall does not establish recession or a national security trend.",
+      "sources": [
+        {
+          "title": "DANE: Boletín técnico Producto Interno Bruto, tercer trimestre de 2026, preliminar",
+          "url": "https://www.dane.gov.co/files/operaciones/PIB/bol-PIB-IIItrim2026.pdf",
+          "publication_date": "2026-11-17"
+        },
+        {
+          "title": "DANE: Empleo y desocupación — septiembre de 2026",
+          "url": "https://www.dane.gov.co/estadisticas-por-tema/mercado-laboral/empleo-y-desempleo",
+          "publication_date": "2026-10-30"
+        },
+        {
+          "title": "DANE: Boletín técnico Índice de Precios al Consumidor — octubre de 2026",
+          "url": "https://www.dane.gov.co/files/operaciones/IPC/oct2026/bol-IPC-oct2026.pdf",
+          "publication_date": "2026-11-09"
+        },
+        {
+          "title": "Minutas BanRep: La Junta Directiva decidió mantener inalterada la tasa de interés de política en 12,25%",
+          "url": "https://banrep.gov.co/es/noticias/junta-directiva/minutas-banrep-octubre-2026",
+          "publication_date": "2026-11-05"
+        },
+        {
+          "title": "El Heraldo: Ley de Rescate Económico cambia: estos son los impuestos que salen y los que siguen en discusión",
+          "url": "https://www.elheraldo.co/economia/2026/11/19/ley-de-rescate-economico-cambia-estos-son-los-impuestos-que-salen-y-los-que-siguen-en-discusion/",
+          "publication_date": "2026-11-19"
+        },
+        {
+          "title": "El Espectador: De la Espriella lanza décimo bombardeo de su gobierno: el operativo fue en Valle del Cauca",
+          "url": "https://www.elespectador.com/judicial/de-la-espriella-lanza-decimo-bombardeo-de-su-gobierno-el-operativo-fue-en-valle-del-cauca/",
+          "publication_date": "2026-11-19"
+        },
+        {
+          "title": "Superintendencia Financiera de Colombia: TRM histórico, observaciones vigentes el 19 y 20 de noviembre de 2026",
+          "url": "https://www.datos.gov.co/resource/mcec-87by.json?%24where=vigenciadesde+between+%272026-11-18T00%3A00%3A00%27+and+%272026-11-20T00%3A00%3A00%27&%24limit=5",
+          "publication_date": "2026-11-20"
+        },
+        {
+          "title": "ECB: USD per EUR reference observations — November 18 and 19, 2026",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-11-19"
+        }
+      ]
+    }
+  ],
+  "translations": {
+    "es": {
+      "summary": "[Sicher] El PIB preliminar colombiano cayó trimestralmente; las actas recién publicadas de la Fed revelan apoyo condicionado a más subidas de tipos. Ninguno confirma un cambio de régimen global. Cobertura posterior al último corte publicado, 2026-11-14T08:27:00+01:00; referencias anteriores identificadas.",
+      "priority_review": "[Wahrscheinlich] ¿Resisten los beneficios costes persistentes de insumos y financiación? ¿Las negociaciones comerciales se convierten en alivio exigible? ¿Colombia reemplaza los ingresos retirados de su propuesta fiscal? Separar puntuación fundamental, encaje de régimen sin ponderar y tamaño de cartera; sin cambios del modelo ni operaciones.",
+      "items": [
+        {
+          "source_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20261028.htm",
+          "title": "La persistencia inflacionaria mantiene el riesgo de endurecimiento pese al diálogo comercial",
+          "publication_date": "Nuevas publicaciones: 2026-11-18 y 2026-11-19; IPC anterior: 2026-11-10",
+          "what_changed": "[Sicher] Actas publicadas el 2026-11-18 sobre la reunión de la Fed del 2026-10-27–2026-10-28: casi todos consideraban probablemente adecuadas más subidas bajo sus escenarios centrales. No es una nueva decisión de tipos. El 2026-11-19 la presidenta mexicana Sheinbaum seguía buscando un acuerdo con el presidente Trump; no se verificó alivio aplicado.",
+          "investorace_implication": "[Wahrscheinlich] Restricciones comerciales o energéticas pueden limitar oferta y encarecer insumos. Trasladar costes sostiene inflación; absorberlos reduce beneficios. La inflación persistente limita bajadas de tipos, eleva refinanciación y tasas de descuento. Negociar ayuda cuando los cambios efectivos llegan a las cadenas de suministro.",
+          "review_question": "[Vermutung] Mayor demanda con precios acelerándose favorece reflación; producción débil e inflación de oferta elevan el riesgo de estanflación. Una contracción generalizada elevaría el riesgo de recesión. Menor inflación y crecimiento resistente favorecerían desinflación/Goldilocks. Son escenarios, sin probabilidades inventadas.",
+          "limitations": "[Sicher] Referencia BLS anterior, publicada el 2026-11-10: IPC de octubre subió 0.4% mensual, subyacente 0.3%. Faltan comparaciones interanuales de ambos por interrupciones de recogida durante el cierre federal de octubre de 2025. Las opiniones de octubre no son una previsión unánime actual."
+        },
+        {
+          "source_url": "https://www.dol.gov/ui/data.pdf",
+          "title": "Solicitudes de desempleo bajas; propuestas comerciales divergentes",
+          "publication_date": "Nueva evidencia: 2026-11-17 a 2026-11-19; publicaciones anteriores: 2026-10-28, 2026-10-29, 2026-11-06 y 2026-11-13",
+          "what_changed": "[Sicher] DOL, 2026-11-19: solicitudes iniciales de 203 mil en la semana terminada el 2026-11-14, frente a 202 mil anteriores revisadas. Las continuadas subieron a 1.763 millones para 2026-11-07; difieren las semanas. Referencias anteriores: desempleo de octubre 4.1%, 165 mil empleos no agrícolas adicionales (BLS, 2026-11-06); PIB real del tercer trimestre 3.4% anualizado (BEA, 2026-10-29).",
+          "investorace_implication": "[Sicher] Trump defendió acuerdos comerciales negociados con China el 2026-11-19. La senadora demócrata Baldwin presentó S.5728 el 2026-11-17 para retirar el trato comercial normal a China. La propuesta de esta oposición liberal no está aprobada; las declaraciones del Gobierno conservador no establecen una nueva reducción arancelaria.",
+          "review_question": "[Wahrscheinlich] Comparar costes de importación, protección del productor, recaudación y represalias: el alivio negociado podría reducir costes y protección; retirar el trato normal generalmente elevaría ambos. Recaudación y empleo dependen del traslado a precios, sustitución y respuesta exterior. Ninguna propuesta garantiza crecimiento.",
+          "limitations": "[Sicher] La Fed mantiene 3.75%–4.00% desde 2026-10-28. JEC, publicación anterior del 2026-11-13: déficit de octubre USD 404.06 mil millones, no proyección anual. La financiación afronta el plazo del 2026-12-11. [Wahrscheinlich] El endeudamiento mantiene riesgo de refinanciación; solicitudes semanales por sí solas no confirman recesión ni aceleración."
+        },
+        {
+          "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-18112026-ap",
+          "title": "La inflación definitiva confirma presión; el crecimiento moderado sigue siendo previsión",
+          "publication_date": "Nuevas publicaciones: 2026-11-17 a 2026-11-19; referencias de política: 2026-06-30 y 2026-10-29",
+          "what_changed": "[Sicher] Eurostat confirmó el 2026-11-18 inflación interanual de octubre de 4.0% en la eurozona, igual a la estimación inicial. La previsión de la Comisión del 2026-11-17 proyecta crecimiento en 2027 de 1.4% para la UE y 1.2% para la eurozona. Son previsiones anuales.",
+          "investorace_implication": "[Sicher] El informe de estabilidad del BCE del 2026-11-18 señala valoraciones de IA, desequilibrios fiscales y riesgos geopolíticos. Aliados de Ucrania se reunieron en Berlín el 2026-11-19; no se verificó tregua general. [Wahrscheinlich] Interrupciones energéticas comprimen márgenes industriales y de transporte; revaloración del riesgo de deuda puede encarecer financiación. Declaraciones diplomáticas no garantizan alivio.",
+          "review_question": "[Sicher] Referencia BCE del 2026-11-19: 1 EUR = 1.0992 USD frente a 1.0968 el 2026-11-18; EUR ganó 0.22%, USD se debilitó. Observaciones habituales hacia las 14:10 CET; horas exactas sin publicar. [Wahrscheinlich] Abarata importaciones en dólares, pero reduce beneficios en dólares convertidos a euros.",
+          "limitations": "[Sicher] El depósito BCE de 2.50% corresponde al 2026-10-29. La norma europea publicada el 2026-06-30 permite suspender condicionalmente ciertas concesiones si los aranceles estadounidenses a derivados europeos de acero/aluminio superan 15% al cierre del año. Ni previsiones ni advertencias prueban resultados realizados."
+        },
+        {
+          "source_url": "https://www.dane.gov.co/files/operaciones/PIB/bol-PIB-IIItrim2026.pdf",
+          "title": "El PIB trimestral cae; concesiones fiscales dejan dudas de financiación",
+          "publication_date": "Nueva evidencia: 2026-11-17 a 2026-11-20; publicaciones anteriores: 2026-10-30, 2026-11-05 y 2026-11-09",
+          "what_changed": "[Sicher] PIB real preliminar DANE del 2026-11-17: tercer trimestre creció 0.5% interanual, pero cayó 0.8% trimestral, ajustado por estacionalidad/calendario. Referencias anteriores: desempleo de septiembre 8.0% (2026-10-30); inflación interanual de octubre 6.30% (2026-11-09); tasa 12.25%, mantenida el 2026-10-30 y documentada en actas el 2026-11-05.",
+          "investorace_implication": "[Sicher] El Heraldo informó el 2026-11-19 de la retirada anunciada por Hacienda el 2026-11-18 de aumentos propuestos de IVA a alimentos básicos, agroinsumos y medicina prepagada. Aprobación sin verificar. [Wahrscheinlich] Podría proteger poder adquisitivo, pero reduce recaudación prevista; financiación alternativa importa para costes de deuda. Tipos altos también restringen crédito.",
+          "review_question": "[Sicher] SFC: 1 USD = 3415.10 COP, vigente el 2026-11-20 con operaciones del 2026-11-19, frente a 3326.96 vigente el 2026-11-19 con operaciones del 2026-11-18. USD ganó 2.65%, COP se debilitó. Derivado: 1 EUR = 3753.88 COP = 3415.10 × BCE 1.0992 (2026-11-19); anterior 3649.01 = 3326.96 × 1.0968 (2026-11-18). EUR ganó 2.87% frente a COP.",
+          "limitations": "[Sicher] Cruces alinean fechas, no fijaciones simultáneas: TRM promedia operaciones; BCE observa hacia las 14:10 CET. El Espectador informó el 2026-11-19 del bombardeo en Valle del Cauca anunciado por el presidente De La Espriella; resultados no verificados independientemente para este informe. Una caída trimestral no establece recesión ni tendencia nacional de seguridad."
+        }
+      ]
+    },
+    "de": {
+      "summary": "[Sicher] Kolumbiens vorläufiges BIP sank zum Vorquartal, während neu veröffentlichte Fed-Protokolle bedingte Unterstützung für weitere Zinserhöhungen zeigen. Beides belegt keinen globalen Regimewechsel. Die Berichtsperiode beginnt nach dem letzten veröffentlichten Recherchestand, 2026-11-14T08:27:00+01:00; ältere Eckdaten sind gekennzeichnet.",
+      "priority_review": "[Wahrscheinlich] Halten Gewinne anhaltenden Vorleistungs- und Finanzierungskosten stand? Werden Handelsgespräche zu durchsetzbarer Entlastung? Kann Kolumbien die aus seinem Fiskalvorschlag gestrichenen Einnahmen ersetzen? Fundamental-Score, ungewichteten Regime-Fit und Positionsgrößen getrennt halten; keine Modelländerungen oder Trades.",
+      "items": [
+        {
+          "source_url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20261028.htm",
+          "title": "Anhaltende Inflation erhält das Zinsrisiko trotz Handelsgesprächen",
+          "publication_date": "Neue Veröffentlichungen: 2026-11-18 und 2026-11-19; ältere VPI-Veröffentlichung: 2026-11-10",
+          "what_changed": "[Sicher] Die am 2026-11-18 veröffentlichten Protokolle betreffen die Fed-Sitzung vom 2026-10-27–2026-10-28. Fast alle Teilnehmenden hielten weitere Zinserhöhungen unter ihren Basisszenarien wahrscheinlich für angemessen. Das ist kein neuer Zinsbeschluss. Mexikos Präsidentin Sheinbaum strebte am 2026-11-19 weiter ein Handelsabkommen mit Präsident Trump an; umgesetzte Entlastung wurde nicht verifiziert.",
+          "investorace_implication": "[Wahrscheinlich] Handels- oder Energiebeschränkungen können das Angebot verknappen und Vorleistungen verteuern. Kostenweitergabe hält die Inflation hoch; eigene Kostenübernahme schmälert Gewinne. Anhaltende Inflation begrenzt Zinssenkungen und erhöht Refinanzierungskosten sowie Diskontierungssätze. Verhandlungen helfen erst, wenn wirksame Änderungen die Lieferketten erreichen.",
+          "review_question": "[Vermutung] Anziehende Nachfrage mit beschleunigten Preissteigerungen begünstigt Reflation. Schwache Produktion mit angebotsgetriebener Inflation erhöht das Stagflationsrisiko; breite Schrumpfung würde das Rezessionsrisiko erhöhen. Sinkende Inflation bei robustem Wachstum spräche für Disinflation/Goldilocks. Das sind Szenarien ohne erfundene Wahrscheinlichkeiten.",
+          "limitations": "[Sicher] Ältere BLS-Messung vom 2026-11-10: Oktober-VPI stieg monatlich um 0,4%, der Kern-VPI um 0,3%. Beide Jahresvergleiche fehlen wegen Erhebungsunterbrechungen durch die Haushaltssperre im Oktober 2025. Die Oktober-Positionen sind keine aktuelle einstimmige Prognose."
+        },
+        {
+          "source_url": "https://www.dol.gov/ui/data.pdf",
+          "title": "Arbeitslosenanträge bleiben niedrig; Handelsvorschläge weisen in unterschiedliche Richtungen",
+          "publication_date": "Neue Belege: 2026-11-17 bis 2026-11-19; ältere Veröffentlichungen: 2026-10-28, 2026-10-29, 2026-11-06 und 2026-11-13",
+          "what_changed": "[Sicher] DOL-Veröffentlichung vom 2026-11-19: Erstanträge betrugen 203 Tausend in der Woche bis 2026-11-14 gegenüber revidierten 202 Tausend zuvor. Fortlaufende Anträge stiegen für 2026-11-07 auf 1,763 Millionen; die Bezugswochen unterscheiden sich. Ältere Eckdaten: Oktober-Arbeitslosigkeit 4,1%, Stellenzuwachs außerhalb der Landwirtschaft 165 Tausend (BLS, 2026-11-06); reales BIP-Wachstum im dritten Quartal annualisiert 3,4% (BEA, 2026-10-29).",
+          "investorace_implication": "[Sicher] Trump verteidigte am 2026-11-19 ausgehandelte Handelsregelungen mit China. Die demokratische Senatorin Baldwin brachte am 2026-11-17 S.5728 ein, um China die normale Handelsbehandlung zu entziehen. Dieser Vorschlag der liberalen Opposition ist nicht verabschiedet; die Äußerungen der konservativen Regierung begründen keine neue Zollsenkung.",
+          "review_question": "[Wahrscheinlich] Importkosten, Produzentenschutz, Einnahmen und Vergeltung vergleichen: Ausgehandelte Entlastung könnte Kosten und Schutz senken; Entzug der normalen Behandlung würde beides im Allgemeinen erhöhen. Einnahmen und Stellen hängen von Preisweitergabe, Substitution und ausländischen Reaktionen ab. Keiner der Vorschläge garantiert Wachstum.",
+          "limitations": "[Sicher] Die Fed-Spanne bleibt seit 2026-10-28 bei 3,75%–4,00%. Der ältere JEC-Bericht vom 2026-11-13 nennt ein Oktoberdefizit von 404,06 Milliarden USD, keine Jahresprognose. Die Finanzierung steht vor der Frist 2026-12-11. [Wahrscheinlich] Kreditbedarf erhält Refinanzierungsrisiken; Wochenanträge allein belegen weder Rezession noch Beschleunigung."
+        },
+        {
+          "source_url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-18112026-ap",
+          "title": "Endgültige Inflation bestätigt Preisdruck; moderates Wachstum bleibt eine Prognose",
+          "publication_date": "Neue Veröffentlichungen: 2026-11-17 bis 2026-11-19; politische Eckdaten: 2026-06-30 und 2026-10-29",
+          "what_changed": "[Sicher] Eurostat bestätigte am 2026-11-18 die jährliche Oktober-Inflation im Euroraum von 4,0%, unverändert zur Schnellschätzung. Die Kommissionsprognose vom 2026-11-17 erwartet für 2027 Wachstum von 1,4% in der EU und 1,2% im Euroraum. Das sind Jahresprognosen.",
+          "investorace_implication": "[Sicher] Der EZB-Stabilitätsbericht vom 2026-11-18 nennt KI-Bewertungen, fiskalische Ungleichgewichte und geopolitische Risiken. Verbündete der Ukraine trafen sich am 2026-11-19 in Berlin; eine umfassende Waffenruhe wurde nicht verifiziert. [Wahrscheinlich] Energiestörungen schmälern Industrie- und Transportmargen; eine Neubewertung von Schuldenrisiken kann die Finanzierung verteuern. Diplomatische Erklärungen garantieren keine Kostenentlastung.",
+          "review_question": "[Sicher] EZB-Referenz am 2026-11-19: 1 EUR = 1,0992 USD gegenüber 1,0968 am 2026-11-18; EUR gewann 0,22%, USD verlor. Übliche Beobachtungen erfolgen gegen 14:10 MEZ; genaue Zeiten sind unveröffentlicht. [Wahrscheinlich] Das senkt Dollar-Importkosten, aber auch in Euro umgerechnete Dollargewinne.",
+          "limitations": "[Sicher] Der EZB-Einlagensatz von 2,50% ist der Beschluss vom 2026-10-29. Die am 2026-06-30 veröffentlichte EU-Verordnung erlaubt eine bedingte Aussetzung bestimmter Vergünstigungen, wenn US-Zölle auf EU-Stahl-/Aluminiumderivate am Jahresende über 15% liegen. Weder Prognosen noch Risikohinweise belegen bereits eingetretene Ergebnisse."
+        },
+        {
+          "source_url": "https://www.dane.gov.co/files/operaciones/PIB/bol-PIB-IIItrim2026.pdf",
+          "title": "Das Quartals-BIP schrumpft; fiskalische Zugeständnisse lassen Finanzierungsfragen offen",
+          "publication_date": "Neue Belege: 2026-11-17 bis 2026-11-20; ältere Veröffentlichungen: 2026-10-30, 2026-11-05 und 2026-11-09",
+          "what_changed": "[Sicher] DANEs vorläufiges reales BIP vom 2026-11-17 stieg im dritten Quartal jährlich um 0,5%, sank aber saison- und kalenderbereinigt um 0,8% zum Vorquartal. Ältere Werte: September-Arbeitslosigkeit 8,0% (2026-10-30); jährliche Oktober-Inflation 6,30% (2026-11-09); Leitzins 12,25%, gehalten am 2026-10-30 und im Protokoll vom 2026-11-05 dokumentiert.",
+          "investorace_implication": "[Sicher] El Heraldo berichtete am 2026-11-19 über Haciendas am 2026-11-18 angekündigte Rücknahme der geplanten Mehrwertsteuererhöhungen auf Grundnahrungsmittel, Agrarbedarf und private vorausbezahlte Gesundheitspläne. Verabschiedung unverifiziert. [Wahrscheinlich] Dies könnte die Kaufkraft schützen, verringert aber geplante Einnahmen; alternative Finanzierung ist für Kreditkosten wichtig. Hohe Zinsen bremsen außerdem Kredite.",
+          "review_question": "[Sicher] SFC: 1 USD = 3415,10 COP, gültig am 2026-11-20 aus Geschäften vom 2026-11-19, gegenüber 3326,96 gültig am 2026-11-19 aus Geschäften vom 2026-11-18. USD gewann 2,65%, COP verlor. Abgeleitet: 1 EUR = 3753,88 COP = 3415,10 × EZB 1,0992 (2026-11-19); zuvor 3649,01 = 3326,96 × 1,0968 (2026-11-18). EUR gewann 2,87% gegenüber COP.",
+          "limitations": "[Sicher] Die Kreuzkurse gleichen Handelstage ab, keine gleichzeitigen Fixings: TRM mittelt Geschäfte; EZB beobachtet gegen 14:10 MEZ. El Espectador meldete am 2026-11-19 den von Präsident De La Espriella angekündigten Luftangriff im Valle del Cauca; Ergebnisse wurden für diesen Bericht nicht unabhängig verifiziert. Ein Quartalsrückgang belegt weder Rezession noch landesweiten Sicherheitstrend."
+        }
+      ]
+    }
+  }
+}
