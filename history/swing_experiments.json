@@ -1,0 +1,76 @@
+{
+ "schema": "swing-experiments-v1",
+ "as_of": "2026-11-19",
+ "first_session": "2026-11-04",
+ "session_count": 12,
+ "archive_build": "20261120T041738748885-1e688044e3054808a0d2523f06c7d6fd",
+ "price_source": "Yahoo Finance adjusted daily OHLC",
+ "source_hashes": {
+  "AR": "862995062f58541f41b225fab95a0b95478ca1d591f1898a8a3584501bda345a",
+  "CNX": "a26921d2f8fee99971bc94dd2a0aca1b73844281c7d576987156acfa5105f54a",
+  "GDDY": "8f4e0bc24a14e37b013bc4adc7e06349ea8507cffb1e1784cae98e03654e1f92",
+  "GEN": "18a052e3d6140ac93d19d17461aec41987fd76c514bce93261fde2ae3d84daa3",
+  "MO": "86a20c5ab2c1683dbcce7d0841b6767f86584e91889924ce059066e813633f81"
+ },
+ "gap": {
+  "control": {
+   "ending_pct": -1.4216,
+   "max_drawdown_pct": -1.4216,
+   "incomplete_marks": 1,
+   "buys": 4,
+   "capped": 0,
+   "sizing_coverage": 4,
+   "max_weight_pct": 12.0,
+   "worst_observed_open_pct": -0.4654,
+   "observed_opens": 3
+  },
+  "capped": {
+   "ending_pct": -1.4216,
+   "max_drawdown_pct": -1.4216,
+   "incomplete_marks": 1,
+   "buys": 4,
+   "capped": 0,
+   "sizing_coverage": 4,
+   "max_weight_pct": 12.0,
+   "worst_observed_open_pct": -0.4654,
+   "observed_opens": 3
+  },
+  "scenarios": [
+   {
+    "asset_drop_pct": 10,
+    "control_loss_pct": 1.2,
+    "capped_loss_pct": 1.2
+   },
+   {
+    "asset_drop_pct": 15,
+    "control_loss_pct": 1.8,
+    "capped_loss_pct": 1.8
+   },
+   {
+    "asset_drop_pct": 25,
+    "control_loss_pct": 3.0,
+    "capped_loss_pct": 3.0
+   }
+  ]
+ },
+ "pair": {
+  "symbols": [
+   "AR",
+   "CNX"
+  ],
+  "status": "UNSUPPORTED",
+  "i1_compatible": true,
+  "as_of": "2026-11-19",
+  "z": 0.6856,
+  "beta": 0.2021,
+  "train_p": 0.3071,
+  "recent_p": 0.2124,
+  "half_life": 54.47,
+  "train_days": 753,
+  "test_days": 473,
+  "training_end": "2024-12-31",
+  "test_start": "2025-01-02",
+  "events": null,
+  "reverted_within_20": null
+ }
+}

@@ -9,7 +9,7 @@ import evidence
 import opportunity
 
 
-def compare(history, through_build=None):
+def replay(history, through_build=None):
     builds = list(reversed(list(evidence.committed_builds(Path(history)))))
     if through_build is not None:
         index = next((i for i, build in enumerate(builds) if build['manifest']['run_id'] == through_build), None)
@@ -51,6 +51,11 @@ def compare(history, through_build=None):
         for variant, (_, policy) in variants.items():
             trading.advance(ledgers[variant], observation, captured, entry_policy=policy, include_exit_experiment=False)
 
+    return price_build, price_fields, len(builds), eligible_builds, variants, ledgers
+
+
+def compare(history, through_build=None):
+    price_build, _, build_count, eligible_builds, variants, ledgers = replay(history, through_build)
     timeline = ledgers['confirmed_swing']['decisions']
     summary = {}
     for variant, (account, _) in variants.items():
@@ -73,7 +78,7 @@ def compare(history, through_build=None):
         for order in confirmed_orders
     ]
     return dict(
-        same_timing_orders=same_timing_orders, price_build=price_build['manifest']['run_id'], builds_reviewed=len(builds),
+        same_timing_orders=same_timing_orders, price_build=price_build['manifest']['run_id'], builds_reviewed=build_count,
         eligible_signal_builds=eligible_builds, eligible_sessions=len(timeline),
         market_uptrend_sessions=sum(d['market'] == 'UPTREND' for d in timeline),
         first_session=timeline[0]['session'] if timeline else None,
