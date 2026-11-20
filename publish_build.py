@@ -53,11 +53,12 @@ def build_site(root):
     offline = {k: v for k, v in os.environ.items() if k != 'SEC_USER_AGENT'}
     for command in commands:
         if len(command) > 1 and command[1] == 'weekly_research.py':
-            try:
-                subprocess.run([sys.executable, 'swing_experiments.py'], cwd=root, env=offline,
-                               check=True, timeout=180)
-            except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
-                print('Swing experiment refresh failed; retaining its previous archive.', flush=True)
+            for experiment, args in (('swing_experiments.py', []), ('long_short_lab.py', ['--write'])):
+                try:
+                    subprocess.run([sys.executable, experiment, *args], cwd=root, env=offline,
+                                   check=True, timeout=180)
+                except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+                    print(f'{experiment} refresh failed; the main build can continue.', flush=True)
         is_test = command[1:3] == ['-m', 'unittest']
         subprocess.run(command, cwd=root, check=True, env=offline if is_test else None)
 
