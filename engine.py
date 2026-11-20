@@ -569,6 +569,17 @@ DATA = {
 'NTAP': dict(yf='NTAP', fcf=1650.0, shares=196.42, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 7.5, 'c': 9.0, 'b': 8.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'rev': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'opinc': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'ebitda': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'netdebt': '2026-07-31'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(46.85, 481.74), name='NetApp, Inc.'),
 'OKLO': dict(name='Oklo', yf='OKLO', fcf=None, shares=195.29, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 2.0, 'c': 1.5, 'b': None, 'v': None, 'r': 1.0}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=0.5, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Utilities', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(9.27, 233.96), na='FCF non-positive (-452.6m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
 'PAYX': dict(yf='PAYX', fcf=2016.7, shares=355.98, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 9.0, 'c': 9.5, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'rev': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'opinc': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'ebitda': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'netdebt': '2026-08-31'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(42.72, 255.96), name='Paychex, Inc.'),
+'PDD': dict(name='PDD Holdings (Pinduoduo / Temu)', yf='PDD', cur='USD',
+    fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    sector='Consumer Cyclical', built='watch', normalization_status='REVIEW_REQUIRED',
+    fundamentals_refresh='QUOTE_ONLY', cash_flow_basis='UNRESOLVED_ADS_RECONCILIATION',
+    na='Watch only. Reconcile RMB consolidated cash flows, FX and the ADS-equivalent share denominator before valuation.',
+    financial_sources=[{
+        'url':'https://www.sec.gov/Archives/edgar/data/1737806/000110465926050727/pdd-20251231x20f.htm',
+        'title':'PDD Holdings FY2025 Form 20-F', 'period':'FY2025'
+    }],
+    boot_note='Nasdaq PDD is the holding company of Pinduoduo and Temu. Each ADS represents four Class A ordinary shares.'),
 'ROK': dict(yf='ROK', fcf=1701.0, shares=109.76, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 6.0, 'c': 7.5, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(173.76, 994.72), name='Rockwell Automation, Inc.'),
 'SSD': dict(yf='SSD', fcf=495.8, shares=40.54, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 7.5, 'c': 9.0, 'b': 9.5, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=8.5, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Materials', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(78.16, 426.98), name='Simpson Manufacturing Co., Inc.', midcycle=False,
     midcycle_note='Building-products manufacturer (connectors, anchors), not a commodity producer: its prices are not a commodity price. Valued on current cash flow like CAT, ENS and ROK; the four-year mean was held down by 2024 plant capex (FCF 158m against 298-338m in the other years).'),
@@ -654,6 +665,8 @@ def epv(d):
 
 
 def _epv_input_block(d):
+    if d.get('fundamentals_refresh') == 'QUOTE_ONLY':
+        return 'EPV unavailable for a quote-only watch entry.'
     analysis = d.get('dynamic_analysis') or {}
     if analysis.get('valuation_input_conflicts'):
         return 'EPV blocked: unresolved monetary input conflicts.'
@@ -1170,7 +1183,7 @@ def bootstrap_fundamentals():
     for t, d in DATA.items():
         # Primary packets may deliberately leave annual FCF unresolved. A Yahoo
         # fill would mix acquisition/recast periods and discard their provenance.
-        if d.get('fundamentals_refresh') == 'PRIMARY_REVIEW_ONLY':
+        if d.get('fundamentals_refresh') in ('PRIMARY_REVIEW_ONLY', 'QUOTE_ONLY'):
             continue
         if d.get('midcycle'):              # producers: mean annual FCF, not TTM
             try:
@@ -1434,7 +1447,8 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
     counts = dict(refreshed=0, retained_newer_period=0, sec_newer_quarter=0, cached=0, unavailable=0, specialized=0)
     fx_cache = {}
     for ticker, row in DATA.items():
-        if (row.get('built') == 'fund' or row.get('sector') in ('REIT', 'Midstream', 'Banks', 'Insurance')
+        if (row.get('fundamentals_refresh') == 'QUOTE_ONLY' or row.get('built') == 'fund'
+                or row.get('sector') in ('REIT', 'Midstream', 'Banks', 'Insurance')
                 or row.get('cash_flow_basis') in ('FFO_REPORTED_NOT_FCFE',
                     'ISSUER_DISTRIBUTABLE_CASH_FLOW_TO_COMMON_EQUITY')):
             counts['specialized'] += 1
@@ -2655,7 +2669,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
           + f'<td class="{cls(None if c is None else c*100,60,35)}">{fmt(None if c is None else c*100,".0f")}%</td>'
           + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}{growth_comparison_badge(d)}</td>'
           + f'<td class="{cls(None if eg is None else eg*100,0,-0.0001)}">{fmt(None if eg is None else eg*100,"+.0f")}%</td>'
-          + f'<td><span class="pill {CLOCK_CSS.get(d.get("clock"),"s-conc")}">{d.get("clock","")}</span></td>'
+          + f'<td><span class="pill {CLOCK_CSS.get(d.get("clock"),"s-conc")}">{d.get("clock") or ""}</span></td>'
           + f'<td class="in">{SOURCE_REVIEW.insider_cell(t, reviews)}</td>'
           + (lambda mm, fh: '<td class="mono">'
              + (f'<span class="{cls(mm,10,-15)}">{mm:+.0f}%</span>' if mm is not None else '<span class="pr na">&mdash;</span>')
