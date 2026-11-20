@@ -312,6 +312,19 @@ def render(report):
                 pct(x['return_pct']), pct(x['drawdown_pct']), x['gap_sessions'])
     x = report['paper']
     bt = report['backtest']
+    long_count = sum(p['side'] == 'LONG' for p in x['positions'].values())
+    short_count = sum(p['side'] == 'SHORT' for p in x['positions'].values())
+    reviewed_close = x['last'] or bt['forward_rules']['last']
+    as_of = datetime.fromisoformat(report['as_of']).isoformat(timespec='minutes')
+    account = ('<div class="tiles" aria-label="Forward paper account">'
+               f'<div class="tile"><b>{long_count}</b><span>Active paper longs</span></div>'
+               f'<div class="tile"><b>{short_count}</b><span>Active paper shorts</span></div>'
+               f'<div class="tile"><b>{len(x["pending"])}</b><span>Pending paper orders</span></div></div>'
+               f'<p>Report captured {escape(as_of)} New York time. Last verified close '
+               f'{escape(reviewed_close or "unavailable")}.')
+    if not x['sessions']:
+        account += ' The forward account is awaiting its first eligible session.'
+    account += '</p>'
     stats = table(('Sample', 'Window', 'Decision sessions', 'Long in / out', 'Short in / out', 'Long P&L (USD)',
                    'Short P&L (USD)', 'Net return', 'Observed max drawdown', 'Missing marks'),
                   [summary('Backtest · both sides confirmed', bt['confirmed']),
@@ -328,7 +341,7 @@ def render(report):
           basis.get(o.get('entry_basis'), '—'), o['status'])
          for o in reversed(events[-30:])]) if events else '<p>No forward orders yet.</p>'
     body = ('<h1>Codex long/short swing test</h1><p>Daily simulation in USD. '
-            'The forward account starts after the 20 November 2026 session.</p>'
+            'The forward account starts after the 20 November 2026 session.</p>' + account +
             '<h2>Rules</h2><p>Forward longs require a fundamental score ≥ 7 and quality ≥ 6. '
             'Forward shorts use technicals only. SMA50 must be at least 2% above SMA200 for long or below for short. '
             'The closing price must cross SMA36 in the same direction, finish beyond SMA50 and stay within '
