@@ -135,7 +135,8 @@ def render_market(trend, universe):
             + '<div class="tw"><table><thead><tr><th>Date</th><th>Above 50-day</th><th>Above 200-day</th>'
             '<th>In uptrend</th><th>New highs</th><th>New lows</th></tr></thead><tbody>' + hist + '</tbody></table></div>'
             '<div class="note">Uptrend: close above the 50-day average, 50-day above the 200-day, 200-day rising over '
-            '20 sessions. ✓ marks an InvestorAce universe member; others can be added with add-ticker, and only then '
+            '20 sessions. Stocks with a one-day move above 35% in the last 6 months (trial results, bids) are left out of '
+            f'the lists ({int(trend.get("event_jumps") or 0)} today). ✓ marks an InvestorAce universe member; others can be added with add-ticker, and only then '
             'get a model label. Stocks only, at least 5 USD and 10m USD traded a day.</div>'
             f'<h3>Turning up: new uptrends, strongest against the S&amp;P 500 over 3 months ({len(trend["new_uptrends"])})</h3>'
             + table(trend['new_uptrends'])
