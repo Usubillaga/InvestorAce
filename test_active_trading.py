@@ -26,7 +26,9 @@ class Intake(unittest.TestCase):
         self.assertEqual(at.parse('paper-order: buy 10 mu'), ('BUY', 10, 'MU'))
         self.assertEqual(at.parse('paper-order: SELL 3 ELE.MC'), ('SELL', 3, 'ELE.MC'))
         self.assertEqual(at.parse('paper-order: CANCEL #12'), ('CANCEL', 12, None))
-        for bad in ('paper-order: BUY 0 MU', 'paper-order: BUY 1.5 MU', 'paper-order: SHORT 5 MU',
+        self.assertEqual(at.parse('paper-order: short 5 mu'), ('SHORT', 5, 'MU'))
+        self.assertEqual(at.parse('paper-order: COVER 5 MU'), ('COVER', 5, 'MU'))
+        for bad in ('paper-order: BUY 0 MU', 'paper-order: BUY 1.5 MU', 'paper-order: SHORT -5 MU',
                     'paper-order: BUY 5 MU; rm -rf /', 'buy 5 MU'):
             with self.assertRaises(ValueError):
                 at.parse(bad)
@@ -83,6 +85,40 @@ class Replay(unittest.TestCase):
         self.assertAlmostEqual(r['realized'], 40 * rate)
         self.assertAlmostEqual(r['pnl'], (40 + 120) * rate)
         self.assertAlmostEqual(r['benchmark_pct'], 1.0)
+
+    def test_short_profit_borrow_cost_and_value(self):
+        doc = account()
+        place(doc, 'paper-order: SHORT 10 ELE', 1, '2026-11-12T10:00:00Z')    # fills at 40 EUR
+        r = at.replay(doc, self.series, date(2026, 11, 13))
+        (p,) = r['positions']
+        self.assertEqual((p['side'], p['shares']), ('SHORT', -10))
+        self.assertAlmostEqual(p['value'], -410.)                             # buy-back cost at 41
+        self.assertAlmostEqual(p['pnl'], -10.)
+        self.assertAlmostEqual(r['value'], 10000 - 10.)
+        series = dict(self.series, **{'ELE.MC': self.series['ELE.MC'] + [('2026-12-14', 30.)]})
+        place(doc, 'paper-order: COVER 10 ELE', 2, '2026-12-14T10:00:00Z')
+        r = at.replay(doc, series, date(2026, 12, 14))
+        borrow = 400 * at.BORROW_RATE * 32 / 365
+        self.assertEqual(r['positions'], [])
+        self.assertAlmostEqual(r['realized'], 100 - borrow)
+        self.assertAlmostEqual(r['value'], 10000 + 100 - borrow)
+
+    def test_short_rules_reject_mixed_sides_oversized_shorts_and_short_proceeds_as_buying_power(self):
+        doc = account(capital=1000.)
+        place(doc, 'paper-order: BUY 2 ELE', 1, '2026-11-12T10:00:00Z')
+        place(doc, 'paper-order: SHORT 1 ELE', 2, '2026-11-12T10:00:00Z')    # held long
+        place(doc, 'paper-order: COVER 1 MU', 3, '2026-11-12T19:00:00Z')     # nothing short
+        place(doc, 'paper-order: SHORT 6 MU', 4, '2026-11-12T19:00:00Z')     # 534 EUR > 50% of 1000
+        place(doc, 'paper-order: SHORT 5 MU', 5, '2026-11-12T19:00:00Z')     # 445 EUR: allowed
+        place(doc, 'paper-order: BUY 10 MU', 6, '2026-11-12T19:30:01Z')      # held short
+        place(doc, 'paper-order: BUY 22 ELE', 7, '2026-11-13T10:00:00Z')     # 902 EUR > cash 1365 minus 490 short
+        out = {o['id']: o for o in at.replay(doc, self.series, date(2026, 11, 16))['orders']}
+        self.assertEqual([out[i]['status'] for i in range(1, 8)],
+                         ['FILLED', 'REJECTED', 'REJECTED', 'REJECTED', 'FILLED', 'REJECTED', 'REJECTED'])
+        self.assertIn('held long', out[2]['reason'])
+        self.assertIn('exceed', out[4]['reason'])
+        self.assertIn('held short', out[6]['reason'])
+        self.assertIn('short sale proceeds excluded', out[7]['reason'])
 
     def test_rejects_buys_beyond_cash_and_sells_beyond_holdings(self):
         doc = account(capital=1000.)

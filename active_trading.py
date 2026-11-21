@@ -7,6 +7,12 @@ every fill is replayed from committed closes, at the close of the first session
 whose cut-off lies after the submission time. Same-day fills therefore need the
 order before the cut-off, and no order can pick a price it has already seen.
 
+Short selling (added 21 Nov 2026): ``SHORT`` sells borrowed shares and ``COVER``
+buys them back. Short sale proceeds are collateral, not buying power; short
+exposure may not exceed half of the account value when a short is opened; a
+borrow cost of 2% a year is charged when it is covered. A ticker is held either
+long or short, never both.
+
 Paper only. No broker is connected and no real order is ever sent.
 """
 import json
@@ -24,8 +30,11 @@ BENCHMARK = '^GSPC'
 EU_SUFFIXES = ('.MC', '.AS', '.PA', '.DE', '.MI', '.BR', '.LS', '.CO', '.ST', '.HE', '.SW', '.L')
 US_CUTOFF = '19:30'      # NYSE closes 20:00 UTC in summer, 21:00 in winter
 EU_CUTOFF = '15:00'      # European cash markets close about 16:30 UTC
-ORDER = re.compile(r'^\s*paper-order:\s*(BUY|SELL)\s+(\d{1,6})\s+([A-Za-z0-9.\-^=]{1,15})\s*$', re.I)
+ORDER = re.compile(r'^\s*paper-order:\s*(BUY|SELL|SHORT|COVER)\s+(\d{1,6})\s+([A-Za-z0-9.\-^=]{1,15})\s*$', re.I)
 RESISTANCE = re.compile(r'^\s*resistance:\s*([0-9]{1,7}(?:\.[0-9]{1,6})?)\s*$', re.I | re.M)
+SIDES = ('BUY', 'SELL', 'SHORT', 'COVER')
+BORROW_RATE = 0.02       # yearly cost of borrowing shares sold short, charged when the short is covered
+SHORT_LIMIT = 0.50       # short positions may not exceed half of the account value when opened
 CANCEL = re.compile(r'^\s*paper-order:\s*CANCEL\s+#?(\d{1,7})\s*$', re.I)
 
 
@@ -50,7 +59,7 @@ def save(doc, path=FILE):
 
 
 def parse(title):
-    """('BUY'|'SELL', shares, symbol) or ('CANCEL', order_id, None); ValueError otherwise."""
+    """('BUY'|'SELL'|'SHORT'|'COVER', shares, symbol) or ('CANCEL', order_id, None); ValueError otherwise."""
     match = ORDER.match(title or '')
     if match:
         shares = int(match.group(2))
@@ -60,8 +69,8 @@ def parse(title):
     match = CANCEL.match(title or '')
     if match:
         return 'CANCEL', int(match.group(1)), None
-    raise ValueError('title must look like "paper-order: BUY 10 MU", "paper-order: SELL 5 MU" '
-                     'or "paper-order: CANCEL 123"')
+    raise ValueError('title must look like "paper-order: BUY 10 MU", "paper-order: SELL 5 MU", '
+                     '"paper-order: SHORT 5 MU", "paper-order: COVER 5 MU" or "paper-order: CANCEL 123"')
 
 
 def resolve(symbol, universe):
@@ -83,7 +92,7 @@ def intake(doc, title, *, issue, created_at, universe, body=''):
     if any(o.get('id') == issue for o in orders):
         return False, f'issue #{issue} is already recorded'
     if side == 'CANCEL':
-        target = next((o for o in orders if o.get('id') == amount and o.get('side') in ('BUY', 'SELL')), None)
+        target = next((o for o in orders if o.get('id') == amount and o.get('side') in SIDES), None)
         if target is None:
             return False, f'no order #{amount} to cancel'
         if target.get('cancelled_at'):
@@ -160,14 +169,22 @@ def replay(doc, series, as_of):
         position = held.setdefault(o['ticker'], dict(ticker=o['ticker'], yahoo=o['yahoo'], currency=o['currency'],
                                                      shares=0, cost=0.))
         fee = amount * cost_rate               # commission and slippage, charged on every fill
-        if o['side'] == 'BUY':
-            if amount + fee > cash + 1e-9:
-                o.update(status='REJECTED', reason=f'not enough cash ({cash:,.2f} EUR for {amount + fee:,.2f} EUR)')
+        side = o['side']
+        if side in ('BUY', 'SELL') and position['shares'] < 0:
+            o.update(status='REJECTED', reason=f'{o["ticker"]} is held short; use COVER')
+            continue
+        if side in ('SHORT', 'COVER') and position['shares'] > 0:
+            o.update(status='REJECTED', reason=f'{o["ticker"]} is held long; use SELL')
+            continue
+        if side == 'BUY':
+            if amount + fee > cash - _short_value(held, series, o['fill_date'], doc) + 1e-9:
+                o.update(status='REJECTED', reason=f'not enough cash ({cash:,.2f} EUR for {amount + fee:,.2f} EUR, '
+                                                   'short sale proceeds excluded)')
                 continue
             cash -= amount + fee
             position['shares'] += o['shares']
             position['cost'] += amount + fee
-        else:
+        elif side == 'SELL':
             if o['shares'] > position['shares']:
                 o.update(status='REJECTED', reason=f'only {position["shares"]} shares held')
                 continue
@@ -177,6 +194,30 @@ def replay(doc, series, as_of):
             o['realized'] = amount - fee - basis
             position['shares'] -= o['shares']
             position['cost'] -= basis
+        elif side == 'SHORT':
+            equity = cash + _long_value(held, series, o['fill_date'], doc) - _short_value(held, series, o['fill_date'], doc)
+            if _short_value(held, series, o['fill_date'], doc) + amount > SHORT_LIMIT * equity + 1e-9:
+                o.update(status='REJECTED', reason=f'short exposure would exceed {SHORT_LIMIT:.0%} of the account')
+                continue
+            cash += amount - fee
+            position['shares'] -= o['shares']
+            position['cost'] -= amount - fee          # negative cost: the proceeds received
+            position.setdefault('opened', o['fill_date'])
+        else:                                     # COVER
+            if o['shares'] > -position['shares']:
+                o.update(status='REJECTED', reason=f'only {-position["shares"]} shares held short')
+                continue
+            proceeds = -position['cost'] * o['shares'] / -position['shares']
+            days = (date.fromisoformat(o['fill_date']) - date.fromisoformat(position.get('opened') or o['fill_date'])).days
+            borrow = proceeds * BORROW_RATE * days / 365
+            cash -= amount + fee + borrow
+            realized += proceeds - amount - fee - borrow
+            o.update(realized=proceeds - amount - fee - borrow, borrow=borrow)
+            fees += borrow
+            position['shares'] += o['shares']
+            position['cost'] += proceeds
+            if not position['shares']:
+                position.pop('opened', None)
         fees += fee
         o.update(status='FILLED', amount=amount, fee=fee)
     positions = []
@@ -185,10 +226,12 @@ def replay(doc, series, as_of):
             continue
         last = _last(series, p['yahoo'], as_of)
         rate = _rate(doc, p['currency'])
-        value = p['shares'] * last[1] * rate if last else None
-        positions.append(dict(p, last_date=last[0] if last else None, last_close=last[1] if last else None,
-                              value=value, pnl=None if value is None else value - p['cost'],
-                              pnl_pct=None if value is None or not p['cost'] else 100 * (value / p['cost'] - 1)))
+        value = p['shares'] * last[1] * rate if last else None      # negative for a short: the buy-back cost
+        side = 'SHORT' if p['shares'] < 0 else 'LONG'
+        pnl = None if value is None else value - p['cost']
+        positions.append(dict(p, side=side, last_date=last[0] if last else None, last_close=last[1] if last else None,
+                              value=value, pnl=pnl,
+                              pnl_pct=None if pnl is None or not p['cost'] else 100 * pnl / abs(p['cost'])))
     priced = all(p['value'] is not None for p in positions)
     value = cash + sum(p['value'] for p in positions) if priced else None
     bench = None
@@ -199,6 +242,26 @@ def replay(doc, series, as_of):
                 realized=realized, fees=fees, value=value, pnl=None if value is None else value - float(doc['capital']),
                 return_pct=None if value is None else 100 * (value / float(doc['capital']) - 1),
                 benchmark_pct=bench, priced=priced)
+
+
+def _marked(held, series, day, doc, short):
+    total = 0.
+    for p in held.values():
+        if (p['shares'] < 0) != short or not p['shares']:
+            continue
+        last = _last(series, p['yahoo'], day)
+        price = last[1] if last else abs(p['cost'] / p['shares'])
+        total += abs(p['shares']) * price * _rate(doc, p['currency'])
+    return total
+
+
+def _long_value(held, series, day, doc):
+    return _marked(held, series, day, doc, False)
+
+
+def _short_value(held, series, day, doc):
+    """What buying back every short position would cost at the latest close up to that day."""
+    return _marked(held, series, day, doc, True)
 
 
 def _first_on_or_after(series, symbol, day):
@@ -388,7 +451,9 @@ def render(doc, result, record, *, now):
             '<label>Ticker<select id="trade-ticker"></select></label>'
             '<label>Shares<input id="trade-shares" type="number" min="1" step="1" value="10"></label>'
             '<div class="side"><label><input type="radio" name="trade-side" value="BUY" checked> Buy</label>'
-            '<label><input type="radio" name="trade-side" value="SELL"> Sell</label></div>'
+            '<label><input type="radio" name="trade-side" value="SELL"> Sell</label>'
+            '<label><input type="radio" name="trade-side" value="SHORT"> Short</label>'
+            '<label><input type="radio" name="trade-side" value="COVER"> Cover</label></div>'
             '<p class="est" id="trade-estimate"></p>'
             f'<button type="button" id="trade-send" data-repo="{escape(REPO, quote=True)}">Send order via GitHub</button></div>'
             '<div class="note">The button opens a prepared GitHub issue; submit it to place the order (repository owner '

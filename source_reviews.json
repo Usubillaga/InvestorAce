@@ -1,6 +1,6 @@
 {
   "schema": "source-reviews-v1",
-  "as_of": "2026-11-16",
+  "as_of": "2026-11-21",
   "window_start": "2026-07-16",
   "window_end": "2026-10-14",
   "entries": {
@@ -8613,6 +8613,35 @@
             "code": "GROUP_FCF_INCLUDES_FINANCIAL_SERVICES",
             "detected_at": "2026-11-16",
             "reason": "Consolidated operating cash flow minus capex mixes the Automotive Division with Financial Services lease and loan assets; it is not a common-equity cash flow and must not be capitalised."
+          }
+        ]
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "Insider transactions were outside this review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": []
+      }
+    },
+    "MELI": {
+      "issuer": "MercadoLibre, Inc.",
+      "listing": "MELI / Nasdaq / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "The provider free cash flow (12,254m USD TTM, about 44% of revenue) mixes the commerce business with Mercado Pago, whose customer funds and loan book move through operating and investing cash flow. MercadoLibre reports adjusted free cash flow instead: about 285m USD in Q3 2026 after 503m of capital spending and 2.1bn added to a credit portfolio of almost 18bn (+62%), press-reported and not read from the 10-Q in this session. No valuation input is set. Watch-only until an issuer bridge for one dated window is entered.",
+        "sources": [
+          {
+            "title": "MercadoLibre earns US$448 million in Q3 2026 (Rio Times)",
+            "url": "https://www.riotimesonline.com/mercadolibre-earns-us448-million-q3-2026/",
+            "published_at": null
+          }
+        ],
+        "input_conflicts": [
+          {
+            "code": "GROUP_FCF_INCLUDES_FINANCIAL_SERVICES",
+            "detected_at": "2026-11-21",
+            "reason": "Consolidated operating cash flow minus capex includes Mercado Pago customer funds and lending flows; it is not a common-equity cash flow and must not be capitalised."
           }
         ]
       },

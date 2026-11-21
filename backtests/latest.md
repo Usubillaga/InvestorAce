@@ -6,22 +6,22 @@ Technical rules on current members. Historical membership and full label history
 
 | Distance to 36-day avg | days | stocks | 21-day mean | 63-day mean | 63-day vs S&P | P(−10% within 21 d) | P(63 d < 0) |
 |---|---|---|---|---|---|---|---|
-| -100..0% | 67595 | 121 | 1.36% | 4.38% | 1.0% | 25.8% | 46.72% |
-| 0..10% | 57834 | 121 | 0.96% | 2.93% | 0.21% | 19.96% | 47.58% |
-| 10..20% | 10889 | 120 | 1.54% | 5.28% | 2.62% | 29.94% | 47.82% |
-| 20..30% | 2245 | 84 | 3.3% | 9.35% | 6.96% | 40.27% | 47.22% |
-| 30..+% | 1533 | 51 | 6.26% | 16.72% | 14.34% | 51.4% | 45.99% |
+| -100..0% | 68201 | 122 | 1.39% | 4.4% | 1.03% | 25.82% | 46.65% |
+| 0..10% | 58260 | 122 | 0.95% | 2.91% | 0.18% | 20.05% | 47.63% |
+| 10..20% | 11029 | 121 | 1.51% | 5.24% | 2.56% | 29.87% | 47.73% |
+| 20..30% | 2262 | 85 | 3.27% | 9.31% | 6.93% | 40.05% | 47.04% |
+| 30..+% | 1542 | 52 | 6.16% | 16.56% | 14.24% | 51.69% | 46.3% |
 
-## 2 · Breakouts above the prior 60-session high (in an uptrend) · failure rate 33.14%
+## 2 · Breakouts above the prior 60-session high (in an uptrend) · failure rate 33.21%
 
 | Case | days | 5-day mean | 21-day mean | 63-day mean | 63-day vs S&P |
 |---|---|---|---|---|---|
-| all_uptrend_days | 56302 | 0.34% | 1.54% | 4.75% | 1.73% |
-| breakout_day | 3476 | 0.21% | 1.59% | 4.59% | 1.72% |
-| breakout_failed | 1152 | -4.17% | -5.04% | -1.09% | -3.04% |
-| breakout_held | 2324 | 2.39% | 4.87% | 7.4% | 4.08% |
-| confirmed_second_close | 2523 | 0.18% | 1.73% | 4.88% | 1.95% |
-| just_under_resistance | 16124 | 0.23% | 0.95% | 2.97% | -0.03% |
+| all_uptrend_days | 56778 | 0.34% | 1.52% | 4.74% | 1.71% |
+| breakout_day | 3502 | 0.2% | 1.58% | 4.54% | 1.66% |
+| breakout_failed | 1163 | -4.21% | -5.02% | -1.11% | -3.06% |
+| breakout_held | 2339 | 2.39% | 4.86% | 7.35% | 4.01% |
+| confirmed_second_close | 2536 | 0.17% | 1.73% | 4.86% | 1.92% |
+| just_under_resistance | 16234 | 0.23% | 0.93% | 2.94% | -0.08% |
 
 "breakout_failed" and "breakout_held" use the next 10 sessions to sort the cases, so they are not tradable signals; they show how much a failure costs.
 
@@ -29,25 +29,27 @@ Technical rules on current members. Historical membership and full label history
 
 | Variant | CAGR | max drawdown | Sharpe | trades | win rate | avg trade | avg days |
 |---|---|---|---|---|---|---|---|
-| base_v1_6 | 19.37% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
-| base_v1_5 | 25.56% | -33.37% | 1.02 | 276 | 30.43% | 4.94% | 29.5 |
-| no_buy_above_30pct_36d | 23.71% | -30.82% | 0.96 | 274 | 31.02% | 4.15% | 29.5 |
-| sell_above_30pct_36d | 7.84% | -27.25% | 0.49 | 358 | 32.12% | 1.65% | 22.8 |
+| base_v1_6 | 19.35% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
+| base_v1_5 | 25.55% | -33.37% | 1.02 | 276 | 30.43% | 4.94% | 29.5 |
+| no_buy_above_30pct_36d | 23.7% | -30.82% | 0.96 | 274 | 31.02% | 4.15% | 29.5 |
+| sell_above_30pct_36d | 7.83% | -27.25% | 0.49 | 358 | 32.12% | 1.65% | 22.8 |
 | wait_under_resistance | 29.52% | -30.34% | 1.06 | 285 | 28.77% | 5.11% | 28.2 |
-| two_closes_above_resistance | 16.48% | -33.18% | 0.74 | 288 | 29.51% | 3.45% | 28.1 |
-| sell_failed_breakout | 19.37% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
-| two_closes_and_sell_failed | 28.61% | -31.36% | 1.08 | 268 | 31.72% | 5.51% | 30.1 |
+| two_closes_above_resistance | 20.76% | -27.74% | 0.86 | 275 | 30.91% | 4.06% | 29.7 |
+| sell_failed_breakout | 19.35% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
+| two_closes_and_sell_failed | 28.6% | -31.36% | 1.08 | 268 | 31.72% | 5.51% | 30.1 |
 | wait_res_and_sell_failed | 30.24% | -36.53% | 1.08 | 324 | 27.47% | 4.84% | 25.4 |
 | kell_crossback_exit | 25.41% | -31.0% | 0.99 | 651 | 35.64% | 1.82% | 12.1 |
-| kell_base_n_break_entry | 11.8% | -17.37% | 0.83 | 215 | 27.44% | 2.31% | 35.7 |
+| kell_base_n_break_entry | 13.32% | -17.37% | 0.91 | 208 | 28.37% | 2.58% | 36.5 |
 | kell_wedge_pop_entry | 6.85% | -20.11% | 0.48 | 230 | 27.83% | 0.94% | 31.2 |
-| kell_full | 9.91% | -24.81% | 0.57 | 518 | 33.78% | 0.94% | 13.3 |
-| buffer_200d_1pct | 19.37% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
-| buffer_200d_2pct | 19.37% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
-| buffer_200d_3pct | 19.37% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
+| kell_full | 9.99% | -24.81% | 0.57 | 518 | 33.78% | 0.94% | 13.3 |
+| buffer_200d_1pct | 19.35% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
+| buffer_200d_2pct | 19.35% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
+| buffer_200d_3pct | 19.35% | -33.83% | 0.82 | 280 | 28.93% | 4.37% | 29.2 |
 | sell_all_in_correction | 25.14% | -29.46% | 0.96 | 353 | 36.54% | 4.3% | 21.6 |
-| sell_all_weak_breadth | 15.44% | -28.87% | 0.72 | 627 | 39.39% | 1.72% | 11.9 |
-| sell_all_correction_and_weak_breadth | 34.15% | -29.63% | 1.14 | 331 | 34.74% | 4.98% | 23.8 |
+| sell_all_weak_breadth | 19.63% | -29.37% | 0.8 | 613 | 39.31% | 1.59% | 12.2 |
+| sell_all_correction_and_weak_breadth | 34.18% | -30.4% | 1.14 | 329 | 34.65% | 4.98% | 24.0 |
+| shorts_in_correction | 25.68% | -38.41% | 0.93 | 403 | 32.75% | 2.84% | 22.9 |
+| shorts_always | 18.33% | -36.32% | 0.71 | 560 | 32.5% | 1.7% | 23.5 |
 
 S&P 500 buy and hold: CAGR 8.1%, max drawdown -25.43%.
 
@@ -55,107 +57,115 @@ S&P 500 buy and hold: CAGR 8.1%, max drawdown -25.43%.
 
 Members enter a period once they have 200 days of prices, so early periods hold fewer stocks.
 
-### 2014-01-02 → 2017-12-29 · 95 stocks · S&P CAGR 9.94%, max drawdown -14.16%
+### 2014-01-02 → 2017-12-29 · 96 stocks · S&P CAGR 9.94%, max drawdown -14.16%
 
-Breakout failure rate 22.58% · 63-day mean: uptrend days 4.54%, just under resistance 4.25%, failed breakouts 0.48% · more than 30% above the 36-day average: n=209, 63-day 13.78%, P(−10% in 21 d) 53.59%
-
-| Variant | CAGR | max drawdown | Sharpe | trades |
-|---|---|---|---|---|
-| base_v1_6 | 20.35% | -15.06% | 1.3 | 150 |
-| base_v1_5 | 18.56% | -15.24% | 1.16 | 149 |
-| no_buy_above_30pct_36d | 16.16% | -15.24% | 1.03 | 155 |
-| sell_above_30pct_36d | 17.64% | -14.91% | 1.16 | 163 |
-| wait_under_resistance | 20.6% | -13.5% | 1.26 | 135 |
-| two_closes_above_resistance | 22.63% | -16.57% | 1.37 | 150 |
-| sell_failed_breakout | 20.35% | -15.06% | 1.3 | 150 |
-| two_closes_and_sell_failed | 17.42% | -16.54% | 1.12 | 153 |
-| wait_res_and_sell_failed | 18.26% | -15.48% | 1.13 | 160 |
-| kell_crossback_exit | 8.35% | -16.68% | 0.6 | 519 |
-| kell_base_n_break_entry | 1.71% | -20.82% | 0.2 | 148 |
-| kell_wedge_pop_entry | 5.78% | -20.75% | 0.53 | 174 |
-| kell_full | 1.94% | -17.76% | 0.22 | 456 |
-| buffer_200d_1pct | 20.35% | -15.06% | 1.3 | 150 |
-| buffer_200d_2pct | 20.35% | -15.06% | 1.3 | 150 |
-| buffer_200d_3pct | 20.35% | -15.06% | 1.3 | 150 |
-| sell_all_in_correction | 18.61% | -13.63% | 1.26 | 214 |
-| sell_all_weak_breadth | 20.6% | -15.38% | 1.3 | 153 |
-| sell_all_correction_and_weak_breadth | 20.6% | -15.38% | 1.3 | 153 |
-
-### 2018-01-02 → 2021-12-31 · 110 stocks · S&P CAGR 15.33%, max drawdown -33.92%
-
-Breakout failure rate 30.97% · 63-day mean: uptrend days 5.47%, just under resistance 3.07%, failed breakouts 0.15% · more than 30% above the 36-day average: n=810, 63-day 19.34%, P(−10% in 21 d) 49.01%
+Breakout failure rate 22.48% · 63-day mean: uptrend days 4.59%, just under resistance 4.29%, failed breakouts 0.61% · more than 30% above the 36-day average: n=209, 63-day 13.78%, P(−10% in 21 d) 53.59%
 
 | Variant | CAGR | max drawdown | Sharpe | trades |
 |---|---|---|---|---|
-| base_v1_6 | 35.29% | -19.76% | 1.37 | 218 |
-| base_v1_5 | 41.82% | -21.53% | 1.54 | 201 |
-| no_buy_above_30pct_36d | 25.96% | -21.35% | 1.09 | 201 |
-| sell_above_30pct_36d | 33.47% | -20.44% | 1.51 | 230 |
-| wait_under_resistance | 33.15% | -23.03% | 1.31 | 218 |
-| two_closes_above_resistance | 34.45% | -23.29% | 1.41 | 200 |
-| sell_failed_breakout | 35.29% | -19.76% | 1.37 | 218 |
-| two_closes_and_sell_failed | 30.93% | -19.75% | 1.25 | 213 |
-| wait_res_and_sell_failed | 29.01% | -30.7% | 1.19 | 226 |
-| kell_crossback_exit | 31.89% | -23.84% | 1.25 | 559 |
+| base_v1_6 | 17.87% | -15.06% | 1.15 | 155 |
+| base_v1_5 | 18.56% | -15.24% | 1.16 | 156 |
+| no_buy_above_30pct_36d | 16.46% | -15.24% | 1.07 | 154 |
+| sell_above_30pct_36d | 15.34% | -14.91% | 1.02 | 165 |
+| wait_under_resistance | 20.46% | -13.13% | 1.26 | 145 |
+| two_closes_above_resistance | 23.2% | -16.13% | 1.38 | 156 |
+| sell_failed_breakout | 17.87% | -15.06% | 1.15 | 155 |
+| two_closes_and_sell_failed | 20.27% | -14.96% | 1.24 | 161 |
+| wait_res_and_sell_failed | 20.7% | -15.71% | 1.26 | 148 |
+| kell_crossback_exit | 13.32% | -17.45% | 0.87 | 508 |
+| kell_base_n_break_entry | 7.23% | -14.27% | 0.63 | 137 |
+| kell_wedge_pop_entry | 7.33% | -18.12% | 0.64 | 175 |
+| kell_full | 2.09% | -19.76% | 0.23 | 454 |
+| buffer_200d_1pct | 17.87% | -15.06% | 1.15 | 155 |
+| buffer_200d_2pct | 17.87% | -15.06% | 1.15 | 155 |
+| buffer_200d_3pct | 17.87% | -15.06% | 1.15 | 155 |
+| sell_all_in_correction | 17.81% | -13.63% | 1.19 | 215 |
+| sell_all_weak_breadth | 18.19% | -15.38% | 1.18 | 159 |
+| sell_all_correction_and_weak_breadth | 18.19% | -15.38% | 1.18 | 159 |
+| shorts_in_correction | 15.54% | -22.96% | 1.0 | 218 |
+| shorts_always | 10.25% | -20.81% | 0.61 | 372 |
+
+### 2018-01-02 → 2021-12-31 · 111 stocks · S&P CAGR 15.33%, max drawdown -33.92%
+
+Breakout failure rate 30.94% · 63-day mean: uptrend days 5.49%, just under resistance 3.11%, failed breakouts 0.09% · more than 30% above the 36-day average: n=820, 63-day 19.72%, P(−10% in 21 d) 48.41%
+
+| Variant | CAGR | max drawdown | Sharpe | trades |
+|---|---|---|---|---|
+| base_v1_6 | 26.05% | -20.09% | 1.07 | 237 |
+| base_v1_5 | 33.34% | -21.69% | 1.31 | 203 |
+| no_buy_above_30pct_36d | 32.39% | -20.62% | 1.29 | 189 |
+| sell_above_30pct_36d | 31.32% | -20.18% | 1.39 | 236 |
+| wait_under_resistance | 27.42% | -26.83% | 1.14 | 230 |
+| two_closes_above_resistance | 29.85% | -21.86% | 1.2 | 203 |
+| sell_failed_breakout | 26.05% | -20.09% | 1.07 | 237 |
+| two_closes_and_sell_failed | 28.31% | -21.14% | 1.17 | 221 |
+| wait_res_and_sell_failed | 29.28% | -28.01% | 1.15 | 240 |
+| kell_crossback_exit | 27.3% | -24.74% | 1.12 | 578 |
 | kell_base_n_break_entry | 22.16% | -15.97% | 1.32 | 139 |
 | kell_wedge_pop_entry | 14.64% | -17.23% | 0.86 | 185 |
-| kell_full | 17.34% | -21.99% | 0.97 | 472 |
-| buffer_200d_1pct | 35.02% | -19.76% | 1.34 | 209 |
-| buffer_200d_2pct | 35.02% | -19.76% | 1.34 | 209 |
-| buffer_200d_3pct | 35.02% | -19.76% | 1.34 | 209 |
-| sell_all_in_correction | 35.2% | -22.69% | 1.36 | 297 |
-| sell_all_weak_breadth | 23.81% | -20.85% | 1.0 | 230 |
-| sell_all_correction_and_weak_breadth | 23.81% | -20.85% | 1.0 | 230 |
+| kell_full | 15.19% | -21.99% | 0.84 | 474 |
+| buffer_200d_1pct | 33.61% | -18.78% | 1.33 | 217 |
+| buffer_200d_2pct | 33.61% | -18.78% | 1.33 | 217 |
+| buffer_200d_3pct | 33.61% | -18.78% | 1.33 | 217 |
+| sell_all_in_correction | 31.99% | -23.29% | 1.27 | 296 |
+| sell_all_weak_breadth | 29.88% | -19.12% | 1.2 | 233 |
+| sell_all_correction_and_weak_breadth | 29.88% | -19.12% | 1.2 | 233 |
+| shorts_in_correction | 27.64% | -27.23% | 1.11 | 313 |
+| shorts_always | 9.59% | -30.3% | 0.48 | 478 |
 
-### 2022-01-03 → 2026-11-20 · 121 stocks · S&P CAGR 7.77%, max drawdown -25.43%
+### 2022-01-03 → 2026-11-20 · 122 stocks · S&P CAGR 7.77%, max drawdown -25.43%
 
-Breakout failure rate 33.05% · 63-day mean: uptrend days 5.07%, just under resistance 3.15%, failed breakouts -0.91% · more than 30% above the 36-day average: n=1531, 63-day 16.79%, P(−10% in 21 d) 51.34%
+Breakout failure rate 33.12% · 63-day mean: uptrend days 5.06%, just under resistance 3.11%, failed breakouts -0.94% · more than 30% above the 36-day average: n=1540, 63-day 16.62%, P(−10% in 21 d) 51.62%
 
 | Variant | CAGR | max drawdown | Sharpe | trades |
 |---|---|---|---|---|
-| base_v1_6 | 30.49% | -31.42% | 1.05 | 271 |
-| base_v1_5 | 28.25% | -29.81% | 1.06 | 255 |
-| no_buy_above_30pct_36d | 29.22% | -29.67% | 1.06 | 276 |
-| sell_above_30pct_36d | 8.57% | -27.93% | 0.53 | 356 |
-| wait_under_resistance | 34.06% | -26.84% | 1.13 | 275 |
-| two_closes_above_resistance | 34.09% | -32.91% | 1.18 | 255 |
-| sell_failed_breakout | 30.49% | -31.42% | 1.05 | 271 |
-| two_closes_and_sell_failed | 20.93% | -32.63% | 0.9 | 271 |
-| wait_res_and_sell_failed | 25.84% | -34.31% | 0.97 | 302 |
+| base_v1_6 | 30.47% | -31.42% | 1.05 | 271 |
+| base_v1_5 | 28.23% | -29.81% | 1.06 | 255 |
+| no_buy_above_30pct_36d | 29.2% | -29.67% | 1.06 | 276 |
+| sell_above_30pct_36d | 8.56% | -27.93% | 0.53 | 356 |
+| wait_under_resistance | 25.98% | -28.21% | 0.97 | 269 |
+| two_closes_above_resistance | 43.8% | -34.57% | 1.38 | 262 |
+| sell_failed_breakout | 30.47% | -31.42% | 1.05 | 271 |
+| two_closes_and_sell_failed | 34.87% | -32.02% | 1.17 | 270 |
+| wait_res_and_sell_failed | 25.69% | -32.19% | 0.95 | 313 |
 | kell_crossback_exit | 25.36% | -26.92% | 1.0 | 622 |
-| kell_base_n_break_entry | 14.41% | -15.93% | 0.96 | 207 |
+| kell_base_n_break_entry | 11.65% | -17.78% | 0.84 | 203 |
 | kell_wedge_pop_entry | 6.45% | -19.75% | 0.47 | 219 |
-| kell_full | 10.89% | -25.17% | 0.61 | 496 |
-| buffer_200d_1pct | 30.49% | -31.42% | 1.05 | 271 |
-| buffer_200d_2pct | 30.49% | -31.42% | 1.05 | 271 |
-| buffer_200d_3pct | 30.49% | -31.42% | 1.05 | 271 |
+| kell_full | 11.06% | -25.17% | 0.62 | 497 |
+| buffer_200d_1pct | 30.47% | -31.42% | 1.05 | 271 |
+| buffer_200d_2pct | 30.47% | -31.42% | 1.05 | 271 |
+| buffer_200d_3pct | 30.47% | -31.42% | 1.05 | 271 |
 | sell_all_in_correction | 26.86% | -24.14% | 1.01 | 346 |
-| sell_all_weak_breadth | 18.74% | -30.5% | 0.8 | 620 |
-| sell_all_correction_and_weak_breadth | 26.97% | -29.34% | 1.02 | 308 |
+| sell_all_weak_breadth | 15.34% | -31.15% | 0.69 | 606 |
+| sell_all_correction_and_weak_breadth | 27.73% | -31.23% | 1.0 | 317 |
+| shorts_in_correction | 27.1% | -33.96% | 0.94 | 403 |
+| shorts_always | 26.19% | -31.57% | 0.94 | 524 |
 
 ### Robustness: windows in which a variant beat base_v1_6 (the current rules)
 
 | Variant | CAGR | max drawdown (less deep) | Sharpe |
 |---|---|---|---|
-| no_buy_above_30pct_36d | 0/3 | 1/3 | 1/3 |
-| sell_above_30pct_36d | 0/3 | 2/3 | 1/3 |
-| wait_under_resistance | 2/3 | 2/3 | 1/3 |
-| two_closes_above_resistance | 2/3 | 0/3 | 3/3 |
+| no_buy_above_30pct_36d | 1/3 | 1/3 | 2/3 |
+| sell_above_30pct_36d | 1/3 | 2/3 | 1/3 |
+| wait_under_resistance | 2/3 | 2/3 | 2/3 |
+| two_closes_above_resistance | 3/3 | 0/3 | 3/3 |
 | sell_failed_breakout | 0/3 | 0/3 | 0/3 |
-| two_closes_and_sell_failed | 0/3 | 1/3 | 0/3 |
-| wait_res_and_sell_failed | 0/3 | 0/3 | 0/3 |
-| kell_crossback_exit | 0/3 | 1/3 | 0/3 |
-| kell_base_n_break_entry | 0/3 | 2/3 | 0/3 |
+| two_closes_and_sell_failed | 3/3 | 1/3 | 3/3 |
+| wait_res_and_sell_failed | 2/3 | 0/3 | 2/3 |
+| kell_crossback_exit | 1/3 | 1/3 | 1/3 |
+| kell_base_n_break_entry | 0/3 | 3/3 | 1/3 |
 | kell_wedge_pop_entry | 0/3 | 2/3 | 0/3 |
 | kell_full | 0/3 | 1/3 | 0/3 |
-| buffer_200d_1pct | 0/3 | 0/3 | 0/3 |
-| buffer_200d_2pct | 0/3 | 0/3 | 0/3 |
-| buffer_200d_3pct | 0/3 | 0/3 | 0/3 |
-| sell_all_in_correction | 0/3 | 2/3 | 0/3 |
-| sell_all_weak_breadth | 1/3 | 1/3 | 0/3 |
-| sell_all_correction_and_weak_breadth | 1/3 | 1/3 | 0/3 |
+| buffer_200d_1pct | 1/3 | 1/3 | 1/3 |
+| buffer_200d_2pct | 1/3 | 1/3 | 1/3 |
+| buffer_200d_3pct | 1/3 | 1/3 | 1/3 |
+| sell_all_in_correction | 1/3 | 2/3 | 2/3 |
+| sell_all_weak_breadth | 2/3 | 2/3 | 2/3 |
+| sell_all_correction_and_weak_breadth | 2/3 | 2/3 | 2/3 |
+| shorts_in_correction | 1/3 | 0/3 | 1/3 |
+| shorts_always | 0/3 | 0/3 | 0/3 |
 
-Symbols: 121 · generated 2026-11-21T06:41+00:00
+Symbols: 122 · generated 2026-11-21T13:33+00:00
 
 ## Valuation coverage
 
@@ -163,22 +173,24 @@ Positions carry their last observed close on missing dates. No execution at a ca
 
 | Variant | Longest gap (sessions) | Missing on final date |
 |---|---|---|
-| base_v1_6 | 1 | WKL |
-| base_v1_5 | 1 | WKL |
-| no_buy_above_30pct_36d | 1 | WKL |
-| sell_above_30pct_36d | 1 | WKL |
+| base_v1_6 | 1 | None |
+| base_v1_5 | 1 | None |
+| no_buy_above_30pct_36d | 1 | None |
+| sell_above_30pct_36d | 1 | None |
 | wait_under_resistance | 1 | None |
-| two_closes_above_resistance | 1 | WKL |
-| sell_failed_breakout | 1 | WKL |
-| two_closes_and_sell_failed | 1 | WKL |
+| two_closes_above_resistance | 1 | None |
+| sell_failed_breakout | 1 | None |
+| two_closes_and_sell_failed | 1 | None |
 | wait_res_and_sell_failed | 1 | None |
 | kell_crossback_exit | 1 | None |
 | kell_base_n_break_entry | 1 | None |
 | kell_wedge_pop_entry | 1 | None |
-| kell_full | 1 | SAN |
-| buffer_200d_1pct | 1 | WKL |
-| buffer_200d_2pct | 1 | WKL |
-| buffer_200d_3pct | 1 | WKL |
+| kell_full | 1 | None |
+| buffer_200d_1pct | 1 | None |
+| buffer_200d_2pct | 1 | None |
+| buffer_200d_3pct | 1 | None |
 | sell_all_in_correction | 1 | None |
 | sell_all_weak_breadth | 1 | None |
 | sell_all_correction_and_weak_breadth | 1 | None |
+| shorts_in_correction | 1 | None |
+| shorts_always | 1 | None |
