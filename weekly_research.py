@@ -547,7 +547,7 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                       include_comparison=False, include_enagas=False, include_paper=False, include_war=False,
                       include_crash=False, include_market=True, include_research=True, include_trade=False,
                       include_backtest=False, include_earnings=False, include_stress=False, include_codex=False,
-                      include_swing_experiments=False, include_long_short=False, include_desk=False):
+                      include_swing_experiments=False, include_long_short=False, include_desk=False, include_report=False):
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
@@ -567,6 +567,9 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                   if include_trade else '')
     if include_codex:
         trade_link += '<a href="codex-trading.html" style="color:#c1d98b;font-weight:700">Codex active trading ↗</a>'
+    if include_report:
+        trade_link = ('<a href="informe-diario.html" style="color:#c1d98b;font-weight:700">Informe diario ↗</a>'
+                      '<a href="estado.html" style="color:#c1d98b;font-weight:700">Estado de los datos ↗</a>') + trade_link
     if include_desk:
         trade_link += '<a href="trading-compare.html" style="color:#c1d98b;font-weight:700">Trading comparison ↗</a>'
     if include_long_short:
@@ -687,7 +690,7 @@ def build_site(root, output, require_committed=False):
     from enagas_valuation import site_pages as enagas_pages
     enagas_review_pages = enagas_pages(root, build=committed_build)
     paper_pages, war_pages, crash_pages, trade_pages, backtest_pages, stress_pages = [], [], [], [], [], []
-    codex, experiment_pages, long_short_pages, desk_pages = [], [], [], []
+    codex, experiment_pages, long_short_pages, desk_pages, report_pages = [], [], [], [], []
     if committed_build is not None:
         from paper_portfolio import site_pages as paper_site_pages
         from war_scenario import site_pages as war_site_pages
@@ -709,6 +712,8 @@ def build_site(root, output, require_committed=False):
         long_short_pages = long_short_site_pages(root, committed_build)
         from trading_desk import site_pages as desk_site_pages
         desk_pages = desk_site_pages(root, committed_build)
+        from daily_report import site_pages as report_site_pages
+        report_pages = report_site_pages(root, committed_build)
     scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in published,
                                    include_claude='claude' in published, include_scanner=committed_build is not None,
                                    include_comparison=committed_build is not None,
@@ -719,7 +724,7 @@ def build_site(root, output, require_committed=False):
                                    include_backtest=bool(backtest_pages), include_codex=bool(codex),
                                    include_earnings=bool(earnings_index(root / 'earnings')),
                                    include_stress=bool(stress_pages), include_swing_experiments=bool(experiment_pages),
-                                   include_long_short=bool(long_short_pages), include_desk=bool(desk_pages))
+                                   include_long_short=bool(long_short_pages), include_desk=bool(desk_pages), include_report=bool(report_pages))
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
     scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language)
@@ -728,7 +733,7 @@ def build_site(root, output, require_committed=False):
                    for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
     pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages + trade_pages + backtest_pages
-    pages += stress_pages + codex + experiment_pages + long_short_pages + desk_pages
+    pages += stress_pages + codex + experiment_pages + long_short_pages + desk_pages + report_pages
     pages += earnings_index(root / 'earnings')
     # Prepare dated earnings artifacts before replacing any published page.
     earnings = root / 'earnings'
