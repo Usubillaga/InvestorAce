@@ -395,8 +395,8 @@ def site_pages(root, committed_build, *, now=None):
     except (KeyError, TypeError, ValueError):       # a malformed trend file must not block the site
         section = render_market(None, {})
     try:
-        scan = json.loads((Path(root) / 'market-scan/latest.json').read_text(encoding='utf-8'))
-        matches = opportunity_candidates(scan, trend or {})
+        scanner_data = json.loads((Path(root) / 'market-scan/latest.json').read_text(encoding='utf-8'))
+        matches = opportunity_candidates(scanner_data, trend or {})
     except (OSError, ValueError, TypeError, KeyError, AttributeError):
         matches = []
     symbols = {r.get('yf') or k for k, r in (meta.get('inputs') or {}).items() if isinstance(r, dict)}

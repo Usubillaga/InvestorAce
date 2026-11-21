@@ -36,6 +36,27 @@ class Scan(unittest.TestCase):
         self.assertIn('CORRECTION', html)
         self.assertLess(html.index('>UP<'), html.index('>DOWN<'))
 
+    def test_site_pages_with_optional_scanner_file(self):
+        day = '2026-11-20'
+        trend = dict(schema='market-trend-v1', as_of=day, opportunity_trends=[dict(ticker='MATCH')])
+        candidate = dict(yahoo='MATCH', status='COMPLETE', price_date=day, band='Buy', score=8)
+        valid = json.dumps(dict(schema='market-scan-v1', candidates=[candidate]))
+        build = dict(record=RECORD, manifest=dict(run_id='test'))
+        for case, contents, expected in [('present', valid, ['MATCH']), ('missing', None, []), ('corrupt', '{', [])]:
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                folder = root / 'market-scan'
+                folder.mkdir()
+                (folder / 'trend.json').write_text(json.dumps(trend), encoding='utf-8')
+                if contents is not None:
+                    (folder / 'latest.json').write_text(contents, encoding='utf-8')
+
+                pages = dict(td.site_pages(root, build))
+                rows = json.loads(pages[Path('scanner-opportunities.json')])['rows']
+                self.assertEqual([row['ticker'] for row in rows], expected)
+                self.assertIn('>UP<', pages[Path(td.SCAN_PAGE)])
+                self.assertIn('Trading comparison', pages[Path(td.COMPARE_PAGE)])
+
 
 class Compare(unittest.TestCase):
     def test_accounts_from_the_common_start_with_drawdown_and_exposure(self):
