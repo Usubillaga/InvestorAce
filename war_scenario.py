@@ -85,7 +85,7 @@ def shell(title, body):
     return ('<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>InvestorAce · {escape(title)}</title><style>{CSS}</style></head><body><main>'
-            '<nav><strong>InvestorAce</strong><a href="index.html">Scoreboard</a>'
+            '<nav><strong>InvestorAce</strong><a href="index.html">Scoreboard</a><a href="informe-diario.html">Informe diario</a>'
             '<a href="paper-test.html">Paper test</a><a href="trade.html">Active trading</a><a href="codex-trading.html">Codex active trading</a><a href="backtest.html">Backtest</a><a href="war-scenarios.html">War scenarios</a><a href="stress-scenarios.html">Stress scenarios</a>'
             '<a href="crash-monitor.html">Crash monitor</a><a href="trading-compare.html">Trading comparison</a>'
             '<a href="technical-scan.html">Technical scan</a>'
