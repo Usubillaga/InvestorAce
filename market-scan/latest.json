@@ -1,6 +1,6 @@
 {
  "schema": "market-scan-v1",
- "generated_at": "2026-11-21T14:22:09.458871+00:00",
+ "generated_at": "2026-11-21T14:40:16.061328+00:00",
  "as_of": "2026-11-21",
  "coverage": "USA: an NYSE oder Nasdaq notierte US-GAAP-Berichterstatter mit SEC-XBRL-Daten. Ohne Banken, Versicherer und REITs. Europa ist noch nicht abgedeckt.",
  "funnel": [

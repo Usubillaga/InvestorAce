@@ -6,173 +6,389 @@
  "new_uptrend_count": 147,
  "breadth": [
   {
+   "date": "2026-06-03",
+   "pct50": 52.5,
+   "pct200": 58.4,
+   "uptrend": 34.1,
+   "highs": 98.0,
+   "lows": 58.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-04",
+   "pct50": 57.8,
+   "pct200": 60.8,
+   "uptrend": 37.0,
+   "highs": 146.0,
+   "lows": 31.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-05",
+   "pct50": 53.1,
+   "pct200": 59.2,
+   "uptrend": 34.4,
+   "highs": 78.0,
+   "lows": 44.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-08",
+   "pct50": 52.5,
+   "pct200": 58.5,
+   "uptrend": 34.3,
+   "highs": 71.0,
+   "lows": 38.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-09",
+   "pct50": 56.6,
+   "pct200": 60.8,
+   "uptrend": 36.1,
+   "highs": 148.0,
+   "lows": 14.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-10",
+   "pct50": 52.4,
+   "pct200": 59.4,
+   "uptrend": 35.0,
+   "highs": 108.0,
+   "lows": 48.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-11",
+   "pct50": 57.6,
+   "pct200": 60.8,
+   "uptrend": 38.1,
+   "highs": 231.0,
+   "lows": 30.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-12",
+   "pct50": 61.9,
+   "pct200": 62.0,
+   "uptrend": 41.2,
+   "highs": 228.0,
+   "lows": 12.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-15",
+   "pct50": 62.7,
+   "pct200": 63.1,
+   "uptrend": 41.0,
+   "highs": 138.0,
+   "lows": 14.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-16",
+   "pct50": 62.3,
+   "pct200": 63.6,
+   "uptrend": 40.6,
+   "highs": 108.0,
+   "lows": 12.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-17",
+   "pct50": 54.9,
+   "pct200": 61.6,
+   "uptrend": 37.0,
+   "highs": 93.0,
+   "lows": 64.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-18",
+   "pct50": 57.3,
+   "pct200": 62.8,
+   "uptrend": 37.9,
+   "highs": 169.0,
+   "lows": 58.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-22",
+   "pct50": 56.3,
+   "pct200": 62.2,
+   "uptrend": 38.9,
+   "highs": 187.0,
+   "lows": 95.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-23",
+   "pct50": 58.2,
+   "pct200": 62.6,
+   "uptrend": 39.6,
+   "highs": 134.0,
+   "lows": 33.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-24",
+   "pct50": 60.6,
+   "pct200": 64.1,
+   "uptrend": 39.5,
+   "highs": 188.0,
+   "lows": 32.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-25",
+   "pct50": 61.6,
+   "pct200": 64.5,
+   "uptrend": 40.8,
+   "highs": 263.0,
+   "lows": 76.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-26",
+   "pct50": 64.4,
+   "pct200": 66.8,
+   "uptrend": 40.1,
+   "highs": 305.0,
+   "lows": 12.0,
+   "count": 2256.0
+  },
+  {
+   "date": "2026-06-29",
+   "pct50": 64.0,
+   "pct200": 65.6,
+   "uptrend": 40.5,
+   "highs": 221.0,
+   "lows": 23.0,
+   "count": 2259.0
+  },
+  {
+   "date": "2026-06-30",
+   "pct50": 63.5,
+   "pct200": 65.1,
+   "uptrend": 40.5,
+   "highs": 191.0,
+   "lows": 32.0,
+   "count": 2261.0
+  },
+  {
+   "date": "2026-07-01",
+   "pct50": 64.3,
+   "pct200": 65.7,
+   "uptrend": 38.9,
+   "highs": 217.0,
+   "lows": 12.0,
+   "count": 2261.0
+  },
+  {
+   "date": "2026-07-02",
+   "pct50": 66.3,
+   "pct200": 67.8,
+   "uptrend": 38.5,
+   "highs": 181.0,
+   "lows": 4.0,
+   "count": 2261.0
+  },
+  {
+   "date": "2026-07-06",
+   "pct50": 67.1,
+   "pct200": 68.5,
+   "uptrend": 39.6,
+   "highs": 138.0,
+   "lows": 8.0,
+   "count": 2262.0
+  },
+  {
+   "date": "2026-07-07",
+   "pct50": 65.3,
+   "pct200": 67.4,
+   "uptrend": 38.3,
+   "highs": 126.0,
+   "lows": 6.0,
+   "count": 2263.0
+  },
+  {
+   "date": "2026-07-08",
+   "pct50": 62.4,
+   "pct200": 65.2,
+   "uptrend": 38.0,
+   "highs": 46.0,
+   "lows": 13.0,
+   "count": 2264.0
+  },
+  {
    "date": "2026-07-09",
    "pct50": 64.4,
    "pct200": 66.7,
-   "uptrend": 0.0,
-   "highs": 104.0,
-   "lows": 9.0,
+   "uptrend": 39.2,
+   "highs": 101.0,
+   "lows": 7.0,
    "count": 2264.0
   },
   {
    "date": "2026-07-10",
    "pct50": 65.9,
    "pct200": 67.3,
-   "uptrend": 0.0,
-   "highs": 80.0,
-   "lows": 10.0,
+   "uptrend": 40.1,
+   "highs": 79.0,
+   "lows": 6.0,
    "count": 2264.0
   },
   {
    "date": "2026-07-13",
    "pct50": 64.6,
    "pct200": 66.6,
-   "uptrend": 0.0,
-   "highs": 98.0,
-   "lows": 17.0,
+   "uptrend": 38.5,
+   "highs": 93.0,
+   "lows": 9.0,
    "count": 2264.0
   },
   {
    "date": "2026-07-14",
    "pct50": 64.0,
    "pct200": 66.5,
-   "uptrend": 0.0,
-   "highs": 96.0,
-   "lows": 14.0,
+   "uptrend": 39.7,
+   "highs": 95.0,
+   "lows": 13.0,
    "count": 2264.0
   },
   {
    "date": "2026-07-15",
    "pct50": 65.5,
    "pct200": 67.3,
-   "uptrend": 0.0,
-   "highs": 122.0,
-   "lows": 13.0,
+   "uptrend": 39.5,
+   "highs": 118.0,
+   "lows": 8.0,
    "count": 2264.0
   },
   {
    "date": "2026-07-16",
    "pct50": 68.3,
    "pct200": 69.5,
-   "uptrend": 0.0,
-   "highs": 258.0,
-   "lows": 19.0,
+   "uptrend": 40.2,
+   "highs": 243.0,
+   "lows": 8.0,
    "count": 2265.0
   },
   {
    "date": "2026-07-17",
    "pct50": 65.7,
    "pct200": 67.7,
-   "uptrend": 0.0,
-   "highs": 135.0,
-   "lows": 21.0,
+   "uptrend": 40.0,
+   "highs": 133.0,
+   "lows": 13.0,
    "count": 2265.0
   },
   {
    "date": "2026-07-20",
    "pct50": 63.2,
    "pct200": 66.2,
-   "uptrend": 0.0,
-   "highs": 52.0,
-   "lows": 27.0,
+   "uptrend": 38.3,
+   "highs": 49.0,
+   "lows": 20.0,
    "count": 2266.0
   },
   {
    "date": "2026-07-21",
    "pct50": 64.1,
    "pct200": 66.7,
-   "uptrend": 0.0,
-   "highs": 93.0,
-   "lows": 17.0,
+   "uptrend": 40.8,
+   "highs": 91.0,
+   "lows": 16.0,
    "count": 2266.0
   },
   {
    "date": "2026-07-22",
    "pct50": 64.1,
    "pct200": 66.5,
-   "uptrend": 0.0,
-   "highs": 63.0,
-   "lows": 15.0,
+   "uptrend": 41.6,
+   "highs": 62.0,
+   "lows": 13.0,
    "count": 2266.0
   },
   {
    "date": "2026-07-23",
    "pct50": 59.9,
    "pct200": 64.7,
-   "uptrend": 0.0,
-   "highs": 55.0,
-   "lows": 36.0,
+   "uptrend": 40.1,
+   "highs": 54.0,
+   "lows": 32.0,
    "count": 2266.0
   },
   {
    "date": "2026-07-24",
    "pct50": 62.4,
    "pct200": 65.8,
-   "uptrend": 0.0,
+   "uptrend": 40.0,
    "highs": 106.0,
-   "lows": 23.0,
+   "lows": 20.0,
    "count": 2266.0
   },
   {
    "date": "2026-07-27",
    "pct50": 65.5,
    "pct200": 68.0,
-   "uptrend": 0.0,
-   "highs": 118.0,
-   "lows": 8.0,
+   "uptrend": 39.4,
+   "highs": 115.0,
+   "lows": 5.0,
    "count": 2266.0
   },
   {
    "date": "2026-07-28",
    "pct50": 67.7,
    "pct200": 69.5,
-   "uptrend": 0.0,
-   "highs": 223.0,
-   "lows": 13.0,
+   "uptrend": 39.4,
+   "highs": 212.0,
+   "lows": 9.0,
    "count": 2267.0
   },
   {
    "date": "2026-07-29",
    "pct50": 61.7,
    "pct200": 67.2,
-   "uptrend": 0.0,
-   "highs": 118.0,
-   "lows": 33.0,
+   "uptrend": 35.9,
+   "highs": 108.0,
+   "lows": 22.0,
    "count": 2267.0
   },
   {
    "date": "2026-07-30",
    "pct50": 62.2,
    "pct200": 68.0,
-   "uptrend": 0.0,
-   "highs": 86.0,
-   "lows": 19.0,
+   "uptrend": 37.3,
+   "highs": 81.0,
+   "lows": 18.0,
    "count": 2267.0
   },
   {
    "date": "2026-07-31",
    "pct50": 60.2,
    "pct200": 67.6,
-   "uptrend": 0.0,
-   "highs": 47.0,
-   "lows": 28.0,
+   "uptrend": 36.6,
+   "highs": 44.0,
+   "lows": 23.0,
    "count": 2267.0
   },
   {
    "date": "2026-08-03",
    "pct50": 64.6,
    "pct200": 70.0,
-   "uptrend": 0.0,
-   "highs": 114.0,
-   "lows": 6.0,
+   "uptrend": 38.5,
+   "highs": 108.0,
+   "lows": 5.0,
    "count": 2267.0
   },
   {
    "date": "2026-08-04",
    "pct50": 69.1,
    "pct200": 72.4,
-   "uptrend": 0.0,
-   "highs": 183.0,
+   "uptrend": 41.1,
+   "highs": 177.0,
    "lows": 11.0,
    "count": 2267.0
   },
@@ -180,8 +396,8 @@
    "date": "2026-08-05",
    "pct50": 68.4,
    "pct200": 71.5,
-   "uptrend": 0.0,
-   "highs": 123.0,
+   "uptrend": 39.6,
+   "highs": 117.0,
    "lows": 17.0,
    "count": 2267.0
   },
@@ -189,9 +405,9 @@
    "date": "2026-08-06",
    "pct50": 64.8,
    "pct200": 70.8,
-   "uptrend": 37.9,
-   "highs": 94.0,
-   "lows": 18.0,
+   "uptrend": 38.0,
+   "highs": 91.0,
+   "lows": 17.0,
    "count": 2268.0
   },
   {
@@ -199,7 +415,7 @@
    "pct50": 67.9,
    "pct200": 72.4,
    "uptrend": 39.4,
-   "highs": 123.0,
+   "highs": 117.0,
    "lows": 7.0,
    "count": 2268.0
   },
@@ -207,8 +423,8 @@
    "date": "2026-08-10",
    "pct50": 65.4,
    "pct200": 71.6,
-   "uptrend": 38.4,
-   "highs": 110.0,
+   "uptrend": 38.5,
+   "highs": 104.0,
    "lows": 17.0,
    "count": 2268.0
   },
@@ -216,8 +432,8 @@
    "date": "2026-08-11",
    "pct50": 64.7,
    "pct200": 71.8,
-   "uptrend": 37.8,
-   "highs": 115.0,
+   "uptrend": 37.9,
+   "highs": 114.0,
    "lows": 10.0,
    "count": 2268.0
   },
@@ -225,8 +441,8 @@
    "date": "2026-08-12",
    "pct50": 65.0,
    "pct200": 71.3,
-   "uptrend": 39.0,
-   "highs": 144.0,
+   "uptrend": 39.1,
+   "highs": 141.0,
    "lows": 12.0,
    "count": 2268.0
   },
@@ -234,8 +450,8 @@
    "date": "2026-08-13",
    "pct50": 67.0,
    "pct200": 72.5,
-   "uptrend": 40.3,
-   "highs": 153.0,
+   "uptrend": 40.4,
+   "highs": 144.0,
    "lows": 9.0,
    "count": 2269.0
   },
@@ -243,17 +459,17 @@
    "date": "2026-08-14",
    "pct50": 68.6,
    "pct200": 72.9,
-   "uptrend": 42.0,
-   "highs": 127.0,
-   "lows": 7.0,
+   "uptrend": 42.1,
+   "highs": 123.0,
+   "lows": 6.0,
    "count": 2270.0
   },
   {
    "date": "2026-08-17",
    "pct50": 65.1,
    "pct200": 70.8,
-   "uptrend": 40.1,
-   "highs": 81.0,
+   "uptrend": 40.2,
+   "highs": 79.0,
    "lows": 16.0,
    "count": 2270.0
   },
@@ -261,17 +477,17 @@
    "date": "2026-08-18",
    "pct50": 61.1,
    "pct200": 70.0,
-   "uptrend": 37.3,
+   "uptrend": 37.4,
    "highs": 69.0,
-   "lows": 22.0,
+   "lows": 19.0,
    "count": 2271.0
   },
   {
    "date": "2026-08-19",
    "pct50": 61.2,
    "pct200": 73.1,
-   "uptrend": 35.2,
-   "highs": 124.0,
+   "uptrend": 35.3,
+   "highs": 122.0,
    "lows": 5.0,
    "count": 2271.0
   },
@@ -279,17 +495,17 @@
    "date": "2026-08-20",
    "pct50": 56.3,
    "pct200": 71.0,
-   "uptrend": 33.0,
-   "highs": 70.0,
-   "lows": 17.0,
+   "uptrend": 33.1,
+   "highs": 66.0,
+   "lows": 16.0,
    "count": 2271.0
   },
   {
    "date": "2026-08-21",
    "pct50": 58.8,
    "pct200": 71.3,
-   "uptrend": 34.5,
-   "highs": 116.0,
+   "uptrend": 34.6,
+   "highs": 110.0,
    "lows": 9.0,
    "count": 2272.0
   },
@@ -297,8 +513,8 @@
    "date": "2026-08-24",
    "pct50": 57.9,
    "pct200": 71.0,
-   "uptrend": 34.6,
-   "highs": 102.0,
+   "uptrend": 34.7,
+   "highs": 96.0,
    "lows": 15.0,
    "count": 2272.0
   },
@@ -306,8 +522,8 @@
    "date": "2026-08-25",
    "pct50": 57.8,
    "pct200": 71.3,
-   "uptrend": 34.6,
-   "highs": 97.0,
+   "uptrend": 34.7,
+   "highs": 93.0,
    "lows": 11.0,
    "count": 2273.0
   },
@@ -315,17 +531,17 @@
    "date": "2026-08-26",
    "pct50": 57.5,
    "pct200": 70.8,
-   "uptrend": 35.0,
-   "highs": 51.0,
-   "lows": 8.0,
+   "uptrend": 35.1,
+   "highs": 48.0,
+   "lows": 7.0,
    "count": 2273.0
   },
   {
    "date": "2026-08-27",
    "pct50": 55.2,
    "pct200": 70.0,
-   "uptrend": 34.1,
-   "highs": 67.0,
+   "uptrend": 34.2,
+   "highs": 63.0,
    "lows": 20.0,
    "count": 2273.0
   },
@@ -334,17 +550,17 @@
    "pct50": 52.6,
    "pct200": 68.4,
    "uptrend": 31.8,
-   "highs": 42.0,
-   "lows": 19.0,
+   "highs": 35.0,
+   "lows": 18.0,
    "count": 2273.0
   },
   {
    "date": "2026-08-31",
    "pct50": 49.2,
    "pct200": 66.7,
-   "uptrend": 29.7,
-   "highs": 40.0,
-   "lows": 30.0,
+   "uptrend": 29.8,
+   "highs": 35.0,
+   "lows": 29.0,
    "count": 2273.0
   },
   {
@@ -352,16 +568,16 @@
    "pct50": 45.0,
    "pct200": 64.5,
    "uptrend": 27.1,
-   "highs": 43.0,
-   "lows": 47.0,
+   "highs": 42.0,
+   "lows": 46.0,
    "count": 2273.0
   },
   {
    "date": "2026-09-02",
    "pct50": 48.6,
    "pct200": 65.7,
-   "uptrend": 29.8,
-   "highs": 84.0,
+   "uptrend": 29.9,
+   "highs": 83.0,
    "lows": 20.0,
    "count": 2273.0
   },
@@ -369,8 +585,8 @@
    "date": "2026-09-03",
    "pct50": 51.1,
    "pct200": 67.1,
-   "uptrend": 32.0,
-   "highs": 91.0,
+   "uptrend": 32.1,
+   "highs": 90.0,
    "lows": 10.0,
    "count": 2273.0
   },
@@ -378,8 +594,8 @@
    "date": "2026-09-04",
    "pct50": 50.9,
    "pct200": 67.1,
-   "uptrend": 32.7,
-   "highs": 49.0,
+   "uptrend": 32.8,
+   "highs": 47.0,
    "lows": 11.0,
    "count": 2273.0
   },
@@ -387,7 +603,7 @@
    "date": "2026-09-08",
    "pct50": 46.1,
    "pct200": 64.7,
-   "uptrend": 30.0,
+   "uptrend": 30.1,
    "highs": 37.0,
    "lows": 27.0,
    "count": 2273.0
@@ -396,7 +612,7 @@
    "date": "2026-09-09",
    "pct50": 41.1,
    "pct200": 61.8,
-   "uptrend": 27.5,
+   "uptrend": 27.6,
    "highs": 46.0,
    "lows": 65.0,
    "count": 2274.0
@@ -405,7 +621,7 @@
    "date": "2026-09-10",
    "pct50": 37.1,
    "pct200": 58.6,
-   "uptrend": 25.5,
+   "uptrend": 25.6,
    "highs": 39.0,
    "lows": 75.0,
    "count": 2275.0
@@ -414,8 +630,8 @@
    "date": "2026-09-11",
    "pct50": 39.9,
    "pct200": 60.0,
-   "uptrend": 27.3,
-   "highs": 52.0,
+   "uptrend": 27.4,
+   "highs": 51.0,
    "lows": 40.0,
    "count": 2275.0
   },
@@ -425,7 +641,7 @@
    "pct200": 59.2,
    "uptrend": 26.9,
    "highs": 51.0,
-   "lows": 54.0,
+   "lows": 53.0,
    "count": 2275.0
   },
   {
@@ -434,14 +650,14 @@
    "pct200": 56.4,
    "uptrend": 25.0,
    "highs": 91.0,
-   "lows": 95.0,
+   "lows": 93.0,
    "count": 2275.0
   },
   {
    "date": "2026-09-16",
    "pct50": 33.1,
    "pct200": 54.5,
-   "uptrend": 23.6,
+   "uptrend": 23.7,
    "highs": 43.0,
    "lows": 72.0,
    "count": 2275.0
@@ -451,8 +667,8 @@
    "pct50": 35.3,
    "pct200": 54.7,
    "uptrend": 24.7,
-   "highs": 67.0,
-   "lows": 53.0,
+   "highs": 66.0,
+   "lows": 52.0,
    "count": 2275.0
   },
   {
@@ -468,7 +684,7 @@
    "date": "2026-09-21",
    "pct50": 34.7,
    "pct200": 54.1,
-   "uptrend": 23.9,
+   "uptrend": 24.0,
    "highs": 37.0,
    "lows": 46.0,
    "count": 2276.0
@@ -477,7 +693,7 @@
    "date": "2026-09-22",
    "pct50": 35.1,
    "pct200": 54.2,
-   "uptrend": 23.9,
+   "uptrend": 24.0,
    "highs": 42.0,
    "lows": 45.0,
    "count": 2276.0
@@ -504,7 +720,7 @@
    "date": "2026-09-25",
    "pct50": 30.4,
    "pct200": 51.3,
-   "uptrend": 21.9,
+   "uptrend": 22.0,
    "highs": 31.0,
    "lows": 55.0,
    "count": 2277.0
@@ -540,7 +756,7 @@
    "date": "2026-10-01",
    "pct50": 24.9,
    "pct200": 47.7,
-   "uptrend": 18.3,
+   "uptrend": 18.4,
    "highs": 37.0,
    "lows": 84.0,
    "count": 2279.0
@@ -549,7 +765,7 @@
    "date": "2026-10-02",
    "pct50": 27.7,
    "pct200": 49.3,
-   "uptrend": 20.4,
+   "uptrend": 20.5,
    "highs": 46.0,
    "lows": 61.0,
    "count": 2280.0
@@ -558,7 +774,7 @@
    "date": "2026-10-05",
    "pct50": 30.3,
    "pct200": 50.4,
-   "uptrend": 21.9,
+   "uptrend": 22.0,
    "highs": 83.0,
    "lows": 60.0,
    "count": 2282.0
@@ -567,7 +783,7 @@
    "date": "2026-10-06",
    "pct50": 30.7,
    "pct200": 50.7,
-   "uptrend": 21.8,
+   "uptrend": 21.9,
    "highs": 43.0,
    "lows": 29.0,
    "count": 2282.0
@@ -576,7 +792,7 @@
    "date": "2026-10-07",
    "pct50": 27.7,
    "pct200": 47.9,
-   "uptrend": 19.3,
+   "uptrend": 19.4,
    "highs": 26.0,
    "lows": 100.0,
    "count": 2282.0
@@ -594,7 +810,7 @@
    "date": "2026-10-09",
    "pct50": 31.4,
    "pct200": 49.6,
-   "uptrend": 20.8,
+   "uptrend": 20.9,
    "highs": 55.0,
    "lows": 55.0,
    "count": 2282.0
@@ -603,7 +819,7 @@
    "date": "2026-10-12",
    "pct50": 31.9,
    "pct200": 49.8,
-   "uptrend": 21.0,
+   "uptrend": 21.1,
    "highs": 64.0,
    "lows": 58.0,
    "count": 2282.0
@@ -621,7 +837,7 @@
    "date": "2026-10-14",
    "pct50": 29.6,
    "pct200": 46.7,
-   "uptrend": 18.8,
+   "uptrend": 18.9,
    "highs": 47.0,
    "lows": 114.0,
    "count": 2282.0
@@ -639,7 +855,7 @@
    "date": "2026-10-16",
    "pct50": 34.0,
    "pct200": 48.8,
-   "uptrend": 19.5,
+   "uptrend": 19.6,
    "highs": 67.0,
    "lows": 50.0,
    "count": 2282.0
@@ -657,7 +873,7 @@
    "date": "2026-10-20",
    "pct50": 40.8,
    "pct200": 51.3,
-   "uptrend": 22.8,
+   "uptrend": 22.9,
    "highs": 99.0,
    "lows": 27.0,
    "count": 2282.0
@@ -666,7 +882,7 @@
    "date": "2026-10-21",
    "pct50": 42.7,
    "pct200": 51.7,
-   "uptrend": 24.7,
+   "uptrend": 24.8,
    "highs": 89.0,
    "lows": 32.0,
    "count": 2282.0
@@ -675,7 +891,7 @@
    "date": "2026-10-22",
    "pct50": 47.5,
    "pct200": 52.7,
-   "uptrend": 26.3,
+   "uptrend": 26.4,
    "highs": 124.0,
    "lows": 53.0,
    "count": 2282.0
@@ -693,7 +909,7 @@
    "date": "2026-10-26",
    "pct50": 47.0,
    "pct200": 52.2,
-   "uptrend": 27.0,
+   "uptrend": 27.1,
    "highs": 88.0,
    "lows": 53.0,
    "count": 2282.0
@@ -702,7 +918,7 @@
    "date": "2026-10-27",
    "pct50": 48.4,
    "pct200": 53.6,
-   "uptrend": 27.7,
+   "uptrend": 27.8,
    "highs": 55.0,
    "lows": 28.0,
    "count": 2282.0
@@ -711,7 +927,7 @@
    "date": "2026-10-28",
    "pct50": 48.1,
    "pct200": 53.6,
-   "uptrend": 27.7,
+   "uptrend": 27.8,
    "highs": 72.0,
    "lows": 33.0,
    "count": 2282.0
@@ -720,7 +936,7 @@
    "date": "2026-10-29",
    "pct50": 55.1,
    "pct200": 57.1,
-   "uptrend": 30.1,
+   "uptrend": 30.2,
    "highs": 125.0,
    "lows": 23.0,
    "count": 2282.0
@@ -870,20 +1086,8 @@
    "count": 2282.0
   }
  ],
+ "event_jumps": 18,
  "new_uptrends": [
-  {
-   "ticker": "SGRY",
-   "name": "Surgery Partners, Inc.",
-   "close": 26.78,
-   "vs50": 44.3,
-   "vs200": 73.8,
-   "rs3": 101.7,
-   "rs6": 107.4,
-   "from_high": -0.7,
-   "value_musd": 39.8,
-   "uptrend": true,
-   "new_uptrend": true
-  },
   {
    "ticker": "ASO",
    "name": "Academy Sports & Outdoors, Inc.",
@@ -895,7 +1099,8 @@
    "from_high": -4.5,
    "value_musd": 80.4,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "GME",
@@ -908,20 +1113,8 @@
    "from_high": -4.9,
    "value_musd": 206.4,
    "uptrend": true,
-   "new_uptrend": true
-  },
-  {
-   "ticker": "BRZE",
-   "name": "Braze, Inc.",
-   "close": 46.28,
-   "vs50": 29.0,
-   "vs200": 75.5,
-   "rs3": 56.9,
-   "rs6": 97.6,
-   "from_high": -0.8,
-   "value_musd": 88.8,
-   "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "ARHS",
@@ -934,7 +1127,8 @@
    "from_high": -13.4,
    "value_musd": 18.3,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "UPBD",
@@ -947,7 +1141,8 @@
    "from_high": -3.6,
    "value_musd": 19.2,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "ADT",
@@ -960,7 +1155,8 @@
    "from_high": -0.6,
    "value_musd": 53.8,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "ULCC",
@@ -973,7 +1169,8 @@
    "from_high": -8.1,
    "value_musd": 16.7,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "FCN",
@@ -986,7 +1183,8 @@
    "from_high": -0.5,
    "value_musd": 66.0,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "AMPH",
@@ -999,20 +1197,8 @@
    "from_high": -4.9,
    "value_musd": 12.1,
    "uptrend": true,
-   "new_uptrend": true
-  },
-  {
-   "ticker": "REPL",
-   "name": "Replimune Group, Inc.",
-   "close": 19.07,
-   "vs50": 24.3,
-   "vs200": 84.9,
-   "rs3": 39.3,
-   "rs6": 295.9,
-   "from_high": -18.1,
-   "value_musd": 30.4,
-   "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "VNT",
@@ -1025,7 +1211,8 @@
    "from_high": -2.5,
    "value_musd": 45.6,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "TDC",
@@ -1038,7 +1225,8 @@
    "from_high": -6.4,
    "value_musd": 53.4,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "DXC",
@@ -1051,7 +1239,8 @@
    "from_high": -16.1,
    "value_musd": 48.1,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "BILL",
@@ -1064,7 +1253,8 @@
    "from_high": -6.9,
    "value_musd": 72.3,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "EXPO",
@@ -1077,7 +1267,8 @@
    "from_high": 0.0,
    "value_musd": 39.9,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "CRAI",
@@ -1090,7 +1281,8 @@
    "from_high": -0.0,
    "value_musd": 20.6,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "COLM",
@@ -1103,7 +1295,8 @@
    "from_high": -1.4,
    "value_musd": 41.8,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "GRDN",
@@ -1116,7 +1309,8 @@
    "from_high": -6.7,
    "value_musd": 20.1,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "BHC",
@@ -1129,7 +1323,8 @@
    "from_high": -7.7,
    "value_musd": 14.8,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "CROX",
@@ -1142,7 +1337,8 @@
    "from_high": -5.5,
    "value_musd": 140.9,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "XMTR",
@@ -1155,7 +1351,8 @@
    "from_high": -15.3,
    "value_musd": 83.6,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "KSS",
@@ -1168,7 +1365,8 @@
    "from_high": -12.3,
    "value_musd": 81.3,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "RDY",
@@ -1181,7 +1379,8 @@
    "from_high": -2.5,
    "value_musd": 36.9,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "SIBN",
@@ -1194,7 +1393,8 @@
    "from_high": -7.3,
    "value_musd": 12.0,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "HELE",
@@ -1207,7 +1407,8 @@
    "from_high": -9.8,
    "value_musd": 12.5,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "TDOC",
@@ -1220,7 +1421,8 @@
    "from_high": -23.4,
    "value_musd": 24.9,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "IBN",
@@ -1233,7 +1435,8 @@
    "from_high": 0.0,
    "value_musd": 175.5,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "WMG",
@@ -1246,7 +1449,8 @@
    "from_high": -4.0,
    "value_musd": 60.9,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "KNSA",
@@ -1259,7 +1463,8 @@
    "from_high": -4.9,
    "value_musd": 46.2,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "SAIL",
@@ -1272,7 +1477,8 @@
    "from_high": -4.8,
    "value_musd": 93.4,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "VLTO",
@@ -1285,7 +1491,8 @@
    "from_high": -3.1,
    "value_musd": 185.9,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "RPD",
@@ -1298,7 +1505,8 @@
    "from_high": -20.2,
    "value_musd": 22.4,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "PVH",
@@ -1311,7 +1519,8 @@
    "from_high": -8.7,
    "value_musd": 64.6,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "TW",
@@ -1324,7 +1533,8 @@
    "from_high": -4.8,
    "value_musd": 156.7,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "KR",
@@ -1337,7 +1547,8 @@
    "from_high": -7.9,
    "value_musd": 443.7,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "PCOR",
@@ -1350,7 +1561,8 @@
    "from_high": -7.5,
    "value_musd": 159.8,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "XNCR",
@@ -1363,7 +1575,8 @@
    "from_high": -16.8,
    "value_musd": 37.2,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "OSW",
@@ -1376,7 +1589,8 @@
    "from_high": -7.0,
    "value_musd": 19.6,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "DSGX",
@@ -1389,7 +1603,8 @@
    "from_high": -7.1,
    "value_musd": 40.9,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "COST",
@@ -1402,7 +1617,8 @@
    "from_high": -1.0,
    "value_musd": 2185.7,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "LION",
@@ -1415,7 +1631,8 @@
    "from_high": -20.0,
    "value_musd": 33.4,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "ALLE",
@@ -1428,7 +1645,8 @@
    "from_high": -4.7,
    "value_musd": 166.1,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "AXGN",
@@ -1441,7 +1659,8 @@
    "from_high": -4.9,
    "value_musd": 59.7,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "TGTX",
@@ -1454,7 +1673,8 @@
    "from_high": -4.2,
    "value_musd": 101.7,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "PUBM",
@@ -1467,7 +1687,8 @@
    "from_high": -10.9,
    "value_musd": 13.1,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "SONY",
@@ -1480,7 +1701,8 @@
    "from_high": -7.0,
    "value_musd": 99.2,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "OGE",
@@ -1493,7 +1715,8 @@
    "from_high": -1.2,
    "value_musd": 95.5,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "TRUP",
@@ -1506,7 +1729,8 @@
    "from_high": -7.6,
    "value_musd": 11.2,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "ED",
@@ -1519,49 +1743,53 @@
    "from_high": -1.3,
    "value_musd": 240.5,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
+  },
+  {
+   "ticker": "HCA",
+   "name": "HCA Healthcare, Inc.",
+   "close": 475.57,
+   "vs50": 3.5,
+   "vs200": 7.1,
+   "rs3": 20.7,
+   "rs6": 28.7,
+   "from_high": -12.3,
+   "value_musd": 529.3,
+   "uptrend": true,
+   "new_uptrend": true,
+   "event_jump": false
+  },
+  {
+   "ticker": "ROP",
+   "name": "ROPER TECHNOLOGIES INC",
+   "close": 459.83,
+   "vs50": 11.6,
+   "vs200": 24.1,
+   "rs3": 20.6,
+   "rs6": 48.9,
+   "from_high": -6.6,
+   "value_musd": 315.3,
+   "uptrend": true,
+   "new_uptrend": true,
+   "event_jump": false
+  },
+  {
+   "ticker": "EXLS",
+   "name": "ExlService Holdings, Inc.",
+   "close": 41.72,
+   "vs50": 6.6,
+   "vs200": 26.6,
+   "rs3": 20.5,
+   "rs6": 48.9,
+   "from_high": -5.8,
+   "value_musd": 77.5,
+   "uptrend": true,
+   "new_uptrend": true,
+   "event_jump": false
   }
  ],
  "leaders": [
-  {
-   "ticker": "REPL",
-   "name": "Replimune Group, Inc.",
-   "close": 19.07,
-   "vs50": 24.3,
-   "vs200": 84.9,
-   "rs3": 39.3,
-   "rs6": 295.9,
-   "from_high": -18.1,
-   "value_musd": 30.4,
-   "uptrend": true,
-   "new_uptrend": true
-  },
-  {
-   "ticker": "CDNA",
-   "name": "CareDx, Inc.",
-   "close": 70.0,
-   "vs50": 2.0,
-   "vs200": 84.0,
-   "rs3": 57.1,
-   "rs6": 231.2,
-   "from_high": -20.9,
-   "value_musd": 83.3,
-   "uptrend": true,
-   "new_uptrend": false
-  },
-  {
-   "ticker": "SLN",
-   "name": "Silence Therapeutics plc",
-   "close": 19.81,
-   "vs50": 29.6,
-   "vs200": 95.1,
-   "rs3": 58.8,
-   "rs6": 227.1,
-   "from_high": -0.1,
-   "value_musd": 13.0,
-   "uptrend": true,
-   "new_uptrend": false
-  },
   {
    "ticker": "VIA",
    "name": "Via Transportation, Inc.",
@@ -1573,7 +1801,8 @@
    "from_high": -1.5,
    "value_musd": 22.4,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "XNCR",
@@ -1586,7 +1815,8 @@
    "from_high": -16.8,
    "value_musd": 37.2,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "XERS",
@@ -1599,20 +1829,8 @@
    "from_high": -0.1,
    "value_musd": 24.2,
    "uptrend": true,
-   "new_uptrend": false
-  },
-  {
-   "ticker": "KOD",
-   "name": "Kodiak Sciences Inc.",
-   "close": 97.17,
-   "vs50": 16.9,
-   "vs200": 103.3,
-   "rs3": 170.8,
-   "rs6": 175.7,
-   "from_high": -12.6,
-   "value_musd": 87.7,
-   "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "APPN",
@@ -1625,7 +1843,8 @@
    "from_high": -6.8,
    "value_musd": 41.9,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "AMPL",
@@ -1638,7 +1857,8 @@
    "from_high": -8.8,
    "value_musd": 25.1,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "AZTA",
@@ -1651,7 +1871,8 @@
    "from_high": -8.4,
    "value_musd": 34.0,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "CBRL",
@@ -1664,7 +1885,8 @@
    "from_high": -4.8,
    "value_musd": 50.5,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "INTA",
@@ -1677,7 +1899,8 @@
    "from_high": -9.5,
    "value_musd": 24.2,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "PRCH",
@@ -1690,7 +1913,8 @@
    "from_high": -10.2,
    "value_musd": 26.8,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "ARHS",
@@ -1703,7 +1927,8 @@
    "from_high": -13.4,
    "value_musd": 18.3,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "NTSK",
@@ -1716,7 +1941,8 @@
    "from_high": -9.8,
    "value_musd": 127.4,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "CERT",
@@ -1729,7 +1955,8 @@
    "from_high": -13.7,
    "value_musd": 26.7,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "ADPT",
@@ -1742,20 +1969,8 @@
    "from_high": -7.7,
    "value_musd": 57.6,
    "uptrend": true,
-   "new_uptrend": true
-  },
-  {
-   "ticker": "SGRY",
-   "name": "Surgery Partners, Inc.",
-   "close": 26.78,
-   "vs50": 44.3,
-   "vs200": 73.8,
-   "rs3": 101.7,
-   "rs6": 107.4,
-   "from_high": -0.7,
-   "value_musd": 39.8,
-   "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "RSKD",
@@ -1768,7 +1983,8 @@
    "from_high": -8.8,
    "value_musd": 16.3,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "GKOS",
@@ -1781,7 +1997,8 @@
    "from_high": -4.0,
    "value_musd": 173.3,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "RPD",
@@ -1794,7 +2011,8 @@
    "from_high": -20.2,
    "value_musd": 22.4,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "ECO",
@@ -1807,20 +2025,8 @@
    "from_high": -8.8,
    "value_musd": 68.8,
    "uptrend": true,
-   "new_uptrend": false
-  },
-  {
-   "ticker": "BRZE",
-   "name": "Braze, Inc.",
-   "close": 46.28,
-   "vs50": 29.0,
-   "vs200": 75.5,
-   "rs3": 56.9,
-   "rs6": 97.6,
-   "from_high": -0.8,
-   "value_musd": 88.8,
-   "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "SN",
@@ -1833,7 +2039,8 @@
    "from_high": -7.6,
    "value_musd": 272.8,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "GMAB",
@@ -1846,7 +2053,8 @@
    "from_high": -11.7,
    "value_musd": 161.6,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "LFST",
@@ -1859,33 +2067,8 @@
    "from_high": -5.3,
    "value_musd": 45.3,
    "uptrend": true,
-   "new_uptrend": false
-  },
-  {
-   "ticker": "ETON",
-   "name": "Eton Pharmaceuticals, Inc.",
-   "close": 60.85,
-   "vs50": 9.3,
-   "vs200": 55.9,
-   "rs3": 4.1,
-   "rs6": 94.2,
-   "from_high": -11.0,
-   "value_musd": 25.6,
-   "uptrend": true,
-   "new_uptrend": true
-  },
-  {
-   "ticker": "UTZ",
-   "name": "Utz Brands, Inc.",
-   "close": 14.29,
-   "vs50": 0.2,
-   "vs200": 34.9,
-   "rs3": 10.7,
-   "rs6": 93.9,
-   "from_high": -0.2,
-   "value_musd": 22.2,
-   "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "HAE",
@@ -1898,20 +2081,8 @@
    "from_high": -5.7,
    "value_musd": 65.2,
    "uptrend": true,
-   "new_uptrend": false
-  },
-  {
-   "ticker": "VSXY",
-   "name": "Victoria's Secret & Co.",
-   "close": 94.57,
-   "vs50": 2.9,
-   "vs200": 29.4,
-   "rs3": 18.3,
-   "rs6": 87.8,
-   "from_high": -16.7,
-   "value_musd": 137.3,
-   "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "PUBM",
@@ -1924,7 +2095,8 @@
    "from_high": -10.9,
    "value_musd": 13.1,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "TBBB",
@@ -1937,7 +2109,8 @@
    "from_high": -7.3,
    "value_musd": 49.8,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "KNSA",
@@ -1950,7 +2123,8 @@
    "from_high": -4.9,
    "value_musd": 46.2,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "PAYC",
@@ -1963,20 +2137,8 @@
    "from_high": -12.0,
    "value_musd": 159.1,
    "uptrend": true,
-   "new_uptrend": false
-  },
-  {
-   "ticker": "SLS",
-   "name": "SELLAS Life Sciences Group, Inc.",
-   "close": 13.66,
-   "vs50": 22.4,
-   "vs200": 50.9,
-   "rs3": 5.0,
-   "rs6": 83.1,
-   "from_high": -28.7,
-   "value_musd": 59.4,
-   "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "MANH",
@@ -1989,7 +2151,8 @@
    "from_high": -6.7,
    "value_musd": 136.7,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "U",
@@ -2002,7 +2165,8 @@
    "from_high": -15.3,
    "value_musd": 424.7,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "KSS",
@@ -2015,7 +2179,8 @@
    "from_high": -12.3,
    "value_musd": 81.3,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "CHYM",
@@ -2028,7 +2193,8 @@
    "from_high": -12.2,
    "value_musd": 133.7,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "AMRX",
@@ -2041,7 +2207,8 @@
    "from_high": -3.5,
    "value_musd": 66.4,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "BILL",
@@ -2054,7 +2221,8 @@
    "from_high": -6.9,
    "value_musd": 72.3,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": true,
+   "event_jump": false
   },
   {
    "ticker": "BOX",
@@ -2067,7 +2235,8 @@
    "from_high": -0.4,
    "value_musd": 102.6,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "OSPN",
@@ -2080,7 +2249,8 @@
    "from_high": -14.1,
    "value_musd": 12.0,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "CON",
@@ -2093,7 +2263,8 @@
    "from_high": -3.8,
    "value_musd": 39.3,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "VCEL",
@@ -2106,7 +2277,8 @@
    "from_high": -3.2,
    "value_musd": 25.9,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "DFIN",
@@ -2119,20 +2291,8 @@
    "from_high": -7.9,
    "value_musd": 12.4,
    "uptrend": true,
-   "new_uptrend": false
-  },
-  {
-   "ticker": "IBTA",
-   "name": "Ibotta, Inc.",
-   "close": 53.32,
-   "vs50": 11.0,
-   "vs200": 50.1,
-   "rs3": 48.4,
-   "rs6": 73.0,
-   "from_high": -15.4,
-   "value_musd": 11.4,
-   "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "TENB",
@@ -2145,7 +2305,8 @@
    "from_high": -18.9,
    "value_musd": 135.4,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
    "ticker": "BWIN",
@@ -2158,22 +2319,178 @@
    "from_high": -1.0,
    "value_musd": 51.7,
    "uptrend": true,
-   "new_uptrend": false
+   "new_uptrend": false,
+   "event_jump": false
   },
   {
-   "ticker": "HURN",
-   "name": "Huron Consulting Group Inc.",
-   "close": 172.21,
-   "vs50": 0.7,
-   "vs200": 24.5,
-   "rs3": 15.6,
+   "ticker": "EPC",
+   "name": "EDGEWELL PERSONAL CARE Co",
+   "close": 28.47,
+   "vs50": 2.1,
+   "vs200": 16.5,
+   "rs3": 10.6,
    "rs6": 70.8,
-   "from_high": -13.2,
-   "value_musd": 45.0,
+   "from_high": -4.0,
+   "value_musd": 15.0,
    "uptrend": true,
-   "new_uptrend": true
+   "new_uptrend": false,
+   "event_jump": false
+  },
+  {
+   "ticker": "TGTX",
+   "name": "TG THERAPEUTICS, INC.",
+   "close": 63.34,
+   "vs50": 10.0,
+   "vs200": 36.9,
+   "rs3": 22.8,
+   "rs6": 70.5,
+   "from_high": -4.2,
+   "value_musd": 101.7,
+   "uptrend": true,
+   "new_uptrend": true,
+   "event_jump": false
+  },
+  {
+   "ticker": "BBY",
+   "name": "BEST BUY CO INC",
+   "close": 97.95,
+   "vs50": 3.5,
+   "vs200": 27.7,
+   "rs3": 22.8,
+   "rs6": 70.3,
+   "from_high": -7.8,
+   "value_musd": 270.8,
+   "uptrend": true,
+   "new_uptrend": false,
+   "event_jump": false
+  },
+  {
+   "ticker": "TRUP",
+   "name": "TRUPANION, INC.",
+   "close": 35.56,
+   "vs50": 23.6,
+   "vs200": 32.8,
+   "rs3": 21.7,
+   "rs6": 69.3,
+   "from_high": -7.6,
+   "value_musd": 11.2,
+   "uptrend": true,
+   "new_uptrend": true,
+   "event_jump": false
+  },
+  {
+   "ticker": "SIBN",
+   "name": "SI-BONE, Inc.",
+   "close": 23.73,
+   "vs50": 13.6,
+   "vs200": 40.1,
+   "rs3": 31.6,
+   "rs6": 69.2,
+   "from_high": -7.3,
+   "value_musd": 12.0,
+   "uptrend": true,
+   "new_uptrend": true,
+   "event_jump": false
+  },
+  {
+   "ticker": "AVPT",
+   "name": "AvePoint, Inc.",
+   "close": 16.49,
+   "vs50": 8.6,
+   "vs200": 34.9,
+   "rs3": 34.2,
+   "rs6": 67.8,
+   "from_high": -5.0,
+   "value_musd": 34.6,
+   "uptrend": true,
+   "new_uptrend": false,
+   "event_jump": false
+  },
+  {
+   "ticker": "FIGS",
+   "name": "FIGS, Inc.",
+   "close": 20.07,
+   "vs50": 12.8,
+   "vs200": 41.3,
+   "rs3": 41.7,
+   "rs6": 67.6,
+   "from_high": -14.2,
+   "value_musd": 58.8,
+   "uptrend": true,
+   "new_uptrend": false,
+   "event_jump": false
+  },
+  {
+   "ticker": "ICLR",
+   "name": "ICON PLC",
+   "close": 186.71,
+   "vs50": 2.7,
+   "vs200": 26.7,
+   "rs3": 17.3,
+   "rs6": 67.4,
+   "from_high": -13.4,
+   "value_musd": 164.8,
+   "uptrend": true,
+   "new_uptrend": true,
+   "event_jump": false
+  },
+  {
+   "ticker": "ENR",
+   "name": "ENERGIZER HOLDINGS, INC.",
+   "close": 28.56,
+   "vs50": 24.5,
+   "vs200": 40.1,
+   "rs3": 42.7,
+   "rs6": 66.8,
+   "from_high": 0.0,
+   "value_musd": 20.2,
+   "uptrend": true,
+   "new_uptrend": false,
+   "event_jump": false
+  },
+  {
+   "ticker": "MAX",
+   "name": "MediaAlpha, Inc.",
+   "close": 13.5,
+   "vs50": 13.2,
+   "vs200": 23.4,
+   "rs3": 15.2,
+   "rs6": 66.5,
+   "from_high": -10.9,
+   "value_musd": 10.8,
+   "uptrend": true,
+   "new_uptrend": true,
+   "event_jump": false
+  },
+  {
+   "ticker": "VRNS",
+   "name": "VARONIS SYSTEMS INC",
+   "close": 49.22,
+   "vs50": 1.7,
+   "vs200": 33.7,
+   "rs3": 29.6,
+   "rs6": 66.3,
+   "from_high": -1.8,
+   "value_musd": 126.3,
+   "uptrend": true,
+   "new_uptrend": false,
+   "event_jump": false
+  },
+  {
+   "ticker": "HNI",
+   "name": "HNI CORP",
+   "close": 47.82,
+   "vs50": 1.0,
+   "vs200": 15.1,
+   "rs3": 7.9,
+   "rs6": 66.1,
+   "from_high": -6.6,
+   "value_musd": 24.4,
+   "uptrend": true,
+   "new_uptrend": false,
+   "event_jump": false
   }
  ],
- "generated_at": "2026-11-21T14:32+00:00",
+ "generated_at": "2026-11-21T14:52+00:00",
  "listings": 6027
 }
