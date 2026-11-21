@@ -152,7 +152,82 @@ def _drawdown(values):
     return 100 * worst
 
 
-def claude_account(root, series, today):
+def _money(amount, unit):
+    return f'{amount:,.2f} {unit}' if isinstance(amount, (int, float)) else '—'
+
+
+def claude_trades(doc, state, series, day, regime):
+    import active_rules as rules
+    filled = [o for o in state['orders'] if o['status'] == 'FILLED']
+    stops = {}
+    for p in state['positions']:
+        if p['shares'] <= 0 or p['last_close'] is None:
+            continue
+        rate = 1 if p['currency'] == doc['account_currency'] else doc['fx'][p['currency']]
+        entry = p['cost'] / (p['shares'] * rate)
+        fraction = rules.STOP_CORRECTION if regime == 'CORRECTION' else rules.STOP
+        opening, _, _, _, _, floor = rules.long_risk(p['ticker'], p, filled, series, day, p['last_close'], entry, fraction)
+        if opening and regime:
+            stops[p['ticker']] = (opening['fill_date'], opening['id'], floor)
+    rows = []
+    for o in reversed(state['orders']):
+        filled_now = o['status'] == 'FILLED'
+        stop = stops.get(o['ticker'])
+        level = '—'
+        if stop and filled_now and o['side'] == 'BUY' and (o['fill_date'], o['id']) >= stop[:2]:
+            level = 'Close ≤ ' + _money(stop[2], o['currency'])
+        rows.append([o['ticker'], o['side'], o['status'], o['submitted_at'], o.get('fill_date') if filled_now else None,
+                     o['shares'], _money(o.get('amount'), doc['account_currency']), _money(o.get('fill_price') if filled_now else None, o['currency']), level])
+    return rows
+
+
+def lab_trades(paper, params, inputs):
+    rows = []
+    for o in reversed([*paper.get('orders', []), *paper['pending']]):
+        filled = o['status'] == 'FILLED'
+        pending = o['status'] == 'PENDING'
+        opened = (paper['positions'].get(o['ticker']) or {}).get('opened_on')
+        stop = '—'
+        if o['action'] == 'OPEN' and (pending or (filled and opened == o.get('execution_session'))):
+            t = (inputs.get(o['ticker']) or {}).get('timing') or {}
+            sma = t.get('sma36') if t.get('status') == 'AVAILABLE' else None
+            direction = '>' if o['side'] == 'SHORT' else '<'
+            stop = f'Close {direction} SMA36'
+            if sma is not None:
+                stop += ' (' + _money(sma, 'USD') + ')'
+            elif pending and o.get('sma36') is not None:
+                stop += ' (signal: ' + _money(o['sma36'], 'USD') + ')'
+        amount = o.get('turnover') if filled else params.get('position_usd') if pending and o['action'] == 'OPEN' else None
+        rows.append([o['ticker'], o['action'] + ' ' + o['side'], o['status'], o.get('submitted_at'),
+                     o.get('execution_session') if filled else None, None,
+                     ('Planned ' if pending and amount is not None else '') + _money(amount, 'USD'),
+                     _money(o.get('execution_close') if filled else None, 'USD'), stop])
+    return rows
+
+
+TRADE_COLUMNS = ['Ticker', 'Action', 'Order status', 'Submitted (offset shown)', 'Fill session',
+                 'Shares ordered', 'Notional before fees', 'Fill price per share', 'Current closing exit level']
+
+
+def trade_tables(accounts):
+    out = ['<h2 id="trades">Paper trades and exit levels</h2><p>Daily fills use the session close. '
+           'Stops are evaluated on a completed close. A moving average can change before the next decision. '
+           'Orders before 20 November are shown to explain opening holdings.</p>']
+    for a in accounts:
+        out.append(f'<h3>{escape(a["name"])}</h3>')
+        rows = a.get('trades') or []
+        if not rows:
+            out.append('<p>No recorded orders.</p>')
+            continue
+        out.append('<div class="tw"><table><thead><tr>' + ''.join(f'<th>{c}</th>' for c in TRADE_COLUMNS)
+                   + '</tr></thead><tbody>')
+        for row in rows:
+            out.append('<tr>' + ''.join('<td>' + escape(str(v) if v is not None else '—') + '</td>' for v in row) + '</tr>')
+        out.append('</tbody></table></div>')
+    return ''.join(out)
+
+
+def claude_account(root, series, today, regime=None):
     import active_trading as at
     path = Path(root) / 'paper_trades' / 'active-account.json'
     if not path.exists():
@@ -170,6 +245,7 @@ def claude_account(root, series, today):
                 value=curve[-1][1], ret=100 * (curve[-1][1] / curve[0][1] - 1), dd=_drawdown([v for _, v in curve]),
                 longs=sum(p['shares'] > 0 for p in now['positions']), shorts=sum(p['shares'] < 0 for p in now['positions']),
                 exposure=100 * (longs + shorts) / curve[-1][1], sessions=len(curve) - 1,
+                trades=claude_trades(doc, now, series, today, regime),
                 note='Long and short orders possible; the rules open longs only until a short rule passes the backtest.')
 
 
@@ -181,7 +257,7 @@ def _rules_version():
         return ''
 
 
-def codex_long_short(root, build_id=None):
+def codex_long_short(root, build_id=None, inputs=None):
     path = Path(root) / 'history' / 'long_short_lab.json'
     if not path.exists():
         return None
@@ -198,6 +274,7 @@ def codex_long_short(root, build_id=None):
                 longs=sum(p.get('side') == 'LONG' for p in positions.values()),
                 shorts=sum(p.get('side') == 'SHORT' for p in positions.values()),
                 exposure=100 * gross / equity if equity else None, sessions=paper['sessions'], last=paper.get('last'),
+                trades=lab_trades(paper, params, inputs or {}),
                 note=f'{len(paper.get("pending") or [])} pending order(s); positions of '
                      f'{params.get("position_usd", "—")} USD, {params.get("slots_per_side", "—")} per side.')
 
@@ -217,6 +294,11 @@ def codex_active(root):
     return dict(name='Codex · active (opportunity + timing)', currency='EUR', start=curve[0], value=curve[-1],
                 ret=100 * (curve[-1] / curve[0] - 1), dd=_drawdown(curve), longs=len(holdings), shorts=0,
                 exposure=100 * (curve[-1] - account.get('cash', curve[-1])) / curve[-1], sessions=len(curve) - 1,
+                trades=[[o['ticker'], o['side'], o['status'], o.get('submitted'),
+                         o.get('day') if o['status'] == 'Filled' else None, None,
+                         ('Planned ' if o['status'] == 'Pending' else '') + _money(o.get('euros') if o['status'] in ('Pending', 'Filled') else None, 'EUR'),
+                         _money(o.get('close'), o['currency']), 'Score < 6.5 or close below SMA200' if o['side'] == 'Buy' and o['ticker'] in holdings else '—']
+                        for o in reversed(account.get('orders', []))],
                 note='Long only.')
 
 
@@ -243,7 +325,7 @@ def render_compare(accounts, spx, *, today):
             '<th>Gross exposure</th><th class="l">Note</th></tr></thead><tbody>'
             + (rows or '<tr><td colspan="10" class="muted">No account has a session since the start date yet.</td></tr>')
             + '</tbody></table></div>')
-    return shell('Trading comparison', body)
+    return shell('Trading comparison', body + trade_tables(accounts))
 
 
 def site_pages(root, committed_build, *, now=None):
@@ -278,7 +360,7 @@ def site_pages(root, committed_build, *, now=None):
     series = pp.merge_series(snapshots + [record])
     last = max((d for d, _ in series.get('^GSPC') or []), default=today.isoformat())
     accounts = []
-    for load in (lambda: claude_account(root, series, last), lambda: codex_active(root), lambda: codex_long_short(root, committed_build['manifest']['run_id'])):
+    for load in (lambda: claude_account(root, series, last, market), lambda: codex_active(root), lambda: codex_long_short(root, committed_build['manifest']['run_id'], meta.get('inputs') or {})):
         try:
             account = load()
         except (ValueError, KeyError, TypeError, OSError):    # an unreadable ledger must not block the site
@@ -286,6 +368,9 @@ def site_pages(root, committed_build, *, now=None):
         if account:
             accounts.append(account)
     pages.append((Path(COMPARE_PAGE), render_compare(accounts, benchmark(series, last), today=last)))
+    tape = dict(as_of=last, build=committed_build.get('manifest', {}).get('run_id'), columns=TRADE_COLUMNS,
+                accounts=[dict(name=a['name'], trades=a['trades']) for a in accounts])
+    pages.append((Path('competition-trades.json'), json.dumps(tape, ensure_ascii=False, allow_nan=False)))
     return pages
 
 

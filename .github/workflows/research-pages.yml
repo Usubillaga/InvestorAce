@@ -10,6 +10,7 @@ on:
       - 'claude-briefings/**'
       - 'market-scan/**'
       - 'weekly_research.py'
+      - 'trading_desk.py'
       - '.github/workflows/research-pages.yml'
   workflow_dispatch:
 

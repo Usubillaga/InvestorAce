@@ -120,6 +120,27 @@ def build_age_days(record, today):
         return None
 
 
+def long_risk(ticker, p, filled, series, today_s, close, entry, stop):
+    """Closing-price stop and opening lot used by the paper strategy."""
+    first, opening, count = None, None, 0
+    for o in sorted((o for o in filled if o['ticker'] == ticker), key=lambda o: (o['fill_date'], o['id'])):
+        if count == 0:
+            first, opening = o['fill_date'], o   # a new position starts
+        count += o['shares'] if o['side'] == 'BUY' else -o['shares']
+    path = _sessions(series, p['yahoo'], first, today_s)
+    peak = max([c for _, c in path] + [close])
+    gain, peak_gain = close / entry - 1, peak / entry - 1
+    early = path[:FAST_SESSIONS + 1]
+    fast = any(c / entry - 1 >= FAST_GAIN for _, c in early)
+    holding = fast and len(path) <= HOLD_SESSIONS
+    floor = entry * (1 - stop)
+    if peak_gain >= BREAKEVEN_AT:
+        floor = max(floor, entry)
+    if peak_gain >= TRAIL_AT and not holding:
+        floor = max(floor, peak * (1 - TRAIL))
+    return opening, path, gain, holding, peak, floor
+
+
 def plan(doc, record, series, today, *, decision_at=None, failed_breakout=True, confirmed_swings=False):
     """Orders for today's close and the reason for each decision."""
     decision_at = decision_at or datetime.combine(today, datetime.max.time(), timezone.utc)
@@ -155,27 +176,13 @@ def plan(doc, record, series, today, *, decision_at=None, failed_breakout=True, 
         if close is None:
             notes.append(f'{ticker}: no close, no decision')
             continue
-        first, opening, count = None, None, 0
-        for o in sorted((o for o in filled if o['ticker'] == ticker), key=lambda o: (o['fill_date'], o['id'])):
-            if count == 0:
-                first, opening = o['fill_date'], o   # a new position starts
-            count += o['shares'] if o['side'] == 'BUY' else -o['shares']
+        opening, path, gain, holding, peak, floor = long_risk(
+            ticker, p, filled, series, today_s, close, entry, stop)
         broke_out = (opening or {}).get('resistance')
-        path = _sessions(series, p['yahoo'], first, today_s)
-        peak = max([c for _, c in path] + [close])
-        gain, peak_gain = close / entry - 1, peak / entry - 1
-        early = path[:FAST_SESSIONS + 1]
-        fast = any(c / entry - 1 >= FAST_GAIN for _, c in early)
-        holding = fast and len(path) <= HOLD_SESSIONS
 
         def sell(n, rule, why):
             orders.append(dict(side='SELL', ticker=ticker, shares=n, rule=rule, reason=why))
 
-        floor = entry * (1 - stop)
-        if peak_gain >= BREAKEVEN_AT:
-            floor = max(floor, entry)
-        if peak_gain >= TRAIL_AT and not holding:
-            floor = max(floor, peak * (1 - TRAIL))
         if close <= floor:
             sell(p['shares'], 'STOP', f'close {close:.2f} at or below the stop {floor:.2f} '
                                       f'(entry {entry:.2f}, highest {peak:.2f})')

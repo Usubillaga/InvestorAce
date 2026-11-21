@@ -70,6 +70,15 @@ class Compare(unittest.TestCase):
             codex.update(value=None, ret=None, dd=None)
             self.assertIn('— USD', td.render_compare([codex], None, today='2026-11-24'))
 
+    def test_pending_short_reports_only_planned_capital_and_moving_exit(self):
+        order = dict(ticker='X', side='SHORT', action='OPEN', status='PENDING', signal_close=80, sma36=95)
+        rows = td.lab_trades(dict(pending=[order], positions={}), dict(position_usd=500), {})
+        self.assertEqual(rows[0][4:], [None, None, 'Planned 500.00 USD', '—', 'Close > SMA36 (signal: 95.00 USD)'])
+        filled = dict(order, status='FILLED', execution_session='2026-11-23', execution_close=81, turnover=500)
+        rows = td.lab_trades(dict(orders=[filled], pending=[], positions={'X': dict(opened_on='2026-11-23')}),
+                             dict(position_usd=500), {'X': dict(timing=dict(status='AVAILABLE', sma36=94))})
+        self.assertEqual(rows[0][-3:], ['500.00 USD', '81.00 USD', 'Close > SMA36 (94.00 USD)'])
+
     def test_missing_ledgers_give_an_empty_but_valid_page(self):
         with tempfile.TemporaryDirectory() as tmp:
             self.assertIsNone(td.claude_account(tmp, {}, '2026-11-24'))
