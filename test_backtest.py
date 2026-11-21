@@ -78,3 +78,22 @@ class Page(unittest.TestCase):
             self.assertIn('<table>', html)
             self.assertIn('first day of each month', html)
             self.assertNotIn('| ---', html)
+
+
+class Shorts(unittest.TestCase):
+    def test_falling_market_short_variant_opens_covers_and_profits(self):
+        frames = {f'S{i}': bt.indicators(*frame(i, drift=-0.0015)) for i in range(6)}
+        spx = frame(99, drift=-0.001)[0]
+        start = spx.index[300]
+        sectors = {k: 'A' for k in frames}
+        base = bt.simulate(frames, spx, sectors, start, **bt.VARIANTS[bt.BASE])
+        short = bt.simulate(frames, spx, sectors, start, **bt.VARIANTS['shorts_in_correction'])
+        self.assertGreater(short['final'], base['final'])
+
+    def test_short_variant_never_shorts_in_an_uptrend_when_limited_to_corrections(self):
+        frames = {f'S{i}': bt.indicators(*frame(i)) for i in range(6)}
+        spx = pd.Series(np.linspace(100, 300, 700), index=pd.bdate_range('2020-01-01', periods=700))
+        m = bt.simulate(frames, spx, {k: 'A' for k in frames}, spx.index[300],
+                        **bt.VARIANTS['shorts_in_correction'])
+        base = bt.simulate(frames, spx, {k: 'A' for k in frames}, spx.index[300], **bt.VARIANTS[bt.BASE])
+        self.assertEqual(m['final'], base['final'])

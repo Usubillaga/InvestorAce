@@ -138,7 +138,10 @@ def plan(doc, record, series, today, *, decision_at=None, failed_breakout=True, 
                     notes=[f'no orders: the build is {age} days old (limit {MAX_BUILD_AGE_DAYS})'])
     filled = [o for o in state['orders'] if o['status'] == 'FILLED']
     pending = {o['ticker'] for o in state['orders'] if o['status'] == 'PENDING'}
-    held = {p['ticker']: p for p in state['positions']}
+    held = {p['ticker']: p for p in state['positions'] if p['shares'] > 0}
+    for p in state['positions']:
+        if p['shares'] < 0:              # the account can hold shorts; these rules have no short exits yet
+            notes.append(f'{p["ticker"]}: short position, not managed by {VERSION}')
 
     for ticker, p in sorted(held.items()):
         if ticker in pending:

@@ -165,7 +165,13 @@ VARIANTS = {
     'sell_all_weak_breadth': dict(sell_failed_breakout=True, exit_breadth=0.40),
     'sell_all_correction_and_weak_breadth': dict(sell_failed_breakout=True, exit_on_correction=True,
                                                  exit_breadth=0.40, need_both=True),
+    # User's request (21 Nov 2026): the account may also sell short. Technical shorts: close below the
+    # 36/50/200-day averages, 0-3 ATR below the 21-day EMA, weakest first; 1% risk, 8% stop, at most 10%
+    # of equity each and 40% in total, 2% a year borrow cost; covered above the 50-day average.
+    'shorts_in_correction': dict(sell_failed_breakout=True, shorts=4, short_regime='correction'),
+    'shorts_always': dict(sell_failed_breakout=True, shorts=4, short_regime='always'),
 }
+SHORT_STOP, SHORT_SIZE, SHORT_TOTAL, BORROW = 0.08, 0.10, 0.40, 0.02
 
 
 def portfolio_inputs(frames):
@@ -173,7 +179,7 @@ def portfolio_inputs(frames):
     close = pd.DataFrame({s: f['close'] for s, f in frames.items()})
     sma = pd.DataFrame({s: f['sma200'] for s, f in frames.items()})
     breadth = ((close > sma) & sma.notna()).sum(axis=1) / sma.notna().sum(axis=1).replace(0, np.nan)
-    candidates, rows = {}, {}
+    candidates, shorts, rows = {}, {}, {}
     for symbol, frame in frames.items():
         rows[symbol] = {}
         for row in frame.itertuples():
@@ -181,7 +187,10 @@ def portfolio_inputs(frames):
             if (row.close > row.sma36 and row.close > row.sma50 and row.close > row.sma200
                     and 0 <= row.ext_atr <= 3):
                 candidates.setdefault(row.Index, []).append((symbol, row))
-    return close, close.ffill(), breadth, candidates, rows
+            if (row.close < row.sma36 and row.close < row.sma50 and row.close < row.sma200
+                    and -3 <= row.ext_atr <= 0):
+                shorts.setdefault(row.Index, []).append((symbol, row))
+    return close, close.ffill(), breadth, candidates, rows, shorts
 
 
 def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
@@ -189,7 +198,8 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
     dates = spx.index[(spx.index >= start) & ((spx.index < end) if end is not None else True)]
     spx_sma = spx.rolling(200).mean()
     cash, pos, trades, curve, cooldown = CAPITAL, {}, [], [], {}
-    close, marks, breadth, candidates, rows = prepared or portfolio_inputs(frames)
+    close, marks, breadth, candidates, rows, short_cands = prepared or portfolio_inputs(frames)
+    short_pos = {}
     stale_sessions = {}
     for i, day in enumerate(dates):
         px = close.loc[day]
@@ -197,12 +207,14 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
             p['stale'] = p.get('stale', 0) + 1 if pd.isna(px[s]) else 0
             if p['stale']:
                 stale_sessions[s] = max(stale_sessions.get(s, 0), p['stale'])
-        equity = cash + sum(p['shares'] * marks.at[day, s] for s, p in pos.items())
+        liability = sum(p['shares'] * marks.at[day, s] for s, p in short_pos.items())
+        cash -= liability * BORROW / 252
+        equity = cash + sum(p['shares'] * marks.at[day, s] for s, p in pos.items()) - liability
         curve.append((day, equity))
         if i == len(dates) - 1:
             break
         nxt = dates[i + 1]
-        buying_cash = cash - CAPITAL * .03
+        buying_cash = cash - CAPITAL * .03 - liability     # short proceeds are collateral, not buying power
         regime_up = spx.loc[day] > spx_sma.loc[day]
         stop = 0.08 if regime_up else 0.05
         sells = []
@@ -288,6 +300,55 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
             buying_cash -= shares * c * (1 + COST)
             planned.append((s, shares, res if c > res else None))
             sector_count[sectors.get(s)] = sector_count.get(sectors.get(s), 0) + 1
+        covers, short_plan = [], []
+        if rule.get('shorts'):
+            for s, p in short_pos.items():
+                f = rows[s][day]
+                c = f.close
+                if np.isnan(c):
+                    continue
+                p['held'] += 1
+                p['trough'] = min(p['trough'], c)
+                e = p['entry']
+                ceiling = e * (1 + SHORT_STOP)
+                if p['trough'] <= e * 0.90:
+                    ceiling = min(ceiling, e)
+                if p['trough'] <= e * 0.80:
+                    ceiling = min(ceiling, p['trough'] * 1.10)
+                why = ('STOP' if c >= ceiling else 'TREND' if c > f.sma50
+                       else 'MARKET_UP' if rule['short_regime'] == 'correction' and regime_up
+                       else 'MAX_HOLD' if p['held'] >= 126 else None)
+                if why:
+                    covers.append((s, why))
+            open_shorts = set(short_pos) - {s for s, _ in covers}
+            allowed = rule['short_regime'] == 'always' or not regime_up
+            room = equity * SHORT_TOTAL - sum(short_pos[s]['shares'] * marks.at[day, s] for s in open_shorts)
+            picks = sorted((f.mad, s, f.close) for s, f in short_cands.get(day, ())
+                           if s not in pos and s not in short_pos and not (s in cooldown and i - cooldown[s] <= 10))
+            for _, s, c in picks if allowed else ():
+                if len(open_shorts) + len(short_plan) >= rule['shorts']:
+                    break
+                shares = math.floor(min(equity * 0.01 / (SHORT_STOP * c), equity * SHORT_SIZE / c, room / c))
+                if shares < 1 or shares * c < 50:
+                    continue
+                room -= shares * c
+                short_plan.append((s, shares))
+            planned = [x for x in planned if x[0] not in {s for s, _ in short_plan}]
+        for s, why in covers:
+            fill = close.at[nxt, s]
+            if np.isnan(fill):
+                continue
+            p = short_pos.pop(s)
+            cash -= p['shares'] * fill * (1 + COST)
+            trades.append(dict(symbol=s, side='SHORT', ret=(p['entry'] * (1 - COST) - fill * (1 + COST)) / p['entry'],
+                               held=p['held'], why=why))
+            cooldown[s] = i
+        for s, shares in short_plan:
+            fill = close.at[nxt, s]
+            if np.isnan(fill) or s in pos:
+                continue
+            cash += shares * fill * (1 - COST)
+            short_pos[s] = dict(shares=shares, entry=fill, trough=fill, held=0)
         for s, why in sells:
             fill = close.at[nxt, s]
             if np.isnan(fill):
