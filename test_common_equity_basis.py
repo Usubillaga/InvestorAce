@@ -608,3 +608,37 @@ class InputGapsAndDisplay(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class FinancialServicesBridge(unittest.TestCase):
+    """MercadoLibre: the group cash flow mixes in Mercado Pago's customer funds and loan book (21 Nov 2026)."""
+    AS_OF = datetime(2026, 11, 22, tzinfo=timezone.utc)
+
+    def facts(self, period):
+        facts = json.loads((Path(__file__).parent / 'tests/fixtures/oxy-inputs-20261104.json').read_text())
+        section = source_review.load()['entries']['MELI']['valuation']
+        facts.update(symbol='MELI', financial_period=period, basis='TTM', midcycle=False, equity_periods=[],
+                     common_equity_bridge=section['common_equity_bridge'],
+                     valuation_input_conflicts=source_review.valuation_input_conflicts(section, as_of=self.AS_OF))
+        facts['inputs'].update(fcf=12254e6, shares=50.697e6, net_income=1890e6, revenue=38523e6)
+        return facts
+
+    def test_issuer_adjusted_cash_resolves_only_the_matching_window(self):
+        result = live_analysis.calculate(self.facts('2026-09-30'), risk_free=.05, mrp=.05, as_of=self.AS_OF)
+        self.assertEqual(result['valuation_input_conflicts'], [])
+        self.assertEqual([c['code'] for c in result['common_equity_basis']['resolved_input_conflicts']],
+                         ['GROUP_FCF_INCLUDES_FINANCIAL_SERVICES'])
+        self.assertEqual(result['inputs']['valuation_fcf'], 1206e6)          # issuer adjusted FCF, not 12,254m
+        self.assertEqual(result['inputs']['valuation_net_income'], 1890e6)
+        later = live_analysis.calculate(self.facts('2026-12-31'), risk_free=.05, mrp=.05, as_of=self.AS_OF)
+        self.assertIn('GROUP_FCF_INCLUDES_FINANCIAL_SERVICES', [c['code'] for c in later['valuation_input_conflicts']])
+        self.assertIsNone(later['inputs']['valuation_fcf'])
+
+    def test_bridge_rows_reconcile_to_the_shareholder_letters(self):
+        rows = {r['period']: r for r in source_review.load()['entries']['MELI']['valuation']
+                ['common_equity_bridge']['periods']}
+        self.assertEqual(rows['2026-09-30']['operating_cash_flow'] - rows['2026-09-30']['capex'],
+                         (1481 - 718 + 443) * 1e6)
+        self.assertEqual(rows['2025-12-31']['operating_cash_flow'] - rows['2025-12-31']['capex'], 1481e6)
+        # The provider figure is CFO minus capex: 12,116 - 6,907 + 8,687 - (1,327 - 900 + 1,215).
+        self.assertEqual((12116 - 6907 + 8687) - (1327 - 900 + 1215), 12254)

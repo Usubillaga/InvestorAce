@@ -8629,12 +8629,27 @@
       "listing": "MELI / Nasdaq / USD",
       "valuation": {
         "status": "PARTIAL",
-        "reason": "The provider free cash flow (12,254m USD TTM, about 44% of revenue) mixes the commerce business with Mercado Pago, whose customer funds and loan book move through operating and investing cash flow. MercadoLibre reports adjusted free cash flow instead: about 285m USD in Q3 2026 after 503m of capital spending and 2.1bn added to a credit portfolio of almost 18bn (+62%), press-reported and not read from the 10-Q in this session. No valuation input is set. Watch-only until an issuer bridge for one dated window is entered.",
+        "reason": "The provider free cash flow (12,254m USD TTM) equals operating cash flow 13,896m minus capex 1,642m: it includes 6,032m of restricted customer funds and treats Mercado Pago's loan book as cash. The issuer bridge below (10-Q and shareholder letters on sec.gov) uses MercadoLibre's own adjusted free cash flow instead: 1,206m TTM to 30 Sep 2026, after 8,285m of net loan growth partly funded by 3,316m of fintech borrowing. The conflict below stays registered and is resolved only while this bridge matches the current provider window.",
         "sources": [
           {
-            "title": "MercadoLibre earns US$448 million in Q3 2026 (Rio Times)",
-            "url": "https://www.riotimesonline.com/mercadolibre-earns-us448-million-q3-2026/",
-            "published_at": null
+            "title": "MercadoLibre 10-Q, quarter ended 30 Sep 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000029/meli-20260930.htm",
+            "published_at": "2026-11-05"
+          },
+          {
+            "title": "MercadoLibre Q3 2026 shareholder letter (8-K exhibit 99.1)",
+            "url": "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000027/meli-20260930xex991.htm",
+            "published_at": "2026-11-04"
+          },
+          {
+            "title": "MercadoLibre Q4 2025 shareholder letter (8-K exhibit 99.1)",
+            "url": "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000003/meli-20260224xex991.htm",
+            "published_at": "2026-02-24"
+          },
+          {
+            "title": "MercadoLibre 10-K 2025",
+            "url": "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000006/meli-20251231.htm",
+            "published_at": "2026-02-25"
           }
         ],
         "input_conflicts": [
@@ -8643,7 +8658,81 @@
             "detected_at": "2026-11-21",
             "reason": "Consolidated operating cash flow minus capex includes Mercado Pago customer funds and lending flows; it is not a common-equity cash flow and must not be capitalised."
           }
-        ]
+        ],
+        "common_equity_bridge": {
+          "schema": "common-equity-bridge-v1",
+          "symbol": "MELI",
+          "currency": "USD",
+          "units": "currency_units",
+          "published_at": "2026-11-05T23:59:59+00:00",
+          "fetched_at": "2026-11-21T13:50:00+00:00",
+          "required_scope": "CONSOLIDATED",
+          "preferred_claims_required": false,
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000029/meli-20260930.htm",
+            "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000027/meli-20260930xex991.htm",
+            "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000003/meli-20260224xex991.htm",
+            "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000006/meli-20251231.htm"
+          ],
+          "periods": [
+            {
+              "period": "2026-09-30",
+              "basis": "TTM",
+              "scope": "CONSOLIDATED",
+              "earnings_scope": "CONSOLIDATED",
+              "operating_cash_flow": 2848000000.0,
+              "capex": 1642000000.0,
+              "net_income": 1890000000.0,
+              "net_income_common": 1890000000.0,
+              "revenue": 38523000000.0,
+              "reported_fcf": null,
+              "preferred_claims_known": false,
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000029/meli-20260930.htm",
+                "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000027/meli-20260930xex991.htm",
+                "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000003/meli-20260224xex991.htm"
+              ],
+              "calculation": "FY2025 - 9M2025 + 9M2026. Cash: issuer adjusted free cash flow 1,481 - 718 + 443 = 1,206m plus capex 1,327 - 900 + 1,215 = 1,642m. CFO 13,896m less customer-fund increase 6,032m, net loan growth 8,285m, plus net fintech funding 3,316m and issuer adjustments -47m. Net income 1,997 - 1,438 + 1,331 = 1,890m; revenue 28,893 - 20,134 + 29,764 = 38,523m."
+            },
+            {
+              "period": "2025-12-31",
+              "basis": "FY",
+              "scope": "CONSOLIDATED",
+              "earnings_scope": "CONSOLIDATED",
+              "operating_cash_flow": 2808000000.0,
+              "capex": 1327000000.0,
+              "net_income": 1997000000.0,
+              "net_income_common": 1997000000.0,
+              "revenue": 28893000000.0,
+              "reported_fcf": null,
+              "preferred_claims_known": false,
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000003/meli-20260224xex991.htm",
+                "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000006/meli-20251231.htm"
+              ],
+              "calculation": "Q4 2025 shareholder letter: adjusted free cash flow 1,481m, capex 1,327m."
+            },
+            {
+              "period": "2024-12-31",
+              "basis": "FY",
+              "scope": "CONSOLIDATED",
+              "earnings_scope": "CONSOLIDATED",
+              "operating_cash_flow": 2075000000.0,
+              "capex": 860000000.0,
+              "net_income": 1911000000.0,
+              "net_income_common": 1911000000.0,
+              "revenue": 20777000000.0,
+              "reported_fcf": null,
+              "preferred_claims_known": false,
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/1099590/000109959026000003/meli-20260224xex991.htm"
+              ],
+              "calculation": "Q4 2025 shareholder letter, 2024 column: adjusted free cash flow 1,215m, capex 860m."
+            }
+          ],
+          "limitations": "Operating cash flow here is the issuer's adjusted free cash flow plus capex: it deducts the growth of the credit portfolio net of fintech funding (about 4.97bn in the TTM) as reinvestment, and the increase in restricted customer funds. This is conservative for a growing lender; without the equity-funded loan growth the TTM cash would be about 6.2bn. Bridges are dated per reporting window and do not roll forward.",
+          "issuer_key": "MELI"
+        }
       },
       "insider": {
         "status": "UNAVAILABLE",
