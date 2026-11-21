@@ -54,6 +54,17 @@ class Replay(unittest.TestCase):
               'ELE.MC': [('2026-11-12', 40.), ('2026-11-13', 41.)],
               '^GSPC': [('2026-11-12', 7000.), ('2026-11-16', 7070.)]}
 
+    def test_order_and_cancel_cannot_select_an_already_observed_half_day_close(self):
+        doc = account()
+        series = {'MU': [('2026-11-27', 100.), ('2026-11-30', 110.)]}
+        place(doc, 'paper-order: BUY 1 MU', 1, '2026-11-27T17:29:59Z')
+        place(doc, 'paper-order: CANCEL 1', 2, '2026-11-27T18:01:00Z')
+        place(doc, 'paper-order: BUY 1 MU', 3, '2026-11-27T17:30:00Z')
+        result = at.replay(doc, series, '2026-11-30')
+        self.assertEqual([o['fill_date'] for o in result['orders']], ['2026-11-27', '2026-11-30'])
+        self.assertEqual(at.cutoff('2028-07-03', 'MU').hour, 16)
+        self.assertEqual(at.cutoff('2026-11-27', 'ELE.MC').hour, 15)
+
     def test_fill_at_the_first_close_after_the_cut_off(self):
         doc = account()
         place(doc, 'paper-order: BUY 10 MU', 1, '2026-11-12T19:00:00Z')    # before the US cut-off

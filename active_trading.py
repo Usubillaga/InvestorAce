@@ -20,6 +20,7 @@ import re
 from datetime import date, datetime, timedelta, timezone
 from html import escape
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent
 FILE = ROOT / 'paper_trades' / 'active-account.json'
@@ -29,6 +30,8 @@ REPO = 'Usubillaga/InvestorAce'
 BENCHMARK = '^GSPC'
 EU_SUFFIXES = ('.MC', '.AS', '.PA', '.DE', '.MI', '.BR', '.LS', '.CO', '.ST', '.HE', '.SW', '.L')
 US_CUTOFF = '19:30'      # NYSE closes 20:00 UTC in summer, 21:00 in winter
+# Published NYSE 13:00 local closes, https://www.nyse.com/trade/hours-calendars
+NYSE_EARLY_CLOSES = {'2026-11-27', '2026-12-24', '2027-11-26', '2028-07-03', '2028-11-24'}
 EU_CUTOFF = '15:00'      # European cash markets close about 16:30 UTC
 ORDER = re.compile(r'^\s*paper-order:\s*(BUY|SELL|SHORT|COVER)\s+(\d{1,6})\s+([A-Za-z0-9.\-^=]{1,15})\s*$', re.I)
 RESISTANCE = re.compile(r'^\s*resistance:\s*([0-9]{1,7}(?:\.[0-9]{1,6})?)\s*$', re.I | re.M)
@@ -122,7 +125,11 @@ def _when(value):
 
 
 def cutoff(day, yahoo):
-    clock = EU_CUTOFF if str(yahoo).upper().endswith(EU_SUFFIXES) else US_CUTOFF
+    symbol = str(yahoo).upper()
+    if str(day) in NYSE_EARLY_CLOSES and '.' not in symbol:
+        local = datetime.fromisoformat(f'{day}T12:30:00').replace(tzinfo=ZoneInfo('America/New_York'))
+        return local.astimezone(timezone.utc)
+    clock = EU_CUTOFF if symbol.endswith(EU_SUFFIXES) else US_CUTOFF
     return datetime.fromisoformat(f'{day}T{clock}:00+00:00')
 
 
@@ -459,7 +466,8 @@ def render(doc, result, record, *, now):
             '<div class="note">The button opens a prepared GitHub issue; submit it to place the order (repository owner '
             'only). A workflow records it within a minute. It fills at the <b>close</b> of the first session whose '
             f'cut-off is after you submitted: {US_CUTOFF} UTC for US and Canadian listings, {EU_CUTOFF} UTC for '
-            'European ones, otherwise the next session. Whole shares, no short selling, no leverage; a buy larger than '
+            'European ones. On scheduled NYSE half-days the US cut-off is 12:30 New York time. Whole shares. '
+            f'Short exposure at entry is capped at {SHORT_LIMIT:.0%} of account equity. A buy larger than '
             'the cash at the fill is rejected. To cancel, open an issue "paper-order: CANCEL &lt;order number&gt;" '
             'before the cut-off. Paper only: no broker is connected and no real order is sent. '
             f'{escape(doc.get("fx_note") or "")}</div>'
