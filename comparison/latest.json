@@ -1,7 +1,7 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-21T04:19:42.181654+00:00",
- "universe_count": 123,
+ "generated_at": "2026-11-21T11:01:01.182074+00:00",
+ "universe_count": 124,
  "rows": [
   {
    "ticker": "AAPL",
@@ -1422,6 +1422,134 @@
     {
      "label": "Yahoo Finance \u00b7 Share statistics",
      "url": "https://finance.yahoo.com/quote/AMD/key-statistics/"
+    }
+   ]
+  },
+  {
+   "ticker": "ANT",
+   "listing": "ANT",
+   "name": "Anthropic, PBC",
+   "sector": "Technology",
+   "financial_currency": "USD",
+   "quote_currency": "USD",
+   "retrieved_at": "2026-11-21T11:01:01.182074+00:00",
+   "attempted_at": "2026-11-21T11:01:01.182074+00:00",
+   "status": "OK",
+   "annual": [
+    {
+     "period_end": "2025-12-31",
+     "basis": "FY",
+     "revenue": 4585000000.0,
+     "gross_profit": 1812000000.0,
+     "operating_income": -6560000000.0,
+     "net_income": -41965000000.0,
+     "ebitda": -6520000000.0,
+     "shares_diluted": 10659036058.0,
+     "shares_basic": 10659036058.0,
+     "debt": 41794000000.0,
+     "cash": 20277000000.0,
+     "equity": -50505000000.0,
+     "assets": 24661000000.0,
+     "liabilities": 75166000000.0,
+     "ocf": -2637000000.0,
+     "capex": 185000000.0,
+     "stock_comp": 1158000000.0,
+     "buybacks": 149000000.0,
+     "fcf": -2822000000.0,
+     "net_debt": 21517000000.0,
+     "gross_margin": 39.520174482006546,
+     "operating_margin": -143.0752453653217,
+     "net_margin": -915.267175572519,
+     "fcf_margin": -61.5485278080698,
+     "net_debt_ebitda": null,
+     "debt_equity": null,
+     "revenue_growth": 1087.823834196891,
+     "dilution": -2.3757217747003456
+    },
+    {
+     "period_end": "2024-12-31",
+     "basis": "FY",
+     "revenue": 386000000.0,
+     "gross_profit": -366000000.0,
+     "operating_income": -2980000000.0,
+     "net_income": -8309000000.0,
+     "ebitda": -2959000000.0,
+     "shares_diluted": 10918427518.0,
+     "shares_basic": 10918427518.0,
+     "debt": 14168000000.0,
+     "cash": 3141000000.0,
+     "equity": -9801000000.0,
+     "assets": 7752000000.0,
+     "liabilities": 17553000000.0,
+     "ocf": -5692000000.0,
+     "capex": 15000000.0,
+     "stock_comp": 192000000.0,
+     "buybacks": 0.0,
+     "fcf": -5707000000.0,
+     "net_debt": 11027000000.0,
+     "gross_margin": -94.81865284974094,
+     "operating_margin": -772.020725388601,
+     "net_margin": -2152.5906735751296,
+     "fcf_margin": -1478.4974093264248,
+     "net_debt_ebitda": null,
+     "debt_equity": null,
+     "revenue_growth": 841.4634146341463,
+     "dilution": 0.0
+    },
+    {
+     "period_end": "2023-12-31",
+     "basis": "FY",
+     "revenue": 41000000.0,
+     "gross_profit": 15000000.0,
+     "operating_income": -551000000.0,
+     "net_income": -1531000000.0,
+     "ebitda": -548000000.0,
+     "shares_diluted": 10918427518.0,
+     "shares_basic": 10918427518.0,
+     "debt": null,
+     "cash": null,
+     "equity": null,
+     "assets": null,
+     "liabilities": null,
+     "ocf": -1627000000.0,
+     "capex": 2000000.0,
+     "stock_comp": 29000000.0,
+     "buybacks": 0.0,
+     "fcf": -1629000000.0,
+     "net_debt": null,
+     "gross_margin": 36.58536585365854,
+     "operating_margin": -1343.9024390243903,
+     "net_margin": -3734.146341463415,
+     "fcf_margin": -3973.1707317073174,
+     "net_debt_ebitda": null,
+     "debt_equity": null,
+     "revenue_growth": null,
+     "dilution": null
+    }
+   ],
+   "market": {
+    "shares_outstanding": 7583103996.0,
+    "float_shares": 151078915.0,
+    "float_pct": 1.9923096805700198,
+    "retrieved_at": "2026-11-21T11:01:01.182074+00:00"
+   },
+   "warnings": [],
+   "sources": [
+    {
+     "label": "Yahoo Finance \u00b7 Income statement",
+     "url": "https://finance.yahoo.com/quote/ANT/financials/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Balance sheet",
+     "url": "https://finance.yahoo.com/quote/ANT/balance-sheet/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Cash flow",
+     "url": "https://finance.yahoo.com/quote/ANT/cash-flow/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Share statistics",
+     "url": "https://finance.yahoo.com/quote/ANT/key-statistics/"
     }
    ]
   },
@@ -9179,7 +9307,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-21T04:19:42.181654+00:00",
+   "attempted_at": "2026-11-21T11:01:01.182074+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},

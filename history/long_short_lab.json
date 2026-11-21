@@ -1,10 +1,10 @@
 {
  "schema": "codex-long-short-v1",
- "archive_build": "20261121T041841559562-68db66574d824434b91ead2c6bb29d4e",
- "as_of": "2026-11-20T23:18:41.559562-05:00",
+ "archive_build": "20261121T110005057294-3c92876d9ccd48928cdfbe34e1086273",
+ "as_of": "2026-11-21T06:00:05.057294-05:00",
  "opportunity_version": "opportunity-v18.1",
  "timing_version": "experimental-timing-v2",
- "verified_builds": 126,
+ "verified_builds": 127,
  "parameters": {
   "capital_usd": 10000.0,
   "position_usd": 500.0,
@@ -999,7 +999,26 @@
    "LONG"
   ],
   "positions": {},
-  "pending": [],
+  "pending": [
+   {
+    "ticker": "AVGO",
+    "symbol": "AVGO",
+    "signal_session": "2026-11-20",
+    "submitted_at": "2026-11-21T06:00:05.057294-05:00",
+    "signal_build": "20261121T110005057294-3c92876d9ccd48928cdfbe34e1086273",
+    "signal_close": 304.4100036621094,
+    "sma36": 339.50861189100476,
+    "sma50": 342.64876831054687,
+    "sma200": 366.9160235595703,
+    "side": "SHORT",
+    "action": "OPEN",
+    "entry_basis": "TECHNICAL_ONLY",
+    "fundamental_score": null,
+    "quality_score": null,
+    "reason": "Trend and SMA36 crossing",
+    "status": "PENDING"
+   }
+  ],
   "orders": [],
   "daily_equity": []
  }
