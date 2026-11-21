@@ -1,10 +1,10 @@
 {
  "schema": "codex-long-short-v1",
- "archive_build": "20261120T210939476566-ebc2d3263a02431588c8f62e0854f64e",
- "as_of": "2026-11-20T16:09:39.476566-05:00",
+ "archive_build": "20261121T041841559562-68db66574d824434b91ead2c6bb29d4e",
+ "as_of": "2026-11-20T23:18:41.559562-05:00",
  "opportunity_version": "opportunity-v18.1",
  "timing_version": "experimental-timing-v2",
- "verified_builds": 125,
+ "verified_builds": 126,
  "parameters": {
   "capital_usd": 10000.0,
   "position_usd": 500.0,
@@ -22,17 +22,17 @@
  },
  "backtest": {
   "confirmed": {
-   "sessions": 31,
-   "decision_sessions": 5,
+   "sessions": 32,
+   "decision_sessions": 6,
    "first": "2026-10-08",
-   "last": "2026-11-19",
-   "final_equity": 10046.755075714551,
-   "return_pct": 0.4675507571455073,
+   "last": "2026-11-20",
+   "final_equity": 10126.098148678653,
+   "return_pct": 1.2609814867865277,
    "drawdown_pct": -0.11121606872197543,
    "gap_sessions": 0,
    "execution_fees": 1.5,
-   "borrow_cost": 0.1362400867497546,
-   "borrow_stress_cost": 0.34060021687438646,
+   "borrow_cost": 0.21578028862365595,
+   "borrow_stress_cost": 0.5394507215591399,
    "by_side": {
     "LONG": {
      "entries": 0,
@@ -42,7 +42,7 @@
     "SHORT": {
      "entries": 3,
      "exits": 0,
-     "net_pnl": 46.75507571455017
+     "net_pnl": 126.09814867865315
     }
    },
    "fundamental_sides": [
@@ -55,24 +55,24 @@
      "side": "SHORT",
      "opened_on": "2026-11-16",
      "entry_close": 93.98999786376953,
-     "marked_on": "2026-11-19",
-     "marked_notional": 499.25524314870006
+     "marked_on": "2026-11-20",
+     "marked_notional": 467.070991844168
     },
     "NKE": {
      "symbol": "NKE",
      "side": "SHORT",
      "opened_on": "2026-11-18",
      "entry_close": 36.310001373291016,
-     "marked_on": "2026-11-19",
-     "marked_notional": 472.73479115
+     "marked_on": "2026-11-20",
+     "marked_notional": 453.3186026583963
     },
     "CEG": {
      "symbol": "CEG",
      "side": "SHORT",
      "opened_on": "2026-11-18",
      "entry_close": 262.739990234375,
-     "marked_on": "2026-11-19",
-     "marked_notional": 479.61864990000004
+     "marked_on": "2026-11-20",
+     "marked_notional": 451.7964765301589
     }
    },
    "pending": [],
@@ -302,21 +302,26 @@
      "session": "2026-11-19",
      "equity": 10046.755075714551,
      "missing": []
+    },
+    {
+     "session": "2026-11-20",
+     "equity": 10126.098148678653,
+     "missing": []
     }
    ]
   },
   "technical_only": {
-   "sessions": 31,
-   "decision_sessions": 5,
+   "sessions": 32,
+   "decision_sessions": 6,
    "first": "2026-10-08",
-   "last": "2026-11-19",
-   "final_equity": 10004.587682216079,
-   "return_pct": 0.04587682216079525,
+   "last": "2026-11-20",
+   "final_equity": 10056.228481799893,
+   "return_pct": 0.562284817998937,
    "drawdown_pct": -0.13947528719052693,
    "gap_sessions": 0,
    "execution_fees": 3.48394054425,
-   "borrow_cost": 0.1912136922675628,
-   "borrow_stress_cost": 0.478034230668907,
+   "borrow_cost": 0.2720727447496123,
+   "borrow_stress_cost": 0.6801818618740308,
    "by_side": {
     "LONG": {
      "entries": 2,
@@ -326,7 +331,7 @@
     "SHORT": {
      "entries": 3,
      "exits": 0,
-     "net_pnl": 22.631078510328468
+     "net_pnl": 74.27187809414295
     }
    },
    "fundamental_sides": [],
@@ -336,24 +341,24 @@
      "side": "SHORT",
      "opened_on": "2026-11-16",
      "entry_close": 93.98999786376953,
-     "marked_on": "2026-11-19",
-     "marked_notional": 499.25524314870006
+     "marked_on": "2026-11-20",
+     "marked_notional": 467.070991844168
     },
     "BSX": {
      "symbol": "BSX",
      "side": "SHORT",
      "opened_on": "2026-11-17",
      "entry_close": 43.029998779296875,
-     "marked_on": "2026-11-19",
-     "marked_notional": 499.53524167919517
+     "marked_on": "2026-11-20",
+     "marked_notional": 487.79921840750455
     },
     "BKNG": {
      "symbol": "BKNG",
      "side": "SHORT",
      "opened_on": "2026-11-17",
      "entry_close": 154.4600067138672,
-     "marked_on": "2026-11-19",
-     "marked_notional": 476.88722296950874
+     "marked_on": "2026-11-20",
+     "marked_notional": 469.08583890943487
     }
    },
    "pending": [],
@@ -669,21 +674,26 @@
      "session": "2026-11-19",
      "equity": 10004.587682216079,
      "missing": []
+    },
+    {
+     "session": "2026-11-20",
+     "equity": 10056.228481799893,
+     "missing": []
     }
    ]
   },
   "forward_rules": {
-   "sessions": 31,
-   "decision_sessions": 5,
+   "sessions": 32,
+   "decision_sessions": 6,
    "first": "2026-10-08",
-   "last": "2026-11-19",
-   "final_equity": 10022.631078510329,
-   "return_pct": 0.22631078510328972,
+   "last": "2026-11-20",
+   "final_equity": 10074.271878094143,
+   "return_pct": 0.7427187809414315,
    "drawdown_pct": -0.13443414538801823,
    "gap_sessions": 0,
    "execution_fees": 1.5,
-   "borrow_cost": 0.1912136922675628,
-   "borrow_stress_cost": 0.478034230668907,
+   "borrow_cost": 0.2720727447496123,
+   "borrow_stress_cost": 0.6801818618740308,
    "by_side": {
     "LONG": {
      "entries": 0,
@@ -693,7 +703,7 @@
     "SHORT": {
      "entries": 3,
      "exits": 0,
-     "net_pnl": 22.631078510328468
+     "net_pnl": 74.27187809414295
     }
    },
    "fundamental_sides": [
@@ -705,24 +715,24 @@
      "side": "SHORT",
      "opened_on": "2026-11-16",
      "entry_close": 93.98999786376953,
-     "marked_on": "2026-11-19",
-     "marked_notional": 499.25524314870006
+     "marked_on": "2026-11-20",
+     "marked_notional": 467.070991844168
     },
     "BSX": {
      "symbol": "BSX",
      "side": "SHORT",
      "opened_on": "2026-11-17",
      "entry_close": 43.029998779296875,
-     "marked_on": "2026-11-19",
-     "marked_notional": 499.53524167919517
+     "marked_on": "2026-11-20",
+     "marked_notional": 487.79921840750455
     },
     "BKNG": {
      "symbol": "BKNG",
      "side": "SHORT",
      "opened_on": "2026-11-17",
      "entry_close": 154.4600067138672,
-     "marked_on": "2026-11-19",
-     "marked_notional": 476.88722296950874
+     "marked_on": "2026-11-20",
+     "marked_notional": 469.08583890943487
     }
    },
    "pending": [],
@@ -951,6 +961,11 @@
     {
      "session": "2026-11-19",
      "equity": 10022.631078510329,
+     "missing": []
+    },
+    {
+     "session": "2026-11-20",
+     "equity": 10074.271878094143,
      "missing": []
     }
    ]
