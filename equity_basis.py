@@ -20,7 +20,9 @@ MONEY_FIELDS = ('operating_cash_flow', 'capex', 'net_income', 'net_income_common
                 'noncontrolling_earnings', 'reported_fcf')
 PREFERRED_AMOUNTS = ('preferred_cash_paid', 'preferred_earnings_deduction', 'preferred_outstanding')
 CORRECTION_FIELDS = MONEY_FIELDS + ('preferred_claims_known',)
-RESOLVABLE = {'DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'COMMON_EQUITY_CLAIMS_OMITTED'}
+# A group cash flow that mixes in a lending or financial-services arm is resolved the same way: only by a
+# complete issuer bridge for the current provider window (MercadoLibre, 21 Nov 2026).
+RESOLVABLE = {'DISPOSED_BUSINESS_IN_CYCLE_PROXY', 'COMMON_EQUITY_CLAIMS_OMITTED', 'GROUP_FCF_INCLUDES_FINANCIAL_SERVICES'}
 # Largest change of the preferred balance across a window for which its
 # declared dividend stands in for an undisclosed cash payment. P&G's ESOP
 # preferred fell 777m -> 747m (-3.9%) over the September 2026 TTM through
