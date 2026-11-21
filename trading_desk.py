@@ -99,6 +99,53 @@ def _sparkline(values, width=420, height=60):
             f'points="{path}"/></svg>')
 
 
+def opportunity_candidates(scan, trend):
+    """Match the same listing and close across both published screens."""
+    import math
+    import re
+    if scan.get('schema') != 'market-scan-v1' or trend.get('schema') != 'market-trend-v1':
+        return []
+    day = trend.get('as_of')
+    if not isinstance(day, str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}', day):
+        return []
+    trends = trend.get('opportunity_trends')
+    if trends is None:
+        trends = trend.get('leaders', []) + trend.get('new_uptrends', [])
+    technical = {r['ticker']: r for r in trends if isinstance(r, dict) and r.get('ticker') and not r.get('event_jump')}
+    found = {}
+    for c in scan.get('candidates', []):
+        if not isinstance(c, dict):
+            continue
+        symbol = c.get('yahoo')
+        row = technical.get(symbol)
+        if (not row or c.get('rank_eligible', c.get('status') == 'COMPLETE') is not True or c.get('price_date') != day
+                or c.get('band') not in ('Buy', 'Strong Buy') or not isinstance(c.get('score'), (float, int))
+                or not math.isfinite(c['score'])):
+            continue
+        found[symbol] = dict(ticker=symbol, name=c.get('name') or symbol, band=c['band'], score=c['score'],
+                             new_trend=bool(row.get('new_uptrend')), rs3=row.get('rs3'))
+    return sorted(found.values(), key=lambda r: (-r['score'], r['ticker']))
+
+
+def opportunity_section(doc):
+    from urllib.parse import urlencode
+    body = []
+    for r in doc['rows']:
+        symbol = r['ticker']
+        target = 'https://github.com/Usubillaga/InvestorAce/issues/new?' + urlencode({'title': 'add-ticker: ' + symbol})
+        action = ('Check scorecard, quality and SMA36 entry' if r['covered'] else
+                  f'<a href="{escape(target, quote=True)}">Review for universe admission</a>')
+        body.append(f'<tr><td>{escape(symbol)}</td><td>{escape(r["band"])} · {r["score"]:.2f}</td>'
+                    f'<td>{"New uptrend" if r["new_trend"] else "Uptrend"}</td><td>{action}</td></tr>')
+    return ('<section id="opportunities"><h2>New long opportunities for review</h2>'
+            f'<p>Trend close {escape(doc["as_of"] or "unavailable")}. '
+            'The fundamental scanner and technical trend must agree on the same listing and price date. '
+            'Swing entries still require the strategy’s fundamental and quality thresholds and a fresh SMA36 trigger.</p>'
+            '<div class="tw"><table><thead><tr><th>Ticker</th><th>Scanner score</th><th>Trend</th><th>Next check</th>'
+            '</tr></thead><tbody>' + (''.join(body) or '<tr><td colspan="4">No verified matches available.</td></tr>')
+            + '</tbody></table></div></section>')
+
+
 def render_market(trend, universe):
     """Market-wide section from market-scan/trend.json (built in GitHub Actions)."""
     if not trend or trend.get('schema') != 'market-trend-v1' or not trend.get('breadth'):
@@ -347,8 +394,18 @@ def site_pages(root, committed_build, *, now=None):
         section = render_market(trend, meta.get('inputs') or {})
     except (KeyError, TypeError, ValueError):       # a malformed trend file must not block the site
         section = render_market(None, {})
+    try:
+        scan = json.loads((Path(root) / 'market-scan/latest.json').read_text(encoding='utf-8'))
+        matches = opportunity_candidates(scan, trend or {})
+    except (OSError, ValueError, TypeError, KeyError, AttributeError):
+        matches = []
+    symbols = {r.get('yf') or k for k, r in (meta.get('inputs') or {}).items() if isinstance(r, dict)}
+    ideas = dict(as_of=(trend or {}).get('as_of') if isinstance(trend, dict) else None,
+                 rows=[dict(r, covered=r['ticker'] in symbols) for r in matches])
+    section = opportunity_section(ideas) + section
     pages = [(Path(SCAN_PAGE), render_scan(scan(record), market=market if isinstance(market, str) else None,
                                            captured=str(meta.get('captured_at') or ''), market_section=section))]
+    pages.append((Path("scanner-opportunities.json"), json.dumps(ideas, ensure_ascii=False)))
     snapshots = []
     for path in sorted((Path(root) / 'history' / 'runs').glob('*.json')):
         try:

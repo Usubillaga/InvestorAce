@@ -25,6 +25,15 @@ def market(n=360):
 
 
 class Analyse(unittest.TestCase):
+    def test_opportunities_require_same_listing_session_and_rank_eligibility(self):
+        trend = dict(schema='market-trend-v1', as_of='2026-11-20',
+                     opportunity_trends=[dict(ticker='X', new_uptrend=True)])
+        row = dict(yahoo='X', price_date='2026-11-20', rank_eligible=True, band='Buy', score=7)
+        for override in ({'price_date':'2026-11-19'}, {'yahoo':'X.L'}, {'rank_eligible':False}, {'band':'Hold positiv'}):
+            scan = dict(schema='market-scan-v1', candidates=[dict(row, **override)])
+            self.assertFalse(td.opportunity_candidates(scan, trend))
+        self.assertEqual(td.opportunity_candidates(dict(schema='market-scan-v1', candidates=[row,row]), trend)[0]['ticker'], 'X')
+
     def test_population_trends_new_uptrends_and_breadth(self):
         close, volume, spx = market()
         doc = mt.analyse(close, volume, spx, names={'UP': 'Up Inc'})

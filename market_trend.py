@@ -95,6 +95,9 @@ def analyse(close, volume, spx, names=None):
         breadth=[dict(date=d.date().isoformat(), **{k: _f(v, 1) for k, v in row.items()})
                  for d, row in breadth.iterrows()],
         event_jumps=sum(r['event_jump'] for r in rows if r['uptrend']),
+        # Include every observed uptrend for the cross-screen, even beyond the display lists.
+        opportunity_trends=[dict(ticker=r['ticker'], new_uptrend=r['new_uptrend'], rs3=r['rs3'])
+                            for r in rows if r['uptrend'] and not r['event_jump'] and pd.notna(close.at[t, r['ticker']])],
         new_uptrends=top([r for r in rows if r['new_uptrend'] and not r['event_jump']], 'rs3'),
         leaders=top([r for r in rows if r['uptrend'] and not r['event_jump']], 'rs6'))
 
