@@ -15,6 +15,9 @@ on:
     branches: [main]
     paths:
       - '*.py'
+      - '!test_*.py'
+      - '!trading_desk.py'
+      - '!weekly_research.py'
       - 'regime_contract.json'
       - 'monitoring_status.json'
       - 'source_reviews.json'
@@ -25,9 +28,7 @@ on:
       - 'compare*'
       - 'comparison/**'
       - 'requirements*.txt'
-      - 'tests/**'
-      - '.github/workflows/*.yml'
-      - '!.github/workflows/research-pages.yml'
+      - '.github/workflows/deploy.yml'
       - '.github/scripts/deploy-pages.cjs'
   schedule:
     - cron: '0 23 * * 1-5'      # 23:00 UTC, weekdays

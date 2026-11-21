@@ -1,12 +1,12 @@
 name: test
 
-# Runs the contract and regression tests on every push and pull request, so a
+# Runs the contract and regression tests on main and on pull requests, so a
 # broken change is caught before the nightly build-and-deploy cron refuses it.
 # Tests are offline: no Yahoo calls, nothing is written or published.
 
 on:
   push:
-    branches-ignore: [gh-pages]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
