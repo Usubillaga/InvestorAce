@@ -60,7 +60,7 @@ def _num(x, fmt='+.1f', suffix='%'):
     return '—' if not isinstance(x, (int, float)) else format(x, fmt) + suffix
 
 
-def render_scan(result, *, market=None, captured=''):
+def render_scan(result, *, market=None, captured='', market_section=''):
     from war_scenario import label, shell
     parts = ['<h1>Technical trend scan</h1><p class="lead">Price trend only, no fundamentals. Universe members with '
              'daily data, from the build of ' + escape(captured[:10] or '—') + '. '
@@ -81,7 +81,67 @@ def render_scan(result, *, market=None, captured=''):
                      '<th class="l">Sector</th><th>vs 200-day</th><th>vs 50-day</th><th>ATR above 21-day EMA</th>'
                      '<th>From high</th><th>Label</th></tr></thead><tbody>'
                      + (body or '<tr><td colspan="7" class="muted">None.</td></tr>') + '</tbody></table></div>')
-    return shell('Technical trend scan', ''.join(parts))
+    return shell('Technical trend scan', ''.join(parts[:1]) + market_section
+                 + '<h2>InvestorAce universe</h2>' + ''.join(parts[1:]))
+
+
+def _sparkline(values, width=420, height=60):
+    pts = [v for v in values if isinstance(v, (int, float))]
+    if len(pts) < 2:
+        return ''
+    lo, hi = min(pts + [0.]), max(pts + [100.])
+    step = width / (len(pts) - 1)
+    path = ' '.join(f'{i * step:.1f},{height - (v - lo) / (hi - lo) * height:.1f}' for i, v in enumerate(pts))
+    mid = height - (50 - lo) / (hi - lo) * height
+    return (f'<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}" role="img" '
+            f'aria-label="Share above the 200-day average"><line x1="0" x2="{width}" y1="{mid:.1f}" y2="{mid:.1f}" '
+            'stroke="#555" stroke-dasharray="3 3"/><polyline fill="none" stroke="#c1d98b" stroke-width="2" '
+            f'points="{path}"/></svg>')
+
+
+def render_market(trend, universe):
+    """Market-wide section from market-scan/trend.json (built in GitHub Actions)."""
+    if not trend or trend.get('schema') != 'market-trend-v1' or not trend.get('breadth'):
+        return ('<h2>Whole market</h2><p class="muted">The market-wide trend file is not available yet; it is '
+                'written by the market-scan workflow after each US close.</p>')
+    b = trend['breadth']
+    weekly = b[::-5][::-1][-12:] if len(b) > 5 else b
+    hist = ''.join(f'<tr><td>{escape(r["date"])}</td><td>{_num(r["pct50"], ".0f")}</td><td>{_num(r["pct200"], ".0f")}</td>'
+                   f'<td>{_num(r["uptrend"], ".0f")}</td><td>{int(r["highs"])}</td><td>{int(r["lows"])}</td></tr>'
+                   for r in weekly)
+    first, last = b[0], b[-1]
+    direction = ('improving' if last['pct200'] - first['pct200'] >= 5 else
+                 'deteriorating' if first['pct200'] - last['pct200'] >= 5 else 'flat')
+    known = {k.upper() for k in universe} | {str((r or {}).get('yf') or '').upper() for r in universe.values()
+                                             if isinstance(r, dict)}
+
+    def table(rows):
+        body = ''.join(
+            f'<tr><td><b>{escape(r["ticker"])}</b>{" ✓" if r["ticker"].upper() in known else ""}</td>'
+            f'<td class="l">{escape((r.get("name") or "")[:32])}</td><td>{_num(r["vs50"])}</td><td>{_num(r["vs200"])}</td>'
+            f'<td>{_num(r["rs3"], "+.1f", " pts")}</td><td>{_num(r["rs6"], "+.1f", " pts")}</td>'
+            f'<td>{_num(r["from_high"])}</td><td>{_num(r["value_musd"], ".0f", "m")}</td></tr>' for r in rows)
+        return ('<div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Company</th><th>vs 50-day</th>'
+                '<th>vs 200-day</th><th>vs S&amp;P 3 months</th><th>vs S&amp;P 6 months</th><th>From high</th>'
+                '<th>Traded per day (USD)</th></tr></thead><tbody>'
+                + (body or '<tr><td colspan="8" class="muted">None.</td></tr>') + '</tbody></table></div>')
+    return (f'<h2>Whole market: {int(trend["population"])} liquid NYSE/Nasdaq stocks</h2>'
+            f'<p class="lead">As of {escape(trend["as_of"])}: <b>{_num(last["pct200"], ".0f")}</b> above their 200-day '
+            f'average, <b>{_num(last["pct50"], ".0f")}</b> above their 50-day, <b>{int(trend["uptrend_count"])}</b> in an '
+            f'uptrend, <b>{int(trend["new_uptrend_count"])}</b> of them new in the last 20 sessions; '
+            f'{int(last["highs"])} new 52-week highs against {int(last["lows"])} lows. Over {len(b)} sessions breadth is '
+            f'<b>{direction}</b> ({_num(first["pct200"], ".0f")} → {_num(last["pct200"], ".0f")} above the 200-day).</p>'
+            + _sparkline([r['pct200'] for r in b])
+            + '<div class="tw"><table><thead><tr><th>Date</th><th>Above 50-day</th><th>Above 200-day</th>'
+            '<th>In uptrend</th><th>New highs</th><th>New lows</th></tr></thead><tbody>' + hist + '</tbody></table></div>'
+            '<div class="note">Uptrend: close above the 50-day average, 50-day above the 200-day, 200-day rising over '
+            '20 sessions. Stocks with a one-day move above 35% in the last 6 months (trial results, bids) are left out of '
+            f'the lists ({int(trend.get("event_jumps") or 0)} today). ✓ marks an InvestorAce universe member; others can be added with add-ticker, and only then '
+            'get a model label. Stocks only, at least 5 USD and 10m USD traded a day.</div>'
+            f'<h3>Turning up: new uptrends, strongest against the S&amp;P 500 over 3 months ({len(trend["new_uptrends"])})</h3>'
+            + table(trend['new_uptrends'])
+            + f'<h3>Leaders: uptrends strongest against the S&amp;P 500 over 6 months ({len(trend["leaders"])})</h3>'
+            + table(trend['leaders']))
 
 
 def _drawdown(values):
@@ -198,8 +258,16 @@ def site_pages(root, committed_build, *, now=None):
         market = active_rules.market(record)
     except Exception:
         market = None
+    try:
+        trend = json.loads((Path(root) / 'market-scan' / 'trend.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        trend = None
+    try:
+        section = render_market(trend, meta.get('inputs') or {})
+    except (KeyError, TypeError, ValueError):       # a malformed trend file must not block the site
+        section = render_market(None, {})
     pages = [(Path(SCAN_PAGE), render_scan(scan(record), market=market if isinstance(market, str) else None,
-                                           captured=str(meta.get('captured_at') or '')))]
+                                           captured=str(meta.get('captured_at') or ''), market_section=section))]
     snapshots = []
     for path in sorted((Path(root) / 'history' / 'runs').glob('*.json')):
         try:

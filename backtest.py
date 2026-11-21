@@ -595,6 +595,11 @@ def main():
                   event_study=event_study(frames, spx, start),
                   portfolio={name: simulate(frames, spx, sectors, start, prepared=prepared, **rule) for name, rule in VARIANTS.items()},
                   spx=_metrics(spx_curve, []))
+    try:                                   # pairs study (pairs_backtest.py); a failure must not lose the main report
+        import pairs_backtest
+        result['pairs'] = pairs_backtest.study(prepared[0], sectors, spx, WINDOWS)
+    except Exception as exc:               # pragma: no cover - reported in the results instead
+        result['pairs_error'] = f'{type(exc).__name__}: {exc}'
     OUT.mkdir(exist_ok=True)
     previous_path = OUT / 'latest.json'
     if previous_path.exists():
@@ -606,8 +611,14 @@ def main():
             elif previous.get('previous_method'):
                 result['previous_method'] = previous['previous_method']
     (OUT / 'latest.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
-    (OUT / 'latest.md').write_text(report(result), encoding='utf-8')
-    print(report(result))
+    md = report(result)
+    if result.get('pairs'):
+        import pairs_backtest
+        md += pairs_backtest.report(result['pairs'])
+    elif result.get('pairs_error'):
+        md += '\n## Pairs trading\n\nNot computed: ' + result['pairs_error'] + '\n'
+    (OUT / 'latest.md').write_text(md, encoding='utf-8')
+    print(md)
 
 
 if __name__ == '__main__':

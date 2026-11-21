@@ -29,6 +29,7 @@ on:
   pull_request:
     paths:
       - 'market_universe.py'
+      - 'market_trend.py'
       - '.github/workflows/market-scan.yml'
 
 permissions:
@@ -78,12 +79,22 @@ jobs:
             python -u market_universe.py --output market-scan 2>&1 | tee market-scan.log
           fi
 
+      - name: Market-wide trend scan
+        # Breadth and stocks turning up across every liquid NYSE/Nasdaq listing (market_trend.py).
+        # Optional: a failure keeps the previous trend.json and never blocks the fundamental scan.
+        if: steps.scan.outcome == 'success'
+        continue-on-error: true
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT || vars.SEC_USER_AGENT }}
+        run: python -u market_trend.py --output market-scan/trend.json 2>&1 | tail -20
+
       - name: Commit the scan
         if: steps.scan.outcome == 'success'
         run: |
           git config user.name  "investorace-bot"
           git config user.email "investorace-bot@users.noreply.github.com"
           git add market-scan/latest.json
+          if [ -f market-scan/trend.json ]; then git add market-scan/trend.json; fi
           if git diff --staged --quiet; then exit 0; fi
           git commit -m "market-scan: $(date -u +%F)"
           git pull --rebase origin "$TARGET"
