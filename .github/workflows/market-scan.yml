@@ -64,7 +64,7 @@ jobs:
         run: pip install -r requirements-research.txt
 
       - name: Offline contract tests
-        run: python -m unittest test_market_universe test_market_scanner -v
+        run: python -m unittest test_market_universe test_market_scanner test_market_trend -v
 
       - name: Scan the market
         id: scan
@@ -86,7 +86,10 @@ jobs:
         continue-on-error: true
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT || vars.SEC_USER_AGENT }}
-        run: python -u market_trend.py --output market-scan/trend.json 2>&1 | tail -20
+        shell: bash
+        run: |
+          set -o pipefail
+          python -u market_trend.py --output market-scan/trend.json 2>&1 | tail -20
 
       - name: Commit the scan
         if: steps.scan.outcome == 'success'

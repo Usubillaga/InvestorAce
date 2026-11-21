@@ -13,6 +13,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write  # publish the updated paper journal after a bot commit
 
 concurrency:
   group: active-round
@@ -56,19 +57,43 @@ jobs:
           count=$(python -c "import json; p=json.load(open('plan.json')); print(0 if 'skip' in p else len(p['titles']))")
           echo "orders: $count"
           today=$(date -u +%F)
+          recorded=false
+          # A previous attempt can stop after its push and before its issue is closed.
+          # Pending orders are absent from a freshly generated plan.
+          recorded_ids=$(jq -r --arg day "$today" '.orders[]? |
+            (select(.submitted_at | startswith($day)) | .id),
+            (select((.cancelled_at // "") | startswith($day)) | .cancelled_by)' paper_trades/active-account.json)
+          for number in $recorded_ids; do
+            recorded=true
+            issue=$(gh api "repos/$REPO/issues/$number")
+            if jq -e '.state == "open" and .user.login == "github-actions[bot]"' <<< "$issue" >/dev/null; then
+              gh issue close "$number" --repo "$REPO" --reason completed
+            fi
+          done
           for i in $(seq 0 $((count - 1))); do
             title=$(python -c "import json,sys; print(json.load(open('plan.json'))['titles'][$i])")
             python -c "import json; print(json.load(open('plan.json'))['bodies'][$i])" > body.txt
             printf '\n\n---\n_Opened by the active-round workflow (rules in active_rules.py)._\n' >> body.txt
             # One order per title and day, also across a re-run of this workflow.
-            existing=$(gh issue list --repo "$REPO" --state all --search "\"$title\" in:title created:>=$today" --json title --jq "[.[] | select(.title == \"$title\")] | length")
-            if [ "$existing" != "0" ]; then echo "skip: '$title' already opened today"; continue; fi
-            url=$(gh issue create --repo "$REPO" --title "$title" --body-file body.txt)
-            number=${url##*/}
+            existing=$(gh api --paginate --method GET "repos/$REPO/issues" -f state=all -f since="${today}T00:00:00Z" -F per_page=100 |
+              jq -sr --arg title "$title" --arg day "$today" '[.[][] | select(.title == $title and (.created_at | startswith($day)) and (.pull_request == null) and (.author_association == "OWNER" or .user.login == "github-actions[bot]"))] | sort_by(.number) | first // empty | [.number,.state,.user.login] | @tsv')
+            if [ -n "$existing" ]; then
+              IFS=$'\t' read -r number state author <<< "$existing"
+              if [[ "$state" != open || "$author" != 'github-actions[bot]' ]]; then continue; fi
+              gh api "repos/$REPO/issues/$number" --jq .body > body.txt
+            else
+              url=$(gh issue create --repo "$REPO" --title "$title" --body-file body.txt)
+              number=${url##*/}
+            fi
             created=$(gh api "repos/$REPO/issues/$number" --jq .created_at)
             result=""
             for attempt in 1 2 3 4 5 6 7 8; do
-              git fetch -q origin "$BRANCH" && git reset -q --hard "origin/$BRANCH"
+              git fetch -q origin "$BRANCH"
+              git reset -q --hard "origin/$BRANCH"
+              if jq -e --argjson id "$number" 'any(.orders[]?; .id == $id or .cancelled_by == $id)' paper_trades/active-account.json >/dev/null; then
+                result="ACCEPTED: Already recorded in the ledger."
+                break
+              fi
               result="$(ORDER_TITLE="$title" ORDER_BODY="$(cat body.txt)" ORDER_ISSUE="$number" \
                         ORDER_CREATED_AT="$created" GITHUB_OUTPUT= python active_trading.py intake | tail -n 1)"
               case "$result" in
@@ -77,16 +102,22 @@ jobs:
                   git commit -q -m "paper order #$number (active-round)"
                   if git push -q origin "HEAD:$BRANCH"; then break; fi
                   result="" ;;
-                *) break ;;
+                REJECTED:*) break ;;
+                *) echo "Unexpected intake response" >&2; exit 1 ;;
               esac
               sleep $((attempt * 3))
             done
             echo "#$number $title -> ${result:-could not push}"
             echo "- #$number \`$title\`: ${result:-could not push after 8 attempts}" >> "$GITHUB_STEP_SUMMARY"
             case "$result" in
-              ACCEPTED:*) gh issue comment "$number" --repo "$REPO" --body "✅ ${result#ACCEPTED: }"
+              ACCEPTED:*) recorded=true
+                          gh issue comment "$number" --repo "$REPO" --body "✅ ${result#ACCEPTED: }"
                           gh issue close "$number" --repo "$REPO" --reason completed ;;
-              *) gh issue comment "$number" --repo "$REPO" --body "❌ ${result:-could not push the order; see the workflow log}"
+              REJECTED:*) gh issue comment "$number" --repo "$REPO" --body "❌ ${result:-could not push the order; see the workflow log}"
                  gh issue close "$number" --repo "$REPO" --reason "not planned" ;;
+              *) echo "Ledger push failed for issue #$number" >&2; exit 1 ;;
             esac
           done
+          if [ "$recorded" = true ]; then
+            gh workflow run research-pages.yml --ref "$BRANCH" --repo "$REPO"
+          fi

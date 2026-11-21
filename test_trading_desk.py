@@ -56,15 +56,19 @@ class Compare(unittest.TestCase):
             self.assertAlmostEqual(claude['exposure'], 100 * 900 / 10100)
             self.assertAlmostEqual(td.benchmark(series, '2026-11-24'), -2.)
             (root / 'history' / 'long_short_lab.json').write_text(json.dumps(dict(
-                parameters=dict(capital_usd=10000., position_usd=500., slots_per_side=3),
+                schema='codex-long-short-v1', archive_build='test', parameters=dict(capital_usd=10000., position_usd=500., slots_per_side=3),
                 paper=dict(final_equity=10050., return_pct=0.5, drawdown_pct=-0.2, sessions=2,
-                           daily_equity=[['2026-11-23', 10000.], ['2026-11-24', 10050.]], pending=[],
+                           last='2026-11-24', daily_equity=[dict(session='2026-11-24', equity=10050., missing=[])], pending=[],
                            positions={'AVGO': dict(side='SHORT', marked_notional=480.)}))))
             codex = td.codex_long_short(root)
             self.assertEqual((codex['shorts'], codex['currency']), (1, 'USD'))
             html = td.render_compare([claude, codex], -2., today='2026-11-24')
             self.assertIn('Codex · long/short lab', html)
-            self.assertIn('+3.00 pts', html)                    # Claude +1% vs S&P -2%
+            self.assertIn('+2.50 pts', html)
+            self.assertNotIn('+3.00 pts', html)
+            self.assertIsNone(td.codex_long_short(root, 'stale'))
+            codex.update(value=None, ret=None, dd=None)
+            self.assertIn('— USD', td.render_compare([codex], None, today='2026-11-24'))
 
     def test_missing_ledgers_give_an_empty_but_valid_page(self):
         with tempfile.TemporaryDirectory() as tmp:

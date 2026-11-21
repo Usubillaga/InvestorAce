@@ -181,22 +181,23 @@ def _rules_version():
         return ''
 
 
-def codex_long_short(root):
+def codex_long_short(root, build_id=None):
     path = Path(root) / 'history' / 'long_short_lab.json'
     if not path.exists():
         return None
     doc = json.loads(path.read_text(encoding='utf-8'))
+    if doc.get('schema') != 'codex-long-short-v1' or (build_id and doc.get('archive_build') != build_id):
+        return None
     paper, params = doc.get('paper') or {}, doc.get('parameters') or {}
     capital = params.get('capital_usd') or 10000.
     positions = paper.get('positions') or {}
     gross = sum(abs(p.get('marked_notional') or 0) for p in positions.values())
-    equity = paper.get('final_equity') or capital
-    curve = [v for _, v in paper.get('daily_equity') or [] if isinstance(v, (int, float))]
+    equity = paper['final_equity']
     return dict(name='Codex · long/short lab', currency='USD', start=capital, value=equity,
-                ret=paper.get('return_pct') or 0., dd=paper.get('drawdown_pct') if curve else 0.,
+                ret=paper['return_pct'], dd=paper['drawdown_pct'],
                 longs=sum(p.get('side') == 'LONG' for p in positions.values()),
                 shorts=sum(p.get('side') == 'SHORT' for p in positions.values()),
-                exposure=100 * gross / equity if equity else None, sessions=paper.get('sessions') or 0,
+                exposure=100 * gross / equity if equity else None, sessions=paper['sessions'], last=paper.get('last'),
                 note=f'{len(paper.get("pending") or [])} pending order(s); positions of '
                      f'{params.get("position_usd", "—")} USD, {params.get("slots_per_side", "—")} per side.')
 
@@ -221,28 +222,26 @@ def codex_active(root):
 
 def benchmark(series, today):
     rows = [(d, c) for d, c in series.get('^GSPC') or [] if COMPARE_FROM <= d <= today]
-    return 100 * (rows[-1][1] / rows[0][1] - 1) if len(rows) > 1 else 0.
+    return 100 * (rows[-1][1] / rows[0][1] - 1) if rows and rows[0][0] == COMPARE_FROM else None
 
 
 def render_compare(accounts, spx, *, today):
     from war_scenario import shell
     rows = ''.join(
         f'<tr><td class="l"><b>{escape(a["name"])}</b></td><td>{a["sessions"]}</td>'
-        f'<td>{a["value"]:,.0f} {a["currency"]}</td><td class="{"down" if a["ret"] < 0 else "up"}">{_num(a["ret"], "+.2f")}</td>'
-        f'<td>{_num(a["ret"] - spx, "+.2f", " pts")}</td><td>{_num(a["dd"], "+.2f")}</td><td>{a["longs"]}</td>'
+        f'<td>{_num(a["value"], ",.0f", "")} {a["currency"]}</td><td class="{"down" if (a["ret"] or 0) < 0 else "up"}">{_num(a["ret"], "+.2f")}</td>'
+        f'<td>{_num(a["ret"] - spx if a["ret"] is not None and spx is not None and a["currency"] == "USD" and a.get("last") == today else None, "+.2f", " pts")}</td><td>{_num(a["dd"], "+.2f")}</td><td>{a["longs"]}</td>'
         f'<td>{a["shorts"]}</td><td>{_num(a["exposure"], ".0f")}</td>'
-        f'<td>{_num(a["ret"] / a["exposure"] * 100 if a["exposure"] else None, "+.1f")}</td>'
         f'<td class="l">{escape(a["note"])}</td></tr>' for a in accounts)
     body = ('<h1>Trading comparison</h1><p class="lead">Claude and Codex paper accounts from the close of '
             f'{COMPARE_FROM} to {escape(today)}. S&amp;P 500 over the same dates: <b>{_num(spx, "+.2f")}</b>.</p>'
             '<div class="note">Each account is read from its own committed ledger. Returns are in each account\'s '
-            'currency (EUR or USD), so currency moves are part of the difference. "Return per 100% invested" divides '
-            'the return by today\'s gross exposure (longs plus shorts): an account that holds mostly cash looks safe '
-            'in a falling market without showing skill. A few weeks measure noise, not the rules.</div>'
+            'currency (EUR or USD). The benchmark is a USD price index. The difference is shown for a USD account '
+            'marked through the same close. A dash means no comparable observation.</div>'
             '<div class="tw"><table><thead><tr><th class="l">Account</th><th>Sessions</th><th>Value</th>'
             '<th>Return</th><th>vs S&amp;P 500</th><th>Max drawdown</th><th>Longs</th><th>Shorts</th>'
-            '<th>Gross exposure</th><th>Return per 100% invested</th><th class="l">Note</th></tr></thead><tbody>'
-            + (rows or '<tr><td colspan="11" class="muted">No account has a session since the start date yet.</td></tr>')
+            '<th>Gross exposure</th><th class="l">Note</th></tr></thead><tbody>'
+            + (rows or '<tr><td colspan="10" class="muted">No account has a session since the start date yet.</td></tr>')
             + '</tbody></table></div>')
     return shell('Trading comparison', body)
 
@@ -279,7 +278,7 @@ def site_pages(root, committed_build, *, now=None):
     series = pp.merge_series(snapshots + [record])
     last = max((d for d, _ in series.get('^GSPC') or []), default=today.isoformat())
     accounts = []
-    for load in (lambda: claude_account(root, series, last), lambda: codex_active(root), lambda: codex_long_short(root)):
+    for load in (lambda: claude_account(root, series, last), lambda: codex_active(root), lambda: codex_long_short(root, committed_build['manifest']['run_id'])):
         try:
             account = load()
         except (ValueError, KeyError, TypeError, OSError):    # an unreadable ledger must not block the site

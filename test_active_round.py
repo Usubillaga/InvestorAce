@@ -23,7 +23,9 @@ class Workflow(unittest.TestCase):
         self.assertIn("cron: '43 12 * * 1-5'", text)
         self.assertIn('python active_round.py plan', text)
         self.assertIn('python active_trading.py intake', text)
-        self.assertIn('created:>=$today', text)                                       # duplicate guard
+        self.assertIn('startswith($day)', text)                                       # duplicate guard
+        self.assertIn('Ledger push failed', text)
+        self.assertIn('.cancelled_by == $id', text)
         self.assertNotIn('secrets.', text)                                            # GITHUB_TOKEN only
         paper = (Path(__file__).parent / '.github/workflows/paper-order.yml').read_text(encoding='utf-8')
         self.assertIn("author_association == 'OWNER'", paper)                         # bot issues not re-recorded
