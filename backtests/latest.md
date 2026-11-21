@@ -165,7 +165,7 @@ Breakout failure rate 33.12% · 63-day mean: uptrend days 5.06%, just under resi
 | shorts_in_correction | 1/3 | 0/3 | 1/3 |
 | shorts_always | 0/3 | 0/3 | 0/3 |
 
-Symbols: 122 · generated 2026-11-21T13:33+00:00
+Symbols: 122 · generated 2026-11-21T14:53+00:00
 
 ## Valuation coverage
 
@@ -194,3 +194,18 @@ Positions carry their last observed close on missing dates. No execution at a ca
 | sell_all_correction_and_weak_breadth | 1 | None |
 | shorts_in_correction | 1 | None |
 | shorts_always | 1 | None |
+
+## Pairs trading (same-sector, Engle-Granger + Ornstein-Uhlenbeck)
+
+Yearly formation on 504 sessions, entry |z|>2, exit |z|<0.5, stop |z|>4, dollar-neutral 5% legs, 0.1% per fill, 2% borrow. Passes only with a positive return and Sharpe ≥ 0.5 in every period.
+
+| Method | Period | Pairs/year | CAGR | Sharpe | Max DD | Trades | Win rate | Corr. S&P |
+|---|---|---|---:|---:|---:|---:|---:|---:|
+| pairs_static | 2014-01-01 → 2018-01-01 | 7,6,4 | -2.92 | -1.03 | -9.31 | 59 | 32.2 | -0.0 |
+| pairs_static | 2018-01-01 → 2022-01-01 | 9,4,6,10 | -2.51 | -0.64 | -12.3 | 111 | 30.6 | 0.08 |
+| pairs_static | 2022-01-01 → now | 9,4,8,4,2 | 0.61 | 0.19 | -5.77 | 108 | 38.9 | 0.09 |
+| pairs_static | **fails** | | | | | | | |
+| pairs_kalman | 2014-01-01 → 2018-01-01 | 7,6,4 | 0.47 | 0.14 | -7.56 | 141 | 46.1 | -0.02 |
+| pairs_kalman | 2018-01-01 → 2022-01-01 | 9,4,6,10 | -1.77 | -0.56 | -6.87 | 244 | 47.5 | 0.04 |
+| pairs_kalman | 2022-01-01 → now | 9,4,8,4,2 | -0.57 | -0.2 | -7.1 | 192 | 54.2 | -0.05 |
+| pairs_kalman | **fails** | | | | | | | |

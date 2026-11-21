@@ -45,7 +45,7 @@
           "p_negative_63": 48.02
         },
         "just_under_resistance": {
-          "n": 19944,
+          "n": 19943,
           "stocks": 95,
           "fwd5_mean": 0.27,
           "fwd5_median": 0.31,
@@ -55,7 +55,7 @@
           "xs21_mean": 0.61,
           "fwd63_mean": 4.29,
           "fwd63_median": 4.4,
-          "xs63_mean": 1.89,
+          "xs63_mean": 1.88,
           "p_drop10_in_21": 6.61,
           "p_negative_63": 32.47
         }
@@ -668,19 +668,19 @@
           "p_negative_63": 54.66
         },
         "just_under_resistance": {
-          "n": 18331,
+          "n": 18330,
           "stocks": 110,
           "fwd5_mean": 0.32,
           "fwd5_median": 0.41,
           "xs5_mean": 0.13,
-          "fwd21_mean": 1.11,
+          "fwd21_mean": 1.12,
           "fwd21_median": 1.37,
           "xs21_mean": 0.57,
           "fwd63_mean": 3.11,
           "fwd63_median": 3.06,
           "xs63_mean": 1.46,
           "p_drop10_in_21": 12.73,
-          "p_negative_63": 39.99
+          "p_negative_63": 39.98
         }
       },
       "extension_30": {
@@ -1858,7 +1858,7 @@
       }
     }
   ],
-  "generated_at": "2026-11-21T13:33+00:00",
+  "generated_at": "2026-11-21T14:53+00:00",
   "window": "2021-11-20 \u2192 2026-11-20",
   "symbols": 122,
   "event_study": {
@@ -2585,5 +2585,107 @@
     "sharpe": 0.54,
     "max_drawdown": -25.43,
     "trades": 0
+  },
+  "pairs": {
+    "pairs_static": {
+      "windows": [
+        {
+          "window": "2014-01-01 \u2192 2018-01-01",
+          "pairs_per_year": [
+            7,
+            6,
+            4
+          ],
+          "cagr": -2.92,
+          "sharpe": -1.03,
+          "max_drawdown": -9.31,
+          "trades": 59,
+          "win_rate": 32.2,
+          "corr_spx": -0.0
+        },
+        {
+          "window": "2018-01-01 \u2192 2022-01-01",
+          "pairs_per_year": [
+            9,
+            4,
+            6,
+            10
+          ],
+          "cagr": -2.51,
+          "sharpe": -0.64,
+          "max_drawdown": -12.3,
+          "trades": 111,
+          "win_rate": 30.6,
+          "corr_spx": 0.08
+        },
+        {
+          "window": "2022-01-01 \u2192 now",
+          "pairs_per_year": [
+            9,
+            4,
+            8,
+            4,
+            2
+          ],
+          "cagr": 0.61,
+          "sharpe": 0.19,
+          "max_drawdown": -5.77,
+          "trades": 108,
+          "win_rate": 38.9,
+          "corr_spx": 0.09
+        }
+      ],
+      "passes": false
+    },
+    "pairs_kalman": {
+      "windows": [
+        {
+          "window": "2014-01-01 \u2192 2018-01-01",
+          "pairs_per_year": [
+            7,
+            6,
+            4
+          ],
+          "cagr": 0.47,
+          "sharpe": 0.14,
+          "max_drawdown": -7.56,
+          "trades": 141,
+          "win_rate": 46.1,
+          "corr_spx": -0.02
+        },
+        {
+          "window": "2018-01-01 \u2192 2022-01-01",
+          "pairs_per_year": [
+            9,
+            4,
+            6,
+            10
+          ],
+          "cagr": -1.77,
+          "sharpe": -0.56,
+          "max_drawdown": -6.87,
+          "trades": 244,
+          "win_rate": 47.5,
+          "corr_spx": 0.04
+        },
+        {
+          "window": "2022-01-01 \u2192 now",
+          "pairs_per_year": [
+            9,
+            4,
+            8,
+            4,
+            2
+          ],
+          "cagr": -0.57,
+          "sharpe": -0.2,
+          "max_drawdown": -7.1,
+          "trades": 192,
+          "win_rate": 54.2,
+          "corr_spx": -0.05
+        }
+      ],
+      "passes": false
+    }
   }
 }
