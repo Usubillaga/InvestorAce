@@ -230,8 +230,9 @@ def status_page(root, build, *, now=None):
                if added else '')
             + '<h2>Escáner: las 10 mejores ideas</h2><div class="tw"><table><thead><tr><th>Ticker</th><th class="l">Empresa</th>'
             '<th>Score</th><th>Avisos</th></tr></thead><tbody>' + ideas + '</tbody></table></div>'
-            f'<p class="lead">Carpeta history: <b>{_num(size)} MB</b>'
-            + (' — por encima de 1 GB, el tamaño que GitHub recomienda no superar.' if size > 1000 else '.') + '</p>')
+            f'<p class="lead">Carpeta history sin comprimir: <b>{_num(size)} MB</b>. Git la guarda comprimida '
+            '(son archivos JSON muy repetitivos); el límite que GitHub recomienda, 1 GB, se refiere al tamaño '
+            'comprimido del repositorio.</p>')
     return shell('Estado de los datos', body).replace('lang="en"', 'lang="es"', 1)
 
 
