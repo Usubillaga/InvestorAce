@@ -13,7 +13,7 @@
         "trades": 0
       },
       "breakouts": {
-        "failure_rate": 22.57,
+        "failure_rate": 22.58,
         "all_uptrend_days": {
           "n": 48457,
           "stocks": 95,
@@ -45,7 +45,7 @@
           "p_negative_63": 48.22
         },
         "just_under_resistance": {
-          "n": 19830,
+          "n": 19828,
           "stocks": 94,
           "fwd5_mean": 0.26,
           "fwd5_median": 0.31,
@@ -57,7 +57,7 @@
           "fwd63_median": 4.39,
           "xs63_mean": 1.85,
           "p_drop10_in_21": 6.52,
-          "p_negative_63": 32.49
+          "p_negative_63": 32.48
         }
       },
       "extension_30": {
@@ -77,9 +77,9 @@
       },
       "portfolio": {
         "base_v1_6": {
-          "final": 20943.0,
-          "cagr": 20.36,
-          "vol": 15.15,
+          "final": 20934.0,
+          "cagr": 20.35,
+          "vol": 15.14,
           "sharpe": 1.3,
           "max_drawdown": -15.06,
           "trades": 150,
@@ -103,19 +103,19 @@
           "unpriced_at_end": []
         },
         "base_v1_5": {
-          "final": 19792.0,
-          "cagr": 18.67,
-          "vol": 15.55,
-          "sharpe": 1.18,
+          "final": 19723.0,
+          "cagr": 18.56,
+          "vol": 15.77,
+          "sharpe": 1.16,
           "max_drawdown": -15.24,
-          "trades": 153,
-          "win_rate": 35.29,
-          "avg_trade": 4.88,
-          "avg_held": 45.8,
+          "trades": 149,
+          "win_rate": 34.23,
+          "avg_trade": 4.56,
+          "avg_held": 46.6,
           "exits": {
-            "MAX_HOLD": 4,
-            "SMA50": 78,
-            "STOP": 66,
+            "MAX_HOLD": 3,
+            "SMA50": 74,
+            "STOP": 67,
             "TREND": 5
           },
           "longest_carried_mark": {
@@ -128,18 +128,18 @@
           "unpriced_at_end": []
         },
         "no_buy_above_30pct_36d": {
-          "final": 18478.0,
-          "cagr": 16.64,
-          "vol": 15.28,
-          "sharpe": 1.08,
+          "final": 18174.0,
+          "cagr": 16.16,
+          "vol": 15.73,
+          "sharpe": 1.03,
           "max_drawdown": -15.24,
-          "trades": 154,
-          "win_rate": 33.77,
-          "avg_trade": 4.1,
-          "avg_held": 46.0,
+          "trades": 155,
+          "win_rate": 34.84,
+          "avg_trade": 4.19,
+          "avg_held": 46.4,
           "exits": {
             "MAX_HOLD": 3,
-            "SMA50": 75,
+            "SMA50": 76,
             "STOP": 71,
             "TREND": 5
           },
@@ -154,11 +154,11 @@
           "unpriced_at_end": []
         },
         "sell_above_30pct_36d": {
-          "final": 19087.0,
-          "cagr": 17.59,
-          "vol": 14.99,
+          "final": 19120.0,
+          "cagr": 17.64,
+          "vol": 15.03,
           "sharpe": 1.16,
-          "max_drawdown": -14.94,
+          "max_drawdown": -14.91,
           "trades": 163,
           "win_rate": 33.74,
           "avg_trade": 3.78,
@@ -181,19 +181,19 @@
           "unpriced_at_end": []
         },
         "wait_under_resistance": {
-          "final": 20170.0,
-          "cagr": 19.23,
-          "vol": 15.64,
-          "sharpe": 1.2,
-          "max_drawdown": -14.03,
-          "trades": 143,
-          "win_rate": 37.76,
-          "avg_trade": 4.74,
-          "avg_held": 48.1,
+          "final": 21111.0,
+          "cagr": 20.6,
+          "vol": 15.89,
+          "sharpe": 1.26,
+          "max_drawdown": -13.5,
+          "trades": 135,
+          "win_rate": 39.26,
+          "avg_trade": 5.27,
+          "avg_held": 51.0,
           "exits": {
             "MAX_HOLD": 2,
-            "SMA50": 71,
-            "STOP": 67,
+            "SMA50": 62,
+            "STOP": 68,
             "TREND": 3
           },
           "longest_carried_mark": {
@@ -206,9 +206,9 @@
           "unpriced_at_end": []
         },
         "two_closes_above_resistance": {
-          "final": 22610.0,
-          "cagr": 22.69,
-          "vol": 15.84,
+          "final": 22563.0,
+          "cagr": 22.63,
+          "vol": 15.82,
           "sharpe": 1.37,
           "max_drawdown": -16.57,
           "trades": 150,
@@ -233,9 +233,9 @@
           "unpriced_at_end": []
         },
         "sell_failed_breakout": {
-          "final": 20943.0,
-          "cagr": 20.36,
-          "vol": 15.15,
+          "final": 20934.0,
+          "cagr": 20.35,
+          "vol": 15.14,
           "sharpe": 1.3,
           "max_drawdown": -15.06,
           "trades": 150,
@@ -259,21 +259,21 @@
           "unpriced_at_end": []
         },
         "two_closes_and_sell_failed": {
-          "final": 18150.0,
-          "cagr": 16.12,
-          "vol": 15.41,
-          "sharpe": 1.05,
-          "max_drawdown": -16.52,
-          "trades": 154,
-          "win_rate": 31.17,
-          "avg_trade": 4.03,
-          "avg_held": 44.4,
+          "final": 18976.0,
+          "cagr": 17.42,
+          "vol": 15.42,
+          "sharpe": 1.12,
+          "max_drawdown": -16.54,
+          "trades": 153,
+          "win_rate": 30.72,
+          "avg_trade": 4.14,
+          "avg_held": 44.8,
           "exits": {
             "FAILED_BREAKOUT": 6,
             "MAX_HOLD": 2,
             "SMA50": 80,
-            "STOP": 60,
-            "TREND": 6
+            "STOP": 57,
+            "TREND": 8
           },
           "longest_carried_mark": {
             "ELE": 1,
@@ -281,25 +281,26 @@
             "ENB": 1,
             "WKL": 1,
             "VOW3": 1,
-            "ALM": 1
+            "ALM": 1,
+            "IBST": 1
           },
           "unpriced_at_end": []
         },
         "wait_res_and_sell_failed": {
-          "final": 20846.0,
-          "cagr": 20.22,
-          "vol": 15.87,
-          "sharpe": 1.24,
+          "final": 19523.0,
+          "cagr": 18.26,
+          "vol": 16.04,
+          "sharpe": 1.13,
           "max_drawdown": -15.48,
-          "trades": 155,
-          "win_rate": 34.19,
-          "avg_trade": 4.54,
-          "avg_held": 43.8,
+          "trades": 160,
+          "win_rate": 34.38,
+          "avg_trade": 4.17,
+          "avg_held": 42.9,
           "exits": {
             "FAILED_BREAKOUT": 16,
             "MAX_HOLD": 2,
-            "SMA50": 72,
-            "STOP": 61,
+            "SMA50": 75,
+            "STOP": 63,
             "TREND": 4
           },
           "longest_carried_mark": {
@@ -312,28 +313,30 @@
           "unpriced_at_end": []
         },
         "kell_crossback_exit": {
-          "final": 14825.0,
-          "cagr": 10.37,
-          "vol": 15.28,
-          "sharpe": 0.72,
-          "max_drawdown": -16.24,
-          "trades": 508,
-          "win_rate": 38.19,
-          "avg_trade": 0.76,
-          "avg_held": 13.8,
+          "final": 13770.0,
+          "cagr": 8.35,
+          "vol": 15.16,
+          "sharpe": 0.6,
+          "max_drawdown": -16.68,
+          "trades": 519,
+          "win_rate": 38.73,
+          "avg_trade": 0.79,
+          "avg_held": 13.5,
           "exits": {
-            "EMA_CROSSBACK": 467,
-            "FAILED_BREAKOUT": 19,
+            "EMA_CROSSBACK": 481,
+            "FAILED_BREAKOUT": 18,
             "SMA50": 1,
-            "STOP": 21
+            "STOP": 19
           },
           "longest_carried_mark": {
             "ELE": 1,
             "WKL": 1,
             "VOW3": 1,
-            "REP": 1,
+            "ALM": 1,
+            "ENB": 1,
             "LVMH": 1,
             "ASML": 1,
+            "REP": 1,
             "IBST": 1
           },
           "unpriced_at_end": []
@@ -389,17 +392,17 @@
           "unpriced_at_end": []
         },
         "kell_full": {
-          "final": 10611.0,
-          "cagr": 1.5,
-          "vol": 12.08,
-          "sharpe": 0.18,
-          "max_drawdown": -17.77,
-          "trades": 460,
-          "win_rate": 37.39,
-          "avg_trade": 0.13,
-          "avg_held": 13.9,
+          "final": 10799.0,
+          "cagr": 1.94,
+          "vol": 12.07,
+          "sharpe": 0.22,
+          "max_drawdown": -17.76,
+          "trades": 456,
+          "win_rate": 37.72,
+          "avg_trade": 0.16,
+          "avg_held": 14.0,
           "exits": {
-            "EMA_CROSSBACK": 418,
+            "EMA_CROSSBACK": 414,
             "FAILED_BREAKOUT": 17,
             "SMA50": 4,
             "STOP": 15,
@@ -417,9 +420,9 @@
           "unpriced_at_end": []
         },
         "buffer_200d_1pct": {
-          "final": 20943.0,
-          "cagr": 20.36,
-          "vol": 15.15,
+          "final": 20934.0,
+          "cagr": 20.35,
+          "vol": 15.14,
           "sharpe": 1.3,
           "max_drawdown": -15.06,
           "trades": 150,
@@ -443,9 +446,9 @@
           "unpriced_at_end": []
         },
         "buffer_200d_2pct": {
-          "final": 20943.0,
-          "cagr": 20.36,
-          "vol": 15.15,
+          "final": 20934.0,
+          "cagr": 20.35,
+          "vol": 15.14,
           "sharpe": 1.3,
           "max_drawdown": -15.06,
           "trades": 150,
@@ -469,9 +472,9 @@
           "unpriced_at_end": []
         },
         "buffer_200d_3pct": {
-          "final": 20943.0,
-          "cagr": 20.36,
-          "vol": 15.15,
+          "final": 20934.0,
+          "cagr": 20.35,
+          "vol": 15.14,
           "sharpe": 1.3,
           "max_drawdown": -15.06,
           "trades": 150,
@@ -495,20 +498,20 @@
           "unpriced_at_end": []
         },
         "sell_all_in_correction": {
-          "final": 19181.0,
-          "cagr": 17.74,
-          "vol": 14.36,
-          "sharpe": 1.21,
-          "max_drawdown": -13.62,
-          "trades": 215,
-          "win_rate": 33.49,
-          "avg_trade": 2.09,
-          "avg_held": 30.4,
+          "final": 19757.0,
+          "cagr": 18.61,
+          "vol": 14.39,
+          "sharpe": 1.26,
+          "max_drawdown": -13.63,
+          "trades": 214,
+          "win_rate": 33.64,
+          "avg_trade": 2.24,
+          "avg_held": 30.6,
           "exits": {
             "FAILED_BREAKOUT": 6,
             "MARKET_EXIT": 86,
             "MAX_HOLD": 1,
-            "SMA50": 69,
+            "SMA50": 68,
             "STOP": 50,
             "TREND": 3
           },
@@ -517,14 +520,15 @@
             "ENG": 1,
             "ENB": 1,
             "ALM": 1,
-            "WKL": 1
+            "WKL": 1,
+            "LVMH": 1
           },
           "unpriced_at_end": []
         },
         "sell_all_weak_breadth": {
-          "final": 21071.0,
-          "cagr": 20.54,
-          "vol": 15.28,
+          "final": 21109.0,
+          "cagr": 20.6,
+          "vol": 15.27,
           "sharpe": 1.3,
           "max_drawdown": -15.38,
           "trades": 153,
@@ -548,9 +552,9 @@
           "unpriced_at_end": []
         },
         "sell_all_correction_and_weak_breadth": {
-          "final": 21071.0,
-          "cagr": 20.54,
-          "vol": 15.28,
+          "final": 21109.0,
+          "cagr": 20.6,
+          "vol": 15.27,
           "sharpe": 1.3,
           "max_drawdown": -15.38,
           "trades": 153,
@@ -577,7 +581,7 @@
     },
     {
       "window": "2018-01-02 \u2192 2021-12-31",
-      "symbols": 109,
+      "symbols": 110,
       "spx": {
         "final": 17680.0,
         "cagr": 15.33,
@@ -587,84 +591,84 @@
         "trades": 0
       },
       "breakouts": {
-        "failure_rate": 30.91,
+        "failure_rate": 30.97,
         "all_uptrend_days": {
-          "n": 55975,
-          "stocks": 109,
-          "fwd5_mean": 0.42,
-          "fwd5_median": 0.43,
-          "xs5_mean": 0.19,
-          "fwd21_mean": 1.7,
-          "fwd21_median": 1.55,
-          "xs21_mean": 0.9,
-          "fwd63_mean": 5.38,
-          "fwd63_median": 3.9,
-          "xs63_mean": 2.83,
-          "p_drop10_in_21": 16.39,
-          "p_negative_63": 38.58
+          "n": 56277,
+          "stocks": 110,
+          "fwd5_mean": 0.43,
+          "fwd5_median": 0.44,
+          "xs5_mean": 0.2,
+          "fwd21_mean": 1.75,
+          "fwd21_median": 1.56,
+          "xs21_mean": 0.94,
+          "fwd63_mean": 5.47,
+          "fwd63_median": 3.92,
+          "xs63_mean": 2.9,
+          "p_drop10_in_21": 16.47,
+          "p_negative_63": 38.57
         },
         "breakout_failed": {
-          "n": 1119,
-          "stocks": 108,
-          "fwd5_mean": -3.88,
-          "fwd5_median": -3.17,
-          "xs5_mean": -3.24,
-          "fwd21_mean": -4.67,
+          "n": 1127,
+          "stocks": 109,
+          "fwd5_mean": -3.9,
+          "fwd5_median": -3.19,
+          "xs5_mean": -3.27,
+          "fwd21_mean": -4.65,
           "fwd21_median": -3.91,
-          "xs21_mean": -3.84,
-          "fwd63_mean": 0.23,
-          "fwd63_median": -1.64,
-          "xs63_mean": -1.27,
-          "p_drop10_in_21": 42.18,
-          "p_negative_63": 54.51
+          "xs21_mean": -3.85,
+          "fwd63_mean": 0.15,
+          "fwd63_median": -1.7,
+          "xs63_mean": -1.38,
+          "p_drop10_in_21": 42.5,
+          "p_negative_63": 54.57
         },
         "just_under_resistance": {
-          "n": 18154,
-          "stocks": 108,
+          "n": 18181,
+          "stocks": 109,
           "fwd5_mean": 0.32,
           "fwd5_median": 0.4,
           "xs5_mean": 0.13,
-          "fwd21_mean": 1.08,
+          "fwd21_mean": 1.09,
           "fwd21_median": 1.37,
           "xs21_mean": 0.53,
           "fwd63_mean": 3.07,
-          "fwd63_median": 3.05,
+          "fwd63_median": 3.04,
           "xs63_mean": 1.42,
-          "p_drop10_in_21": 12.56,
-          "p_negative_63": 39.95
+          "p_drop10_in_21": 12.6,
+          "p_negative_63": 39.96
         }
       },
       "extension_30": {
-        "n": 767,
-        "stocks": 35,
-        "fwd5_mean": 0.63,
-        "fwd5_median": -1.23,
-        "xs5_mean": 0.18,
-        "fwd21_mean": 7.03,
-        "fwd21_median": 2.5,
-        "xs21_mean": 5.21,
-        "fwd63_mean": 18.9,
-        "fwd63_median": 6.24,
-        "xs63_mean": 13.16,
-        "p_drop10_in_21": 50.33,
-        "p_negative_63": 41.98
+        "n": 810,
+        "stocks": 36,
+        "fwd5_mean": 0.76,
+        "fwd5_median": -0.9,
+        "xs5_mean": 0.25,
+        "fwd21_mean": 7.12,
+        "fwd21_median": 2.95,
+        "xs21_mean": 5.23,
+        "fwd63_mean": 19.34,
+        "fwd63_median": 7.64,
+        "xs63_mean": 13.38,
+        "p_drop10_in_21": 49.01,
+        "p_negative_63": 40.12
       },
       "portfolio": {
         "base_v1_6": {
-          "final": 33231.0,
-          "cagr": 35.07,
-          "vol": 23.62,
-          "sharpe": 1.39,
-          "max_drawdown": -23.27,
-          "trades": 214,
-          "win_rate": 32.71,
-          "avg_trade": 5.41,
-          "avg_held": 31.7,
+          "final": 33446.0,
+          "cagr": 35.29,
+          "vol": 24.19,
+          "sharpe": 1.37,
+          "max_drawdown": -19.76,
+          "trades": 218,
+          "win_rate": 30.73,
+          "avg_trade": 5.35,
+          "avg_held": 31.2,
           "exits": {
-            "FAILED_BREAKOUT": 16,
+            "FAILED_BREAKOUT": 21,
             "MAX_HOLD": 3,
-            "SMA50": 69,
-            "STOP": 126
+            "SMA50": 67,
+            "STOP": 127
           },
           "longest_carried_mark": {
             "ELE": 1,
@@ -675,165 +679,116 @@
           "unpriced_at_end": []
         },
         "base_v1_5": {
-          "final": 33864.0,
-          "cagr": 35.71,
-          "vol": 23.21,
-          "sharpe": 1.43,
-          "max_drawdown": -21.38,
-          "trades": 198,
-          "win_rate": 33.84,
-          "avg_trade": 5.88,
-          "avg_held": 34.3,
+          "final": 40380.0,
+          "cagr": 41.82,
+          "vol": 24.6,
+          "sharpe": 1.54,
+          "max_drawdown": -21.53,
+          "trades": 201,
+          "win_rate": 31.84,
+          "avg_trade": 6.54,
+          "avg_held": 33.7,
           "exits": {
             "MAX_HOLD": 2,
             "SMA50": 70,
-            "STOP": 126
+            "STOP": 129
           },
           "longest_carried_mark": {
             "ALM": 1,
             "ELE": 1,
             "ASML": 1,
-            "REP": 1,
-            "VOW3": 1
+            "REP": 1
           },
           "unpriced_at_end": []
         },
         "no_buy_above_30pct_36d": {
-          "final": 38317.0,
-          "cagr": 39.97,
-          "vol": 24.17,
-          "sharpe": 1.51,
-          "max_drawdown": -20.94,
-          "trades": 189,
-          "win_rate": 34.92,
-          "avg_trade": 6.37,
-          "avg_held": 35.8,
+          "final": 25141.0,
+          "cagr": 25.96,
+          "vol": 23.68,
+          "sharpe": 1.09,
+          "max_drawdown": -21.35,
+          "trades": 201,
+          "win_rate": 34.33,
+          "avg_trade": 5.25,
+          "avg_held": 33.3,
           "exits": {
             "MAX_HOLD": 2,
-            "SMA50": 68,
-            "STOP": 119
+            "SMA50": 64,
+            "STOP": 135
           },
           "longest_carried_mark": {
             "ALM": 1,
             "ELE": 1,
             "ASML": 1,
-            "REP": 1
+            "REP": 1,
+            "VOW3": 1
           },
           "unpriced_at_end": []
         },
         "sell_above_30pct_36d": {
-          "final": 32942.0,
-          "cagr": 34.78,
+          "final": 31686.0,
+          "cagr": 33.47,
           "vol": 20.45,
-          "sharpe": 1.56,
-          "max_drawdown": -19.98,
-          "trades": 231,
-          "win_rate": 37.23,
-          "avg_trade": 4.63,
-          "avg_held": 29.5,
+          "sharpe": 1.51,
+          "max_drawdown": -20.44,
+          "trades": 230,
+          "win_rate": 39.13,
+          "avg_trade": 4.5,
+          "avg_held": 29.6,
           "exits": {
-            "EXTENDED": 35,
+            "EXTENDED": 37,
             "MAX_HOLD": 3,
-            "SMA50": 79,
-            "STOP": 113,
-            "TREND": 1
+            "SMA50": 75,
+            "STOP": 115
           },
           "longest_carried_mark": {
             "ELE": 1,
             "ASML": 1,
             "REP": 1,
-            "VOW3": 1
+            "VOW3": 1,
+            "ENB": 1
           },
           "unpriced_at_end": []
         },
         "wait_under_resistance": {
-          "final": 32166.0,
-          "cagr": 33.97,
-          "vol": 22.85,
-          "sharpe": 1.39,
-          "max_drawdown": -22.96,
-          "trades": 224,
-          "win_rate": 33.93,
-          "avg_trade": 4.86,
-          "avg_held": 29.9,
+          "final": 31385.0,
+          "cagr": 33.15,
+          "vol": 24.03,
+          "sharpe": 1.31,
+          "max_drawdown": -23.03,
+          "trades": 218,
+          "win_rate": 30.73,
+          "avg_trade": 5.07,
+          "avg_held": 30.8,
           "exits": {
             "MAX_HOLD": 1,
-            "SMA50": 76,
-            "STOP": 145,
-            "TREND": 2
+            "SMA50": 74,
+            "STOP": 140,
+            "TREND": 3
           },
           "longest_carried_mark": {
             "IBST": 1,
             "ALM": 1,
-            "VOW3": 2,
             "ASML": 1,
-            "REP": 1
+            "REP": 1,
+            "VOW3": 1
           },
           "unpriced_at_end": []
         },
         "two_closes_above_resistance": {
-          "final": 30315.0,
-          "cagr": 32.0,
-          "vol": 22.5,
-          "sharpe": 1.35,
-          "max_drawdown": -24.33,
-          "trades": 202,
-          "win_rate": 33.17,
-          "avg_trade": 6.02,
-          "avg_held": 33.8,
+          "final": 32621.0,
+          "cagr": 34.45,
+          "vol": 22.78,
+          "sharpe": 1.41,
+          "max_drawdown": -23.29,
+          "trades": 200,
+          "win_rate": 35.0,
+          "avg_trade": 6.29,
+          "avg_held": 34.3,
           "exits": {
             "MAX_HOLD": 3,
-            "SMA50": 77,
-            "STOP": 122
-          },
-          "longest_carried_mark": {
-            "ALM": 1,
-            "ELE": 1,
-            "ASML": 1,
-            "REP": 1,
-            "VOW3": 1
-          },
-          "unpriced_at_end": []
-        },
-        "sell_failed_breakout": {
-          "final": 33231.0,
-          "cagr": 35.07,
-          "vol": 23.62,
-          "sharpe": 1.39,
-          "max_drawdown": -23.27,
-          "trades": 214,
-          "win_rate": 32.71,
-          "avg_trade": 5.41,
-          "avg_held": 31.7,
-          "exits": {
-            "FAILED_BREAKOUT": 16,
-            "MAX_HOLD": 3,
-            "SMA50": 69,
-            "STOP": 126
-          },
-          "longest_carried_mark": {
-            "ELE": 1,
-            "ASML": 1,
-            "REP": 1,
-            "VOW3": 1
-          },
-          "unpriced_at_end": []
-        },
-        "two_closes_and_sell_failed": {
-          "final": 28636.0,
-          "cagr": 30.13,
-          "vol": 22.87,
-          "sharpe": 1.27,
-          "max_drawdown": -22.78,
-          "trades": 208,
-          "win_rate": 30.29,
-          "avg_trade": 5.97,
-          "avg_held": 33.0,
-          "exits": {
-            "FAILED_BREAKOUT": 11,
-            "MAX_HOLD": 3,
-            "SMA50": 72,
-            "STOP": 122
+            "SMA50": 70,
+            "STOP": 127
           },
           "longest_carried_mark": {
             "ALM": 1,
@@ -845,48 +800,96 @@
           },
           "unpriced_at_end": []
         },
-        "wait_res_and_sell_failed": {
-          "final": 28657.0,
-          "cagr": 30.16,
-          "vol": 23.19,
+        "sell_failed_breakout": {
+          "final": 33446.0,
+          "cagr": 35.29,
+          "vol": 24.19,
+          "sharpe": 1.37,
+          "max_drawdown": -19.76,
+          "trades": 218,
+          "win_rate": 30.73,
+          "avg_trade": 5.35,
+          "avg_held": 31.2,
+          "exits": {
+            "FAILED_BREAKOUT": 21,
+            "MAX_HOLD": 3,
+            "SMA50": 67,
+            "STOP": 127
+          },
+          "longest_carried_mark": {
+            "ELE": 1,
+            "ASML": 1,
+            "REP": 1,
+            "VOW3": 1
+          },
+          "unpriced_at_end": []
+        },
+        "two_closes_and_sell_failed": {
+          "final": 29346.0,
+          "cagr": 30.93,
+          "vol": 23.74,
           "sharpe": 1.25,
-          "max_drawdown": -25.73,
-          "trades": 222,
-          "win_rate": 31.98,
-          "avg_trade": 4.72,
+          "max_drawdown": -19.75,
+          "trades": 213,
+          "win_rate": 30.99,
+          "avg_trade": 5.33,
+          "avg_held": 32.2,
+          "exits": {
+            "FAILED_BREAKOUT": 12,
+            "MAX_HOLD": 3,
+            "SMA50": 64,
+            "STOP": 134
+          },
+          "longest_carried_mark": {
+            "ALM": 1,
+            "ELE": 1,
+            "ASML": 1,
+            "ENB": 1
+          },
+          "unpriced_at_end": []
+        },
+        "wait_res_and_sell_failed": {
+          "final": 27664.0,
+          "cagr": 29.01,
+          "vol": 23.79,
+          "sharpe": 1.19,
+          "max_drawdown": -30.7,
+          "trades": 226,
+          "win_rate": 31.86,
+          "avg_trade": 4.48,
           "avg_held": 30.2,
           "exits": {
-            "FAILED_BREAKOUT": 22,
+            "FAILED_BREAKOUT": 23,
             "MAX_HOLD": 1,
-            "SMA50": 67,
-            "STOP": 130,
-            "TREND": 2
+            "SMA50": 74,
+            "STOP": 127,
+            "TREND": 1
           },
           "longest_carried_mark": {
             "IBST": 1,
             "GIB": 1,
             "ALM": 1,
-            "VOW3": 2,
             "ASML": 1,
-            "REP": 1
+            "REP": 1,
+            "VOW3": 1
           },
           "unpriced_at_end": []
         },
         "kell_crossback_exit": {
-          "final": 22437.0,
-          "cagr": 22.42,
-          "vol": 23.5,
-          "sharpe": 0.98,
-          "max_drawdown": -22.95,
-          "trades": 573,
-          "win_rate": 40.66,
-          "avg_trade": 1.59,
-          "avg_held": 11.9,
+          "final": 30210.0,
+          "cagr": 31.89,
+          "vol": 24.59,
+          "sharpe": 1.25,
+          "max_drawdown": -23.84,
+          "trades": 559,
+          "win_rate": 40.61,
+          "avg_trade": 1.83,
+          "avg_held": 12.2,
           "exits": {
-            "EMA_CROSSBACK": 465,
-            "FAILED_BREAKOUT": 20,
-            "SMA50": 4,
-            "STOP": 83,
+            "EMA_CROSSBACK": 454,
+            "FAILED_BREAKOUT": 24,
+            "SMA50": 5,
+            "STOP": 75,
             "TREND": 1
           },
           "longest_carried_mark": {
@@ -927,27 +930,26 @@
           "unpriced_at_end": []
         },
         "kell_wedge_pop_entry": {
-          "final": 17232.0,
-          "cagr": 14.59,
-          "vol": 23.39,
-          "sharpe": 0.7,
+          "final": 17257.0,
+          "cagr": 14.64,
+          "vol": 17.6,
+          "sharpe": 0.86,
           "max_drawdown": -17.23,
-          "trades": 191,
-          "win_rate": 31.41,
-          "avg_trade": 2.29,
-          "avg_held": 31.9,
+          "trades": 185,
+          "win_rate": 31.89,
+          "avg_trade": 2.2,
+          "avg_held": 33.1,
           "exits": {
-            "FAILED_BREAKOUT": 7,
-            "MAX_HOLD": 3,
-            "SMA50": 98,
-            "STOP": 70,
-            "TREND": 13
+            "FAILED_BREAKOUT": 6,
+            "MAX_HOLD": 4,
+            "SMA50": 95,
+            "STOP": 68,
+            "TREND": 12
           },
           "longest_carried_mark": {
             "IBST": 1,
             "ALM": 1,
             "WKL": 1,
-            "ENB": 1,
             "ENG": 1
           },
           "unpriced_at_end": [
@@ -955,20 +957,20 @@
           ]
         },
         "kell_full": {
-          "final": 17777.0,
-          "cagr": 15.49,
-          "vol": 19.08,
-          "sharpe": 0.85,
-          "max_drawdown": -21.32,
-          "trades": 473,
-          "win_rate": 39.11,
-          "avg_trade": 0.78,
-          "avg_held": 13.2,
+          "final": 18939.0,
+          "cagr": 17.34,
+          "vol": 18.19,
+          "sharpe": 0.97,
+          "max_drawdown": -21.99,
+          "trades": 472,
+          "win_rate": 39.62,
+          "avg_trade": 1.01,
+          "avg_held": 13.3,
           "exits": {
-            "EMA_CROSSBACK": 384,
-            "FAILED_BREAKOUT": 27,
+            "EMA_CROSSBACK": 386,
+            "FAILED_BREAKOUT": 23,
             "SMA50": 6,
-            "STOP": 52,
+            "STOP": 53,
             "TREND": 4
           },
           "longest_carried_mark": {
@@ -979,27 +981,26 @@
             "WKL": 1,
             "ENB": 1,
             "VOW3": 1,
-            "ENG": 1
+            "LVMH": 1
           },
-          "unpriced_at_end": [
-            "ENG"
-          ]
+          "unpriced_at_end": []
         },
         "buffer_200d_1pct": {
-          "final": 34800.0,
-          "cagr": 36.64,
-          "vol": 23.86,
-          "sharpe": 1.43,
-          "max_drawdown": -21.7,
-          "trades": 220,
-          "win_rate": 32.27,
-          "avg_trade": 5.76,
-          "avg_held": 31.7,
+          "final": 33178.0,
+          "cagr": 35.02,
+          "vol": 24.55,
+          "sharpe": 1.34,
+          "max_drawdown": -19.76,
+          "trades": 209,
+          "win_rate": 31.58,
+          "avg_trade": 5.57,
+          "avg_held": 32.4,
           "exits": {
-            "FAILED_BREAKOUT": 17,
+            "FAILED_BREAKOUT": 19,
             "MAX_HOLD": 3,
-            "SMA50": 72,
-            "STOP": 128
+            "SMA50": 65,
+            "STOP": 121,
+            "TREND": 1
           },
           "longest_carried_mark": {
             "ELE": 1,
@@ -1010,20 +1011,21 @@
           "unpriced_at_end": []
         },
         "buffer_200d_2pct": {
-          "final": 34800.0,
-          "cagr": 36.64,
-          "vol": 23.86,
-          "sharpe": 1.43,
-          "max_drawdown": -21.7,
-          "trades": 220,
-          "win_rate": 32.27,
-          "avg_trade": 5.76,
-          "avg_held": 31.7,
+          "final": 33178.0,
+          "cagr": 35.02,
+          "vol": 24.55,
+          "sharpe": 1.34,
+          "max_drawdown": -19.76,
+          "trades": 209,
+          "win_rate": 31.58,
+          "avg_trade": 5.57,
+          "avg_held": 32.4,
           "exits": {
-            "FAILED_BREAKOUT": 17,
+            "FAILED_BREAKOUT": 19,
             "MAX_HOLD": 3,
-            "SMA50": 72,
-            "STOP": 128
+            "SMA50": 65,
+            "STOP": 121,
+            "TREND": 1
           },
           "longest_carried_mark": {
             "ELE": 1,
@@ -1034,20 +1036,21 @@
           "unpriced_at_end": []
         },
         "buffer_200d_3pct": {
-          "final": 34800.0,
-          "cagr": 36.64,
-          "vol": 23.86,
-          "sharpe": 1.43,
-          "max_drawdown": -21.7,
-          "trades": 220,
-          "win_rate": 32.27,
-          "avg_trade": 5.76,
-          "avg_held": 31.7,
+          "final": 33178.0,
+          "cagr": 35.02,
+          "vol": 24.55,
+          "sharpe": 1.34,
+          "max_drawdown": -19.76,
+          "trades": 209,
+          "win_rate": 31.58,
+          "avg_trade": 5.57,
+          "avg_held": 32.4,
           "exits": {
-            "FAILED_BREAKOUT": 17,
+            "FAILED_BREAKOUT": 19,
             "MAX_HOLD": 3,
-            "SMA50": 72,
-            "STOP": 128
+            "SMA50": 65,
+            "STOP": 121,
+            "TREND": 1
           },
           "longest_carried_mark": {
             "ELE": 1,
@@ -1058,45 +1061,46 @@
           "unpriced_at_end": []
         },
         "sell_all_in_correction": {
-          "final": 31782.0,
-          "cagr": 33.57,
-          "vol": 23.91,
-          "sharpe": 1.33,
-          "max_drawdown": -22.01,
-          "trades": 305,
-          "win_rate": 35.41,
-          "avg_trade": 3.12,
-          "avg_held": 21.4,
+          "final": 33359.0,
+          "cagr": 35.2,
+          "vol": 24.32,
+          "sharpe": 1.36,
+          "max_drawdown": -22.69,
+          "trades": 297,
+          "win_rate": 35.02,
+          "avg_trade": 3.69,
+          "avg_held": 21.7,
           "exits": {
-            "FAILED_BREAKOUT": 14,
-            "MARKET_EXIT": 93,
-            "SMA50": 83,
+            "FAILED_BREAKOUT": 9,
+            "MARKET_EXIT": 94,
+            "SMA50": 79,
             "STOP": 115
           },
           "longest_carried_mark": {
             "IBST": 1,
             "ALM": 1,
             "ASML": 1,
-            "REP": 1
+            "REP": 1,
+            "VOW3": 1
           },
           "unpriced_at_end": []
         },
         "sell_all_weak_breadth": {
-          "final": 25544.0,
-          "cagr": 26.46,
-          "vol": 23.39,
-          "sharpe": 1.12,
-          "max_drawdown": -20.31,
-          "trades": 221,
-          "win_rate": 33.48,
-          "avg_trade": 4.54,
-          "avg_held": 29.7,
+          "final": 23467.0,
+          "cagr": 23.81,
+          "vol": 24.36,
+          "sharpe": 1.0,
+          "max_drawdown": -20.85,
+          "trades": 230,
+          "win_rate": 30.0,
+          "avg_trade": 3.97,
+          "avg_held": 29.2,
           "exits": {
-            "FAILED_BREAKOUT": 20,
+            "FAILED_BREAKOUT": 18,
             "MARKET_EXIT": 21,
             "MAX_HOLD": 2,
-            "SMA50": 53,
-            "STOP": 125
+            "SMA50": 63,
+            "STOP": 126
           },
           "longest_carried_mark": {
             "ELE": 1,
@@ -1107,21 +1111,21 @@
           "unpriced_at_end": []
         },
         "sell_all_correction_and_weak_breadth": {
-          "final": 25544.0,
-          "cagr": 26.46,
-          "vol": 23.39,
-          "sharpe": 1.12,
-          "max_drawdown": -20.31,
-          "trades": 221,
-          "win_rate": 33.48,
-          "avg_trade": 4.54,
-          "avg_held": 29.7,
+          "final": 23467.0,
+          "cagr": 23.81,
+          "vol": 24.36,
+          "sharpe": 1.0,
+          "max_drawdown": -20.85,
+          "trades": 230,
+          "win_rate": 30.0,
+          "avg_trade": 3.97,
+          "avg_held": 29.2,
           "exits": {
-            "FAILED_BREAKOUT": 20,
+            "FAILED_BREAKOUT": 18,
             "MARKET_EXIT": 21,
             "MAX_HOLD": 2,
-            "SMA50": 53,
-            "STOP": 125
+            "SMA50": 63,
+            "STOP": 126
           },
           "longest_carried_mark": {
             "ELE": 1,
@@ -1134,120 +1138,180 @@
       }
     },
     {
-      "window": "2022-01-03 \u2192 2026-11-18",
-      "symbols": 120,
+      "window": "2022-01-03 \u2192 2026-11-20",
+      "symbols": 121,
       "spx": {
-        "final": 15269.0,
-        "cagr": 9.07,
-        "vol": 17.19,
-        "sharpe": 0.59,
+        "final": 14407.0,
+        "cagr": 7.77,
+        "vol": 17.28,
+        "sharpe": 0.52,
         "max_drawdown": -25.43,
         "trades": 0
       },
       "breakouts": {
-        "failure_rate": 32.92,
+        "failure_rate": 33.05,
         "all_uptrend_days": {
-          "n": 54378,
-          "stocks": 120,
-          "fwd5_mean": 0.37,
+          "n": 54911,
+          "stocks": 121,
+          "fwd5_mean": 0.36,
           "fwd5_median": 0.19,
-          "xs5_mean": 0.2,
-          "fwd21_mean": 1.67,
-          "fwd21_median": 0.6,
-          "xs21_mean": 0.81,
-          "fwd63_mean": 5.13,
-          "fwd63_median": 1.69,
-          "xs63_mean": 1.87,
-          "p_drop10_in_21": 20.17,
-          "p_negative_63": 45.34
+          "xs5_mean": 0.19,
+          "fwd21_mean": 1.65,
+          "fwd21_median": 0.59,
+          "xs21_mean": 0.79,
+          "fwd63_mean": 5.07,
+          "fwd63_median": 1.66,
+          "xs63_mean": 1.82,
+          "p_drop10_in_21": 20.35,
+          "p_negative_63": 45.45
         },
         "breakout_failed": {
-          "n": 1106,
-          "stocks": 120,
-          "fwd5_mean": -4.16,
-          "fwd5_median": -3.53,
-          "xs5_mean": -3.58,
-          "fwd21_mean": -4.99,
-          "fwd21_median": -5.38,
-          "xs21_mean": -4.85,
-          "fwd63_mean": -0.83,
-          "fwd63_median": -4.36,
-          "xs63_mean": -3.08,
-          "p_drop10_in_21": 48.46,
-          "p_negative_63": 60.85
+          "n": 1122,
+          "stocks": 121,
+          "fwd5_mean": -4.17,
+          "fwd5_median": -3.54,
+          "xs5_mean": -3.59,
+          "fwd21_mean": -5.05,
+          "fwd21_median": -5.4,
+          "xs21_mean": -4.93,
+          "fwd63_mean": -0.91,
+          "fwd63_median": -4.5,
+          "xs63_mean": -3.1,
+          "p_drop10_in_21": 48.84,
+          "p_negative_63": 60.96
         },
         "just_under_resistance": {
-          "n": 15604,
-          "stocks": 120,
+          "n": 15721,
+          "stocks": 121,
           "fwd5_mean": 0.24,
-          "fwd5_median": 0.19,
+          "fwd5_median": 0.2,
           "xs5_mean": 0.08,
-          "fwd21_mean": 1.0,
-          "fwd21_median": 0.41,
-          "xs21_mean": 0.14,
-          "fwd63_mean": 3.2,
-          "fwd63_median": 1.52,
-          "xs63_mean": -0.04,
-          "p_drop10_in_21": 13.69,
-          "p_negative_63": 44.82
+          "fwd21_mean": 0.98,
+          "fwd21_median": 0.4,
+          "xs21_mean": 0.12,
+          "fwd63_mean": 3.15,
+          "fwd63_median": 1.5,
+          "xs63_mean": -0.08,
+          "p_drop10_in_21": 13.84,
+          "p_negative_63": 44.93
         }
       },
       "extension_30": {
-        "n": 1495,
-        "stocks": 50,
-        "fwd5_mean": 2.45,
-        "fwd5_median": 0.59,
-        "xs5_mean": 2.24,
-        "fwd21_mean": 6.48,
-        "fwd21_median": 0.39,
-        "xs21_mean": 5.73,
-        "fwd63_mean": 17.16,
-        "fwd63_median": 3.83,
-        "xs63_mean": 14.68,
-        "p_drop10_in_21": 51.44,
-        "p_negative_63": 46.02
+        "n": 1531,
+        "stocks": 51,
+        "fwd5_mean": 2.4,
+        "fwd5_median": 0.57,
+        "xs5_mean": 2.22,
+        "fwd21_mean": 6.29,
+        "fwd21_median": 0.35,
+        "xs21_mean": 5.59,
+        "fwd63_mean": 16.79,
+        "fwd63_median": 3.84,
+        "xs63_mean": 14.4,
+        "p_drop10_in_21": 51.34,
+        "p_negative_63": 45.92
       },
       "portfolio": {
         "base_v1_6": {
-          "final": 32657.0,
-          "cagr": 27.49,
-          "vol": 26.72,
-          "sharpe": 1.04,
-          "max_drawdown": -29.9,
-          "trades": 269,
-          "win_rate": 30.11,
-          "avg_trade": 4.25,
-          "avg_held": 29.4,
+          "final": 36628.0,
+          "cagr": 30.49,
+          "vol": 29.6,
+          "sharpe": 1.05,
+          "max_drawdown": -31.42,
+          "trades": 271,
+          "win_rate": 32.1,
+          "avg_trade": 5.39,
+          "avg_held": 29.3,
           "exits": {
             "FAILED_BREAKOUT": 13,
             "MAX_HOLD": 1,
             "SMA50": 80,
-            "STOP": 171,
-            "TREND": 4
+            "STOP": 176,
+            "TREND": 1
+          },
+          "longest_carried_mark": {
+            "ENB": 1,
+            "LVMH": 1,
+            "IBST": 1,
+            "ELE": 1,
+            "ENG": 1,
+            "WKL": 1
+          },
+          "unpriced_at_end": [
+            "WKL"
+          ]
+        },
+        "base_v1_5": {
+          "final": 33664.0,
+          "cagr": 28.25,
+          "vol": 26.77,
+          "sharpe": 1.06,
+          "max_drawdown": -29.81,
+          "trades": 255,
+          "win_rate": 32.16,
+          "avg_trade": 5.23,
+          "avg_held": 30.7,
+          "exits": {
+            "MAX_HOLD": 1,
+            "SMA50": 75,
+            "STOP": 176,
+            "TREND": 3
           },
           "longest_carried_mark": {
             "ENB": 1,
             "LVMH": 1,
             "ELE": 1,
             "ASML": 1,
-            "ENG": 1
+            "WKL": 1
           },
-          "unpriced_at_end": []
+          "unpriced_at_end": [
+            "WKL"
+          ]
         },
-        "base_v1_5": {
-          "final": 34710.0,
-          "cagr": 29.09,
+        "no_buy_above_30pct_36d": {
+          "final": 34924.0,
+          "cagr": 29.22,
           "vol": 27.87,
           "sharpe": 1.06,
-          "max_drawdown": -30.06,
-          "trades": 264,
-          "win_rate": 33.33,
-          "avg_trade": 5.2,
-          "avg_held": 30.0,
+          "max_drawdown": -29.67,
+          "trades": 276,
+          "win_rate": 30.07,
+          "avg_trade": 4.45,
+          "avg_held": 28.6,
           "exits": {
             "MAX_HOLD": 1,
-            "SMA50": 77,
-            "STOP": 182,
+            "SMA50": 93,
+            "STOP": 179,
+            "TREND": 3
+          },
+          "longest_carried_mark": {
+            "ENB": 1,
+            "LVMH": 1,
+            "IBST": 1,
+            "ELE": 1,
+            "ASML": 1,
+            "ENG": 1,
+            "WKL": 1
+          },
+          "unpriced_at_end": [
+            "WKL"
+          ]
+        },
+        "sell_above_30pct_36d": {
+          "final": 14938.0,
+          "cagr": 8.57,
+          "vol": 19.13,
+          "sharpe": 0.53,
+          "max_drawdown": -27.93,
+          "trades": 356,
+          "win_rate": 33.99,
+          "avg_trade": 1.46,
+          "avg_held": 22.4,
+          "exits": {
+            "EXTENDED": 80,
+            "MAX_HOLD": 1,
+            "SMA50": 101,
+            "STOP": 170,
             "TREND": 4
           },
           "longest_carried_mark": {
@@ -1255,209 +1319,170 @@
             "LVMH": 1,
             "IBST": 1,
             "ELE": 1,
-            "ENG": 1
+            "ASML": 1,
+            "REP": 1,
+            "WKL": 1
           },
-          "unpriced_at_end": []
-        },
-        "no_buy_above_30pct_36d": {
-          "final": 27049.0,
-          "cagr": 22.65,
-          "vol": 25.2,
-          "sharpe": 0.94,
-          "max_drawdown": -33.81,
-          "trades": 258,
-          "win_rate": 34.11,
-          "avg_trade": 4.1,
-          "avg_held": 30.2,
-          "exits": {
-            "MAX_HOLD": 1,
-            "SMA50": 76,
-            "STOP": 178,
-            "TREND": 3
-          },
-          "longest_carried_mark": {
-            "ENB": 1,
-            "LVMH": 1,
-            "IBST": 1,
-            "ELE": 1,
-            "ASML": 1
-          },
-          "unpriced_at_end": []
-        },
-        "sell_above_30pct_36d": {
-          "final": 20325.0,
-          "cagr": 15.67,
-          "vol": 19.95,
-          "sharpe": 0.83,
-          "max_drawdown": -23.23,
-          "trades": 331,
-          "win_rate": 32.93,
-          "avg_trade": 1.98,
-          "avg_held": 23.9,
-          "exits": {
-            "EXTENDED": 73,
-            "MAX_HOLD": 2,
-            "SMA50": 95,
-            "STOP": 158,
-            "TREND": 3
-          },
-          "longest_carried_mark": {
-            "ENB": 1,
-            "LVMH": 1,
-            "IBST": 1,
-            "ELE": 1
-          },
-          "unpriced_at_end": []
+          "unpriced_at_end": [
+            "WKL"
+          ]
         },
         "wait_under_resistance": {
-          "final": 37011.0,
-          "cagr": 30.8,
-          "vol": 27.97,
-          "sharpe": 1.1,
-          "max_drawdown": -29.24,
-          "trades": 277,
-          "win_rate": 28.52,
-          "avg_trade": 5.59,
-          "avg_held": 28.8,
+          "final": 41794.0,
+          "cagr": 34.06,
+          "vol": 29.85,
+          "sharpe": 1.13,
+          "max_drawdown": -26.84,
+          "trades": 275,
+          "win_rate": 30.18,
+          "avg_trade": 5.12,
+          "avg_held": 28.7,
           "exits": {
             "MAX_HOLD": 1,
-            "SMA50": 89,
+            "SMA50": 87,
             "STOP": 184,
             "TREND": 3
           },
           "longest_carried_mark": {
             "ENB": 1,
-            "WKL": 1,
             "LVMH": 1,
+            "GIB": 1,
             "IBST": 1,
-            "ELE": 1,
-            "ALM": 1
+            "ELE": 1
           },
           "unpriced_at_end": []
         },
         "two_closes_above_resistance": {
-          "final": 42595.0,
-          "cagr": 34.63,
-          "vol": 29.17,
-          "sharpe": 1.17,
-          "max_drawdown": -32.23,
-          "trades": 259,
-          "win_rate": 32.05,
-          "avg_trade": 6.53,
-          "avg_held": 30.6,
+          "final": 41837.0,
+          "cagr": 34.09,
+          "vol": 28.37,
+          "sharpe": 1.18,
+          "max_drawdown": -32.91,
+          "trades": 255,
+          "win_rate": 34.51,
+          "avg_trade": 5.96,
+          "avg_held": 30.7,
           "exits": {
             "MAX_HOLD": 1,
-            "SMA50": 74,
-            "STOP": 180,
-            "TREND": 4
-          },
-          "longest_carried_mark": {
-            "ENB": 1,
-            "LVMH": 1,
-            "ELE": 1,
-            "REP": 1,
-            "ASML": 1
-          },
-          "unpriced_at_end": []
-        },
-        "sell_failed_breakout": {
-          "final": 32657.0,
-          "cagr": 27.49,
-          "vol": 26.72,
-          "sharpe": 1.04,
-          "max_drawdown": -29.9,
-          "trades": 269,
-          "win_rate": 30.11,
-          "avg_trade": 4.25,
-          "avg_held": 29.4,
-          "exits": {
-            "FAILED_BREAKOUT": 13,
-            "MAX_HOLD": 1,
-            "SMA50": 80,
-            "STOP": 171,
-            "TREND": 4
-          },
-          "longest_carried_mark": {
-            "ENB": 1,
-            "LVMH": 1,
-            "ELE": 1,
-            "ASML": 1,
-            "ENG": 1
-          },
-          "unpriced_at_end": []
-        },
-        "two_closes_and_sell_failed": {
-          "final": 34878.0,
-          "cagr": 29.22,
-          "vol": 27.81,
-          "sharpe": 1.06,
-          "max_drawdown": -33.18,
-          "trades": 258,
-          "win_rate": 34.11,
-          "avg_trade": 6.05,
-          "avg_held": 30.3,
-          "exits": {
-            "FAILED_BREAKOUT": 11,
-            "MAX_HOLD": 1,
-            "SMA50": 79,
-            "STOP": 164,
+            "SMA50": 78,
+            "STOP": 173,
             "TREND": 3
           },
           "longest_carried_mark": {
             "ENB": 1,
             "LVMH": 1,
             "IBST": 1,
-            "ELE": 1
+            "ELE": 1,
+            "ASML": 1,
+            "WKL": 1
           },
-          "unpriced_at_end": []
+          "unpriced_at_end": [
+            "WKL"
+          ]
+        },
+        "sell_failed_breakout": {
+          "final": 36628.0,
+          "cagr": 30.49,
+          "vol": 29.6,
+          "sharpe": 1.05,
+          "max_drawdown": -31.42,
+          "trades": 271,
+          "win_rate": 32.1,
+          "avg_trade": 5.39,
+          "avg_held": 29.3,
+          "exits": {
+            "FAILED_BREAKOUT": 13,
+            "MAX_HOLD": 1,
+            "SMA50": 80,
+            "STOP": 176,
+            "TREND": 1
+          },
+          "longest_carried_mark": {
+            "ENB": 1,
+            "LVMH": 1,
+            "IBST": 1,
+            "ELE": 1,
+            "ENG": 1,
+            "WKL": 1
+          },
+          "unpriced_at_end": [
+            "WKL"
+          ]
+        },
+        "two_closes_and_sell_failed": {
+          "final": 25276.0,
+          "cagr": 20.93,
+          "vol": 24.36,
+          "sharpe": 0.9,
+          "max_drawdown": -32.63,
+          "trades": 271,
+          "win_rate": 31.73,
+          "avg_trade": 3.87,
+          "avg_held": 29.2,
+          "exits": {
+            "FAILED_BREAKOUT": 10,
+            "MAX_HOLD": 1,
+            "SMA50": 80,
+            "STOP": 177,
+            "TREND": 3
+          },
+          "longest_carried_mark": {
+            "ENB": 1,
+            "IBST": 1,
+            "ELE": 1,
+            "ASML": 1,
+            "REP": 1,
+            "ENG": 1,
+            "WKL": 1
+          },
+          "unpriced_at_end": [
+            "WKL"
+          ]
         },
         "wait_res_and_sell_failed": {
-          "final": 34887.0,
-          "cagr": 29.23,
-          "vol": 28.46,
-          "sharpe": 1.04,
-          "max_drawdown": -32.71,
-          "trades": 297,
-          "win_rate": 30.98,
-          "avg_trade": 5.11,
-          "avg_held": 26.5,
+          "final": 30685.0,
+          "cagr": 25.84,
+          "vol": 27.75,
+          "sharpe": 0.97,
+          "max_drawdown": -34.31,
+          "trades": 302,
+          "win_rate": 28.15,
+          "avg_trade": 4.97,
+          "avg_held": 26.4,
           "exits": {
-            "FAILED_BREAKOUT": 30,
-            "SMA50": 87,
-            "STOP": 178,
+            "FAILED_BREAKOUT": 33,
+            "SMA50": 88,
+            "STOP": 179,
             "TREND": 2
           },
           "longest_carried_mark": {
-            "WKL": 1,
             "LVMH": 1,
             "GIB": 1,
             "IBST": 1,
             "ASML": 1,
-            "REP": 1,
             "ELE": 1
           },
           "unpriced_at_end": []
         },
         "kell_crossback_exit": {
-          "final": 31713.0,
-          "cagr": 26.72,
-          "vol": 26.64,
-          "sharpe": 1.02,
-          "max_drawdown": -32.09,
-          "trades": 615,
-          "win_rate": 35.93,
-          "avg_trade": 1.93,
-          "avg_held": 12.4,
+          "final": 30128.0,
+          "cagr": 25.36,
+          "vol": 26.03,
+          "sharpe": 1.0,
+          "max_drawdown": -26.92,
+          "trades": 622,
+          "win_rate": 34.24,
+          "avg_trade": 1.87,
+          "avg_held": 12.3,
           "exits": {
-            "EMA_CROSSBACK": 472,
-            "FAILED_BREAKOUT": 30,
-            "SMA50": 10,
-            "STOP": 103
+            "EMA_CROSSBACK": 475,
+            "FAILED_BREAKOUT": 32,
+            "SMA50": 8,
+            "STOP": 107
           },
           "longest_carried_mark": {
-            "WKL": 1,
             "LVMH": 1,
-            "ENB": 1,
+            "SAN": 1,
             "REP": 1,
             "ELE": 1,
             "ENG": 1
@@ -1465,21 +1490,21 @@
           "unpriced_at_end": []
         },
         "kell_base_n_break_entry": {
-          "final": 17639.0,
-          "cagr": 12.35,
-          "vol": 14.98,
-          "sharpe": 0.85,
+          "final": 19283.0,
+          "cagr": 14.41,
+          "vol": 15.3,
+          "sharpe": 0.96,
           "max_drawdown": -15.93,
-          "trades": 214,
-          "win_rate": 27.1,
-          "avg_trade": 2.06,
-          "avg_held": 35.1,
+          "trades": 207,
+          "win_rate": 28.02,
+          "avg_trade": 2.61,
+          "avg_held": 36.7,
           "exits": {
-            "FAILED_BREAKOUT": 18,
+            "FAILED_BREAKOUT": 12,
             "MAX_HOLD": 1,
-            "SMA50": 84,
-            "STOP": 85,
-            "TREND": 26
+            "SMA50": 79,
+            "STOP": 90,
+            "TREND": 25
           },
           "longest_carried_mark": {
             "REP": 1,
@@ -1489,10 +1514,10 @@
           "unpriced_at_end": []
         },
         "kell_wedge_pop_entry": {
-          "final": 13656.0,
-          "cagr": 6.6,
-          "vol": 16.25,
-          "sharpe": 0.48,
+          "final": 13565.0,
+          "cagr": 6.45,
+          "vol": 16.24,
+          "sharpe": 0.47,
           "max_drawdown": -19.75,
           "trades": 219,
           "win_rate": 27.4,
@@ -1514,547 +1539,418 @@
           "unpriced_at_end": []
         },
         "kell_full": {
-          "final": 15668.0,
-          "cagr": 9.65,
-          "vol": 20.21,
-          "sharpe": 0.56,
-          "max_drawdown": -23.72,
-          "trades": 502,
-          "win_rate": 32.27,
-          "avg_trade": 0.78,
-          "avg_held": 13.2,
+          "final": 16557.0,
+          "cagr": 10.89,
+          "vol": 20.26,
+          "sharpe": 0.61,
+          "max_drawdown": -25.17,
+          "trades": 496,
+          "win_rate": 32.46,
+          "avg_trade": 1.06,
+          "avg_held": 13.6,
           "exits": {
-            "EMA_CROSSBACK": 401,
-            "FAILED_BREAKOUT": 25,
-            "SMA50": 9,
-            "STOP": 57,
-            "TREND": 10
+            "EMA_CROSSBACK": 393,
+            "FAILED_BREAKOUT": 24,
+            "SMA50": 10,
+            "STOP": 58,
+            "TREND": 11
           },
           "longest_carried_mark": {
             "WKL": 1,
-            "ENB": 1
+            "ENB": 1,
+            "SAN": 1
           },
-          "unpriced_at_end": []
+          "unpriced_at_end": [
+            "SAN"
+          ]
         },
         "buffer_200d_1pct": {
-          "final": 32657.0,
-          "cagr": 27.49,
-          "vol": 26.72,
-          "sharpe": 1.04,
-          "max_drawdown": -29.9,
-          "trades": 269,
-          "win_rate": 30.11,
-          "avg_trade": 4.25,
-          "avg_held": 29.4,
+          "final": 36628.0,
+          "cagr": 30.49,
+          "vol": 29.6,
+          "sharpe": 1.05,
+          "max_drawdown": -31.42,
+          "trades": 271,
+          "win_rate": 32.1,
+          "avg_trade": 5.39,
+          "avg_held": 29.3,
           "exits": {
             "FAILED_BREAKOUT": 13,
             "MAX_HOLD": 1,
             "SMA50": 80,
-            "STOP": 171,
-            "TREND": 4
+            "STOP": 176,
+            "TREND": 1
           },
           "longest_carried_mark": {
             "ENB": 1,
             "LVMH": 1,
+            "IBST": 1,
             "ELE": 1,
-            "ASML": 1,
-            "ENG": 1
+            "ENG": 1,
+            "WKL": 1
           },
-          "unpriced_at_end": []
+          "unpriced_at_end": [
+            "WKL"
+          ]
         },
         "buffer_200d_2pct": {
-          "final": 32657.0,
-          "cagr": 27.49,
-          "vol": 26.72,
-          "sharpe": 1.04,
-          "max_drawdown": -29.9,
-          "trades": 269,
-          "win_rate": 30.11,
-          "avg_trade": 4.25,
-          "avg_held": 29.4,
+          "final": 36628.0,
+          "cagr": 30.49,
+          "vol": 29.6,
+          "sharpe": 1.05,
+          "max_drawdown": -31.42,
+          "trades": 271,
+          "win_rate": 32.1,
+          "avg_trade": 5.39,
+          "avg_held": 29.3,
           "exits": {
             "FAILED_BREAKOUT": 13,
             "MAX_HOLD": 1,
             "SMA50": 80,
-            "STOP": 171,
-            "TREND": 4
+            "STOP": 176,
+            "TREND": 1
           },
           "longest_carried_mark": {
             "ENB": 1,
             "LVMH": 1,
+            "IBST": 1,
             "ELE": 1,
-            "ASML": 1,
-            "ENG": 1
+            "ENG": 1,
+            "WKL": 1
           },
-          "unpriced_at_end": []
+          "unpriced_at_end": [
+            "WKL"
+          ]
         },
         "buffer_200d_3pct": {
-          "final": 32657.0,
-          "cagr": 27.49,
-          "vol": 26.72,
-          "sharpe": 1.04,
-          "max_drawdown": -29.9,
-          "trades": 269,
-          "win_rate": 30.11,
-          "avg_trade": 4.25,
-          "avg_held": 29.4,
+          "final": 36628.0,
+          "cagr": 30.49,
+          "vol": 29.6,
+          "sharpe": 1.05,
+          "max_drawdown": -31.42,
+          "trades": 271,
+          "win_rate": 32.1,
+          "avg_trade": 5.39,
+          "avg_held": 29.3,
           "exits": {
             "FAILED_BREAKOUT": 13,
             "MAX_HOLD": 1,
             "SMA50": 80,
-            "STOP": 171,
-            "TREND": 4
+            "STOP": 176,
+            "TREND": 1
           },
           "longest_carried_mark": {
             "ENB": 1,
             "LVMH": 1,
+            "IBST": 1,
             "ELE": 1,
-            "ASML": 1,
-            "ENG": 1
+            "ENG": 1,
+            "WKL": 1
           },
-          "unpriced_at_end": []
+          "unpriced_at_end": [
+            "WKL"
+          ]
         },
         "sell_all_in_correction": {
-          "final": 34947.0,
-          "cagr": 29.27,
-          "vol": 28.89,
-          "sharpe": 1.03,
-          "max_drawdown": -29.57,
-          "trades": 341,
-          "win_rate": 36.07,
-          "avg_trade": 4.0,
-          "avg_held": 21.8,
+          "final": 31922.0,
+          "cagr": 26.86,
+          "vol": 27.15,
+          "sharpe": 1.01,
+          "max_drawdown": -24.14,
+          "trades": 346,
+          "win_rate": 38.15,
+          "avg_trade": 4.04,
+          "avg_held": 21.4,
           "exits": {
             "FAILED_BREAKOUT": 14,
-            "MARKET_EXIT": 127,
-            "SMA50": 65,
+            "MARKET_EXIT": 128,
+            "MAX_HOLD": 1,
+            "SMA50": 70,
             "STOP": 130,
-            "TREND": 5
+            "TREND": 3
           },
           "longest_carried_mark": {
+            "WKL": 1,
             "IBST": 1,
-            "ASML": 1,
-            "LVMH": 1
+            "LVMH": 1,
+            "ALM": 1
           },
           "unpriced_at_end": []
         },
         "sell_all_weak_breadth": {
-          "final": 15897.0,
-          "cagr": 9.98,
-          "vol": 22.43,
-          "sharpe": 0.54,
-          "max_drawdown": -32.61,
-          "trades": 598,
-          "win_rate": 39.13,
-          "avg_trade": 1.27,
-          "avg_held": 12.1,
+          "final": 23119.0,
+          "cagr": 18.74,
+          "vol": 25.53,
+          "sharpe": 0.8,
+          "max_drawdown": -30.5,
+          "trades": 620,
+          "win_rate": 39.84,
+          "avg_trade": 1.52,
+          "avg_held": 11.7,
           "exits": {
-            "FAILED_BREAKOUT": 15,
-            "MARKET_EXIT": 383,
-            "SMA50": 66,
-            "STOP": 127,
+            "FAILED_BREAKOUT": 14,
+            "MARKET_EXIT": 399,
+            "SMA50": 77,
+            "STOP": 123,
             "TREND": 7
           },
           "longest_carried_mark": {
             "LVMH": 1,
             "IBST": 1,
-            "ALM": 1
+            "ASML": 1
           },
           "unpriced_at_end": []
         },
         "sell_all_correction_and_weak_breadth": {
-          "final": 29100.0,
-          "cagr": 24.51,
-          "vol": 27.07,
-          "sharpe": 0.95,
-          "max_drawdown": -29.94,
-          "trades": 324,
-          "win_rate": 35.49,
-          "avg_trade": 4.08,
-          "avg_held": 23.6,
+          "final": 32063.0,
+          "cagr": 26.97,
+          "vol": 26.98,
+          "sharpe": 1.02,
+          "max_drawdown": -29.34,
+          "trades": 308,
+          "win_rate": 36.04,
+          "avg_trade": 5.05,
+          "avg_held": 24.9,
           "exits": {
-            "FAILED_BREAKOUT": 19,
-            "MARKET_EXIT": 76,
-            "SMA50": 74,
-            "STOP": 150,
-            "TREND": 5
+            "FAILED_BREAKOUT": 14,
+            "MARKET_EXIT": 81,
+            "SMA50": 72,
+            "STOP": 137,
+            "TREND": 4
           },
           "longest_carried_mark": {
             "LVMH": 1,
-            "ALM": 1
+            "IBST": 1,
+            "ASML": 1,
+            "ALM": 1,
+            "ENG": 1
           },
           "unpriced_at_end": []
         }
       }
     }
   ],
-  "generated_at": "2026-11-19T12:01+00:00",
-  "window": "2021-11-18 \u2192 2026-11-18",
-  "symbols": 120,
+  "generated_at": "2026-11-21T06:41+00:00",
+  "window": "2021-11-20 \u2192 2026-11-20",
+  "symbols": 121,
   "event_study": {
     "extension_36": {
       "-100..0%": {
-        "n": 66982,
-        "stocks": 120,
-        "fwd5_mean": 0.34,
+        "n": 67595,
+        "stocks": 121,
+        "fwd5_mean": 0.35,
         "fwd5_median": 0.21,
         "xs5_mean": 0.02,
-        "fwd21_mean": 1.33,
-        "fwd21_median": 0.53,
-        "xs21_mean": 0.03,
-        "fwd63_mean": 4.36,
-        "fwd63_median": 1.37,
-        "xs63_mean": 0.98,
-        "p_drop10_in_21": 25.67,
-        "p_negative_63": 46.7
+        "fwd21_mean": 1.36,
+        "fwd21_median": 0.52,
+        "xs21_mean": 0.05,
+        "fwd63_mean": 4.38,
+        "fwd63_median": 1.36,
+        "xs63_mean": 1.0,
+        "p_drop10_in_21": 25.8,
+        "p_negative_63": 46.72
       },
       "0..10%": {
-        "n": 57478,
-        "stocks": 120,
+        "n": 57834,
+        "stocks": 121,
         "fwd5_mean": 0.18,
         "fwd5_median": 0.15,
         "xs5_mean": 0.02,
-        "fwd21_mean": 0.98,
-        "fwd21_median": 0.44,
-        "xs21_mean": 0.23,
-        "fwd63_mean": 2.94,
-        "fwd63_median": 0.84,
-        "xs63_mean": 0.23,
-        "p_drop10_in_21": 19.8,
-        "p_negative_63": 47.52
+        "fwd21_mean": 0.96,
+        "fwd21_median": 0.43,
+        "xs21_mean": 0.21,
+        "fwd63_mean": 2.93,
+        "fwd63_median": 0.83,
+        "xs63_mean": 0.21,
+        "p_drop10_in_21": 19.96,
+        "p_negative_63": 47.58
       },
       "10..20%": {
-        "n": 10741,
-        "stocks": 119,
-        "fwd5_mean": 0.37,
-        "fwd5_median": 0.2,
+        "n": 10889,
+        "stocks": 120,
+        "fwd5_mean": 0.36,
+        "fwd5_median": 0.19,
         "xs5_mean": 0.19,
-        "fwd21_mean": 1.56,
-        "fwd21_median": 0.31,
-        "xs21_mean": 0.95,
-        "fwd63_mean": 5.29,
-        "fwd63_median": 1.02,
-        "xs63_mean": 2.61,
-        "p_drop10_in_21": 29.93,
-        "p_negative_63": 47.84
+        "fwd21_mean": 1.54,
+        "fwd21_median": 0.32,
+        "xs21_mean": 0.94,
+        "fwd63_mean": 5.28,
+        "fwd63_median": 1.01,
+        "xs63_mean": 2.62,
+        "p_drop10_in_21": 29.94,
+        "p_negative_63": 47.82
       },
       "20..30%": {
-        "n": 2187,
-        "stocks": 82,
-        "fwd5_mean": 0.97,
-        "fwd5_median": -0.1,
-        "xs5_mean": 0.87,
-        "fwd21_mean": 3.46,
-        "fwd21_median": 0.04,
-        "xs21_mean": 2.88,
-        "fwd63_mean": 9.54,
-        "fwd63_median": 2.24,
-        "xs63_mean": 7.13,
-        "p_drop10_in_21": 40.19,
-        "p_negative_63": 47.05
+        "n": 2245,
+        "stocks": 84,
+        "fwd5_mean": 0.92,
+        "fwd5_median": -0.16,
+        "xs5_mean": 0.82,
+        "fwd21_mean": 3.3,
+        "fwd21_median": -0.05,
+        "xs21_mean": 2.74,
+        "fwd63_mean": 9.35,
+        "fwd63_median": 2.14,
+        "xs63_mean": 6.96,
+        "p_drop10_in_21": 40.27,
+        "p_negative_63": 47.22
       },
       "30..+%": {
-        "n": 1500,
-        "stocks": 50,
-        "fwd5_mean": 2.43,
-        "fwd5_median": 0.58,
-        "xs5_mean": 2.22,
-        "fwd21_mean": 6.4,
+        "n": 1533,
+        "stocks": 51,
+        "fwd5_mean": 2.38,
+        "fwd5_median": 0.57,
+        "xs5_mean": 2.2,
+        "fwd21_mean": 6.26,
         "fwd21_median": 0.35,
-        "xs21_mean": 5.65,
-        "fwd63_mean": 17.0,
-        "fwd63_median": 3.58,
-        "xs63_mean": 14.55,
-        "p_drop10_in_21": 51.6,
-        "p_negative_63": 46.2
+        "xs21_mean": 5.56,
+        "fwd63_mean": 16.72,
+        "fwd63_median": 3.83,
+        "xs63_mean": 14.34,
+        "p_drop10_in_21": 51.4,
+        "p_negative_63": 45.99
       }
     },
     "breakouts": {
       "all_uptrend_days": {
-        "n": 55890,
-        "stocks": 120,
-        "fwd5_mean": 0.35,
+        "n": 56302,
+        "stocks": 121,
+        "fwd5_mean": 0.34,
         "fwd5_median": 0.19,
         "xs5_mean": 0.18,
         "fwd21_mean": 1.54,
-        "fwd21_median": 0.55,
-        "xs21_mean": 0.75,
-        "fwd63_mean": 4.76,
-        "fwd63_median": 1.41,
-        "xs63_mean": 1.76,
-        "p_drop10_in_21": 20.48,
-        "p_negative_63": 46.15
+        "fwd21_median": 0.54,
+        "xs21_mean": 0.73,
+        "fwd63_mean": 4.75,
+        "fwd63_median": 1.4,
+        "xs63_mean": 1.73,
+        "p_drop10_in_21": 20.62,
+        "p_negative_63": 46.18
       },
       "breakout_day": {
-        "n": 3448,
-        "stocks": 120,
+        "n": 3476,
+        "stocks": 121,
         "fwd5_mean": 0.21,
         "fwd5_median": 0.11,
-        "xs5_mean": 0.1,
-        "fwd21_mean": 1.63,
-        "fwd21_median": 0.64,
-        "xs21_mean": 0.89,
-        "fwd63_mean": 4.61,
-        "fwd63_median": 1.78,
-        "xs63_mean": 1.73,
-        "p_drop10_in_21": 19.58,
-        "p_negative_63": 45.19
+        "xs5_mean": 0.09,
+        "fwd21_mean": 1.59,
+        "fwd21_median": 0.63,
+        "xs21_mean": 0.84,
+        "fwd63_mean": 4.59,
+        "fwd63_median": 1.77,
+        "xs63_mean": 1.72,
+        "p_drop10_in_21": 19.82,
+        "p_negative_63": 45.25
       },
       "breakout_failed": {
-        "n": 1140,
-        "stocks": 120,
+        "n": 1152,
+        "stocks": 121,
         "fwd5_mean": -4.17,
         "fwd5_median": -3.54,
-        "xs5_mean": -3.56,
-        "fwd21_mean": -4.98,
-        "fwd21_median": -5.39,
-        "xs21_mean": -4.78,
-        "fwd63_mean": -1.07,
+        "xs5_mean": -3.58,
+        "fwd21_mean": -5.04,
+        "fwd21_median": -5.4,
+        "xs21_mean": -4.86,
+        "fwd63_mean": -1.09,
         "fwd63_median": -4.64,
         "xs63_mean": -3.04,
-        "p_drop10_in_21": 48.6,
-        "p_negative_63": 61.4
+        "p_drop10_in_21": 49.05,
+        "p_negative_63": 61.37
       },
       "breakout_held": {
-        "n": 2308,
-        "stocks": 120,
-        "fwd5_mean": 2.38,
+        "n": 2324,
+        "stocks": 121,
+        "fwd5_mean": 2.39,
         "fwd5_median": 1.46,
-        "xs5_mean": 1.91,
-        "fwd21_mean": 4.9,
-        "fwd21_median": 2.92,
-        "xs21_mean": 3.69,
-        "fwd63_mean": 7.41,
-        "fwd63_median": 3.95,
-        "xs63_mean": 4.09,
-        "p_drop10_in_21": 5.24,
-        "p_negative_63": 37.18
+        "xs5_mean": 1.92,
+        "fwd21_mean": 4.87,
+        "fwd21_median": 2.91,
+        "xs21_mean": 3.66,
+        "fwd63_mean": 7.4,
+        "fwd63_median": 3.88,
+        "xs63_mean": 4.08,
+        "p_drop10_in_21": 5.34,
+        "p_negative_63": 37.26
       },
       "confirmed_second_close": {
-        "n": 2506,
-        "stocks": 120,
-        "fwd5_mean": 0.2,
-        "fwd5_median": 0.24,
-        "xs5_mean": 0.1,
-        "fwd21_mean": 1.78,
-        "fwd21_median": 1.08,
-        "xs21_mean": 1.03,
-        "fwd63_mean": 4.93,
-        "fwd63_median": 1.68,
-        "xs63_mean": 2.0,
-        "p_drop10_in_21": 18.99,
-        "p_negative_63": 45.45
+        "n": 2523,
+        "stocks": 121,
+        "fwd5_mean": 0.18,
+        "fwd5_median": 0.21,
+        "xs5_mean": 0.08,
+        "fwd21_mean": 1.73,
+        "fwd21_median": 1.04,
+        "xs21_mean": 0.98,
+        "fwd63_mean": 4.88,
+        "fwd63_median": 1.67,
+        "xs63_mean": 1.95,
+        "p_drop10_in_21": 19.18,
+        "p_negative_63": 45.54
       },
       "just_under_resistance": {
-        "n": 16048,
-        "stocks": 120,
+        "n": 16124,
+        "stocks": 121,
         "fwd5_mean": 0.23,
-        "fwd5_median": 0.19,
-        "xs5_mean": 0.09,
+        "fwd5_median": 0.2,
+        "xs5_mean": 0.08,
         "fwd21_mean": 0.95,
         "fwd21_median": 0.41,
-        "xs21_mean": 0.16,
-        "fwd63_mean": 2.99,
-        "fwd63_median": 1.35,
-        "xs63_mean": 0.02,
-        "p_drop10_in_21": 13.98,
-        "p_negative_63": 45.44
+        "xs21_mean": 0.14,
+        "fwd63_mean": 2.97,
+        "fwd63_median": 1.33,
+        "xs63_mean": -0.03,
+        "p_drop10_in_21": 14.07,
+        "p_negative_63": 45.51
       },
-      "failure_rate": 33.06
+      "failure_rate": 33.14
     }
   },
   "portfolio": {
     "base_v1_6": {
-      "final": 37356.0,
-      "cagr": 30.16,
-      "vol": 28.37,
-      "sharpe": 1.07,
-      "max_drawdown": -30.24,
-      "trades": 295,
-      "win_rate": 29.49,
-      "avg_trade": 5.15,
-      "avg_held": 27.6,
+      "final": 24205.0,
+      "cagr": 19.37,
+      "vol": 25.75,
+      "sharpe": 0.82,
+      "max_drawdown": -33.83,
+      "trades": 280,
+      "win_rate": 28.93,
+      "avg_trade": 4.37,
+      "avg_held": 29.2,
       "exits": {
         "FAILED_BREAKOUT": 21,
         "MAX_HOLD": 1,
-        "SMA50": 94,
+        "SMA50": 81,
         "STOP": 174,
-        "TREND": 5
-      },
-      "longest_carried_mark": {
-        "ENB": 1,
-        "LVMH": 1,
-        "ELE": 1,
-        "ALM": 1
-      },
-      "unpriced_at_end": []
-    },
-    "base_v1_5": {
-      "final": 34796.0,
-      "cagr": 28.33,
-      "vol": 28.86,
-      "sharpe": 1.01,
-      "max_drawdown": -29.9,
-      "trades": 273,
-      "win_rate": 30.4,
-      "avg_trade": 5.49,
-      "avg_held": 30.3,
-      "exits": {
-        "MAX_HOLD": 1,
-        "SMA50": 79,
-        "STOP": 187,
-        "TREND": 6
-      },
-      "longest_carried_mark": {
-        "ENB": 1,
-        "LVMH": 1,
-        "ELE": 1,
-        "ENG": 1
-      },
-      "unpriced_at_end": []
-    },
-    "no_buy_above_30pct_36d": {
-      "final": 22803.0,
-      "cagr": 17.93,
-      "vol": 22.98,
-      "sharpe": 0.84,
-      "max_drawdown": -25.63,
-      "trades": 267,
-      "win_rate": 29.59,
-      "avg_trade": 3.23,
-      "avg_held": 30.9,
-      "exits": {
-        "MAX_HOLD": 1,
-        "SMA50": 83,
-        "STOP": 178,
-        "TREND": 5
-      },
-      "longest_carried_mark": {
-        "ENB": 1,
-        "LVMH": 1,
-        "IBST": 1,
-        "ELE": 1,
-        "ASML": 1,
-        "ENG": 1
-      },
-      "unpriced_at_end": []
-    },
-    "sell_above_30pct_36d": {
-      "final": 17414.0,
-      "cagr": 11.73,
-      "vol": 21.28,
-      "sharpe": 0.63,
-      "max_drawdown": -25.12,
-      "trades": 345,
-      "win_rate": 31.88,
-      "avg_trade": 1.97,
-      "avg_held": 23.8,
-      "exits": {
-        "EXTENDED": 68,
-        "MAX_HOLD": 2,
-        "SMA50": 105,
-        "STOP": 167,
         "TREND": 3
       },
       "longest_carried_mark": {
         "ENB": 1,
         "LVMH": 1,
-        "GIB": 1,
         "IBST": 1,
-        "ELE": 1,
         "ASML": 1,
-        "ENG": 1
-      },
-      "unpriced_at_end": []
-    },
-    "wait_under_resistance": {
-      "final": 38085.0,
-      "cagr": 30.67,
-      "vol": 28.85,
-      "sharpe": 1.07,
-      "max_drawdown": -27.58,
-      "trades": 294,
-      "win_rate": 26.53,
-      "avg_trade": 4.59,
-      "avg_held": 27.5,
-      "exits": {
-        "MAX_HOLD": 2,
-        "SMA50": 102,
-        "STOP": 188,
-        "TREND": 2
-      },
-      "longest_carried_mark": {
-        "WKL": 1,
-        "LVMH": 1,
-        "IBST": 1,
-        "ELE": 1
-      },
-      "unpriced_at_end": []
-    },
-    "two_closes_above_resistance": {
-      "final": 38763.0,
-      "cagr": 31.13,
-      "vol": 27.53,
-      "sharpe": 1.13,
-      "max_drawdown": -29.67,
-      "trades": 277,
-      "win_rate": 31.77,
-      "avg_trade": 5.52,
-      "avg_held": 28.9,
-      "exits": {
-        "MAX_HOLD": 1,
-        "SMA50": 86,
-        "STOP": 188,
-        "TREND": 2
-      },
-      "longest_carried_mark": {
-        "LVMH": 1,
-        "SAN": 1,
+        "ALM": 1,
         "ELE": 1,
-        "ENG": 1
+        "ENG": 1,
+        "WKL": 1
       },
-      "unpriced_at_end": []
+      "unpriced_at_end": [
+        "WKL"
+      ]
     },
-    "sell_failed_breakout": {
-      "final": 37356.0,
-      "cagr": 30.16,
-      "vol": 28.37,
-      "sharpe": 1.07,
-      "max_drawdown": -30.24,
-      "trades": 295,
-      "win_rate": 29.49,
-      "avg_trade": 5.15,
-      "avg_held": 27.6,
+    "base_v1_5": {
+      "final": 31168.0,
+      "cagr": 25.56,
+      "vol": 25.54,
+      "sharpe": 1.02,
+      "max_drawdown": -33.37,
+      "trades": 276,
+      "win_rate": 30.43,
+      "avg_trade": 4.94,
+      "avg_held": 29.5,
       "exits": {
-        "FAILED_BREAKOUT": 21,
         "MAX_HOLD": 1,
-        "SMA50": 94,
-        "STOP": 174,
-        "TREND": 5
-      },
-      "longest_carried_mark": {
-        "ENB": 1,
-        "LVMH": 1,
-        "ELE": 1,
-        "ALM": 1
-      },
-      "unpriced_at_end": []
-    },
-    "two_closes_and_sell_failed": {
-      "final": 38373.0,
-      "cagr": 30.86,
-      "vol": 28.41,
-      "sharpe": 1.09,
-      "max_drawdown": -31.4,
-      "trades": 279,
-      "win_rate": 30.11,
-      "avg_trade": 5.55,
-      "avg_held": 29.2,
-      "exits": {
-        "FAILED_BREAKOUT": 14,
-        "MAX_HOLD": 1,
-        "SMA50": 89,
-        "STOP": 171,
+        "SMA50": 95,
+        "STOP": 176,
         "TREND": 4
       },
       "longest_carried_mark": {
@@ -2063,29 +1959,88 @@
         "IBST": 1,
         "ELE": 1,
         "ALM": 1,
-        "ASML": 1,
-        "ENG": 1
+        "REP": 1,
+        "WKL": 1
       },
-      "unpriced_at_end": []
+      "unpriced_at_end": [
+        "WKL"
+      ]
     },
-    "wait_res_and_sell_failed": {
-      "final": 23992.0,
-      "cagr": 19.13,
-      "vol": 26.0,
-      "sharpe": 0.8,
-      "max_drawdown": -34.29,
-      "trades": 325,
-      "win_rate": 26.77,
-      "avg_trade": 4.36,
-      "avg_held": 24.6,
+    "no_buy_above_30pct_36d": {
+      "final": 28940.0,
+      "cagr": 23.71,
+      "vol": 25.62,
+      "sharpe": 0.96,
+      "max_drawdown": -30.82,
+      "trades": 274,
+      "win_rate": 31.02,
+      "avg_trade": 4.15,
+      "avg_held": 29.5,
       "exits": {
-        "FAILED_BREAKOUT": 28,
-        "SMA50": 108,
-        "STOP": 186,
+        "MAX_HOLD": 1,
+        "SMA50": 91,
+        "STOP": 177,
+        "TREND": 5
+      },
+      "longest_carried_mark": {
+        "ENB": 1,
+        "LVMH": 1,
+        "IBST": 1,
+        "ELE": 1,
+        "ASML": 1,
+        "WKL": 1
+      },
+      "unpriced_at_end": [
+        "WKL"
+      ]
+    },
+    "sell_above_30pct_36d": {
+      "final": 14575.0,
+      "cagr": 7.84,
+      "vol": 19.28,
+      "sharpe": 0.49,
+      "max_drawdown": -27.25,
+      "trades": 358,
+      "win_rate": 32.12,
+      "avg_trade": 1.65,
+      "avg_held": 22.8,
+      "exits": {
+        "EXTENDED": 77,
+        "MAX_HOLD": 1,
+        "SMA50": 106,
+        "STOP": 171,
         "TREND": 3
       },
       "longest_carried_mark": {
-        "WKL": 1,
+        "ENB": 1,
+        "LVMH": 1,
+        "IBST": 1,
+        "ELE": 1,
+        "ASML": 1,
+        "REP": 1,
+        "ENG": 1,
+        "WKL": 1
+      },
+      "unpriced_at_end": [
+        "WKL"
+      ]
+    },
+    "wait_under_resistance": {
+      "final": 36397.0,
+      "cagr": 29.52,
+      "vol": 28.07,
+      "sharpe": 1.06,
+      "max_drawdown": -30.34,
+      "trades": 285,
+      "win_rate": 28.77,
+      "avg_trade": 5.11,
+      "avg_held": 28.2,
+      "exits": {
+        "SMA50": 90,
+        "STOP": 193,
+        "TREND": 2
+      },
+      "longest_carried_mark": {
         "LVMH": 1,
         "GIB": 1,
         "IBST": 1,
@@ -2093,47 +2048,160 @@
       },
       "unpriced_at_end": []
     },
-    "kell_crossback_exit": {
-      "final": 35066.0,
-      "cagr": 28.53,
-      "vol": 28.9,
-      "sharpe": 1.01,
-      "max_drawdown": -28.84,
-      "trades": 641,
-      "win_rate": 34.48,
-      "avg_trade": 1.79,
-      "avg_held": 12.3,
+    "two_closes_above_resistance": {
+      "final": 21426.0,
+      "cagr": 16.48,
+      "vol": 24.91,
+      "sharpe": 0.74,
+      "max_drawdown": -33.18,
+      "trades": 288,
+      "win_rate": 29.51,
+      "avg_trade": 3.45,
+      "avg_held": 28.1,
       "exits": {
-        "EMA_CROSSBACK": 492,
-        "FAILED_BREAKOUT": 34,
-        "SMA50": 8,
-        "STOP": 107
+        "SMA50": 89,
+        "STOP": 195,
+        "TREND": 4
+      },
+      "longest_carried_mark": {
+        "ENG": 1,
+        "ENB": 1,
+        "LVMH": 1,
+        "ASML": 1,
+        "ELE": 1,
+        "WKL": 1
+      },
+      "unpriced_at_end": [
+        "WKL"
+      ]
+    },
+    "sell_failed_breakout": {
+      "final": 24205.0,
+      "cagr": 19.37,
+      "vol": 25.75,
+      "sharpe": 0.82,
+      "max_drawdown": -33.83,
+      "trades": 280,
+      "win_rate": 28.93,
+      "avg_trade": 4.37,
+      "avg_held": 29.2,
+      "exits": {
+        "FAILED_BREAKOUT": 21,
+        "MAX_HOLD": 1,
+        "SMA50": 81,
+        "STOP": 174,
+        "TREND": 3
+      },
+      "longest_carried_mark": {
+        "ENB": 1,
+        "LVMH": 1,
+        "IBST": 1,
+        "ASML": 1,
+        "ALM": 1,
+        "ELE": 1,
+        "ENG": 1,
+        "WKL": 1
+      },
+      "unpriced_at_end": [
+        "WKL"
+      ]
+    },
+    "two_closes_and_sell_failed": {
+      "final": 35135.0,
+      "cagr": 28.61,
+      "vol": 26.5,
+      "sharpe": 1.08,
+      "max_drawdown": -31.36,
+      "trades": 268,
+      "win_rate": 31.72,
+      "avg_trade": 5.51,
+      "avg_held": 30.1,
+      "exits": {
+        "FAILED_BREAKOUT": 7,
+        "MAX_HOLD": 1,
+        "SMA50": 84,
+        "STOP": 174,
+        "TREND": 2
+      },
+      "longest_carried_mark": {
+        "ENG": 1,
+        "LVMH": 1,
+        "IBST": 1,
+        "ELE": 1,
+        "ALM": 1,
+        "WKL": 1
+      },
+      "unpriced_at_end": [
+        "WKL"
+      ]
+    },
+    "wait_res_and_sell_failed": {
+      "final": 37417.0,
+      "cagr": 30.24,
+      "vol": 28.28,
+      "sharpe": 1.08,
+      "max_drawdown": -36.53,
+      "trades": 324,
+      "win_rate": 27.47,
+      "avg_trade": 4.84,
+      "avg_held": 25.4,
+      "exits": {
+        "FAILED_BREAKOUT": 36,
+        "SMA50": 95,
+        "STOP": 188,
+        "TREND": 5
+      },
+      "longest_carried_mark": {
+        "ENB": 1,
+        "LVMH": 1,
+        "GIB": 1,
+        "IBST": 1,
+        "ASML": 1,
+        "ELE": 1
+      },
+      "unpriced_at_end": []
+    },
+    "kell_crossback_exit": {
+      "final": 30980.0,
+      "cagr": 25.41,
+      "vol": 26.46,
+      "sharpe": 0.99,
+      "max_drawdown": -31.0,
+      "trades": 651,
+      "win_rate": 35.64,
+      "avg_trade": 1.82,
+      "avg_held": 12.1,
+      "exits": {
+        "EMA_CROSSBACK": 498,
+        "FAILED_BREAKOUT": 33,
+        "SMA50": 7,
+        "STOP": 113
       },
       "longest_carried_mark": {
         "LVMH": 1,
         "SAN": 1,
-        "ENB": 1,
+        "ASML": 1,
         "REP": 1,
         "ELE": 1
       },
       "unpriced_at_end": []
     },
     "kell_base_n_break_entry": {
-      "final": 16483.0,
-      "cagr": 10.51,
-      "vol": 14.61,
-      "sharpe": 0.76,
-      "max_drawdown": -17.55,
-      "trades": 208,
-      "win_rate": 27.88,
-      "avg_trade": 2.2,
-      "avg_held": 36.9,
+      "final": 17455.0,
+      "cagr": 11.8,
+      "vol": 14.7,
+      "sharpe": 0.83,
+      "max_drawdown": -17.37,
+      "trades": 215,
+      "win_rate": 27.44,
+      "avg_trade": 2.31,
+      "avg_held": 35.7,
       "exits": {
-        "FAILED_BREAKOUT": 16,
+        "FAILED_BREAKOUT": 17,
         "MAX_HOLD": 1,
-        "SMA50": 73,
-        "STOP": 92,
-        "TREND": 26
+        "SMA50": 81,
+        "STOP": 91,
+        "TREND": 25
       },
       "longest_carried_mark": {
         "ENG": 1,
@@ -2143,172 +2211,193 @@
       "unpriced_at_end": []
     },
     "kell_wedge_pop_entry": {
-      "final": 14138.0,
-      "cagr": 7.17,
-      "vol": 15.89,
-      "sharpe": 0.52,
-      "max_drawdown": -18.11,
-      "trades": 225,
-      "win_rate": 28.0,
-      "avg_trade": 1.27,
-      "avg_held": 32.6,
+      "final": 13921.0,
+      "cagr": 6.85,
+      "vol": 17.04,
+      "sharpe": 0.48,
+      "max_drawdown": -20.11,
+      "trades": 230,
+      "win_rate": 27.83,
+      "avg_trade": 0.94,
+      "avg_held": 31.2,
       "exits": {
         "FAILED_BREAKOUT": 8,
         "MAX_HOLD": 3,
-        "SMA50": 82,
-        "STOP": 108,
-        "TREND": 24
+        "SMA50": 78,
+        "STOP": 116,
+        "TREND": 25
       },
       "longest_carried_mark": {
         "ENG": 1,
         "ELE": 1,
         "GIB": 1,
         "WKL": 1,
-        "ENB": 1,
-        "IBST": 1
-      },
-      "unpriced_at_end": []
-    },
-    "kell_full": {
-      "final": 16936.0,
-      "cagr": 11.11,
-      "vol": 20.53,
-      "sharpe": 0.62,
-      "max_drawdown": -22.92,
-      "trades": 524,
-      "win_rate": 32.25,
-      "avg_trade": 0.78,
-      "avg_held": 13.0,
-      "exits": {
-        "EMA_CROSSBACK": 414,
-        "FAILED_BREAKOUT": 27,
-        "SMA50": 11,
-        "STOP": 61,
-        "TREND": 11
-      },
-      "longest_carried_mark": {
-        "ENG": 1,
-        "WKL": 1,
         "ENB": 1
       },
       "unpriced_at_end": []
     },
+    "kell_full": {
+      "final": 16030.0,
+      "cagr": 9.91,
+      "vol": 20.16,
+      "sharpe": 0.57,
+      "max_drawdown": -24.81,
+      "trades": 518,
+      "win_rate": 33.78,
+      "avg_trade": 0.94,
+      "avg_held": 13.3,
+      "exits": {
+        "EMA_CROSSBACK": 407,
+        "FAILED_BREAKOUT": 28,
+        "SMA50": 11,
+        "STOP": 60,
+        "TREND": 12
+      },
+      "longest_carried_mark": {
+        "ENG": 1,
+        "ENB": 1,
+        "SAN": 1
+      },
+      "unpriced_at_end": [
+        "SAN"
+      ]
+    },
     "buffer_200d_1pct": {
-      "final": 37356.0,
-      "cagr": 30.16,
-      "vol": 28.37,
-      "sharpe": 1.07,
-      "max_drawdown": -30.24,
-      "trades": 295,
-      "win_rate": 29.49,
-      "avg_trade": 5.15,
-      "avg_held": 27.6,
+      "final": 24205.0,
+      "cagr": 19.37,
+      "vol": 25.75,
+      "sharpe": 0.82,
+      "max_drawdown": -33.83,
+      "trades": 280,
+      "win_rate": 28.93,
+      "avg_trade": 4.37,
+      "avg_held": 29.2,
       "exits": {
         "FAILED_BREAKOUT": 21,
         "MAX_HOLD": 1,
-        "SMA50": 94,
+        "SMA50": 81,
         "STOP": 174,
-        "TREND": 5
+        "TREND": 3
       },
       "longest_carried_mark": {
         "ENB": 1,
         "LVMH": 1,
+        "IBST": 1,
+        "ASML": 1,
+        "ALM": 1,
         "ELE": 1,
-        "ALM": 1
+        "ENG": 1,
+        "WKL": 1
       },
-      "unpriced_at_end": []
+      "unpriced_at_end": [
+        "WKL"
+      ]
     },
     "buffer_200d_2pct": {
-      "final": 37356.0,
-      "cagr": 30.16,
-      "vol": 28.37,
-      "sharpe": 1.07,
-      "max_drawdown": -30.24,
-      "trades": 295,
-      "win_rate": 29.49,
-      "avg_trade": 5.15,
-      "avg_held": 27.6,
+      "final": 24205.0,
+      "cagr": 19.37,
+      "vol": 25.75,
+      "sharpe": 0.82,
+      "max_drawdown": -33.83,
+      "trades": 280,
+      "win_rate": 28.93,
+      "avg_trade": 4.37,
+      "avg_held": 29.2,
       "exits": {
         "FAILED_BREAKOUT": 21,
         "MAX_HOLD": 1,
-        "SMA50": 94,
+        "SMA50": 81,
         "STOP": 174,
-        "TREND": 5
+        "TREND": 3
       },
       "longest_carried_mark": {
         "ENB": 1,
         "LVMH": 1,
+        "IBST": 1,
+        "ASML": 1,
+        "ALM": 1,
         "ELE": 1,
-        "ALM": 1
+        "ENG": 1,
+        "WKL": 1
       },
-      "unpriced_at_end": []
+      "unpriced_at_end": [
+        "WKL"
+      ]
     },
     "buffer_200d_3pct": {
-      "final": 37356.0,
-      "cagr": 30.16,
-      "vol": 28.37,
-      "sharpe": 1.07,
-      "max_drawdown": -30.24,
-      "trades": 295,
-      "win_rate": 29.49,
-      "avg_trade": 5.15,
-      "avg_held": 27.6,
+      "final": 24205.0,
+      "cagr": 19.37,
+      "vol": 25.75,
+      "sharpe": 0.82,
+      "max_drawdown": -33.83,
+      "trades": 280,
+      "win_rate": 28.93,
+      "avg_trade": 4.37,
+      "avg_held": 29.2,
       "exits": {
         "FAILED_BREAKOUT": 21,
         "MAX_HOLD": 1,
-        "SMA50": 94,
+        "SMA50": 81,
         "STOP": 174,
-        "TREND": 5
+        "TREND": 3
       },
       "longest_carried_mark": {
         "ENB": 1,
         "LVMH": 1,
+        "IBST": 1,
+        "ASML": 1,
+        "ALM": 1,
         "ELE": 1,
-        "ALM": 1
+        "ENG": 1,
+        "WKL": 1
       },
-      "unpriced_at_end": []
+      "unpriced_at_end": [
+        "WKL"
+      ]
     },
     "sell_all_in_correction": {
-      "final": 33374.0,
-      "cagr": 27.26,
-      "vol": 28.64,
-      "sharpe": 0.98,
-      "max_drawdown": -27.09,
-      "trades": 365,
-      "win_rate": 33.7,
-      "avg_trade": 3.42,
-      "avg_held": 21.0,
+      "final": 30647.0,
+      "cagr": 25.14,
+      "vol": 27.33,
+      "sharpe": 0.96,
+      "max_drawdown": -29.46,
+      "trades": 353,
+      "win_rate": 36.54,
+      "avg_trade": 4.3,
+      "avg_held": 21.6,
       "exits": {
-        "FAILED_BREAKOUT": 20,
+        "FAILED_BREAKOUT": 17,
         "MARKET_EXIT": 128,
-        "SMA50": 79,
+        "MAX_HOLD": 1,
+        "SMA50": 70,
         "STOP": 134,
-        "TREND": 4
+        "TREND": 3
       },
       "longest_carried_mark": {
+        "WKL": 1,
         "IBST": 1,
-        "LVMH": 1,
+        "ASML": 1,
         "ALM": 1,
         "ELE": 1
       },
       "unpriced_at_end": []
     },
     "sell_all_weak_breadth": {
-      "final": 17958.0,
-      "cagr": 12.42,
-      "vol": 25.64,
-      "sharpe": 0.58,
-      "max_drawdown": -33.4,
-      "trades": 621,
-      "win_rate": 38.81,
-      "avg_trade": 1.19,
-      "avg_held": 12.0,
+      "final": 20479.0,
+      "cagr": 15.44,
+      "vol": 23.85,
+      "sharpe": 0.72,
+      "max_drawdown": -28.87,
+      "trades": 627,
+      "win_rate": 39.39,
+      "avg_trade": 1.72,
+      "avg_held": 11.9,
       "exits": {
-        "FAILED_BREAKOUT": 21,
-        "MARKET_EXIT": 380,
-        "SMA50": 75,
-        "STOP": 137,
-        "TREND": 8
+        "FAILED_BREAKOUT": 20,
+        "MARKET_EXIT": 401,
+        "SMA50": 70,
+        "STOP": 130,
+        "TREND": 6
       },
       "longest_carried_mark": {
         "LVMH": 1,
@@ -2318,110 +2407,36 @@
       "unpriced_at_end": []
     },
     "sell_all_correction_and_weak_breadth": {
-      "final": 26639.0,
-      "cagr": 21.65,
-      "vol": 27.87,
-      "sharpe": 0.84,
-      "max_drawdown": -30.37,
-      "trades": 347,
-      "win_rate": 32.28,
-      "avg_trade": 3.5,
-      "avg_held": 22.7,
+      "final": 43362.0,
+      "cagr": 34.15,
+      "vol": 29.59,
+      "sharpe": 1.14,
+      "max_drawdown": -29.63,
+      "trades": 331,
+      "win_rate": 34.74,
+      "avg_trade": 4.98,
+      "avg_held": 23.8,
       "exits": {
-        "FAILED_BREAKOUT": 24,
-        "MARKET_EXIT": 75,
-        "SMA50": 89,
-        "STOP": 155,
+        "FAILED_BREAKOUT": 19,
+        "MARKET_EXIT": 79,
+        "SMA50": 72,
+        "STOP": 157,
         "TREND": 4
       },
       "longest_carried_mark": {
         "LVMH": 1,
-        "IBST": 1,
+        "ASML": 1,
         "ALM": 1
       },
       "unpriced_at_end": []
     }
   },
   "spx": {
-    "final": 15567.0,
-    "cagr": 9.26,
-    "vol": 17.2,
-    "sharpe": 0.6,
+    "final": 14757.0,
+    "cagr": 8.1,
+    "vol": 17.3,
+    "sharpe": 0.54,
     "max_drawdown": -25.43,
     "trades": 0
-  },
-  "previous_method": {
-    "base_v1_6": {
-      "cagr": 27.37,
-      "max_drawdown": -42.19
-    },
-    "base_v1_5": {
-      "cagr": 32.06,
-      "max_drawdown": -42.89
-    },
-    "no_buy_above_30pct_36d": {
-      "cagr": 24.76,
-      "max_drawdown": -42.98
-    },
-    "sell_above_30pct_36d": {
-      "cagr": 18.46,
-      "max_drawdown": -34.37
-    },
-    "wait_under_resistance": {
-      "cagr": 28.77,
-      "max_drawdown": -40.41
-    },
-    "two_closes_above_resistance": {
-      "cagr": 31.88,
-      "max_drawdown": -44.05
-    },
-    "sell_failed_breakout": {
-      "cagr": 27.37,
-      "max_drawdown": -42.19
-    },
-    "wait_res_and_sell_failed": {
-      "cagr": 26.37,
-      "max_drawdown": -36.97
-    },
-    "kell_crossback_exit": {
-      "cagr": 26.6,
-      "max_drawdown": -32.07
-    },
-    "kell_base_n_break_entry": {
-      "cagr": 11.56,
-      "max_drawdown": -28.3
-    },
-    "kell_wedge_pop_entry": {
-      "cagr": 9.47,
-      "max_drawdown": -28.91
-    },
-    "kell_full": {
-      "cagr": 9.47,
-      "max_drawdown": -26.41
-    },
-    "buffer_200d_1pct": {
-      "cagr": 27.37,
-      "max_drawdown": -42.19
-    },
-    "buffer_200d_2pct": {
-      "cagr": 27.37,
-      "max_drawdown": -42.19
-    },
-    "buffer_200d_3pct": {
-      "cagr": 27.37,
-      "max_drawdown": -42.19
-    },
-    "sell_all_in_correction": {
-      "cagr": 24.12,
-      "max_drawdown": -30.29
-    },
-    "sell_all_weak_breadth": {
-      "cagr": 14.39,
-      "max_drawdown": -32.03
-    },
-    "sell_all_correction_and_weak_breadth": {
-      "cagr": 20.29,
-      "max_drawdown": -31.4
-    }
   }
 }
