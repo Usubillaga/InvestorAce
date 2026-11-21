@@ -202,6 +202,117 @@ def experiment(history, through_build=None):
                                     for drop in (10, 15, 25)]), pair=pair)
 
 
+PAGES = {'en': 'swing-experiments.html', 'de': 'swing-experiments.de.html', 'es': 'swing-experiments.es.html'}
+TEXT = {
+    'en': dict(
+        title='Swing experiments', fixed='Fixed size 12%', capped='Size capped by gaps',
+        cols=('Variant', 'Buys', 'Cuts', 'Return EUR', 'Max drawdown', 'Worst opening gap', 'Opens observed',
+              'Incomplete closes'),
+        scen_cols=('Asset drop', 'Loss with fixed size', 'Loss with larger adjusted size'),
+        status={'UNSUPPORTED': 'Insufficient cointegration', 'NEUTRAL': 'No divergence',
+                'DIVERGENCE': 'Divergence to review'},
+        pair_cols=('Pair', 'Status', 'Z', 'Training p', 'Recent p', 'Estimated half-life'),
+        intro='Paper research. Cut-off {day} · {n} comparable swing sessions.', build='Reference build',
+        gap_h='Gap risk and position size',
+        gap_p=('Sizing history available for {k} buys. Same entry, exit and cost per fill. The experimental cap uses '
+               'the adverse 1% percentile of up to 252 previous gaps (minimum 126). The loss budget is 0.96% of '
+               'equity and the position cap is 12%. Opening measurements exclude overnight FX and days with '
+               'incomplete data. The close valuation carries the last price forward when a quote is missing.'),
+        scen_h='Single-position scenarios', scen_p='Hypothetical jumps without assigned probabilities and without extra costs.',
+        pair_h='Pair watch · Engle–Granger and Ornstein–Uhlenbeck',
+        pair_p=('Last common close {asof}. Training up to {tend} ({tdays} closes) and evaluation from {tstart} '
+                '({edays} closes). Retrospective evaluation of a pair fixed for this study. The alert requires recent '
+                'evidence of cointegration and an estimated half-life of up to 20 sessions.'),
+        pair_note='The pair is a research alert. Swing entries follow InvestorAce\'s double confirmation.',
+        data='Data and hashes', code='Reproducible code'),
+    'de': dict(
+        title='Swing-Experimente', fixed='Feste Größe 12 %', capped='Größe durch Gaps begrenzt',
+        cols=('Variante', 'Käufe', 'Kürzungen', 'Rendite EUR', 'Max. Drawdown', 'Schlechtester Eröffnungsgap',
+              'Beobachtete Eröffnungen', 'Unvollständige Schlusskurse'),
+        scen_cols=('Kursrückgang', 'Verlust mit fester Größe', 'Verlust mit größerer angepasster Größe'),
+        status={'UNSUPPORTED': 'Kointegration unzureichend', 'NEUTRAL': 'Keine Divergenz',
+                'DIVERGENCE': 'Divergenz prüfen'},
+        pair_cols=('Paar', 'Status', 'Z', 'p Training', 'p aktuell', 'Geschätzte Halbwertszeit'),
+        intro='Papierforschung. Stichtag {day} · {n} vergleichbare Swing-Sitzungen.', build='Referenz-Build',
+        gap_h='Gap-Risiko und Positionsgröße',
+        gap_p=('Größenhistorie für {k} Käufe verfügbar. Gleicher Einstieg, Ausstieg und gleiche Kosten je Ausführung. '
+               'Die experimentelle Grenze nutzt das ungünstige 1-%-Perzentil von bis zu 252 früheren Gaps (mindestens '
+               '126). Das Verlustbudget beträgt 0,96 % des Kapitals, die Positionsgrenze 12 %. Die Eröffnungsmessung '
+               'schließt Devisenbewegungen über Nacht und Tage mit unvollständigen Daten aus. Fehlt ein Kurs, wird '
+               'der letzte Schlusskurs fortgeschrieben.'),
+        scen_h='Szenarien für eine einzelne Position',
+        scen_p='Hypothetische Kurssprünge ohne zugewiesene Wahrscheinlichkeiten und ohne zusätzliche Kosten.',
+        pair_h='Paarbeobachtung · Engle–Granger und Ornstein–Uhlenbeck',
+        pair_p=('Letzter gemeinsamer Schlusskurs {asof}. Training bis {tend} ({tdays} Schlusskurse), Auswertung ab '
+                '{tstart} ({edays} Schlusskurse). Rückblickende Auswertung eines für diese Studie festgelegten Paars. '
+                'Der Alarm verlangt aktuelle Belege für Kointegration und eine geschätzte Halbwertszeit von höchstens '
+                '20 Sitzungen.'),
+        pair_note='Das Paar ist ein Forschungsalarm. Swing-Einstiege folgen der doppelten Bestätigung von InvestorAce.',
+        data='Daten und Hashes', code='Reproduzierbarer Code'),
+    'es': dict(
+        title='Experimentos de swing', fixed='Tamaño fijo 12 %', capped='Tamaño limitado por gaps',
+        cols=('Variante', 'Compras', 'Recortes', 'Rendimiento EUR', 'Caída máxima', 'Peor gap de apertura',
+              'Aperturas observadas', 'Cierres incompletos'),
+        scen_cols=('Caída del activo', 'Pérdida con tamaño fijo', 'Pérdida con mayor tamaño ajustado'),
+        status={'UNSUPPORTED': 'Cointegración insuficiente', 'NEUTRAL': 'Sin divergencia',
+                'DIVERGENCE': 'Divergencia para revisar'},
+        pair_cols=('Par', 'Estado', 'Z', 'p de formación', 'p reciente', 'Semivida estimada'),
+        intro='Investigación en papel. Corte al {day} · {n} sesiones de swing comparables.', build='Build de referencia',
+        gap_h='Riesgo de gaps y tamaño de posición',
+        gap_p=('Histórico de sizing disponible para {k} compras. Misma entrada, salida y coste por ejecución. '
+               'El límite experimental usa el percentil adverso del 1 % de hasta 252 gaps anteriores (mínimo de 126). '
+               'El presupuesto de pérdida es 0,96 % del patrimonio y el tope de posición es 12 %. '
+               'La medición de aperturas excluye FX nocturno y días con datos incompletos. La valoración al cierre '
+               'arrastra el último precio cuando falta una cotización.'),
+        scen_h='Escenarios de una sola posición', scen_p='Saltos hipotéticos sin probabilidades asignadas y sin costes adicionales.',
+        pair_h='Vigilancia de pares · Engle–Granger y Ornstein–Uhlenbeck',
+        pair_p=('Último cierre común {asof}. Formación hasta {tend} ({tdays} cierres) y evaluación desde {tstart} '
+                '({edays} cierres). Evaluación retrospectiva de un par fijado para este estudio. La alerta exige '
+                'evidencia reciente de cointegración y una semivida estimada de hasta 20 sesiones.'),
+        pair_note='El par es una alerta de investigación. Las entradas de swing se rigen por la doble confirmación de InvestorAce.',
+        data='Datos y hashes', code='Código reproducible'),
+}
+
+
+def render(report, report_day, lang):
+    """One language edition; numbers are identical in every edition."""
+    t = TEXT[lang]
+
+    def pct(value):
+        return '—' if value is None else (f'{value:+.2f} %' if lang == 'en' else f'{value:+.2f} %'.replace('.', ','))
+
+    def num(value, digits=2):
+        return f'{value:.{digits}f}' if lang == 'en' else f'{value:.{digits}f}'.replace('.', ',')
+
+    gap = report['gap']
+    rows = [(label, v['buys'], v['capped'], pct(v['ending_pct']), pct(v['max_drawdown_pct']),
+             pct(v['worst_observed_open_pct']), v['observed_opens'], v['incomplete_marks'])
+            for label, v in [(t['fixed'], gap['control']), (t['capped'], gap['capped'])]]
+    sample = trading.table(t['cols'], rows)
+    scenarios = trading.table(t['scen_cols'], [(f"−{x['asset_drop_pct']} %", f"−{num(x['control_loss_pct'])} %",
+                                                f"−{num(x['capped_loss_pct'])} %") for x in gap['scenarios']])
+    pair = report['pair']
+    pair_rows = trading.table(t['pair_cols'], [(' / '.join(pair['symbols']), t['status'][pair['status']], pair['z'],
+                                                pair['train_p'], pair['recent_p'],
+                                                pair['half_life'] if pair['half_life'] is not None else '—')])
+    switch = ' · '.join(f'<a href="{PAGES[code]}" lang="{code}"' + (' aria-current="page"' if code == lang else '')
+                        + f'>{name}</a>' for code, name in (('en', 'English'), ('de', 'Deutsch'), ('es', 'Español')))
+    body = (f'<p>{switch}</p><h1>{escape(t["title"])}</h1><p>'
+            + escape(t['intro'].format(day=report_day.isoformat(), n=int(report['session_count'])))
+            + f' <a href="https://github.com/Usubillaga/InvestorAce/tree/main/history/_builds/{report["archive_build"]}">'
+            f'{escape(t["build"])}</a>.</p><h2>{escape(t["gap_h"])}</h2>' + sample
+            + '<p>' + escape(t['gap_p'].format(k=int(gap['capped']['sizing_coverage']))) + '</p>'
+            f'<h3>{escape(t["scen_h"])}</h3>' + scenarios + f'<p>{escape(t["scen_p"])}</p>'
+            f'<h2>{escape(t["pair_h"])}</h2>' + pair_rows
+            + '<p>' + escape(t['pair_p'].format(asof=pair['as_of'], tend=pair['training_end'], tdays=int(pair['train_days']),
+                                                tstart=pair['test_start'], edays=int(pair['test_days']))) + '</p>'
+            f'<p>{escape(t["pair_note"])}</p>'
+            f'<p><a href="swing-experiments.json">{escape(t["data"])}</a> · '
+            f'<a href="https://github.com/Usubillaga/InvestorAce/blob/main/swing_experiments.py">{escape(t["code"])}</a></p>')
+    html = shell(t['title'], body)
+    return html if lang == 'en' else html.replace('lang="en"', f'lang="{lang}"', 1)
+
+
 def site_pages(root):
     """Render the last complete result even if the latest data refresh failed."""
     try:
@@ -212,44 +323,9 @@ def site_pages(root):
         if not manifest.is_file():
             return []
         report_day = date.fromisoformat(report['as_of'])
-        def pct(value):
-            return '—' if value is None else f'{value:+.2f} %'
-
-        gap = report['gap']
-        rows = [(label, v['buys'], v['capped'], pct(v['ending_pct']), pct(v['max_drawdown_pct']),
-                 pct(v['worst_observed_open_pct']), v['observed_opens'], v['incomplete_marks'])
-                for label, v in [('Tamaño fijo 12 %', gap['control']), ('Tamaño limitado por gaps', gap['capped'])]]
-        sample = trading.table(('Variante', 'Compras', 'Recortes', 'Rendimiento EUR', 'Caída máxima',
-                                'Peor gap de apertura', 'Aperturas observadas', 'Cierres incompletos'), rows)
-        scenarios = trading.table(('Caída del activo', 'Pérdida con tamaño fijo', 'Pérdida con mayor tamaño ajustado'),
-                                  [(f"−{x['asset_drop_pct']} %", f"−{x['control_loss_pct']:.2f} %",
-                                    f"−{x['capped_loss_pct']:.2f} %") for x in gap['scenarios']])
-        pair = report['pair']
-        pair_status = {'UNSUPPORTED': 'Cointegración insuficiente', 'NEUTRAL': 'Sin divergencia',
-                       'DIVERGENCE': 'Divergencia para revisar'}[pair['status']]
-        pair_rows = trading.table(('Par', 'Estado', 'Z', 'p de formación', 'p reciente', 'Semivida estimada'),
-                                  [(' / '.join(pair['symbols']), pair_status, pair['z'], pair['train_p'],
-                                    pair['recent_p'], pair['half_life'] if pair['half_life'] is not None else '—')])
-        body = ('<h1>Experimentos de swing</h1><p>Investigación en papel. Corte al '
-                f'{report_day.isoformat()} · {int(report["session_count"])} sesiones de swing comparables. '
-                f'<a href="https://github.com/Usubillaga/InvestorAce/tree/main/history/_builds/{report["archive_build"]}">Build de referencia</a>.</p>'
-                '<h2>Riesgo de gaps y tamaño de posición</h2>' + sample
-                + f'<p>Histórico de sizing disponible para {int(gap["capped"]["sizing_coverage"])} compras. Misma entrada, salida y coste por ejecución. '
-                'El límite experimental usa el percentil adverso del 1 % de hasta 252 gaps anteriores (mínimo de 126). '
-                'El presupuesto de pérdida es 0,96 % del patrimonio y el tope de posición es 12 %. '
-                'La medición de aperturas excluye FX nocturno y días con datos incompletos. La valoración al cierre arrastra el último precio cuando falta una cotización.</p>'
-                '<h3>Escenarios de una sola posición</h3>' + scenarios
-                + '<p>Saltos hipotéticos sin probabilidades asignadas y sin costes adicionales.</p>'
-                '<h2>Vigilancia de pares · Engle–Granger y Ornstein–Uhlenbeck</h2>' + pair_rows
-                + f'<p>Último cierre común {escape(pair["as_of"])}. Formación hasta {escape(pair["training_end"])} '
-                f'({int(pair["train_days"])} cierres) y evaluación desde {escape(pair["test_start"])} '
-                f'({int(pair["test_days"])} cierres). Evaluación retrospectiva de un par fijado para este estudio. La alerta exige evidencia reciente de cointegración y una semivida estimada de hasta 20 sesiones.</p>'
-                '<p>El par es una alerta de investigación. Las entradas de swing se rigen por la doble confirmación de InvestorAce.</p>'
-                '<p><a href="swing-experiments.json">Datos y hashes</a> · '
-                '<a href="https://github.com/Usubillaga/InvestorAce/blob/main/swing_experiments.py">Código reproducible</a></p>')
+        pages = [(Path(PAGES[lang]), render(report, report_day, lang)) for lang in PAGES]
         json_page = json.dumps(report, ensure_ascii=False, allow_nan=False, indent=2)
-        return [(Path('swing-experiments.html'), shell('Experimentos de swing', body).replace('lang="en"', 'lang="es"', 1)),
-                (Path('swing-experiments.json'), json_page)]
+        return pages + [(Path('swing-experiments.json'), json_page)]
     except (OSError, TypeError, ValueError, KeyError, AttributeError) as err:
         if not isinstance(err, FileNotFoundError):
             logging.warning('Optional swing experiment report unavailable: %s', err)

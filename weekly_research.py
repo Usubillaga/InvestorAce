@@ -722,7 +722,9 @@ def build_site(root, output, require_committed=False):
                                    include_long_short=bool(long_short_pages), include_desk=bool(desk_pages))
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
-    scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language))
+    scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language)
+                    .replace('href="swing-experiments.html"', f'href="swing-experiments.{language}.html"'
+                             if language != 'en' else 'href="swing-experiments.html"'))
                    for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
     pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages + trade_pages + backtest_pages

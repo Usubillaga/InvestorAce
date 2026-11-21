@@ -49,3 +49,27 @@ class SwingExperimentTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class Languages(unittest.TestCase):
+    def test_page_in_english_german_and_spanish_with_the_same_numbers(self):
+        import json
+        import re
+        from datetime import date
+        from pathlib import Path
+        import swing_experiments as se
+        report = json.loads((Path(__file__).parent / se.REPORT).read_text(encoding='utf-8'))
+        day = date.fromisoformat(report['as_of'])
+        pages = {lang: se.render(report, day, lang) for lang in se.PAGES}
+        self.assertIn('<h1>Swing experiments</h1>', pages['en'])
+        self.assertIn('<h1>Swing-Experimente</h1>', pages['de'])
+        self.assertIn('<h1>Experimentos de swing</h1>', pages['es'])
+        self.assertIn('lang="de"', pages['de'])
+        self.assertNotIn('Experimentos', pages['en'])
+        self.assertNotIn('Experimentos', pages['de'])
+        numbers = {lang: re.findall(r'>([−+-]?\d+[.,]\d{2} %)<', html) for lang, html in pages.items()}
+        self.assertEqual(numbers['de'], numbers['es'])
+        self.assertEqual([n.replace('.', ',') for n in numbers['en']], numbers['de'])
+        for html in pages.values():
+            for target in se.PAGES.values():
+                self.assertIn(f'href="{target}"', html)
