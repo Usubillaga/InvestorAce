@@ -185,7 +185,7 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | garch_exposure | 2/3 | 2/3 | 3/3 |
 | ewma_exposure | 2/3 | 2/3 | 2/3 |
 
-Symbols: 125 · generated 2026-11-22T22:56+00:00 · price data 173a67e599f62348
+Symbols: 125 · generated 2026-11-22T23:07+00:00 · price data 173a67e599f62348
 
 ## Valuation coverage
 
