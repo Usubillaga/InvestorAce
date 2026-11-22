@@ -354,7 +354,50 @@ def benchmark(series, today):
     return 100 * (rows[-1][1] / rows[0][1] - 1) if rows and rows[0][0] == COMPARE_FROM else None
 
 
-def render_compare(accounts, spx, *, today):
+DESK_RAW = 'https://raw.githubusercontent.com/Usubillaga/InvestorAce-Tradingdesk/main/dist/'
+
+
+def _fetch_json(url):
+    from urllib.request import Request, urlopen
+    with urlopen(Request(url, headers={'User-Agent': 'InvestorAce site build'}), timeout=15) as response:
+        return json.load(response)
+
+
+def index_section(fetch=_fetch_json):
+    """The two index ETF accounts that run in the Trading Desk, read from its committed journals."""
+    rows = []
+    try:
+        codex = fetch(DESK_RAW + 'index-paper.json')
+        trades = codex.get('trades') or []
+        rows.append(('Codex · index long/short day trades', codex.get('model'), codex.get('as_of'), codex.get('equity'),
+                     len(trades), 'Not passed: loses to buy and hold in 60 of 60 backtest starts (−24% to −28% a year, '
+                     'mostly costs). Kept running as a forward check of that backtest.'))
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        pass
+    try:
+        hold = fetch(DESK_RAW + 'index-hold.json')
+        rows.append(('Claude · index buy and hold', hold.get('model'), hold.get('as_of'),
+                     hold.get('equity') if hold.get('bought') else hold.get('capital'),
+                     len(hold.get('holdings') or {}), 'Benchmark: no index timing rule beat it in the backtest. '
+                     'Bought once at the open of ' + str(hold.get('start')) + '.'))
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        pass
+    if not rows:
+        return ('<h2>Index ETF accounts</h2><p class="muted">The Trading Desk journals could not be read at build '
+                'time.</p>')
+    body = ''.join(
+        f'<tr><td class="l"><b>{escape(name)}</b></td><td>{escape(str(model or "—"))}</td><td>{escape(str(asof or "—"))}</td>'
+        f'<td>{_num(value, ",.0f", " USD")}</td><td class="{"down" if isinstance(value, (int, float)) and value < 10000 else "up"}">'
+        f'{_num(100 * (value / 10000 - 1) if isinstance(value, (int, float)) else None, "+.2f")}</td><td>{n}</td>'
+        f'<td class="l">{escape(note)}</td></tr>' for name, model, asof, value, n, note in rows)
+    return ('<h2>Index ETF accounts (SPY, QQQ, DAX, DIA, IWM)</h2><p class="lead">Both run automatically in the '
+            '<a href="https://usubillaga.github.io/InvestorAce-Tradingdesk/dist/index-paper.html">Trading Desk</a> from '
+            '10,000 USD each; the backtest is in backtest.html (index ETF timing).</p><div class="tw"><table><thead><tr>'
+            '<th class="l">Account</th><th>Model</th><th>As of</th><th>Value</th><th>Return</th><th>Trades / holdings</th>'
+            '<th class="l">Status</th></tr></thead><tbody>' + body + '</tbody></table></div>')
+
+
+def render_compare(accounts, spx, *, today, index_html=''):
     from war_scenario import shell
     rows = ''.join(
         f'<tr><td class="l"><b>{escape(a["name"])}</b></td><td>{a["sessions"]}</td>'
@@ -372,7 +415,8 @@ def render_compare(accounts, spx, *, today):
             '<th>Gross exposure</th><th class="l">Note</th></tr></thead><tbody>'
             + (rows or '<tr><td colspan="10" class="muted">No account has a session since the start date yet.</td></tr>')
             + '</tbody></table></div>')
-    return shell('Trading comparison', body + '<p><a href="index-paper.html">Index ETF long/short paper journal ↗</a></p>' + trade_tables(accounts))
+    return shell('Trading comparison', body + index_html
+                 + '<p><a href="index-paper.html">Index ETF long/short paper journal ↗</a></p>' + trade_tables(accounts))
 
 
 def index_paper_page():
@@ -435,7 +479,8 @@ def site_pages(root, committed_build, *, now=None):
         if account:
             accounts.append(account)
     pages.append((Path('index-paper.html'), index_paper_page()))
-    pages.append((Path(COMPARE_PAGE), render_compare(accounts, benchmark(series, last), today=last)))
+    pages.append((Path(COMPARE_PAGE), render_compare(accounts, benchmark(series, last), today=last,
+                                                     index_html=index_section())))
     tape = dict(as_of=last, build=committed_build.get('manifest', {}).get('run_id'), columns=TRADE_COLUMNS,
                 accounts=[dict(name=a['name'], trades=a['trades']) for a in accounts])
     pages.append((Path('competition-trades.json'), json.dumps(tape, ensure_ascii=False, allow_nan=False)))

@@ -714,7 +714,8 @@ def main():
         result['pairs_error'] = f'{type(exc).__name__}: {exc}'
     try:                                   # index ETF timing (index_backtest.py); separate small download
         import index_backtest
-        result['index_timing'] = index_backtest.study(index_backtest.download(f'{HISTORY_YEARS}y'), WINDOWS)
+        index_close, index_ohlc = index_backtest.download(f'{HISTORY_YEARS}y')
+        result['index_timing'] = index_backtest.study(index_close, WINDOWS, ohlc=index_ohlc)
     except Exception as exc:               # pragma: no cover - reported in the results instead
         result['index_timing_error'] = f'{type(exc).__name__}: {exc}'
     OUT.mkdir(exist_ok=True)

@@ -45,3 +45,22 @@ class Rules(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class IntradayAccount(unittest.TestCase):
+    def test_matches_the_day_trade_accounting_of_index_paper(self):
+        idx = pd.bdate_range('2020-01-01', periods=40)
+        c = pd.Series(np.linspace(100, 139, 40), index=idx)        # steady rise: LONG signal
+        frame = lambda s: pd.DataFrame({'SPY': s})
+        h, l, o = c + 1, c - 1, c.copy()
+        # day 39: opens 140, stop distance = 2 x mean true range (2 per day here) = 4, low 135 hits the stop at 136
+        o.iloc[-1], h.iloc[-1], l.iloc[-1], c.iloc[-1] = 140., 141., 135., 138.
+        ohlc = {'Open': frame(o), 'High': frame(h), 'Low': frame(l), 'Close': frame(c)}
+        curve = ib.equity_intraday(ohlc, idx[-1])
+        dist = 4.0
+        weight = min(0.15, 0.005 * 140 / dist)
+        expected = weight * ((136 - 140) / 140 - 2 * ib.COST)        # index_paper.settle with fractional shares
+        self.assertAlmostEqual(curve.iloc[-1] - 1, expected, places=9)
+        l.iloc[-1] = 137.                                            # no stop: out at the close
+        curve = ib.equity_intraday({'Open': frame(o), 'High': frame(h), 'Low': frame(l), 'Close': frame(c)}, idx[-1])
+        self.assertAlmostEqual(curve.iloc[-1] - 1, weight * ((138 - 140) / 140 - 2 * ib.COST), places=9)

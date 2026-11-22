@@ -110,3 +110,21 @@ class Compare(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class IndexAccounts(unittest.TestCase):
+    def test_both_desk_journals_and_a_failed_fetch(self):
+        journals = {'index-paper.json': dict(model='index-day-v1', as_of='2026-11-23', equity=9950.0,
+                                             trades=[{}] * 5),
+                    'index-hold.json': dict(model='index-hold-v1', as_of='2026-11-23', equity=10040.0,
+                                            bought='2026-11-23', start='2026-11-23', capital=10000.0,
+                                            holdings={k: {} for k in 'ABCDE'})}
+        html = td.index_section(lambda url: journals[url.rsplit('/', 1)[1]])
+        self.assertIn('Codex · index long/short day trades', html)
+        self.assertIn('Claude · index buy and hold', html)
+        self.assertIn('Not passed', html)
+        self.assertIn('−0.50%'.replace('−', '-'), html)
+
+        def broken(url):
+            raise OSError('offline')
+        self.assertIn('could not be read', td.index_section(broken))

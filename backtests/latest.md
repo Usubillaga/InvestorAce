@@ -185,7 +185,7 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | garch_exposure | 2/3 | 2/3 | 3/3 |
 | ewma_exposure | 2/3 | 2/3 | 2/3 |
 
-Symbols: 125 · generated 2026-11-22T19:59+00:00 · price data 173a67e599f62348
+Symbols: 125 · generated 2026-11-22T22:56+00:00 · price data 173a67e599f62348
 
 ## Valuation coverage
 
@@ -403,14 +403,17 @@ Rules against buy and hold from 20 paired starts per period. Costs 0.1% per posi
 | 2014-01-02 → 2017-12-29 | codex_20d_5d_long_short | 0/20 | -16.50% | -29.29 [-30.42, -28.40] | -2.79 | -33.90 |
 | 2014-01-02 → 2017-12-29 | codex_20d_5d_long_only | 0/20 | -4.48% | -17.25 [-18.19, -16.72] | -1.68 | -4.88 |
 | 2014-01-02 → 2017-12-29 | trend_200d | 0/20 | 8.56% | -4.21 [-4.43, -4.02] | -0.09 | +3.46 |
+| 2014-01-02 → 2017-12-29 | codex_intraday_account | 0/20 | -27.92% | -40.87 [-41.82, -39.96] | -7.28 | -54.33 |
 | 2018-01-02 → 2021-12-31 | buy_and_hold | — | 14.54% | — | — | — |
 | 2018-01-02 → 2021-12-31 | codex_20d_5d_long_short | 0/20 | -8.30% | -23.38 [-25.33, -21.24] | -1.15 | -4.97 |
 | 2018-01-02 → 2021-12-31 | codex_20d_5d_long_only | 0/20 | 2.17% | -12.94 [-13.91, -11.46] | -0.48 | +24.82 |
 | 2018-01-02 → 2021-12-31 | trend_200d | 0/20 | 7.85% | -6.99 [-7.12, -6.79] | -0.08 | +18.78 |
+| 2018-01-02 → 2021-12-31 | codex_intraday_account | 0/20 | -25.59% | -40.58 [-42.15, -38.68] | -5.30 | -32.76 |
 | 2022-01-03 → 2026-11-20 | buy_and_hold | — | 8.17% | — | — | — |
 | 2022-01-03 → 2026-11-20 | codex_20d_5d_long_short | 0/20 | -8.37% | -18.83 [-24.06, -16.35] | -1.24 | -21.46 |
 | 2022-01-03 → 2026-11-20 | codex_20d_5d_long_only | 0/20 | 1.55% | -9.31 [-12.58, -7.71] | -0.45 | +13.57 |
 | 2022-01-03 → 2026-11-20 | trend_200d | 0/20 | 8.22% | -2.49 [-5.31, -1.56] | +0.08 | +12.63 |
+| 2022-01-03 → 2026-11-20 | codex_intraday_account | 0/20 | -24.32% | -35.13 [-39.35, -32.39] | -4.91 | -50.88 |
 
-Passes: codex_20d_5d_long_short no, codex_20d_5d_long_only no, trend_200d no
+Passes: codex_20d_5d_long_short no, codex_20d_5d_long_only no, trend_200d no, codex_intraday_account no
 
