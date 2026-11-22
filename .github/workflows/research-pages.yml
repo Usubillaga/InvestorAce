@@ -12,6 +12,7 @@ on:
       - 'claude-briefings/**'
       - 'market-scan/**'
       - 'weekly_research.py'
+      - 'correction_study/**'
       - 'trading_desk.py'
       - 'markov_experiments.py'
       - '.github/workflows/research-pages.yml'
@@ -46,7 +47,7 @@ jobs:
         run: python -m pip install -r requirements-research.txt
       - name: Validate and build research pages
         run: |
-          python -m unittest test_weekly_research test_daily_briefing test_claude_briefing test_market_scanner -v
+          python -m unittest correction_study.test_model test_weekly_research test_daily_briefing test_claude_briefing test_market_scanner -v
           python weekly_research.py --output public
       - uses: actions/configure-pages@v6
       - id: pages_artifact

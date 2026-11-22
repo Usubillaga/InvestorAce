@@ -391,7 +391,7 @@ def index_section(fetch=_fetch_json):
         f'{_num(100 * (value / 10000 - 1) if isinstance(value, (int, float)) else None, "+.2f")}</td><td>{n}</td>'
         f'<td class="l">{escape(note)}</td></tr>' for name, model, asof, value, n, note in rows)
     return ('<h2>Index ETF accounts (SPY, QQQ, DAX, DIA, IWM)</h2><p class="lead">Both run automatically in the '
-            '<a href="https://usubillaga.github.io/InvestorAce-Tradingdesk/index-paper.html">Trading Desk</a> from '
+            '<a href="https://usubillaga.github.io/InvestorAce-Tradingdesk/dist/index-paper.html">Trading Desk</a> from '
             '10,000 USD each; the backtest is in backtest.html (index ETF timing).</p><div class="tw"><table><thead><tr>'
             '<th class="l">Account</th><th>Model</th><th>As of</th><th>Value</th><th>Return</th><th>Trades / holdings</th>'
             '<th class="l">Status</th></tr></thead><tbody>' + body + '</tbody></table></div>')
@@ -415,7 +415,18 @@ def render_compare(accounts, spx, *, today, index_html=''):
             '<th>Gross exposure</th><th class="l">Note</th></tr></thead><tbody>'
             + (rows or '<tr><td colspan="10" class="muted">No account has a session since the start date yet.</td></tr>')
             + '</tbody></table></div>')
-    return shell('Trading comparison', body + index_html + trade_tables(accounts))
+    return shell('Trading comparison', body + index_html
+                 + '<p><a href="index-paper.html">Index ETF long/short paper journal ↗</a></p>' + trade_tables(accounts))
+
+
+def index_paper_page():
+    from war_scenario import shell
+    desk = 'https://usubillaga.github.io/InvestorAce-Tradingdesk/dist/index-paper.html'
+    return shell('Index ETF long/short', (
+        '<h1>Index ETF long/short</h1>'
+        f'<p><a href="{desk}">Open the TradingDesk paper journal ↗</a></p>'
+        f'<iframe src="{desk}" title="Index ETF signals and settled paper trades" '
+        'style="width:100%;height:80vh;border:0"></iframe>'))
 
 
 def site_pages(root, committed_build, *, now=None):
@@ -467,6 +478,7 @@ def site_pages(root, committed_build, *, now=None):
             account = None
         if account:
             accounts.append(account)
+    pages.append((Path('index-paper.html'), index_paper_page()))
     pages.append((Path(COMPARE_PAGE), render_compare(accounts, benchmark(series, last), today=last,
                                                      index_html=index_section())))
     tape = dict(as_of=last, build=committed_build.get('manifest', {}).get('run_id'), columns=TRADE_COLUMNS,
