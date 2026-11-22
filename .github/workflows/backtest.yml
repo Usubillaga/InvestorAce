@@ -20,12 +20,23 @@ permissions:
   contents: write
   actions: write                 # dispatch CI for the results commit (GITHUB_TOKEN pushes start no runs)
 
+# One run per branch at a time. A run that is triggered while another is running waits for it,
+# then starts from the branch's newest commit (including the first run's results), so its own
+# results push is a fast-forward instead of a rejected race. GitHub keeps one waiting run per
+# group: a third trigger replaces the waiting one (shown as cancelled), which is harmless
+# because the run that remains starts from the newest commit anyway.
+concurrency:
+  group: backtest-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   backtest:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}   # the branch head when this run starts, not when it was queued
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
@@ -43,6 +54,7 @@ jobs:
         run: |
           git config user.name  "investorace-bot"
           git config user.email "investorace-bot@users.noreply.github.com"
+          tested=$(git rev-parse HEAD)   # the commit these results were calculated from
           git add backtests/latest.json backtests/latest.md
           if git diff --cached --quiet; then exit 0; fi
           git commit -qm "backtest: results $(date -u +%F)"
@@ -54,7 +66,7 @@ jobs:
           # A concurrent update rejects the push and leaves the previous report intact.
           if [[ "$BRANCH" == main ]] && git ls-remote --exit-code origin "refs/heads/$target" >/dev/null; then
             git fetch --no-tags origin "$target"
-            test "$(git rev-parse FETCH_HEAD^)" = "$GITHUB_SHA"
+            test "$(git rev-parse FETCH_HEAD^)" = "$tested"
             # Retry publication of the already pushed result from this run.
           else
             git push origin "HEAD:refs/heads/$target"
@@ -62,7 +74,7 @@ jobs:
           if [[ "$BRANCH" == main ]]; then
             if ! gh pr view "$target" --json url >/dev/null 2>&1; then
               gh pr create --base main --head "$target" --title "Monthly backtest results" \
-                --body "Results calculated from $GITHUB_SHA by workflow run $GITHUB_RUN_ID."
+                --body "Results calculated from $tested by workflow run $GITHUB_RUN_ID."
             fi
           fi
           gh workflow run test.yml --ref "$target"
