@@ -63,3 +63,15 @@ class Analogs(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ShallowCycles(unittest.TestCase):
+    def test_a_cycle_that_never_reached_ten_percent_still_counts(self):
+        import crash_study as cs
+        closes = [100, 92, 100, 101] + [101] * 70 + [110, 102]      # -8% cycle, then today at -7.3%
+        dates = [f'd{i:03d}' for i in range(len(closes))]
+        eps = cs.episodes(dates, closes)
+        self.assertEqual(eps, [])                                    # no 10% episode at all
+        cases = cs.analogs(dates, closes, eps, -0.07)
+        self.assertEqual([c['signal'] for c in cases], ['d001'])
+        self.assertAlmostEqual(cases[0]['path'][1], 100 / 92 - 1)

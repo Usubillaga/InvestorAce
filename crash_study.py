@@ -5,8 +5,8 @@ side comparison of the shared figures on the page.
 
 * Episodes: every fall of 10% or more from a record close until the record is regained (open when not regained).
   US episodes are matched with NBER recessions (peak and trough months, nber.org/research/business-cycle-dating).
-* Analogs: in every earlier episode, the first close at least as far below its record as the index is today. From that
-  close, the next 63 sessions are followed: whether +5% or +10% above it was reached within 5/21/42/63 sessions,
+* Analogs: in every earlier record-to-record cycle, the first close at least as far below its record as the index is
+  today, whether or not that cycle went on to -10% (the same rule as Codex's index_paths.py). From that close, the next 63 sessions are followed: whether +5% or +10% above it was reached within 5/21/42/63 sessions,
   whether +5% or -5% came first, the best and the final level, and the median path with its middle half.
 * Charts show the median path and the band of the middle half of the analogs, not one chosen historical path: with 11 to
   25 cases, a single line would suggest a precision the sample does not have.
@@ -59,18 +59,20 @@ def recession(start, end):
 
 
 def analogs(dates, closes, eps, depth, horizon=HORIZON):
-    """Forward paths (ratios to the signal close) from the first close at or below `depth` in each earlier episode."""
-    out = []
-    for peak, low, rec in eps:
-        if rec is None:
-            continue                                  # the current, open episode
-        level = closes[peak] * (1 + depth)
-        first = next((i for i in range(peak, (rec or len(closes))) if closes[i] <= level), None)
-        if first is None or first + horizon >= len(closes):
-            continue
-        base = closes[first]
-        out.append(dict(signal=dates[first], peak=dates[peak],
-                        path=[closes[first + k] / base - 1 for k in range(horizon + 1)]))
+    """Forward paths (ratios to the signal close) from the first close at or below `depth` below the running record,
+    once per record-to-record cycle, including cycles that never became a 10% episode (a -7% fall is compared with
+    every earlier -7% fall, not only with those that went on to -10%). The current, open cycle is left out."""
+    current = max(range(len(closes)), key=lambda i: (closes[i], i))
+    out, peak, crossed = [], 0, False
+    for i, price in enumerate(closes):
+        if price >= closes[peak]:
+            peak, crossed = i, False
+        elif not crossed and price <= closes[peak] * (1 + depth) + 1e-9:
+            crossed = True
+            if peak >= current or i + horizon >= len(closes):
+                continue
+            out.append(dict(signal=dates[i], peak=dates[peak],
+                            path=[closes[i + k] / price - 1 for k in range(horizon + 1)]))
     return out
 
 
@@ -206,8 +208,8 @@ def render(result, codex=None):
                  '<th class="l">Index</th><th>Below record</th><th>Days since record</th><th>Analogs</th>'
                  '<th>Most frequent first move</th><th>Share [95%]</th><th>Reached +5% in 63 sessions</th>'
                  '<th>Median best</th><th>Median after 63</th></tr></thead><tbody>' + ''.join(summary)
-                 + '</tbody></table></div><div class="note">An analog is the first close of an earlier episode as far '
-                 'below its record as the index is now; the analogs of the four indices overlap in time, so they are not '
+                 + '</tbody></table></div><div class="note">An analog is the first close of any earlier cycle as far '
+                 'below its record as the index is now, also in cycles that never reached -10%; the analogs of the four indices overlap in time, so they are not '
                  'independent evidence. "Median best" counts episodes that kept falling too.</div>')
     for symbol, r in result.items():
         a = r['analogs']
@@ -243,7 +245,9 @@ def render(result, codex=None):
                      '<th>Codex analogs</th><th>Claude analogs</th><th>Codex first move</th><th>Claude first move</th>'
                      '<th>Agree</th></tr></thead><tbody>' + ''.join(codex) + '</tbody></table></div>'
                      '<div class="note">Differences can come from the data (download date, adjusted series) or the '
-                     'method (episode definition, the analog close). Codex charts one historical path per index; this page '
+                     'method. A first version here took analogs only from 10% episodes and found 16 DAX cases instead of '
+                     'Codex\'s 25: the DAX is only about 7% down, and nine earlier 7% falls stopped before -10%. Codex\'s '
+                     'rule is the right one for this question and is used now. Codex charts one historical path per index; this page '
                      'shows the median and middle half instead.</div>')
     parts.append('<div class="note">Method and limits: crash_study.py. NBER recession dates are matched by month; '
                  'the DAX is a total-return index on Yahoo; Yahoo\'s Dow starts in 1992 and its DAX in 1987.</div>')
