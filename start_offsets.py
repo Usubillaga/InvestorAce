@@ -17,7 +17,7 @@ METRICS = ('cagr', 'max_drawdown', 'sharpe')
 
 
 def _diff(a, b):
-    return None if a is None or b is None else round(a - b, 4)
+    return None if a is None or b is None else a - b
 
 
 def summarise(pairs):
@@ -26,7 +26,7 @@ def summarise(pairs):
     diffs = {m: [] for m in METRICS}
     for base, var in pairs:
         gap = var['final'] - base['final']
-        if abs(gap) < 0.5:                     # final equity is rounded to whole currency units
+        if gap == 0:
             ties += 1
         elif gap > 0:
             wins += 1
@@ -47,31 +47,42 @@ def summarise(pairs):
 def study(simulate, frames, spx, sectors, prepared, windows, variants, base, starts=STARTS, step=STEP):
     """{period: {variant: summary}} with v1.6 and each variant paired on the same start and end dates."""
     import pandas as pd
+    if starts < 1 or step < 1:
+        raise ValueError('starts and step must be positive')
     out = {}
     for lo, hi in windows:
         start = pd.Timestamp(lo)
         end = pd.Timestamp(hi) if hi else None
         days = spx.index[(spx.index >= start) & ((spx.index < end) if end is not None else True)]
-        if len(days) < 250 + starts * step:
+        if len(days) < 250 + (starts - 1) * step:
             continue
         label = f'{days[0].date()} → {days[-1].date()}'
         runs = {}
         for k in range(starts):
             first = days[k * step]
-            runs[k] = {name: simulate(frames, spx, sectors, first, end, prepared, **rule)
+            runs[k] = {name: simulate(frames, spx, sectors, first, end, prepared, precise=True, **rule)
                        for name, rule in variants.items()}
         out[label] = {name: summarise([(runs[k][base], runs[k][name]) for k in range(starts)])
                       for name in variants if name != base}
+        for name, row in out[label].items():
+            row['observations'] = [
+                dict(start=str(days[k * step].date()), end=str(days[-1].date()),
+                     equity_delta=runs[k][name]['final'] - runs[k][base]['final'],
+                     **{m: _diff(runs[k][name][m], runs[k][base][m]) for m in METRICS})
+                for k in range(starts)]
     return out
 
 
 def report(result):
-    lines = ['', '## Start-date sensitivity (20 starts, 5 sessions apart, paired with v1.6)', '',
+    lines = ['', '## Start-date sensitivity (paired with v1.6)', '',
              'Each row compares a variant with v1.6 started on the same day with the same capital. Wins / ties / losses '
              'count ending equity; Δ columns show median [min, max] of the paired differences. The starts overlap, so the '
              'counts describe sensitivity to the start date, not a probability of future outperformance.', '']
     for period, rows in result.items():
-        lines += [f'### {period}', '', '| Variant | W / T / L | Original start ΔCAGR | ΔCAGR | ΔMax DD | ΔSharpe |',
+        first = next(iter(rows.values()), {})
+        precision = ('Counts use unrounded ending equity.' if 'observations' in first else
+                     'Archived run: wins and ties use ending equity rounded to whole currency units.')
+        lines += [f'### {period}', '', f"{first.get('starts', 0)} paired starts. {precision}", '',  '| Variant | W / T / L | Original start ΔCAGR | ΔCAGR | ΔMax DD | ΔSharpe |',
                   '|---|---|---:|---|---|---|']
         for name, r in rows.items():
             def cell(m):

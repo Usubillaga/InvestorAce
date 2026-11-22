@@ -219,7 +219,7 @@ buffer_200d_3pct vs 1%: order plans identical = True, executed positions identic
 
 ### 2018-01-02 → 2021-12-31
 
-First differing order plan on 2018-10-12 (side, symbol, shares): v1.6 only [('BUY', 'B', 133)], 1% only [].
+First differing order plan on 2018-10-12 (side, symbol, shares): v1.6 only [['BUY', 'B', 133]], 1% only [].
 
 Ending equity difference: +6606.18; total-return difference +66.06 percentage points. Differing positions: 281.
 
@@ -256,11 +256,13 @@ buffer_200d_2pct vs 1%: order plans identical = True, executed positions identic
 buffer_200d_3pct vs 1%: order plans identical = True, executed positions identical = True.
 
 
-## Start-date sensitivity (20 starts, 5 sessions apart, paired with v1.6)
+## Start-date sensitivity (paired with v1.6)
 
 Each row compares a variant with v1.6 started on the same day with the same capital. Wins / ties / losses count ending equity; Δ columns show median [min, max] of the paired differences. The starts overlap, so the counts describe sensitivity to the start date, not a probability of future outperformance.
 
 ### 2014-01-02 → 2017-12-29
+
+20 paired starts. Archived run: wins and ties use ending equity rounded to whole currency units.
 
 | Variant | W / T / L | Original start ΔCAGR | ΔCAGR | ΔMax DD | ΔSharpe |
 |---|---|---:|---|---|---|
@@ -287,6 +289,8 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 
 ### 2018-01-02 → 2021-12-31
 
+20 paired starts. Archived run: wins and ties use ending equity rounded to whole currency units.
+
 | Variant | W / T / L | Original start ΔCAGR | ΔCAGR | ΔMax DD | ΔSharpe |
 |---|---|---:|---|---|---|
 | base_v1_5 | 9 / 0 / 11 | +7.29 | -0.80 [-15.33, +7.29] | -0.71 [-4.92, +2.15] | -0.01 [-0.45, +0.24] |
@@ -311,6 +315,8 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | shorts_always | 0 / 0 / 20 | -16.46 | -15.82 [-28.48, -4.34] | -10.65 [-21.09, -7.40] | -0.56 [-0.97, -0.24] |
 
 ### 2022-01-03 → 2026-11-20
+
+20 paired starts. Archived run: wins and ties use ending equity rounded to whole currency units.
 
 | Variant | W / T / L | Original start ΔCAGR | ΔCAGR | ΔMax DD | ΔSharpe |
 |---|---|---:|---|---|---|

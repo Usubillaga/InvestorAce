@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
     paths:
+      - 'backtests/latest.json'
+      - 'start_offsets.py'
       - 'weekly-research/**'
       - 'market-briefings/**'
       - 'daily-briefings/**'

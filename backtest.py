@@ -193,7 +193,7 @@ def portfolio_inputs(frames):
     return close, close.ffill(), breadth, candidates, rows, shorts
 
 
-def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, **rule):
+def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, precise=False, **rule):
     """Daily decisions on close t, fills at close t+1 (the live system: last night's build, today's close)."""
     dates = spx.index[(spx.index >= start) & ((spx.index < end) if end is not None else True)]
     spx_sma = spx.rolling(200).mean()
@@ -383,13 +383,13 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, *
         trace.final = float(curve.iloc[-1])
         for s in pos:
             trace.mark(s, dates[-1], marks.at[dates[-1], s], 'OPEN_MARK', 0)
-    result = _metrics(curve, trades)
+    result = _metrics(curve, trades, precise=precise)
     result['longest_carried_mark'] = stale_sessions
     result['unpriced_at_end'] = sorted(s for s in pos if pos[s].get('stale'))
     return result
 
 
-def _metrics(curve, trades):
+def _metrics(curve, trades, precise=False):
     rets = curve.pct_change().dropna()
     years = max((curve.index[-1] - curve.index[0]).days / 365.25, 1e-9)
     peak = curve.cummax()
@@ -399,6 +399,11 @@ def _metrics(curve, trades):
                sharpe=round(float(rets.mean() / rets.std() * math.sqrt(252)), 2) if rets.std() > 0 else None,
                max_drawdown=_pct((curve / peak - 1).min()),
                trades=len(trades))
+    if precise:
+        out.update(final=float(curve.iloc[-1]),
+                   cagr=100 * ((curve.iloc[-1] / curve.iloc[0]) ** (1 / years) - 1),
+                   max_drawdown=100 * (curve / peak - 1).min(),
+                   sharpe=float(rets.mean() / rets.std() * math.sqrt(252)) if rets.std() > 0 else None)
     if trades:
         r = pd.Series([t['ret'] for t in trades])
         out.update(win_rate=_pct((r > 0).mean()), avg_trade=_pct(r.mean()),
@@ -575,6 +580,21 @@ def _md_to_html(md):
     return ''.join(out)
 
 
+def complete_report(result):
+    md = report(result)
+    if result.get('start_offsets'):
+        import start_offsets
+        md += start_offsets.report(result['start_offsets'])
+    elif result.get('start_offsets_error'):
+        md += '\n## Start-date sensitivity\n\nNot computed: ' + result['start_offsets_error'] + '\n'
+    if result.get('pairs'):
+        import pairs_backtest
+        md += pairs_backtest.report(result['pairs'])
+    elif result.get('pairs_error'):
+        md += '\n## Pairs trading\n\nNot computed: ' + result['pairs_error'] + '\n'
+    return md
+
+
 def site_pages(root, build=None):
     """backtest.html from the committed results; empty until a backtest has run."""
     from war_scenario import shell
@@ -586,7 +606,7 @@ def site_pages(root, build=None):
              'a manual run is requested. See Codex active trading for the prospective comparison.</div>')
     if result.get('schema') != 'backtest-v3':
         intro += '<p class="note">Legacy simulation: missing quotes could understate equity. Corrected results pending.</p>'
-    return [(Path(PAGE), shell('Backtest', intro + _md_to_html(report(result))))]
+    return [(Path(PAGE), shell('Backtest', intro + _md_to_html(complete_report(result))))]
 
 
 def main():
@@ -629,11 +649,10 @@ def main():
                   event_study=event_study(frames, spx, start),
                   portfolio=portfolio, buffer_attribution=audit,
                   spx=_metrics(spx_curve, []))
-    try:                                   # start-date sensitivity (start_offsets.py); same prices, more start dates
-        import start_offsets
-        result['start_offsets'] = start_offsets.study(simulate, frames, spx, sectors, prepared, WINDOWS, VARIANTS, BASE)
-    except Exception as exc:               # pragma: no cover - reported in the results instead
-        result['start_offsets_error'] = f'{type(exc).__name__}: {exc}'
+    import start_offsets
+    result['start_offsets'] = start_offsets.study(simulate, frames, spx, sectors, prepared, WINDOWS, VARIANTS, BASE)
+    if len(result['start_offsets']) != len(WINDOWS):
+        raise ValueError('Incomplete start-date study; retaining previous report')
     try:                                   # pairs study (pairs_backtest.py); a failure must not lose the main report
         import pairs_backtest
         result['pairs'] = pairs_backtest.study(prepared[0], sectors, spx, WINDOWS)
@@ -650,17 +669,7 @@ def main():
             elif previous.get('previous_method'):
                 result['previous_method'] = previous['previous_method']
     (OUT / 'latest.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
-    md = report(result)
-    if result.get('start_offsets'):
-        import start_offsets
-        md += start_offsets.report(result['start_offsets'])
-    elif result.get('start_offsets_error'):
-        md += '\n## Start-date sensitivity\n\nNot computed: ' + result['start_offsets_error'] + '\n'
-    if result.get('pairs'):
-        import pairs_backtest
-        md += pairs_backtest.report(result['pairs'])
-    elif result.get('pairs_error'):
-        md += '\n## Pairs trading\n\nNot computed: ' + result['pairs_error'] + '\n'
+    md = complete_report(result)
     (OUT / 'latest.md').write_text(md, encoding='utf-8')
     print(md)
 

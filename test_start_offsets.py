@@ -30,14 +30,20 @@ class StartOffsets(unittest.TestCase):
         same = out[period]['same']
         self.assertEqual((same['starts'], same['wins'], same['ties'], same['losses']), (4, 0, 4, 0))
         self.assertEqual(same['cagr'], dict(median=0.0, min=0.0, max=0.0))
+        self.assertEqual(len(same['observations']), 4)
+        self.assertEqual(len({r['end'] for r in same['observations']}), 1)
         other = out[period]['sell_all_in_correction']
         self.assertEqual(other['wins'] + other['ties'] + other['losses'], 4)
         base0 = bt.simulate(frames, spx, {}, pd.Timestamp('2019-01-01'), prepared=bt.portfolio_inputs(frames),
-                            **bt.VARIANTS[bt.BASE])
+                            precise=True, **bt.VARIANTS[bt.BASE])
         var0 = bt.simulate(frames, spx, {}, pd.Timestamp('2019-01-01'), prepared=bt.portfolio_inputs(frames),
-                           **bt.VARIANTS['sell_all_in_correction'])
-        self.assertAlmostEqual(other['original']['cagr'], round(var0['cagr'] - base0['cagr'], 4))
+                           precise=True, **bt.VARIANTS['sell_all_in_correction'])
+        self.assertAlmostEqual(other['original']['cagr'], var0['cagr'] - base0['cagr'])
         self.assertIn('W / T / L', so.report(out))
+
+    def test_subunit_gain_counts_as_win(self):
+        row = so.summarise([({'final': 10000.1}, {'final': 10000.2})])
+        self.assertEqual((row['wins'], row['ties']), (1, 0))
 
     def test_short_periods_are_skipped(self):
         frames, spx = market(n=400)
