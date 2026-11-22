@@ -590,6 +590,8 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                 if include_war else '')
     crash_link = ('<a href="crash-monitor.html" style="color:#c1d98b;font-weight:700">Crash monitor ↗</a>'
                   if include_crash else '')
+    if include_crash:
+        crash_link += '<a href="correction_study/index.html">Atlas de correcciones ↗</a>'
     market_link = ('<a href="market.html" style="color:#c1d98b;font-weight:700">Montagsbriefing ↗</a>'
                    if include_market else '')
     research_link = ('<a href="research.html" style="color:#c1d98b;font-weight:700">Friday research ↗</a>'
@@ -738,6 +740,9 @@ def build_site(root, output, require_committed=False):
     # Validate all content before creating an uploadable site.
     pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages + trade_pages + backtest_pages
     pages += stress_pages + codex + experiment_pages + long_short_pages + desk_pages + report_pages
+    atlas = Path(__file__).parent / 'correction_study'
+    pages.extend((Path('correction_study') / name, (atlas / name).read_bytes())
+                 for name in ('index.html', 'results.json'))
     pages += earnings_index(root / 'earnings')
     # Prepare dated earnings artifacts before replacing any published page.
     earnings = root / 'earnings'
