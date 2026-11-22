@@ -229,7 +229,8 @@
           "AFM CSV export produced a decoding error in web access; direct retrieval returned HTTP403. XML export exceeded tool content-size limit.",
           "Pagination links collapsed to the same base listing. Generic search results are not exhaustive; empty ASML-specific output is not evidence of no trades.",
           "Legacy NOT CHECKED should become PARTIAL, not no activity."
-        ]
+        ],
+        "reviewed_at": "2026-10-14"
       },
       "review_note": "Reported FCF arithmetic checked; sustainable FCF, exact current diluted shares, rate basis, and complete net-debt bridge remain unverified. Insider native route inspected with incomplete window coverage."
     },
@@ -555,7 +556,8 @@
           "Coverage means publicly available manager declarations in the native register at retrieval; it cannot establish undisclosed, exempt, below-threshold, or future late-reported activity.",
           "FCPE quantities are fund units (ISIN QS0004086268), not ordinary Sanofi shares. These subscriptions must not be combined with discretionary open-market stock purchases.",
           "AMF receipt date and database publication date are distinct; both are retained. US Form4/10b5-1 codes are not supplied by these French declarations. Roy sale is identified as originating from a prior award; tax-sale purpose is not stated and is not inferred."
-        ]
+        ],
+        "reviewed_at": "2026-10-14"
       },
       "review_note": "Source-checked reported H1 data does not validate EUR6.9bn sustainable model. Replace generic AWARDS label with dated subscription/sale evidence. No motive inferred."
     },
@@ -658,7 +660,8 @@
         "limitations": [
           "AFM full CSV export unreadable/HTTP403; XML export too large; issuer/date filters unavailable.",
           "No recent WKL manager event verified; that is not a no-trades finding. Legacy MIXED is unsupported for this window."
-        ]
+        ],
+        "reviewed_at": "2026-10-14"
       },
       "review_note": "Share denominator issue is material; cancellation changes issued shares but not economic outstanding shares by itself because cancelled shares were already treasury. Use outstanding ex-treasury plus appropriate dilution; do not count cancelled treasury shares twice."
     },
@@ -770,7 +773,8 @@
         "limitations": [
           "CHECKED_NO_EVENTS means no published DD declarations in this exact native-query window; it is not proof no actual trade occurred. Exempt/below-threshold/unreported transactions and later filings are outside public coverage.",
           "Legacy BUYING·LILA does not have current-window support. Issuer own-share repurchase releases are not insider purchases."
-        ]
+        ],
+        "reviewed_at": "2026-10-14"
       },
       "review_note": "Correct H1 FCF note immediately. 13.1bn is neither verified reported H1 nor reported TTM. Native AMF publication-window check verified, without motives inference."
     },
@@ -987,9 +991,91 @@
           "No no-trades conclusion. Third-party snippets were not used as verified events without original disclosures.",
           "CorporateSep14 equity issuance is financing, not an insider transaction.",
           "Historical ownership, DSUs, RSUs and compensation elections in March circular are not current-window trades."
-        ]
+        ],
+        "reviewed_at": "2026-10-14"
       },
-      "review_note": "CAD12.9bn is DCF-like equity cash flow, not OCF minus growth capex. Shares must reflect Sep14 offering before any current per-share valuation. Insider check remains unavailable."
+      "review_note": "CAD12.9bn is DCF-like equity cash flow, not OCF minus growth capex. Shares must reflect Sep14 offering before any current per-share valuation. Insider check remains unavailable.",
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "id": "ENB-Q3-PDF",
+            "url": "https://www.enbridge.com/~/media/Enb/Documents/Investor-Relations/2026/2026_Q3_Financial_Statements_MDA_Final.pdf?hash=97B5C27C9F70D4ACD5364956F73392BE&rev=c668c96636c745c2b214301947eef402",
+            "published_at": "2026-11-06",
+            "locator": "Statements cashflow p4; EPS/dividend note5 pp11-12; MD&A sources/uses p16",
+            "status": "READ",
+            "title": "Statements cashflow p4; EPS/dividend note5 pp11-12; MD&A sources/uses p16"
+          },
+          {
+            "id": "ENB-Q3-IR",
+            "url": "https://enbridge.mediaroom.com/2026-11-06-Enbridge-Reports-Strong-Third-Quarter-Results,-Places-Over-3-Billion-of-Gas-Transmission-Projects-Into-Service,-and-Reaffirms-2026-Financial-Guidance",
+            "published_at": "2026-11-06",
+            "locator": "DCF bridge and definition; reported results",
+            "status": "READ",
+            "title": "DCF bridge and definition; reported results"
+          },
+          {
+            "id": "ENB-DIV",
+            "url": "https://www.enbridge.com/media-center/news/details?id=123893&lang=en",
+            "published_at": "2026-11-04",
+            "locator": "Dividend declaration table",
+            "status": "READ",
+            "title": "Dividend declaration table"
+          }
+        ],
+        "gap": "New TTM still requires FY2025/prior9m bridge and dated outstanding shares; PostSep acquisition scope and debt/equity perimeter need tie-out; Full90d SEDI inaccessible",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-09-30",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/due_sources_a.json",
+        "payments": {
+          "period": "2026-01-01/2026-09-30",
+          "unit": "CAD million",
+          "scope": "CONSOLIDATED",
+          "preferred_cash_paid": 319,
+          "common_cash_paid": 6355,
+          "preferred_earnings_deduction": 319,
+          "noncontrolling_distributions": 272,
+          "redeemable_noncontrolling_distributions": 52,
+          "preferred_redemption_cash": null,
+          "redemption_premium": null,
+          "note": "Cashflow financing rows separately show preferred319/common6355. Common-attributable earnings and management DCF already after preference dividends; do not deduct twice."
+        },
+        "next_common_payment": {
+          "declared_on": "2026-11-03",
+          "published_on": "2026-11-04",
+          "ex_date": null,
+          "record_date": "2026-11-13",
+          "payable_date": "2026-12-01",
+          "actual_payment_date": null,
+          "amount": 0.97,
+          "currency": "CAD",
+          "status": "DECLARED_NOT_PAID",
+          "source_id": "ENB-DIV"
+        },
+        "insider_attempt": {
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22T07:57:39+00:00",
+          "status": "UNAVAILABLE",
+          "attempt_url": "https://www.sedi.ca/",
+          "reason": "Native SEDI redirected to perfdrive validation wall; issuer/window listing inaccessible, no no-events claim."
+        },
+        "summary": "YTD CAD million: preferred cash paid 319; common cash paid 6355. Management DCF already deducts preference dividends. Common CAD0.97 payable 2026-12-01; record 2026-11-13; actual payment unknown.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+        }
+      }
     },
     "UNH": {
       "issuer": "UnitedHealth Group Incorporated",
@@ -1851,7 +1937,8 @@
           "listing_source": "https://data.sec.gov/submissions/CIK0000731766.json",
           "basis": "Form 4 and 4/A filed within window, transactions dated within window; later undisclosed filings cannot be observed as of cut-off.",
           "superseded_rows_excluded": 0
-        }
+        },
+        "reviewed_at": "2026-10-14"
       }
     },
     "NFLX": {
@@ -4354,7 +4441,8 @@
           "listing_source": "https://data.sec.gov/submissions/CIK0001065280.json",
           "basis": "Form 4 and 4/A filed within window, transactions dated within window; later undisclosed filings cannot be observed as of cut-off.",
           "superseded_rows_excluded": 0
-        }
+        },
+        "reviewed_at": "2026-10-14"
       }
     },
     "NVDA": {
@@ -5400,6 +5488,67 @@
           "listing_source": "https://data.sec.gov/submissions/CIK0001045810.json",
           "basis": "Form 4 and 4/A filed within window, transactions dated within window; later undisclosed filings cannot be observed as of cut-off.",
           "superseded_rows_excluded": 1
+        },
+        "reviewed_at": "2026-10-14"
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Third-Quarter-Fiscal-2027/default.aspx",
+            "publication_date": "2026-11-17",
+            "locator": "Cashflow statement and non-GAAP FCF reconciliation; next dividend paragraph",
+            "read": true,
+            "title": "Cashflow statement and non-GAAP FCF reconciliation; next dividend paragraph"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000088/q3fy27pr.htm",
+            "publication_date": "2026-11-17",
+            "locator": "Exhibit99.1 quarterly report headline and dividend paragraph",
+            "read": true,
+            "title": "Exhibit99.1 quarterly report headline and dividend paragraph"
+          }
+        ],
+        "gap": "Cache remains July31 despite issuer October25 report. Need FY/priorYTD matched bridge, current point-in-time shares and cashflow contract; release diluted weighted shares are not spot shares. No blind YTD to TTM substitution.",
+        "next_check_date": "2026-11-30",
+        "financial_period": "2026-10-25",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/own_sources.json",
+        "payments": [],
+        "next_common_payment": {
+          "declared_on": null,
+          "announced_on": "2026-11-17",
+          "ex_date": null,
+          "record_date": "2026-12-02",
+          "payable_date": "2026-12-23",
+          "actual_payment_date": null,
+          "amount": 0.25,
+          "currency": "USD",
+          "status": "DECLARED_NOT_PAID"
+        },
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22",
+          "retrieved_at": "2026-11-22T08:01:48.699150+00:00",
+          "documents_read": 16,
+          "gap": "Native SEC listing and original documents retrieved; complete row/plan adjudication remains partial. No net trade signal.",
+          "packet": "nvda-insider-evidence.json"
+        },
+        "summary": "YTD USD million: OCF122675 less PPE/intangibles8856 and principal147 gives issuer FCF113672; common dividends paid12316. Common USD0.25 payable 2026-12-23, record 2026-12-02; not yet paid. October25 period not yet reconciled to cached July inputs. Current insider window: 16/16 documents read; Parker 4/A replaces original award, not an extra trade.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
       }
     },
@@ -5920,7 +6069,8 @@
           "listing_source": "https://data.sec.gov/submissions/CIK0000078003.json",
           "basis": "Form 4 and 4/A filed within window, transactions dated within window; later undisclosed filings cannot be observed as of cut-off.",
           "superseded_rows_excluded": 0
-        }
+        },
+        "reviewed_at": "2026-10-14"
       }
     },
     "LULU": {
@@ -6102,7 +6252,8 @@
           "listing_source": "https://data.sec.gov/submissions/CIK0001397187.json",
           "basis": "Form 4 and 4/A filed within window, transactions dated within window; later undisclosed filings cannot be observed as of cut-off.",
           "superseded_rows_excluded": 0
-        }
+        },
+        "reviewed_at": "2026-10-14"
       }
     },
     "DVN": {
@@ -6900,6 +7051,90 @@
         "coverage": {
           "complete": false,
           "checked_through": "2026-11-02"
+        }
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "id": "OXY-Q3-IR",
+            "url": "https://www.oxy.com/news/news-releases/occidental-announces-3rd-quarter-2026-results",
+            "published_at": "2026-11-09T16:15:00-05:00",
+            "period": "Q3 2026",
+            "locator": "Quarterly results / supplemental non-GAAP measures",
+            "status": "READ",
+            "title": "Quarterly results / supplemental non-GAAP measures"
+          },
+          {
+            "id": "OXY-Q3-10Q",
+            "url": "https://www.sec.gov/Archives/edgar/data/797468/000162828026072198/oxy-20260930.htm",
+            "published_at": "2026-11-09",
+            "document_id": "0001628280-26-072198",
+            "locator": "Statements of cash flows printed p7, equity printed p6, cover, MD&A liquidity",
+            "status": "READ",
+            "title": "Statements of cash flows printed p7, equity printed p6, cover, MD&A liquidity"
+          },
+          {
+            "id": "OXY-DIV",
+            "url": "https://www.oxy.com/news/news-releases/occidental-announces-dividend5/",
+            "published_at": "2026-10-26",
+            "locator": "Declaration paragraph",
+            "status": "READ",
+            "title": "Declaration paragraph"
+          }
+        ],
+        "gap": "Current paid preferred/common cash split unresolved; TTM requires original FY/priorYTD continuing and preferred-paid bridge; No sustainable midcycle replacement inferred from YTD or pre-working-capital non-GAAP FCF; Full 90-day Forms4/4A unavailable",
+        "next_check_date": "2026-11-23",
+        "financial_period": "2026-09-30",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/due_sources_a.json",
+        "payments": {
+          "period": "2026-01-01/2026-09-30",
+          "unit": "USD million",
+          "scope": "CONSOLIDATED",
+          "common_and_preferred_cash_paid": 1271,
+          "preferred_cash_paid": null,
+          "common_cash_paid": null,
+          "preferred_declared_equity_deduction": 509,
+          "common_declared_equity_deduction": 806,
+          "preferred_carrying_value_at_period_end": 8287,
+          "preferred_redemption_cash": null,
+          "redemption_premium": null,
+          "note": "Equity declarations 509+806=1315 differ from paid1271. Do not derive preferred cash by subtracting declared806 from paid1271."
+        },
+        "next_common_payment": {
+          "declared_on": "2026-10-26",
+          "ex_date": null,
+          "record_date": "2026-12-10",
+          "record_timing": "CLOSE_OF_BUSINESS",
+          "payable_date": "2027-01-15",
+          "actual_payment_date": null,
+          "amount": 0.28,
+          "currency": "USD",
+          "status": "DECLARED_NOT_PAID",
+          "source_id": "OXY-DIV"
+        },
+        "insider_attempt": {
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22T07:57:39+00:00",
+          "status": "UNAVAILABLE",
+          "reason": "SEC native type4 issuer listing could not be fetched by web tool; no complete list, pagination or document coverage. No no-events claim.",
+          "attempt_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=797468&type=4&dateb=20261122&owner=only&count=100"
+        },
+        "summary": "YTD USD million: combined common/preferred cash paid 1271; preferred declared 509, not proof of cash paid. Common USD0.28 payable 2027-01-15; record 2026-12-10; actual payment unknown.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
       }
     },
@@ -7739,6 +7974,402 @@
         "sources": [],
         "transactions": [],
         "limitations": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://ir.byrna.com/sec-filings/all-sec-filings/content/0001437749-26-032353/byrn20260831_10q.htm",
+            "published_at": "2026-10-08",
+            "locator": "Original 10-Q; see linked evidence observations",
+            "title": "Original 10-Q; see linked evidence observations"
+          }
+        ],
+        "gap": "Full annual/TTM numerical bridge and sustainable normalization not reverified; Q3 includes tariff refunds and manufacturing shutdown impairment. No NGV recalculation approved.",
+        "next_check_date": "2026-12-07",
+        "financial_period": "2026-08-31",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/preferred-review-evidence.json",
+        "payments": [
+          {
+            "key": "preferred_outstanding",
+            "value": 0,
+            "unit": "shares",
+            "dates": [
+              "2026-08-31",
+              "2025-11-30"
+            ],
+            "locator": "10-Q p2 preferred row",
+            "source": "https://ir.byrna.com/sec-filings/all-sec-filings/content/0001437749-26-032353/byrn20260831_10q.htm"
+          },
+          {
+            "key": "operating_cashflow",
+            "value": -3470000,
+            "unit": "USD",
+            "period": "nine months ended 2026-08-31",
+            "locator": "10-Q p4 statement cash flows",
+            "source": "https://ir.byrna.com/sec-filings/all-sec-filings/content/0001437749-26-032353/byrn20260831_10q.htm"
+          },
+          {
+            "key": "cash_capex",
+            "value": 1237000,
+            "unit": "USD",
+            "period": "nine months ended 2026-08-31",
+            "locator": "10-Q p4 purchases property equipment",
+            "source": "https://ir.byrna.com/sec-filings/all-sec-filings/content/0001437749-26-032353/byrn20260831_10q.htm"
+          },
+          {
+            "key": "ocf_minus_cashcapex",
+            "value": -4707000,
+            "unit": "USD",
+            "period": "nine months ended 2026-08-31",
+            "basis": "DERIVED -3470000 -1237000; not TTM/normalized/sustainable value",
+            "locator": "10-Q p4",
+            "source": "https://ir.byrna.com/sec-filings/all-sec-filings/content/0001437749-26-032353/byrn20260831_10q.htm"
+          },
+          {
+            "key": "shares_outstanding",
+            "value": 23404754,
+            "unit": "shares",
+            "as_of": "2026-10-08",
+            "locator": "10-Q cover; also Aug31 balance-sheet point-in-time same amount",
+            "source": "https://ir.byrna.com/sec-filings/all-sec-filings/content/0001437749-26-032353/byrn20260831_10q.htm"
+          },
+          {
+            "key": "common_dividends_status",
+            "value": "NOT_PAID_HISTORICALLY; no foreseeable payment expected",
+            "locator": "Note share-based compensation dividend yield policy",
+            "source": "https://ir.byrna.com/sec-filings/all-sec-filings/content/0001437749-26-032353/byrn20260831_10q.htm"
+          }
+        ],
+        "next_common_payment": null,
+        "insider_attempt": {
+          "status": "CHECKED_WITH_EVENTS",
+          "coverage": "Issuer Section16 listing pages1 and2 read to Aug14 (before Aug24 start); nine Forms4/4A in window opened and tables read. One Form3 not treated as transaction. Registry lag possible, no unreported-trade exclusion.",
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22T07:57:48+00:00",
+          "list_urls": [
+            "https://ir.byrna.com/sec-filings/section-16-filings",
+            "https://ir.byrna.com/sec-filings/section-16-filings?page=2"
+          ],
+          "rule10b5_1": "UNKNOWN for BYRN rows; no explicit plan footnote in read transactions",
+          "transactions": [
+            {
+              "owner": "Leonard J Elmore",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-037391/rdgdoc.html",
+              "transaction_date": "2026-11-07",
+              "filing_date": "2026-11-17",
+              "published_date": "2026-11-17",
+              "code": "A",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 25848,
+              "unit": "RSUs",
+              "price": 0,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "Herbert Hughes",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035883/rdgdoc.html",
+              "transaction_date": "2026-11-07",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "A",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 25848,
+              "unit": "RSUs",
+              "price": 0,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "Matthew R McBrady",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035878/rdgdoc.html",
+              "transaction_date": "2026-11-07",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "A",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 25848,
+              "unit": "RSUs",
+              "price": null,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "Chris Lavern Reed",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035877/rdgdoc.html",
+              "transaction_date": "2026-11-07",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "A",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 25848,
+              "unit": "RSUs",
+              "price": null,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "Adam L Roth",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035876/rdgdoc.html",
+              "transaction_date": "2026-11-07",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "A",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 25848,
+              "unit": "RSUs",
+              "price": null,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "TJ Kennedy",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035880/rdgdoc.html",
+              "transaction_date": "2026-11-06",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "M",
+              "instrument": "Common Stock",
+              "table": "I",
+              "amount": 810,
+              "unit": "shares",
+              "price": null,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "TJ Kennedy",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035880/rdgdoc.html",
+              "transaction_date": "2026-11-06",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "M",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 810,
+              "unit": "RSUs",
+              "price": 0,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "D",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "TJ Kennedy",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035880/rdgdoc.html",
+              "transaction_date": "2026-11-07",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "A",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 25848,
+              "unit": "RSUs",
+              "price": 0,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "TJ Kennedy",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035880/rdgdoc.html",
+              "transaction_date": "2026-11-07",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "A",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 7755,
+              "unit": "RSUs",
+              "price": 0,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "Rose P Keravuori",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035875/rdgdoc.html",
+              "transaction_date": "2026-11-06",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "M",
+              "instrument": "Common Stock",
+              "table": "I",
+              "amount": 561,
+              "unit": "shares",
+              "price": null,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "Rose P Keravuori",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035875/rdgdoc.html",
+              "transaction_date": "2026-11-06",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "M",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 561,
+              "unit": "RSUs",
+              "price": 0,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "D",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "Rose P Keravuori",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-035875/rdgdoc.html",
+              "transaction_date": "2026-11-07",
+              "filing_date": "2026-11-09",
+              "published_date": "2026-11-09",
+              "code": "A",
+              "instrument": "Restricted Stock Unit",
+              "table": "II",
+              "amount": 25848,
+              "unit": "RSUs",
+              "price": null,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Director compensation, not market purchase"
+            },
+            {
+              "owner": "Adam L Roth",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-032801/rdgdoc.html",
+              "transaction_date": "2026-10-14",
+              "filing_date": "2026-10-16",
+              "published_date": "2026-10-16",
+              "code": "P",
+              "instrument": "Common Stock",
+              "table": "I",
+              "amount": 5000,
+              "unit": "shares",
+              "price": 4.53,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Code P: open market or private purchase; venue not proven."
+            },
+            {
+              "owner": "Adam L Roth",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-032801/rdgdoc.html",
+              "transaction_date": "2026-10-15",
+              "filing_date": "2026-10-16",
+              "published_date": "2026-10-16",
+              "code": "P",
+              "instrument": "Common Stock",
+              "table": "I",
+              "amount": 7500,
+              "unit": "shares",
+              "price": 4.78,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Code P: open market or private purchase; venue not proven."
+            },
+            {
+              "owner": "Adam L Roth",
+              "role": "Director",
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-032801/rdgdoc.html",
+              "transaction_date": "2026-10-15",
+              "filing_date": "2026-10-16",
+              "published_date": "2026-10-16",
+              "code": "P",
+              "instrument": "Common Stock",
+              "table": "I",
+              "amount": 2500,
+              "unit": "shares",
+              "price": 4.75,
+              "currency": "USD",
+              "ownership": "D",
+              "acquired_disposed": "A",
+              "rule10b5_1": "UNKNOWN",
+              "note": "Code P: open market or private purchase; venue not proven."
+            }
+          ],
+          "amendments_read": [
+            {
+              "source": "https://ir.byrna.com/sec-filings/section-16-filings/content/0001437749-26-032802/rdgdoc.html",
+              "filing_date": "2026-10-16",
+              "original_filing": "2024-04-29",
+              "transaction_date": "2024-04-29",
+              "owner": "Luan Pham",
+              "code": "F",
+              "amount": 1842,
+              "price": 13.67,
+              "currency": "USD",
+              "note": "Corrects share withholding amount and postholding for old 2024 transaction; explicitly not market transaction. Do not count as new 90-day transaction or duplicate."
+            }
+          ]
+        },
+        "summary": "No preferred issued at August31 and opening November30 dates. Historical Series A converted April15 2021. YTD OCF less cash PPE is -USD4707000, not TTM or normalized FCFE.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+        }
       }
     },
     "AWK": {
@@ -8083,6 +8714,68 @@
         "sources": [],
         "transactions": [],
         "limitations": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "id": "CRWV-Q3-IR",
+            "url": "https://investors.coreweave.com/news/news-details/2026/CoreWeave-Reports-Strong-Third-Quarter-2026-Results/",
+            "published_at": "2026-11-10",
+            "locator": "Consolidated cashflows and balance sheet",
+            "status": "READ",
+            "title": "Consolidated cashflows and balance sheet"
+          },
+          {
+            "id": "CRWV-Q3-10Q",
+            "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000465/crwv-20260930.htm",
+            "document_id": "0001769628-26-000465",
+            "published_at": "2026-11-10",
+            "locator": "Balance sheet p6; Note11 pp38-39 (preferred conversion and dividends)",
+            "status": "READ",
+            "title": "Balance sheet p6; Note11 pp38-39 (preferred conversion and dividends)"
+          }
+        ],
+        "gap": "TTM bridge not complete; Mixed-period provider debt should be reconciled to issuer debt plus declared lease contract; Full90d Forms4/4A listing unavailable",
+        "next_check_date": "2026-11-23",
+        "financial_period": "2026-09-30",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/due_sources_a.json",
+        "payments": {
+          "period": "2026-01-01/2026-09-30",
+          "unit": "USD million",
+          "preferred_cash_paid": 0,
+          "common_cash_paid": 0,
+          "preferred_outstanding": 0,
+          "preferred_status": "CONVERTED_AT_2025_IPO",
+          "preferred_redemption_cash": null,
+          "redemption_premium": null,
+          "evidence": "Note11 explicitly states no2026 cash dividends; 29m priorYTD2025 cash paid. Preferred dividends ceased at IPO conversion, redeemable common put right terminated Sep2025."
+        },
+        "next_common_payment": null,
+        "insider_attempt": {
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22T07:57:39+00:00",
+          "status": "PARTIAL",
+          "attempt_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1769628&type=4&dateb=20261122&owner=only&count=100",
+          "reason": "Native issuer list inaccessible. One Oct14 Form4 index discovered but document not read; do not add events or no-events certification.",
+          "discovered_not_reviewed": "https://www.sec.gov/Archives/edgar/data/2058038/000176962826000449/0001769628-26-000449-index.htm"
+        },
+        "summary": "2026 YTD preferred dividends paid zero and no preferred shares outstanding, expressly reported; historical 2025 payment is not a current claim. September debt/lease definition remains open.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+        }
       }
     },
     "MRNA": {
@@ -8127,6 +8820,69 @@
         "sources": [],
         "transactions": [],
         "limitations": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://www.modernatx.com/en-US/third-quarter-2026-earnings",
+            "locator": "IR Insights, November 6, 2026; Delivering on Our Financial Priorities and financing discussion",
+            "publication_date": "2026-11-06",
+            "retrieved_date": "2026-11-22",
+            "document_id": "third-quarter-2026-earnings",
+            "read": true,
+            "title": "IR Insights, November 6, 2026; Delivering on Our Financial Priorities and financing discussion"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000194/exhibit9912026q3pressrelea.htm",
+            "locator": "Exhibit99.1, p8 Condensed Consolidated Statements of Cash Flows; nine months ended Sept30 2026/2025",
+            "publication_date": "2026-11-06",
+            "retrieved_date": "2026-11-22",
+            "document_id": "0001682852-26-000194-EX99.1",
+            "read": true,
+            "title": "Exhibit99.1, p8 Condensed Consolidated Statements of Cash Flows; nine months ended Sept30 2026/2025"
+          }
+        ],
+        "gap": "Annual/priorYTD/TTM and issuer preferred-equity/payment note reconciliation, dated outstanding denominator and full insider window remain open. Current provider cache already period2026-09-30; no numeric update justified solely by release YTD values.",
+        "next_check_date": "2026-11-30",
+        "financial_period": "2026-09-30",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/sources_due_b.json",
+        "payments": {
+          "common_cash_dividends": null,
+          "preferred_cash_paid": null,
+          "preferred_earnings_deduction": null,
+          "redemptions": null,
+          "redemption_premium": null,
+          "coverage": "No dividend zero inferred from omission in EX99.1; 10Q equity-note tie-out outstanding"
+        },
+        "next_common_payment": null,
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22",
+          "sources_attempted": [
+            "https://investors.modernatx.com/sec-filings",
+            "https://feeds.issuerdirect.com/filings.html?font_family=Inter&link_color=d1343e&symbol=MRNA&text_color=053F68",
+            "https://www.sec.gov/edgar/browse/?CIK=1682852&owner=only"
+          ],
+          "gap": "IR filings feed rendered only empty selection controls; SEC browse inaccessible. No complete pagination or original ownership reports read; no no-events conclusion."
+        },
+        "summary": "YTD USD million: OCF -2715; PPE cash capex 146; intangible purchases 74 separate. Missing preference payment evidence remains unknown, not zero.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+        }
       }
     },
     "NBIS": {
@@ -8172,6 +8928,74 @@
         "sources": [],
         "transactions": [],
         "limitations": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://nebius.com/newsroom/nebius-reports-third-quarter-2026-financial-results",
+            "locator": "Release date and issuer PDF link; report for three/nine months ended Sept30 2026",
+            "publication_date": "2026-11-12",
+            "retrieved_date": "2026-11-22",
+            "document_id": "nebius-q3-2026-release",
+            "read": true,
+            "title": "Release date and issuer PDF link; report for three/nine months ended Sept30 2026"
+          },
+          {
+            "url": "https://assets.nebius.com/assets/508584f1-b73d-484f-b64f-f96a5bc3b515/Nebius%20Q3%202026%20Financial%20Results%20Press%20Release.pdf",
+            "locator": "PDF p2 Selected cash flow data and Outstanding Shares; p8-9 cashflow tables",
+            "publication_date": "2026-11-12",
+            "retrieved_date": "2026-11-22",
+            "document_id": "508584f1-b73d-484f-b64f-f96a5bc3b515",
+            "read": true,
+            "title": "PDF p2 Selected cash flow data and Outstanding Shares; p8-9 cashflow tables"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926126008/tm2629571d1_ex99-1.htm",
+            "locator": "EX99.1 Selected consolidated cash flow data, Outstanding Shares and Statements of Cash Flows",
+            "publication_date": "2026-11-12",
+            "retrieved_date": "2026-11-22",
+            "document_id": "0001104659-26-126008-EX99.1",
+            "read": true,
+            "title": "EX99.1 Selected consolidated cash flow data, Outstanding Shares and Statements of Cash Flows"
+          }
+        ],
+        "gap": "Cashflow/TTM/normalization and preferred-claim notes remain open; current cache shares292902405 tie out to issuer Sept30 all-class outstanding. Need denomination/rights of pre-funded warrants and financing for a sustainable per-share conclusion.",
+        "next_check_date": "2026-11-30",
+        "financial_period": "2026-09-30",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/sources_due_b.json",
+        "payments": {
+          "common_cash_dividends": null,
+          "preferred_cash_paid": null,
+          "preferred_earnings_deduction": null,
+          "redemptions": null,
+          "redemption_premium": null,
+          "coverage": "No dividend zero inferred from missing line; original corporate equity-claim note still needed"
+        },
+        "next_common_payment": null,
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22",
+          "source_url": "https://www.afm.nl/en/sector/registers/meldingenregisters/transacties-leidinggevenden-mar19-)",
+          "gap": "Native AFM MAR19 generic first50 of9617 entries accessible but no issuer+window filtered export/full pagination established. SEC Form4 no-events inference not appropriate without resolving foreign-private-issuer obligations."
+        },
+        "summary": "September30 outstanding all-class shares excluding treasury 292902405 agree with cache. No preference payment zero inferred from omission.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+        }
       }
     },
     "OPEN": {
@@ -8217,6 +9041,85 @@
         "sources": [],
         "transactions": [],
         "limitations": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investor.opendoor.com/news-releases/news-release-details/opendoor-reports-third-quarter-2026-financial-results",
+            "locator": "Nov5 release; condensed consolidated cashflows for nine months ended Sept30 2026",
+            "publication_date": "2026-11-05",
+            "retrieved_date": "2026-11-22",
+            "document_id": "opendoor-q3-2026-release",
+            "read": true,
+            "title": "Nov5 release; condensed consolidated cashflows for nine months ended Sept30 2026"
+          },
+          {
+            "url": "https://investor.opendoor.com/static-files/d4409a72-08c9-4bbe-9cae-a302e2ecc67b",
+            "locator": "10Q filed Nov5: cover p2 shares as ofOct29; financial p27/PDF p30 Note13 Net Loss per Share, explicit common/preferred zero; Note14 Mainstay preferred is investment asset, not issuer preferred claim",
+            "publication_date": "2026-11-05",
+            "retrieved_date": "2026-11-22",
+            "document_id": "0001801169-26-000028",
+            "read": true,
+            "title": "10Q filed Nov5: cover p2 shares as ofOct29; financial p27/PDF p30 Note13 Net Loss per Share, explicit common/preferred zero; Note14 Mainstay preferred is investment asset, not issuer preferred claim"
+          }
+        ],
+        "gap": "TTM annual/priorYTD cashflow bridge and current monetary normalization open. Cache already holds Oct29 issuer share count930238919; no share override needed. Public insider document coverage incomplete.",
+        "next_check_date": "2026-11-30",
+        "financial_period": "2026-09-30",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/sources_due_b.json",
+        "payments": {
+          "basis": "Explicit 10Q Note13 for three/nine months ended Sept30 2026 and2025",
+          "common_cash_dividends": 0,
+          "preferred_cash_paid": 0,
+          "preferred_declared_or_accumulated": 0,
+          "redemptions": null,
+          "redemption_premium": null,
+          "coverage": "SOURCE_CHECKED_ZERO_DIVIDENDS_ONLY; do not infer no redemptions or current obligations for other windows",
+          "declaration_date": null,
+          "ex_date": null,
+          "record_date": null,
+          "payable_date": null,
+          "actual_paid_date": null
+        },
+        "next_common_payment": null,
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22",
+          "source_url": "https://investor.opendoor.com/financials-filings/sec-filings",
+          "observed_filing_metadata": [
+            {
+              "filing_date": "2026-11-17",
+              "form": "4",
+              "accession": "0001195975-26-000007",
+              "transaction_not_read": true
+            },
+            {
+              "filing_date": "2026-11-02",
+              "form": "4",
+              "accession": "0001816739-26-000008",
+              "transaction_not_read": true
+            }
+          ],
+          "gap": "IR first10/680 entries read. Original HTML ownership docs403; SEC directory read but XML unsupported; SEC browse and page1 pagination unavailable. No trade classification or90d completeness asserted."
+        },
+        "summary": "Q3 and nine months 2026/2025: issuer explicitly reports no common/preferred dividends declared, paid or accumulated. This does not certify redemptions or other periods.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+        }
       }
     },
     "RIVN": {
@@ -8289,6 +9192,144 @@
         "sources": [],
         "transactions": [],
         "limitations": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investors.broadcom.com/static-files/96641754-401f-4090-a4ab-210728c83a28",
+            "published_at": "2026-09-10",
+            "locator": "Original 10-Q; see linked evidence observations",
+            "title": "Original 10-Q; see linked evidence observations"
+          }
+        ],
+        "gap": "FY2026/TTM bridge, sustainable FCFE/rate not reverified. Saved review latest_source_period July31 differs from actual Aug2 fiscal date; do not just relabel provider packet. Insider full 90-day list not demonstrated.",
+        "next_check_date": "2026-12-10",
+        "financial_period": "2026-08-02",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/preferred-review-evidence.json",
+        "payments": [
+          {
+            "key": "preferred_outstanding",
+            "value": 0,
+            "unit": "USD",
+            "dates": [
+              "2026-08-02",
+              "2025-11-02"
+            ],
+            "locator": "10-Q printed p2 balance sheets preferred row",
+            "source": "https://investors.broadcom.com/static-files/96641754-401f-4090-a4ab-210728c83a28"
+          },
+          {
+            "key": "common_dividends_paid",
+            "value": 9281000000,
+            "unit": "USD",
+            "period": "three fiscal quarters ended 2026-08-02",
+            "locator": "10-Q p5 cash flow financing and Note7 p18 table Cash Dividends Declared and Paid",
+            "source": "https://investors.broadcom.com/static-files/96641754-401f-4090-a4ab-210728c83a28"
+          },
+          {
+            "key": "common_dividends_paid_quarter",
+            "value": 3103000000,
+            "unit": "USD",
+            "period": "quarter ended 2026-08-02",
+            "locator": "Note7 p18 common stockholders dividends row",
+            "source": "https://investors.broadcom.com/static-files/96641754-401f-4090-a4ab-210728c83a28"
+          },
+          {
+            "key": "operating_cashflow",
+            "value": 32950000000,
+            "unit": "USD",
+            "period": "three fiscal quarters ended 2026-08-02",
+            "basis": "reported consolidated GAAP, not sustainable FCFE",
+            "locator": "10-Q p5 operating cash flow",
+            "source": "https://investors.broadcom.com/static-files/96641754-401f-4090-a4ab-210728c83a28"
+          },
+          {
+            "key": "cash_capex",
+            "value": 1013000000,
+            "unit": "USD",
+            "period": "three fiscal quarters ended 2026-08-02",
+            "locator": "10-Q p5 purchases property plant equipment",
+            "source": "https://investors.broadcom.com/static-files/96641754-401f-4090-a4ab-210728c83a28"
+          },
+          {
+            "key": "shares_outstanding",
+            "value": 4773629865,
+            "unit": "shares",
+            "as_of": "2026-08-28",
+            "locator": "10-Q cover",
+            "source": "https://investors.broadcom.com/static-files/96641754-401f-4090-a4ab-210728c83a28"
+          }
+        ],
+        "next_common_payment": null,
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22T07:57:48+00:00",
+          "list_url": "https://investors.broadcom.com/financial-information/broadcom-inc-sec-filings",
+          "limitation": "First listing and Section16 filter return same ten-item table through Sept10; pagination/filter completeness not demonstrated. Read three actual Form4s Sept25/Sept17, not certified complete.",
+          "forms_read": [
+            {
+              "source": "https://investors.broadcom.com/static-files/d7459741-af0c-4370-8cca-e925daa6abeb",
+              "filing_date": "2026-09-25",
+              "owner": "Henry Samueli",
+              "transaction_date": "2026-09-23",
+              "type": "S and G in common stock; 16 separate S rows, one G row; indirect H&S Investments I LP or D95GT LLC",
+              "rule10b5_1": "Explicit footnote1 plan adopted 2025-12-16",
+              "row_extraction_complete": false
+            },
+            {
+              "source": "https://investors.broadcom.com/static-files/bdc229f5-b59b-48fe-bb5d-946a22e7f4da",
+              "filing_date": "2026-09-17",
+              "owner": "Mark David Brazeal",
+              "role": "Chief Legal & Corporate Affairs Officer",
+              "transaction_date": "2026-09-15",
+              "code": "F",
+              "instrument": "Common Stock",
+              "table": "I",
+              "amount": 8059,
+              "unit": "shares",
+              "price": 339.27,
+              "currency": "USD",
+              "acquired_disposed": "D",
+              "ownership": "D",
+              "rule10b5_1": "UNKNOWN"
+            },
+            {
+              "source": "https://investors.broadcom.com/static-files/d0127b85-0f92-4110-8cff-7b12ac308aad",
+              "filing_date": "2026-09-17",
+              "owner": "Amie Thuener O'Toole",
+              "role": "Chief Financial Officer",
+              "transaction_date": "2026-09-15",
+              "code": "F",
+              "instrument": "Common Stock",
+              "table": "I",
+              "amount": 1554,
+              "unit": "shares",
+              "price": 339.27,
+              "currency": "USD",
+              "acquired_disposed": "D",
+              "ownership": "D",
+              "rule10b5_1": "UNKNOWN"
+            }
+          ]
+        },
+        "summary": "No preferred outstanding at August2 and opening November2 dates; historical conversion fix supported. YTD common cash dividends USD9281000000. September30 payable is not independently confirmed paid. Next earnings December9 after US close.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+        }
       }
     },
     "O": {
@@ -8740,6 +9781,89 @@
         "sources": [],
         "transactions": [],
         "limitations": []
+      }
+    },
+    "INTU": {
+      "issuer": "Intuit Inc.",
+      "listing": "INTU / NASDAQ / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "No completed historical valuation source review. See separately dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "No complete historical insider window certified.",
+        "coverage": {
+          "complete": false
+        },
+        "sources": [],
+        "limitations": [
+          "See separately dated monitoring for current attempted coverage."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-22",
+        "attempted_at": "2026-11-22T08:03:19+00:00",
+        "window_start": "2026-08-24",
+        "window_end": "2026-11-22",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investors.intuit.com/sec-filings/all-sec-filings/content/0000896878-26-000045/0000896878-26-000045.pdf",
+            "publication_date": "2026-11-19",
+            "locator": "Cover; statements pp4,6-8; Note10 common dividends",
+            "document_id": "0000896878-26-000045",
+            "read": true,
+            "title": "Cover; statements pp4,6-8; Note10 common dividends"
+          },
+          {
+            "url": "https://investors.intuit.com/news-events/press-releases/detail/1331/intuit-reports-first-quarter-results-and-enters-agreement-to-sell-mailchimp-to-bending-spoons",
+            "publication_date": "2026-11-19",
+            "locator": "Capital allocation / Mailchimp / guidance",
+            "read": true,
+            "title": "Capital allocation / Mailchimp / guidance"
+          }
+        ],
+        "gap": "Current provider financial period already October31, but undated provider shares267236000 differ from dated November12 issuer264015000. Do not relabel weighted EPS shares as spot shares. TTM, customer finance, SBC and pending Mailchimp sale require matched bridge before numeric replacement.",
+        "next_check_date": "2026-11-30",
+        "financial_period": "2026-10-31",
+        "evidence_packet": "docs/analysis/issuer-events-20261122/own_sources.json",
+        "payments": [],
+        "next_common_payment": {
+          "declared_on": null,
+          "declaration_month": "2026-11",
+          "ex_date": null,
+          "record_date": "2027-01-08",
+          "record_timing": "CLOSE_OF_BUSINESS",
+          "payable_date": "2027-01-15",
+          "actual_payment_date": null,
+          "amount": 1.38,
+          "currency": "USD",
+          "status": "DECLARED_NOT_PAID"
+        },
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "window_start": "2026-08-24",
+          "window_end": "2026-11-22",
+          "retrieved_at": "2026-11-22T07:59:37.673478+00:00",
+          "documents_read": 24,
+          "gap": "Native SEC listing and original documents retrieved; complete row/plan adjudication remains partial. No net trade signal.",
+          "packet": "intu-insider-evidence.json"
+        },
+        "summary": "Q1 USD million: common dividends and rights cash paid 378 versus declared 383. Common USD1.38 payable 2027-01-15, record 2027-01-08; not yet paid. November12 outstanding shares 264015000 require provider reconciliation. Current insider window: 24/24 documents read, rows remain unaggregated.",
+        "note": "Partial source/payment review only. Existing valuation and insider checks retain their old dates. YTD is not TTM; payable is not proof of payment.",
+        "evidence_sha256": {
+          "sources_due_b.json": "600e1709ac19cff3f425d52186379993b4b7ffec23bf0d99aa92c63501b4b2a4",
+          "preferred-review-evidence.json": "a66b28e90580e3ad42cffbc1c94c021a453df395aeb1adea8d98a3efb89fa3b1",
+          "insider-intu-nvda-summary.json": "05d5c25fa989e9bc75076a2b5dbf02b6e9cab1e756cada7796495fd0a770e76c",
+          "nvda-insider-evidence.json": "933bc4ebeec5c63bb42053f9d46be8aeff8c66ba2e64f18d272d50408171acf4",
+          "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
+          "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
+          "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
+          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+        }
       }
     }
   }

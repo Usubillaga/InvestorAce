@@ -57,6 +57,60 @@ def valuation_input_conflicts(section, *, as_of):
                           if _date(item['detected_at']) <= cutoff])
 
 
+def entry_dates(entry, reviews):
+    """An aggregate register date must not refresh an individual issuer review.
+
+    Old bundles retain their disclosed common transaction window. New entries
+    may carry their own cutoff and window without changing the v1 envelope.
+    """
+    return (entry.get('window_start', reviews['window_start']),
+            entry.get('window_end', reviews['window_end']),
+            entry.get('as_of', entry.get('reviewed_at', reviews['as_of'])))
+
+
+def _payment_amount(value):
+    if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float))
+                              or not math.isfinite(value) or value < 0):
+        raise ValueError('Payment amounts must be finite nonnegative numbers or unknown')
+
+
+def _monitoring_payments(monitoring, cutoff):
+    """A declared payable date is not evidence of an actual cash payment."""
+    payment = monitoring.get('next_common_payment')
+    if payment is not None:
+        if not isinstance(payment, dict):
+            raise ValueError('Next common payment must be an object or unknown')
+        for name in ('declared_on', 'announced_on', 'published_on', 'record_date',
+                     'ex_date', 'payable_date', 'actual_payment_date'):
+            if payment.get(name) is not None:
+                _date(payment[name])
+        actual = payment.get('actual_payment_date')
+        if actual is not None and _date(actual) > cutoff:
+            raise ValueError('Actual cash payment postdates the monitoring cutoff')
+        if payment.get('status') == 'DECLARED_NOT_PAID' and actual is not None:
+            raise ValueError('An unpaid declaration cannot certify an actual payment')
+        _payment_amount(payment.get('amount'))
+        if payment.get('currency') is not None and (
+                not isinstance(payment['currency'], str) or not payment['currency'].strip()):
+            raise ValueError('Payment currency must be nonempty text or unknown')
+    recognized = {'preferred_cash_paid', 'common_cash_paid'}
+
+    def check(value):
+        if isinstance(value, dict):
+            for name, amount in value.items():
+                if name in recognized:
+                    _payment_amount(amount)
+                elif isinstance(amount, (dict, list)):
+                    check(amount)
+            if value.get('key') in recognized:
+                _payment_amount(value.get('value'))
+        elif isinstance(value, list):
+            for item in value:
+                check(item)
+
+    check(monitoring.get('payments'))
+
+
 def load(payload=None):
     """Validate before publication; incomplete coverage cannot certify no activity."""
     if payload is None:
@@ -73,12 +127,46 @@ def load(payload=None):
         for ticker, entry in doc['entries'].items():
             if not isinstance(ticker, str) or not ticker or not entry['issuer'] or not entry['listing']:
                 raise ValueError('Review requires an issuer and listing')
+            entry_start, entry_end, entry_asof = map(_date, entry_dates(entry, doc))
+            if not entry_start <= entry_end <= entry_asof <= asof:
+                raise ValueError('Invalid issuer review window or cutoff')
+            if entry.get('reviewed_at') is not None and _date(entry['reviewed_at']) > entry_asof:
+                raise ValueError('Issuer check postdates its cutoff')
+            monitoring = entry.get('monitoring')
+            if monitoring is not None:
+                if not isinstance(monitoring, dict):
+                    raise ValueError('Issuer monitoring must be an object')
+                mstart, mend, mcutoff = (_date(monitoring[k]) for k in
+                                       ('window_start', 'window_end', 'as_of'))
+                if not mstart <= mend <= mcutoff:
+                    raise ValueError('Invalid issuer monitoring window')
+                attempted = datetime.fromisoformat(monitoring['attempted_at'].replace('Z', '+00:00'))
+                if attempted.utcoffset() is None or attempted.date() < mcutoff:
+                    raise ValueError('Issuer monitoring needs a dated, timezone-aware attempt')
+                if monitoring['coverage'] not in {'PARTIAL', 'UNAVAILABLE', 'PENDING', 'COMPLETE'}:
+                    raise ValueError('Invalid issuer monitoring coverage')
+                if not isinstance(monitoring['gap'], str) or not monitoring['gap'].strip():
+                    raise ValueError('Issuer monitoring must explain its remaining gap or scope')
+                if 'summary' in monitoring and not isinstance(monitoring['summary'], str):
+                    raise ValueError('Issuer monitoring summary must be text')
+                if not isinstance(monitoring['sources'], list):
+                    raise ValueError('Issuer monitoring sources must be a list')
+                for source in monitoring['sources']:
+                    _url(source['url'])
+                    if not source['title']:
+                        raise ValueError('Issuer monitoring sources require titles')
+                if monitoring.get('next_check_date') is not None:
+                    if _date(monitoring['next_check_date']) < mcutoff:
+                        raise ValueError('Issuer next monitoring check precedes its cutoff')
+                _monitoring_payments(monitoring, mcutoff)
             for name, statuses in (('valuation', VALUATION_STATUSES), ('insider', INSIDER_STATUSES)):
                 section = entry[name]
                 if section['status'] not in statuses or not isinstance(section['reason'], str) or not section['reason'].strip():
                     raise ValueError('Review requires a supported status and concrete reason')
                 if not isinstance(section['sources'], list):
                     raise ValueError('Review sources must be a list')
+                if section.get('reviewed_at') is not None and _date(section['reviewed_at']) > entry_asof:
+                    raise ValueError('Section check postdates its issuer cutoff')
                 for source in section['sources']:
                     _url(source['url'])
                     if not source['title']:
@@ -94,11 +182,11 @@ def load(payload=None):
                         or not isinstance(conflict.get('reason'), str) or not conflict['reason'].strip()
                         or not entry['valuation']['sources']):
                     raise ValueError('Valuation input conflict requires unique code, reason and sources')
-                if _date(conflict.get('detected_at')) > asof:
+                if _date(conflict.get('detected_at')) > entry_asof:
                     raise ValueError('Valuation input conflict postdates the register')
                 codes.add(conflict['code'])
             if dcf is not None:
-                if _date(dcf['as_of']) > asof:
+                if _date(dcf['as_of']) > entry_asof:
                     raise ValueError('DCF review postdates the register')
                 dcf_results(dcf)
             bridge = entry['valuation'].get('common_equity_bridge')
@@ -106,12 +194,12 @@ def load(payload=None):
                 if bridge.get('issuer_key') != ticker:
                     raise ValueError('Common-equity bridge belongs to another register issuer')
                 _, fetched = equity_basis.validate(bridge, symbol=bridge.get('symbol'), currency=bridge.get('currency'))
-                if fetched.date() > asof:
+                if fetched.date() > entry_asof:
                     raise ValueError('Common-equity bridge postdates the register')
             insider = entry['insider']
             for checked in (insider.get('reviewed_at'),
                             insider.get('coverage', {}).get('checked_through')):
-                if checked is not None and _date(checked) > asof:
+                if checked is not None and _date(checked) > entry_asof:
                     raise ValueError('Insider check postdates the register')
             complete = insider.get('coverage', {}).get('complete') is True
             transactions = insider['transactions']
@@ -124,9 +212,9 @@ def load(payload=None):
                     raise ValueError('Review activity status disagrees with its transactions')
             for transaction in transactions:
                 _url(transaction['source_url'])
-                if not start <= _date(transaction['transaction_date']) <= end:
+                if not entry_start <= _date(transaction['transaction_date']) <= entry_end:
                     raise ValueError('Transaction falls outside the disclosed review window')
-                if _date(transaction['filing_date']) > asof:
+                if _date(transaction['filing_date']) > entry_asof:
                     raise ValueError('Filing postdates the review')
                 if not transaction['owner'] or not transaction['code']:
                     raise ValueError('Transaction requires an owner and a disclosed type')
@@ -148,6 +236,7 @@ def insider_cell(ticker, reviews):
         return '<span class="pill empty">NOT REVIEWED</span>'
     insider = entry['insider']
     checked = (insider.get('reviewed_at') or insider.get('coverage', {}).get('checked_through')
+               or entry.get('reviewed_at') or entry.get('as_of')
                or reviews.get('window_end') or reviews['as_of'])
     status = insider['status'].replace('_', ' ')
     return (f'<a class="pill x-appr" href="#review-{escape(ticker)}">{escape(status)}</a>'
@@ -408,6 +497,22 @@ def panel(rows, reviews):
     body = []
     for ticker, entry in sorted(entries.items()):
         valuation, insider = entry['valuation'], entry['insider']
+        start, end, cutoff = entry_dates(entry, reviews)
+        valuation_checked = valuation.get('reviewed_at') or entry.get('reviewed_at') or entry.get('as_of')
+        valuation_date = (f'Source check {escape(valuation_checked)}.' if valuation_checked
+                          else 'Individual valuation check date not recorded; read the dated sources.')
+        monitoring = entry.get('monitoring')
+        monitoring_html = ''
+        if monitoring is not None:
+            monitoring_html = (f'<p><b>Event/payment monitoring: {escape(monitoring["coverage"])}</b><br>'
+                               f'As of {escape(monitoring["as_of"])}; attempted '
+                               f'{escape(monitoring["attempted_at"])}. Window '
+                               f'{escape(monitoring["window_start"])} to {escape(monitoring["window_end"])}. '
+                               'This attempt does not refresh the valuation or insider checks above. '
+                               f'Next check: {escape(monitoring.get("next_check_date") or "UNKNOWN")}. '
+                               + escape(monitoring['gap']) + '</p><p>'
+                               + escape(monitoring.get('summary', '')) + '</p><p>'
+                               + _sources(monitoring['sources']) + '</p>')
         events = []
         for tx in insider['transactions']:
             code = tx['code']
@@ -437,15 +542,17 @@ def panel(rows, reviews):
         opened = ' open' if valuation.get('dcf') is not None else ''
         body.append(f'<details id="review-{escape(ticker)}"{opened}><summary>{escape(ticker)} &middot; '
                     f'{escape(entry["issuer"])} &middot; {escape(insider["status"])}</summary>'
+                    f'<p>{valuation_date} Insider window {escape(start)} to {escape(end)}; '
+                    f'entry cutoff {escape(cutoff)}. These dates are not a fresh review of later events.</p>'
                     f'<p><b>Valuation source check: {escape(valuation["status"])}</b><br>'
                     + escape(valuation['reason']) + '</p><p>' + _sources(valuation['sources']) + '</p>'
                     + dcf_panel(ticker, valuation.get('dcf'))
                     + f'<p><b>Insider coverage: {escape(insider["status"])}</b><br>'
                     + escape(insider['reason']) + '</p><p>' + escape(limits) + '</p><p>'
-                    + _sources(insider['sources']) + '</p>' + table + '</details>')
+                    + _sources(insider['sources']) + '</p>' + table + monitoring_html + '</details>')
     return ('<section class="box"><h2>Source and insider review</h2><p>' + intro + '</p>'
-            f'<p>As of {escape(reviews["as_of"])}. Transaction window '
-            f'{escape(reviews["window_start"])} to {escape(reviews["window_end"])}. '
+            f'<p>Register assembled as of {escape(reviews["as_of"])}; '
+            'individual review dates and transaction windows are shown per issuer. '
             'P/S codes include open market or private transactions; awards, exercises, '
             'withholding, gifts and employee fund subscriptions are shown separately. '
             'Quantities can refer to different security or fund-unit types; read each filing. '

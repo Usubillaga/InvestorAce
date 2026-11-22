@@ -1,0 +1,145 @@
+{
+  "as_of": "2026-11-22T08:01:48+00:00",
+  "window_start": "2026-08-24",
+  "window_end": "2026-11-22",
+  "INTU": {
+    "status": "PARTIAL",
+    "coverage": {
+      "listing_complete": true,
+      "listed": 24,
+      "documents_retrieved": 24,
+      "native_reconciled": true,
+      "complete": false
+    },
+    "reason": "All 24 native SEC-listed Forms 4 in the 90-day window reconcile to issuer mirror pages 1-3. Every mirror document was fetched and both tables retained. Structured row adjudication and checkbox verification remain incomplete; no no-activity or net-buy conclusion.",
+    "listing_source": "https://investors.intuit.com/sec-filings/section-16-filings",
+    "native_source": "https://data.sec.gov/submissions/CIK0000896878.json",
+    "native_sha256": "5533c226bc3c14141b648917453d3f5a3400826aaa041336a19ba2df84157e25",
+    "native_recent_range": [
+      "2020-10-01",
+      "2026-11-19"
+    ],
+    "older_files_end_before_window": true,
+    "raw_table_row_counts_not_economic_trades": {
+      "A": 7,
+      "M": 52,
+      "F": 12,
+      "S": 3
+    },
+    "no_amendments_listed_in_window": true,
+    "evidence_path": "/workspace/scratch/e5fe3a81c820/intu-insider-evidence.json",
+    "examples": [
+      {
+        "owner": "Burton Eve B",
+        "role": "Director",
+        "instrument": "Restricted Stock Units",
+        "table": "DERIVATIVE",
+        "code": "A",
+        "acquisition_disposition": "A",
+        "quantity": 88,
+        "quantity_unit": "RSU",
+        "price": 315.88,
+        "price_basis": "30-trading-day average grant valuation, not cash purchase price",
+        "currency": "USD",
+        "ownership": "DIRECT",
+        "transaction_date": "2026-11-06",
+        "filing_date": "2026-11-10",
+        "published_date": "2026-11-10",
+        "ten_b5_1": null,
+        "source_url": "https://investors.intuit.com/sec-filings/all-sec-filings/content/0001628280-26-072884/wk-form4_1794351274.html"
+      },
+      {
+        "owner": "Hotz Lauren D",
+        "role": "SVP, Chief Accounting Officer",
+        "instrument": "Common Stock",
+        "table": "NON_DERIVATIVE",
+        "code": "S",
+        "acquisition_disposition": "D",
+        "quantity": 844.537,
+        "quantity_unit": "SHARES",
+        "price": 346.565,
+        "currency": "USD",
+        "ownership": "DIRECT",
+        "transaction_date": "2026-08-27",
+        "filing_date": "2026-08-28",
+        "published_date": "2026-08-28",
+        "ten_b5_1": null,
+        "source_url": "https://investors.intuit.com/sec-filings/all-sec-filings/content/0001628280-26-059416/wk-form4_1787948566.html"
+      },
+      {
+        "owner": "Hotz Lauren D",
+        "role": "SVP, Chief Accounting Officer",
+        "instrument": "Common Stock",
+        "table": "NON_DERIVATIVE",
+        "code": "S",
+        "acquisition_disposition": "D",
+        "quantity": 62.405,
+        "quantity_unit": "SHARES",
+        "price": 346.1457,
+        "price_basis": "Weighted average; execution range346.1449–346.275USD",
+        "currency": "USD",
+        "ownership": "DIRECT",
+        "transaction_date": "2026-08-27",
+        "filing_date": "2026-08-28",
+        "published_date": "2026-08-28",
+        "ten_b5_1": null,
+        "source_url": "https://investors.intuit.com/sec-filings/all-sec-filings/content/0001628280-26-059416/wk-form4_1787948566.html"
+      }
+    ]
+  },
+  "NVDA": {
+    "status": "PARTIAL",
+    "coverage": {
+      "listing_complete": true,
+      "listed": 16,
+      "documents_retrieved": 16,
+      "complete": false
+    },
+    "reason": "Native SEC submissions cover the entire 90-day window and 16 Forms4/4A were fetched and parsed. Conservative PARTIAL pending coordinator review of all structured rows/plan annotations. No new no-event or net-buy conclusion.",
+    "native_source": "https://data.sec.gov/submissions/CIK0001045810.json",
+    "native_sha256": "8dd44fbc9bc7fd47f0b16155e66cd22445345d0f9706f316e9e55d7ce4f48045",
+    "native_recent_range": [
+      "2020-09-18",
+      "2026-11-19"
+    ],
+    "older_files_end_before_window": true,
+    "raw_rows": 36,
+    "deduplicated_rows": 35,
+    "deduplicated_code_counts_not_economic_trades": {
+      "S": 25,
+      "F": 5,
+      "G": 4,
+      "A": 1
+    },
+    "derivative_transaction_rows": 0,
+    "amendment": {
+      "accession": "0002152188-26-000007",
+      "filed": "2026-10-13",
+      "replaces_accession": "0002152188-26-000005",
+      "original_filed": "2026-09-11",
+      "transaction_date": "2026-09-09",
+      "owner": "Parker Nicholas P.",
+      "code": "A",
+      "old_quantity": 172507,
+      "corrected_quantity": 160418,
+      "price": 0,
+      "currency": "USD",
+      "ownership": "DIRECT",
+      "instrument": "Common Stock representing RSU award",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000215218826000007/wk-form4a_1791925767.xml",
+      "reason": "Amendment remarks explicitly correct administrative error in number of acquired shares."
+    },
+    "retirement_filing": {
+      "accession": "0001347842-26-000015",
+      "filed": "2026-08-24",
+      "owner": "Puri Ajay K",
+      "transaction_rows": 0,
+      "remark": "Retired from EVP Worldwide Field Operations effective2026-08-24; no longer subject to Section16."
+    },
+    "evidence_path": "/workspace/scratch/e5fe3a81c820/nvda-insider-evidence.json",
+    "access_notes": [
+      "IR dynamic list rendered no rows and SEC browse endpoint failed through web connector.",
+      "Direct requests to public data.sec.gov submissions and www.sec.gov originalXML succeeded200; therefore current window is not UNAVAILABLE."
+    ]
+  }
+}

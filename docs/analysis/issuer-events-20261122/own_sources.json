@@ -1,0 +1,32 @@
+{
+  "reviewed_at": "2026-11-22T07:57:27Z",
+  "issuers": {
+    "INTU": {
+      "issuer": "Intuit Inc.", "listing_symbol": "INTU", "currency": "USD",
+      "financial_period": "2026-10-31", "ir_url": "https://investors.intuit.com/",
+      "report_sources": [
+        {"url":"https://investors.intuit.com/sec-filings/all-sec-filings/content/0000896878-26-000045/0000896878-26-000045.pdf", "publication_date":"2026-11-19", "locator":"Cover; statements pp4,6-8; Note10 common dividends", "document_id":"0000896878-26-000045", "read":true},
+        {"url":"https://investors.intuit.com/news-events/press-releases/detail/1331/intuit-reports-first-quarter-results-and-enters-agreement-to-sell-mailchimp-to-bending-spoons", "publication_date":"2026-11-19", "locator":"Capital allocation / Mailchimp / guidance", "read":true}
+      ],
+      "facts":{"period":"Q1 FY2027", "unit":"USD million", "ocf":1062,"cash_ppe":75,"sbc":495,"net_income":695,"revenue":4354,"shares_outstanding":264015000,"shares_asof":"2026-11-12","cash_common_dividends_and_rights_paid":378,"common_dividends_and_rights_declared":383},
+      "derived_not_valuation":{"ocf_less_ppe":987,"formula":"1062-75","note":"Quarterly reported cash arithmetic, not normalized TTM or FCFE. Customer finance and Mailchimp perimeter require reconciliation."},
+      "next_common_payment":{"declared_on":null,"declaration_month":"2026-11","ex_date":null,"record_date":"2027-01-08","record_timing":"CLOSE_OF_BUSINESS","payable_date":"2027-01-15","actual_payment_date":null,"amount":1.38,"currency":"USD","status":"DECLARED_NOT_PAID"},
+      "growth_type":"Revenue +12%, diluted EPS +63%; neither is delivered cashflow growth.",
+      "open_gap":"Current provider financial period already October31, but undated provider shares267236000 differ from dated November12 issuer264015000. Do not relabel weighted EPS shares as spot shares. TTM, customer finance, SBC and pending Mailchimp sale require matched bridge before numeric replacement.",
+      "insider":{"status":"PARTIAL","window_start":"2026-08-24","window_end":"2026-11-22","gap":"IR Section16 list accessible; pagination and original forms in separate review; no no-events assertion."}
+    },
+    "NVDA": {
+      "issuer":"NVIDIA Corporation","listing_symbol":"NVDA","currency":"USD","financial_period":"2026-10-25","ir_url":"https://investor.nvidia.com/",
+      "report_sources":[
+        {"url":"https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Third-Quarter-Fiscal-2027/default.aspx","publication_date":"2026-11-17","locator":"Cashflow statement and non-GAAP FCF reconciliation; next dividend paragraph","read":true},
+        {"url":"https://www.sec.gov/Archives/edgar/data/1045810/000104581026000088/q3fy27pr.htm","publication_date":"2026-11-17","locator":"Exhibit99.1 quarterly report headline and dividend paragraph","read":true}
+      ],
+      "facts":{"period":"Nine months to October25 2026","unit":"USD million","ocf":122675,"ppe_and_intangibles_cash":8856,"ppe_and_intangibles_principal":147,"common_dividends_paid":12316,"sbc":6042},
+      "derived_not_valuation":{"issuer_fcf":113672,"formula":"122675-8856-147","note":"Issuer FCF includes financed-asset principal; not simply cash PPE and not certified sustainable common FCFE."},
+      "next_common_payment":{"declared_on":null,"announced_on":"2026-11-17","ex_date":null,"record_date":"2026-12-02","payable_date":"2026-12-23","actual_payment_date":null,"amount":0.25,"currency":"USD","status":"DECLARED_NOT_PAID"},
+      "open_gap":"Cache remains July31 despite issuer October25 report. Need FY/priorYTD matched bridge, current point-in-time shares and cashflow contract; release diluted weighted shares are not spot shares. No blind YTD to TTM substitution.",
+      "growth_type":"Revenue growth is separate from cashflow growth; no new cushion certified.",
+      "insider":{"status":"PARTIAL","window_start":"2026-08-24","window_end":"2026-11-22","gap":"IR SEC filings page renders empty dynamic selectors; no complete list or Form4/4A coverage."}
+    }
+  }
+}

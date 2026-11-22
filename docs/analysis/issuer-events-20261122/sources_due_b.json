@@ -1,0 +1,79 @@
+{
+  "reviewed_at": "2026-11-22T07:57:15Z",
+  "review_scope": "Concrete partial report/payment/source review; not a completed sustainable valuation or 90-day insider certification",
+  "issuers": {
+    "MRNA": {
+      "issuer": "Moderna, Inc.",
+      "listing_symbol": "MRNA",
+      "exchange": "NASDAQ",
+      "currency": "USD",
+      "ir_url": "https://investors.modernatx.com/",
+      "reports_url": "https://investors.modernatx.com/quarterly-results",
+      "calendar_url": "https://investors.modernatx.com/events-presentations",
+      "report_date": "2026-11-06",
+      "financial_period": "2026-09-30",
+      "source_status": "REPORT_READ_PARTIAL_RECONCILIATION",
+      "report_sources": [
+        {"url": "https://www.modernatx.com/en-US/third-quarter-2026-earnings", "locator": "IR Insights, November 6, 2026; Delivering on Our Financial Priorities and financing discussion", "publication_date": "2026-11-06", "retrieved_date": "2026-11-22", "document_id": "third-quarter-2026-earnings", "read": true},
+        {"url": "https://www.sec.gov/Archives/edgar/data/1682852/000168285226000194/exhibit9912026q3pressrelea.htm", "locator": "Exhibit99.1, p8 Condensed Consolidated Statements of Cash Flows; nine months ended Sept30 2026/2025", "publication_date": "2026-11-06", "retrieved_date": "2026-11-22", "document_id": "0001682852-26-000194-EX99.1", "read": true}
+      ],
+      "facts": {"unit": "USD million", "basis": "Unaudited consolidated nine months ended September30 2026", "operating_cash_flow": -2715, "cash_ppe_capex": 146, "intangible_asset_purchase": 74, "stock_based_compensation": 351, "convertible_note_proceeds": 3000, "convertible_note_issuance_costs": 43, "capped_call_purchases": 329, "litigation_payment_disclosed": 950},
+      "derived_not_valuation": {"ocf_less_cash_ppe": -2861, "formula": "-2715-146", "warning": "YTD arithmetic only; not TTM, normalized FCFE, or a replacement engine input; intangible acquisition separate"},
+      "growth_type": "Q3 revenue growth29%, not a cashflow-growth assertion",
+      "payments": {"common_cash_dividends": null, "preferred_cash_paid": null, "preferred_earnings_deduction": null, "redemptions": null, "redemption_premium": null, "coverage": "No dividend zero inferred from omission in EX99.1; 10Q equity-note tie-out outstanding"},
+      "next_earnings_date": null,
+      "next_payable_date": null,
+      "insider": {"status": "PARTIAL", "window_start": "2026-08-24", "window_end": "2026-11-22", "sources_attempted": ["https://investors.modernatx.com/sec-filings", "https://feeds.issuerdirect.com/filings.html?font_family=Inter&link_color=d1343e&symbol=MRNA&text_color=053F68", "https://www.sec.gov/edgar/browse/?CIK=1682852&owner=only"], "gap": "IR filings feed rendered only empty selection controls; SEC browse inaccessible. No complete pagination or original ownership reports read; no no-events conclusion."},
+      "open_gap": "Annual/priorYTD/TTM and issuer preferred-equity/payment note reconciliation, dated outstanding denominator and full insider window remain open. Current provider cache already period2026-09-30; no numeric update justified solely by release YTD values."
+    },
+    "NBIS": {
+      "issuer": "Nebius Group N.V.",
+      "listing_symbol": "NBIS",
+      "exchange": "NASDAQ",
+      "currency": "USD",
+      "ir_url": "https://nebius.com/investor-hub",
+      "reports_url": "https://nebius.com/newsroom/nebius-reports-third-quarter-2026-financial-results",
+      "calendar_url": "https://nebius.com/investor-hub",
+      "report_date": "2026-11-12",
+      "financial_period": "2026-09-30",
+      "source_status": "REPORT_READ_PARTIAL_RECONCILIATION",
+      "report_sources": [
+        {"url": "https://nebius.com/newsroom/nebius-reports-third-quarter-2026-financial-results", "locator": "Release date and issuer PDF link; report for three/nine months ended Sept30 2026", "publication_date": "2026-11-12", "retrieved_date": "2026-11-22", "document_id": "nebius-q3-2026-release", "read": true},
+        {"url": "https://assets.nebius.com/assets/508584f1-b73d-484f-b64f-f96a5bc3b515/Nebius%20Q3%202026%20Financial%20Results%20Press%20Release.pdf", "locator": "PDF p2 Selected cash flow data and Outstanding Shares; p8-9 cashflow tables", "publication_date": "2026-11-12", "retrieved_date": "2026-11-22", "document_id": "508584f1-b73d-484f-b64f-f96a5bc3b515", "read": true},
+        {"url": "https://www.sec.gov/Archives/edgar/data/1513845/000110465926126008/tm2629571d1_ex99-1.htm", "locator": "EX99.1 Selected consolidated cash flow data, Outstanding Shares and Statements of Cash Flows", "publication_date": "2026-11-12", "retrieved_date": "2026-11-22", "document_id": "0001104659-26-126008-EX99.1", "read": true}
+      ],
+      "facts": {"unit": "USD million except shares", "basis": "Unaudited consolidated continuing operations, nine months ended Sept30 2026", "operating_cash_flow": 4231.1, "ppe_and_intangible_purchases": 15430.7, "deferred_revenue_cashflow_change": 7829.0, "convertible_note_proceeds": 10087.5, "shares_outstanding_2026_09_30": 292902405, "class_a": 259597352, "class_b": 33305053, "treasury_excluded": 29138539},
+      "derived_not_valuation": {"ocf_less_ppe_and_intangibles": -11199.6, "formula": "4231.1-15430.7", "warning": "YTD reported arithmetic, not sustainable FCFE; large customer advances/deferred revenue; do not substitute for cached TTM"},
+      "growth_type": "Consolidated Q3 revenue growth571%; prior-period Toloka reclassified to discontinued operations. Not cashflow growth.",
+      "payments": {"common_cash_dividends": null, "preferred_cash_paid": null, "preferred_earnings_deduction": null, "redemptions": null, "redemption_premium": null, "coverage": "No dividend zero inferred from missing line; original corporate equity-claim note still needed"},
+      "next_earnings_date": null,
+      "next_payable_date": null,
+      "insider": {"status": "PARTIAL", "window_start": "2026-08-24", "window_end": "2026-11-22", "source_url": "https://www.afm.nl/en/sector/registers/meldingenregisters/transacties-leidinggevenden-mar19-)", "gap": "Native AFM MAR19 generic first50 of9617 entries accessible but no issuer+window filtered export/full pagination established. SEC Form4 no-events inference not appropriate without resolving foreign-private-issuer obligations."},
+      "open_gap": "Cashflow/TTM/normalization and preferred-claim notes remain open; current cache shares292902405 tie out to issuer Sept30 all-class outstanding. Need denomination/rights of pre-funded warrants and financing for a sustainable per-share conclusion."
+    },
+    "OPEN": {
+      "issuer": "Opendoor Technologies Inc.",
+      "listing_symbol": "OPEN",
+      "exchange": "NASDAQ",
+      "currency": "USD",
+      "ir_url": "https://investor.opendoor.com/",
+      "reports_url": "https://investor.opendoor.com/financials-filings/quarterly-reports",
+      "calendar_url": "https://investor.opendoor.com/news-events/events-presentations/",
+      "report_date": "2026-11-05",
+      "financial_period": "2026-09-30",
+      "source_status": "REPORT_AND_EXPLICIT_DIVIDEND_ZERO_READ_PARTIAL_TTM",
+      "report_sources": [
+        {"url": "https://investor.opendoor.com/news-releases/news-release-details/opendoor-reports-third-quarter-2026-financial-results", "locator": "Nov5 release; condensed consolidated cashflows for nine months ended Sept30 2026", "publication_date": "2026-11-05", "retrieved_date": "2026-11-22", "document_id": "opendoor-q3-2026-release", "read": true},
+        {"url": "https://investor.opendoor.com/static-files/d4409a72-08c9-4bbe-9cae-a302e2ecc67b", "locator": "10Q filed Nov5: cover p2 shares as ofOct29; financial p27/PDF p30 Note13 Net Loss per Share, explicit common/preferred zero; Note14 Mainstay preferred is investment asset, not issuer preferred claim", "publication_date": "2026-11-05", "retrieved_date": "2026-11-22", "document_id": "0001801169-26-000028", "read": true}
+      ],
+      "facts": {"unit": "USD million except shares", "basis": "Unaudited consolidated nine months ended Sept30 2026", "operating_cash_flow": -1796, "cash_ppe_capex": 13, "cash_common_repurchase_and_retirement": 161, "shares_outstanding_2026_10_29": 930238919},
+      "derived_not_valuation": {"ocf_less_cash_ppe": -1809, "formula": "-1796-13", "warning": "YTD only; inventory funding/asset-backed debt complicate sustainable equity cashflow. Not a replacement engine TTM"},
+      "growth_type": "Q3 revenue up12% and homes purchased up316%; do not relabel as FCF growth",
+      "payments": {"basis": "Explicit 10Q Note13 for three/nine months ended Sept30 2026 and2025", "common_cash_dividends": 0, "preferred_cash_paid": 0, "preferred_declared_or_accumulated": 0, "redemptions": null, "redemption_premium": null, "coverage": "SOURCE_CHECKED_ZERO_DIVIDENDS_ONLY; do not infer no redemptions or current obligations for other windows", "declaration_date": null, "ex_date": null, "record_date": null, "payable_date": null, "actual_paid_date": null},
+      "next_earnings_date": null,
+      "next_payable_date": null,
+      "insider": {"status": "PARTIAL", "window_start": "2026-08-24", "window_end": "2026-11-22", "source_url": "https://investor.opendoor.com/financials-filings/sec-filings", "observed_filing_metadata": [{"filing_date": "2026-11-17", "form": "4", "accession": "0001195975-26-000007", "transaction_not_read": true}, {"filing_date": "2026-11-02", "form": "4", "accession": "0001816739-26-000008", "transaction_not_read": true}], "gap": "IR first10/680 entries read. Original HTML ownership docs403; SEC directory read but XML unsupported; SEC browse and page1 pagination unavailable. No trade classification or90d completeness asserted."},
+      "open_gap": "TTM annual/priorYTD cashflow bridge and current monetary normalization open. Cache already holds Oct29 issuer share count930238919; no share override needed. Public insider document coverage incomplete."
+    }
+  }
+}
