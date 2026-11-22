@@ -514,7 +514,8 @@ def report(result):
             lines.append(f"| {k} | {v['cagr']}/{v['windows']} | {v['max_drawdown']}/{v['windows']} | {v['sharpe']}/{v['windows']} |")
         lines.append('')
     lines += [
-              f"Symbols: {result['symbols']} · generated {result['generated_at']}"]
+              f"Symbols: {result['symbols']} · generated {result['generated_at']}"
+              + (f" · price data {result['price_fingerprint']}" if result.get('price_fingerprint') else '')]
     if result.get('schema') == 'backtest-v3':
         lines += ['', '## Valuation coverage', '',
                   'Positions carry their last observed close on missing dates. No execution at a carried price. '
@@ -615,8 +616,21 @@ def main():
     symbols = {key: row.get('yf') or key for key, row in engine.DATA.items()}
     sectors = {key: row.get('sector') for key, row in engine.DATA.items()}
     period = f'{HISTORY_YEARS}y'
-    raw = yf.download(sorted(set(symbols.values())) + ['^GSPC'], period=period, auto_adjust=True,
-                      progress=False, threads=True, group_by='column')
+    import hashlib
+    import os
+    # One price panel per day: repeated runs on 22 Nov 2026 with the same code still differed, because two
+    # Yahoo downloads minutes apart did not return the same panel. The workflow restores the day's panel from
+    # its cache when it exists; the fingerprint below lets two reports show whether they used the same data.
+    cache = os.environ.get('BACKTEST_PRICE_CACHE')
+    if cache and Path(cache).is_file():
+        raw = pd.read_pickle(cache)
+    else:
+        raw = yf.download(sorted(set(symbols.values())) + ['^GSPC'], period=period, auto_adjust=True,
+                          progress=False, threads=True, group_by='column')
+        if cache:
+            Path(cache).parent.mkdir(parents=True, exist_ok=True)
+            raw.to_pickle(cache)
+    fingerprint = hashlib.sha256(pd.util.hash_pandas_object(raw['Close'].round(4), index=True).values.tobytes()).hexdigest()[:16]
     # Yahoo's dividend-adjusted prices change in the last decimals between downloads; in a path-dependent
     # simulation that noise alone flipped single start dates (22 Mar 2018: -2,982 vs +1,071 on two runs of
     # the same code). Prices are rounded to 4 decimals (volumes kept), so repeated runs match.
@@ -653,7 +667,7 @@ def main():
                   window=f'{start.date()} → {spx.index[-1].date()}', symbols=len(frames),
                   event_study=event_study(frames, spx, start),
                   portfolio=portfolio, buffer_attribution=audit,
-                  spx=_metrics(spx_curve, []))
+                  spx=_metrics(spx_curve, []), price_fingerprint=fingerprint)
     import start_offsets
     result['start_offsets'] = start_offsets.study(simulate, frames, spx, sectors, prepared, WINDOWS, VARIANTS, BASE)
     if len(result['start_offsets']) != len(WINDOWS):

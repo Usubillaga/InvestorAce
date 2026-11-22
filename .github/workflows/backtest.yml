@@ -43,7 +43,18 @@ jobs:
           cache: pip
       - name: Install
         run: pip install -r requirements-research.txt
+      - name: Day of the price panel
+        id: day
+        run: echo "day=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+      - name: Restore the day's price panel
+        # Runs on the same day reuse one Yahoo download, so their results are comparable.
+        uses: actions/cache@v4
+        with:
+          path: .cache/backtest-prices.pkl
+          key: backtest-prices-${{ steps.day.outputs.day }}-${{ hashFiles('engine.py') }}
       - name: Run backtest
+        env:
+          BACKTEST_PRICE_CACHE: .cache/backtest-prices.pkl
         run: |
           python backtest.py
           cat backtests/latest.md >> "$GITHUB_STEP_SUMMARY"
