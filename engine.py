@@ -544,7 +544,9 @@ DATA = {
     fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
     sector='Services', built='watch', normalization_status='REVIEW_REQUIRED',
-    fundamentals_refresh='QUOTE_ONLY', cash_flow_basis='PENDING_CASH_ACQUISITION',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', cash_flow_basis='PENDING_CASH_ACQUISITION',
+    cash_offer=dict(price=10.00, reference_close=6.87, reviewed='2026-11-22',
+        source='https://investor.adt.com/News--Events/news/news-details/2026/ADT-to-be-Acquired-by-Thrive-Holdings-in-15-3-Billion-Transaction/'),
     na='Special situation. Monitor the pending Thrive acquisition at USD 10 per share and reassess standalone valuation if the agreement changes.',
     financial_sources=[{
         'url':'https://www.sec.gov/Archives/edgar/data/1703056/000170305626000116/adt-20260930.htm',
@@ -556,7 +558,7 @@ DATA = {
     fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
     sector='Industrials', built='watch', normalization_status='REVIEW_REQUIRED',
-    fundamentals_refresh='QUOTE_ONLY', cash_flow_basis='PENDING_CASH_FLOW_NORMALIZATION',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', cash_flow_basis='PENDING_CASH_FLOW_NORMALIZATION',
     na='Quality watch. Reconcile cash tariff refunds and working capital before setting sustainable FCF per share.',
     financial_sources=[{
         'url':'https://www.sec.gov/Archives/edgar/data/1579241/000157924126000034/alle-20260930.htm',
@@ -619,7 +621,7 @@ DATA = {
     fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
     sector='Industrials', built='watch', normalization_status='REVIEW_REQUIRED',
-    fundamentals_refresh='QUOTE_ONLY', cash_flow_basis='PENDING_CONTINUING_BUSINESS_REVIEW',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', cash_flow_basis='PENDING_CONTINUING_BUSINESS_REVIEW',
     na='Valuation watch. Reconcile continuing-business FCF after the June 30 sale of Teletrac Navman, including customer financing and restructuring cash costs.',
     financial_sources=[{
         'url':'https://www.sec.gov/Archives/edgar/data/1786842/000162828026070789/vnt-20261002.htm',
@@ -687,9 +689,13 @@ def cushion_neg(d):
     return cu is not None and cu < -CUSHION_TOL
 
 def entry_price(d, target=.60):
+    if d.get("cash_offer"):
+        return None
     n = ngv(d);  return None if n is None else n/target
 
 def entry_gap(d, target=.60):
+    if d.get("cash_offer"):
+        return None
     c = cover(d);  return None if c is None else c/target - 1
 
 def epv(d):
@@ -1108,7 +1114,7 @@ def proximity(d):
        is 'clears', not 'approaching'. Approaching means falling toward it from
        above, so the gap must be positive and small."""
     n, p = ngv(d), d.get('price')
-    if n is None or not p: return (None, None)
+    if d.get("cash_offer") or n is None or not p: return (None, None)
     e = n / 0.60
     gap = 100 * (p/e - 1)            # >0 price above entry, <0 already through it
     if p <= n:   return ('AT NGV',      round(100*(p/n - 1), 1))   # cover >= 100%
@@ -1545,6 +1551,9 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
         if not isinstance(facts, dict):
             facts = dict(schema=LIVE_ANALYSIS.VERSION, symbol=symbol, inputs={}, currency=row.get('cur'))
         primary = primary_entries.get(ticker, {}).get('valuation', {}).get('financial_packet')
+        if row.get('cash_offer') and primary and (facts.get('financial_period') or '') > primary['financial_period']:
+            # A new raw provider quarter lacks the issuer's acquisition-capex and share-class bridge.
+            facts = {k: facts[k] for k in ('schema', 'symbol', 'currency', 'beta') if k in facts}
         facts = LIVE_ANALYSIS.prefer_primary(facts, primary, as_of=as_of)
         facts = dict(facts, midcycle=bool(row.get('midcycle')),
                      common_equity_bridge=primary_entries.get(ticker, {}).get('valuation', {}).get('common_equity_bridge'),
@@ -2700,6 +2709,9 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
           + f'<td><span data-assessment-field="model_band" class="pill {bc}">{bn}</span><br><small>Model band only</small></td>'
           + f'<td class="{cls(rk,2.4,3.3,invert=True)}">{fmt(rk,".1f")}</td>'
           + f'<td data-opportunity="{escape(t)}">{OPPORTUNITY_VIEW.signal(idea)}'
+          + (f'<br>Cash offer {idea["cash_offer"]["price"]:.2f} {escape(d["cur"])} · '
+             f'gross spread at archived close {fmt(idea["cash_offer"]["spread_pct"], "+.2f")}% '
+             f'(terms reviewed {escape(idea["cash_offer"]["reviewed"])})' if idea.get('cash_offer') else '')
           + f'<details class="opportunity-legacy"><summary>Review status</summary><span data-assessment-field="verdict" class="pill {vc}">{vn}</span>{valuation_review_badge(d)}</details></td>'
           + f'<td class="{cls(None if c is None else c*100,60,35)}">{fmt(None if c is None else c*100,".0f")}%</td>'
           + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}{growth_comparison_badge(d)}</td>'

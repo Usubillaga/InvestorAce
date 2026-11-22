@@ -48,6 +48,19 @@ class OpportunityTests(unittest.TestCase):
         self.assertEqual(result['metrics']['valuation_pe'], 12.)
         self.assertEqual(len(result['regime_fit']), 5)
 
+    def test_cash_offer_keeps_standalone_fundamentals_out_of_trade_ranking(self):
+        value = row()
+        value['cash_offer'] = dict(price=63., reference_close=48., reviewed='2026-10-27')
+        result = engine.opportunity(value, regime='REFLATION', as_of=ASOF)
+        self.assertAlmostEqual(result['cash_offer']['spread_pct'], 5.)
+        self.assertAlmostEqual(result['cash_offer']['reference_return_pct'], -20.)
+        for k in ('label', 'score', 'score_lower', 'price_thresholds'):
+            self.assertIsNone(result[k])
+        self.assertIsNone(engine.entry_price(value))
+        self.assertEqual(engine.proximity(value), (None, None))
+        value['quote_observed_at'] = '2026-10-01T12:00:00+00:00'
+        self.assertIsNone(self.assess(value)['cash_offer']['spread_pct'])
+
     def test_expensive_quality_is_not_given_the_discounted_label(self):
         value = row(); dynamic = value['dynamic_analysis']
         dynamic['metrics'].update(fcf_yield_pct=2.,valuation_pe=45.,reported_pe=45.)

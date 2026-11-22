@@ -1,6 +1,6 @@
 {
   "schema": "source-reviews-v1",
-  "as_of": "2026-11-21",
+  "as_of": "2026-11-22",
   "window_start": "2026-07-16",
   "window_end": "2026-10-14",
   "entries": {
@@ -147,7 +147,8 @@
           "The register-wide transaction window remains 2026-07-16 to 2026-10-14. No CRM coverage is certified for that window or for subsequent dates; an empty transaction list is not evidence of no activity."
         ],
         "transactions": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "ASML": {
       "issuer": "ASML Holding N.V.",
@@ -232,7 +233,8 @@
         ],
         "reviewed_at": "2026-10-14"
       },
-      "review_note": "Reported FCF arithmetic checked; sustainable FCF, exact current diluted shares, rate basis, and complete net-debt bridge remain unverified. Insider native route inspected with incomplete window coverage."
+      "review_note": "Reported FCF arithmetic checked; sustainable FCF, exact current diluted shares, rate basis, and complete net-debt bridge remain unverified. Insider native route inspected with incomplete window coverage.",
+      "as_of": "2026-11-21"
     },
     "SAN": {
       "issuer": "Sanofi",
@@ -559,7 +561,8 @@
         ],
         "reviewed_at": "2026-10-14"
       },
-      "review_note": "Source-checked reported H1 data does not validate EUR6.9bn sustainable model. Replace generic AWARDS label with dated subscription/sale evidence. No motive inferred."
+      "review_note": "Source-checked reported H1 data does not validate EUR6.9bn sustainable model. Replace generic AWARDS label with dated subscription/sale evidence. No motive inferred.",
+      "as_of": "2026-11-21"
     },
     "WKL": {
       "issuer": "Wolters Kluwer N.V.",
@@ -663,7 +666,8 @@
         ],
         "reviewed_at": "2026-10-14"
       },
-      "review_note": "Share denominator issue is material; cancellation changes issued shares but not economic outstanding shares by itself because cancelled shares were already treasury. Use outstanding ex-treasury plus appropriate dilution; do not count cancelled treasury shares twice."
+      "review_note": "Share denominator issue is material; cancellation changes issued shares but not economic outstanding shares by itself because cancelled shares were already treasury. Use outstanding ex-treasury plus appropriate dilution; do not count cancelled treasury shares twice.",
+      "as_of": "2026-11-21"
     },
     "LVMH": {
       "issuer": "LVMH Moët Hennessy Louis Vuitton SE",
@@ -776,7 +780,8 @@
         ],
         "reviewed_at": "2026-10-14"
       },
-      "review_note": "Correct H1 FCF note immediately. 13.1bn is neither verified reported H1 nor reported TTM. Native AMF publication-window check verified, without motives inference."
+      "review_note": "Correct H1 FCF note immediately. 13.1bn is neither verified reported H1 nor reported TTM. Native AMF publication-window check verified, without motives inference.",
+      "as_of": "2026-11-21"
     },
     "ENB": {
       "issuer": "Enbridge Inc.",
@@ -1075,7 +1080,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "UNH": {
       "issuer": "UnitedHealth Group Incorporated",
@@ -1939,7 +1945,8 @@
           "superseded_rows_excluded": 0
         },
         "reviewed_at": "2026-10-14"
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "NFLX": {
       "issuer": "Netflix, Inc.",
@@ -4443,7 +4450,8 @@
           "superseded_rows_excluded": 0
         },
         "reviewed_at": "2026-10-14"
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "NVDA": {
       "issuer": "NVIDIA Corporation",
@@ -5550,7 +5558,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "PFE": {
       "issuer": "Pfizer Inc.",
@@ -6071,7 +6080,8 @@
           "superseded_rows_excluded": 0
         },
         "reviewed_at": "2026-10-14"
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "LULU": {
       "issuer": "lululemon athletica inc.",
@@ -6254,7 +6264,8 @@
           "superseded_rows_excluded": 0
         },
         "reviewed_at": "2026-10-14"
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "DVN": {
       "issuer": "Devon Energy Corporation",
@@ -6460,7 +6471,8 @@
         "limitations": [
           "Incomplete sample, not a net institutional/insider-flow signal. The register transaction window remains July16–October14; October23 is the review date, not a certification of continuous coverage."
         ]
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "ZTS": {
       "issuer": "Zoetis Inc.",
@@ -6522,7 +6534,8 @@
         "limitations": [
           "An empty transaction list is not evidence of no activity; neither a buying nor a selling conclusion is certified."
         ]
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "AR": {
       "issuer": "Antero Resources Corporation",
@@ -6789,7 +6802,8 @@
         "coverage": {
           "complete": false
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "OXY": {
       "issuer": "Occidental Petroleum Corporation",
@@ -7136,7 +7150,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "ENG": {
       "issuer": "Enagás, S.A.",
@@ -7220,7 +7235,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "VICI": {
       "issuer": "VICI Properties Inc.",
@@ -7296,7 +7312,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "GOOGL": {
       "issuer": "Alphabet Inc.",
@@ -7390,7 +7407,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "SMCI": {
       "issuer": "Super Micro Computer Inc.",
@@ -7504,7 +7522,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "PG": {
       "issuer": "The Procter & Gamble Company",
@@ -7586,7 +7605,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "APP": {
       "issuer": "AppLovin Corporation",
@@ -7663,7 +7683,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "SPGI": {
       "issuer": "S&P Global Inc.",
@@ -7734,7 +7755,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "ISRG": {
       "issuer": "Intuitive Surgical, Inc.",
@@ -7782,7 +7804,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "PL": {
       "issuer": "Planet Labs PBC",
@@ -7822,7 +7845,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "REP": {
       "issuer": "Repsol, S.A.",
@@ -7878,7 +7902,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "WIX": {
       "issuer": "Wix.com Ltd.",
@@ -7918,7 +7943,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "BYRN": {
       "issuer": "Byrna Technologies Inc.",
@@ -8370,7 +8396,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "AWK": {
       "issuer": "American Water Works Company, Inc.",
@@ -8429,7 +8456,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "BABA": {
       "issuer": "Alibaba Group Holding Limited",
@@ -8480,7 +8508,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "BNTX": {
       "issuer": "BioNTech SE",
@@ -8554,7 +8583,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "GRAB": {
       "issuer": "Grab Holdings Limited",
@@ -8628,7 +8658,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "IBST": {
       "issuer": "Ibstock plc",
@@ -8669,7 +8700,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "CRWV": {
       "issuer": "CoreWeave Inc.",
@@ -8776,7 +8808,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "MRNA": {
       "issuer": "Moderna Inc.",
@@ -8883,7 +8916,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "NBIS": {
       "issuer": "Nebius Group NV",
@@ -8996,7 +9030,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "OPEN": {
       "issuer": "Opendoor Technologies Inc.",
@@ -9120,7 +9155,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "RIVN": {
       "issuer": "Rivian Automotive Inc.",
@@ -9160,7 +9196,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "AVGO": {
       "issuer": "Broadcom Inc.",
@@ -9330,7 +9367,8 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "O": {
       "issuer": "Realty Income Corporation",
@@ -9370,7 +9408,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "RCAT": {
       "issuer": "Red Cat Holdings, Inc.",
@@ -9478,7 +9517,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "SPCX": {
       "issuer": "Space Exploration Technologies Corp.",
@@ -9550,7 +9590,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "TEM": {
       "issuer": "Tempus AI, Inc.",
@@ -9590,7 +9631,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "JEQE": {
       "issuer": "JPMorgan ETFs (Ireland) ICAV",
@@ -9622,7 +9664,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "VOW3": {
       "issuer": "Volkswagen AG",
@@ -9663,7 +9706,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "MELI": {
       "issuer": "MercadoLibre, Inc.",
@@ -9781,7 +9825,8 @@
         "sources": [],
         "transactions": [],
         "limitations": []
-      }
+      },
+      "as_of": "2026-11-21"
     },
     "INTU": {
       "issuer": "Intuit Inc.",
@@ -9864,6 +9909,276 @@
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
           "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
         }
+      },
+      "as_of": "2026-11-21"
+    },
+    "VNT": {
+      "issuer": "Vontier Corp",
+      "listing": "VNT / NYSE / USD",
+      "as_of": "2026-11-22",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Reported TTM includes Teletrac Navman before its June 30 sale. Disposal proceeds excluded. Reconcile retained-business cash flow, customer financing and restructuring before approval.",
+        "sources": [
+          {
+            "title": "VNT FY2025 Form 10-K",
+            "url": "https://www.sec.gov/Archives/edgar/data/1786842/000162828026007648/vnt-20251231.htm"
+          },
+          {
+            "title": "VNT Q3 2026 Form 10-Q",
+            "url": "https://www.sec.gov/Archives/edgar/data/1786842/000162828026070789/vnt-20261002.htm"
+          }
+        ],
+        "financial_packet": {
+          "schema": "dynamic-analysis-v1",
+          "symbol": "VNT",
+          "currency": "USD",
+          "financial_currency": "USD",
+          "published_at": "2026-11-05T23:59:59+00:00",
+          "fetched_at": "2026-11-22T11:00:00+00:00",
+          "financial_period": "2026-10-02",
+          "basis": "TTM",
+          "period_ends": [
+            "2026-10-02",
+            "2026-07-03",
+            "2026-04-03",
+            "2025-12-31"
+          ],
+          "inputs": {
+            "operating_cash_flow": 495700000,
+            "capex": 79200000,
+            "revenue": 3052700000,
+            "operating_income": 592600000,
+            "fcf": 416500000,
+            "shares": 132800000,
+            "cash": 258400000,
+            "debt": 1901000000,
+            "dividends": 14000000,
+            "net_income": 344200000,
+            "stock_based_compensation": 34900000,
+            "depreciation": 109900000
+          },
+          "shares_basis": "10Q_COVER_COMMON_OUTSTANDING",
+          "shares_asof": "2026-11-02",
+          "revenue_growth_pct": 0.28910279575544706,
+          "revenue_growth_periods": [
+            "2026-10-02",
+            "2025-09-26"
+          ],
+          "share_change_pct": -8.47691247415574,
+          "share_change_periods": [
+            "2026-11-02",
+            "2025-10-27"
+          ],
+          "cash_flow_calculation": "OCF_MINUS_FULL_CASH_CAPEX",
+          "annual_fcf_series": [
+            {
+              "period": "2025-12-31",
+              "value": 441100000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 344800000
+            }
+          ],
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1786842/000162828026007648/vnt-20251231.htm",
+            "https://www.sec.gov/Archives/edgar/data/1786842/000162828026070789/vnt-20261002.htm"
+          ],
+          "primary_warnings": [
+            "Reported TTM includes Teletrac Navman before its June 30 sale. Disposal proceeds excluded. Reconcile retained-business cash flow, customer financing and restructuring before approval."
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "No transaction review in this financial assessment.",
+        "sources": [],
+        "transactions": [],
+        "limitations": [
+          "Coverage open."
+        ]
+      }
+    },
+    "ALLE": {
+      "issuer": "Allegion plc",
+      "listing": "ALLE / NYSE / USD",
+      "as_of": "2026-11-22",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Reported TTM includes working-capital timing. The USD 19.9m tariff benefit includes received and expected refunds. Reconcile actual cash receipts before approval.",
+        "sources": [
+          {
+            "title": "ALLE FY2025 Form 10-K",
+            "url": "https://www.sec.gov/Archives/edgar/data/1579241/000157924126000007/alle-20251231.htm"
+          },
+          {
+            "title": "ALLE Q3 2026 Form 10-Q",
+            "url": "https://www.sec.gov/Archives/edgar/data/1579241/000157924126000034/alle-20260930.htm"
+          }
+        ],
+        "financial_packet": {
+          "schema": "dynamic-analysis-v1",
+          "symbol": "ALLE",
+          "currency": "USD",
+          "financial_currency": "USD",
+          "published_at": "2026-10-22T23:59:59+00:00",
+          "fetched_at": "2026-11-22T11:00:00+00:00",
+          "financial_period": "2026-09-30",
+          "basis": "TTM",
+          "period_ends": [
+            "2026-09-30",
+            "2026-06-30",
+            "2026-03-31",
+            "2025-12-31"
+          ],
+          "inputs": {
+            "operating_cash_flow": 844100000,
+            "capex": 104200000,
+            "revenue": 4390900000,
+            "operating_income": 944200000,
+            "fcf": 739900000,
+            "shares": 84321432,
+            "cash": 388100000,
+            "debt": 2032000000,
+            "dividends": 184100000,
+            "net_income": 691100000,
+            "stock_based_compensation": 30400000,
+            "depreciation": 138500000
+          },
+          "shares_basis": "10Q_COVER_COMMON_OUTSTANDING",
+          "shares_asof": "2026-10-19",
+          "revenue_growth_pct": 10.332437118375747,
+          "revenue_growth_periods": [
+            "2026-09-30",
+            "2025-09-30"
+          ],
+          "share_change_pct": -1.9882391836437807,
+          "share_change_periods": [
+            "2026-10-19",
+            "2025-10-21"
+          ],
+          "cash_flow_calculation": "OCF_MINUS_FULL_CASH_CAPEX",
+          "annual_fcf_series": [
+            {
+              "period": "2025-12-31",
+              "value": 685700000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 582900000
+            }
+          ],
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1579241/000157924126000007/alle-20251231.htm",
+            "https://www.sec.gov/Archives/edgar/data/1579241/000157924126000034/alle-20260930.htm"
+          ],
+          "primary_warnings": [
+            "Reported TTM includes working-capital timing. The USD 19.9m tariff benefit includes received and expected refunds. Reconcile actual cash receipts before approval."
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "No transaction review in this financial assessment.",
+        "sources": [],
+        "transactions": [],
+        "limitations": [
+          "Coverage open."
+        ]
+      }
+    },
+    "ADT": {
+      "issuer": "ADT Inc.",
+      "listing": "ADT / NYSE / USD",
+      "as_of": "2026-11-22",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Standalone operating-company scenario only; takeover economics depend on closing. All dealer accounts and subscriber systems are deducted. Cash taxes, working-capital timing and subscriber mix remain unnormalized.",
+        "sources": [
+          {
+            "title": "ADT FY2025 Form 10-K",
+            "url": "https://www.sec.gov/Archives/edgar/data/1703056/000170305626000022/adt-20251231.htm"
+          },
+          {
+            "title": "ADT Q3 2026 Form 10-Q",
+            "url": "https://www.sec.gov/Archives/edgar/data/1703056/000170305626000116/adt-20260930.htm"
+          },
+          {
+            "title": "ADT Q3 2025 Form 10-Q",
+            "url": "https://www.sec.gov/Archives/edgar/data/1703056/000170305625000166/adt-20250930.htm"
+          }
+        ],
+        "financial_packet": {
+          "schema": "dynamic-analysis-v1",
+          "symbol": "ADT",
+          "currency": "USD",
+          "financial_currency": "USD",
+          "published_at": "2026-11-03T23:59:59+00:00",
+          "fetched_at": "2026-11-22T11:00:00+00:00",
+          "financial_period": "2026-09-30",
+          "basis": "TTM",
+          "period_ends": [
+            "2026-09-30",
+            "2026-06-30",
+            "2026-03-31",
+            "2025-12-31"
+          ],
+          "inputs": {
+            "operating_cash_flow": 2118454000,
+            "capex": 985332000,
+            "fcf": 1133122000,
+            "revenue": 5215920000,
+            "operating_income": 1284440000,
+            "depreciation": 1378886000,
+            "shares": 730531112,
+            "net_income": 618195000,
+            "stock_based_compensation": 62520000,
+            "debt": 7852203000,
+            "cash": 228303000,
+            "dividends": 175467000
+          },
+          "shares_basis": "10Q_COVER_COMMON_PLUS_CLASS_B",
+          "shares_asof": "2026-10-27",
+          "revenue_growth_pct": 2.01572153661973,
+          "revenue_growth_periods": [
+            "2026-09-30",
+            "2025-09-30"
+          ],
+          "share_change_pct": -10.885054916670423,
+          "share_change_periods": [
+            "2026-10-27",
+            "2025-10-28"
+          ],
+          "cash_flow_calculation": "OCF_MINUS_PPE_DEALER_ACCOUNTS_AND_SUBSCRIBER_SYSTEMS",
+          "annual_fcf_series": [
+            {
+              "period": "2025-12-31",
+              "value": 716000000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 612000000
+            }
+          ],
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1703056/000170305626000022/adt-20251231.htm",
+            "https://www.sec.gov/Archives/edgar/data/1703056/000170305626000116/adt-20260930.htm",
+            "https://www.sec.gov/Archives/edgar/data/1703056/000170305625000166/adt-20250930.htm"
+          ],
+          "primary_warnings": [
+            "Standalone operating-company scenario only; takeover economics depend on closing. All dealer accounts and subscriber systems are deducted. Cash taxes, working-capital timing and subscriber mix remain unnormalized."
+          ]
+        }
+      },
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "No transaction review in this financial assessment.",
+        "sources": [],
+        "transactions": [],
+        "limitations": [
+          "Coverage open."
+        ]
       }
     }
   }

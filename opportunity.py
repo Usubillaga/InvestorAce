@@ -261,7 +261,7 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
     explanation = [dict(key=k,label=LABELS[k],value=values[k],weight=WEIGHTS[k],
         contribution=WEIGHTS[k]*values[k] if values[k] is not None else None,
         lower_contribution=WEIGHTS[k]*ranges[k][0],upper_contribution=WEIGHTS[k]*ranges[k][1]) for k in WEIGHTS]
-    return dict(schema=VERSION,as_of=as_of.isoformat(),price=row.get('price'),
+    result = dict(schema=VERSION,as_of=as_of.isoformat(),price=row.get('price'),
         quote_observed_at=row.get('quote_observed_at'),quote_status=qstatus,
         expires_at=(deadline+timedelta(hours=96)).isoformat() if deadline else None,
         score=min(maximums[0],point) if point is not None else None,label=signal,
@@ -290,6 +290,14 @@ def assess(row, *, regime, spec, as_of=None, weights=None):
         components=explanation,missing_components=missing,flags=flags,
         short_interest=copy.deepcopy((dynamic.get('positioning') or {}).get('short_interest')),
         insider=copy.deepcopy(row.get('insider_activity')))
+    offer = row.get('cash_offer')
+    if offer:
+        price = positive_number(row.get('price')) if result['quote_status'] == 'DATED' else None
+        result['cash_offer'] = dict(offer, spread_pct=100*(offer['price']/price-1) if price else None,
+            reference_return_pct=100*(offer['reference_close']/price-1) if price else None)
+        result.update(status='CASH_OFFER', label=None, score=None, score_lower=None, score_upper=None,
+                      uncapped_score=None, withdrawn=True, signal_basis='PENDING_CASH_ACQUISITION')
+    return result
 
 
 def rank_key(result):
