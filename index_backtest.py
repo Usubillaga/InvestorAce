@@ -8,6 +8,8 @@ It was started without a backtest. This study runs that rule and its alternative
 * codex_20d_5d_long_only: the same signal, flat instead of short.
 * trend_200d: long above the 200-day average, flat below (Faber 2007, "A Quantitative Approach to Tactical Asset
   Allocation").
+* codex_intraday_account: the account as Codex actually runs it (index_paper.py): the same signal as a day trade,
+  in at the open, out at the close or at a 2 x ATR(14) stop, at most 15% of equity and 0.5% risk per ETF.
 * buy_and_hold: the benchmark every rule is judged against.
 
 Equal capital per ETF (one fifth each). The position decided at a close is held from the next close (the same one-
@@ -64,6 +66,31 @@ def equity(close, rule, start, end=None):
     return (1 + book.fillna(0.)).cumprod()
 
 
+def equity_intraday(ohlc, start, end=None, sides=('LONG', 'SHORT')):
+    """Codex's actual account (index_paper.py, index-day-v1): the 20d/5d signal at close t becomes a day trade on
+    t+1, entered at the open and left at the same close or at a stop 2 x ATR(14) away; each ETF gets the smaller of
+    15% of equity and the size that risks 0.5% of equity at the stop; 0.10% cost per side. Starts at 1."""
+    o, h, l, c = (ohlc[k] for k in ('Open', 'High', 'Low', 'Close'))
+    sma20, back5 = c.rolling(20).mean(), c.shift(5)
+    side = ((c > sma20) & (c > back5)).astype(float) - ((c < sma20) & (c < back5)).astype(float)
+    if 'SHORT' not in sides:
+        side = side.clip(lower=0)
+    prev = c.shift(1)
+    tr = pd.concat([h - l, (h - prev).abs(), (l - prev).abs()]).groupby(level=0).max()
+    dist = 2 * tr.rolling(14).mean()
+    side, dist = side.shift(1), dist.shift(1)            # decided at the previous close
+    weight = np.minimum(0.15, 0.005 * o / dist)
+    stop_long, stop_short = o - dist, o + dist
+    exit_long = c.where(l > stop_long, stop_long)
+    exit_short = c.where(h < stop_short, stop_short)
+    exit_ = exit_long.where(side > 0, exit_short)
+    move = side * (exit_ - o) / o
+    daily = (weight * (move - 2 * COST)).where(side != 0, 0.).fillna(0.)
+    mask = (c.index >= start) & ((c.index < end) if end is not None else True)
+    book = daily[mask].sum(axis=1)                     # weights are fractions of equity, so they add up
+    return (1 + book).cumprod()
+
+
 def metrics(curve):
     rets = curve.pct_change().dropna()
     years = max((curve.index[-1] - curve.index[0]).days / 365.25, 1e-9)
@@ -72,8 +99,10 @@ def metrics(curve):
                 max_drawdown=100 * float((curve / curve.cummax() - 1).min()))
 
 
-def study(close, windows, starts=STARTS, step=STEP):
+def study(close, windows, starts=STARTS, step=STEP, ohlc=None):
     rules = ('codex_20d_5d_long_short', 'codex_20d_5d_long_only', 'trend_200d')
+    if ohlc is not None:
+        rules += ('codex_intraday_account',)
     out = {}
     for lo, hi in windows:
         start, end = pd.Timestamp(lo), (pd.Timestamp(hi) if hi else None)
@@ -88,7 +117,9 @@ def study(close, windows, starts=STARTS, step=STEP):
             absolute = []
             for k in range(starts):
                 first = days[k * step]
-                base, var = metrics(equity(close, 'buy_and_hold', first, end)), metrics(equity(close, rule, first, end))
+                base = metrics(equity(close, 'buy_and_hold', first, end))
+                var = metrics(equity_intraday(ohlc, first, end) if rule == 'codex_intraday_account'
+                              else equity(close, rule, first, end))
                 absolute.append(var)
                 wins += int(var['cagr'] > base['cagr'])
                 for m in diffs:
@@ -100,7 +131,7 @@ def study(close, windows, starts=STARTS, step=STEP):
                                  for m, v in diffs.items() if v})
         rows['buy_and_hold'] = dict(cagr=metrics(equity(close, 'buy_and_hold', days[0], end))['cagr'])
         out[label] = rows
-    for rule in ('codex_20d_5d_long_short', 'codex_20d_5d_long_only', 'trend_200d'):
+    for rule in rules:
         cells = [r[rule] for r in out.values() if rule in r]
         out.setdefault('_passes', {})[rule] = bool(cells) and len(cells) == len(windows) and all(
             c['d_cagr']['median'] > 0 and c['d_sharpe']['median'] > 0 for c in cells)
@@ -130,8 +161,12 @@ def report(result):
 
 
 def download(period='14y'):
+    """(close, ohlc) with dividend-adjusted prices; ohlc holds Open/High/Low/Close frames."""
     import yfinance as yf
     raw = yf.download(list(ETFS), period=period, auto_adjust=True, progress=False, threads=False, group_by='column')
-    close = raw['Close'][list(ETFS)].round(4)
-    close.index = close.index.tz_localize(None) if close.index.tz is not None else close.index
-    return close
+    ohlc = {}
+    for field in ('Open', 'High', 'Low', 'Close'):
+        frame = raw[field][list(ETFS)].round(4)
+        frame.index = frame.index.tz_localize(None) if frame.index.tz is not None else frame.index
+        ohlc[field] = frame
+    return ohlc['Close'], ohlc
