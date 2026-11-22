@@ -39,6 +39,8 @@ class Rules(unittest.TestCase):
         self.assertEqual(len(periods), 2)
         self.assertEqual(set(out['_passes']), {'codex_20d_5d_long_short', 'codex_20d_5d_long_only', 'trend_200d'})
         self.assertIn('buy_and_hold', ib.report(out))
+        import json
+        json.dumps(out)                                  # the backtest stores it in latest.json
 
 
 if __name__ == '__main__':

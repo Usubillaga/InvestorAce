@@ -67,7 +67,7 @@ def equity(close, rule, start, end=None):
 def metrics(curve):
     rets = curve.pct_change().dropna()
     years = max((curve.index[-1] - curve.index[0]).days / 365.25, 1e-9)
-    return dict(cagr=100 * (curve.iloc[-1] ** (1 / years) - 1),
+    return dict(cagr=float(100 * (curve.iloc[-1] ** (1 / years) - 1)),
                 sharpe=float(rets.mean() / rets.std() * math.sqrt(252)) if rets.std() > 0 else None,
                 max_drawdown=100 * float((curve / curve.cummax() - 1).min()))
 
@@ -90,7 +90,7 @@ def study(close, windows, starts=STARTS, step=STEP):
                 first = days[k * step]
                 base, var = metrics(equity(close, 'buy_and_hold', first, end)), metrics(equity(close, rule, first, end))
                 absolute.append(var)
-                wins += var['cagr'] > base['cagr']
+                wins += int(var['cagr'] > base['cagr'])
                 for m in diffs:
                     if None not in (var[m], base[m]):
                         diffs[m].append(var[m] - base[m])
