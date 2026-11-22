@@ -25,6 +25,9 @@ def path_stats(dates, prices, i):
            max63=round(100*(max(path)/base-1),2))
     if hit is None:
         return r
+    # Eligibility remains fixed at 63 sessions. Follow qualifying rallies until
+    # their first 5% closing pullback, including follow-up beyond session 63.
+    path=prices[i:]
     low=min(range(hit+1),key=path.__getitem__)
     high=hit
     stop=None
