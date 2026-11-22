@@ -623,6 +623,11 @@ def complete_report(result):
         md += pairs_backtest.report(result['pairs'])
     elif result.get('pairs_error'):
         md += '\n## Pairs trading\n\nNot computed: ' + result['pairs_error'] + '\n'
+    if result.get('index_timing'):
+        import index_backtest
+        md += index_backtest.report(result['index_timing'])
+    elif result.get('index_timing_error'):
+        md += '\n## Index ETF timing\n\nNot computed: ' + result['index_timing_error'] + '\n'
     return md
 
 
@@ -707,6 +712,11 @@ def main():
         result['pairs'] = pairs_backtest.study(prepared[0], sectors, spx, WINDOWS)
     except Exception as exc:               # pragma: no cover - reported in the results instead
         result['pairs_error'] = f'{type(exc).__name__}: {exc}'
+    try:                                   # index ETF timing (index_backtest.py); separate small download
+        import index_backtest
+        result['index_timing'] = index_backtest.study(index_backtest.download(f'{HISTORY_YEARS}y'), WINDOWS)
+    except Exception as exc:               # pragma: no cover - reported in the results instead
+        result['index_timing_error'] = f'{type(exc).__name__}: {exc}'
     OUT.mkdir(exist_ok=True)
     previous_path = OUT / 'latest.json'
     if previous_path.exists():
