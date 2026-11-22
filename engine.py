@@ -2709,9 +2709,10 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
           + f'<td><span data-assessment-field="model_band" class="pill {bc}">{bn}</span><br><small>Model band only</small></td>'
           + f'<td class="{cls(rk,2.4,3.3,invert=True)}">{fmt(rk,".1f")}</td>'
           + f'<td data-opportunity="{escape(t)}">{OPPORTUNITY_VIEW.signal(idea)}'
-          + (f'<br>Cash offer {idea["cash_offer"]["price"]:.2f} {escape(d["cur"])} · '
-             f'gross spread at archived close {fmt(idea["cash_offer"]["spread_pct"], "+.2f")}% '
-             f'(terms reviewed {escape(idea["cash_offer"]["reviewed"])})' if idea.get('cash_offer') else '')
+          + (f'<br><small>Cash offer</small> {idea["cash_offer"]["price"]:.2f} {escape(d["cur"])}'
+             f'<br><small>Gross spread at archived close</small> {fmt(idea["cash_offer"]["spread_pct"], "+.2f")}%'
+             f'<br><small>Offer terms reviewed</small> {escape(idea["cash_offer"]["reviewed"])}'
+             if idea.get('cash_offer') else '')
           + f'<details class="opportunity-legacy"><summary>Review status</summary><span data-assessment-field="verdict" class="pill {vc}">{vn}</span>{valuation_review_badge(d)}</details></td>'
           + f'<td class="{cls(None if c is None else c*100,60,35)}">{fmt(None if c is None else c*100,".0f")}%</td>'
           + f'<td class="{cls(cu,0.0001,-0.0001)}">{fmt(cu,"+.1f")}{growth_comparison_badge(d)}</td>'

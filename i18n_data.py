@@ -2,6 +2,11 @@
 
 TRANSLATIONS = {
   "de": {
+    "Cash offer": "Barangebot",
+    "Gross spread at archived close": "Bruttospread zum archivierten Schlusskurs",
+    "Offer terms reviewed": "Angebotsbedingungen geprüft",
+    "Takeover watch": "Übernahmebeobachtung",
+    "Standalone fundamentals": "Fundamentaldaten des eigenständigen Unternehmens",
     "Master Scoreboard": "Gesamtübersicht",
     "English": "English",
     "Research": "Recherche",
@@ -597,6 +602,11 @@ TRANSLATIONS = {
     "10y": "10J"
   },
   "es": {
+    "Cash offer": "Oferta en efectivo",
+    "Gross spread at archived close": "Diferencial bruto al cierre archivado",
+    "Offer terms reviewed": "Condiciones de la oferta revisadas",
+    "Takeover watch": "Seguimiento de la adquisición",
+    "Standalone fundamentals": "Fundamentales de la empresa independiente",
     "Master Scoreboard": "Panel general",
     "English": "English",
     "Research": "Investigación",
