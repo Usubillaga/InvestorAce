@@ -48,8 +48,8 @@ Technical rules on current members. Historical membership and full label history
 | sell_all_in_correction | 25.14% | -29.46% | 0.96 | 353 | 36.54% | 4.3% | 21.6 |
 | sell_all_weak_breadth | 19.63% | -29.37% | 0.8 | 613 | 39.31% | 1.59% | 12.2 |
 | sell_all_correction_and_weak_breadth | 34.18% | -30.4% | 1.14 | 329 | 34.65% | 4.98% | 24.0 |
-| shorts_in_correction | 25.68% | -38.41% | 0.93 | 403 | 32.75% | 2.84% | 22.9 |
-| shorts_always | 18.33% | -36.32% | 0.71 | 560 | 32.5% | 1.7% | 23.5 |
+| shorts_in_correction | 19.18% | -38.11% | 0.77 | 419 | 31.98% | 1.98% | 22.3 |
+| shorts_always | 17.6% | -32.95% | 0.69 | 558 | 32.62% | 1.98% | 23.6 |
 
 S&P 500 buy and hold: CAGR 8.1%, max drawdown -25.43%.
 
@@ -83,11 +83,11 @@ Breakout failure rate 22.48% · 63-day mean: uptrend days 4.59%, just under resi
 | sell_all_weak_breadth | 18.19% | -15.38% | 1.18 | 159 |
 | sell_all_correction_and_weak_breadth | 18.19% | -15.38% | 1.18 | 159 |
 | shorts_in_correction | 15.54% | -22.96% | 1.0 | 218 |
-| shorts_always | 10.25% | -20.81% | 0.61 | 372 |
+| shorts_always | 10.29% | -20.7% | 0.62 | 372 |
 
 ### 2018-01-02 → 2021-12-31 · 111 stocks · S&P CAGR 15.33%, max drawdown -33.92%
 
-Breakout failure rate 30.94% · 63-day mean: uptrend days 5.49%, just under resistance 3.11%, failed breakouts 0.09% · more than 30% above the 36-day average: n=820, 63-day 19.72%, P(−10% in 21 d) 48.41%
+Breakout failure rate 30.96% · 63-day mean: uptrend days 5.49%, just under resistance 3.11%, failed breakouts 0.08% · more than 30% above the 36-day average: n=820, 63-day 19.72%, P(−10% in 21 d) 48.41%
 
 | Variant | CAGR | max drawdown | Sharpe | trades |
 |---|---|---|---|---|
@@ -138,8 +138,8 @@ Breakout failure rate 33.12% · 63-day mean: uptrend days 5.06%, just under resi
 | sell_all_in_correction | 26.86% | -24.14% | 1.01 | 346 |
 | sell_all_weak_breadth | 15.34% | -31.15% | 0.69 | 606 |
 | sell_all_correction_and_weak_breadth | 27.73% | -31.23% | 1.0 | 317 |
-| shorts_in_correction | 27.1% | -33.96% | 0.94 | 403 |
-| shorts_always | 26.19% | -31.57% | 0.94 | 524 |
+| shorts_in_correction | 29.58% | -34.0% | 1.07 | 395 |
+| shorts_always | 25.61% | -31.42% | 0.93 | 516 |
 
 ### Robustness: windows in which a variant beat base_v1_6 (the current rules)
 
@@ -162,10 +162,10 @@ Breakout failure rate 33.12% · 63-day mean: uptrend days 5.06%, just under resi
 | sell_all_in_correction | 1/3 | 2/3 | 2/3 |
 | sell_all_weak_breadth | 2/3 | 2/3 | 2/3 |
 | sell_all_correction_and_weak_breadth | 2/3 | 2/3 | 2/3 |
-| shorts_in_correction | 1/3 | 0/3 | 1/3 |
+| shorts_in_correction | 1/3 | 0/3 | 2/3 |
 | shorts_always | 0/3 | 0/3 | 0/3 |
 
-Symbols: 122 · generated 2026-11-21T14:53+00:00
+Symbols: 122 · generated 2026-11-22T09:12+00:00
 
 ## Valuation coverage
 
@@ -194,6 +194,67 @@ Positions carry their last observed close on missing dates. No execution at a ca
 | sell_all_correction_and_weak_breadth | 1 | None |
 | shorts_in_correction | 1 | None |
 | shorts_always | 1 | None |
+
+## SMA200 buffer divergence: v1.6 versus 1%
+
+Contributions include entry and exit costs, size changes and ending marks on open positions. Subsequent entries describe the portfolio path; an individual replacement is not necessarily causal.
+
+### 2021-11-20 → 2026-11-20
+
+Order plans identical.
+
+Ending equity difference: +0.00; total-return difference +0.00 percentage points. Differing positions: 0.
+
+buffer_200d_2pct vs 1%: order plans identical = True, executed positions identical = True.
+buffer_200d_3pct vs 1%: order plans identical = True, executed positions identical = True.
+
+### 2014-01-02 → 2017-12-29
+
+Order plans identical.
+
+Ending equity difference: +0.00; total-return difference +0.00 percentage points. Differing positions: 0.
+
+buffer_200d_2pct vs 1%: order plans identical = True, executed positions identical = True.
+buffer_200d_3pct vs 1%: order plans identical = True, executed positions identical = True.
+
+### 2018-01-02 → 2021-12-31
+
+First differing order plan on 2018-10-12 (side, symbol, shares): v1.6 only [('BUY', 'B', 133)], 1% only [].
+
+Ending equity difference: +6606.18; total-return difference +66.06 percentage points. Differing positions: 281.
+
+Two largest positive contributions: 15.5% of gross positive contributions. This describes concentration within this historical path.
+
+Largest positive lot: MRNA entered 2021-07-07, +21.017 total-return pp.
+Largest positive lot: AR entered 2020-12-29, +20.589 total-return pp.
+
+First differing fills and subsequent positions (first 10; complete ledger in backtests/latest.json).
+
+| Entry | Symbol | v1.6 shares | 1% shares | Difference in total return (pp) |
+|---|---|---:|---:|---:|
+| 2018-10-15 | B | 133 | 0 | +0.201 |
+| 2018-10-17 | O | 0 | 37 | +5.939 |
+| 2018-11-08 | ALM | 95 | 96 | -0.009 |
+| 2018-11-08 | BSX | 36 | 37 | -0.019 |
+| 2018-12-04 | AMD | 57 | 58 | -0.012 |
+| 2018-12-04 | MCD | 0 | 8 | -0.750 |
+| 2018-12-04 | O | 32 | 0 | +0.266 |
+| 2018-12-04 | TTD | 92 | 93 | -0.017 |
+| 2019-02-13 | AVGO | 56 | 57 | -0.015 |
+| 2019-02-13 | ELE | 96 | 98 | +0.074 |
+
+buffer_200d_2pct vs 1%: order plans identical = True, executed positions identical = True.
+buffer_200d_3pct vs 1%: order plans identical = True, executed positions identical = True.
+
+### 2022-01-03 → 2026-11-20
+
+Order plans identical.
+
+Ending equity difference: +0.00; total-return difference +0.00 percentage points. Differing positions: 0.
+
+buffer_200d_2pct vs 1%: order plans identical = True, executed positions identical = True.
+buffer_200d_3pct vs 1%: order plans identical = True, executed positions identical = True.
+
 
 ## Pairs trading (same-sector, Engle-Granger + Ornstein-Uhlenbeck)
 
