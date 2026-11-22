@@ -26,5 +26,6 @@ class ReboundEstimates(unittest.TestCase):
         prices = [100, 89, 80] + [95]*63 + [110, 90]
         report = study(list(range(len(prices))), prices, [(0,2,65),(66,67,None)],.1)
         self.assertEqual(len(report['events']),1)
-        self.assertEqual(report['censored'],1)
+        self.assertEqual(report['censored'],0)
+        self.assertEqual(report['events'][0]['end'],'67')
         self.assertEqual(report['bands'][0]['k'],1)

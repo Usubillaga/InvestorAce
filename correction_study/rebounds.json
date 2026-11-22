@@ -19,11 +19,11 @@
       "max63": 5.86,
       "first": "1957-05-01",
       "start": "1957-02-12",
-      "peak": "1957-05-02",
-      "end": null,
-      "rise": 9.44,
-      "duration": 55,
-      "from_cross": 5.86
+      "peak": "1957-07-15",
+      "end": "1957-08-06",
+      "rise": 15.9,
+      "duration": 105,
+      "from_cross": 12.12
     },
     {
       "previous": "1959-08-03",
@@ -35,11 +35,11 @@
       "max63": 7.41,
       "first": "1960-04-06",
       "start": "1960-03-08",
-      "peak": "1960-06-07",
-      "end": null,
-      "rise": 7.41,
-      "duration": 63,
-      "from_cross": 7.41
+      "peak": "1960-06-09",
+      "end": "1960-07-21",
+      "rise": 8.47,
+      "duration": 65,
+      "from_cross": 8.47
     },
     {
       "previous": "1961-12-12",
@@ -96,11 +96,11 @@
       "max63": 10.98,
       "first": "1984-08-03",
       "start": "1984-07-24",
-      "peak": "1984-08-21",
-      "end": null,
-      "rise": 13.54,
-      "duration": 20,
-      "from_cross": 10.98
+      "peak": "1984-11-06",
+      "end": "1984-12-13",
+      "rise": 15.28,
+      "duration": 74,
+      "from_cross": 12.68
     },
     {
       "previous": "1987-08-25",
@@ -130,11 +130,11 @@
       "max63": 13.97,
       "first": "1998-10-30",
       "start": "1998-08-31",
-      "peak": "1998-11-23",
-      "end": null,
-      "rise": 24.12,
-      "duration": 59,
-      "from_cross": 13.97
+      "peak": "1999-04-12",
+      "end": "1999-04-19",
+      "rise": 41.93,
+      "duration": 153,
+      "from_cross": 30.31
     },
     {
       "previous": "1999-07-16",
@@ -147,7 +147,7 @@
       "first": "1999-10-28",
       "start": "1999-10-15",
       "peak": "1999-12-31",
-      "end": null,
+      "end": "2000-01-28",
       "rise": 17.78,
       "duration": 53,
       "from_cross": 17.78
@@ -203,11 +203,11 @@
       "max63": 11.27,
       "first": "2019-01-30",
       "start": "2018-12-24",
-      "peak": "2019-03-18",
-      "end": null,
-      "rise": 20.49,
-      "duration": 56,
-      "from_cross": 11.27
+      "peak": "2019-04-30",
+      "end": "2019-05-29",
+      "rise": 25.3,
+      "duration": 86,
+      "from_cross": 15.71
     },
     {
       "previous": "2020-02-19",
@@ -251,11 +251,11 @@
       "max63": 16.36,
       "first": "2025-05-02",
       "start": "2025-04-08",
-      "peak": "2025-07-03",
-      "end": null,
-      "rise": 26.02,
-      "duration": 59,
-      "from_cross": 16.36
+      "peak": "2025-10-28",
+      "end": "2025-11-20",
+      "rise": 38.29,
+      "duration": 140,
+      "from_cross": 27.69
     }
   ],
   "bands": [
@@ -342,10 +342,10 @@
   ],
   "hit": 11,
   "wait": 20,
-  "size": 11.05,
-  "duration": 53,
-  "gain": 9.61,
-  "censored": 7,
+  "size": 15.28,
+  "duration": 65,
+  "gain": 12.12,
+  "censored": 0,
   "maximum": 5.470000000000001,
   "downside": 11
 }
