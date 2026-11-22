@@ -734,6 +734,9 @@ def build_site(root, output, require_committed=False):
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
     scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language)
+                    .replace('href="correction_study/index.html">Atlas de correcciones',
+                             'href="correction_study/en.html">US corrections atlas' if language == 'en'
+                             else 'href="correction_study/index.html">Atlas de correcciones')
                     .replace('href="swing-experiments.html"', f'href="swing-experiments.{language}.html"'
                              if language != 'en' else 'href="swing-experiments.html"'))
                    for language in ('en', 'de', 'es')]
@@ -742,7 +745,7 @@ def build_site(root, output, require_committed=False):
     pages += stress_pages + codex + experiment_pages + long_short_pages + desk_pages + report_pages
     atlas = Path(__file__).parent / 'correction_study'
     pages.extend((Path('correction_study') / name, (atlas / name).read_bytes())
-                 for name in ('index.html', 'results.json'))
+                 for name in ('index.html', 'en.html', 'results.json', 'rebounds.json'))
     pages += earnings_index(root / 'earnings')
     # Prepare dated earnings artifacts before replacing any published page.
     earnings = root / 'earnings'
