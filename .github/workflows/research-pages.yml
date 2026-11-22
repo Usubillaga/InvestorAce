@@ -11,6 +11,7 @@ on:
       - 'market-scan/**'
       - 'weekly_research.py'
       - 'trading_desk.py'
+      - 'markov_experiments.py'
       - '.github/workflows/research-pages.yml'
   workflow_dispatch:
 

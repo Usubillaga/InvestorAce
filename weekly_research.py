@@ -583,6 +583,7 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
     if include_swing_experiments:
         backtest_link += '<a href="swing-experiments.html" style="color:#c1d98b;font-weight:700">Swing experiments ↗</a>'
     if include_desk:
+        backtest_link += '<a href="markov-experiments.html">Markov experiments ↗</a>'
         backtest_link += '<a href="technical-scan.html" style="color:#c1d98b;font-weight:700">Technical scan ↗</a>'
     war_link = ('<a href="war-scenarios.html" style="color:#c1d98b;font-weight:700">War scenarios ↗</a>'
                 if include_war else '')
@@ -712,6 +713,8 @@ def build_site(root, output, require_committed=False):
         long_short_pages = long_short_site_pages(root, committed_build)
         from trading_desk import site_pages as desk_site_pages
         desk_pages = desk_site_pages(root, committed_build)
+        from markov_experiments import site_pages as markov_pages
+        desk_pages += markov_pages(root, committed_build)
         from daily_report import site_pages as report_site_pages
         report_pages = report_site_pages(root, committed_build)
     scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in published,
