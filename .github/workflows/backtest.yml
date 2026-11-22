@@ -7,15 +7,27 @@ on:
     branches: ['claude/**']
     paths:
       - 'backtest.py'
+      - 'buffer_attribution.py'
       - 'pairs_backtest.py'
+      - 'start_offsets.py'
       - '.github/workflows/backtest.yml'
   schedule:
     - cron: '17 5 1 * *'        # 1st of each month, on main
   workflow_dispatch:
 
 permissions:
+  pull-requests: write
   contents: write
   actions: write                 # dispatch CI for the results commit (GITHUB_TOKEN pushes start no runs)
+
+# One run per branch at a time. A run that is triggered while another is running waits for it,
+# then starts from the branch's newest commit (including the first run's results), so its own
+# results push is a fast-forward instead of a rejected race. GitHub keeps one waiting run per
+# group: a third trigger replaces the waiting one (shown as cancelled), which is harmless
+# because the run that remains starts from the newest commit anyway.
+concurrency:
+  group: backtest-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   backtest:
@@ -23,13 +35,26 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}   # the branch head when this run starts, not when it was queued
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
           cache: pip
       - name: Install
         run: pip install -r requirements-research.txt
+      - name: Day of the price panel
+        id: day
+        run: echo "day=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+      - name: Restore the day's price panel
+        # Runs on the same day reuse one Yahoo download, so their results are comparable.
+        uses: actions/cache@v4
+        with:
+          path: .cache/backtest-prices.pkl
+          key: backtest-prices-${{ steps.day.outputs.day }}-${{ hashFiles('engine.py') }}
       - name: Run backtest
+        env:
+          BACKTEST_PRICE_CACHE: .cache/backtest-prices.pkl
         run: |
           python backtest.py
           cat backtests/latest.md >> "$GITHUB_STEP_SUMMARY"
@@ -40,13 +65,27 @@ jobs:
         run: |
           git config user.name  "investorace-bot"
           git config user.email "investorace-bot@users.noreply.github.com"
+          tested=$(git rev-parse HEAD)   # the commit these results were calculated from
           git add backtests/latest.json backtests/latest.md
-          git commit -q -m "backtest: results $(date -u +%F)" || exit 0
-          for attempt in 1 2 3 4; do
-            if git pull -q --rebase origin "$BRANCH" && git push -q origin "HEAD:$BRANCH"; then
-              gh workflow run test.yml --ref "$BRANCH" || true
-              exit 0
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -qm "backtest: results $(date -u +%F)"
+          target="$BRANCH"
+          if [[ "$BRANCH" == main ]]; then
+            target="bot/backtest-${GITHUB_RUN_ID}"
+          fi
+          # Never rebase computed results onto source code they did not test.
+          # A concurrent update rejects the push and leaves the previous report intact.
+          if [[ "$BRANCH" == main ]] && git ls-remote --exit-code origin "refs/heads/$target" >/dev/null; then
+            git fetch --no-tags origin "$target"
+            test "$(git rev-parse FETCH_HEAD^)" = "$tested"
+            # Retry publication of the already pushed result from this run.
+          else
+            git push origin "HEAD:refs/heads/$target"
+          fi
+          if [[ "$BRANCH" == main ]]; then
+            if ! gh pr view "$target" --json url >/dev/null 2>&1; then
+              gh pr create --base main --head "$target" --title "Monthly backtest results" \
+                --body "Results calculated from $tested by workflow run $GITHUB_RUN_ID."
             fi
-            sleep $((attempt * 5))
-          done
-          exit 1
+          fi
+          gh workflow run test.yml --ref "$target"

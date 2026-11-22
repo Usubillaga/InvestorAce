@@ -193,7 +193,7 @@ def portfolio_inputs(frames):
     return close, close.ffill(), breadth, candidates, rows, shorts
 
 
-def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, **rule):
+def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, precise=False, **rule):
     """Daily decisions on close t, fills at close t+1 (the live system: last night's build, today's close)."""
     dates = spx.index[(spx.index >= start) & ((spx.index < end) if end is not None else True)]
     spx_sma = spx.rolling(200).mean()
@@ -322,7 +322,7 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, *
                     covers.append((s, why))
             open_shorts = set(short_pos) - {s for s, _ in covers}
             allowed = rule['short_regime'] == 'always' or not regime_up
-            room = equity * SHORT_TOTAL - sum(short_pos[s]['shares'] * marks.at[day, s] for s in open_shorts)
+            room = equity * SHORT_TOTAL - sum(short_pos[s]['shares'] * marks.at[day, s] for s in sorted(open_shorts))
             picks = sorted((f.mad, s, f.close) for s, f in short_cands.get(day, ())
                            if s not in pos and s not in short_pos and not (s in cooldown and i - cooldown[s] <= 10))
             for _, s, c in picks if allowed else ():
@@ -383,13 +383,13 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, *
         trace.final = float(curve.iloc[-1])
         for s in pos:
             trace.mark(s, dates[-1], marks.at[dates[-1], s], 'OPEN_MARK', 0)
-    result = _metrics(curve, trades)
+    result = _metrics(curve, trades, precise=precise)
     result['longest_carried_mark'] = stale_sessions
     result['unpriced_at_end'] = sorted(s for s in pos if pos[s].get('stale'))
     return result
 
 
-def _metrics(curve, trades):
+def _metrics(curve, trades, precise=False):
     rets = curve.pct_change().dropna()
     years = max((curve.index[-1] - curve.index[0]).days / 365.25, 1e-9)
     peak = curve.cummax()
@@ -399,6 +399,11 @@ def _metrics(curve, trades):
                sharpe=round(float(rets.mean() / rets.std() * math.sqrt(252)), 2) if rets.std() > 0 else None,
                max_drawdown=_pct((curve / peak - 1).min()),
                trades=len(trades))
+    if precise:
+        out.update(final=float(curve.iloc[-1]),
+                   cagr=100 * ((curve.iloc[-1] / curve.iloc[0]) ** (1 / years) - 1),
+                   max_drawdown=100 * (curve / peak - 1).min(),
+                   sharpe=float(rets.mean() / rets.std() * math.sqrt(252)) if rets.std() > 0 else None)
     if trades:
         r = pd.Series([t['ret'] for t in trades])
         out.update(win_rate=_pct((r > 0).mean()), avg_trade=_pct(r.mean()),
@@ -509,7 +514,8 @@ def report(result):
             lines.append(f"| {k} | {v['cagr']}/{v['windows']} | {v['max_drawdown']}/{v['windows']} | {v['sharpe']}/{v['windows']} |")
         lines.append('')
     lines += [
-              f"Symbols: {result['symbols']} · generated {result['generated_at']}"]
+              f"Symbols: {result['symbols']} · generated {result['generated_at']}"
+              + (f" · price data {result['price_fingerprint']}" if result.get('price_fingerprint') else '')]
     if result.get('schema') == 'backtest-v3':
         lines += ['', '## Valuation coverage', '',
                   'Positions carry their last observed close on missing dates. No execution at a carried price. '
@@ -575,6 +581,21 @@ def _md_to_html(md):
     return ''.join(out)
 
 
+def complete_report(result):
+    md = report(result)
+    if result.get('start_offsets'):
+        import start_offsets
+        md += start_offsets.report(result['start_offsets'])
+    elif result.get('start_offsets_error'):
+        md += '\n## Start-date sensitivity\n\nNot computed: ' + result['start_offsets_error'] + '\n'
+    if result.get('pairs'):
+        import pairs_backtest
+        md += pairs_backtest.report(result['pairs'])
+    elif result.get('pairs_error'):
+        md += '\n## Pairs trading\n\nNot computed: ' + result['pairs_error'] + '\n'
+    return md
+
+
 def site_pages(root, build=None):
     """backtest.html from the committed results; empty until a backtest has run."""
     from war_scenario import shell
@@ -586,7 +607,7 @@ def site_pages(root, build=None):
              'a manual run is requested. See Codex active trading for the prospective comparison.</div>')
     if result.get('schema') != 'backtest-v3':
         intro += '<p class="note">Legacy simulation: missing quotes could understate equity. Corrected results pending.</p>'
-    return [(Path(PAGE), shell('Backtest', intro + _md_to_html(report(result))))]
+    return [(Path(PAGE), shell('Backtest', intro + _md_to_html(complete_report(result))))]
 
 
 def main():
@@ -595,8 +616,26 @@ def main():
     symbols = {key: row.get('yf') or key for key, row in engine.DATA.items()}
     sectors = {key: row.get('sector') for key, row in engine.DATA.items()}
     period = f'{HISTORY_YEARS}y'
-    raw = yf.download(sorted(set(symbols.values())) + ['^GSPC'], period=period, auto_adjust=True,
-                      progress=False, threads=True, group_by='column')
+    import hashlib
+    import os
+    # One price panel per day: repeated runs on 22 Nov 2026 with the same code still differed, because two
+    # Yahoo downloads minutes apart did not return the same panel. The workflow restores the day's panel from
+    # its cache when it exists; the fingerprint below lets two reports show whether they used the same data.
+    cache = os.environ.get('BACKTEST_PRICE_CACHE')
+    if cache and Path(cache).is_file():
+        raw = pd.read_pickle(cache)
+    else:
+        raw = yf.download(sorted(set(symbols.values())) + ['^GSPC'], period=period, auto_adjust=True,
+                          progress=False, threads=True, group_by='column')
+        if cache:
+            Path(cache).parent.mkdir(parents=True, exist_ok=True)
+            raw.to_pickle(cache)
+    fingerprint = hashlib.sha256(pd.util.hash_pandas_object(raw['Close'].round(4), index=True).values.tobytes()).hexdigest()[:16]
+    # Yahoo's dividend-adjusted prices change in the last decimals between downloads; in a path-dependent
+    # simulation that noise alone flipped single start dates (22 Mar 2018: -2,982 vs +1,071 on two runs of
+    # the same code). Prices are rounded to 4 decimals (volumes kept), so repeated runs match.
+    for field in ('Close', 'High', 'Low'):
+        raw[field] = raw[field].round(4)
     missing = [sym for sym in sorted(set(symbols.values()) | {'^GSPC'})
                if sym not in raw.get('Close', {}) or raw['Close'][sym].dropna().empty]
     if missing:
@@ -628,7 +667,11 @@ def main():
                   window=f'{start.date()} → {spx.index[-1].date()}', symbols=len(frames),
                   event_study=event_study(frames, spx, start),
                   portfolio=portfolio, buffer_attribution=audit,
-                  spx=_metrics(spx_curve, []))
+                  spx=_metrics(spx_curve, []), price_fingerprint=fingerprint)
+    import start_offsets
+    result['start_offsets'] = start_offsets.study(simulate, frames, spx, sectors, prepared, WINDOWS, VARIANTS, BASE)
+    if len(result['start_offsets']) != len(WINDOWS):
+        raise ValueError('Incomplete start-date study; retaining previous report')
     try:                                   # pairs study (pairs_backtest.py); a failure must not lose the main report
         import pairs_backtest
         result['pairs'] = pairs_backtest.study(prepared[0], sectors, spx, WINDOWS)
@@ -645,12 +688,7 @@ def main():
             elif previous.get('previous_method'):
                 result['previous_method'] = previous['previous_method']
     (OUT / 'latest.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
-    md = report(result)
-    if result.get('pairs'):
-        import pairs_backtest
-        md += pairs_backtest.report(result['pairs'])
-    elif result.get('pairs_error'):
-        md += '\n## Pairs trading\n\nNot computed: ' + result['pairs_error'] + '\n'
+    md = complete_report(result)
     (OUT / 'latest.md').write_text(md, encoding='utf-8')
     print(md)
 
