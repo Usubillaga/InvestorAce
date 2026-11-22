@@ -156,7 +156,12 @@ def main(folder):
             if '↑' in name: adds.append(name.split('↑')[0].strip())
             if '↓' in name: drops.append(name.split('↓')[0].strip())
         if adds or drops: dow[str(d)]=[adds,drops]
-    return dict(eps=json.loads((HERE/'eps.json').read_text()),etfs=json.loads(sector_path.read_text()),dow=dow,asof=str(last),high=[str(dates[idx]),round(high,2)],last=round(prices[-1],2),dd=round(-100*dd,2),days=(last-dates[idx]).days,cpi=lagged(last),analog=sorted(analog)[:5],rows=rows,quality=json.loads(qpath.read_text()),rmw=[max(m for m in factors if m<='2026-11'),product(ff,3)],sources=SOURCES)
+    from rebounds import study
+    rebounds=study(dates,prices,episodes(prices,False),dd)
+    return dict(rebounds=rebounds,eps=json.loads((HERE/'eps.json').read_text()),etfs=json.loads(sector_path.read_text()),dow=dow,asof=str(last),high=[str(dates[idx]),round(high,2)],last=round(prices[-1],2),dd=round(-100*dd,2),days=(last-dates[idx]).days,cpi=lagged(last),analog=sorted(analog)[:5],rows=rows,quality=json.loads(qpath.read_text()),rmw=[max(m for m in factors if m<='2026-11'),product(ff,3)],sources=SOURCES)
 
 if __name__=='__main__':
-    Path(sys.argv[2]).write_text(json.dumps(main(Path(sys.argv[1])),ensure_ascii=False,separators=(',',':'),allow_nan=False))
+    result=main(Path(sys.argv[1]))
+    output=Path(sys.argv[2])
+    output.with_name('rebounds.json').write_text(json.dumps(result.pop('rebounds'),indent=2,allow_nan=False)+'\n')
+    output.write_text(json.dumps(result,ensure_ascii=False,separators=(',',':'),allow_nan=False))

@@ -1,0 +1,351 @@
+{
+  "events": [
+    {
+      "previous": "1929-09-16",
+      "cross": "1929-10-21",
+      "price": 27.73,
+      "five": null,
+      "ten": null,
+      "down": 3,
+      "max63": 1.95
+    },
+    {
+      "previous": "1956-08-03",
+      "cross": "1957-02-06",
+      "price": 43.82,
+      "five": 58,
+      "ten": null,
+      "down": null,
+      "max63": 5.86,
+      "first": "1957-05-01",
+      "start": "1957-02-12",
+      "peak": "1957-05-02",
+      "end": null,
+      "rise": 9.44,
+      "duration": 55,
+      "from_cross": 5.86
+    },
+    {
+      "previous": "1959-08-03",
+      "cross": "1960-03-08",
+      "price": 53.47,
+      "five": 21,
+      "ten": null,
+      "down": null,
+      "max63": 7.41,
+      "first": "1960-04-06",
+      "start": "1960-03-08",
+      "peak": "1960-06-07",
+      "end": null,
+      "rise": 7.41,
+      "duration": 63,
+      "from_cross": 7.41
+    },
+    {
+      "previous": "1961-12-12",
+      "cross": "1962-05-10",
+      "price": 63.57,
+      "five": null,
+      "ten": null,
+      "down": 11,
+      "max63": 1.13
+    },
+    {
+      "previous": "1966-02-09",
+      "cross": "1966-08-01",
+      "price": 82.31,
+      "five": null,
+      "ten": null,
+      "down": 16,
+      "max63": 2.05
+    },
+    {
+      "previous": "1968-11-29",
+      "cross": "1969-07-10",
+      "price": 95.38,
+      "five": null,
+      "ten": null,
+      "down": 11,
+      "max63": 0.57
+    },
+    {
+      "previous": "1973-01-11",
+      "cross": "1973-05-14",
+      "price": 105.9,
+      "five": null,
+      "ten": null,
+      "down": null,
+      "max63": 3.73
+    },
+    {
+      "previous": "1980-11-28",
+      "cross": "1981-08-27",
+      "price": 123.51,
+      "five": null,
+      "ten": null,
+      "down": 14,
+      "max63": 1.04
+    },
+    {
+      "previous": "1983-10-10",
+      "cross": "1984-05-24",
+      "price": 151.23,
+      "five": 49,
+      "ten": 61,
+      "down": null,
+      "max63": 10.98,
+      "first": "1984-08-03",
+      "start": "1984-07-24",
+      "peak": "1984-08-21",
+      "end": null,
+      "rise": 13.54,
+      "duration": 20,
+      "from_cross": 10.98
+    },
+    {
+      "previous": "1987-08-25",
+      "cross": "1987-10-16",
+      "price": 282.7,
+      "five": null,
+      "ten": null,
+      "down": 1,
+      "max63": 0.0
+    },
+    {
+      "previous": "1990-07-16",
+      "cross": "1990-08-21",
+      "price": 321.86,
+      "five": null,
+      "ten": null,
+      "down": 23,
+      "max63": 0.79
+    },
+    {
+      "previous": "1998-07-17",
+      "cross": "1998-08-27",
+      "price": 1042.59,
+      "five": 45,
+      "ten": 59,
+      "down": 2,
+      "max63": 13.97,
+      "first": "1998-10-30",
+      "start": "1998-08-31",
+      "peak": "1998-11-23",
+      "end": null,
+      "rise": 24.12,
+      "duration": 59,
+      "from_cross": 13.97
+    },
+    {
+      "previous": "1999-07-16",
+      "cross": "1999-10-15",
+      "price": 1247.41,
+      "five": 9,
+      "ten": 16,
+      "down": null,
+      "max63": 17.78,
+      "first": "1999-10-28",
+      "start": "1999-10-15",
+      "peak": "1999-12-31",
+      "end": null,
+      "rise": 17.78,
+      "duration": 53,
+      "from_cross": 17.78
+    },
+    {
+      "previous": "2000-03-24",
+      "cross": "2000-10-12",
+      "price": 1329.78,
+      "five": 6,
+      "ten": null,
+      "down": null,
+      "max63": 7.7,
+      "first": "2000-10-20",
+      "start": "2000-10-12",
+      "peak": "2000-11-06",
+      "end": "2000-11-13",
+      "rise": 7.7,
+      "duration": 17,
+      "from_cross": 7.7
+    },
+    {
+      "previous": "2007-10-09",
+      "cross": "2008-01-15",
+      "price": 1380.95,
+      "five": null,
+      "ten": null,
+      "down": 4,
+      "max63": 1.05
+    },
+    {
+      "previous": "2015-05-21",
+      "cross": "2015-08-25",
+      "price": 1867.61,
+      "five": 2,
+      "ten": 42,
+      "down": null,
+      "max63": 12.97,
+      "first": "2015-08-27",
+      "start": "2015-08-25",
+      "peak": "2015-09-16",
+      "end": "2015-09-28",
+      "rise": 6.84,
+      "duration": 15,
+      "from_cross": 6.84
+    },
+    {
+      "previous": "2018-09-20",
+      "cross": "2018-12-17",
+      "price": 2545.94,
+      "five": 29,
+      "ten": 50,
+      "down": 4,
+      "max63": 11.27,
+      "first": "2019-01-30",
+      "start": "2018-12-24",
+      "peak": "2019-03-18",
+      "end": null,
+      "rise": 20.49,
+      "duration": 56,
+      "from_cross": 11.27
+    },
+    {
+      "previous": "2020-02-19",
+      "cross": "2020-02-27",
+      "price": 2978.76,
+      "five": 4,
+      "ten": null,
+      "down": 7,
+      "max63": 5.08,
+      "first": "2020-03-04",
+      "start": "2020-02-28",
+      "peak": "2020-03-04",
+      "end": "2020-03-06",
+      "rise": 5.95,
+      "duration": 3,
+      "from_cross": 5.08
+    },
+    {
+      "previous": "2022-01-03",
+      "cross": "2022-02-23",
+      "price": 4225.5,
+      "five": 17,
+      "ten": null,
+      "down": 52,
+      "max63": 9.61,
+      "first": "2022-03-18",
+      "start": "2022-03-08",
+      "peak": "2022-03-29",
+      "end": "2022-04-12",
+      "rise": 11.05,
+      "duration": 15,
+      "from_cross": 9.61
+    },
+    {
+      "previous": "2025-02-19",
+      "cross": "2025-04-03",
+      "price": 5396.52,
+      "five": 20,
+      "ten": 30,
+      "down": 1,
+      "max63": 16.36,
+      "first": "2025-05-02",
+      "start": "2025-04-08",
+      "peak": "2025-07-03",
+      "end": null,
+      "rise": 26.02,
+      "duration": 59,
+      "from_cross": 16.36
+    }
+  ],
+  "bands": [
+    {
+      "h": 5,
+      "target": 5,
+      "k": 2,
+      "n": 20,
+      "ci": [
+        2.8,
+        30.1
+      ]
+    },
+    {
+      "h": 5,
+      "target": 10,
+      "k": 0,
+      "n": 20,
+      "ci": [
+        0.0,
+        16.1
+      ]
+    },
+    {
+      "h": 21,
+      "target": 5,
+      "k": 7,
+      "n": 20,
+      "ci": [
+        18.1,
+        56.7
+      ]
+    },
+    {
+      "h": 21,
+      "target": 10,
+      "k": 1,
+      "n": 20,
+      "ci": [
+        0.9,
+        23.6
+      ]
+    },
+    {
+      "h": 42,
+      "target": 5,
+      "k": 8,
+      "n": 20,
+      "ci": [
+        21.9,
+        61.3
+      ]
+    },
+    {
+      "h": 42,
+      "target": 10,
+      "k": 3,
+      "n": 20,
+      "ci": [
+        5.2,
+        36.0
+      ]
+    },
+    {
+      "h": 63,
+      "target": 5,
+      "k": 11,
+      "n": 20,
+      "ci": [
+        34.2,
+        74.2
+      ]
+    },
+    {
+      "h": 63,
+      "target": 10,
+      "k": 6,
+      "n": 20,
+      "ci": [
+        14.5,
+        51.9
+      ]
+    }
+  ],
+  "hit": 11,
+  "wait": 20,
+  "size": 11.05,
+  "duration": 53,
+  "gain": 9.61,
+  "censored": 7,
+  "maximum": 5.470000000000001,
+  "downside": 11
+}
