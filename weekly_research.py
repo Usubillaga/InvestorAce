@@ -745,7 +745,7 @@ def build_site(root, output, require_committed=False):
     pages += stress_pages + codex + experiment_pages + long_short_pages + desk_pages + report_pages
     atlas = Path(__file__).parent / 'correction_study'
     pages.extend((Path('correction_study') / name, (atlas / name).read_bytes())
-                 for name in ('index.html', 'en.html', 'results.json', 'rebounds.json'))
+                 for name in ('index.html', 'en.html', 'results.json', 'rebounds.json', 'index-paths.json', 'index-paths.png'))
     pages += earnings_index(root / 'earnings')
     # Prepare dated earnings artifacts before replacing any published page.
     earnings = root / 'earnings'

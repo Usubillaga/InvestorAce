@@ -29,3 +29,11 @@ class ReboundEstimates(unittest.TestCase):
         self.assertEqual(report['censored'],0)
         self.assertEqual(report['events'][0]['end'],'67')
         self.assertEqual(report['bands'][0]['k'],1)
+
+
+class IndexPathStudy(unittest.TestCase):
+    def test_first_close_controls_outcome(self):
+        from .index_paths import scenario
+        self.assertEqual(scenario([1,.95,1.08]), ('down',1))
+        self.assertEqual(scenario([1,1.05,.90]), ('up',1))
+        self.assertEqual(scenario([1,1.049,.951]), ('range',None))
