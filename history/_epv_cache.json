@@ -4158,7 +4158,7 @@
   }
  },
  "MO": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4264,7 +4264,7 @@
   }
  },
  "CEG": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4319,7 +4319,7 @@
   }
  },
  "CSCO": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4370,7 +4370,7 @@
   }
  },
  "HIMS": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4425,7 +4425,7 @@
   }
  },
  "MNDY": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4480,7 +4480,7 @@
   }
  },
  "TTWO": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4535,7 +4535,7 @@
   }
  },
  "B": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4590,7 +4590,7 @@
   }
  },
  "FNV": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -5456,7 +5456,7 @@
   }
  },
  "SSD": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -5511,7 +5511,7 @@
   }
  },
  "PTC": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -5560,7 +5560,7 @@
   }
  },
  "CPAY": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -5615,7 +5615,7 @@
   }
  },
  "SSNC": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -5666,7 +5666,7 @@
   }
  },
  "RMD": {
-  "asof": "2026-11-15",
+  "asof": "2026-11-22",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
