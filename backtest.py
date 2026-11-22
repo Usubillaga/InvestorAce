@@ -629,6 +629,11 @@ def main():
                   event_study=event_study(frames, spx, start),
                   portfolio=portfolio, buffer_attribution=audit,
                   spx=_metrics(spx_curve, []))
+    try:                                   # start-date sensitivity (start_offsets.py); same prices, more start dates
+        import start_offsets
+        result['start_offsets'] = start_offsets.study(simulate, frames, spx, sectors, prepared, WINDOWS, VARIANTS, BASE)
+    except Exception as exc:               # pragma: no cover - reported in the results instead
+        result['start_offsets_error'] = f'{type(exc).__name__}: {exc}'
     try:                                   # pairs study (pairs_backtest.py); a failure must not lose the main report
         import pairs_backtest
         result['pairs'] = pairs_backtest.study(prepared[0], sectors, spx, WINDOWS)
@@ -646,6 +651,11 @@ def main():
                 result['previous_method'] = previous['previous_method']
     (OUT / 'latest.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     md = report(result)
+    if result.get('start_offsets'):
+        import start_offsets
+        md += start_offsets.report(result['start_offsets'])
+    elif result.get('start_offsets_error'):
+        md += '\n## Start-date sensitivity\n\nNot computed: ' + result['start_offsets_error'] + '\n'
     if result.get('pairs'):
         import pairs_backtest
         md += pairs_backtest.report(result['pairs'])

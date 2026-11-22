@@ -8,6 +8,7 @@ on:
     paths:
       - 'backtest.py'
       - 'pairs_backtest.py'
+      - 'start_offsets.py'
       - '.github/workflows/backtest.yml'
   schedule:
     - cron: '17 5 1 * *'        # 1st of each month, on main
