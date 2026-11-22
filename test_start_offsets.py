@@ -54,3 +54,14 @@ class StartOffsets(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class Determinism(unittest.TestCase):
+    def test_same_inputs_give_identical_results_including_shorts(self):
+        frames, spx = market()
+        prepared = bt.portfolio_inputs(frames)
+        for name in (bt.BASE, 'shorts_in_correction', 'shorts_always'):
+            first = bt.simulate(frames, spx, {}, spx.index[300], prepared=prepared, precise=True, **bt.VARIANTS[name])
+            again = bt.simulate(frames, spx, {}, spx.index[300], prepared=bt.portfolio_inputs(frames), precise=True,
+                                **bt.VARIANTS[name])
+            self.assertEqual(first['final'], again['final'], name)

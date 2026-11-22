@@ -322,7 +322,7 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                     covers.append((s, why))
             open_shorts = set(short_pos) - {s for s, _ in covers}
             allowed = rule['short_regime'] == 'always' or not regime_up
-            room = equity * SHORT_TOTAL - sum(short_pos[s]['shares'] * marks.at[day, s] for s in open_shorts)
+            room = equity * SHORT_TOTAL - sum(short_pos[s]['shares'] * marks.at[day, s] for s in sorted(open_shorts))
             picks = sorted((f.mad, s, f.close) for s, f in short_cands.get(day, ())
                            if s not in pos and s not in short_pos and not (s in cooldown and i - cooldown[s] <= 10))
             for _, s, c in picks if allowed else ():
@@ -617,6 +617,11 @@ def main():
     period = f'{HISTORY_YEARS}y'
     raw = yf.download(sorted(set(symbols.values())) + ['^GSPC'], period=period, auto_adjust=True,
                       progress=False, threads=True, group_by='column')
+    # Yahoo's dividend-adjusted prices change in the last decimals between downloads; in a path-dependent
+    # simulation that noise alone flipped single start dates (22 Mar 2018: -2,982 vs +1,071 on two runs of
+    # the same code). Prices are rounded to 4 decimals (volumes kept), so repeated runs match.
+    for field in ('Close', 'High', 'Low'):
+        raw[field] = raw[field].round(4)
     missing = [sym for sym in sorted(set(symbols.values()) | {'^GSPC'})
                if sym not in raw.get('Close', {}) or raw['Close'][sym].dropna().empty]
     if missing:
