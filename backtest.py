@@ -170,7 +170,16 @@ VARIANTS = {
     # of equity each and 40% in total, 2% a year borrow cost; covered above the 50-day average.
     'shorts_in_correction': dict(sell_failed_breakout=True, shorts=4, short_regime='correction'),
     'shorts_always': dict(sell_failed_breakout=True, shorts=4, short_regime='always'),
+    # User's request (22 Nov 2026): GARCH volatility models, with EWMA as the simpler control (volatility.py).
+    # Size: each new position weighs 12.5% x 30% / forecast volatility (12.5% is v1.6's size at an 8% stop,
+    # 30% a typical stock volatility), at most 20%. Exposure: v1.6 sizes scaled by 15% / forecast S&P 500
+    # volatility (at most 1), and no new buys while the invested share is at or above that scale.
+    'garch_position_size': dict(sell_failed_breakout=True, vol_sizing='garch'),
+    'ewma_position_size': dict(sell_failed_breakout=True, vol_sizing='ewma'),
+    'garch_exposure': dict(sell_failed_breakout=True, vol_exposure='garch'),
+    'ewma_exposure': dict(sell_failed_breakout=True, vol_exposure='ewma'),
 }
+VOL_WEIGHT, VOL_TYPICAL, VOL_FLOOR, VOL_TARGET = 0.125, 0.30, 0.05, 0.15
 SHORT_STOP, SHORT_SIZE, SHORT_TOTAL, BORROW = 0.08, 0.10, 0.40, 0.02
 
 
@@ -199,6 +208,13 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
     spx_sma = spx.rolling(200).mean()
     cash, pos, trades, curve, cooldown = CAPITAL, {}, [], [], {}
     close, marks, breadth, candidates, rows, short_cands = prepared or portfolio_inputs(frames)
+    stock_vol = market_vol = None
+    if rule.get('vol_sizing'):
+        import volatility
+        stock_vol = volatility.panel(rule['vol_sizing'], close)
+    if rule.get('vol_exposure'):
+        import volatility
+        market_vol = volatility.series(rule['vol_exposure'], spx)
     short_pos = {}
     stale_sessions = {}
     for i, day in enumerate(dates):
@@ -288,13 +304,27 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                     continue
             cands.append((-f.mad, s, c, res))
         planned = []
+        scale = 1.
+        if market_vol is not None:
+            v = market_vol.get(day)
+            scale = min(1., VOL_TARGET / v) if v is not None and np.isfinite(v) and v > 0 else 1.
+            invested = sum(p['shares'] * marks.at[day, s] for s, p in pos.items())
+            if equity > 0 and invested / equity >= scale:
+                slots = 0                      # already at or above the volatility-scaled exposure
         for _, s, c, res in sorted(cands):
             if len(planned) >= slots:
                 break
             if sectors.get(s) and sector_count.get(sectors.get(s), 0) >= 2:
                 continue
             eq = equity
-            shares = math.floor(min(eq * 0.01 / (stop * c), eq * 0.20 / c, buying_cash / (c * (1 + COST))))
+            if stock_vol is not None:
+                v = stock_vol.at[day, s]
+                if not np.isfinite(v):
+                    continue                   # no forecast yet: no size, no entry
+                size = eq * min(0.20, VOL_WEIGHT * VOL_TYPICAL / max(v, VOL_FLOOR)) / c
+            else:
+                size = min(eq * 0.01 / (stop * c), eq * 0.20 / c) * scale
+            shares = math.floor(min(size, buying_cash / (c * (1 + COST))))
             if shares < 1 or shares * c < 50:
                 continue
             buying_cash -= shares * c * (1 + COST)
