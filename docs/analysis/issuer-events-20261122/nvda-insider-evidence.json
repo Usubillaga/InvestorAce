@@ -1,0 +1,2985 @@
+{
+  "issuer": "NVDA",
+  "window_start": "2026-08-24",
+  "window_end": "2026-11-22",
+  "retrieved_at": "2026-11-22T08:01:48.699150+00:00",
+  "submission_source": "https://data.sec.gov/submissions/CIK0001045810.json",
+  "submission_sha256": "8dd44fbc9bc7fd47f0b16155e66cd22445345d0f9706f316e9e55d7ce4f48045",
+  "recent_filing_from": "2020-09-18",
+  "recent_filing_to": "2026-11-19",
+  "older_files": [
+    {
+      "name": "CIK0001045810-submissions-001.json",
+      "filingCount": 1491,
+      "filingFrom": "1998-03-06",
+      "filingTo": "2020-09-16"
+    }
+  ],
+  "documents": [
+    {
+      "form": "4",
+      "filingDate": "2026-11-06",
+      "accessionNumber": "0001197647-26-000013",
+      "primaryDocument": "xslF345X06/wk-form4_1793999520.xml",
+      "reportDate": "2026-11-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000119764726000013/wk-form4_1793999520.xml",
+      "sha256": "1488ef1a14107224ff366fa9164f2ec6c9e2b709c236206b8e8da43e3d95295d",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-11-04",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001197647",
+            "rptOwnerName": "COXE TENCH"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "755 PAGE MILL ROAD, SUITE A-200",
+            "rptOwnerStreet2": null,
+            "rptOwnerCity": "PALO ALTO",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "94304-1005",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "1",
+            "isOfficer": "0",
+            "isTenPercentOwner": "0",
+            "isOther": "0"
+          }
+        },
+        "aff10b5One": "1",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": {
+            "securityTitle": {
+              "value": "Common"
+            },
+            "transactionDate": {
+              "value": "2026-11-04"
+            },
+            "transactionCoding": {
+              "transactionFormType": "4",
+              "transactionCode": "G",
+              "equitySwapInvolved": "0",
+              "footnoteId": null
+            },
+            "transactionAmounts": {
+              "transactionShares": {
+                "value": "500000"
+              },
+              "transactionPricePerShare": {
+                "value": "0",
+                "footnoteId": null
+              },
+              "transactionAcquiredDisposedCode": {
+                "value": "D"
+              }
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "23171360"
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "I"
+              },
+              "natureOfOwnership": {
+                "value": "By Trust",
+                "footnoteId": null
+              }
+            }
+          },
+          "nonDerivativeHolding": [
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "57378"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4852480"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Profit Sharing Plan Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ]
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "The reported transaction was effected pursuant to a Rule 10b5-1 trading plan adopted by the Reporting Person on March 19, 2026.",
+            "Gift without consideration.",
+            "Shares held by a trust of which the Reporting Person is a trustee. The Reporting Person disclaims beneficial ownership in these shares except as to the Reporting Person's pecuniary interest in the trust.",
+            "Shares held by SHV Profit Sharing Plan, a retirement trust, for the benefit of the Reporting Person."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Tench Coxe",
+          "signatureDate": "2026-11-06"
+        }
+      }
+    },
+    {
+      "form": "4/A",
+      "filingDate": "2026-10-13",
+      "accessionNumber": "0002152188-26-000007",
+      "primaryDocument": "xslF345X06/wk-form4a_1791925767.xml",
+      "reportDate": "2026-09-09",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000215218826000007/wk-form4a_1791925767.xml",
+      "sha256": "2ac0f16ab6661c9ccd85c35f476657b9dbdc4b4109b15607709522e45de92f56",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4/A",
+        "periodOfReport": "2026-09-09",
+        "dateOfOriginalSubmission": "2026-09-11",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0002152188",
+            "rptOwnerName": "Parker Nicholas P."
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "EVP, Worldwide Field Ops"
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "transactionDate": {
+              "value": "2026-09-09"
+            },
+            "transactionCoding": {
+              "transactionFormType": "4",
+              "transactionCode": "A",
+              "equitySwapInvolved": "0"
+            },
+            "transactionAmounts": {
+              "transactionShares": {
+                "value": "160418",
+                "footnoteId": null
+              },
+              "transactionPricePerShare": {
+                "value": "0",
+                "footnoteId": null
+              },
+              "transactionAcquiredDisposedCode": {
+                "value": "A"
+              }
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "160418"
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "D"
+              }
+            }
+          }
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "The restricted stock units (\"RSUs\") shall vest as to 10% of the shares on December 9, 2026 and every three months thereafter for three quarters, as to 7.5% of the shares every three months thereafter for four quarters, as to 5% of the shares every three months thereafter for four quarters, and as to 2.5% of the shares every three months thereafter for four quarters, such that the shares are fully vested on approximately the four (4) year anniversary of the date of grant.",
+            "The shares represent RSUs that were received as an award, for no consideration."
+          ]
+        },
+        "remarks": "This amendment is being filed solely to correct an administrative error in the number of acquired shares on the Reporting Person's Form 4 filed on September 11, 2026.",
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Nicholas P. Parker",
+          "signatureDate": "2026-10-13"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-10-09",
+      "accessionNumber": "0001197647-26-000011",
+      "primaryDocument": "xslF345X06/wk-form4_1791579847.xml",
+      "reportDate": "2026-10-07",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000119764726000011/wk-form4_1791579847.xml",
+      "sha256": "708b054a77a77701bd7bb39802e4ac07cdf15876c461825ecb14cd4695374985",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-10-07",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001197647",
+            "rptOwnerName": "COXE TENCH"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "755 PAGE MILL ROAD, SUITE A-200",
+            "rptOwnerStreet2": null,
+            "rptOwnerCity": "PALO ALTO",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "94304-1005",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "1",
+            "isOfficer": "0",
+            "isTenPercentOwner": "0",
+            "isOther": "0"
+          }
+        },
+        "aff10b5One": "1",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": {
+            "securityTitle": {
+              "value": "Common"
+            },
+            "transactionDate": {
+              "value": "2026-10-07"
+            },
+            "transactionCoding": {
+              "transactionFormType": "4",
+              "transactionCode": "G",
+              "equitySwapInvolved": "0",
+              "footnoteId": null
+            },
+            "transactionAmounts": {
+              "transactionShares": {
+                "value": "500000"
+              },
+              "transactionPricePerShare": {
+                "value": "0",
+                "footnoteId": null
+              },
+              "transactionAcquiredDisposedCode": {
+                "value": "D"
+              }
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "23671360"
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "I"
+              },
+              "natureOfOwnership": {
+                "value": "By Trust",
+                "footnoteId": null
+              }
+            }
+          },
+          "nonDerivativeHolding": [
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "57378"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4852480"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Profit Sharing Plan Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ]
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "The reported transaction was effected pursuant to a Rule 10b5-1 trading plan adopted by the Reporting Person on March 19, 2026.",
+            "Gift without consideration.",
+            "Shares held by a trust of which the Reporting Person is a trustee. The Reporting Person disclaims beneficial ownership in these shares except as to the Reporting Person's pecuniary interest in the trust.",
+            "Shares held by SHV Profit Sharing Plan, a retirement trust, for the benefit of the Reporting Person."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Tench Coxe",
+          "signatureDate": "2026-10-09"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-23",
+      "accessionNumber": "0001696841-26-000014",
+      "primaryDocument": "xslF345X06/wk-form4_1790196985.xml",
+      "reportDate": "2026-09-21",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000169684126000014/wk-form4_1790196985.xml",
+      "sha256": "87b3a8f9f46990cc520bcd8af0970fbfb1aac270147ef430a23e24ef926be228",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-21",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001696841",
+            "rptOwnerName": "Teter Timothy S."
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "EVP, General Counsel and Sec",
+            "otherText": null
+          }
+        },
+        "aff10b5One": "1",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-21"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "12483"
+                },
+                "transactionPricePerShare": {
+                  "value": "222.1932",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2705637",
+                  "footnoteId": null
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-21"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "13478"
+                },
+                "transactionPricePerShare": {
+                  "value": "223.0489",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2692159"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-21"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "4499"
+                },
+                "transactionPricePerShare": {
+                  "value": "223.7479",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2687660"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ],
+          "nonDerivativeHolding": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "268238",
+                "footnoteId": null
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "D"
+              }
+            }
+          }
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "The reported transaction was effected pursuant to a Rule 10b5-1 trading plan adopted by the Reporting Person on May 22, 2026.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $221.59 to $222.58. The Reporting Person will provide upon request, to the Securities and Exchange Commission (the \"SEC\"), the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Reflects 30,460 shares transferred without consideration from the Reporting Person to The Horne Teter Family Living Trust, dated 02/01/2019 (the \"Trust\"), of which the Reporting Person is trustee.",
+            "Shares held by the Trust.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $222.59 to $223.58. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $223.59 to $224.00. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Timothy S. Teter",
+          "signatureDate": "2026-09-23"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-22",
+      "accessionNumber": "0001199039-26-000016",
+      "primaryDocument": "xslF345X06/wk-form4_1790110579.xml",
+      "reportDate": "2026-09-18",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000119903926000016/wk-form4_1790110579.xml",
+      "sha256": "872cdb869ad15f7a8a6d3396e722d23ba32e66af46cc4c495795765615594548",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-18",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001199039",
+            "rptOwnerName": "STEVENS MARK A"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "1",
+            "isOfficer": "0",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": null,
+            "otherText": null
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-18"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "1356000"
+                },
+                "transactionPricePerShare": {
+                  "value": "219.7219",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "980531"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-18"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "10000"
+                },
+                "transactionPricePerShare": {
+                  "value": "220.4199",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "970531"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ],
+          "nonDerivativeHolding": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "11544612"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "15017750"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By the Envy Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ]
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "Represents weighted average sales price. The shares were sold at prices ranging from $219.40 to $220.35. The Reporting Person will provide upon request, to the Securities and Exchange Commission (the \"SEC\"), the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Held by the Third Millennium Trust, of which the Reporting Person and his wife are co-trustees.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $220.41 to $220.48. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Held by the Envy Trust u/a/d December 7, 2021, of which the Reporting Person is trustee."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Mark A. Stevens",
+          "signatureDate": "2026-09-22"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-18",
+      "accessionNumber": "0001243821-26-000007",
+      "primaryDocument": "xslF345X06/wk-form4_1789766132.xml",
+      "reportDate": "2026-09-16",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000124382126000007/wk-form4_1789766132.xml",
+      "sha256": "3b434b21cb3b6e0d166dfd360fc1fabb67a4b804797be0b6042f08a515d40c23",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-16",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001243821",
+            "rptOwnerName": "GAWEL SCOTT"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "Principal Accounting Officer"
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "transactionDate": {
+              "value": "2026-09-16"
+            },
+            "transactionCoding": {
+              "transactionFormType": "4",
+              "transactionCode": "F",
+              "equitySwapInvolved": "0"
+            },
+            "transactionAmounts": {
+              "transactionShares": {
+                "value": "2932",
+                "footnoteId": null
+              },
+              "transactionPricePerShare": {
+                "value": "212.17"
+              },
+              "transactionAcquiredDisposedCode": {
+                "value": "D"
+              }
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "56577",
+                "footnoteId": null
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "D"
+              }
+            }
+          }
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "Represents shares withheld by the Issuer to satisfy taxes due by the Reporting Person in connection with the vesting of restricted stock units previously reported on a Form 4.",
+            "Includes 2,498 shares issued upon the vesting of restricted stock units previously reported on a Form 4."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Scott Gawel",
+          "signatureDate": "2026-09-18"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-18",
+      "accessionNumber": "0001283854-26-000010",
+      "primaryDocument": "xslF345X06/wk-form4_1789766082.xml",
+      "reportDate": "2026-09-16",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000128385426000010/wk-form4_1789766082.xml",
+      "sha256": "9030fa885d369e1b4d9d5f1247dd18205e9f233667a710a68f905c623fecfde7",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-16",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001283854",
+            "rptOwnerName": "Shoquist Debora"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "EVP, Operations",
+            "otherText": null
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "transactionDate": {
+              "value": "2026-09-16"
+            },
+            "transactionCoding": {
+              "transactionFormType": "4",
+              "transactionCode": "F",
+              "equitySwapInvolved": "0"
+            },
+            "transactionAmounts": {
+              "transactionShares": {
+                "value": "35008",
+                "footnoteId": null
+              },
+              "transactionPricePerShare": {
+                "value": "212.17"
+              },
+              "transactionAcquiredDisposedCode": {
+                "value": "D"
+              }
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "299428",
+                "footnoteId": [
+                  null,
+                  null
+                ]
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "D"
+              }
+            }
+          },
+          "nonDerivativeHolding": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "1611922",
+                "footnoteId": null
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "I"
+              },
+              "natureOfOwnership": {
+                "value": "By Trust",
+                "footnoteId": null
+              }
+            }
+          }
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "Represents shares withheld by the Issuer to satisfy taxes due by the Reporting Person in connection with the vesting of restricted stock units previously reported on a Form 4.",
+            "Includes 31,190 shares issued upon the vesting of restricted stock units previously reported on a Form 4.",
+            "Reflects a transfer of 187,319 shares from the Reporting Person to the Debora C. Shoquist Revocable Living Trust (the \"Trust\"), of which the Reporting Person is a trustee.",
+            "The shares are held by the Trust."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Debora Shoquist",
+          "signatureDate": "2026-09-18"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-18",
+      "accessionNumber": "0001696841-26-000012",
+      "primaryDocument": "xslF345X06/wk-form4_1789766007.xml",
+      "reportDate": "2026-09-16",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000169684126000012/wk-form4_1789766007.xml",
+      "sha256": "7f70894a4cf331995cf3a1fa40388d6db78b7c19836a834fae28b909d1ceb80c",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-16",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001696841",
+            "rptOwnerName": "Teter Timothy S."
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "EVP, General Counsel and Sec",
+            "otherText": null
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "transactionDate": {
+              "value": "2026-09-16"
+            },
+            "transactionCoding": {
+              "transactionFormType": "4",
+              "transactionCode": "F",
+              "equitySwapInvolved": "0"
+            },
+            "transactionAmounts": {
+              "transactionShares": {
+                "value": "35738",
+                "footnoteId": null
+              },
+              "transactionPricePerShare": {
+                "value": "212.17"
+              },
+              "transactionAcquiredDisposedCode": {
+                "value": "D"
+              }
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "298698",
+                "footnoteId": null
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "D"
+              }
+            }
+          },
+          "nonDerivativeHolding": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "2687660"
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "I"
+              },
+              "natureOfOwnership": {
+                "value": "By Trust",
+                "footnoteId": null
+              }
+            }
+          }
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "Represents shares withheld by the Issuer to satisfy taxes due by the Reporting Person in connection with the vesting of restricted stock units previously reported on a Form 4.",
+            "Includes 30,460 shares issued upon the vesting of restricted stock units previously reported on a Form 4.",
+            "Shares held by The Horne Teter Family Living Trust, dated 02/01/2019, of which the Reporting Person is trustee."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Timothy S. Teter",
+          "signatureDate": "2026-09-18"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-18",
+      "accessionNumber": "0001588670-26-000014",
+      "primaryDocument": "xslF345X06/wk-form4_1789765959.xml",
+      "reportDate": "2026-09-16",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000158867026000014/wk-form4_1789765959.xml",
+      "sha256": "1f019bc438b269561e5c054aec78c42956daa558e4d6bc89a0900c9f532c3afd",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-16",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001588670",
+            "rptOwnerName": "Kress Colette"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "EVP & Chief Financial Officer",
+            "otherText": null
+          }
+        },
+        "aff10b5One": "1",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": [
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "transactionDate": {
+                "value": "2026-09-16"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "F",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "40747",
+                  "footnoteId": null
+                },
+                "transactionPricePerShare": {
+                  "value": "212.17"
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "800021",
+                  "footnoteId": null
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "transactionDate": {
+                "value": "2026-09-17"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "4681"
+                },
+                "transactionPricePerShare": {
+                  "value": "218.0144",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "795340"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "transactionDate": {
+                "value": "2026-09-17"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "20369"
+                },
+                "transactionPricePerShare": {
+                  "value": "219.0172",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "774971"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "transactionDate": {
+                "value": "2026-09-17"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "9868"
+                },
+                "transactionPricePerShare": {
+                  "value": "219.5932",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "765103"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            }
+          ],
+          "nonDerivativeHolding": [
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "83060"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "712934"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Limited Liability Company"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4000"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By immediate family member 1"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4000"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By immediate family member 2"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "451498"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "Grantor Retained Annuity Trust 1"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "451498"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "Grantor Retained Annuity Trust 2"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2032048"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "Grantor Retained Annuity Trust 3"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "271592"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "Grantor Retained Annuity Trust 4"
+                }
+              }
+            }
+          ]
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "Represents shares withheld by the Issuer to satisfy taxes due by the Reporting Person in connection with the vesting of restricted stock units previously reported on a Form 4.",
+            "Includes 36,303 shares issued upon the vesting of restricted stock units previously reported on a Form 4 and 127 shares purchased pursuant to the Issuer's Employee Stock Purchase Plan on August 31, 2026.",
+            "The reported transaction was effected pursuant to a Rule 10b5-1 trading plan adopted by the Reporting Person on June 16, 2026.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $217.42 to $218.40. The Reporting Person will provide upon request, to the Securities and Exchange Commission (the \"SEC\"), the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $218.42 to $219.415. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $219.42 to $219.865. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Colette Kress",
+          "signatureDate": "2026-09-18"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-18",
+      "accessionNumber": "0001197649-26-000012",
+      "primaryDocument": "xslF345X06/wk-form4_1789765856.xml",
+      "reportDate": "2026-09-16",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000119764926000012/wk-form4_1789765856.xml",
+      "sha256": "822eaaac11fc1cd84bead616a51b338fc8b5511b763a5ad0ac1e694272cecfab",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-16",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001197649",
+            "rptOwnerName": "HUANG JEN HSUN"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "1",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "President and CEO",
+            "otherText": null
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-16"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "F",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "45728",
+                  "footnoteId": null
+                },
+                "transactionPricePerShare": {
+                  "value": "212.17"
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "70100666",
+                  "footnoteId": null
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-17"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "G",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "438000",
+                  "footnoteId": null
+                },
+                "transactionPricePerShare": {
+                  "value": "0"
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "467693547"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ],
+          "nonDerivativeHolding": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "31421011"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Irrevocable Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "109040602"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Irrevocable Remainder Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "6632667"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Limited Liability Company 1",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "6632667"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Limited Liability Company 2",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "30000000"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Limited Liability Company 3",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "30000000"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Limited Liability Company 4",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "30000000"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Limited Liability Company 5",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "30000000"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Limited Liability Company 6",
+                  "footnoteId": null
+                }
+              }
+            }
+          ]
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "Represents shares withheld by the Issuer to satisfy taxes due by the Reporting Person in connection with the vesting of restricted stock units previously reported on a Form 4.",
+            "Includes 46,501 shares issued upon the vesting of restricted stock units previously reported on a Form 4 and 142 shares purchased pursuant to the Issuer's Employee Stock Purchase Plan on August 31, 2026.",
+            "Gifts without consideration by the Jen-Hsun & Lori Huang Living Trust, u/a/d May 1, 1995 (the \"Trust\"), of 292,000 shares to The Jen-Hsun & Lori Huang Foundation, a 501(c)(3) charitable organization, and 146,000 shares to a donor-advised fund.",
+            "The shares are held by the Trust, of which the Reporting Person is a trustee.",
+            "The shares are held by The Huang 2012 Irrevocable Trust, of which the Reporting Person is a trustee.",
+            "The shares are held by The Huang Irrevocable Remainder Trust u/a/d February 19, 2016, of which the Reporting Person is a trustee.",
+            "The shares are held by TARG S1 LLC, of which the Trust is the sole member.",
+            "The shares are held by TARG M1 LLC, of which the Trust is the sole member.",
+            "The shares are held by TARG S2 LLC, of which the Trust is the sole member.",
+            "The shares are held by TARG M2 LLC, of which the Trust is the sole member.",
+            "The shares are held by TARG S3 LLC, of which the Trust is the sole member.",
+            "The shares are held by TARG M3 LLC, of which the Trust is the sole member."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Jen-Hsun Huang",
+          "signatureDate": "2026-09-18"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-11",
+      "accessionNumber": "0002152188-26-000005",
+      "primaryDocument": "xslF345X06/wk-form4_1789160684.xml",
+      "reportDate": "2026-09-09",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000215218826000005/wk-form4_1789160684.xml",
+      "sha256": "21657169ed85656c099bdd3126f26de59d91b02c9f198d290a966af0ba29a7bc",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-09",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0002152188",
+            "rptOwnerName": "Parker Nicholas P."
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "EVP, Worldwide Field Ops"
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "transactionDate": {
+              "value": "2026-09-09"
+            },
+            "transactionCoding": {
+              "transactionFormType": "4",
+              "transactionCode": "A",
+              "equitySwapInvolved": "0"
+            },
+            "transactionAmounts": {
+              "transactionShares": {
+                "value": "172507",
+                "footnoteId": null
+              },
+              "transactionPricePerShare": {
+                "value": "0",
+                "footnoteId": null
+              },
+              "transactionAcquiredDisposedCode": {
+                "value": "A"
+              }
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "172507"
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "D"
+              }
+            }
+          }
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "The restricted stock units (\"RSUs\") shall vest as to 10% of the shares on December 9, 2026 and every three months thereafter for three quarters, as to 7.5% of the shares every three months thereafter for four quarters, as to 5% of the shares every three months thereafter for four quarters, and as to 2.5% of the shares every three months thereafter for four quarters, such that the shares are fully vested on approximately the four (4) year anniversary of the date of grant.",
+            "The shares represent RSUs that were received as an award, for no consideration."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Nicholas P. Parker",
+          "signatureDate": "2026-09-11"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-08",
+      "accessionNumber": "0001199039-26-000014",
+      "primaryDocument": "xslF345X06/wk-form4_1788901755.xml",
+      "reportDate": "2026-09-03",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000119903926000014/wk-form4_1788901755.xml",
+      "sha256": "e902c5ae660d258a2606ad30dc7b756adc0f76271d83e319cc0ddabc50a7e5e6",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-03",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001199039",
+            "rptOwnerName": "STEVENS MARK A"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "1",
+            "isOfficer": "0",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": null,
+            "otherText": null
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-03"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "198707"
+                },
+                "transactionPricePerShare": {
+                  "value": "227.6954",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "3160063"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-03"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "1293"
+                },
+                "transactionPricePerShare": {
+                  "value": "228.2703",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "3158770"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-03"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "200000"
+                },
+                "transactionPricePerShare": {
+                  "value": "229.8705",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2958770"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-04"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "197180"
+                },
+                "transactionPricePerShare": {
+                  "value": "230.4039",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2761590"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-04"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "237820"
+                },
+                "transactionPricePerShare": {
+                  "value": "231.1677",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2523770"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-04"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "182628"
+                },
+                "transactionPricePerShare": {
+                  "value": "233.4615",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2341142"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-04"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "4611"
+                },
+                "transactionPricePerShare": {
+                  "value": "234.0043",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2336531"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ],
+          "nonDerivativeHolding": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "11544612"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "15017750"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By the Envy Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ]
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "Represents weighted average sales price. The shares were sold at prices ranging from $227.25 to $228.2493. The Reporting Person will provide upon request, to the Securities and Exchange Commission (the \"SEC\"), the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Held by the Third Millennium Trust, of which the Reporting Person and his wife are co-trustees.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $228.25 to $228.2881. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $229.545 to $230.16. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $230.00 to $230.999. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $231.00 to $231.75. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $233.00 to $233.9997. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $234.00 to $234.0397. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Held by the Envy Trust u/a/d December 7, 2021, of which the Reporting Person is trustee."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Mark A. Stevens",
+          "signatureDate": "2026-09-08"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-04",
+      "accessionNumber": "0001197647-26-000009",
+      "primaryDocument": "xslF345X06/wk-form4_1788555631.xml",
+      "reportDate": "2026-09-02",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000119764726000009/wk-form4_1788555631.xml",
+      "sha256": "2d3af938f865688553a60efb056ef6c5c607712c17112cad294006dd5a4c112f",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-09-02",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001197647",
+            "rptOwnerName": "COXE TENCH"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "755 PAGE MILL ROAD, SUITE A-200",
+            "rptOwnerStreet2": null,
+            "rptOwnerCity": "PALO ALTO",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "94304-1005",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "1",
+            "isOfficer": "0",
+            "isTenPercentOwner": "0",
+            "isOther": "0"
+          }
+        },
+        "aff10b5One": "1",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": {
+            "securityTitle": {
+              "value": "Common"
+            },
+            "transactionDate": {
+              "value": "2026-09-02"
+            },
+            "transactionCoding": {
+              "transactionFormType": "4",
+              "transactionCode": "G",
+              "equitySwapInvolved": "0",
+              "footnoteId": null
+            },
+            "transactionAmounts": {
+              "transactionShares": {
+                "value": "500000"
+              },
+              "transactionPricePerShare": {
+                "value": "0",
+                "footnoteId": null
+              },
+              "transactionAcquiredDisposedCode": {
+                "value": "D"
+              }
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "24171360"
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "I"
+              },
+              "natureOfOwnership": {
+                "value": "By Trust",
+                "footnoteId": null
+              }
+            }
+          },
+          "nonDerivativeHolding": [
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "57378"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4852480"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Profit Sharing Plan Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ]
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "The reported transaction was effected pursuant to a Rule 10b5-1 trading plan adopted by the Reporting Person on March 19, 2026.",
+            "Gift without consideration.",
+            "Shares held by a trust of which the reporting person is a trustee. The reporting person disclaims beneficial ownership in these shares except as to the reporting person's pecuniary interest in the trust.",
+            "Shares held by SHV Profit Sharing Plan, a retirement trust, for the benefit of the Reporting Person."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Tench Coxe",
+          "signatureDate": "2026-09-04"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-02",
+      "accessionNumber": "0001199039-26-000012",
+      "primaryDocument": "xslF345X06/wk-form4_1788387031.xml",
+      "reportDate": "2026-08-31",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000119903926000012/wk-form4_1788387031.xml",
+      "sha256": "d22cd5d85d32dbf39d62d7d6e599089411c4c11191642ab3618ab8c2dbcb7d33",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-08-31",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001199039",
+            "rptOwnerName": "STEVENS MARK A"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "1",
+            "isOfficer": "0",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": null,
+            "otherText": null
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-08-31"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "447400"
+                },
+                "transactionPricePerShare": {
+                  "value": "220.0959",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4759871"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-08-31"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "137600"
+                },
+                "transactionPricePerShare": {
+                  "value": "220.9105",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4622271"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-01"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "63501"
+                },
+                "transactionPricePerShare": {
+                  "value": "220.0589",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4558770"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-02"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "300000"
+                },
+                "transactionPricePerShare": {
+                  "value": "220.0761",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "4258770"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-02"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "300000"
+                },
+                "transactionPricePerShare": {
+                  "value": "222.9204",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "3958770"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-02"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "300000"
+                },
+                "transactionPricePerShare": {
+                  "value": "224.0715",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "3658770"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-09-02"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0"
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "300000"
+                },
+                "transactionPricePerShare": {
+                  "value": "226.2704",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "3358770"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ],
+          "nonDerivativeHolding": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "11544612"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "D"
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "15017750"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By the Envy Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ]
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "Represents weighted average sales price. The shares were sold at prices ranging from $219.60 to $220.59. The Reporting Person will provide upon request, to the Securities and Exchange Commission (the \"SEC\"), the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Held by the Third Millennium Trust, of which the Reporting Person and his wife are co-trustees.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $220.60 to $221.28. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $220.00 to $220.28. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $220.00 to $220.45. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $222.5744 to $223.43. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $224.00 to $224.23. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $226.00 to $226.7591. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Held by the Envy Trust u/a/d December 7, 2021, of which the Reporting Person is trustee."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Mark A. Stevens",
+          "signatureDate": "2026-09-02"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-09-02",
+      "accessionNumber": "0001696841-26-000010",
+      "primaryDocument": "xslF345X06/wk-form4_1788386836.xml",
+      "reportDate": "2026-08-31",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000169684126000010/wk-form4_1788386836.xml",
+      "sha256": "86679077ccf5f0c83f960b34407f5af9d2c8df44f1ff885ffe9368527b4264d7",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-08-31",
+        "notSubjectToSection16": "0",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001696841",
+            "rptOwnerName": "Teter Timothy S."
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "EVP, General Counsel and Sec",
+            "otherText": null
+          }
+        },
+        "aff10b5One": "1",
+        "nonDerivativeTable": {
+          "nonDerivativeTransaction": [
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-08-31"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "6692"
+                },
+                "transactionPricePerShare": {
+                  "value": "216.8411",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2710968"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-08-31"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "13913"
+                },
+                "transactionPricePerShare": {
+                  "value": "217.9514",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2697055"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            },
+            {
+              "securityTitle": {
+                "value": "Common Stock"
+              },
+              "transactionDate": {
+                "value": "2026-08-31"
+              },
+              "transactionCoding": {
+                "transactionFormType": "4",
+                "transactionCode": "S",
+                "equitySwapInvolved": "0",
+                "footnoteId": null
+              },
+              "transactionAmounts": {
+                "transactionShares": {
+                  "value": "9395"
+                },
+                "transactionPricePerShare": {
+                  "value": "218.5265",
+                  "footnoteId": null
+                },
+                "transactionAcquiredDisposedCode": {
+                  "value": "D"
+                }
+              },
+              "postTransactionAmounts": {
+                "sharesOwnedFollowingTransaction": {
+                  "value": "2687660"
+                }
+              },
+              "ownershipNature": {
+                "directOrIndirectOwnership": {
+                  "value": "I"
+                },
+                "natureOfOwnership": {
+                  "value": "By Trust",
+                  "footnoteId": null
+                }
+              }
+            }
+          ],
+          "nonDerivativeHolding": {
+            "securityTitle": {
+              "value": "Common Stock"
+            },
+            "postTransactionAmounts": {
+              "sharesOwnedFollowingTransaction": {
+                "value": "334436"
+              }
+            },
+            "ownershipNature": {
+              "directOrIndirectOwnership": {
+                "value": "D"
+              }
+            }
+          }
+        },
+        "derivativeTable": null,
+        "footnotes": {
+          "footnote": [
+            "The reported transaction was effected pursuant to a Rule 10b5-1 trading plan adopted by the Reporting Person on May 22, 2026.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $216.26 to $217.25. The Reporting Person will provide upon request, to the Securities and Exchange Commission (the \"SEC\"), the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Shares held by The Horne Teter Family Living Trust, dated 02/01/2019, of which the Reporting Person is trustee.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $217.28 to $218.26. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price.",
+            "Represents weighted average sales price. The shares were sold at prices ranging from $218.28 to $219.25. The Reporting Person will provide upon request, to the SEC, the Issuer or security holder of the Issuer, full information regarding the number of shares sold at each separate price."
+          ]
+        },
+        "remarks": null,
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Timothy S. Teter",
+          "signatureDate": "2026-09-02"
+        }
+      }
+    },
+    {
+      "form": "4",
+      "filingDate": "2026-08-24",
+      "accessionNumber": "0001347842-26-000015",
+      "primaryDocument": "xslF345X06/wk-form4_1787607122.xml",
+      "reportDate": "2026-08-24",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000134784226000015/wk-form4_1787607122.xml",
+      "sha256": "55fb0a5b2692762de621421e0726267b8eb3f9c2e8b66bf17874fdb8c5a741d1",
+      "document": {
+        "schemaVersion": "X0609",
+        "documentType": "4",
+        "periodOfReport": "2026-08-24",
+        "notSubjectToSection16": "1",
+        "issuer": {
+          "issuerCik": "0001045810",
+          "issuerName": "NVIDIA CORP",
+          "issuerTradingSymbol": "NVDA",
+          "issuerForeignTradingSymbol": null
+        },
+        "reportingOwner": {
+          "reportingOwnerId": {
+            "rptOwnerCik": "0001347842",
+            "rptOwnerName": "Puri Ajay K"
+          },
+          "reportingOwnerAddress": {
+            "rptOwnerNonUSAddressFlag": "false",
+            "rptOwnerStreet1": "C/O NVIDIA CORPORATION",
+            "rptOwnerStreet2": "2788 SAN TOMAS EXPRESSWAY",
+            "rptOwnerCity": "SANTA CLARA",
+            "rptOwnerState": "CA",
+            "rptOwnerZipCode": "95051",
+            "rptOwnerStateDescription": null
+          },
+          "reportingOwnerRelationship": {
+            "isDirector": "0",
+            "isOfficer": "1",
+            "isTenPercentOwner": "0",
+            "isOther": "0",
+            "officerTitle": "EVP, Worldwide Field Ops",
+            "otherText": null
+          }
+        },
+        "aff10b5One": "0",
+        "nonDerivativeTable": null,
+        "derivativeTable": null,
+        "footnotes": null,
+        "remarks": "The Reporting Person retired from his role of Executive Vice President, Worldwide Field Operations effective August 24, 2026 and is no longer subject to  Section 16.",
+        "ownerSignature": {
+          "signatureName": "/s/ Tina Ashcraft, Attorney-in-Fact for Ajay K. Puri",
+          "signatureDate": "2026-08-24"
+        }
+      }
+    }
+  ],
+  "status": "PARTIAL",
+  "limitation": "All16native documents retrieved/parsed; correction reconciliation and transaction-row adjudication pending. Do not double-count4/A or infer net-buy signals."
+}

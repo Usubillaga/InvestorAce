@@ -1,0 +1,281 @@
+{
+  "mode": "live",
+  "as_of": "2026-11-22T08:03:19+00:00",
+  "run_at": "2026-11-22T08:03:19+00:00",
+  "max_quote_age_hours": 96,
+  "evidence": [],
+  "methodology": null,
+  "issuers": [
+    {
+      "ticker": "OXY",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "OXY-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "ENB",
+      "currency": "CAD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "ENB-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "CAD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "CRWV",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "CRWV-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "MRNA",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "MRNA-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "NBIS",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "NBIS-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "OPEN",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "OPEN-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "AVGO",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "AVGO-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "BYRN",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "BYRN-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "INTU",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "INTU-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "NVDA",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "open",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "NVDA-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "not established",
+          "basis": "No new audited sustainable valuation; raw source facts and original model outputs are separate.",
+          "price_dependent": true,
+          "evidence_ids": [],
+          "reason": "No refreshed quote or complete matched TTM/rate contract in this source/payment batch."
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    }
+  ],
+  "issues": []
+}
