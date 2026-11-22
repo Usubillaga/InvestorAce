@@ -165,7 +165,7 @@ Breakout failure rate 33.12% · 63-day mean: uptrend days 5.06%, just under resi
 | shorts_in_correction | 1/3 | 0/3 | 1/3 |
 | shorts_always | 0/3 | 0/3 | 0/3 |
 
-Symbols: 122 · generated 2026-11-22T10:32+00:00 · price data 113c206e94116917
+Symbols: 122 · generated 2026-11-22T10:41+00:00 · price data 113c206e94116917
 
 ## Valuation coverage
 
