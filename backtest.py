@@ -193,7 +193,7 @@ def portfolio_inputs(frames):
     return close, close.ffill(), breadth, candidates, rows, shorts
 
 
-def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
+def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, **rule):
     """Daily decisions on close t, fills at close t+1 (the live system: last night's build, today's close)."""
     dates = spx.index[(spx.index >= start) & ((spx.index < end) if end is not None else True)]
     spx_sma = spx.rolling(200).mean()
@@ -334,6 +334,9 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
                 room -= shares * c
                 short_plan.append((s, shares))
             planned = [x for x in planned if x[0] not in {s for s, _ in short_plan}]
+        if trace is not None and (sells or planned):
+            trace.decisions[str(day.date())] = ([('SELL', s, pos[s]['shares']) for s, _ in sells] +
+                                                [('BUY', s, n) for s, n, _ in planned])
         for s, why in covers:
             fill = close.at[nxt, s]
             if np.isnan(fill):
@@ -353,6 +356,8 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
             fill = close.at[nxt, s]
             if np.isnan(fill):
                 continue
+            if trace is not None:
+                trace.mark(s, nxt, fill, why, COST)
             p = pos.pop(s)
             cash += p['shares'] * fill * (1 - COST)
             trades.append(dict(symbol=s, ret=fill * (1 - COST) / (p['entry'] * (1 + COST)) - 1,
@@ -369,8 +374,15 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, **rule):
             if cost > cash:
                 continue
             cash -= cost
+            if trace is not None:
+                f = rows[s][day]
+                trace.buy(s, day, nxt, shares, fill, 100 * (f.close / f.sma200 - 1), COST)
             pos[s] = dict(shares=shares, entry=fill, peak=fill, held=0, fast=False, res=resistance)
     curve = pd.Series(dict(curve)).sort_index()
+    if trace is not None:
+        trace.final = float(curve.iloc[-1])
+        for s in pos:
+            trace.mark(s, dates[-1], marks.at[dates[-1], s], 'OPEN_MARK', 0)
     result = _metrics(curve, trades)
     result['longest_carried_mark'] = stale_sessions
     result['unpriced_at_end'] = sorted(s for s in pos if pos[s].get('stale'))
@@ -396,6 +408,19 @@ def _metrics(curve, trades):
 
 
 # ---------------------------------------------------------------- report
+def portfolio_comparison(frames, spx, sectors, start, end, prepared):
+    from buffer_attribution import Trace, compare
+    traces = {name: Trace() for name in (BASE, 'buffer_200d_1pct', 'buffer_200d_2pct', 'buffer_200d_3pct')}
+    results = {name: simulate(frames, spx, sectors, start, end, prepared, trace=traces.get(name), **rule)
+               for name, rule in VARIANTS.items()}
+    one = traces['buffer_200d_1pct']
+    audit = compare(traces[BASE], one, CAPITAL)
+    audit['thresholds'] = {name: dict(plans_identical=one.decisions == traces[name].decisions,
+                                       positions_identical=one.lots == traces[name].lots)
+                           for name in ('buffer_200d_2pct', 'buffer_200d_3pct')}
+    return results, audit
+
+
 def windows(frames, spx, sectors, prepared=None):
     """The same variants in separate periods: a rule is only trusted if it helps in each of them."""
     out = []
@@ -406,13 +431,13 @@ def windows(frames, spx, sectors, prepared=None):
             continue
         active = sum(1 for f in frames.values() if f.loc[sel.index[0]:sel.index[-1], 'sma200'].notna().any())
         es = event_study(frames, spx, start, end)
+        portfolio, audit = portfolio_comparison(frames, spx, sectors, start, end, prepared)
         out.append(dict(window=f'{sel.index[0].date()} → {sel.index[-1].date()}', symbols=active,
                         spx=_metrics(sel / sel.iloc[0] * CAPITAL, []),
                         breakouts={k: es['breakouts'][k] for k in ('failure_rate', 'all_uptrend_days', 'breakout_failed',
                                                                     'just_under_resistance')},
                         extension_30=es['extension_36']['30..+%'],
-                        portfolio={name: simulate(frames, spx, sectors, start, end, prepared, **rule)
-                                   for name, rule in VARIANTS.items()}))
+                        portfolio=portfolio, buffer_attribution=audit))
     return out
 
 
@@ -506,6 +531,14 @@ def report(result):
             old_rank = 1 + sum(m['cagr'] > old['cagr'] for m in comparison.values())
             lines.append(f"| {name} | {old_rank} | {rank} | {old['cagr']}% | {cur['cagr']}% | "
                          f"{old['max_drawdown']}% | {cur['max_drawdown']}% |")
+    if result.get('buffer_attribution'):
+        from buffer_attribution import summary
+        lines += ['', '## SMA200 buffer divergence: v1.6 versus 1%', '',
+                  'Contributions include entry and exit costs, size changes and ending marks on open positions. '
+                  'Subsequent entries describe the portfolio path; an individual replacement is not necessarily causal.', '']
+        for period in [result, *wins]:
+            if period.get('buffer_attribution'):
+                lines += summary(period['window'], period['buffer_attribution'])
     return '\n'.join(lines) + '\n'
 
 
@@ -590,10 +623,11 @@ def main():
         raise ValueError('Missing price history; retaining the previous report')
     spx_curve = (spx[spx.index >= start] / spx[spx.index >= start].iloc[0]) * CAPITAL
     prepared = portfolio_inputs(frames)
+    portfolio, audit = portfolio_comparison(frames, spx, sectors, start, None, prepared)
     result = dict(schema='backtest-v3', windows=windows(frames, spx, sectors, prepared), generated_at=datetime.now(timezone.utc).isoformat(timespec='minutes'),
                   window=f'{start.date()} → {spx.index[-1].date()}', symbols=len(frames),
                   event_study=event_study(frames, spx, start),
-                  portfolio={name: simulate(frames, spx, sectors, start, prepared=prepared, **rule) for name, rule in VARIANTS.items()},
+                  portfolio=portfolio, buffer_attribution=audit,
                   spx=_metrics(spx_curve, []))
     try:                                   # pairs study (pairs_backtest.py); a failure must not lose the main report
         import pairs_backtest

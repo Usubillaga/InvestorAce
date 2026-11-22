@@ -97,3 +97,39 @@ class Shorts(unittest.TestCase):
                         **bt.VARIANTS['shorts_in_correction'])
         base = bt.simulate(frames, spx, {k: 'A' for k in frames}, spx.index[300], **bt.VARIANTS[bt.BASE])
         self.assertEqual(m['final'], base['final'])
+
+
+class BufferAttribution(unittest.TestCase):
+    def test_fill_size_costs_replacement_and_final_open_mark(self):
+        from buffer_attribution import Trace, compare
+        d, entry, end = pd.bdate_range('2020-01-01', periods=3)
+        base, one = Trace(), Trace()
+        for book, n in [(base, 10), (one, 8)]:
+            book.buy('A', d, entry, n, 100, 4, .001)
+            book.mark('A', end, 110, 'STOP', .001)
+            book.decisions[str(d.date())] = [('BUY', 'A', n)]
+        one.buy('B', d, entry, 2, 100, 5, .001)
+        one.mark('B', end, 90, 'OPEN_MARK', 0)
+        base.final = bt.CAPITAL + 10 * (110 * .999 - 100 * 1.001)
+        one.final = bt.CAPITAL + 8 * (110 * .999 - 100 * 1.001) + 2 * (90 - 100 * 1.001)
+        result = compare(base, one, bt.CAPITAL)
+        self.assertEqual(result['first_order']['signal'], str(d.date()))
+        self.assertEqual(len(result['positions']), 2)
+        self.assertEqual(result['positions'][1]['buffer']['reason'], 'OPEN_MARK')
+        self.assertAlmostEqual(result['delta_pnl'], sum(p['delta_pnl'] for p in result['positions']))
+        one.final += 1
+        with self.assertRaises(ValueError):
+            compare(base, one, bt.CAPITAL)
+
+    def test_first_filtered_entry_and_higher_threshold_ties(self):
+        days = pd.bdate_range('2020-01-01', periods=275)
+        prices = pd.Series(100 + np.arange(len(days)) * .005, index=days)
+        frames = {'A': bt.indicators(prices, prices + 1, prices - 1)}
+        results, audit = bt.portfolio_comparison(frames, prices, {}, days[-10], None, bt.portfolio_inputs(frames))
+        self.assertEqual(audit['first_order']['baseline'][0][:2], ('BUY', 'A'))
+        self.assertEqual(audit['first_order']['buffer'], [])
+        lot = audit['positions'][0]['baseline']
+        self.assertLess(lot['gap_pct'], 1)
+        self.assertEqual(lot['reason'], 'OPEN_MARK')
+        self.assertEqual(results[bt.BASE], bt.simulate(frames, prices, {}, days[-10], **bt.VARIANTS[bt.BASE]))
+        self.assertTrue(all(v['positions_identical'] and v['plans_identical'] for v in audit['thresholds'].values()))
