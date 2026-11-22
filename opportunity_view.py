@@ -38,6 +38,8 @@ def score(item):
 
 
 def signal(item):
+    if item.get('cash_offer'):
+        return '<span class="pill empty">Takeover watch</span><small>Standalone fundamentals</small>'
     css = {'Strong Buy':'p-sbuy','Buy':'p-buy','Hold Positive':'p-hpos',
            'Hold Negative':'p-hneg','Sell':'p-sell'}.get(item['label'],'empty')
     return ('<span data-opportunity-field="label" class="pill opportunity-label '+css+'">'
