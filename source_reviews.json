@@ -9935,7 +9935,7 @@
           "currency": "USD",
           "financial_currency": "USD",
           "published_at": "2026-11-05T23:59:59+00:00",
-          "fetched_at": "2026-11-22T11:00:00+00:00",
+          "fetched_at": "2026-11-22T11:24:08+00:00",
           "financial_period": "2026-10-02",
           "basis": "TTM",
           "period_ends": [
@@ -10023,7 +10023,7 @@
           "currency": "USD",
           "financial_currency": "USD",
           "published_at": "2026-10-22T23:59:59+00:00",
-          "fetched_at": "2026-11-22T11:00:00+00:00",
+          "fetched_at": "2026-11-22T11:24:10+00:00",
           "financial_period": "2026-09-30",
           "basis": "TTM",
           "period_ends": [
@@ -10115,7 +10115,7 @@
           "currency": "USD",
           "financial_currency": "USD",
           "published_at": "2026-11-03T23:59:59+00:00",
-          "fetched_at": "2026-11-22T11:00:00+00:00",
+          "fetched_at": "2026-11-22T11:24:06+00:00",
           "financial_period": "2026-09-30",
           "basis": "TTM",
           "period_ends": [
