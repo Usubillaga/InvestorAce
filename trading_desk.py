@@ -402,7 +402,7 @@ def site_pages(root, committed_build, *, now=None):
     symbols = {r.get('yf') or k for k, r in (meta.get('inputs') or {}).items() if isinstance(r, dict)}
     ideas = dict(as_of=(trend or {}).get('as_of') if isinstance(trend, dict) else None,
                  rows=[dict(r, covered=r['ticker'] in symbols) for r in matches])
-    section = opportunity_section(ideas) + section
+    section = '<p><a href="markov-experiments.html">Markov experiments · macro and pullbacks</a></p>' + opportunity_section(ideas) + section
     pages = [(Path(SCAN_PAGE), render_scan(scan(record), market=market if isinstance(market, str) else None,
                                            captured=str(meta.get('captured_at') or ''), market_section=section))]
     pages.append((Path("scanner-opportunities.json"), json.dumps(ideas, ensure_ascii=False)))
