@@ -372,7 +372,17 @@ def render_compare(accounts, spx, *, today):
             '<th>Gross exposure</th><th class="l">Note</th></tr></thead><tbody>'
             + (rows or '<tr><td colspan="10" class="muted">No account has a session since the start date yet.</td></tr>')
             + '</tbody></table></div>')
-    return shell('Trading comparison', body + trade_tables(accounts))
+    return shell('Trading comparison', body + '<p><a href="index-paper.html">Index ETF long/short paper journal ↗</a></p>' + trade_tables(accounts))
+
+
+def index_paper_page():
+    from war_scenario import shell
+    desk = 'https://usubillaga.github.io/InvestorAce-Tradingdesk/dist/index-paper.html'
+    return shell('Index ETF long/short', (
+        '<h1>Index ETF long/short</h1>'
+        f'<p><a href="{desk}">Open the TradingDesk paper journal ↗</a></p>'
+        f'<iframe src="{desk}" title="Index ETF signals and settled paper trades" '
+        'style="width:100%;height:80vh;border:0"></iframe>'))
 
 
 def site_pages(root, committed_build, *, now=None):
@@ -424,6 +434,7 @@ def site_pages(root, committed_build, *, now=None):
             account = None
         if account:
             accounts.append(account)
+    pages.append((Path('index-paper.html'), index_paper_page()))
     pages.append((Path(COMPARE_PAGE), render_compare(accounts, benchmark(series, last), today=last)))
     tape = dict(as_of=last, build=committed_build.get('manifest', {}).get('run_id'), columns=TRADE_COLUMNS,
                 accounts=[dict(name=a['name'], trades=a['trades']) for a in accounts])

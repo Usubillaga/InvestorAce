@@ -572,6 +572,7 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                       '<a href="estado.html" style="color:#c1d98b;font-weight:700">Estado de los datos ↗</a>') + trade_link
     if include_desk:
         trade_link += '<a href="trading-compare.html" style="color:#c1d98b;font-weight:700">Trading comparison ↗</a>'
+        trade_link += '<a href="index-paper.html" style="color:#c1d98b;font-weight:700">Index ETF long/short ↗</a>'
     if include_long_short:
         trade_link += '<a href="codex-long-short.html" style="color:#c1d98b;font-weight:700">Codex long/short test ↗</a>'
     backtest_link = ('<a href="backtest.html" style="color:#c1d98b;font-weight:700">Backtest ↗</a>'
