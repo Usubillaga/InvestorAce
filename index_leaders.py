@@ -146,12 +146,21 @@ def top_holdings(fund):
     return sorted(out, key=lambda x: -x[1])
 
 
+def session_cutoff(now=None, intraday=False):
+    """First date NOT to read. Today's bar counts once the US close is done (16:15 New York) or, intraday,
+    as the latest quote; otherwise it is a partial bar and is left out."""
+    import pandas as pd
+    now = now or pd.Timestamp.now(tz='America/New_York')
+    day = now.normalize().tz_localize(None) if now.tz is not None else now.normalize()
+    done = intraday or (now.hour, now.minute) >= (16, 15)
+    return day + pd.Timedelta(days=1) if done else day
+
+
 def collect(today=None, intraday=False):
     """Closes for the thermometer, the holdings and the account; returns (sessions, heat, prices, holdings).
 
     intraday=True keeps today's partial bar (the latest quote), so the last session is today and its heat is the
     thermometer right now."""
-    import pandas as pd
     import yfinance as yf
     import engine
     import panic_backtest as pb
@@ -162,9 +171,7 @@ def collect(today=None, intraday=False):
     raw = yf.download(sorted(set(universe) | set(held) | {'^GSPC', '^VIX'}), period='2y', auto_adjust=False,
                       progress=False, threads=True, group_by='column')['Close']
     raw.index = raw.index.tz_localize(None) if raw.index.tz is not None else raw.index
-    cutoff = (today or pd.Timestamp.now(tz='America/New_York')).normalize()
-    cutoff = cutoff.tz_localize(None) if getattr(cutoff, 'tz', None) is not None else cutoff
-    raw = (raw[raw.index <= cutoff] if intraday else raw[raw.index < cutoff]).round(4)
+    raw = raw[raw.index < session_cutoff(today, intraday)].round(4)
     spx = raw['^GSPC'].dropna()
     heat = pb.heat(spx, raw['^VIX'], raw[[s for s in universe if s in raw.columns]])
     sessions = [str(d.date()) for d in spx.index]

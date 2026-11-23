@@ -99,6 +99,15 @@ class Account(unittest.TestCase):
         self.assertEqual(state['marks'][-1]['equity'], il.CAPITAL)
 
 
+class Cutoff(unittest.TestCase):
+    def test_todays_bar_only_after_the_close_or_intraday(self):
+        ny = lambda h, m: pd.Timestamp(2026, 11, 23, h, m, tz='America/New_York')
+        self.assertEqual(il.session_cutoff(ny(17, 41)), pd.Timestamp('2026-11-24'))     # after the close
+        self.assertEqual(il.session_cutoff(ny(12, 0)), pd.Timestamp('2026-11-23'))      # partial bar left out
+        self.assertEqual(il.session_cutoff(ny(15, 40), intraday=True), pd.Timestamp('2026-11-24'))
+        self.assertEqual(il.session_cutoff(ny(20, 41)), pd.Timestamp('2026-11-24'))
+
+
 class Page(unittest.TestCase):
     def test_page_from_the_snapshot(self):
         with tempfile.TemporaryDirectory() as tmp:
