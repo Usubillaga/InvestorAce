@@ -12,6 +12,7 @@ on:
       - 'claude-briefings/**'
       - 'market-scan/**'
       - 'weekly_research.py'
+      - 'codex_heat/**'
       - 'correction_study/**'
       - 'trading_desk.py'
       - 'markov_experiments.py'
