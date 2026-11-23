@@ -108,6 +108,27 @@ class WeightLeaders(unittest.TestCase):
         json.dumps(dict(events=events, summary=s), allow_nan=False)
 
 
+class Stops(unittest.TestCase):
+    def test_basket_and_index_stops_sell_the_close_after_the_breach(self):
+        idx = pd.bdate_range('2021-01-01', periods=300)
+        path = np.r_[np.full(20, 100.), np.linspace(100, 80, 40), np.full(240, 80.)]
+        close = pd.DataFrame({'AAA': path}, index=idx)
+        spx = pd.Series(np.r_[np.full(20, 100.), np.linspace(100, 95, 280)], index=idx)
+        event = dict(date=str(idx[10].date()), leaders=[['AAA', 1.0]])
+        euphoria = [idx[200]]                                            # euphoria comes late
+        rules = pb.exit_rules([event], close, spx, euphoria)[0]['rules']
+        breach10 = int(np.argmax(path[11:] <= 90.0)) + 11                # first close 10% under the buy at idx[11]
+        self.assertEqual(rules['euphoria_stop_basket_10']['exit'], str(idx[breach10 + 1].date()))
+        self.assertTrue(rules['euphoria_stop_basket_10']['stopped'])
+        self.assertTrue(rules['euphoria_stop_basket_15']['stopped'])
+        self.assertFalse(rules['euphoria_stop_spx_10']['stopped'])       # the S&P never falls 10%
+        self.assertEqual(rules['euphoria_stop_spx_10']['exit'], rules['euphoria_or_252']['exit'])
+        self.assertGreater(rules['euphoria_stop_basket_10']['ret'], rules['euphoria_or_252']['ret'])
+        summary = pb.exit_summary(pb.exit_rules([event], close, spx, euphoria))
+        self.assertEqual(summary['euphoria_stop_basket_15']['stopped'], 1)
+        json.dumps(summary, allow_nan=False)
+
+
 class Splits(unittest.TestCase):
     def test_reported_shares_are_put_in_todays_split_terms(self):
         splits = [(pd.Timestamp('2020-08-31'), 4.0), (pd.Timestamp('2021-08-02'), 0.125)]
