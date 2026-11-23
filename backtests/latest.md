@@ -200,7 +200,7 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | rebound_sleeve_below_200d | 0/3 | 1/3 | 1/3 |
 | rebound_sleeve_no_stop | 1/3 | 1/3 | 1/3 |
 
-Symbols: 125 · generated 2026-11-23T16:02+00:00 · price data 07627e9ba8e06dee
+Symbols: 125 · generated 2026-11-23T16:52+00:00 · price data 07627e9ba8e06dee
 
 ## Valuation coverage
 
@@ -436,11 +436,11 @@ Rules against buy and hold from 20 paired starts per period. Costs 0.1% per posi
 | 2018-01-02 → 2021-12-31 | codex_20d_5d_long_only | 0/20 | 2.17% | -12.94 [-13.91, -11.46] | -0.48 | +24.82 |
 | 2018-01-02 → 2021-12-31 | trend_200d | 0/20 | 7.85% | -6.99 [-7.12, -6.79] | -0.08 | +18.78 |
 | 2018-01-02 → 2021-12-31 | codex_intraday_account | 0/20 | -25.59% | -40.58 [-42.15, -38.68] | -5.30 | -32.76 |
-| 2022-01-03 → 2026-11-23 | buy_and_hold | — | 9.10% | — | — | — |
-| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_short | 0/20 | -9.20% | -20.65 [-25.96, -18.09] | -1.35 | -21.46 |
-| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_only | 0/20 | 1.55% | -10.27 [-13.63, -8.64] | -0.50 | +13.57 |
-| 2022-01-03 → 2026-11-23 | trend_200d | 0/20 | 8.21% | -3.47 [-6.37, -2.56] | +0.04 | +12.63 |
-| 2022-01-03 → 2026-11-23 | codex_intraday_account | 0/20 | -24.31% | -36.11 [-40.39, -33.31] | -4.97 | -50.88 |
+| 2022-01-03 → 2026-11-23 | buy_and_hold | — | 9.07% | — | — | — |
+| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_short | 0/20 | -9.18% | -20.60 [-25.91, -18.04] | -1.35 | -21.46 |
+| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_only | 0/20 | 1.55% | -10.24 [-13.60, -8.61] | -0.50 | +13.57 |
+| 2022-01-03 → 2026-11-23 | trend_200d | 0/20 | 8.21% | -3.45 [-6.34, -2.54] | +0.04 | +12.63 |
+| 2022-01-03 → 2026-11-23 | codex_intraday_account | 0/20 | -24.30% | -36.07 [-40.35, -33.28] | -4.96 | -50.88 |
 
 Passes: codex_20d_5d_long_short no, codex_20d_5d_long_only no, trend_200d no, codex_intraday_account no
 
@@ -478,3 +478,31 @@ Passes: all yes, above_sma200 no, below_sma200 yes, all_no_stop yes, below_sma20
 NVDA in November 2026 under this rule (with the 8% stop): signal 2026-11-16 at 156.14 (-3.5 ATR) → stop on 2026-11-20, -19.76%
 
 NVDA's 200-week average on 2026-11-20: 123.33.
+
+## Thermometer "Panic · buy": buy the leader
+
+Signal: the thermometer (market_pulse.py, rebuilt without Fear & Greed) closes under 20; one signal per episode (63 sessions apart). Bought at the next close; 0.1% per side. Leader: highest 21/200-day average ratio in the universe on the signal day; top5: the five highest. Today's universe, so stock baskets are flattered by survivorship.
+
+Rebuilt thermometer on 2026-11-20: 15.8.
+
+### First panic close
+
+| Sessions | Signals | Leader mean / median | Top 5 mean / median | Universe mean | S&P 500 mean / median | Leader beats S&P | Leader worst |
+|---:|---:|---|---|---:|---|---:|---:|
+| 21 | 6 | +4.4% / +5.8% | +5.8% / +3.2% | +5.3% | +4.2% / +5.0% | 3/6 | -15.1% |
+| 63 | 6 | +33.7% / +33.1% | +30.8% / +26.5% | +17.5% | +11.7% / +11.5% | 5/6 | -0.6% |
+| 126 | 6 | +72.8% / +85.2% | +63.4% / +38.4% | +24.7% | +13.5% / +15.1% | 5/6 | -7.1% |
+| 252 | 6 | +138.8% / +73.5% | +72.8% / +49.9% | +40.2% | +21.7% / +25.4% | 4/6 | -6.4% |
+
+Signals: 2015-08-24 (heat 6.4, leader NFLX: 63 sessions +22.9%, S&P +11.5%); 2016-01-15 (heat 18.9, leader NVDA: 63 sessions +33.1%, S&P +11.4%); 2018-12-19 (heat 19.7, leader TTD: 63 sessions +67.9%, S&P +13.2%); 2020-03-09 (heat 8.3, leader TSLA: 63 sessions +45.5%, S&P +11.1%); 2022-03-07 (heat 14.7, leader DVN: 63 sessions +33.1%, S&P -0.4%); 2025-04-04 (heat 5.2, leader BABA: 63 sessions -0.6%, S&P +23.5%)
+
+### First close back above 20
+
+| Sessions | Signals | Leader mean / median | Top 5 mean / median | Universe mean | S&P 500 mean / median | Leader beats S&P | Leader worst |
+|---:|---:|---|---|---:|---|---:|---:|
+| 21 | 6 | +23.0% / +19.4% | +15.2% / +11.5% | +6.9% | +4.4% / +3.9% | 4/6 | -16.6% |
+| 63 | 6 | +44.3% / +29.4% | +52.0% / +29.6% | +16.6% | +10.3% / +13.3% | 5/6 | +5.4% |
+| 126 | 6 | +63.5% / +75.8% | +88.4% / +50.3% | +25.5% | +13.6% / +18.6% | 5/6 | -16.6% |
+| 252 | 6 | +126.0% / +87.8% | +107.8% / +60.6% | +41.9% | +22.4% / +26.6% | 3/6 | -17.4% |
+
+Signals: 2015-08-27 (heat 30.5, leader NFLX: 63 sessions +6.4%, S&P +4.9%); 2016-01-22 (heat 25.3, leader NVDA: 63 sessions +28.5%, S&P +11.0%); 2019-01-02 (heat 21.8, leader TTD: 63 sessions +80.4%, S&P +17.4%); 2020-04-14 (heat 26.2, leader MRNA: 63 sessions +114.9%, S&P +15.7%); 2022-03-09 (heat 21.2, leader DVN: 63 sessions +30.4%, S&P -5.9%); 2025-04-09 (heat 20.6, leader BABA: 63 sessions +5.4%, S&P +18.8%)
