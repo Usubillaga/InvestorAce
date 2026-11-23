@@ -1,7 +1,7 @@
 """The dated partial batch must preserve the authoritative numerical boundaries."""
 import copy
 import json
-import subprocess
+import hashlib
 import unittest
 from datetime import datetime
 from pathlib import Path
@@ -13,18 +13,20 @@ import source_review
 
 ROOT = Path(__file__).parent
 BASE = '194f3291951e3c617b3c292f7506327350c3ec59'
+BASE_ENTRIES = ["CRM","ASML","SAN","WKL","LVMH","ENB","UNH","NFLX","NVDA","PFE","LULU","DVN","ZTS","AR","OXY","ENG","VICI","GOOGL","SMCI","PG","APP","SPGI","ISRG","PL","REP","WIX","BYRN","AWK","BABA","BNTX","GRAB","IBST","CRWV","MRNA","NBIS","OPEN","RIVN","AVGO","O","RCAT","SPCX","TEM","JEQE","VOW3","MELI","INTU","VNT","ALLE","ADT"]
+BASE_PROJECTION_SHA256 = 'c8e2fbe4cb401ea2ef8a4c2df18c2cba24ca9308aac82fa5f3d818d0be68bc91'
 SELECTED = ('VNT', 'ALLE', 'ADT', 'OXY', 'CRWV', 'ALC', 'ALM', 'AMD', 'ANT', 'B')
 
 
 class DatedBatch(unittest.TestCase):
     def test_only_monitoring_changes_and_old_dates_survive(self):
-        old = json.loads(subprocess.check_output(['git', 'show', BASE + ':source_reviews.json']))
         new = source_review.load((ROOT / 'source_reviews.json').read_text())
-        for key, value in old['entries'].items():
-            before, after = copy.deepcopy(value), copy.deepcopy(new['entries'][key])
-            before.pop('monitoring', None)
-            after.pop('monitoring', None)
-            self.assertEqual(before, after, key)
+        projection = copy.deepcopy(new)
+        projection['entries'] = {t: projection['entries'][t] for t in BASE_ENTRIES}
+        for value in projection['entries'].values():
+            value.pop('monitoring', None)
+        digest = hashlib.sha256(json.dumps(projection,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+        self.assertEqual(digest,BASE_PROJECTION_SHA256)
         for key in SELECTED:
             m = new['entries'][key]['monitoring']
             self.assertEqual(m['as_of'], '2026-11-23')
@@ -32,8 +34,13 @@ class DatedBatch(unittest.TestCase):
             self.assertTrue(m['gap'])
 
     def test_fixed_all_watchlist_outputs_and_frozen_register(self):
-        old = source_review.load(subprocess.check_output(['git', 'show', BASE + ':source_reviews.json']).decode())
         new = source_review.load((ROOT / 'source_reviews.json').read_text())
+        # Reconstruct the identical authoritative base without requiring Git history
+        # in Actions' shallow checkout; monitoring is deliberately diagnostic only.
+        old = copy.deepcopy(new)
+        old['entries'] = {t: old['entries'][t] for t in BASE_ENTRIES}
+        for value in old['entries'].values():
+            value.pop('monitoring', None)
         build = evidence.current_build(ROOT / 'history')
         rows = copy.deepcopy(build['record']['_evidence']['inputs'])
         self.assertEqual(set(rows), set(e.DATA))
