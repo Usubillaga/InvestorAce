@@ -107,5 +107,26 @@ class WeightLeaders(unittest.TestCase):
         self.assertEqual((s['21']['n'], s['21']['beats_spx']), (1, 1))
 
 
+class ExitRules(unittest.TestCase):
+    def test_euphoria_exits_and_open_positions(self):
+        idx = pd.bdate_range('2019-01-01', periods=400)
+        close = pd.DataFrame({'AAA': np.linspace(100, 200, 400)}, index=idx)
+        spx = pd.Series(np.linspace(100, 150, 400), index=idx)
+        event = dict(date=str(idx[10].date()), leaders=[['AAA', 1.0]])
+        euphoria = [idx[30], idx[120]]                       # 19 and 109 sessions after the buy at idx[11]
+        row = pb.exit_rules([event], close, spx, euphoria)[0]['rules']
+        self.assertEqual(row['hold_63']['exit'], str(idx[74].date()))
+        self.assertEqual(row['euphoria']['exit'], str(idx[30].date()))
+        self.assertEqual(row['euphoria_after_63']['exit'], str(idx[120].date()))
+        self.assertEqual(row['euphoria_or_252']['exit'], str(idx[30].date()))
+        expected = close['AAA'].iloc[30] / close['AAA'].iloc[11] * (1 - pb.COST) / (1 + pb.COST) - 1
+        self.assertAlmostEqual(row['euphoria']['ret'], expected)
+        none = pb.exit_rules([event], close, spx, [])[0]['rules']
+        self.assertTrue(none['euphoria']['open'])                       # never euphoric: still held
+        self.assertEqual(none['euphoria_or_252']['sessions'], 252)
+        summary = pb.exit_summary(pb.exit_rules([event], close, spx, euphoria))
+        self.assertEqual(summary['euphoria']['n'], 1)
+
+
 if __name__ == '__main__':
     unittest.main()

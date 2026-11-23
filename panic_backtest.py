@@ -24,6 +24,7 @@ import numpy as np
 import pandas as pd
 
 PANIC = 20.
+EUPHORIA = 80.            # market_pulse's Euphoria band
 GAP = 63
 HORIZONS = (21, 63, 126, 252)
 COST = 0.001
@@ -123,7 +124,8 @@ def study(frames, spx, vix):
     h = heat(spx, vix, close)
     entries, exits = signals(h)
     result = dict(last_heat=dict(date=str(h.dropna().index[-1].date()), value=round(float(h.dropna().iloc[-1]), 1))
-                  if h.notna().any() else None)
+                  if h.notna().any() else None,
+                  euphoria_days=[str(d.date()) for d in h.index[(h >= EUPHORIA).to_numpy()]])
     last = h.dropna()
     if len(last) and last.iloc[-1] < PANIC:
         result['panic_today'] = str(last.index[-1].date())
@@ -267,7 +269,10 @@ def index_study(result, rows, download, spx, shares=None):
         if name == 'panic_entry' and shares is not None:
             volume = panel['Volume'].reindex(spx.index)
             wevents = weight_leaders(days, rows, close, volume, spx, shares)
-            result[name]['weights'] = dict(events=wevents, summary=weight_summary(wevents))
+            euphoria = [pd.Timestamp(d) for d in result.get('euphoria_days', [])]
+            exits = exit_rules(wevents, close, spx, euphoria)
+            result[name]['weights'] = dict(events=wevents, summary=weight_summary(wevents),
+                                           exits=exits, exit_summary=exit_summary(exits))
     if result.get('panic_today'):
         day = pd.Timestamp(result['panic_today'])
         members = members_on(rows, day) or []
@@ -336,6 +341,71 @@ def weight_leaders(days, rows, close, volume, spx, shares, horizons=HORIZONS, to
                 spx=_ret(spx, spx_pos + 1, h) if spx_pos is not None else None)
         events.append(event)
     return events
+
+
+EXIT_RULES = ('hold_63', 'euphoria', 'euphoria_after_63', 'euphoria_or_252')
+
+
+def exit_rules(events, close, spx, euphoria, rules=EXIT_RULES):
+    """The same cap-weighted buy with different exits, each against the S&P 500 over the same sessions.
+
+    hold_63: 63 sessions. euphoria: the first close with the thermometer at or above 80 after the buy, however
+    long that takes (still open at the end of the data = marked at the last close, flagged open).
+    euphoria_after_63: the first such close at least 63 sessions after the buy. euphoria_or_252: the first such
+    close, at most 252 sessions."""
+    filled = close.ffill()
+    idx = close.index
+    eu = np.array(sorted(idx.get_indexer([d for d in euphoria if d in idx])))
+    out = []
+    for e in events:
+        start = idx.get_loc(pd.Timestamp(e['date'])) + 1
+        if start >= len(idx):
+            continue
+        weights = dict(e['leaders'])
+        row = dict(date=e['date'], rules={})
+        for rule in rules:
+            after = eu[eu > start] if len(eu) else eu
+            if rule == 'hold_63':
+                end, open_ = start + 63, False
+            elif rule == 'euphoria':
+                end, open_ = (int(after[0]), False) if len(after) else (len(idx) - 1, True)
+            elif rule == 'euphoria_after_63':
+                later = after[after >= start + 63] if len(after) else after
+                end, open_ = (int(later[0]), False) if len(later) else (len(idx) - 1, True)
+            else:
+                end, open_ = (int(after[0]), False) if len(after) and after[0] <= start + 252 else (start + 252, False)
+            if end >= len(idx):
+                end, open_ = len(idx) - 1, True
+            parts = [(w, filled[t].iloc[end] / filled[t].iloc[start] * (1 - COST) / (1 + COST) - 1)
+                     for t, w in weights.items() if np.isfinite(filled[t].iloc[start]) and np.isfinite(filled[t].iloc[end])]
+            wsum = sum(w for w, _ in parts)
+            spx_f = spx.reindex(idx).ffill()
+            years = max((idx[end] - idx[start]).days / 365.25, 1 / 252)
+            ret = sum(w * r for w, r in parts) / wsum if wsum > 0.8 else None
+            spx_ret = float(spx_f.iloc[end] / spx_f.iloc[start] - 1)
+            row['rules'][rule] = dict(exit=str(idx[end].date()), sessions=int(end - start), open=open_,
+                                      ret=ret, spx=spx_ret,
+                                      annual=(1 + ret) ** (1 / years) - 1 if ret is not None else None,
+                                      spx_annual=(1 + spx_ret) ** (1 / years) - 1)
+        out.append(row)
+    return out
+
+
+def exit_summary(rows, rules=EXIT_RULES):
+    out = {}
+    for rule in rules:
+        cells = [r['rules'][rule] for r in rows if r['rules'].get(rule, {}).get('ret') is not None]
+        if not cells:
+            out[rule] = dict(n=0)
+            continue
+        out[rule] = dict(n=len(cells), open=sum(c['open'] for c in cells),
+                         mean=statistics.fmean(c['ret'] for c in cells),
+                         median=statistics.median(c['ret'] for c in cells),
+                         spx_mean=statistics.fmean(c['spx'] for c in cells),
+                         beats_spx=sum(c['ret'] > c['spx'] for c in cells),
+                         sessions=statistics.median(c['sessions'] for c in cells),
+                         worst=min(c['ret'] for c in cells))
+    return out
 
 
 def weight_summary(events, horizons=HORIZONS):
@@ -417,6 +487,25 @@ def index_report(result):
             f"{_pct(e['returns']['63']['leaders'])} vs S&P {_pct(e['returns']['63']['spx'])}"
             + (f"; no shares for {', '.join(e['missing_shares'])}" if e['missing_shares'] else '') + ')'
             for e in w['events'])]
+    ex = ((result.get('panic_entry') or {}).get('weights') or {}).get('exit_summary')
+    if ex:
+        lines += ['', '#### Exit rules for the same buy (ten largest by weight)', '',
+                  'hold_63 sells after 63 sessions; euphoria at the first thermometer close at or above 80 (however '
+                  'long); euphoria_after_63 at the first such close after at least 63 sessions; euphoria_or_252 at the '
+                  'first such close, at most 252 sessions. Open = no euphoria yet, marked at the last close.', '',
+                  '| Exit | Signals | Still open | Median sessions held | Mean / median return | S&P 500 same span | '
+                  'Beats S&P | Worst |', '|---|---:|---:|---:|---|---:|---:|---:|']
+        for rule, c in ex.items():
+            if not c.get('n'):
+                lines.append(f'| {rule} | 0 | — | — | — | — | — | — |')
+                continue
+            lines.append(f"| {rule} | {c['n']} | {c['open']} | {c['sessions']:.0f} | {_pct(c['mean'])} / "
+                         f"{_pct(c['median'])} | {_pct(c['spx_mean'])} | {c['beats_spx']}/{c['n']} | {_pct(c['worst'])} |")
+        rows = ((result.get('panic_entry') or {}).get('weights') or {}).get('exits') or []
+        lines += ['', 'Per signal (euphoria exit): ' + '; '.join(
+            f"{r['date']} → {r['rules']['euphoria']['exit']} ({r['rules']['euphoria']['sessions']} sessions"
+            f"{', open' if r['rules']['euphoria']['open'] else ''}): {_pct(r['rules']['euphoria']['ret'])} vs S&P "
+            f"{_pct(r['rules']['euphoria']['spx'])}" for r in rows)]
     today = result.get('leaders_today')
     if today:
         lines += ['', f"Panic today ({today['date']}): S&P 500 leaders by the same ranking, members as of the latest "
