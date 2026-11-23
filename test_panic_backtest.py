@@ -129,6 +129,15 @@ class Stops(unittest.TestCase):
         json.dumps(summary, allow_nan=False)
 
 
+class StillPanic(unittest.TestCase):
+    def test_buy_lands_on_the_next_close_still_in_panic_or_nowhere(self):
+        idx = pd.bdate_range('2020-01-01', periods=200)
+        panic = [idx[10], idx[13], idx[100]]
+        days, skipped = pb.still_panic_days([idx[10], idx[100]], panic, idx)
+        self.assertEqual(days, [idx[12]])              # buys at idx[13], the next panic close after idx[10]
+        self.assertEqual(skipped, [idx[100]])         # no later panic close: no buy
+
+
 class Splits(unittest.TestCase):
     def test_reported_shares_are_put_in_todays_split_terms(self):
         splits = [(pd.Timestamp('2020-08-31'), 4.0), (pd.Timestamp('2021-08-02'), 0.125)]
