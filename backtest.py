@@ -628,6 +628,11 @@ def complete_report(result):
         md += index_backtest.report(result['index_timing'])
     elif result.get('index_timing_error'):
         md += '\n## Index ETF timing\n\nNot computed: ' + result['index_timing_error'] + '\n'
+    if result.get('rebound'):
+        import rebound_backtest
+        md += rebound_backtest.report(result['rebound'])
+    elif result.get('rebound_error'):
+        md += '\n## Buy the oversold dip, sell the rebound\n\nNot computed: ' + result['rebound_error'] + '\n'
     return md
 
 
@@ -712,6 +717,11 @@ def main():
         result['pairs'] = pairs_backtest.study(prepared[0], sectors, spx, WINDOWS)
     except Exception as exc:               # pragma: no cover - reported in the results instead
         result['pairs_error'] = f'{type(exc).__name__}: {exc}'
+    try:                                   # oversold-rebound study (rebound_backtest.py)
+        import rebound_backtest
+        result['rebound'] = rebound_backtest.study(frames, spx, WINDOWS)
+    except Exception as exc:               # pragma: no cover - reported in the results instead
+        result['rebound_error'] = f'{type(exc).__name__}: {exc}'
     try:                                   # index ETF timing (index_backtest.py); separate small download
         import index_backtest
         index_close, index_ohlc = index_backtest.download(f'{HISTORY_YEARS}y')
