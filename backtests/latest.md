@@ -200,7 +200,7 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | rebound_sleeve_below_200d | 0/3 | 1/3 | 1/3 |
 | rebound_sleeve_no_stop | 1/3 | 1/3 | 1/3 |
 
-Symbols: 125 · generated 2026-11-23T17:07+00:00 · price data 07627e9ba8e06dee
+Symbols: 125 · generated 2026-11-23T17:51+00:00 · price data 07627e9ba8e06dee
 
 ## Valuation coverage
 
@@ -436,11 +436,11 @@ Rules against buy and hold from 20 paired starts per period. Costs 0.1% per posi
 | 2018-01-02 → 2021-12-31 | codex_20d_5d_long_only | 0/20 | 2.17% | -12.94 [-13.91, -11.46] | -0.48 | +24.82 |
 | 2018-01-02 → 2021-12-31 | trend_200d | 0/20 | 7.85% | -6.99 [-7.12, -6.79] | -0.08 | +18.78 |
 | 2018-01-02 → 2021-12-31 | codex_intraday_account | 0/20 | -25.59% | -40.58 [-42.15, -38.68] | -5.30 | -32.76 |
-| 2022-01-03 → 2026-11-23 | buy_and_hold | — | 9.05% | — | — | — |
-| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_short | 0/20 | -9.16% | -20.57 [-25.87, -18.01] | -1.35 | -21.46 |
-| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_only | 0/20 | 1.55% | -10.23 [-13.58, -8.60] | -0.50 | +13.57 |
-| 2022-01-03 → 2026-11-23 | trend_200d | 0/20 | 8.21% | -3.43 [-6.32, -2.52] | +0.04 | +12.63 |
-| 2022-01-03 → 2026-11-23 | codex_intraday_account | 0/20 | -24.29% | -36.04 [-40.32, -33.25] | -4.96 | -50.88 |
+| 2022-01-03 → 2026-11-23 | buy_and_hold | — | 9.03% | — | — | — |
+| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_short | 0/20 | -9.14% | -20.52 [-25.83, -17.97] | -1.34 | -21.46 |
+| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_only | 0/20 | 1.55% | -10.20 [-13.56, -8.58] | -0.50 | +13.57 |
+| 2022-01-03 → 2026-11-23 | trend_200d | 0/20 | 8.21% | -3.41 [-6.30, -2.49] | +0.04 | +12.63 |
+| 2022-01-03 → 2026-11-23 | codex_intraday_account | 0/20 | -24.29% | -36.01 [-40.29, -33.22] | -4.96 | -50.88 |
 
 Passes: codex_20d_5d_long_short no, codex_20d_5d_long_only no, trend_200d no, codex_intraday_account no
 
@@ -532,5 +532,31 @@ Signals: 2015-08-24 (368/500 members priced; leader NFLX, 63 sessions +22.9%; to
 | 252 | 6 | +52.0% / +3.5% | +27.6% | +17.5% | +28.4% | +22.4% | 2/6 | -17.4% |
 
 Signals: 2015-08-27 (368/500 members priced; leader NFLX, 63 sessions +6.4%; top 5 NFLX, AMZN, UAA, EXPE, MLM); 2016-01-22 (374/505 members priced; leader NVDA, 63 sessions +28.5%; top 5 NVDA, HRL, FSLR, EXR, AMZN); 2019-01-02 (418/505 members priced; leader CHD, 63 sessions +13.2%; top 5 CHD, MKC, AZO, LLY, MRK); 2020-04-14 (437/505 members priced; leader REGN, 63 sessions +23.4%; top 5 REGN, KR, NVDA, NEM, AMD); 2022-03-09 (457/505 members priced; leader DVN, 63 sessions +30.4%; top 5 DVN, OXY, APA, HAL, CF); 2025-04-09 (485/503 members priced; leader PLTR, 63 sessions +68.0%; top 5 PLTR, TPR, GILD, EQT, VRSN)
+
+#### Ten largest S&P 500 members by market cap, cap-weighted (first panic close)
+
+Market cap = close x Yahoo shares outstanding on the day; looked up for the 40 most traded members. This is the rule of the index-leaders paper account (index_leaders.py).
+
+| Sessions | Signals | Top 10 by weight mean / median | S&P 500 mean / median | Beats S&P | Worst |
+|---:|---:|---|---|---:|---:|
+| 21 | 5 | +5.3% / +7.0% | +4.4% / +6.7% | 5/5 | -3.7% |
+| 63 | 5 | +13.2% / +11.2% | +11.7% / +11.4% | 3/5 | +0.4% |
+| 126 | 5 | +20.9% / +14.9% | +15.4% / +15.4% | 4/5 | -2.3% |
+| 252 | 5 | +30.1% / +38.1% | +22.8% / +30.3% | 4/5 | -1.7% |
+
+Signals: 2016-01-15 (GE 38%, MSFT 12%, BRK-B 10%, XOM 7%, JNJ 7%…; 63 sessions +11.2% vs S&P +11.4%; no shares for BKNG); 2018-12-19 (MSFT 24%, BRK-B 15%, GE 10%, JNJ 9%, V 9%…; 63 sessions +13.3% vs S&P +13.2%); 2020-03-09 (MSFT 29%, BRK-B 12%, V 10%, GE 9%, JNJ 8%…; 63 sessions +8.5% vs S&P +11.1%); 2022-03-07 (AAPL 33%, MSFT 26%, BRK-B 9%, UNH 5%, JNJ 5%…; 63 sessions +0.4% vs S&P -0.4%); 2025-04-04 (AAPL 17%, MSFT 16%, NVDA 14%, AMZN 11%, GOOG 11%…; 63 sessions +32.5% vs S&P +23.5%)
+
+#### Exit rules for the same buy (ten largest by weight)
+
+hold_63 sells after 63 sessions; euphoria at the first thermometer close at or above 80 (however long); euphoria_after_63 at the first such close after at least 63 sessions; euphoria_or_252 at the first such close, at most 252 sessions. Open = no euphoria yet, marked at the last close.
+
+| Exit | Signals | Still open | Median sessions held | Mean / median return | S&P 500 same span | Beats S&P | Worst |
+|---|---:|---:|---:|---|---:|---:|---:|
+| hold_63 | 5 | 0 | 63 | +13.2% / +11.2% | +12.0% | 2/5 | +0.4% |
+| euphoria | 5 | 0 | 61 | +13.5% / +10.3% | +12.0% | 4/5 | +1.1% |
+| euphoria_after_63 | 5 | 0 | 68 | +14.8% / +13.1% | +13.3% | 2/5 | +1.1% |
+| euphoria_or_252 | 5 | 0 | 61 | +13.5% / +10.3% | +12.0% | 4/5 | +1.1% |
+
+Per signal (euphoria exit): 2016-01-15 → 2016-04-01 (51 sessions): +10.3% vs S&P +10.2%; 2018-12-19 → 2019-03-21 (61 sessions): +16.1% vs S&P +15.7%; 2020-03-09 → 2020-06-08 (62 sessions): +9.0% vs S&P +12.1%; 2022-03-07 → 2023-02-02 (228 sessions): +1.1% vs S&P +0.2%; 2025-04-04 → 2025-06-27 (56 sessions): +31.2% vs S&P +21.9%
 
 Panic today (2026-11-20): S&P 500 leaders by the same ranking, members as of the latest list (497/503 priced): MRNA 2.23, CRL 1.49, VEEV 1.40, RVTY 1.36, CRWD 1.36, MPC 1.34, ACN 1.32, HUM 1.31, BBY 1.30, PTC 1.30
