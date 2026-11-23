@@ -5,7 +5,9 @@ name: index-leaders
 # panic close (thermometer under 20) of an episode and sell them 63 sessions later. Paper only.
 on:
   schedule:
-    - cron: '41 22 * * 1-5'     # 22:41 UTC, after the 21:00 UTC US close
+    - cron: '41 22 * * 1-5'     # after the US close: fill a pending order at the close, mark, sell
+    - cron: '40 19 * * 1-5'     # ~20 min before the close in summer (EDT): intraday thermometer decides the buy
+    - cron: '40 20 * * 1-5'     # the same in winter (EST); index_leaders.py --decide acts only 15:10-15:55 New York
   workflow_dispatch:
 
 permissions:
@@ -31,8 +33,14 @@ jobs:
       - name: Install
         run: pip install -r requirements-research.txt
       - name: Advance the account
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
         run: |
-          python index_leaders.py | tee run.json
+          if [ "$SCHEDULE" = '40 19 * * 1-5' ] || [ "$SCHEDULE" = '40 20 * * 1-5' ]; then
+            python index_leaders.py --decide | tee run.json
+          else
+            python index_leaders.py | tee run.json
+          fi
           { echo '### Panic & index leaders'; echo '```json'; cat run.json; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
       - name: Commit and republish
         env:
@@ -43,7 +51,7 @@ jobs:
           git config user.email "investorace-bot@users.noreply.github.com"
           git add paper_trades/index-leaders.json index-leaders/latest.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -qm "index leaders: $(date -u +%F)"
+          git commit -qm "index leaders: $(date -u '+%F %H:%M')"
           for attempt in 1 2 3 4 5; do
             if git push -q origin "HEAD:$BRANCH"; then pushed=true; break; fi
             git pull -q --rebase origin "$BRANCH"     # only this workflow writes these two files
