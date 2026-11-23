@@ -178,7 +178,15 @@ VARIANTS = {
     'ewma_position_size': dict(sell_failed_breakout=True, vol_sizing='ewma'),
     'garch_exposure': dict(sell_failed_breakout=True, vol_exposure='garch'),
     'ewma_exposure': dict(sell_failed_breakout=True, vol_exposure='ewma'),
+    # User's request (23 Nov 2026, after NVDA's +28%): buy the oversold dip to sell the rebound. A sleeve on top
+    # of v1.6, allowed in corrections too: three red closes and at least 3 ATR under the 21-day EMA; out at the
+    # first close above the 10-day EMA, after 10 sessions, or at an 8% stop (close); 1% risk (12.5% of equity)
+    # each, at most 3 at a time, most oversold first. rebound_backtest.py tests the same signal trade by trade.
+    'rebound_sleeve': dict(sell_failed_breakout=True, rebound='all'),
+    'rebound_sleeve_below_200d': dict(sell_failed_breakout=True, rebound='below'),
+    'rebound_sleeve_no_stop': dict(sell_failed_breakout=True, rebound='all', rebound_stop=False),
 }
+REBOUND_SLOTS, REBOUND_STOP, REBOUND_HOLD, REBOUND_OVERSOLD = 3, 0.08, 10, 3.0
 VOL_WEIGHT, VOL_TYPICAL, VOL_FLOOR, VOL_TARGET = 0.125, 0.30, 0.05, 0.15
 SHORT_STOP, SHORT_SIZE, SHORT_TOTAL, BORROW = 0.08, 0.10, 0.40, 0.02
 
@@ -217,6 +225,17 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
         market_vol = volatility.series(rule['vol_exposure'], spx)
     short_pos = {}
     stale_sessions = {}
+    reb_pos, reb_signal = {}, None
+    weekly = rule.get('weekly_sleeve')
+    weekly_fills = 0
+    if rule.get('rebound'):
+        ext = pd.DataFrame({s: f['ext_atr'] for s, f in frames.items()}).reindex(close.index)
+        sma200 = pd.DataFrame({s: f['sma200'] for s, f in frames.items()}).reindex(close.index)
+        red3 = ((close < close.shift(1)) & (close.shift(1) < close.shift(2)) & (close.shift(2) < close.shift(3)))
+        reb_signal = red3 & (ext <= -REBOUND_OVERSOLD)
+        if rule['rebound'] == 'below':
+            reb_signal &= close < sma200
+        reb_ext = ext
     for i, day in enumerate(dates):
         px = close.loc[day]
         for s, p in pos.items():
@@ -225,7 +244,8 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                 stale_sessions[s] = max(stale_sessions.get(s, 0), p['stale'])
         liability = sum(p['shares'] * marks.at[day, s] for s, p in short_pos.items())
         cash -= liability * BORROW / 252
-        equity = cash + sum(p['shares'] * marks.at[day, s] for s, p in pos.items()) - liability
+        equity = (cash + sum(p['shares'] * marks.at[day, s] for s, p in pos.items()) - liability
+                  + sum(p['shares'] * marks.at[day, s] for s, p in reb_pos.items()))
         curve.append((day, equity))
         if i == len(dates) - 1:
             break
@@ -281,7 +301,7 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
             sector_count[sectors.get(s)] = sector_count.get(sectors.get(s), 0) + 1
         cands = []
         for s, f in candidates.get(day, ()):
-            if s in pos or (s in cooldown and i - cooldown[s] <= 10):
+            if s in pos or s in reb_pos or (s in cooldown and i - cooldown[s] <= 10):
                 continue
             c = f.close
             if c < f.sma200 * (1 + rule.get('sma200_buffer', 0.)):
@@ -364,6 +384,57 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                 room -= shares * c
                 short_plan.append((s, shares))
             planned = [x for x in planned if x[0] not in {s for s, _ in short_plan}]
+        reb_sells, reb_plan = [], []
+        if reb_signal is not None or weekly is not None:
+            for s, p in reb_pos.items():
+                f = rows[s][day]
+                c = f.close
+                if weekly is not None:
+                    # Latch an exit decision across a missing fill, including holidays and suspensions.
+                    why = p.get('exit_reason') or weekly.exit_reason(s, day, c, p)
+                    if why:
+                        p['exit_reason'] = why
+                    p['held'] += 1
+                else:
+                    if np.isnan(c):
+                        continue
+                    p['held'] += 1
+                    why = ('STOP' if rule.get('rebound_stop', True) and c <= p['entry'] * (1 - REBOUND_STOP)
+                           else 'REBOUND' if c > f.ema10 else 'MAX_HOLD' if p['held'] >= REBOUND_HOLD else None)
+                if why:
+                    reb_sells.append((s, why))
+            open_reb = len(reb_pos) - len(reb_sells)
+            if weekly is None:
+                today = reb_signal.loc[day]
+                signals = ((reb_ext.at[day, s], s) for s in today.index[today.to_numpy(bool)])
+            else:
+                signals = weekly.entries.get(day, ())
+            planned_symbols = {x[0] for x in planned}
+            picks = sorted((rank, s) for rank, s in signals if s not in pos and s not in reb_pos
+                           and s not in short_pos and s not in planned_symbols)
+            for _, s in picks:
+                if open_reb + len(reb_plan) >= REBOUND_SLOTS:
+                    break
+                c = close.at[day, s]
+                shares = math.floor(min(equity * 0.01 / (REBOUND_STOP * c), buying_cash / (c * (1 + COST))))
+                if shares < 1 or shares * c < 50:
+                    continue
+                buying_cash -= shares * c * (1 + COST)
+                reb_plan.append((s, shares))
+        for s, why in reb_sells:
+            fill = close.at[nxt, s]
+            if np.isnan(fill):
+                continue
+            p = reb_pos.pop(s)
+            cash += p['shares'] * fill * (1 - COST)
+            trades.append(dict(symbol=s, side='REBOUND', ret=fill * (1 - COST) / (p['entry'] * (1 + COST)) - 1,
+                               held=p['held'], why=why))
+        for s, shares in (reb_plan if weekly is None else ()):
+            fill = close.at[nxt, s]
+            if np.isnan(fill) or s in pos or shares * fill * (1 + COST) > cash:
+                continue
+            cash -= shares * fill * (1 + COST)
+            reb_pos[s] = dict(shares=shares, entry=fill, held=0)
         if trace is not None and (sells or planned):
             trace.decisions[str(day.date())] = ([('SELL', s, pos[s]['shares']) for s, _ in sells] +
                                                 [('BUY', s, n) for s, n, _ in planned])
@@ -395,7 +466,7 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
             cooldown[s] = i
         for s, shares, resistance in planned:
             fill = close.at[nxt, s]
-            if np.isnan(fill) or len(pos) >= 8:
+            if np.isnan(fill) or len(pos) >= 8 or s in reb_pos:
                 continue
             sector = sectors.get(s)
             if sector and sum(sectors.get(t) == sector for t in pos) >= 2:
@@ -408,12 +479,31 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                 f = rows[s][day]
                 trace.buy(s, day, nxt, shares, fill, 100 * (f.close / f.sma200 - 1), COST)
             pos[s] = dict(shares=shares, entry=fill, peak=fill, held=0, fast=False, res=resistance)
+        if weekly is not None:
+            # Base orders have first claim on cash. A failed exit never creates a fourth slot.
+            for s, shares in reb_plan:
+                fill = close.at[nxt, s]
+                if not np.isfinite(fill) or fill <= 0 or s in pos or len(reb_pos) >= REBOUND_SLOTS:
+                    continue
+                available = max(0, cash - CAPITAL * .03)
+                shares = min(shares, math.floor(available / (fill * (1 + COST))),
+                             math.floor(equity * .125 / fill))
+                if shares < 1 or shares * fill < 50:
+                    continue
+                cash -= shares * fill * (1 + COST)
+                reb_pos[s] = dict(shares=shares, entry=fill, entered=nxt, held=0)
+                weekly_fills += 1
     curve = pd.Series(dict(curve)).sort_index()
     if trace is not None:
         trace.final = float(curve.iloc[-1])
         for s in pos:
             trace.mark(s, dates[-1], marks.at[dates[-1], s], 'OPEN_MARK', 0)
     result = _metrics(curve, trades, precise=precise)
+    if weekly is not None:
+        result['weekly_fills'] = weekly_fills
+        result['weekly_open'] = len(reb_pos)
+        result['weekly_exits'] = {reason: sum(t.get('side') == 'REBOUND' and t['why'] == reason for t in trades)
+                                  for reason in ('STOP', 'WEEKLY_BREAK', 'MAX_HOLD')}
     result['longest_carried_mark'] = stale_sessions
     result['unpriced_at_end'] = sorted(s for s in pos if pos[s].get('stale'))
     return result
@@ -628,6 +718,16 @@ def complete_report(result):
         md += index_backtest.report(result['index_timing'])
     elif result.get('index_timing_error'):
         md += '\n## Index ETF timing\n\nNot computed: ' + result['index_timing_error'] + '\n'
+    if result.get('rebound'):
+        import rebound_backtest
+        md += rebound_backtest.report(result['rebound'])
+    elif result.get('rebound_error'):
+        md += '\n## Buy the oversold dip, sell the rebound\n\nNot computed: ' + result['rebound_error'] + '\n'
+    if result.get('panic'):
+        import panic_backtest
+        md += panic_backtest.report(result['panic'])
+    elif result.get('panic_error'):
+        md += '\n## Thermometer "Panic · buy"\n\nNot computed: ' + result['panic_error'] + '\n'
     return md
 
 
@@ -712,6 +812,22 @@ def main():
         result['pairs'] = pairs_backtest.study(prepared[0], sectors, spx, WINDOWS)
     except Exception as exc:               # pragma: no cover - reported in the results instead
         result['pairs_error'] = f'{type(exc).__name__}: {exc}'
+    try:                                   # oversold-rebound study (rebound_backtest.py)
+        import rebound_backtest
+        result['rebound'] = rebound_backtest.study(frames, spx, WINDOWS)
+    except Exception as exc:               # pragma: no cover - reported in the results instead
+        result['rebound_error'] = f'{type(exc).__name__}: {exc}'
+    try:                                   # thermometer panic signal (panic_backtest.py); separate VIX download
+        import panic_backtest
+        result['panic'] = panic_backtest.study(frames, spx, panic_backtest.download_vix(period))
+        try:                               # leaders of the S&P 500 itself, members as on each signal day
+            panic_backtest.index_study(result['panic'], panic_backtest.fetch_members(),
+                                       lambda t: panic_backtest.download_closes(t, period), spx,
+                                       shares=panic_backtest.yahoo_shares)
+        except Exception as exc:           # pragma: no cover - reported in the results instead
+            result['panic']['index_error'] = f'{type(exc).__name__}: {exc}'
+    except Exception as exc:               # pragma: no cover - reported in the results instead
+        result['panic_error'] = f'{type(exc).__name__}: {exc}'
     try:                                   # index ETF timing (index_backtest.py); separate small download
         import index_backtest
         index_close, index_ohlc = index_backtest.download(f'{HISTORY_YEARS}y')
