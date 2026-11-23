@@ -124,6 +124,9 @@ def study(frames, spx, vix):
     entries, exits = signals(h)
     result = dict(last_heat=dict(date=str(h.dropna().index[-1].date()), value=round(float(h.dropna().iloc[-1]), 1))
                   if h.notna().any() else None)
+    last = h.dropna()
+    if len(last) and last.iloc[-1] < PANIC:
+        result['panic_today'] = str(last.index[-1].date())
     for name, days in (('panic_entry', entries), ('panic_exit', exits)):
         events = [e for e in (outcomes(d, close, mad, spx) for d in days) if e]
         for e in events:
@@ -160,7 +163,7 @@ def report(result):
         lines += ['', 'Signals: ' + '; '.join(
             f"{e['date']} (heat {e['heat']}, leader {e['leader']}: 63 sessions {_pct(e['returns']['63']['leader'])}, "
             f"S&P {_pct(e['returns']['63']['spx'])})" for e in block.get('events', []))]
-    return '\n'.join(lines) + '\n'
+    return '\n'.join(lines) + '\n' + index_report(result)
 
 
 def download_vix(period):
@@ -169,3 +172,152 @@ def download_vix(period):
     s = raw['Close']['^VIX'].dropna().round(4)
     s.index = s.index.tz_localize(None) if s.index.tz is not None else s.index
     return s
+
+
+# ------------------------------------------------------------------ index leaders, point in time
+MEMBERS_URL = ('https://raw.githubusercontent.com/fja05680/sp500/master/'
+               'S%26P%20500%20Historical%20Components%20%26%20Changes%20(Updated).csv')
+
+
+def parse_members(text):
+    """[(date, [tickers])] from the fja05680/sp500 file: S&P 500 members on each change date since 1996."""
+    import csv
+    import io
+    rows = []
+    for row in csv.DictReader(io.StringIO(text)):
+        rows.append((pd.Timestamp(row['date']), [t.strip() for t in row['tickers'].split(',') if t.strip()]))
+    return sorted(rows)
+
+
+def members_on(rows, day):
+    """Members on `day`: the last list dated on or before it (None when the file ends before `day`)."""
+    last = None
+    for date, tickers in rows:
+        if date > day:
+            break
+        last = tickers
+    if rows and day > rows[-1][0] + pd.Timedelta(days=120):
+        return None                      # the file is too old to know the members on that day
+    return last
+
+
+def yahoo(ticker):
+    return ticker.replace('.', '-')
+
+
+def index_leaders(days, rows, close, spx, horizons=HORIZONS, top=(1, 5, 10)):
+    """Point-in-time S&P 500 leaders at each signal day.
+
+    close: daily closes for every ticker that was a member on any signal day (Yahoo symbols). Members without
+    a price on the day (mostly delisted or acquired later) are counted, not guessed."""
+    events = []
+    for day in days:
+        members = members_on(rows, day)
+        if not members or day not in close.index:
+            continue
+        cols = [yahoo(t) for t in members if yahoo(t) in close.columns]
+        hist = close.loc[:day, cols]
+        sma21, sma200 = hist.iloc[-21:].mean(), hist.iloc[-200:].mean()
+        ok = hist.iloc[-1].notna() & (hist.count() >= 200)
+        strength = (sma21 / sma200)[ok].dropna().sort_values(ascending=False)
+        if strength.empty:
+            continue
+        pos = close.index.get_loc(day)
+        spx_pos = spx.index.get_loc(day) if day in spx.index else None
+        event = dict(date=str(day.date()), members=len(members), priced=int(ok.sum()),
+                     leaders=list(strength.index[:max(top)]), returns={})
+        for h in horizons:
+            cell = {}
+            for n in top:
+                rets = [_ret(close[s], pos + 1, h) for s in strength.index[:n]]
+                cell[f'top{n}'] = _mean(rets)
+            cell['all_members'] = _mean([_ret(close[s], pos + 1, h) for s in strength.index])
+            cell['spx'] = _ret(spx, spx_pos + 1, h) if spx_pos is not None else None
+            event['returns'][str(h)] = cell
+        events.append(event)
+    return events
+
+
+def leader_summary(events, horizons=HORIZONS):
+    out = {}
+    for h in horizons:
+        rows = [e['returns'][str(h)] for e in events if all(v is not None for v in e['returns'][str(h)].values())]
+        cell = dict(n=len(rows))
+        for k in (rows[0].keys() if rows else ()):
+            xs = [r[k] for r in rows]
+            cell[k] = dict(mean=statistics.fmean(xs), median=statistics.median(xs), positive=sum(x > 0 for x in xs),
+                           worst=min(xs))
+        if rows:
+            cell['top1_beats_spx'] = sum(r['top1'] > r['spx'] for r in rows)
+        out[str(h)] = cell
+    return out
+
+
+def index_study(result, rows, download, spx):
+    """Adds the point-in-time index leaders for the panic signals already in `result`."""
+    for name in ('panic_entry', 'panic_exit'):
+        days = [pd.Timestamp(e['date']) for e in result[name]['events']]
+        tickers = sorted({yahoo(t) for d in days for t in (members_on(rows, d) or [])})
+        if not tickers:
+            continue
+        close = download(tickers)
+        close = close.reindex(spx.index)
+        events = index_leaders(days, rows, close, spx)
+        result[name]['index'] = dict(events=events, summary=leader_summary(events))
+    if result.get('panic_today'):
+        day = pd.Timestamp(result['panic_today'])
+        members = members_on(rows, day) or []
+        close = download(sorted({yahoo(t) for t in members})).reindex(spx.index)
+        hist = close.loc[:day]
+        ok = hist.iloc[-1].notna() & (hist.count() >= 200)
+        strength = (hist.iloc[-21:].mean() / hist.iloc[-200:].mean())[ok].dropna().sort_values(ascending=False)
+        result['leaders_today'] = dict(date=str(day.date()), members=len(members), priced=int(ok.sum()),
+                                       leaders=[[s, round(float(v), 3)] for s, v in strength.iloc[:10].items()])
+    return result
+
+
+def download_closes(tickers, period):
+    import yfinance as yf
+    raw = yf.download(tickers, period=period, auto_adjust=True, progress=False, threads=True, group_by='column')
+    close = raw['Close'].round(4)
+    close.index = close.index.tz_localize(None) if close.index.tz is not None else close.index
+    return close
+
+
+def fetch_members(url=MEMBERS_URL):
+    import urllib.request
+    request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (InvestorAce backtest)'})
+    with urllib.request.urlopen(request, timeout=60) as response:
+        return parse_members(response.read().decode('utf-8'))
+
+
+def index_report(result):
+    if result.get('index_error'):
+        return '\n### S&P 500 leaders, point in time\n\nNot computed: ' + result['index_error'] + '\n'
+    lines = ['', '### S&P 500 leaders, point in time', '',
+             'Members on the signal day from the fja05680/sp500 history (including companies that later left the '
+             'index); leader = highest 21/200-day average ratio among members with 200 sessions of prices. Members '
+             'without Yahoo prices (mostly delisted later) are counted and left out, so a little survivorship remains.']
+    for name, title in (('panic_entry', 'First panic close'), ('panic_exit', 'First close back above 20')):
+        block = (result.get(name) or {}).get('index')
+        if not block:
+            continue
+        lines += ['', f'#### {title}', '',
+                  '| Sessions | Signals | Leader mean / median | Top 5 mean | Top 10 mean | All members mean | S&P 500 mean | '
+                  'Leader beats S&P | Leader worst |', '|---:|---:|---|---:|---:|---:|---:|---:|---:|']
+        for h, c in block['summary'].items():
+            if not c.get('n'):
+                lines.append(f'| {h} | 0 | — | — | — | — | — | — | — |')
+                continue
+            lines.append(f"| {h} | {c['n']} | {_pct(c['top1']['mean'])} / {_pct(c['top1']['median'])} | "
+                         f"{_pct(c['top5']['mean'])} | {_pct(c['top10']['mean'])} | {_pct(c['all_members']['mean'])} | "
+                         f"{_pct(c['spx']['mean'])} | {c['top1_beats_spx']}/{c['n']} | {_pct(c['top1']['worst'])} |")
+        lines += ['', 'Signals: ' + '; '.join(
+            f"{e['date']} ({e['priced']}/{e['members']} members priced; leader {e['leaders'][0]}, 63 sessions "
+            f"{_pct(e['returns']['63']['top1'])}; top 5 {', '.join(e['leaders'][:5])})" for e in block['events'])]
+    today = result.get('leaders_today')
+    if today:
+        lines += ['', f"Panic today ({today['date']}): S&P 500 leaders by the same ranking, members as of the latest "
+                  f"list ({today['priced']}/{today['members']} priced): "
+                  + ', '.join(f'{s} {v:.2f}' for s, v in today['leaders'])]
+    return '\n'.join(lines) + '\n'

@@ -820,6 +820,11 @@ def main():
     try:                                   # thermometer panic signal (panic_backtest.py); separate VIX download
         import panic_backtest
         result['panic'] = panic_backtest.study(frames, spx, panic_backtest.download_vix(period))
+        try:                               # leaders of the S&P 500 itself, members as on each signal day
+            panic_backtest.index_study(result['panic'], panic_backtest.fetch_members(),
+                                       lambda t: panic_backtest.download_closes(t, period), spx)
+        except Exception as exc:           # pragma: no cover - reported in the results instead
+            result['panic']['index_error'] = f'{type(exc).__name__}: {exc}'
     except Exception as exc:               # pragma: no cover - reported in the results instead
         result['panic_error'] = f'{type(exc).__name__}: {exc}'
     try:                                   # index ETF timing (index_backtest.py); separate small download

@@ -54,5 +54,37 @@ class Outcomes(unittest.TestCase):
         self.assertIn('Panic · buy', pb.report(result))
 
 
+class IndexLeaders(unittest.TestCase):
+    TEXT = ('date,tickers\n2019-01-02,"AAA,BBB,GONE"\n2019-06-03,"AAA,BBB,NEW"\n')
+
+    def test_members_are_taken_as_of_the_day(self):
+        rows = pb.parse_members(self.TEXT)
+        self.assertEqual(pb.members_on(rows, pd.Timestamp('2019-03-01')), ['AAA', 'BBB', 'GONE'])
+        self.assertEqual(pb.members_on(rows, pd.Timestamp('2019-07-01')), ['AAA', 'BBB', 'NEW'])
+        self.assertIsNone(pb.members_on(rows, pd.Timestamp('2018-12-31')))
+        self.assertIsNone(pb.members_on(rows, pd.Timestamp('2020-06-01')))          # list too old to know
+        self.assertEqual(pb.yahoo('BRK.B'), 'BRK-B')
+
+    def test_leader_is_the_strongest_member_and_later_members_are_ignored(self):
+        idx = pd.bdate_range('2018-06-01', periods=400)
+        close = pd.DataFrame({'AAA': np.linspace(50, 150, 400), 'BBB': np.full(400, 100.),
+                              'GONE': np.linspace(100, 60, 400), 'NEW': np.linspace(10, 500, 400)}, index=idx)
+        close.loc[idx[300]:, 'GONE'] = np.nan                     # delisted after the signal
+        spx = pd.Series(np.linspace(100, 120, 400), index=idx)
+        day = idx[250]
+        events = pb.index_leaders([day], pb.parse_members(self.TEXT), close, spx, horizons=(21, 63))
+        self.assertEqual(events[0]['leaders'][:2], ['AAA', 'BBB'])     # NEW was not a member yet
+        self.assertEqual(events[0]['priced'], 3)
+        r = events[0]['returns']['21']
+        self.assertAlmostEqual(r['top1'], close['AAA'].iloc[272] / close['AAA'].iloc[251] * (1 - pb.COST) / (1 + pb.COST) - 1)
+        summary = pb.leader_summary(events, horizons=(21, 63))
+        self.assertEqual(summary['21']['n'], 1)
+        result = dict(panic_entry=dict(events=[], index=dict(events=events, summary=summary)),
+                      leaders_today=dict(date='2019-05-01', members=3, priced=3, leaders=[['AAA', 1.2]]))
+        text = pb.index_report(result)
+        self.assertIn('Panic today', text)
+        self.assertIn('Not computed', pb.index_report(dict(index_error='boom')))
+
+
 if __name__ == '__main__':
     unittest.main()
