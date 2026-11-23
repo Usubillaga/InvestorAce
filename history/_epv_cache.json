@@ -5721,7 +5721,7 @@
   }
  },
  "NTAP": {
-  "asof": "2026-11-16",
+  "asof": "2026-11-23",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -5776,7 +5776,7 @@
   }
  },
  "ROK": {
-  "asof": "2026-11-16",
+  "asof": "2026-11-23",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
