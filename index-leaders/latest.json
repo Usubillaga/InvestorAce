@@ -1,0 +1,235 @@
+{
+ "schema": "index-leaders-latest-v1",
+ "as_of": "2026-11-23T19:00+00:00",
+ "session": "2026-11-20",
+ "heat": 11.3,
+ "heat_recent": [
+  [
+   "2026-10-12",
+   78.06
+  ],
+  [
+   "2026-10-13",
+   77.59
+  ],
+  [
+   "2026-10-14",
+   70.0
+  ],
+  [
+   "2026-10-15",
+   72.0
+  ],
+  [
+   "2026-10-16",
+   62.43
+  ],
+  [
+   "2026-10-19",
+   66.18
+  ],
+  [
+   "2026-10-20",
+   68.81
+  ],
+  [
+   "2026-10-21",
+   72.33
+  ],
+  [
+   "2026-10-22",
+   63.51
+  ],
+  [
+   "2026-10-23",
+   60.48
+  ],
+  [
+   "2026-10-26",
+   65.17
+  ],
+  [
+   "2026-10-27",
+   69.09
+  ],
+  [
+   "2026-10-28",
+   71.05
+  ],
+  [
+   "2026-10-29",
+   69.06
+  ],
+  [
+   "2026-10-30",
+   57.3
+  ],
+  [
+   "2026-11-02",
+   52.86
+  ],
+  [
+   "2026-11-03",
+   55.03
+  ],
+  [
+   "2026-11-04",
+   67.52
+  ],
+  [
+   "2026-11-05",
+   32.74
+  ],
+  [
+   "2026-11-06",
+   37.33
+  ],
+  [
+   "2026-11-09",
+   55.2
+  ],
+  [
+   "2026-11-10",
+   53.87
+  ],
+  [
+   "2026-11-11",
+   62.51
+  ],
+  [
+   "2026-11-12",
+   59.37
+  ],
+  [
+   "2026-11-13",
+   56.76
+  ],
+  [
+   "2026-11-16",
+   43.35
+  ],
+  [
+   "2026-11-17",
+   35.71
+  ],
+  [
+   "2026-11-18",
+   35.81
+  ],
+  [
+   "2026-11-19",
+   25.61
+  ],
+  [
+   "2026-11-20",
+   11.3
+  ]
+ ],
+ "holdings": {
+  "SPY": [
+   {
+    "symbol": "AAPL",
+    "weight": 0.0770069,
+    "name": "Apple Inc"
+   },
+   {
+    "symbol": "NVDA",
+    "weight": 0.0758232,
+    "name": "NVIDIA Corp"
+   },
+   {
+    "symbol": "MSFT",
+    "weight": 0.0593322,
+    "name": "Microsoft Corp"
+   },
+   {
+    "symbol": "AMZN",
+    "weight": 0.0361188,
+    "name": "Amazon.com Inc"
+   },
+   {
+    "symbol": "GOOGL",
+    "weight": 0.0251408,
+    "name": "Alphabet Inc Class A"
+   },
+   {
+    "symbol": "AVGO",
+    "weight": 0.0237518,
+    "name": "Broadcom Inc"
+   },
+   {
+    "symbol": "META",
+    "weight": 0.020762898,
+    "name": "Meta Platforms Inc Class A"
+   },
+   {
+    "symbol": "GOOG",
+    "weight": 0.020247199,
+    "name": "Alphabet Inc Class C"
+   },
+   {
+    "symbol": "LLY",
+    "weight": 0.0173671,
+    "name": "Eli Lilly and Co"
+   },
+   {
+    "symbol": "TSLA",
+    "weight": 0.017252099,
+    "name": "Tesla Inc"
+   }
+  ],
+  "QQQ": [
+   {
+    "symbol": "AAPL",
+    "weight": 0.0815917,
+    "name": "Apple Inc"
+   },
+   {
+    "symbol": "NVDA",
+    "weight": 0.080005705,
+    "name": "NVIDIA Corp"
+   },
+   {
+    "symbol": "MSFT",
+    "weight": 0.062867396,
+    "name": "Microsoft Corp"
+   },
+   {
+    "symbol": "MU",
+    "weight": 0.0447466,
+    "name": "Micron Technology Inc"
+   },
+   {
+    "symbol": "AMZN",
+    "weight": 0.0420532,
+    "name": "Amazon.com Inc"
+   },
+   {
+    "symbol": "AMD",
+    "weight": 0.0369033,
+    "name": "Advanced Micro Devices Inc"
+   },
+   {
+    "symbol": "TSLA",
+    "weight": 0.0340695,
+    "name": "Tesla Inc"
+   },
+   {
+    "symbol": "META",
+    "weight": 0.029663898,
+    "name": "Meta Platforms Inc Class A"
+   },
+   {
+    "symbol": "WMT",
+    "weight": 0.026898898,
+    "name": "Walmart Inc"
+   },
+   {
+    "symbol": "GOOGL",
+    "weight": 0.026636802,
+    "name": "Alphabet Inc Class A"
+   }
+  ]
+ },
+ "events": []
+}

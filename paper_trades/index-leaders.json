@@ -1,0 +1,21 @@
+{
+ "schema": "index-leaders-v1",
+ "start": "2026-11-20",
+ "capital": 10000.0,
+ "cash": 10000.0,
+ "cost": 0.001,
+ "hold": 252,
+ "top": 10,
+ "positions": {},
+ "bought": null,
+ "signal": null,
+ "done_signals": [],
+ "trades": [],
+ "marks": [
+  {
+   "date": "2026-11-20",
+   "equity": 10000.0,
+   "heat": 11.3
+  }
+ ]
+}
