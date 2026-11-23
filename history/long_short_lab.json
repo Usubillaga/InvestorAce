@@ -1,10 +1,10 @@
 {
  "schema": "codex-long-short-v1",
- "archive_build": "20261123T191604302462-63a2750b13164da4a18666214707a605",
- "as_of": "2026-11-23T14:16:04.302462-05:00",
+ "archive_build": "20261123T234249721004-a6fe0a709d4545a5a56802d98c67ae08",
+ "as_of": "2026-11-23T18:42:49.721004-05:00",
  "opportunity_version": "opportunity-v18.1",
  "timing_version": "experimental-timing-v2",
- "verified_builds": 148,
+ "verified_builds": 149,
  "parameters": {
   "capital_usd": 10000.0,
   "position_usd": 500.0,
@@ -972,34 +972,44 @@
   }
  },
  "paper": {
-  "sessions": 0,
-  "decision_sessions": 0,
-  "first": null,
-  "last": null,
-  "final_equity": null,
-  "return_pct": null,
-  "drawdown_pct": null,
+  "sessions": 1,
+  "decision_sessions": 1,
+  "first": "2026-11-23",
+  "last": "2026-11-23",
+  "final_equity": 9999.5,
+  "return_pct": -0.004999999999999449,
+  "drawdown_pct": -0.004999999999999449,
   "gap_sessions": 0,
-  "execution_fees": 0.0,
+  "execution_fees": 0.5,
   "borrow_cost": 0.0,
   "borrow_stress_cost": 0.0,
   "by_side": {
    "LONG": {
     "entries": 0,
     "exits": 0,
-    "net_pnl": null
+    "net_pnl": 0.0
    },
    "SHORT": {
-    "entries": 0,
+    "entries": 1,
     "exits": 0,
-    "net_pnl": null
+    "net_pnl": -0.5
    }
   },
   "fundamental_sides": [
    "LONG"
   ],
-  "positions": {},
-  "pending": [
+  "positions": {
+   "AVGO": {
+    "symbol": "AVGO",
+    "side": "SHORT",
+    "opened_on": "2026-11-23",
+    "entry_close": 313.54998779296875,
+    "marked_on": "2026-11-23",
+    "marked_notional": 500.0
+   }
+  },
+  "pending": [],
+  "orders": [
    {
     "ticker": "AVGO",
     "symbol": "AVGO",
@@ -1016,10 +1026,20 @@
     "fundamental_score": null,
     "quality_score": null,
     "reason": "Trend and SMA36 crossing",
-    "status": "PENDING"
+    "execution_session": "2026-11-23",
+    "status": "FILLED",
+    "price_build": "20261123T234249721004-a6fe0a709d4545a5a56802d98c67ae08",
+    "execution_close": 313.54998779296875,
+    "turnover": 500.0,
+    "fee": 0.5
    }
   ],
-  "orders": [],
-  "daily_equity": []
+  "daily_equity": [
+   {
+    "session": "2026-11-23",
+    "equity": 9999.5,
+    "missing": []
+   }
+  ]
  }
 }
