@@ -226,6 +226,8 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
     short_pos = {}
     stale_sessions = {}
     reb_pos, reb_signal = {}, None
+    weekly = rule.get('weekly_sleeve')
+    weekly_fills = 0
     if rule.get('rebound'):
         ext = pd.DataFrame({s: f['ext_atr'] for s, f in frames.items()}).reindex(close.index)
         sma200 = pd.DataFrame({s: f['sma200'] for s, f in frames.items()}).reindex(close.index)
@@ -383,22 +385,33 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                 short_plan.append((s, shares))
             planned = [x for x in planned if x[0] not in {s for s, _ in short_plan}]
         reb_sells, reb_plan = [], []
-        if reb_signal is not None:
+        if reb_signal is not None or weekly is not None:
             for s, p in reb_pos.items():
                 f = rows[s][day]
                 c = f.close
-                if np.isnan(c):
-                    continue
-                p['held'] += 1
-                why = ('STOP' if rule.get('rebound_stop', True) and c <= p['entry'] * (1 - REBOUND_STOP)
-                       else 'REBOUND' if c > f.ema10 else 'MAX_HOLD' if p['held'] >= REBOUND_HOLD else None)
+                if weekly is not None:
+                    # Latch an exit decision across a missing fill, including holidays and suspensions.
+                    why = p.get('exit_reason') or weekly.exit_reason(s, day, c, p)
+                    if why:
+                        p['exit_reason'] = why
+                    p['held'] += 1
+                else:
+                    if np.isnan(c):
+                        continue
+                    p['held'] += 1
+                    why = ('STOP' if rule.get('rebound_stop', True) and c <= p['entry'] * (1 - REBOUND_STOP)
+                           else 'REBOUND' if c > f.ema10 else 'MAX_HOLD' if p['held'] >= REBOUND_HOLD else None)
                 if why:
                     reb_sells.append((s, why))
             open_reb = len(reb_pos) - len(reb_sells)
-            today = reb_signal.loc[day]
-            picks = sorted((reb_ext.at[day, s], s) for s in today.index[today.to_numpy(bool)]
-                           if s not in pos and s not in reb_pos and s not in short_pos
-                           and s not in {x[0] for x in planned})
+            if weekly is None:
+                today = reb_signal.loc[day]
+                signals = ((reb_ext.at[day, s], s) for s in today.index[today.to_numpy(bool)])
+            else:
+                signals = weekly.entries.get(day, ())
+            planned_symbols = {x[0] for x in planned}
+            picks = sorted((rank, s) for rank, s in signals if s not in pos and s not in reb_pos
+                           and s not in short_pos and s not in planned_symbols)
             for _, s in picks:
                 if open_reb + len(reb_plan) >= REBOUND_SLOTS:
                     break
@@ -416,7 +429,7 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
             cash += p['shares'] * fill * (1 - COST)
             trades.append(dict(symbol=s, side='REBOUND', ret=fill * (1 - COST) / (p['entry'] * (1 + COST)) - 1,
                                held=p['held'], why=why))
-        for s, shares in reb_plan:
+        for s, shares in (reb_plan if weekly is None else ()):
             fill = close.at[nxt, s]
             if np.isnan(fill) or s in pos or shares * fill * (1 + COST) > cash:
                 continue
@@ -466,12 +479,31 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                 f = rows[s][day]
                 trace.buy(s, day, nxt, shares, fill, 100 * (f.close / f.sma200 - 1), COST)
             pos[s] = dict(shares=shares, entry=fill, peak=fill, held=0, fast=False, res=resistance)
+        if weekly is not None:
+            # Base orders have first claim on cash. A failed exit never creates a fourth slot.
+            for s, shares in reb_plan:
+                fill = close.at[nxt, s]
+                if not np.isfinite(fill) or fill <= 0 or s in pos or len(reb_pos) >= REBOUND_SLOTS:
+                    continue
+                available = max(0, cash - CAPITAL * .03)
+                shares = min(shares, math.floor(available / (fill * (1 + COST))),
+                             math.floor(equity * .125 / fill))
+                if shares < 1 or shares * fill < 50:
+                    continue
+                cash -= shares * fill * (1 + COST)
+                reb_pos[s] = dict(shares=shares, entry=fill, entered=nxt, held=0)
+                weekly_fills += 1
     curve = pd.Series(dict(curve)).sort_index()
     if trace is not None:
         trace.final = float(curve.iloc[-1])
         for s in pos:
             trace.mark(s, dates[-1], marks.at[dates[-1], s], 'OPEN_MARK', 0)
     result = _metrics(curve, trades, precise=precise)
+    if weekly is not None:
+        result['weekly_fills'] = weekly_fills
+        result['weekly_open'] = len(reb_pos)
+        result['weekly_exits'] = {reason: sum(t.get('side') == 'REBOUND' and t['why'] == reason for t in trades)
+                                  for reason in ('STOP', 'WEEKLY_BREAK', 'MAX_HOLD')}
     result['longest_carried_mark'] = stale_sessions
     result['unpriced_at_end'] = sorted(s for s in pos if pos[s].get('stale'))
     return result
