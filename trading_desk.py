@@ -416,7 +416,7 @@ def render_compare(accounts, spx, *, today, index_html=''):
             + (rows or '<tr><td colspan="10" class="muted">No account has a session since the start date yet.</td></tr>')
             + '</tbody></table></div>')
     return shell('Trading comparison', body + index_html
-                 + '<p><a href="index-paper.html">Index ETF long/short paper journal ↗</a></p>' + trade_tables(accounts))
+                 + '<p><a style="color:#ff95c8" href="heat-leaders.html">Pánico y euforia · Codex ↗</a> · <a href="index-paper.html">Index ETF long/short paper journal ↗</a></p>' + trade_tables(accounts))
 
 
 def index_paper_page():

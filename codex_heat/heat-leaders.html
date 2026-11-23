@@ -16,15 +16,15 @@ summary{cursor:pointer;color:var(--pink);padding:8px 0}canvas{width:100%;height:
 @media(max-width:740px){main,nav{padding-left:14px;padding-right:14px}.layout{grid-template-columns:1fr;gap:0}nav{gap:12px}.card{padding:16px}header{padding-top:25px}canvas{height:170px}}
 </style></head><body>
 <nav><b>InvestorAce</b><a href="https://usubillaga.github.io/InvestorAce/">Inicio</a><a href="https://usubillaga.github.io/InvestorAce-Tradingdesk/dist/">TradingDesk</a><a href="#historia">Backtest</a></nav>
-<main><header><small>CUENTA DE PAPEL · CODEX · USD</small><h1>Pánico y euforia</h1><p>Compramos la líder por peso de cada índice cuando el termómetro cierra por debajo de 20. Vendemos la cesta al llegar a 80. Las órdenes se ejecutan al cierre siguiente.</p></header>
+<main><header><small>CUENTA DE PAPEL · CODEX · USD</small><h1>Pánico y euforia</h1><p>Compramos la líder por peso de cada índice al cierre de la sesión si el monitor ha publicado una lectura inferior a 20 durante el mercado y se ha registrado la orden antes del cierre. Vendemos al cierre siguiente a una lectura de cierre de 80 o más.</p></header>
 <noscript>Activa JavaScript para ver el monitor y el diario. <a href="https://github.com/Usubillaga/InvestorAce-Tradingdesk/blob/main/dist/heat-account.json">Abrir el registro de la cuenta</a>.</noscript>
 <section class="layout"><div class="card"><h2>Termómetro de mercado</h2><div class="value"><span id="heat">—</span><small> / 100 · <span id="band">Pendiente</span></small></div>
 <div class="bar"><i class="marker" id="marker" hidden></i></div><div class="scale meta"><span>0 · Pánico</span><span>50 · Neutral</span><span>100 · Euforia</span></div><p class="meta" id="monitorDate"></p><details><summary>Componentes del monitor</summary><div id="parts"></div></details></div>
 <div class="card"><h2>Cuenta de papel</h2><div class="value" id="navValue">—</div><dl class="metrics" id="metrics"></dl><p id="order" class="status" role="status">Cargando el diario…</p><p id="orderDetails"></p><p class="meta" id="accountDate"></p><p class="meta" id="warnings"></p></div></section>
 <section class="card"><h2>Líderes por peso</h2><div class="scroll" id="leaders"></div><p class="meta">Cada índice aporta un tercio al entrar. Si dos índices comparten líder, sus asignaciones se suman. Los pesos proceden de las carteras publicadas de SPY, QQQ y DIA.</p></section>
 <section class="card"><h2>Comparación con Claude</h2><p>Claude reparte la cartera entre los diez mayores pesos del S&amp;P 500 y contempla una salida obligatoria a las 252 sesiones. Codex selecciona una líder por cada uno de tres índices y mantiene la cesta hasta euforia.</p><p class="meta">En el estudio de Claude del 23/11, la salida por euforia dio +13,5 % por episodio frente al +12,0 % del S&amp;P 500 en cinco señales. <a href="https://github.com/Usubillaga/InvestorAce/blob/a7e02de66d4f75ad2bc3ed7d3a4f7c7aba849ad5/backtests/latest.md">Resultados por operación</a>.</p><p id="claude">Consultando su diario…</p><a id="claudeLink" href="https://github.com/Usubillaga/InvestorAce/pull/219">Ver la estrategia de Claude ↗</a></section>
-<section class="card"><h2>Diario de operaciones</h2><div class="scroll" id="journal"></div></section>
-<section class="card" id="historia"><h2>Backtest de cartera</h2><p id="studyCaption">Cargando los resultados…</p><div class="legend"><b>Líderes por peso</b><b>SPY + QQQ + DIA</b></div>
+<section class="card"><h2>Compras de la cuenta de papel</h2><div class="scroll" id="fills"></div><h2>Diario de operaciones</h2><div class="scroll" id="journal"></div></section>
+<section class="card" id="historia"><h2>Backtest con señal intradía</h2><p>12 lecturas archivadas en 9 sesiones del 2 al 23 de noviembre de 2026. Una entrada y cero ciclos cerrados. El viernes 20 el monitor bajó a 19,2 a las 14:28 de Nueva York.</p><p>Compra simulada al cierre con 10.000 USD y un coste del 0,1 %. AAPL recibió 6.666,67 USD a 342,56 y GS recibió 3.333,33 USD a 790,69. A las 11:49 de Nueva York del lunes 23, las líderes valían 10.237,98 USD (+2,38 %) y los tres ETF 10.469,46 USD (+4,69 %). Son valoraciones abiertas. Las sesiones sin lecturas intradía quedan sin evaluar.</p><h2>Control histórico con señal de cierre y entrada al cierre siguiente</h2><p id="studyCaption">Cargando los resultados…</p><div class="legend"><b>Líderes por peso</b><b>SPY + QQQ + DIA</b></div>
 <canvas id="chart" role="img" aria-label="Patrimonio mensual de las líderes y de su referencia en dólares, con cifras por periodo en la tabla."></canvas>
 <div class="scroll" id="study"></div><p id="risk"></p><details><summary>Operaciones históricas y límites de los datos</summary><div class="scroll" id="episodes"></div><p>La simulación reconstruye la amplitud con el universo de InvestorAce de noviembre de 2026 y omite el indicador opcional de CNN. Los informes históricos de los ETF se conocían antes de la señal, pero algunos pesos tenían hasta 493 días de antigüedad. La cuenta de papel exige composiciones diarias con una antigüedad máxima de siete días.</p><p>Los plazos del control de 63 sesiones se cuentan desde la entrada. Cada cartera empieza el periodo en efectivo, reinvierte dividendos y descuenta el 0,1 % por lado. Las 20 fechas de inicio se solapan.</p></details></section>
 <footer><a href="https://github.com/Usubillaga/InvestorAce-Tradingdesk/tree/main/research/panic_euphoria">Datos y reproducción del backtest ↗</a></footer>
@@ -44,14 +44,25 @@ async function account(){
   [local,live]=await Promise.all([fetchJSON('heat-account.json').catch(()=>null),fetchJSON(raw+'heat-account.json').catch(()=>null)]);
   const s=[live,local].filter(x=>x?.schema===1).sort((a,b)=>b.as_of.localeCompare(a.as_of))[0];
   if(!s)throw Error('diario no disponible');
-  const m=s.monitor,score=m.heat;el('heat').textContent=fmt(score,1);el('band').textContent=score<20?'Pánico':score<40?'Miedo':score<60?'Neutral':score<80?'Codicia':'Euforia';
+  const m=s.intraday_monitor?.as_of>s.monitor.as_of?s.intraday_monitor:s.monitor,score=m.heat;el('heat').textContent=fmt(score,1);el('band').textContent=score<20?'Pánico':score<40?'Miedo':score<60?'Neutral':score<80?'Codicia':'Euforia';
   el('marker').hidden=false;el('marker').style.left=Math.min(score,99.5)+'%';
-  el('monitorDate').replaceChildren(link('Cierre del '+m.day+' · lectura archivada',m.url));
+  el('monitorDate').replaceChildren(link((m.intraday?'Intradía · '+new Date(m.as_of).toLocaleString('es-ES',{timeZone:'America/New_York'})+' Nueva York':'Cierre del '+m.day)+' · lectura archivada',m.url));
   table('parts',['Componente','Puntuación / 100'],Object.entries(m.components).map(([k,v])=>[labels[k]||k,fmt(v.score,1)]));
   el('navValue').textContent=usd(s.equity);
   for(const [key,val] of [['Efectivo',usd(s.cash)],['Referencia ETF',usd(s.benchmark)],['Desde el inicio',pct(s.equity/s.initial-1)]]){const wrap=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=key;dd.textContent=val;wrap.append(dt,dd);el('metrics').append(wrap)}
   const o=s.pending;el('order').textContent=o?(o.side==='BUY'?'Compra':'Venta')+' registrada para el cierre del '+o.target:s.position?'Cesta abierta desde '+s.position.entry:'Cuenta en efectivo';
   if(o?.leaders || s.position){const picks=o?.leaders||s.position.order.leaders;el('orderDetails').textContent='Cesta fijada · '+picks.map(x=>x.fund+' → '+x.symbol).join(' / ')}
+  const buys=[];
+  if(o?.side==='BUY'){
+    for(const x of o.leaders)buys.push([o.target,x.fund,x.symbol,usd((o.budget??s.cash)/o.leaders.length),'Pendiente','Pendiente']);
+  }
+  for(const trade of [s.position,...s.history.slice().reverse()].filter(Boolean)){
+    for(const leg of trade.legs.filter(x=>x.side==='leader')){
+      buys.push([trade.entry,leg.fund,leg.symbol,usd(leg.entry_units*leg.entry_price*1.001),usd(leg.entry_price),fmt(leg.entry_units,6)]);
+    }
+  }
+  if(buys.length)table('fills',['Cierre','Índice (ETF)','Acción','Asignación con costes','Precio de entrada','Acciones'],buys);
+  else el('fills').textContent='Ninguna compra registrada.';
   el('accountDate').textContent='Última valoración: '+s.as_of+' · Capital inicial: '+usd(s.initial)+'.';
   el('warnings').textContent=[...(!live && location.hostname!=='localhost'?['Mostrando el diario guardado en esta publicación.']:[]),...(s.warnings||[]),...(s.skipped?.length?['Sesiones sin evaluación de una nueva señal: '+s.skipped.join(', ')]:[])].join(' ');
   table('leaders',['Índice','Líder','Empresa','Peso','Composición'],s.leaders.map(x=>[funds[x.fund],x.symbol,x.name,fmt(x.weight_pct,2)+' %',link(x.as_of,x.url)]));
