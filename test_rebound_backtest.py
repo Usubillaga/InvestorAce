@@ -50,5 +50,23 @@ class Rebound(unittest.TestCase):
         self.assertFalse(result['_passes']['all'])                    # fewer than 30 trades
 
 
+class Weekly(unittest.TestCase):
+    def test_weekly_average_uses_completed_weeks_only(self):
+        idx = pd.bdate_range('2010-01-01', periods=1100)
+        close = pd.Series(np.arange(1100, dtype=float), index=idx)
+        wk = rb.weekly_sma200(close)
+        fridays = close.resample('W-FRI').last()
+        self.assertLessEqual(wk.iloc[-1], fridays.iloc[-201:-1].mean() + 1e-9)   # never includes the current week
+        self.assertTrue(np.isnan(wk.iloc[100]))                                # not enough weeks yet
+
+    def test_signal_only_near_the_weekly_average(self):
+        closes = [100.] * 1050 + [97, 93, 88, 82] + [84, 95, 96, 97] + [97.] * 20
+        f, spx = frame(closes)
+        self.assertEqual(rb.trades(f, spx, f.index[0], oversold=2.0, trend='weekly'), [])   # 82 is 18% under 100
+        closes = [84.] * 1050 + [86, 85, 84, 83] + [84, 95, 96, 97] + [97.] * 20
+        f, spx = frame(closes)
+        self.assertEqual(len(rb.trades(f, spx, f.index[0], oversold=0.1, trend='weekly')), 1)
+
+
 if __name__ == '__main__':
     unittest.main()

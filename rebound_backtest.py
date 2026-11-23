@@ -34,7 +34,17 @@ VARIANTS = {
     'below_sma200': dict(trend='below', stop=True),
     'all_no_stop': dict(trend=None, stop=False),
     'below_sma200_no_stop': dict(trend='below', stop=False),
+    'at_weekly_sma200': dict(trend='weekly', stop=True),
+    'at_weekly_sma200_no_stop': dict(trend='weekly', stop=False),
 }
+WEEKLY_BAND = 0.05          # "at the 200-week average": the close within 5% of it, either side
+
+
+def weekly_sma200(close):
+    """200-week average of Friday closes, known only after the week closed, carried over the next week's days."""
+    weekly = close.dropna().resample('W-FRI').last()
+    sma = weekly.rolling(200).mean().shift(1)
+    return sma.reindex(close.index, method='ffill')
 
 
 def trades(frame, spx, start, end=None, trend=None, stop=True, oversold=OVERSOLD, max_hold=MAX_HOLD):
@@ -42,6 +52,7 @@ def trades(frame, spx, start, end=None, trend=None, stop=True, oversold=OVERSOLD
     close = frame['close'].to_numpy(float)
     ema10 = frame['ema10'].to_numpy(float)
     sma200 = frame['sma200'].to_numpy(float)
+    wk200 = weekly_sma200(frame['close']).to_numpy(float) if trend == 'weekly' else None
     ext = frame['ext_atr'].to_numpy(float)
     index = frame.index
     bench = spx.reindex(index).ffill().to_numpy(float)
@@ -54,7 +65,10 @@ def trades(frame, spx, start, end=None, trend=None, stop=True, oversold=OVERSOLD
         red = close[i] < close[i - 1] < close[i - 2] < close[i - 3]
         below = not np.isnan(sma200[i]) and close[i] < sma200[i]
         above = not np.isnan(sma200[i]) and close[i] > sma200[i]
-        wanted = trend is None or (trend == 'below' and below) or (trend == 'above' and above)
+        at_weekly = (wk200 is not None and not np.isnan(wk200[i])
+                     and abs(close[i] / wk200[i] - 1) <= WEEKLY_BAND)
+        wanted = (trend is None or (trend == 'below' and below) or (trend == 'above' and above)
+                  or (trend == 'weekly' and at_weekly))
         if not (red and ext[i] <= -oversold and wanted):
             i += 1
             continue
@@ -115,6 +129,8 @@ def study(frames, spx, windows):
     if 'NVDA' in frames:
         recent = pd.Timestamp('2026-11-01')
         out['_nvda_nov_2026'] = [t for t in trades(frames['NVDA'], spx, recent, None, stop=True)]
+        wk = weekly_sma200(frames['NVDA']['close']).dropna()
+        out['_nvda_weekly_sma200'] = dict(date=str(wk.index[-1].date()), value=float(wk.iloc[-1])) if len(wk) else None
     return out
 
 
@@ -146,4 +162,7 @@ def report(result):
         lines += ['', 'NVDA in November 2026 under this rule (with the 8% stop): ' + (
             '; '.join(f"signal {t['date']} at {t['entry']:.2f} ({t['ext_atr']:+.1f} ATR) → {t['reason']} on "
                       f"{t['exit']}, {_pct(t['ret'])}" for t in nvda) or 'no signal')]
+    wk = result.get('_nvda_weekly_sma200')
+    if wk:
+        lines += ['', f"NVDA's 200-week average on {wk['date']}: {wk['value']:.2f}."]
     return '\n'.join(lines) + '\n'
