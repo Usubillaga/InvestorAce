@@ -1,0 +1,70 @@
+{
+  "retrieved_at": "2026-11-23T07:56:51+00:00",
+  "mode": "PARTIAL_PRIMARY_SOURCE_REVIEW",
+  "window_start": "2026-08-25",
+  "window_end": "2026-11-23",
+  "issuers": {
+    "VNT": {
+      "issuer": "Vontier Corporation", "listing_symbol": "VNT", "exchange": "NYSE", "currency": "USD",
+      "ir_url": "https://investors.vontier.com/",
+      "calendar_url": "https://investors.vontier.com/events-and-presentations/default.aspx",
+      "reports_url": "https://investors.vontier.com/press-releases/press-releases-details/2026/Vontier-Reports-Strong-Third-Quarter-Results-and-Raises-Full-Year-Adjusted-EPS-Guidance/default.aspx",
+      "dividend_url": "https://investors.vontier.com/press-releases/2026/",
+      "financial_period": "2026-10-02", "next_earnings": null, "next_payable": null,
+      "source_documents": [
+        {"url": "https://investors.vontier.com/press-releases/press-releases-details/2026/Vontier-Reports-Strong-Third-Quarter-Results-and-Raises-Full-Year-Adjusted-EPS-Guidance/default.aspx", "published_at": "2026-11-05", "locator": "Quarterly highlights; cash-flow and free-cash-flow reconciliation; financing cash-flow row"},
+        {"url": "https://www.sec.gov/Archives/edgar/data/1786842/000162828026070789/vnt-20261002.htm", "id": "0001628280-26-070789", "published_at": "2026-11-05", "locator": "Balance sheet preferred stock row; nine-month cash-flow financing row; printed pp2,6"}
+      ],
+      "payment_ledger": {"period": "nine months ended 2026-10-02", "unit": "USD million", "scope": "CONSOLIDATED", "common_cash_paid": 10.4, "preferred_cash_paid": null, "preferred_earnings_deduction": null, "preferred_outstanding": 0, "preferred_outstanding_dates": ["2026-10-02", "2025-12-31"], "redemptions": null, "redemption_premium": null, "actual_payment_date": null},
+      "growth": "Q3 reported sales -2.1%, core sales +5.7%; distinct from cash-flow growth. Reported sale impact includes Teletrac Navman.",
+      "financial_observations": "Nine-month OCF305.6m minus cash capex63.9m = reported FCF241.7m; quarterly reported FCF122.0m differs from adjusted133.1m. No replacement of existing TTM or normalized inputs.",
+      "coverage_status": "PARTIAL", "insider_status": "UNAVAILABLE",
+      "insider_gap": "Native SEC issuer type4 count100 listing inaccessible via tool; no complete pagination or Forms4/4A read. No CHECKED_NO_EVENTS claim.",
+      "insider_listing_attempt": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1786842&type=4&dateb=&owner=only&count=100",
+      "open_gap": "Retained-business TTM/cashflow/customer-finance normalization and full insider window remain open. Events/news lists render empty controls; November6 dividend was discoverable in search but official exact original not successfully read, so December10 payable is not certified here.",
+      "next_check_date": "2026-11-30", "next_check_reason": "Resolve November dividend original and retained-business cashflow bridge; calendar unknown, not estimated earnings."
+    },
+    "ALLE": {
+      "issuer": "Allegion plc", "listing_symbol": "ALLE", "exchange": "NYSE", "currency": "USD",
+      "ir_url": "https://investor.allegion.com/", "calendar_url": null,
+      "reports_url": "https://www.allegion.com/corp/en/news/year/2026/q3-results.html",
+      "dividend_url": "https://investor.allegion.com/stock-information/dividend-info",
+      "financial_period": "2026-09-30", "next_earnings": null, "next_payable": null,
+      "source_documents": [
+        {"url": "https://www.allegion.com/corp/en/news/year/2026/q3-results.html", "published_at": "2026-10-22", "locator": "IEEPA Tariff Refunds; Share Repurchase and Dividends; Q3 revenue highlights"},
+        {"url": "https://www.sec.gov/Archives/edgar/data/1579241/000157924126000034/alle-20260930.htm", "id": "0001579241-26-000034", "published_at": "2026-10-22", "locator": "Condensed consolidated cash-flow statement printed p3, dividends paid to ordinary shareholders"},
+        {"url": "https://investor.allegion.com/stock-information/dividend-info", "published_at": null, "locator": "Dividend history latest displayed row: declared2026-09-02, record2026-09-15, payable2026-09-30,0.55USD"}
+      ],
+      "payment_events": [{"event_type": "COMMON_DIVIDEND", "declaration_date": "2026-09-02", "record_date": "2026-09-15", "payable_date": "2026-09-30", "ex_date": null, "amount_per_share": 0.55, "currency": "USD", "actual_paid_date": null, "payment_status": "QUARTER_AGGREGATE_PAID_CONFIRMED_EXACT_DAY_NOT_RECONCILED", "source": "https://www.allegion.com/corp/en/news/year/2026/q3-results.html"}],
+      "payment_ledger": {"period": "nine months ended2026-09-30", "unit": "USD million", "common_cash_paid": 140.2, "quarter_common_cash_paid_approx": 46, "preferred_cash_paid": null, "preferred_earnings_deduction": null, "redemptions": null, "redemption_premium": null},
+      "growth": "Q3 revenue +9.6% reported/+7.2% organic; adjusted EPS +13%; not cashflow-growth proxy.",
+      "financial_observations": "19.9mUSD operating-income tariff benefit and0.9m interest include refunds received and expected; exact cash receipts unresolved. Do not treat entire earnings benefit as cash.",
+      "coverage_status": "PARTIAL", "insider_status": "UNAVAILABLE",
+      "insider_listing_attempt": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1579241&type=4&dateb=&owner=only&count=100",
+      "insider_gap": "Native SEC listing inaccessible; no complete pagination or Forms4/4A read.",
+      "open_gap": "No issuer-confirmed next earnings/dividend found in read sources; no date estimate. Preferred claims/equity note and full insider coverage not completed; no numerical TTM replacement.",
+      "next_check_date": "2026-12-02", "next_check_reason": "Refresh dividend/news calendar and tariff cash receipts; scheduled review date, not forecast earnings/dividend."
+    },
+    "ADT": {
+      "issuer": "ADT Inc.", "listing_symbol": "ADT", "exchange": "NYSE", "currency": "USD",
+      "ir_url": "https://investor.adt.com/", "calendar_url": null,
+      "reports_url": "https://investor.adt.com/News--Events/news/news-details/2026/ADT-Reports-Third-Quarter-2026-Results/default.aspx",
+      "dividend_url": "https://investor.adt.com/stock-info/dividend-history/default.aspx",
+      "financial_period": "2026-09-30", "next_earnings": null, "next_payable": null,
+      "source_documents": [
+        {"url": "https://investor.adt.com/News--Events/news/news-details/2026/ADT-Reports-Third-Quarter-2026-Results/default.aspx", "published_at": "2026-11-03", "locator": "Liquidity and capital returns; continuing/discontinued cashflow basis; proposed merger caution"},
+        {"url": "https://www.sec.gov/Archives/edgar/data/1703056/000170305626000116/adt-20260930.htm", "id": "0001703056-26-000116", "published_at": "2026-11-03", "locator": "Balance sheet preferred stock row p1; equity nine-month dividends p5; cash-flow common dividends p6"},
+        {"url": "https://investor.adt.com/stock-info/dividend-history/default.aspx", "published_at": null, "locator": "Latest displayed history: ex/record2026-09-10, payable2026-10-01,0.055USD"}
+      ],
+      "payment_events": [{"event_type": "COMMON_DIVIDEND", "declaration_date": "2026-07-30", "record_date": "2026-09-10", "ex_date": "2026-09-10", "payable_date": "2026-10-01", "actual_paid_date": null, "amount_per_share": 0.055, "currency": "USD", "payment_status": "PAYABLE_PASSED_ACTUAL_DATE_NOT_VERIFIED", "source": "https://investor.adt.com/stock-info/dividend-history/default.aspx"}],
+      "payment_ledger": {"period": "nine months ended2026-09-30", "unit": "USD million", "common_cash_paid": 130.493, "common_equity_dividend_deduction": 125.784, "quarter_common_cash_paid_approx": 41, "preferred_outstanding": 0, "preferred_outstanding_dates": ["2026-09-30", "2025-12-31"], "preferred_cash_paid": null, "preferred_earnings_deduction": null, "redemptions": null, "redemption_premium": null},
+      "growth": "Q3 revenue+4%, GAAP EPS+18%, adjustedEPS+4%; YTD OCF+16% vs adjustedFCF including swaps+46%, definitions distinct.",
+      "financial_observations": "Cashflow measures include discontinued operations while most results use continuing operations; original release explicitly distinguishes. Proposed Thrive merger not completed; do not reinstate standalone opportunity ranking or infer guaranteed merger return.",
+      "coverage_status": "PARTIAL", "insider_status": "UNAVAILABLE",
+      "insider_listing_attempt": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=1703056&type=4&dateb=&owner=only&count=100",
+      "insider_gap": "Native SEC listing inaccessible; no full90d pagination or Forms4/4A documents read.",
+      "open_gap": "Actual October1 payment evidence and next declaration not established; do not turn passed payable into paid. Full continuing/consolidated bridge, normalization and insider coverage pending.",
+      "next_check_date": "2026-11-30", "next_check_reason": "Merger/dividend news check and source reconciliation; unknown future earnings remains null."
+    }
+  }
+}
