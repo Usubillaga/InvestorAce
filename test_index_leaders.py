@@ -23,9 +23,9 @@ HOLDINGS = lambda: [('AAA', 0.06), ('BBB', 0.02)]
 
 
 class Account(unittest.TestCase):
-    def test_buys_after_the_first_panic_close_in_proportion_and_sells_after_63_sessions(self):
-        days = sessions(90)
-        heat, prices = book(days, [50] * 5 + [15, 12] + [50] * 83)
+    def test_buys_after_the_first_panic_close_in_proportion_and_sells_after_the_maximum_hold(self):
+        days = sessions(il.HOLD + 20)
+        heat, prices = book(days, [50] * 5 + [15, 12] + [50] * (il.HOLD + 13))
         state = il.fresh(days[0])
         events = il.advance(state, days[:10], heat, prices, HOLDINGS)
         self.assertEqual(events[0]['type'], 'BUY')
@@ -36,6 +36,7 @@ class Account(unittest.TestCase):
         events = il.advance(state, days, heat, prices, HOLDINGS)                          # resumes, no double buy
         self.assertEqual([e['type'] for e in events], ['SELL'])
         self.assertEqual(events[0]['date'], days[6 + il.HOLD])
+        self.assertEqual(events[0]['why'], 'MAX_HOLD')
         self.assertEqual(len(state['trades']), 1)
         self.assertLess(state['trades'][0]['ret'], 0)                                     # flat prices, two costs
 
@@ -49,6 +50,17 @@ class Account(unittest.TestCase):
         self.assertEqual(events[0]['signal'], days[20])
         old = il.fresh(days[29])
         self.assertEqual(il.advance(old, days, heat, prices, HOLDINGS), [])              # nine sessions old
+
+    def test_sells_at_the_close_after_extreme_euphoria_even_across_a_missing_close(self):
+        days = sessions(30)
+        heat, prices = book(days, [50] * 5 + [15] + [50] * 10 + [85] + [70] * 13)
+        del prices['BBB'][days[17]]                           # no BBB close on the planned sell day
+        state = il.fresh(days[0])
+        events = il.advance(state, days, heat, prices, HOLDINGS)
+        self.assertEqual([e['type'] for e in events], ['BUY', 'SELL'])
+        self.assertEqual((events[1]['date'], events[1]['why']), (days[18], 'EUPHORIA'))   # next day, still sold
+        self.assertEqual(state['trades'][0]['why'], 'EUPHORIA')
+        self.assertIsNone(state['selling'])
 
     def test_no_panic_no_buy(self):
         days = sessions(20)

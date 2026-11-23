@@ -268,7 +268,8 @@ def index_study(result, rows, download, spx, shares=None):
         result[name]['index'] = dict(events=events, summary=leader_summary(events))
         if name == 'panic_entry' and shares is not None:
             volume = panel['Volume'].reindex(spx.index)
-            wevents = weight_leaders(days, rows, close, volume, spx, shares)
+            split_close = panel['SplitClose'].reindex(spx.index) if 'SplitClose' in panel else None
+            wevents = weight_leaders(days, rows, close, volume, spx, shares, cap_close=split_close)
             euphoria = [pd.Timestamp(d) for d in result.get('euphoria_days', [])]
             exits = exit_rules(wevents, close, spx, euphoria)
             result[name]['weights'] = dict(events=wevents, summary=weight_summary(wevents),
@@ -286,14 +287,15 @@ def index_study(result, rows, download, spx, shares=None):
 
 
 def download_closes(tickers, period):
-    """{'Close', 'Volume'} panels (dividend-adjusted closes)."""
+    """{'Close': dividend- and split-adjusted closes (for returns), 'SplitClose': split-adjusted only (for market
+    caps), 'Volume'}."""
     import yfinance as yf
-    raw = yf.download(tickers, period=period, auto_adjust=True, progress=False, threads=True, group_by='column')
+    raw = yf.download(tickers, period=period, auto_adjust=False, progress=False, threads=True, group_by='column')
     out = {}
-    for field in ('Close', 'Volume'):
-        frame = raw[field].round(4) if field == 'Close' else raw[field]
+    for field, name in (('Adj Close', 'Close'), ('Close', 'SplitClose'), ('Volume', 'Volume')):
+        frame = raw[field].round(4) if field != 'Volume' else raw[field]
         frame.index = frame.index.tz_localize(None) if frame.index.tz is not None else frame.index
-        out[field] = frame
+        out[name] = frame
     return out
 
 
@@ -301,10 +303,13 @@ def download_closes(tickers, period):
 CANDIDATES = 40           # the most traded members (63-day average dollar volume) whose market cap is looked up
 
 
-def weight_leaders(days, rows, close, volume, spx, shares, horizons=HORIZONS, top=10, candidates=CANDIDATES):
+def weight_leaders(days, rows, close, volume, spx, shares, horizons=HORIZONS, top=10, candidates=CANDIDATES,
+                   cap_close=None):
     """The ten largest S&P 500 members by market cap on each signal day, bought in proportion to their cap.
 
-    Market cap = close x shares outstanding reported on or before the day (shares(ticker, day) -> float or None).
+    Market cap = close x shares outstanding on the day, both in today's split terms: cap_close is the close
+    adjusted for later splits but not for dividends (dividend adjustment would shrink high-yield companies in the
+    past), and shares(ticker, day) returns the reported count scaled by the splits after the day.
     Only the most traded members are looked up (the largest companies are always among them); members whose
     shares are unknown are counted and left out."""
     events = []
@@ -316,9 +321,10 @@ def weight_leaders(days, rows, close, volume, spx, shares, horizons=HORIZONS, to
         dollar = (close.loc[:day, cols].iloc[-63:] * volume.loc[:day, cols].iloc[-63:]).mean().dropna()
         pool = list(dollar.sort_values(ascending=False).index[:candidates])
         caps, missing = {}, []
+        px_frame = cap_close if cap_close is not None else close
         for t in pool:
             n = shares(t, day)
-            px = close.at[day, t]
+            px = px_frame.at[day, t] if t in px_frame.columns else np.nan
             if n and np.isfinite(px):
                 caps[t] = float(px) * float(n)
             else:
@@ -349,10 +355,10 @@ EXIT_RULES = ('hold_63', 'euphoria', 'euphoria_after_63', 'euphoria_or_252')
 def exit_rules(events, close, spx, euphoria, rules=EXIT_RULES):
     """The same cap-weighted buy with different exits, each against the S&P 500 over the same sessions.
 
-    hold_63: 63 sessions. euphoria: the first close with the thermometer at or above 80 after the buy, however
-    long that takes (still open at the end of the data = marked at the last close, flagged open).
-    euphoria_after_63: the first such close at least 63 sessions after the buy. euphoria_or_252: the first such
-    close, at most 252 sessions."""
+    hold_63: 63 sessions. euphoria: the close after the first thermometer close at or above 80 after the buy,
+    however long that takes (still open at the end of the data = marked at the last close, flagged open).
+    euphoria_after_63: the same, counting only euphoria closes at least 63 sessions after the buy.
+    euphoria_or_252: the euphoria exit, at most 252 sessions (the index-leaders paper account's rule)."""
     filled = close.ffill()
     idx = close.index
     eu = np.array(sorted(idx.get_indexer([d for d in euphoria if d in idx])))
@@ -367,13 +373,14 @@ def exit_rules(events, close, spx, euphoria, rules=EXIT_RULES):
             after = eu[eu > start] if len(eu) else eu
             if rule == 'hold_63':
                 end, open_ = start + 63, False
-            elif rule == 'euphoria':
-                end, open_ = (int(after[0]), False) if len(after) else (len(idx) - 1, True)
+            elif rule == 'euphoria':                                # sold at the next close, like the buy
+                end, open_ = (int(after[0]) + 1, False) if len(after) else (len(idx) - 1, True)
             elif rule == 'euphoria_after_63':
                 later = after[after >= start + 63] if len(after) else after
-                end, open_ = (int(later[0]), False) if len(later) else (len(idx) - 1, True)
+                end, open_ = (int(later[0]) + 1, False) if len(later) else (len(idx) - 1, True)
             else:
-                end, open_ = (int(after[0]), False) if len(after) and after[0] <= start + 252 else (start + 252, False)
+                end, open_ = ((int(after[0]) + 1, False) if len(after) and after[0] + 1 <= start + 252
+                              else (start + 252, False))
             if end >= len(idx):
                 end, open_ = len(idx) - 1, True
             parts = [(w, filled[t].iloc[end] / filled[t].iloc[start] * (1 - COST) / (1 + COST) - 1)
@@ -422,19 +429,34 @@ def weight_summary(events, horizons=HORIZONS):
     return out
 
 
+def split_factor(splits, day):
+    """Product of the split ratios after `day` (4.0 for a later 4-for-1 split, 0.125 for a 1-for-8 reverse split)."""
+    factor = 1.
+    for when, ratio in splits:
+        if when > day and ratio and ratio > 0:
+            factor *= ratio
+    return factor
+
+
 def yahoo_shares(ticker, day):
-    """Shares outstanding reported on or before `day` (Yahoo's share history), or None."""
+    """Shares outstanding reported on or before `day`, in today's split terms (Yahoo reports the count of the
+    time, while Yahoo prices are adjusted for later splits), or None."""
     import yfinance as yf
     try:
-        s = yf.Ticker(ticker).get_shares_full(start=(day - pd.Timedelta(days=550)).date(),
-                                              end=(day + pd.Timedelta(days=1)).date())
+        t = yf.Ticker(ticker)
+        s = t.get_shares_full(start=(day - pd.Timedelta(days=550)).date(), end=(day + pd.Timedelta(days=1)).date())
+        raw_splits = t.splits
     except Exception:
         return None
+    splits = []
+    for when, ratio in (raw_splits.items() if raw_splits is not None else ()):
+        when = pd.Timestamp(when)
+        splits.append((when.tz_localize(None) if when.tz is not None else when, float(ratio)))
     if s is None or len(s) == 0:
         return None
     s.index = s.index.tz_localize(None) if getattr(s.index, 'tz', None) is not None else s.index
     s = s[s.index <= day + pd.Timedelta(days=1)]
-    return float(s.iloc[-1]) if len(s) else None
+    return float(s.iloc[-1]) * split_factor(splits, day) if len(s) else None
 
 
 def fetch_members(url=MEMBERS_URL):
@@ -490,9 +512,10 @@ def index_report(result):
     ex = ((result.get('panic_entry') or {}).get('weights') or {}).get('exit_summary')
     if ex:
         lines += ['', '#### Exit rules for the same buy (ten largest by weight)', '',
-                  'hold_63 sells after 63 sessions; euphoria at the first thermometer close at or above 80 (however '
-                  'long); euphoria_after_63 at the first such close after at least 63 sessions; euphoria_or_252 at the '
-                  'first such close, at most 252 sessions. Open = no euphoria yet, marked at the last close.', '',
+                  'hold_63 sells after 63 sessions; euphoria at the close after the first thermometer close at or above '
+                  '80 (however long); euphoria_after_63 likewise, after at least 63 sessions; euphoria_or_252 the '
+                  'euphoria exit within at most 252 sessions (the paper account\'s rule). Open = no euphoria yet, '
+                  'marked at the last close.', '',
                   '| Exit | Signals | Still open | Median sessions held | Mean / median return | S&P 500 same span | '
                   'Beats S&P | Worst |', '|---|---:|---:|---:|---|---:|---:|---:|']
         for rule, c in ex.items():

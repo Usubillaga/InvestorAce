@@ -108,6 +108,24 @@ class WeightLeaders(unittest.TestCase):
         json.dumps(dict(events=events, summary=s), allow_nan=False)
 
 
+class Splits(unittest.TestCase):
+    def test_reported_shares_are_put_in_todays_split_terms(self):
+        splits = [(pd.Timestamp('2020-08-31'), 4.0), (pd.Timestamp('2021-08-02'), 0.125)]
+        self.assertEqual(pb.split_factor(splits, pd.Timestamp('2019-01-02')), 0.5)
+        self.assertEqual(pb.split_factor(splits, pd.Timestamp('2021-01-04')), 0.125)
+        self.assertEqual(pb.split_factor(splits, pd.Timestamp('2022-01-03')), 1.0)
+
+    def test_market_cap_uses_the_split_only_close(self):
+        idx = pd.bdate_range('2019-01-01', periods=150)
+        total = pd.DataFrame({'HIGH_YIELD': np.full(150, 50.), 'GROWTH': np.full(150, 90.)}, index=idx)
+        split_only = pd.DataFrame({'HIGH_YIELD': np.full(150, 100.), 'GROWTH': np.full(150, 90.)}, index=idx)
+        volume = pd.DataFrame(1e6, index=idx, columns=total.columns)
+        rows = pb.parse_members('date,tickers\n2019-04-01,"HIGH_YIELD,GROWTH"\n')
+        e = pb.weight_leaders([idx[100]], rows, total, volume, pd.Series(100., index=idx), lambda t, d: 1e9,
+                              horizons=(21,), top=1, cap_close=split_only)[0]
+        self.assertEqual(e['leaders'][0][0], 'HIGH_YIELD')       # 100bn, not the dividend-shrunk 50bn
+
+
 class ExitRules(unittest.TestCase):
     def test_euphoria_exits_and_open_positions(self):
         idx = pd.bdate_range('2019-01-01', periods=400)
@@ -117,10 +135,10 @@ class ExitRules(unittest.TestCase):
         euphoria = [idx[30], idx[120]]                       # 19 and 109 sessions after the buy at idx[11]
         row = pb.exit_rules([event], close, spx, euphoria)[0]['rules']
         self.assertEqual(row['hold_63']['exit'], str(idx[74].date()))
-        self.assertEqual(row['euphoria']['exit'], str(idx[30].date()))
-        self.assertEqual(row['euphoria_after_63']['exit'], str(idx[120].date()))
-        self.assertEqual(row['euphoria_or_252']['exit'], str(idx[30].date()))
-        expected = close['AAA'].iloc[30] / close['AAA'].iloc[11] * (1 - pb.COST) / (1 + pb.COST) - 1
+        self.assertEqual(row['euphoria']['exit'], str(idx[31].date()))        # the close after the signal
+        self.assertEqual(row['euphoria_after_63']['exit'], str(idx[121].date()))
+        self.assertEqual(row['euphoria_or_252']['exit'], str(idx[31].date()))
+        expected = close['AAA'].iloc[31] / close['AAA'].iloc[11] * (1 - pb.COST) / (1 + pb.COST) - 1
         self.assertAlmostEqual(row['euphoria']['ret'], expected)
         none = pb.exit_rules([event], close, spx, [])[0]['rules']
         self.assertTrue(none['euphoria']['open'])                       # never euphoric: still held

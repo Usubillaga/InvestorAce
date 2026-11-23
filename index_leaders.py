@@ -8,7 +8,9 @@ Rule (the same as panic_backtest.weights_study tests):
   the previous one.
 * Buy: the ten largest S&P 500 holdings of SPY (Yahoo's top holdings), each in proportion to its index weight,
   10,000 USD, at the close of the session after the signal; 0.1% per side.
-* Sell: everything at the close 63 sessions (about three months) after the buy.
+* Sell: everything at the close after the first euphoria close (thermometer at or above 80), and at the latest
+  252 sessions (about a year) after the buy. Until 23 Nov 2026 the rule sold after 63 sessions; the user asked to
+  sell in extreme euphoria instead, and the backtest's exit comparison found no reason against it.
 Paper only. Weights are read on the day the order is filled, not on the signal day (Yahoo publishes only the
 current list). The live thermometer on the scoreboard can differ slightly when Fear & Greed is available.
 """
@@ -22,7 +24,8 @@ ROOT = Path(__file__).resolve().parent
 STATE = ROOT / 'paper_trades' / 'index-leaders.json'
 LATEST = ROOT / 'index-leaders' / 'latest.json'
 PAGE = 'index-leaders.html'
-CAPITAL, COST, HOLD, TOP = 10000., 0.001, 63, 10
+CAPITAL, COST, HOLD, TOP = 10000., 0.001, 252, 10
+EUPHORIA = 80.
 FUNDS = (('SPY', 'S&P 500'), ('QQQ', 'Nasdaq-100'))
 
 
@@ -85,7 +88,10 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
                                    symbols=[s for s, _ in picks]))
         elif state['positions']:
             state['sessions_held'] = state.get('sessions_held', 0) + 1
-            if state['sessions_held'] >= HOLD:
+            euphoric = prev is not None and (heat.get(prev) or 0) >= EUPHORIA and prev > state['bought']
+            if state['sessions_held'] >= HOLD or euphoric or state.get('selling'):
+                # The decision holds until every position has a close to sell at.
+                state['selling'] = state.get('selling') or ('EUPHORIA' if euphoric else 'MAX_HOLD')
                 proceeds = 0.
                 for symbol, p in state['positions'].items():
                     px = (prices.get(symbol) or {}).get(day)
@@ -93,15 +99,16 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
                         break
                     proceeds += p['shares'] * px * (1 - COST)
                 else:
+                    why = state['selling']
                     start_value = sum(p['shares'] * p['entry'] * (1 + COST) for p in state['positions'].values())
-                    state['trades'].append(dict(signal=state['signal'], bought=state['bought'], sold=day,
+                    state['trades'].append(dict(signal=state['signal'], bought=state['bought'], sold=day, why=why,
                                                 symbols=sorted(state['positions']), cost=round(start_value, 2),
                                                 proceeds=round(proceeds, 2),
                                                 ret=round(proceeds / start_value - 1, 6) if start_value else None))
                     state['cash'] = round(state['cash'] + proceeds, 6)
                     state['positions'] = {}
-                    state.update(bought=None, signal=None, sessions_held=0)
-                    events.append(dict(type='SELL', date=day))
+                    state.update(bought=None, signal=None, sessions_held=0, selling=None)
+                    events.append(dict(type='SELL', date=day, why=why))
         state['marks'].append(dict(date=day, equity=round(value(state, prices, day), 2), heat=heat.get(day)))
     return events
 
@@ -189,7 +196,8 @@ def render(snapshot, state, backtest=None):
     status = (f'<b style="color:{YELLOW}">PANIC · buy signal</b>: the account buys the S&amp;P 500 leaders at the '
               'next close (first panic close of an episode only).' if buy else
               'No panic: the account does not buy. It buys the S&amp;P 500 leaders at the close after the first '
-              'panic close (thermometer under 20) of an episode.')
+              'panic close (thermometer under 20) of an episode and sells them at the close after the first '
+              'euphoria close (80 or more), at the latest after 252 sessions.')
     recent = ''.join(f'<span title="{escape(d)}: {v:.1f}" style="display:inline-block;width:8px;height:{max(3, v)}px;'
                      f'margin-right:2px;vertical-align:bottom;background:'
                      f'{dict(BAND_COLOURS).get(market_pulse.band(v), "#888")}"></span>'
@@ -198,7 +206,8 @@ def render(snapshot, state, backtest=None):
              '<div class="note">The market thermometer (the scoreboard\'s crash and panic gauge) next to the '
              'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. When the thermometer '
              'closes under 20 (panic), a paper account buys the ten largest S&amp;P 500 holdings, weighted as in '
-             'the index, and sells them 63 sessions later. Paper only; not advice.</div>',
+             'the index, and sells them after the first close in extreme euphoria (80 or more), at the latest a year '
+             'later. Paper only; not advice.</div>',
              '<div class="box pulse-thermo"><h2>Thermometer</h2>'
              f'<span class="pulse-big" style="color:{colour}">{"—" if h is None else format(h, ".1f")}</span> /100 · '
              f'<b>{escape(band or "—")}</b> · close of {escape(snapshot.get("session") or "—")}'
