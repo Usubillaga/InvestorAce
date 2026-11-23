@@ -5,9 +5,18 @@ name: index-leaders
 # panic close (thermometer under 20) of an episode and sell them 63 sessions later. Paper only.
 on:
   schedule:
+    # GitHub starts scheduled runs late or not at all under load (none of the 23 Nov 2026 runs started), so each
+    # step is scheduled several times. Both steps are idempotent: the close run skips sessions already marked,
+    # and the last check before the close replaces an earlier one.
     - cron: '41 22 * * 1-5'     # after the US close: fill a pending order at the close, mark, sell
-    - cron: '40 19 * * 1-5'     # ~20 min before the close in summer (EDT): intraday thermometer decides the buy
-    - cron: '40 20 * * 1-5'     # the same in winter (EST); index_leaders.py --decide acts only 15:10-15:55 New York
+    - cron: '41 23 * * 1-5'
+    - cron: '41 1 * * 2-6'
+    - cron: '10 19 * * 1-5'     # before the close in summer (EDT): the intraday thermometer decides the buy
+    - cron: '25 19 * * 1-5'
+    - cron: '40 19 * * 1-5'
+    - cron: '10 20 * * 1-5'     # the same in winter (EST); index_leaders.py --decide acts only 15:10-15:55 New York
+    - cron: '25 20 * * 1-5'
+    - cron: '40 20 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -36,7 +45,11 @@ jobs:
         env:
           SCHEDULE: ${{ github.event.schedule }}
         run: |
-          if [ "$SCHEDULE" = '40 19 * * 1-5' ] || [ "$SCHEDULE" = '40 20 * * 1-5' ]; then
+          case "$SCHEDULE" in
+            '10 19 * * 1-5'|'25 19 * * 1-5'|'40 19 * * 1-5'|'10 20 * * 1-5'|'25 20 * * 1-5'|'40 20 * * 1-5') decide=1 ;;
+            *) decide=0 ;;
+          esac
+          if [ "$decide" = 1 ]; then
             python index_leaders.py --decide | tee run.json
           else
             python index_leaders.py | tee run.json
