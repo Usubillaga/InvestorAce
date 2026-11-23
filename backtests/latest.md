@@ -54,6 +54,9 @@ Technical rules on current members. Historical membership and full label history
 | ewma_position_size | 22.4% | -21.36% | 1.29 | 256 | 33.2% | 6.89% | 32.0 |
 | garch_exposure | 36.65% | -31.64% | 1.23 | 264 | 31.82% | 6.75% | 30.7 |
 | ewma_exposure | 33.24% | -30.89% | 1.19 | 258 | 31.78% | 6.36% | 31.2 |
+| rebound_sleeve | 12.73% | -24.8% | 0.67 | 550 | 41.27% | 2.05% | 18.0 |
+| rebound_sleeve_below_200d | 22.42% | -28.71% | 0.94 | 512 | 41.8% | 3.04% | 19.2 |
+| rebound_sleeve_no_stop | 19.03% | -29.74% | 0.84 | 533 | 41.09% | 2.32% | 18.6 |
 
 S&P 500 buy and hold: CAGR 8.1%, max drawdown -25.43%.
 
@@ -92,6 +95,9 @@ Breakout failure rate 22.41% · 63-day mean: uptrend days 4.57%, just under resi
 | ewma_position_size | 17.87% | -16.18% | 1.26 | 152 |
 | garch_exposure | 19.34% | -15.39% | 1.21 | 147 |
 | ewma_exposure | 18.44% | -15.94% | 1.2 | 153 |
+| rebound_sleeve | 18.37% | -16.28% | 1.16 | 234 |
+| rebound_sleeve_below_200d | 17.77% | -18.67% | 1.1 | 242 |
+| rebound_sleeve_no_stop | 19.74% | -21.11% | 1.23 | 243 |
 
 ### 2018-01-02 → 2021-12-31 · 114 stocks · S&P CAGR 15.33%, max drawdown -33.92%
 
@@ -124,6 +130,9 @@ Breakout failure rate 30.86% · 63-day mean: uptrend days 5.38%, just under resi
 | ewma_position_size | 17.8% | -17.79% | 1.04 | 218 |
 | garch_exposure | 30.82% | -16.02% | 1.38 | 207 |
 | ewma_exposure | 19.36% | -17.25% | 0.97 | 215 |
+| rebound_sleeve | 35.91% | -27.28% | 1.37 | 352 |
+| rebound_sleeve_below_200d | 30.77% | -32.03% | 1.18 | 339 |
+| rebound_sleeve_no_stop | 31.89% | -24.2% | 1.29 | 345 |
 
 ### 2022-01-03 → 2026-11-20 · 125 stocks · S&P CAGR 7.77%, max drawdown -25.43%
 
@@ -156,6 +165,9 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | ewma_position_size | 23.33% | -19.42% | 1.35 | 245 |
 | garch_exposure | 36.62% | -33.11% | 1.24 | 255 |
 | ewma_exposure | 40.61% | -30.23% | 1.32 | 257 |
+| rebound_sleeve | 18.29% | -30.16% | 0.85 | 525 |
+| rebound_sleeve_below_200d | 27.63% | -26.62% | 1.15 | 500 |
+| rebound_sleeve_no_stop | 15.5% | -26.48% | 0.75 | 522 |
 
 ### Robustness: windows in which a variant beat base_v1_6 (the current rules)
 
@@ -184,8 +196,11 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | ewma_position_size | 0/3 | 2/3 | 2/3 |
 | garch_exposure | 2/3 | 2/3 | 3/3 |
 | ewma_exposure | 2/3 | 2/3 | 2/3 |
+| rebound_sleeve | 1/3 | 1/3 | 2/3 |
+| rebound_sleeve_below_200d | 0/3 | 1/3 | 1/3 |
+| rebound_sleeve_no_stop | 1/3 | 1/3 | 1/3 |
 
-Symbols: 125 · generated 2026-11-23T15:28+00:00 · price data 07627e9ba8e06dee
+Symbols: 125 · generated 2026-11-23T16:02+00:00 · price data 07627e9ba8e06dee
 
 ## Valuation coverage
 
@@ -218,6 +233,9 @@ Positions carry their last observed close on missing dates. No execution at a ca
 | ewma_position_size | 1 | None |
 | garch_exposure | 1 | None |
 | ewma_exposure | 1 | None |
+| rebound_sleeve | 1 | None |
+| rebound_sleeve_below_200d | 1 | None |
+| rebound_sleeve_no_stop | 1 | None |
 
 ## SMA200 buffer divergence: v1.6 versus 1%
 
@@ -314,6 +332,9 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | ewma_position_size | 2 / 0 / 18 | -0.00 | -2.06 [-4.94, +3.96] | +1.84 [-3.71, +4.49] | +0.02 [-0.12, +0.34] |
 | garch_exposure | 4 / 0 / 16 | +1.47 | -2.61 [-4.98, +5.86] | -0.01 [-5.05, +4.87] | -0.14 [-0.28, +0.26] |
 | ewma_exposure | 5 / 0 / 15 | +0.57 | -1.74 [-3.98, +4.01] | -0.26 [-1.35, +2.16] | -0.06 [-0.17, +0.26] |
+| rebound_sleeve | 13 / 0 / 7 | +0.50 | +0.70 [-5.66, +5.45] | -3.34 [-8.39, +2.89] | +0.01 [-0.34, +0.24] |
+| rebound_sleeve_below_200d | 11 / 0 / 9 | -0.11 | +0.43 [-5.72, +9.01] | -2.77 [-6.22, +1.59] | -0.03 [-0.33, +0.41] |
+| rebound_sleeve_no_stop | 14 / 0 / 6 | +1.87 | +1.20 [-4.36, +8.18] | -2.44 [-6.05, +2.98] | +0.01 [-0.24, +0.32] |
 
 ### 2018-01-02 → 2021-12-31
 
@@ -345,6 +366,9 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | ewma_position_size | 0 / 0 / 20 | -18.50 | -15.76 [-25.40, -6.37] | +3.21 [+2.17, +5.67] | -0.21 [-0.44, +0.05] |
 | garch_exposure | 3 / 0 / 17 | -5.48 | -4.10 [-18.19, +4.36] | +4.48 [+1.07, +6.70] | +0.03 [-0.41, +0.29] |
 | ewma_exposure | 0 / 0 / 20 | -16.95 | -9.76 [-17.95, -0.34] | +3.90 [+1.63, +5.98] | -0.17 [-0.36, +0.10] |
+| rebound_sleeve | 14 / 0 / 6 | -0.39 | +3.38 [-7.47, +17.25] | -6.48 [-9.91, -1.54] | +0.08 [-0.25, +0.35] |
+| rebound_sleeve_below_200d | 10 / 0 / 10 | -5.53 | +0.34 [-11.26, +9.48] | -6.22 [-11.51, -2.94] | +0.01 [-0.35, +0.28] |
+| rebound_sleeve_no_stop | 16 / 0 / 4 | -4.41 | +3.72 [-7.13, +10.58] | -4.22 [-7.75, -0.47] | +0.11 [-0.18, +0.31] |
 
 ### 2022-01-03 → 2026-11-20
 
@@ -376,6 +400,9 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | ewma_position_size | 2 / 0 / 18 | -8.17 | -9.71 [-20.08, +0.65] | +11.10 [+5.87, +13.82] | +0.24 [-0.07, +0.53] |
 | garch_exposure | 19 / 0 / 1 | +5.12 | +5.09 [-0.43, +15.91] | -1.87 [-5.52, +1.80] | +0.13 [-0.07, +0.39] |
 | ewma_exposure | 12 / 0 / 8 | +9.11 | +6.23 [-3.45, +12.60] | +0.36 [-6.29, +3.07] | +0.17 [-0.12, +0.27] |
+| rebound_sleeve | 5 / 0 / 15 | -13.21 | -13.16 [-22.14, +15.63] | +0.21 [-3.04, +6.38] | -0.16 [-0.50, +0.44] |
+| rebound_sleeve_below_200d | 3 / 0 / 17 | -3.87 | -8.77 [-26.06, +10.44] | +3.38 [-1.39, +9.47] | -0.11 [-0.43, +0.29] |
+| rebound_sleeve_no_stop | 4 / 0 / 16 | -16.00 | -11.30 [-30.52, +15.11] | +0.65 [-6.08, +9.55] | -0.15 [-0.62, +0.38] |
 
 
 ## Pairs trading (same-sector, Engle-Granger + Ornstein-Uhlenbeck)
@@ -409,11 +436,11 @@ Rules against buy and hold from 20 paired starts per period. Costs 0.1% per posi
 | 2018-01-02 → 2021-12-31 | codex_20d_5d_long_only | 0/20 | 2.17% | -12.94 [-13.91, -11.46] | -0.48 | +24.82 |
 | 2018-01-02 → 2021-12-31 | trend_200d | 0/20 | 7.85% | -6.99 [-7.12, -6.79] | -0.08 | +18.78 |
 | 2018-01-02 → 2021-12-31 | codex_intraday_account | 0/20 | -25.59% | -40.58 [-42.15, -38.68] | -5.30 | -32.76 |
-| 2022-01-03 → 2026-11-23 | buy_and_hold | — | 9.13% | — | — | — |
-| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_short | 0/20 | -9.23% | -20.72 [-26.03, -18.15] | -1.35 | -21.46 |
-| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_only | 0/20 | 1.55% | -10.30 [-13.67, -8.67] | -0.50 | +13.57 |
-| 2022-01-03 → 2026-11-23 | trend_200d | 0/20 | 8.21% | -3.51 [-6.41, -2.60] | +0.04 | +12.63 |
-| 2022-01-03 → 2026-11-23 | codex_intraday_account | 0/20 | -24.32% | -36.15 [-40.44, -33.35] | -4.97 | -50.88 |
+| 2022-01-03 → 2026-11-23 | buy_and_hold | — | 9.10% | — | — | — |
+| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_short | 0/20 | -9.20% | -20.65 [-25.96, -18.09] | -1.35 | -21.46 |
+| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_only | 0/20 | 1.55% | -10.27 [-13.63, -8.64] | -0.50 | +13.57 |
+| 2022-01-03 → 2026-11-23 | trend_200d | 0/20 | 8.21% | -3.47 [-6.37, -2.56] | +0.04 | +12.63 |
+| 2022-01-03 → 2026-11-23 | codex_intraday_account | 0/20 | -24.31% | -36.11 [-40.39, -33.31] | -4.97 | -50.88 |
 
 Passes: codex_20d_5d_long_short no, codex_20d_5d_long_only no, trend_200d no, codex_intraday_account no
 
