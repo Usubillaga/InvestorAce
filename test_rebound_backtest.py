@@ -50,6 +50,18 @@ class Rebound(unittest.TestCase):
         self.assertFalse(result['_passes']['all'])                    # fewer than 30 trades
 
 
+class Gaps(unittest.TestCase):
+    def test_a_time_exit_on_a_missing_price_uses_the_last_real_close(self):
+        closes = [100.] * 60 + [97, 93, 88, 82] + [80.] * 8 + [np.nan] + [80.] * 10    # signal 62, exit day 72
+        f, spx = frame(closes)
+        self.assertTrue(np.isnan(f['close'].iloc[72]))
+        t = rb.trades(f, spx, f.index[0], oversold=2.0, stop=False)[0]
+        self.assertEqual(t['reason'], 'time')
+        self.assertEqual(t['exit'], str(f.index[71].date()))
+        self.assertFalse(np.isnan(t['ret']))
+        self.assertAlmostEqual(t['ret'], 80 / 88 * (1 - rb.COST) / (1 + rb.COST) - 1)
+
+
 class Weekly(unittest.TestCase):
     def test_weekly_average_uses_completed_weeks_only(self):
         idx = pd.bdate_range('2010-01-01', periods=1100)

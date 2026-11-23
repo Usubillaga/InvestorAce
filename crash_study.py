@@ -152,14 +152,18 @@ def study(series):
     return out
 
 
-def download():
+def download(today=None):
+    """Completed daily closes only: a bar dated today (New York) can be a partial, intraday quote."""
+    import pandas as pd
     import yfinance as yf
+    today = today or pd.Timestamp.now(tz='America/New_York').normalize().tz_localize(None)
     raw = yf.download(list(INDICES), period='max', interval='1d', auto_adjust=False, progress=False,
                       threads=False, group_by='column')['Close']
     series = {}
     for symbol in INDICES:
         s = raw[symbol].dropna()
         s.index = s.index.tz_localize(None) if s.index.tz is not None else s.index
+        s = s[s.index < today]
         series[symbol] = ([d.date().isoformat() for d in s.index], [round(float(x), 4) for x in s.values])
     return series
 

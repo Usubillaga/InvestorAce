@@ -86,7 +86,11 @@ def trades(frame, spx, start, end=None, trend=None, stop=True, oversold=OVERSOLD
                 exit_at, reason = j, 'rebound'
                 break
         if exit_at is None:
-            exit_at, reason = last, ('time' if last == i + max_hold else 'open')
+            reason = 'time' if last == i + max_hold else 'open'
+            exit_at = next((j for j in range(last, i, -1) if not np.isnan(close[j])), None)
+            if exit_at is None:                           # no price after the signal (data gap)
+                i = last + 1
+                continue
         ret = close[exit_at] / entry * (1 - COST) / (1 + COST) - 1
         spx_ret = bench[exit_at] / bench[i] - 1 if bench[i] and not np.isnan(bench[exit_at]) else 0.
         out.append(dict(date=str(index[i].date()), entry=float(entry), exit=str(index[exit_at].date()),
