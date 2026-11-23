@@ -180,7 +180,7 @@ def _pct(x, digits=2):
 
 def render(snapshot, state, backtest=None):
     import market_pulse
-    from war_scenario import CSS, shell  # noqa: F401  (shell carries the site CSS)
+    from war_scenario import shell
     h = snapshot.get('heat')
     band = market_pulse.band(h)
     colour = dict(BAND_COLOURS).get(band, '#c8c6b8')
