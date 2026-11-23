@@ -13,6 +13,7 @@ on:
       - 'index_backtest.py'
       - 'crash_study.py'
       - 'rebound_backtest.py'
+      - 'panic_backtest.py'
       - '.github/workflows/backtest.yml'
   schedule:
     - cron: '17 5 1 * *'        # 1st of each month, on main

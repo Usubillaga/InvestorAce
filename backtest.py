@@ -691,6 +691,11 @@ def complete_report(result):
         md += rebound_backtest.report(result['rebound'])
     elif result.get('rebound_error'):
         md += '\n## Buy the oversold dip, sell the rebound\n\nNot computed: ' + result['rebound_error'] + '\n'
+    if result.get('panic'):
+        import panic_backtest
+        md += panic_backtest.report(result['panic'])
+    elif result.get('panic_error'):
+        md += '\n## Thermometer "Panic · buy"\n\nNot computed: ' + result['panic_error'] + '\n'
     return md
 
 
@@ -780,6 +785,11 @@ def main():
         result['rebound'] = rebound_backtest.study(frames, spx, WINDOWS)
     except Exception as exc:               # pragma: no cover - reported in the results instead
         result['rebound_error'] = f'{type(exc).__name__}: {exc}'
+    try:                                   # thermometer panic signal (panic_backtest.py); separate VIX download
+        import panic_backtest
+        result['panic'] = panic_backtest.study(frames, spx, panic_backtest.download_vix(period))
+    except Exception as exc:               # pragma: no cover - reported in the results instead
+        result['panic_error'] = f'{type(exc).__name__}: {exc}'
     try:                                   # index ETF timing (index_backtest.py); separate small download
         import index_backtest
         index_close, index_ohlc = index_backtest.download(f'{HISTORY_YEARS}y')
