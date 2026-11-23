@@ -547,7 +547,8 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                       include_comparison=False, include_enagas=False, include_paper=False, include_war=False,
                       include_crash=False, include_market=True, include_research=True, include_trade=False,
                       include_backtest=False, include_earnings=False, include_stress=False, include_codex=False,
-                      include_swing_experiments=False, include_long_short=False, include_desk=False, include_report=False, include_crash_study=False, include_heat_leaders=False):
+                      include_swing_experiments=False, include_long_short=False, include_desk=False, include_report=False, include_crash_study=False,
+                      include_index_leaders=False, include_heat_leaders=False):
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
@@ -592,6 +593,8 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                 if include_war else '')
     crash_link = ('<a href="crash-monitor.html" style="color:#c1d98b;font-weight:700">Crash monitor ↗</a>'
                   if include_crash else '')
+    leaders_link = ('<a href="index-leaders.html" style="color:#f5d000;font-weight:700">Panic &amp; index leaders ↗</a>'
+                    if include_index_leaders else '')
     if include_heat_leaders:
         crash_link += '<a href="heat-leaders.html" style="color:#ff95c8;font-weight:700">Pánico y euforia · Codex ↗</a>'
     if include_crash:
@@ -603,7 +606,7 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
     nav = ('<nav id="investorace-research-nav" aria-label="Research" '
            'style="margin:0 0 22px;padding:12px 16px;border:1px solid #2a3040;'
            'border-radius:10px;background:#141821;display:flex;gap:16px;flex-wrap:wrap">'
-           + paper_link + trade_link + backtest_link + war_link + crash_link + scanner_link + comparison_link + enagas_link + daily_link
+           + leaders_link + paper_link + trade_link + backtest_link + war_link + crash_link + scanner_link + comparison_link + enagas_link + daily_link
            + market_link + research_link + '</nav>')
     # Upgrade the old one-link navigation too; repeated builds stay idempotent.
     pattern = r'<nav\b[^>]*\bid=["\']investorace-research-nav["\'][^>]*>.*?</nav>'
@@ -699,7 +702,7 @@ def build_site(root, output, require_committed=False):
     enagas_review_pages = enagas_pages(root, build=committed_build)
     paper_pages, war_pages, crash_pages, trade_pages, backtest_pages, stress_pages = [], [], [], [], [], []
     codex, experiment_pages, long_short_pages, desk_pages, report_pages = [], [], [], [], []
-    crash_pages_ = []
+    crash_pages_ = leaders_pages = []
     if committed_build is not None:
         from paper_portfolio import site_pages as paper_site_pages
         from war_scenario import site_pages as war_site_pages
@@ -728,6 +731,9 @@ def build_site(root, output, require_committed=False):
         report_pages = list(crash_pages_)
         from daily_report import site_pages as report_site_pages
         report_pages += report_site_pages(root, committed_build)
+        from index_leaders import site_pages as leaders_site_pages
+        leaders_pages = list(leaders_site_pages(root))
+        report_pages += leaders_pages
     heat_dir = Path(__file__).parent / 'codex_heat'
     heat_pages = [(Path(name), (heat_dir / name).read_bytes())
                   for name in ('heat-leaders.html', 'heat-study.json', 'heat-account.json')]
@@ -741,7 +747,8 @@ def build_site(root, output, require_committed=False):
                                    include_backtest=bool(backtest_pages), include_codex=bool(codex),
                                    include_earnings=bool(earnings_index(root / 'earnings')),
                                    include_stress=bool(stress_pages), include_swing_experiments=bool(experiment_pages),
-                                   include_long_short=bool(long_short_pages), include_desk=bool(desk_pages), include_report=bool(report_pages), include_crash_study=bool(crash_pages_))
+                                   include_long_short=bool(long_short_pages), include_desk=bool(desk_pages), include_report=bool(report_pages), include_crash_study=bool(crash_pages_),
+                                   include_index_leaders=bool(leaders_pages))
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
     scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language)

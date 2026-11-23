@@ -99,6 +99,24 @@ class Shorts(unittest.TestCase):
         self.assertEqual(m['final'], base['final'])
 
 
+class Rebound(unittest.TestCase):
+    def test_sleeve_buys_the_oversold_dip_in_a_correction_and_sells_the_rebound(self):
+        idx = pd.bdate_range('2020-01-01', periods=330)
+        spx = pd.Series(np.r_[np.linspace(100, 130, 250), np.linspace(130, 100, 80)], index=idx)
+        path = np.r_[np.full(300, 100.), [97, 93, 88, 82], [84, 95, 96, 97], np.full(22, 97.)]
+        c = pd.Series(path, index=idx)
+        frames = {'X': bt.indicators(c, c * 1.01, c * 0.99)}
+        sectors = {'X': 'Tech'}
+        start = idx[260]
+        with_sleeve = bt.simulate(frames, spx, sectors, start, **bt.VARIANTS['rebound_sleeve'])
+        base = bt.simulate(frames, spx, sectors, start, **bt.VARIANTS[bt.BASE])
+        self.assertEqual(base['trades'], 0)                     # S&P below its 200-day average: no core buys
+        self.assertEqual(with_sleeve['trades'], 1)
+        self.assertGreater(with_sleeve['final'], bt.CAPITAL)
+        below = bt.simulate(frames, spx, sectors, start, **bt.VARIANTS['rebound_sleeve_below_200d'])
+        self.assertEqual(below['trades'], 1)                    # 82 is under X's 200-day average of ~100
+
+
 class BufferAttribution(unittest.TestCase):
     def test_fill_size_costs_replacement_and_final_open_mark(self):
         from buffer_attribution import Trace, compare

@@ -47,13 +47,16 @@ Technical rules on current members. Historical membership and full label history
 | buffer_200d_3pct | 23.07% | -33.75% | 0.93 | 284 | 29.93% | 4.33% | 28.3 |
 | sell_all_in_correction | 23.72% | -29.38% | 0.89 | 371 | 33.69% | 3.92% | 20.6 |
 | sell_all_weak_breadth | 18.09% | -34.13% | 0.73 | 621 | 38.65% | 1.65% | 12.0 |
-| sell_all_correction_and_weak_breadth | 19.63% | -31.69% | 0.85 | 332 | 34.94% | 3.66% | 23.7 |
+| sell_all_correction_and_weak_breadth | 22.81% | -35.32% | 0.89 | 328 | 34.76% | 4.0% | 24.0 |
 | shorts_in_correction | 22.08% | -39.16% | 0.85 | 408 | 31.37% | 3.29% | 22.4 |
 | shorts_always | 17.29% | -33.94% | 0.68 | 551 | 32.3% | 1.91% | 23.7 |
 | garch_position_size | 21.64% | -19.2% | 1.27 | 267 | 33.71% | 5.78% | 30.4 |
 | ewma_position_size | 22.4% | -21.36% | 1.29 | 256 | 33.2% | 6.89% | 32.0 |
 | garch_exposure | 36.65% | -31.64% | 1.23 | 264 | 31.82% | 6.75% | 30.7 |
 | ewma_exposure | 33.24% | -30.89% | 1.19 | 258 | 31.78% | 6.36% | 31.2 |
+| rebound_sleeve | 12.73% | -24.8% | 0.67 | 550 | 41.27% | 2.05% | 18.0 |
+| rebound_sleeve_below_200d | 22.42% | -28.71% | 0.94 | 512 | 41.8% | 3.04% | 19.2 |
+| rebound_sleeve_no_stop | 19.03% | -29.74% | 0.84 | 533 | 41.09% | 2.32% | 18.6 |
 
 S&P 500 buy and hold: CAGR 8.1%, max drawdown -25.43%.
 
@@ -78,7 +81,7 @@ Breakout failure rate 22.41% · 63-day mean: uptrend days 4.57%, just under resi
 | wait_res_and_sell_failed | 20.7% | -15.71% | 1.26 | 148 |
 | kell_crossback_exit | 13.58% | -16.38% | 0.89 | 495 |
 | kell_base_n_break_entry | 5.02% | -13.81% | 0.46 | 140 |
-| kell_wedge_pop_entry | 7.29% | -18.09% | 0.64 | 171 |
+| kell_wedge_pop_entry | 7.3% | -18.09% | 0.64 | 171 |
 | kell_full | 0.85% | -22.84% | 0.13 | 455 |
 | buffer_200d_1pct | 17.87% | -15.06% | 1.15 | 155 |
 | buffer_200d_2pct | 17.87% | -15.06% | 1.15 | 155 |
@@ -88,10 +91,13 @@ Breakout failure rate 22.41% · 63-day mean: uptrend days 4.57%, just under resi
 | sell_all_correction_and_weak_breadth | 17.71% | -15.51% | 1.13 | 159 |
 | shorts_in_correction | 15.54% | -22.96% | 1.0 | 218 |
 | shorts_always | 9.71% | -20.75% | 0.59 | 371 |
-| garch_position_size | 18.89% | -14.57% | 1.33 | 156 |
+| garch_position_size | 17.77% | -16.49% | 1.25 | 160 |
 | ewma_position_size | 17.87% | -16.18% | 1.26 | 152 |
-| garch_exposure | 19.61% | -16.74% | 1.23 | 140 |
+| garch_exposure | 19.34% | -15.39% | 1.21 | 147 |
 | ewma_exposure | 18.44% | -15.94% | 1.2 | 153 |
+| rebound_sleeve | 18.37% | -16.28% | 1.16 | 234 |
+| rebound_sleeve_below_200d | 17.77% | -18.67% | 1.1 | 242 |
+| rebound_sleeve_no_stop | 19.74% | -21.11% | 1.23 | 243 |
 
 ### 2018-01-02 → 2021-12-31 · 114 stocks · S&P CAGR 15.33%, max drawdown -33.92%
 
@@ -124,6 +130,9 @@ Breakout failure rate 30.86% · 63-day mean: uptrend days 5.38%, just under resi
 | ewma_position_size | 17.8% | -17.79% | 1.04 | 218 |
 | garch_exposure | 30.82% | -16.02% | 1.38 | 207 |
 | ewma_exposure | 19.36% | -17.25% | 0.97 | 215 |
+| rebound_sleeve | 35.91% | -27.28% | 1.37 | 352 |
+| rebound_sleeve_below_200d | 30.77% | -32.03% | 1.18 | 339 |
+| rebound_sleeve_no_stop | 31.89% | -24.2% | 1.29 | 345 |
 
 ### 2022-01-03 → 2026-11-20 · 125 stocks · S&P CAGR 7.77%, max drawdown -25.43%
 
@@ -140,7 +149,7 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | sell_failed_breakout | 31.5% | -33.24% | 1.1 | 273 |
 | two_closes_and_sell_failed | 33.26% | -31.38% | 1.16 | 267 |
 | wait_res_and_sell_failed | 20.6% | -31.27% | 0.83 | 295 |
-| kell_crossback_exit | 25.8% | -26.01% | 1.0 | 628 |
+| kell_crossback_exit | 27.98% | -27.76% | 1.06 | 623 |
 | kell_base_n_break_entry | 10.72% | -19.66% | 0.77 | 213 |
 | kell_wedge_pop_entry | 4.74% | -24.57% | 0.38 | 224 |
 | kell_full | 12.03% | -28.49% | 0.67 | 498 |
@@ -156,6 +165,9 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | ewma_position_size | 23.33% | -19.42% | 1.35 | 245 |
 | garch_exposure | 36.62% | -33.11% | 1.24 | 255 |
 | ewma_exposure | 40.61% | -30.23% | 1.32 | 257 |
+| rebound_sleeve | 18.29% | -30.16% | 0.85 | 525 |
+| rebound_sleeve_below_200d | 27.63% | -26.62% | 1.15 | 500 |
+| rebound_sleeve_no_stop | 15.5% | -26.48% | 0.75 | 522 |
 
 ### Robustness: windows in which a variant beat base_v1_6 (the current rules)
 
@@ -180,12 +192,15 @@ Breakout failure rate 32.93% · 63-day mean: uptrend days 4.98%, just under resi
 | sell_all_correction_and_weak_breadth | 1/3 | 1/3 | 1/3 |
 | shorts_in_correction | 1/3 | 0/3 | 1/3 |
 | shorts_always | 0/3 | 0/3 | 0/3 |
-| garch_position_size | 1/3 | 3/3 | 2/3 |
+| garch_position_size | 0/3 | 2/3 | 2/3 |
 | ewma_position_size | 0/3 | 2/3 | 2/3 |
 | garch_exposure | 2/3 | 2/3 | 3/3 |
 | ewma_exposure | 2/3 | 2/3 | 2/3 |
+| rebound_sleeve | 1/3 | 1/3 | 2/3 |
+| rebound_sleeve_below_200d | 0/3 | 1/3 | 1/3 |
+| rebound_sleeve_no_stop | 1/3 | 1/3 | 1/3 |
 
-Symbols: 125 · generated 2026-11-22T23:07+00:00 · price data 173a67e599f62348
+Symbols: 125 · generated 2026-11-23T18:03+00:00 · price data 07627e9ba8e06dee
 
 ## Valuation coverage
 
@@ -218,6 +233,9 @@ Positions carry their last observed close on missing dates. No execution at a ca
 | ewma_position_size | 1 | None |
 | garch_exposure | 1 | None |
 | ewma_exposure | 1 | None |
+| rebound_sleeve | 1 | None |
+| rebound_sleeve_below_200d | 1 | None |
+| rebound_sleeve_no_stop | 1 | None |
 
 ## SMA200 buffer divergence: v1.6 versus 1%
 
@@ -245,7 +263,7 @@ buffer_200d_3pct vs 1%: order plans identical = True, executed positions identic
 
 First differing order plan on 2018-10-12 (side, symbol, shares): v1.6 only [('BUY', 'B', 133)], 1% only [].
 
-Ending equity difference: -582.75; total-return difference -5.83 percentage points. Differing positions: 135.
+Ending equity difference: -582.74; total-return difference -5.83 percentage points. Differing positions: 135.
 
 Two largest positive contributions: 24.6% of gross positive contributions. This describes concentration within this historical path.
 
@@ -292,13 +310,13 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 |---|---|---:|---|---|---|
 | base_v1_5 | 3 / 0 / 17 | +0.69 | -3.38 [-7.35, +1.34] | +0.21 [-2.01, +1.92] | -0.17 [-0.39, +0.10] |
 | no_buy_above_30pct_36d | 0 / 0 / 20 | -1.41 | -7.81 [-11.82, -0.65] | +0.21 [-2.01, +1.92] | -0.38 [-0.56, -0.03] |
-| sell_above_30pct_36d | 1 / 0 / 19 | -1.96 | -3.61 [-8.23, +1.38] | +0.24 [-2.01, +2.05] | -0.16 [-0.41, +0.09] |
+| sell_above_30pct_36d | 1 / 0 / 19 | -1.96 | -3.76 [-8.23, +1.38] | +0.28 [-2.01, +2.05] | -0.19 [-0.41, +0.09] |
 | wait_under_resistance | 5 / 0 / 15 | +2.59 | -1.22 [-4.54, +5.43] | +1.07 [-1.30, +6.78] | -0.05 [-0.21, +0.29] |
 | two_closes_above_resistance | 12 / 0 / 8 | +5.33 | +0.33 [-4.30, +6.29] | -0.91 [-4.30, +1.17] | -0.01 [-0.23, +0.28] |
 | sell_failed_breakout | 0 / 20 / 0 | +0.00 | +0.00 [+0.00, +0.00] | +0.00 [+0.00, +0.00] | +0.00 [+0.00, +0.00] |
 | two_closes_and_sell_failed | 7 / 0 / 13 | +2.39 | -0.61 [-6.20, +6.46] | -1.33 [-4.85, +4.75] | -0.04 [-0.33, +0.32] |
 | wait_res_and_sell_failed | 10 / 0 / 10 | +2.83 | -0.01 [-4.72, +4.89] | +0.83 [-1.91, +6.78] | +0.01 [-0.27, +0.27] |
-| kell_crossback_exit | 0 / 0 / 20 | -4.30 | -8.67 [-17.43, -1.03] | -1.21 [-2.69, +5.05] | -0.42 [-0.91, -0.10] |
+| kell_crossback_exit | 0 / 0 / 20 | -4.30 | -8.67 [-17.43, -1.03] | -1.06 [-2.69, +5.06] | -0.42 [-0.91, -0.10] |
 | kell_base_n_break_entry | 0 / 0 / 20 | -12.85 | -16.09 [-20.36, -9.43] | +0.89 [-3.85, +4.06] | -0.84 [-1.07, -0.45] |
 | kell_wedge_pop_entry | 0 / 0 / 20 | -10.58 | -11.97 [-18.55, -2.74] | -1.46 [-4.06, +3.60] | -0.51 [-0.86, +0.02] |
 | kell_full | 0 / 0 / 20 | -17.02 | -16.50 [-20.99, -9.13] | -4.84 [-7.78, +3.03] | -0.86 [-1.20, -0.54] |
@@ -306,14 +324,17 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | buffer_200d_2pct | 0 / 19 / 1 | +0.00 | +0.00 [-4.96, +0.00] | +0.00 [-0.07, +0.00] | +0.00 [-0.24, +0.00] |
 | buffer_200d_3pct | 0 / 19 / 1 | +0.00 | +0.00 [-4.96, +0.00] | +0.00 [-0.07, +0.00] | +0.00 [-0.24, +0.00] |
 | sell_all_in_correction | 0 / 0 / 20 | -2.25 | -4.86 [-8.18, -1.51] | +0.76 [-3.11, +2.53] | -0.21 [-0.40, -0.04] |
-| sell_all_weak_breadth | 4 / 0 / 16 | -0.16 | -3.45 [-5.82, +1.80] | +0.00 [-1.80, +2.22] | -0.20 [-0.34, +0.08] |
-| sell_all_correction_and_weak_breadth | 4 / 0 / 16 | -0.16 | -3.45 [-5.82, +1.80] | +0.00 [-1.80, +2.22] | -0.20 [-0.34, +0.08] |
-| shorts_in_correction | 0 / 0 / 20 | -2.34 | -3.61 [-6.93, -0.04] | -6.78 [-9.06, -4.82] | -0.21 [-0.39, -0.00] |
-| shorts_always | 0 / 0 / 20 | -8.16 | -9.64 [-16.10, -1.80] | -4.67 [-7.89, +0.19] | -0.61 [-0.95, -0.25] |
-| garch_position_size | 7 / 0 / 13 | +1.02 | -0.92 [-3.98, +5.96] | +2.65 [-1.24, +5.00] | +0.07 [-0.12, +0.41] |
+| sell_all_weak_breadth | 4 / 0 / 16 | -0.16 | -3.45 [-5.82, +1.80] | +0.00 [-1.80, +2.22] | -0.21 [-0.34, +0.08] |
+| sell_all_correction_and_weak_breadth | 4 / 0 / 16 | -0.16 | -3.45 [-5.82, +1.80] | +0.00 [-1.80, +2.22] | -0.21 [-0.34, +0.08] |
+| shorts_in_correction | 1 / 0 / 19 | -2.34 | -3.61 [-6.93, +0.37] | -6.78 [-9.06, -4.82] | -0.20 [-0.39, -0.00] |
+| shorts_always | 0 / 0 / 20 | -8.16 | -9.64 [-16.10, -1.80] | -4.67 [-7.89, +0.20] | -0.61 [-0.95, -0.25] |
+| garch_position_size | 6 / 0 / 14 | -0.10 | -0.59 [-4.42, +7.58] | +2.90 [-1.43, +6.99] | +0.08 [-0.09, +0.50] |
 | ewma_position_size | 2 / 0 / 18 | -0.00 | -2.06 [-4.94, +3.96] | +1.84 [-3.71, +4.49] | +0.02 [-0.12, +0.34] |
-| garch_exposure | 4 / 0 / 16 | +1.73 | -3.19 [-5.07, +5.64] | -0.01 [-5.05, +4.87] | -0.16 [-0.28, +0.25] |
+| garch_exposure | 4 / 0 / 16 | +1.47 | -2.61 [-4.98, +5.86] | -0.01 [-5.05, +4.87] | -0.14 [-0.28, +0.26] |
 | ewma_exposure | 5 / 0 / 15 | +0.57 | -1.74 [-3.98, +4.01] | -0.26 [-1.35, +2.16] | -0.06 [-0.17, +0.26] |
+| rebound_sleeve | 13 / 0 / 7 | +0.50 | +0.70 [-5.66, +5.45] | -3.34 [-8.39, +2.89] | +0.01 [-0.34, +0.24] |
+| rebound_sleeve_below_200d | 11 / 0 / 9 | -0.11 | +0.43 [-5.72, +9.01] | -2.77 [-6.22, +1.59] | -0.03 [-0.33, +0.41] |
+| rebound_sleeve_no_stop | 14 / 0 / 6 | +1.87 | +1.20 [-4.36, +8.18] | -2.44 [-6.05, +2.98] | +0.01 [-0.24, +0.32] |
 
 ### 2018-01-02 → 2021-12-31
 
@@ -329,9 +350,9 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | sell_failed_breakout | 0 / 20 / 0 | +0.00 | +0.00 [+0.00, +0.00] | +0.00 [+0.00, +0.00] | +0.00 [+0.00, +0.00] |
 | two_closes_and_sell_failed | 8 / 0 / 12 | -8.48 | -2.09 [-12.39, +7.57] | +1.33 [-1.59, +4.28] | -0.08 [-0.35, +0.22] |
 | wait_res_and_sell_failed | 8 / 0 / 12 | -3.94 | -3.33 [-10.76, +8.83] | -7.72 [-14.16, -1.49] | -0.11 [-0.34, +0.23] |
-| kell_crossback_exit | 4 / 0 / 16 | -9.96 | -6.23 [-16.24, +3.17] | -1.48 [-6.98, +1.43] | -0.17 [-0.51, +0.09] |
+| kell_crossback_exit | 4 / 0 / 16 | -9.96 | -6.95 [-16.24, +3.17] | -1.48 [-6.98, +1.43] | -0.19 [-0.51, +0.09] |
 | kell_base_n_break_entry | 0 / 0 / 20 | -14.40 | -14.47 [-28.08, -6.54] | +5.14 [+2.60, +6.12] | -0.11 [-0.45, +0.15] |
-| kell_wedge_pop_entry | 0 / 0 / 20 | -20.83 | -13.30 [-24.40, -3.10] | +6.64 [+3.29, +8.02] | -0.14 [-0.47, +0.23] |
+| kell_wedge_pop_entry | 0 / 0 / 20 | -20.83 | -12.90 [-24.40, -3.10] | +6.64 [+3.29, +8.02] | -0.14 [-0.47, +0.23] |
 | kell_full | 0 / 0 / 20 | -21.66 | -19.32 [-28.67, -13.72] | -1.70 [-4.64, +0.86] | -0.51 [-0.74, -0.32] |
 | buffer_200d_1pct | 12 / 0 / 8 | -0.58 | +2.64 [-7.34, +11.44] | -0.22 [-2.91, +2.52] | +0.05 [-0.21, +0.32] |
 | buffer_200d_2pct | 13 / 0 / 7 | -0.58 | +2.64 [-7.03, +11.44] | -0.22 [-2.91, +2.75] | +0.08 [-0.21, +0.32] |
@@ -339,12 +360,15 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | sell_all_in_correction | 9 / 0 / 11 | -4.70 | -3.03 [-12.77, +7.75] | +1.53 [-3.02, +4.88] | -0.07 [-0.34, +0.25] |
 | sell_all_weak_breadth | 11 / 0 / 9 | -8.84 | +0.67 [-9.89, +14.74] | +3.25 [-0.88, +5.75] | +0.04 [-0.24, +0.43] |
 | sell_all_correction_and_weak_breadth | 11 / 0 / 9 | -8.84 | +0.67 [-9.89, +14.74] | +3.25 [-0.88, +5.75] | +0.04 [-0.24, +0.43] |
-| shorts_in_correction | 10 / 0 / 10 | -7.27 | -0.03 [-15.26, +9.95] | -3.88 [-6.29, -1.68] | -0.06 [-0.45, +0.23] |
+| shorts_in_correction | 11 / 0 / 9 | -7.27 | +0.30 [-15.26, +9.95] | -3.88 [-6.29, -1.68] | -0.04 [-0.45, +0.23] |
 | shorts_always | 0 / 0 / 20 | -16.18 | -15.98 [-31.64, -7.38] | -11.73 [-14.15, -6.40] | -0.56 [-1.00, -0.31] |
 | garch_position_size | 0 / 0 / 20 | -17.54 | -15.72 [-26.74, -9.98] | +5.49 [+3.15, +7.01] | -0.21 [-0.49, -0.07] |
 | ewma_position_size | 0 / 0 / 20 | -18.50 | -15.76 [-25.40, -6.37] | +3.21 [+2.17, +5.67] | -0.21 [-0.44, +0.05] |
 | garch_exposure | 3 / 0 / 17 | -5.48 | -4.10 [-18.19, +4.36] | +4.48 [+1.07, +6.70] | +0.03 [-0.41, +0.29] |
 | ewma_exposure | 0 / 0 / 20 | -16.95 | -9.76 [-17.95, -0.34] | +3.90 [+1.63, +5.98] | -0.17 [-0.36, +0.10] |
+| rebound_sleeve | 14 / 0 / 6 | -0.39 | +3.38 [-7.47, +17.25] | -6.48 [-9.91, -1.54] | +0.08 [-0.25, +0.35] |
+| rebound_sleeve_below_200d | 10 / 0 / 10 | -5.53 | +0.34 [-11.26, +9.48] | -6.22 [-11.51, -2.94] | +0.01 [-0.35, +0.28] |
+| rebound_sleeve_no_stop | 16 / 0 / 4 | -4.41 | +3.72 [-7.13, +10.58] | -4.22 [-7.75, -0.47] | +0.11 [-0.18, +0.31] |
 
 ### 2022-01-03 → 2026-11-20
 
@@ -360,7 +384,7 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | sell_failed_breakout | 0 / 20 / 0 | +0.00 | +0.00 [+0.00, +0.00] | +0.00 [+0.00, +0.00] | +0.00 [+0.00, +0.00] |
 | two_closes_and_sell_failed | 11 / 0 / 9 | +1.76 | +1.81 [-13.40, +10.24] | +4.42 [-5.21, +6.46] | +0.19 [-0.19, +0.30] |
 | wait_res_and_sell_failed | 6 / 0 / 14 | -10.89 | -10.57 [-12.90, +15.47] | +0.57 [-3.24, +3.72] | -0.18 [-0.30, +0.33] |
-| kell_crossback_exit | 2 / 0 / 18 | -5.70 | -6.15 [-16.01, +6.67] | +2.47 [-2.52, +7.24] | -0.11 [-0.33, +0.20] |
+| kell_crossback_exit | 2 / 0 / 18 | -3.52 | -6.13 [-16.01, +6.67] | +2.47 [-2.52, +6.37] | -0.10 [-0.33, +0.20] |
 | kell_base_n_break_entry | 0 / 0 / 20 | -20.78 | -27.78 [-40.66, -12.12] | +11.90 [+8.06, +16.22] | -0.68 [-0.92, -0.11] |
 | kell_wedge_pop_entry | 0 / 0 / 20 | -26.75 | -27.14 [-39.96, -17.38] | +7.56 [+2.86, +13.66] | -0.71 [-0.96, -0.41] |
 | kell_full | 0 / 0 / 20 | -19.46 | -20.94 [-34.71, -12.79] | +9.34 [+4.49, +11.49] | -0.49 [-0.69, -0.23] |
@@ -368,14 +392,17 @@ Each row compares a variant with v1.6 started on the same day with the same capi
 | buffer_200d_2pct | 1 / 19 / 0 | +0.00 | +0.00 [+0.00, +4.70] | +0.00 [+0.00, +0.00] | +0.00 [+0.00, +0.14] |
 | buffer_200d_3pct | 1 / 19 / 0 | +0.00 | +0.00 [+0.00, +4.70] | +0.00 [+0.00, +0.00] | +0.00 [+0.00, +0.14] |
 | sell_all_in_correction | 7 / 0 / 13 | -0.62 | -4.62 [-18.64, +6.16] | +3.91 [-0.26, +9.79] | -0.06 [-0.33, +0.26] |
-| sell_all_weak_breadth | 5 / 0 / 15 | -8.26 | -12.10 [-22.87, +7.00] | +3.10 [-5.96, +9.01] | -0.28 [-0.50, +0.15] |
-| sell_all_correction_and_weak_breadth | 11 / 0 / 9 | +2.17 | +1.39 [-13.21, +15.24] | +3.09 [-3.80, +9.40] | +0.02 [-0.24, +0.33] |
+| sell_all_weak_breadth | 5 / 0 / 15 | -8.26 | -12.10 [-22.87, +7.37] | +3.10 [-5.96, +9.01] | -0.28 [-0.50, +0.18] |
+| sell_all_correction_and_weak_breadth | 11 / 0 / 9 | +2.17 | +1.39 [-13.21, +18.13] | +3.09 [-3.80, +9.40] | +0.02 [-0.24, +0.40] |
 | shorts_in_correction | 10 / 0 / 10 | +2.75 | -0.52 [-15.92, +13.39] | -1.63 [-5.56, +1.51] | -0.02 [-0.37, +0.29] |
 | shorts_always | 1 / 0 / 19 | -13.87 | -12.82 [-33.31, +8.08] | -1.18 [-7.17, +2.43] | -0.32 [-0.76, +0.16] |
 | garch_position_size | 0 / 0 / 20 | -8.85 | -8.55 [-20.54, -0.09] | +13.37 [+9.53, +14.29] | +0.25 [+0.10, +0.52] |
 | ewma_position_size | 2 / 0 / 18 | -8.17 | -9.71 [-20.08, +0.65] | +11.10 [+5.87, +13.82] | +0.24 [-0.07, +0.53] |
-| garch_exposure | 18 / 0 / 2 | +5.12 | +4.64 [-5.93, +15.91] | -1.87 [-5.52, +1.80] | +0.10 [-0.09, +0.39] |
+| garch_exposure | 19 / 0 / 1 | +5.12 | +5.09 [-0.43, +15.91] | -1.87 [-5.52, +1.80] | +0.13 [-0.07, +0.39] |
 | ewma_exposure | 12 / 0 / 8 | +9.11 | +6.23 [-3.45, +12.60] | +0.36 [-6.29, +3.07] | +0.17 [-0.12, +0.27] |
+| rebound_sleeve | 5 / 0 / 15 | -13.21 | -13.16 [-22.14, +15.63] | +0.21 [-3.04, +6.38] | -0.16 [-0.50, +0.44] |
+| rebound_sleeve_below_200d | 3 / 0 / 17 | -3.87 | -8.77 [-26.06, +10.44] | +3.38 [-1.39, +9.47] | -0.11 [-0.43, +0.29] |
+| rebound_sleeve_no_stop | 4 / 0 / 16 | -16.00 | -11.30 [-30.52, +15.11] | +0.65 [-6.08, +9.55] | -0.15 [-0.62, +0.38] |
 
 
 ## Pairs trading (same-sector, Engle-Granger + Ornstein-Uhlenbeck)
@@ -409,11 +436,127 @@ Rules against buy and hold from 20 paired starts per period. Costs 0.1% per posi
 | 2018-01-02 → 2021-12-31 | codex_20d_5d_long_only | 0/20 | 2.17% | -12.94 [-13.91, -11.46] | -0.48 | +24.82 |
 | 2018-01-02 → 2021-12-31 | trend_200d | 0/20 | 7.85% | -6.99 [-7.12, -6.79] | -0.08 | +18.78 |
 | 2018-01-02 → 2021-12-31 | codex_intraday_account | 0/20 | -25.59% | -40.58 [-42.15, -38.68] | -5.30 | -32.76 |
-| 2022-01-03 → 2026-11-20 | buy_and_hold | — | 8.17% | — | — | — |
-| 2022-01-03 → 2026-11-20 | codex_20d_5d_long_short | 0/20 | -8.37% | -18.83 [-24.06, -16.35] | -1.24 | -21.46 |
-| 2022-01-03 → 2026-11-20 | codex_20d_5d_long_only | 0/20 | 1.55% | -9.31 [-12.58, -7.71] | -0.45 | +13.57 |
-| 2022-01-03 → 2026-11-20 | trend_200d | 0/20 | 8.22% | -2.49 [-5.31, -1.56] | +0.08 | +12.63 |
-| 2022-01-03 → 2026-11-20 | codex_intraday_account | 0/20 | -24.32% | -35.13 [-39.35, -32.39] | -4.91 | -50.88 |
+| 2022-01-03 → 2026-11-23 | buy_and_hold | — | 9.07% | — | — | — |
+| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_short | 0/20 | -9.18% | -20.60 [-25.91, -18.04] | -1.35 | -21.46 |
+| 2022-01-03 → 2026-11-23 | codex_20d_5d_long_only | 0/20 | 1.55% | -10.24 [-13.60, -8.61] | -0.50 | +13.57 |
+| 2022-01-03 → 2026-11-23 | trend_200d | 0/20 | 8.21% | -3.45 [-6.34, -2.54] | +0.04 | +12.63 |
+| 2022-01-03 → 2026-11-23 | codex_intraday_account | 0/20 | -24.30% | -36.07 [-40.35, -33.27] | -4.96 | -50.88 |
 
 Passes: codex_20d_5d_long_short no, codex_20d_5d_long_only no, trend_200d no, codex_intraday_account no
 
+
+## Buy the oversold dip, sell the rebound
+
+Signal: three red closes and at least 3 ATR under the 21-day EMA. Entry at the signal close, exit at the first close above the 10-day EMA or after 10 sessions; stop 8% (close) unless "no_stop"; 0.1% cost per side. Passes only with at least 30 trades and a positive mean and median excess over the S&P 500 in every period.
+
+| Period | Variant | Trades | Win rate | Mean | Median | Mean vs S&P | Median vs S&P | Worst | 5th pct | Stops |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2014-01-02 → 2017-12-29 | all | 307 | 66% | +1.33% | +2.03% | +0.50% | +0.55% | -24.82% | -10.25% | 12% |
+| 2014-01-02 → 2017-12-29 | above_sma200 | 52 | 71% | +1.59% | +2.17% | +0.81% | +1.42% | -9.22% | -8.57% | 8% |
+| 2014-01-02 → 2017-12-29 | below_sma200 | 260 | 65% | +1.19% | +1.98% | +0.36% | +0.53% | -24.82% | -10.68% | 13% |
+| 2014-01-02 → 2017-12-29 | all_no_stop | 293 | 67% | +1.17% | +2.03% | +0.31% | +0.56% | -33.26% | -11.01% | 0% |
+| 2014-01-02 → 2017-12-29 | below_sma200_no_stop | 247 | 66% | +0.98% | +2.01% | +0.12% | +0.53% | -33.26% | -11.54% | 0% |
+| 2014-01-02 → 2017-12-29 | at_weekly_sma200 | 8 | 25% | -3.21% | -3.92% | -3.74% | -4.20% | -9.13% | -9.13% | 12% |
+| 2014-01-02 → 2017-12-29 | at_weekly_sma200_no_stop | 8 | 25% | -3.09% | -3.92% | -3.49% | -4.20% | -8.13% | -8.13% | 0% |
+| 2018-01-02 → 2021-12-31 | all | 417 | 58% | +1.05% | +2.16% | +1.09% | +0.82% | -52.11% | -15.94% | 24% |
+| 2018-01-02 → 2021-12-31 | above_sma200 | 68 | 69% | +2.31% | +3.27% | +1.63% | +1.72% | -19.00% | -12.80% | 15% |
+| 2018-01-02 → 2021-12-31 | below_sma200 | 355 | 57% | +0.84% | +1.63% | +0.97% | +0.73% | -52.11% | -16.10% | 25% |
+| 2018-01-02 → 2021-12-31 | all_no_stop | 385 | 61% | +0.66% | +2.62% | +1.11% | +1.22% | -59.26% | -23.28% | 0% |
+| 2018-01-02 → 2021-12-31 | below_sma200_no_stop | 326 | 59% | +0.27% | +2.06% | +0.90% | +1.03% | -59.26% | -23.41% | 0% |
+| 2018-01-02 → 2021-12-31 | at_weekly_sma200 | 58 | 62% | -0.51% | +1.55% | +0.32% | +0.50% | -21.38% | -17.25% | 21% |
+| 2018-01-02 → 2021-12-31 | at_weekly_sma200_no_stop | 58 | 62% | -1.07% | +1.55% | +0.56% | +0.29% | -36.69% | -21.10% | 0% |
+| 2022-01-03 → 2026-11-20 | all | 679 | 60% | +1.18% | +2.02% | +0.36% | +0.70% | -26.68% | -12.34% | 18% |
+| 2022-01-03 → 2026-11-20 | above_sma200 | 60 | 53% | +0.45% | +0.55% | -0.82% | -0.18% | -13.90% | -9.59% | 10% |
+| 2022-01-03 → 2026-11-20 | below_sma200 | 627 | 61% | +1.26% | +2.18% | +0.46% | +0.78% | -26.68% | -12.36% | 18% |
+| 2022-01-03 → 2026-11-20 | all_no_stop | 642 | 62% | +1.60% | +2.28% | +0.66% | +0.98% | -29.38% | -12.26% | 0% |
+| 2022-01-03 → 2026-11-20 | below_sma200_no_stop | 592 | 64% | +1.70% | +2.41% | +0.77% | +1.02% | -29.38% | -12.26% | 0% |
+| 2022-01-03 → 2026-11-20 | at_weekly_sma200 | 109 | 57% | +0.59% | +1.75% | -0.00% | +0.65% | -12.47% | -10.68% | 17% |
+| 2022-01-03 → 2026-11-20 | at_weekly_sma200_no_stop | 109 | 58% | +0.72% | +1.75% | +0.14% | +0.72% | -21.46% | -10.33% | 0% |
+
+Passes: all yes, above_sma200 no, below_sma200 yes, all_no_stop yes, below_sma200_no_stop yes, at_weekly_sma200 no, at_weekly_sma200_no_stop no
+
+NVDA in November 2026 under this rule (with the 8% stop): signal 2026-11-16 at 156.14 (-3.5 ATR) → stop on 2026-11-20, -19.76%
+
+NVDA's 200-week average on 2026-11-20: 123.33.
+
+## Thermometer "Panic · buy": buy the leader
+
+Signal: the thermometer (market_pulse.py, rebuilt without Fear & Greed) closes under 20; one signal per episode (63 sessions apart). Bought at the next close; 0.1% per side. Leader: highest 21/200-day average ratio in the universe on the signal day; top5: the five highest. Today's universe, so stock baskets are flattered by survivorship.
+
+Rebuilt thermometer on 2026-11-20: 15.8.
+
+### First panic close
+
+| Sessions | Signals | Leader mean / median | Top 5 mean / median | Universe mean | S&P 500 mean / median | Leader beats S&P | Leader worst |
+|---:|---:|---|---|---:|---|---:|---:|
+| 21 | 6 | +4.4% / +5.8% | +5.8% / +3.2% | +5.3% | +4.2% / +5.0% | 3/6 | -15.1% |
+| 63 | 6 | +33.7% / +33.1% | +30.8% / +26.5% | +17.5% | +11.7% / +11.5% | 5/6 | -0.6% |
+| 126 | 6 | +72.8% / +85.2% | +63.4% / +38.4% | +24.7% | +13.5% / +15.1% | 5/6 | -7.1% |
+| 252 | 6 | +138.8% / +73.5% | +72.8% / +49.9% | +40.2% | +21.7% / +25.4% | 4/6 | -6.4% |
+
+Signals: 2015-08-24 (heat 6.4, leader NFLX: 63 sessions +22.9%, S&P +11.5%); 2016-01-15 (heat 18.9, leader NVDA: 63 sessions +33.1%, S&P +11.4%); 2018-12-19 (heat 19.7, leader TTD: 63 sessions +67.9%, S&P +13.2%); 2020-03-09 (heat 8.3, leader TSLA: 63 sessions +45.5%, S&P +11.1%); 2022-03-07 (heat 14.7, leader DVN: 63 sessions +33.1%, S&P -0.4%); 2025-04-04 (heat 5.2, leader BABA: 63 sessions -0.6%, S&P +23.5%)
+
+### First close back above 20
+
+| Sessions | Signals | Leader mean / median | Top 5 mean / median | Universe mean | S&P 500 mean / median | Leader beats S&P | Leader worst |
+|---:|---:|---|---|---:|---|---:|---:|
+| 21 | 6 | +23.0% / +19.4% | +15.2% / +11.5% | +6.9% | +4.4% / +3.9% | 4/6 | -16.6% |
+| 63 | 6 | +44.3% / +29.4% | +52.0% / +29.6% | +16.6% | +10.3% / +13.3% | 5/6 | +5.4% |
+| 126 | 6 | +63.5% / +75.8% | +88.4% / +50.3% | +25.5% | +13.6% / +18.6% | 5/6 | -16.6% |
+| 252 | 6 | +126.0% / +87.8% | +107.8% / +60.6% | +41.9% | +22.4% / +26.6% | 3/6 | -17.4% |
+
+Signals: 2015-08-27 (heat 30.5, leader NFLX: 63 sessions +6.4%, S&P +4.9%); 2016-01-22 (heat 25.3, leader NVDA: 63 sessions +28.5%, S&P +11.0%); 2019-01-02 (heat 21.8, leader TTD: 63 sessions +80.4%, S&P +17.4%); 2020-04-14 (heat 26.2, leader MRNA: 63 sessions +114.9%, S&P +15.7%); 2022-03-09 (heat 21.2, leader DVN: 63 sessions +30.4%, S&P -5.9%); 2025-04-09 (heat 20.6, leader BABA: 63 sessions +5.4%, S&P +18.8%)
+
+### S&P 500 leaders, point in time
+
+Members on the signal day from the fja05680/sp500 history (including companies that later left the index); leader = highest 21/200-day average ratio among members with 200 sessions of prices. Members without Yahoo prices (mostly delisted later) are counted and left out, so a little survivorship remains.
+
+#### First panic close
+
+| Sessions | Signals | Leader mean / median | Top 5 mean | Top 10 mean | All members mean | S&P 500 mean | Leader beats S&P | Leader worst |
+|---:|---:|---|---:|---:|---:|---:|---:|---:|
+| 21 | 6 | +9.2% / +2.0% | +7.2% | +5.5% | +3.7% | +4.2% | 3/6 | -0.5% |
+| 63 | 6 | +35.8% / +33.1% | +21.1% | +16.7% | +12.2% | +11.7% | 5/6 | +3.7% |
+| 126 | 6 | +55.9% / +50.4% | +20.8% | +16.1% | +12.9% | +13.5% | 4/6 | -7.1% |
+| 252 | 6 | +75.0% / +44.9% | +31.6% | +27.3% | +26.1% | +21.7% | 4/6 | -6.4% |
+
+Signals: 2015-08-24 (368/500 members priced; leader NFLX, 63 sessions +22.9%; top 5 NFLX, AMZN, UAA, EXPE, REGN); 2016-01-15 (373/504 members priced; leader NVDA, 63 sessions +33.1%; top 5 NVDA, HRL, FSLR, AMZN, TSN); 2018-12-19 (417/505 members priced; leader MKC, 63 sessions +3.7%; top 5 MKC, CHD, LLY, AAP, TRIP); 2020-03-09 (435/505 members priced; leader NVDA, 63 sessions +38.4%; top 5 NVDA, AMD, REGN, DVA, LRCX); 2022-03-07 (457/505 members priced; leader DVN, 63 sessions +33.1%; top 5 DVN, APA, OXY, HAL, COP); 2025-04-04 (485/503 members priced; leader PLTR, 63 sessions +83.5%; top 5 PLTR, TPR, GILD, EQT, VRSN)
+
+#### First close back above 20
+
+| Sessions | Signals | Leader mean / median | Top 5 mean | Top 10 mean | All members mean | S&P 500 mean | Leader beats S&P | Leader worst |
+|---:|---:|---|---:|---:|---:|---:|---:|---:|
+| 21 | 6 | +7.7% / +7.9% | +5.2% | +4.7% | +4.8% | +4.4% | 3/6 | -16.6% |
+| 63 | 6 | +28.3% / +25.9% | +15.3% | +12.7% | +11.6% | +10.3% | 5/6 | +6.4% |
+| 126 | 6 | +38.6% / +19.0% | +18.8% | +13.2% | +14.5% | +13.6% | 3/6 | -16.6% |
+| 252 | 6 | +52.0% / +3.5% | +27.6% | +17.5% | +28.4% | +22.4% | 2/6 | -17.4% |
+
+Signals: 2015-08-27 (368/500 members priced; leader NFLX, 63 sessions +6.4%; top 5 NFLX, AMZN, UAA, EXPE, MLM); 2016-01-22 (374/505 members priced; leader NVDA, 63 sessions +28.5%; top 5 NVDA, HRL, FSLR, EXR, AMZN); 2019-01-02 (418/505 members priced; leader CHD, 63 sessions +13.2%; top 5 CHD, MKC, AZO, LLY, MRK); 2020-04-14 (437/505 members priced; leader REGN, 63 sessions +23.4%; top 5 REGN, KR, NVDA, NEM, AMD); 2022-03-09 (457/505 members priced; leader DVN, 63 sessions +30.4%; top 5 DVN, OXY, APA, HAL, CF); 2025-04-09 (485/503 members priced; leader PLTR, 63 sessions +68.0%; top 5 PLTR, TPR, GILD, EQT, VRSN)
+
+#### Ten largest S&P 500 members by market cap, cap-weighted (first panic close)
+
+Market cap = close x Yahoo shares outstanding on the day; looked up for the 40 most traded members. This is the rule of the index-leaders paper account (index_leaders.py).
+
+| Sessions | Signals | Top 10 by weight mean / median | S&P 500 mean / median | Beats S&P | Worst |
+|---:|---:|---|---|---:|---:|
+| 21 | 5 | +5.4% / +4.9% | +4.4% / +6.7% | 3/5 | -2.2% |
+| 63 | 5 | +13.7% / +15.5% | +11.7% / +11.4% | 3/5 | -5.7% |
+| 126 | 5 | +22.2% / +20.7% | +15.4% / +15.4% | 3/5 | -7.2% |
+| 252 | 5 | +30.3% / +39.2% | +22.8% / +30.3% | 4/5 | -15.9% |
+
+Signals: 2016-01-15 (AAPL 15%, GOOGL 14%, GOOG 13%, MSFT 11%, XOM 9%…; 63 sessions +10.4% vs S&P +11.4%; no shares for BKNG); 2018-12-19 (MSFT 15%, AAPL 14%, AMZN 13%, GOOGL 13%, GOOG 13%…; 63 sessions +15.5% vs S&P +13.2%); 2020-03-09 (AAPL 18%, MSFT 17%, AMZN 13%, GOOGL 13%, GOOG 13%…; 63 sessions +16.0% vs S&P +11.1%); 2022-03-07 (AAPL 21%, MSFT 17%, GOOG 13%, GOOGL 13%, AMZN 11%…; 63 sessions -5.7% vs S&P -0.4%); 2025-04-04 (AAPL 17%, MSFT 16%, NVDA 14%, AMZN 11%, GOOG 11%…; 63 sessions +32.5% vs S&P +23.5%)
+
+#### Exit rules for the same buy (ten largest by weight)
+
+hold_63 sells after 63 sessions; euphoria at the close after the first thermometer close at or above 80 (however long); euphoria_after_63 likewise, after at least 63 sessions; euphoria_or_252 the euphoria exit within at most 252 sessions (the paper account's rule). Open = no euphoria yet, marked at the last close.
+
+| Exit | Signals | Still open | Median sessions held | Mean / median return | S&P 500 same span | Beats S&P | Worst |
+|---|---:|---:|---:|---|---:|---:|---:|
+| hold_63 | 5 | 0 | 63 | +13.7% / +15.5% | +12.0% | 3/5 | -5.7% |
+| euphoria | 5 | 0 | 62 | +12.2% / +16.0% | +11.3% | 3/5 | -11.1% |
+| euphoria_after_63 | 5 | 0 | 69 | +15.9% / +17.7% | +13.3% | 3/5 | -11.1% |
+| euphoria_or_252 | 5 | 0 | 62 | +12.2% / +16.0% | +11.3% | 3/5 | -11.1% |
+
+Per signal (euphoria exit): 2016-01-15 → 2016-04-04 (52 sessions): +8.9% vs S&P +9.8%; 2018-12-19 → 2019-03-22 (62 sessions): +16.0% vs S&P +13.5%; 2020-03-09 → 2020-06-09 (63 sessions): +16.0% vs S&P +11.3%; 2022-03-07 → 2023-02-03 (229 sessions): -11.1% vs S&P -0.8%; 2025-04-04 → 2025-06-30 (57 sessions): +31.3% vs S&P +22.6%
+
+Panic today (2026-11-20): S&P 500 leaders by the same ranking, members as of the latest list (497/503 priced): MRNA 2.23, CRL 1.49, VEEV 1.40, RVTY 1.36, CRWD 1.36, MPC 1.34, ACN 1.32, HUM 1.31, BBY 1.30, PTC 1.30
