@@ -105,6 +105,7 @@ class WeightLeaders(unittest.TestCase):
         self.assertAlmostEqual(e['returns']['21']['leaders'], expected)
         s = pb.weight_summary(events, horizons=(21,))
         self.assertEqual((s['21']['n'], s['21']['beats_spx']), (1, 1))
+        json.dumps(dict(events=events, summary=s), allow_nan=False)
 
 
 class ExitRules(unittest.TestCase):
@@ -124,8 +125,10 @@ class ExitRules(unittest.TestCase):
         none = pb.exit_rules([event], close, spx, [])[0]['rules']
         self.assertTrue(none['euphoria']['open'])                       # never euphoric: still held
         self.assertEqual(none['euphoria_or_252']['sessions'], 252)
-        summary = pb.exit_summary(pb.exit_rules([event], close, spx, euphoria))
+        rows = pb.exit_rules([event], close, spx, euphoria)
+        summary = pb.exit_summary(rows)
         self.assertEqual(summary['euphoria']['n'], 1)
+        json.dumps(dict(rows=rows, summary=summary), allow_nan=False)    # numpy types broke run 45229940750
 
 
 if __name__ == '__main__':

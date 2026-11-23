@@ -337,7 +337,7 @@ def weight_leaders(days, rows, close, volume, spx, shares, horizons=HORIZONS, to
             known = [(w, r) for w, r in parts if r is not None]
             wsum = sum(w for w, _ in known)
             event['returns'][str(h)] = dict(
-                leaders=sum(w * r for w, r in known) / wsum if wsum > 0.8 else None,   # needs 80% of the weight
+                leaders=float(sum(w * r for w, r in known) / wsum) if wsum > 0.8 else None,   # needs 80% of the weight
                 spx=_ret(spx, spx_pos + 1, h) if spx_pos is not None else None)
         events.append(event)
     return events
@@ -381,7 +381,7 @@ def exit_rules(events, close, spx, euphoria, rules=EXIT_RULES):
             wsum = sum(w for w, _ in parts)
             spx_f = spx.reindex(idx).ffill()
             years = max((idx[end] - idx[start]).days / 365.25, 1 / 252)
-            ret = sum(w * r for w, r in parts) / wsum if wsum > 0.8 else None
+            ret = float(sum(w * r for w, r in parts) / wsum) if wsum > 0.8 else None
             spx_ret = float(spx_f.iloc[end] / spx_f.iloc[start] - 1)
             row['rules'][rule] = dict(exit=str(idx[end].date()), sessions=int(end - start), open=open_,
                                       ret=ret, spx=spx_ret,
@@ -398,13 +398,13 @@ def exit_summary(rows, rules=EXIT_RULES):
         if not cells:
             out[rule] = dict(n=0)
             continue
-        out[rule] = dict(n=len(cells), open=sum(c['open'] for c in cells),
-                         mean=statistics.fmean(c['ret'] for c in cells),
-                         median=statistics.median(c['ret'] for c in cells),
-                         spx_mean=statistics.fmean(c['spx'] for c in cells),
-                         beats_spx=sum(c['ret'] > c['spx'] for c in cells),
-                         sessions=statistics.median(c['sessions'] for c in cells),
-                         worst=min(c['ret'] for c in cells))
+        out[rule] = dict(n=len(cells), open=int(sum(bool(c['open']) for c in cells)),
+                         mean=float(statistics.fmean(c['ret'] for c in cells)),
+                         median=float(statistics.median(c['ret'] for c in cells)),
+                         spx_mean=float(statistics.fmean(c['spx'] for c in cells)),
+                         beats_spx=int(sum(bool(c['ret'] > c['spx']) for c in cells)),
+                         sessions=float(statistics.median(c['sessions'] for c in cells)),
+                         worst=float(min(c['ret'] for c in cells)))
     return out
 
 
@@ -415,7 +415,7 @@ def weight_summary(events, horizons=HORIZONS):
         if not rows:
             out[str(h)] = dict(n=0)
             continue
-        out[str(h)] = dict(n=len(rows), beats_spx=sum(r['leaders'] > r['spx'] for r in rows),
+        out[str(h)] = dict(n=len(rows), beats_spx=int(sum(bool(r['leaders'] > r['spx']) for r in rows)),
                            **{k: dict(mean=statistics.fmean(r[k] for r in rows),
                                       median=statistics.median(r[k] for r in rows),
                                       worst=min(r[k] for r in rows)) for k in ('leaders', 'spx')})
