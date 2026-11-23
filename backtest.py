@@ -822,7 +822,8 @@ def main():
         result['panic'] = panic_backtest.study(frames, spx, panic_backtest.download_vix(period))
         try:                               # leaders of the S&P 500 itself, members as on each signal day
             panic_backtest.index_study(result['panic'], panic_backtest.fetch_members(),
-                                       lambda t: panic_backtest.download_closes(t, period), spx)
+                                       lambda t: panic_backtest.download_closes(t, period), spx,
+                                       shares=panic_backtest.yahoo_shares)
         except Exception as exc:           # pragma: no cover - reported in the results instead
             result['panic']['index_error'] = f'{type(exc).__name__}: {exc}'
     except Exception as exc:               # pragma: no cover - reported in the results instead

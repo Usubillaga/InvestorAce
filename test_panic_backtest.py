@@ -86,5 +86,26 @@ class IndexLeaders(unittest.TestCase):
         self.assertIn('Not computed', pb.index_report(dict(index_error='boom')))
 
 
+class WeightLeaders(unittest.TestCase):
+    def test_largest_by_cap_are_bought_in_proportion(self):
+        idx = pd.bdate_range('2019-01-01', periods=200)
+        close = pd.DataFrame({'AAA': np.full(200, 100.), 'BBB': np.full(200, 50.), 'GONE': np.full(200, 10.)}, index=idx)
+        close.iloc[120:, 0] = 110.                                  # AAA +10% after the signal
+        volume = pd.DataFrame(1e6, index=idx, columns=close.columns)
+        rows = pb.parse_members('date,tickers\n2019-04-01,"AAA,BBB,GONE"\n')
+        shares = {'AAA': 3e9, 'BBB': 2e9, 'GONE': None}
+        spx = pd.Series(100., index=idx)
+        day = idx[100]
+        events = pb.weight_leaders([day], rows, close, volume, spx, lambda t, d: shares[t], horizons=(21,), top=2)
+        e = events[0]
+        self.assertEqual([t for t, _ in e['leaders']], ['AAA', 'BBB'])     # 300bn vs 100bn
+        self.assertAlmostEqual(dict(e['leaders'])['AAA'], 0.75)
+        self.assertEqual(e['missing_shares'], ['GONE'])
+        expected = 0.75 * (110 / 100 * (1 - pb.COST) / (1 + pb.COST) - 1) + 0.25 * ((1 - pb.COST) / (1 + pb.COST) - 1)
+        self.assertAlmostEqual(e['returns']['21']['leaders'], expected)
+        s = pb.weight_summary(events, horizons=(21,))
+        self.assertEqual((s['21']['n'], s['21']['beats_spx']), (1, 1))
+
+
 if __name__ == '__main__':
     unittest.main()

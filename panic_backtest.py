@@ -253,21 +253,25 @@ def leader_summary(events, horizons=HORIZONS):
     return out
 
 
-def index_study(result, rows, download, spx):
+def index_study(result, rows, download, spx, shares=None):
     """Adds the point-in-time index leaders for the panic signals already in `result`."""
     for name in ('panic_entry', 'panic_exit'):
         days = [pd.Timestamp(e['date']) for e in result[name]['events']]
         tickers = sorted({yahoo(t) for d in days for t in (members_on(rows, d) or [])})
         if not tickers:
             continue
-        close = download(tickers)
-        close = close.reindex(spx.index)
+        panel = download(tickers)
+        close = panel['Close'].reindex(spx.index)
         events = index_leaders(days, rows, close, spx)
         result[name]['index'] = dict(events=events, summary=leader_summary(events))
+        if name == 'panic_entry' and shares is not None:
+            volume = panel['Volume'].reindex(spx.index)
+            wevents = weight_leaders(days, rows, close, volume, spx, shares)
+            result[name]['weights'] = dict(events=wevents, summary=weight_summary(wevents))
     if result.get('panic_today'):
         day = pd.Timestamp(result['panic_today'])
         members = members_on(rows, day) or []
-        close = download(sorted({yahoo(t) for t in members})).reindex(spx.index)
+        close = download(sorted({yahoo(t) for t in members}))['Close'].reindex(spx.index)
         hist = close.loc[:day]
         ok = hist.iloc[-1].notna() & (hist.count() >= 200)
         strength = (hist.iloc[-21:].mean() / hist.iloc[-200:].mean())[ok].dropna().sort_values(ascending=False)
@@ -277,11 +281,90 @@ def index_study(result, rows, download, spx):
 
 
 def download_closes(tickers, period):
+    """{'Close', 'Volume'} panels (dividend-adjusted closes)."""
     import yfinance as yf
     raw = yf.download(tickers, period=period, auto_adjust=True, progress=False, threads=True, group_by='column')
-    close = raw['Close'].round(4)
-    close.index = close.index.tz_localize(None) if close.index.tz is not None else close.index
-    return close
+    out = {}
+    for field in ('Close', 'Volume'):
+        frame = raw[field].round(4) if field == 'Close' else raw[field]
+        frame.index = frame.index.tz_localize(None) if frame.index.tz is not None else frame.index
+        out[field] = frame
+    return out
+
+
+# ------------------------------------------------------------------ leaders by index weight
+CANDIDATES = 40           # the most traded members (63-day average dollar volume) whose market cap is looked up
+
+
+def weight_leaders(days, rows, close, volume, spx, shares, horizons=HORIZONS, top=10, candidates=CANDIDATES):
+    """The ten largest S&P 500 members by market cap on each signal day, bought in proportion to their cap.
+
+    Market cap = close x shares outstanding reported on or before the day (shares(ticker, day) -> float or None).
+    Only the most traded members are looked up (the largest companies are always among them); members whose
+    shares are unknown are counted and left out."""
+    events = []
+    for day in days:
+        members = members_on(rows, day)
+        if not members or day not in close.index:
+            continue
+        cols = [yahoo(t) for t in members if yahoo(t) in close.columns]
+        dollar = (close.loc[:day, cols].iloc[-63:] * volume.loc[:day, cols].iloc[-63:]).mean().dropna()
+        pool = list(dollar.sort_values(ascending=False).index[:candidates])
+        caps, missing = {}, []
+        for t in pool:
+            n = shares(t, day)
+            px = close.at[day, t]
+            if n and np.isfinite(px):
+                caps[t] = float(px) * float(n)
+            else:
+                missing.append(t)
+        ranked = sorted(caps.items(), key=lambda kv: -kv[1])[:top]
+        if not ranked:
+            continue
+        total = sum(c for _, c in ranked)
+        weights = {t: c / total for t, c in ranked}
+        pos = close.index.get_loc(day)
+        spx_pos = spx.index.get_loc(day) if day in spx.index else None
+        event = dict(date=str(day.date()), leaders=[[t, round(w, 4)] for t, w in weights.items()],
+                     looked_up=len(pool), missing_shares=missing, returns={})
+        for h in horizons:
+            parts = [(w, _ret(close[t], pos + 1, h)) for t, w in weights.items()]
+            known = [(w, r) for w, r in parts if r is not None]
+            wsum = sum(w for w, _ in known)
+            event['returns'][str(h)] = dict(
+                leaders=sum(w * r for w, r in known) / wsum if wsum > 0.8 else None,   # needs 80% of the weight
+                spx=_ret(spx, spx_pos + 1, h) if spx_pos is not None else None)
+        events.append(event)
+    return events
+
+
+def weight_summary(events, horizons=HORIZONS):
+    out = {}
+    for h in horizons:
+        rows = [e['returns'][str(h)] for e in events if None not in e['returns'][str(h)].values()]
+        if not rows:
+            out[str(h)] = dict(n=0)
+            continue
+        out[str(h)] = dict(n=len(rows), beats_spx=sum(r['leaders'] > r['spx'] for r in rows),
+                           **{k: dict(mean=statistics.fmean(r[k] for r in rows),
+                                      median=statistics.median(r[k] for r in rows),
+                                      worst=min(r[k] for r in rows)) for k in ('leaders', 'spx')})
+    return out
+
+
+def yahoo_shares(ticker, day):
+    """Shares outstanding reported on or before `day` (Yahoo's share history), or None."""
+    import yfinance as yf
+    try:
+        s = yf.Ticker(ticker).get_shares_full(start=(day - pd.Timedelta(days=550)).date(),
+                                              end=(day + pd.Timedelta(days=1)).date())
+    except Exception:
+        return None
+    if s is None or len(s) == 0:
+        return None
+    s.index = s.index.tz_localize(None) if getattr(s.index, 'tz', None) is not None else s.index
+    s = s[s.index <= day + pd.Timedelta(days=1)]
+    return float(s.iloc[-1]) if len(s) else None
 
 
 def fetch_members(url=MEMBERS_URL):
@@ -315,6 +398,25 @@ def index_report(result):
         lines += ['', 'Signals: ' + '; '.join(
             f"{e['date']} ({e['priced']}/{e['members']} members priced; leader {e['leaders'][0]}, 63 sessions "
             f"{_pct(e['returns']['63']['top1'])}; top 5 {', '.join(e['leaders'][:5])})" for e in block['events'])]
+    w = (result.get('panic_entry') or {}).get('weights')
+    if w:
+        lines += ['', '#### Ten largest S&P 500 members by market cap, cap-weighted (first panic close)', '',
+                  'Market cap = close x Yahoo shares outstanding on the day; looked up for the 40 most traded members. '
+                  'This is the rule of the index-leaders paper account (index_leaders.py).', '',
+                  '| Sessions | Signals | Top 10 by weight mean / median | S&P 500 mean / median | Beats S&P | Worst |',
+                  '|---:|---:|---|---|---:|---:|']
+        for h, c in w['summary'].items():
+            if not c.get('n'):
+                lines.append(f'| {h} | 0 | — | — | — | — |')
+                continue
+            lines.append(f"| {h} | {c['n']} | {_pct(c['leaders']['mean'])} / {_pct(c['leaders']['median'])} | "
+                         f"{_pct(c['spx']['mean'])} / {_pct(c['spx']['median'])} | {c['beats_spx']}/{c['n']} | "
+                         f"{_pct(c['leaders']['worst'])} |")
+        lines += ['', 'Signals: ' + '; '.join(
+            f"{e['date']} ({', '.join(f'{t} {100 * x:.0f}%' for t, x in e['leaders'][:5])}…; 63 sessions "
+            f"{_pct(e['returns']['63']['leaders'])} vs S&P {_pct(e['returns']['63']['spx'])}"
+            + (f"; no shares for {', '.join(e['missing_shares'])}" if e['missing_shares'] else '') + ')'
+            for e in w['events'])]
     today = result.get('leaders_today')
     if today:
         lines += ['', f"Panic today ({today['date']}): S&P 500 leaders by the same ranking, members as of the latest "
