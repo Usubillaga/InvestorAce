@@ -548,7 +548,7 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                       include_crash=False, include_market=True, include_research=True, include_trade=False,
                       include_backtest=False, include_earnings=False, include_stress=False, include_codex=False,
                       include_swing_experiments=False, include_long_short=False, include_desk=False, include_report=False, include_crash_study=False,
-                      include_index_leaders=False):
+                      include_index_leaders=False, include_heat_leaders=False):
     match = re.search(r'<body\b[^>]*>', html, re.IGNORECASE)
     if not match or not re.search(r'</html\s*>', html, re.IGNORECASE):
         raise ValueError('Scoreboard must be a complete HTML document')
@@ -595,6 +595,8 @@ def add_research_link(html, include_daily=False, include_claude=False, include_s
                   if include_crash else '')
     leaders_link = ('<a href="index-leaders.html" style="color:#f5d000;font-weight:700">Panic &amp; index leaders ↗</a>'
                     if include_index_leaders else '')
+    if include_heat_leaders:
+        crash_link += '<a href="heat-leaders.html" style="color:#ff95c8;font-weight:700">Pánico y euforia · Codex ↗</a>'
     if include_crash:
         crash_link += '<a href="correction_study/index.html">Atlas de correcciones ↗</a>'
     market_link = ('<a href="market.html" style="color:#c1d98b;font-weight:700">Montagsbriefing ↗</a>'
@@ -732,12 +734,15 @@ def build_site(root, output, require_committed=False):
         from index_leaders import site_pages as leaders_site_pages
         leaders_pages = list(leaders_site_pages(root))
         report_pages += leaders_pages
+    heat_dir = Path(__file__).parent / 'codex_heat'
+    heat_pages = [(Path(name), (heat_dir / name).read_bytes())
+                  for name in ('heat-leaders.html', 'heat-study.json', 'heat-account.json')]
     scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in published,
                                    include_claude='claude' in published, include_scanner=committed_build is not None,
                                    include_comparison=committed_build is not None,
                                    include_enagas=bool(enagas_review_pages),
                                    include_paper=bool(paper_pages), include_war=bool(war_pages),
-                                   include_crash=bool(crash_pages), include_market='market' in published,
+                                   include_crash=bool(crash_pages), include_heat_leaders=True, include_market='market' in published,
                                    include_research='research' in published, include_trade=bool(trade_pages),
                                    include_backtest=bool(backtest_pages), include_codex=bool(codex),
                                    include_earnings=bool(earnings_index(root / 'earnings')),
@@ -755,6 +760,7 @@ def build_site(root, output, require_committed=False):
                    for language in ('en', 'de', 'es')]
     # Validate all content before creating an uploadable site.
     pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages + trade_pages + backtest_pages
+    pages += heat_pages
     pages += stress_pages + codex + experiment_pages + long_short_pages + desk_pages + report_pages
     atlas = Path(__file__).parent / 'correction_study'
     pages.extend((Path('correction_study') / name, (atlas / name).read_bytes())

@@ -686,6 +686,7 @@ def render(monitor, *, now=None):
     body.append('<div class="note">Turnover and the age of firms, two further signals in the paper, need data this '
                 'site does not have. ETFs are proxies for industries. Information next to the score: it never changes '
                 'a score, a label or the paper test. Research, not an approved purchase recommendation.</div>')
+    body.append('<p><a href="heat-leaders.html" style="color:#ff95c8;font-weight:700">Pánico y euforia · Codex ↗</a></p>')
     return shell('Crash monitor', ''.join(body))
 
 
