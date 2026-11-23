@@ -125,7 +125,8 @@ def study(frames, spx, vix):
     entries, exits = signals(h)
     result = dict(last_heat=dict(date=str(h.dropna().index[-1].date()), value=round(float(h.dropna().iloc[-1]), 1))
                   if h.notna().any() else None,
-                  euphoria_days=[str(d.date()) for d in h.index[(h >= EUPHORIA).to_numpy()]])
+                  euphoria_days=[str(d.date()) for d in h.index[(h >= EUPHORIA).to_numpy()]],
+                  panic_days=[str(d.date()) for d in h.index[(h < PANIC).to_numpy()]])
     last = h.dropna()
     if len(last) and last.iloc[-1] < PANIC:
         result['panic_today'] = str(last.index[-1].date())
@@ -274,6 +275,14 @@ def index_study(result, rows, download, spx, shares=None):
             exits = exit_rules(wevents, close, spx, euphoria)
             result[name]['weights'] = dict(events=wevents, summary=weight_summary(wevents),
                                            exits=exits, exit_summary=exit_summary(exits))
+            # The paper account's rule since 23 Nov 2026: buy only at a later close still in panic.
+            confirmed, skipped = still_panic_days(days, [pd.Timestamp(d) for d in result.get('panic_days', [])],
+                                                  spx.index)
+            cevents = weight_leaders(confirmed, rows, close, volume, spx, shares, cap_close=split_close)
+            cexits = exit_rules(cevents, close, spx, euphoria)
+            result[name]['still_panic'] = dict(events=cevents, summary=weight_summary(cevents), exits=cexits,
+                                               exit_summary=exit_summary(cexits),
+                                               skipped=[str(d.date()) for d in skipped])
     if result.get('panic_today'):
         day = pd.Timestamp(result['panic_today'])
         members = members_on(rows, day) or []
@@ -347,6 +356,22 @@ def weight_leaders(days, rows, close, volume, spx, shares, horizons=HORIZONS, to
                 spx=_ret(spx, spx_pos + 1, h) if spx_pos is not None else None)
         events.append(event)
     return events
+
+
+def still_panic_days(entries, panic_days, index, gap=GAP):
+    """For each first panic close, the session BEFORE the first later close still in panic within `gap` sessions
+    (weight_leaders buys at the close after the day it is given, so the buy lands on that panic close).
+    Returns (days, entries without such a close)."""
+    panic = set(panic_days)
+    out, skipped = [], []
+    for s in entries:
+        i = index.get_loc(s)
+        later = [j for j in range(i + 1, min(i + gap, len(index) - 1) + 1) if index[j] in panic]
+        if later:
+            out.append(index[later[0] - 1])
+        else:
+            skipped.append(s)
+    return out, skipped
 
 
 EXIT_RULES = ('hold_63', 'euphoria', 'euphoria_after_63', 'euphoria_or_252',
@@ -555,6 +580,23 @@ def index_report(result):
                 f"{', open' if r['rules'][rule]['open'] else ''}{', stopped' if r['rules'][rule].get('stopped') else ''}"
                 f"): {_pct(r['rules'][rule]['ret'])} vs S&P {_pct(r['rules'][rule]['spx'])}"
                 for r in rows if rule in r['rules'])]
+    sp = (result.get('panic_entry') or {}).get('still_panic')
+    if sp:
+        lines += ['', '#### Buy only at a later close still in panic (the paper account\'s rule since 23 Nov 2026)', '',
+                  'Same ten largest by weight, bought at the first close after the signal with the thermometer still '
+                  'under 20 (the close value stands in for the intraday check 20 minutes earlier); episodes without '
+                  'such a close within 63 sessions buy nothing. Skipped: '
+                  + (', '.join(sp.get('skipped', [])) or 'none') + '.', '',
+                  '| Exit | Signals | Mean / median return | S&P 500 same span | Beats S&P | Worst |',
+                  '|---|---:|---|---:|---:|---:|']
+        for rule in ('hold_63', 'euphoria_or_252'):
+            c = sp['exit_summary'].get(rule) or {}
+            if c.get('n'):
+                lines.append(f"| {rule} | {c['n']} | {_pct(c['mean'])} / {_pct(c['median'])} | {_pct(c['spx_mean'])} | "
+                             f"{c['beats_spx']}/{c['n']} | {_pct(c['worst'])} |")
+        lines += ['', 'Per signal (euphoria_or_252): ' + '; '.join(
+            f"bought {r['date']} → {r['rules']['euphoria_or_252']['exit']}: {_pct(r['rules']['euphoria_or_252']['ret'])} "
+            f"vs S&P {_pct(r['rules']['euphoria_or_252']['spx'])}" for r in sp.get('exits', []))]
     today = result.get('leaders_today')
     if today:
         lines += ['', f"Panic today ({today['date']}): S&P 500 leaders by the same ranking, members as of the latest "

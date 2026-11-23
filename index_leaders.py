@@ -7,7 +7,12 @@ Rule (the same as panic_backtest.weights_study tests):
   signal can be rebuilt from closes). Only the first panic close of an episode counts, at least 63 sessions after
   the previous one.
 * Buy: the ten largest S&P 500 holdings of SPY (Yahoo's top holdings), each in proportion to its index weight,
-  10,000 USD, at the close of the session after the signal; 0.1% per side.
+  10,000 USD, at a close after the signal, but only if the thermometer is still in panic shortly before that close
+  (the user's rule of 23 Nov 2026: check intraday before buying; no buy once the panic is over). At 20:40 UTC
+  (about 20 minutes before the US close) decide() rebuilds the thermometer with intraday prices and leaves a
+  pending order; the run after the close fills it at the close. Without panic before the close there is no
+  order, and the next sessions are checked again while the episode lasts (63 sessions after its first panic
+  close). 0.1% per side.
 * Sell: everything at the close after the first euphoria close (thermometer at or above 80), and at the latest
   252 sessions (about a year) after the buy. Until 23 Nov 2026 the rule sold after 63 sessions; the user asked to
   sell in extreme euphoria instead, and the backtest's exit comparison found no reason against it.
@@ -30,7 +35,6 @@ FUNDS = (('SPY', 'S&P 500'), ('QQQ', 'Nasdaq-100'))
 
 
 # ------------------------------------------------------------------ account
-LATE_SESSIONS = 5        # at the start, a panic signal up to five sessions old is still bought (marked late)
 
 
 def fresh(start):
@@ -55,23 +59,15 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
     sessions: ordered completed session dates (ISO); heat: {date: thermometer}; prices: {symbol: {date: close}};
     holdings: callable returning [(symbol, weight)] for the buy (only called when a buy is due).
     Returns the list of events (BUY/SELL) applied."""
-    import panic_backtest as pb
-    import pandas as pd
     events = []
-    series = pd.Series({pd.Timestamp(d): heat[d] for d in sessions if heat.get(d) is not None}, dtype=float)
-    entries = [str(d.date()) for d in pb.signals(series)[0]] if len(series) else []
     last_mark = state['marks'][-1]['date'] if state['marks'] else None
     for i, day in enumerate(sessions):
         if day < state.get('start', '') or (last_mark is not None and day <= last_mark):
             continue
         prev = sessions[i - 1] if i else None
-        signal, late = prev, False
-        if not state['marks']:          # first session of the account: a recent signal is bought late
-            recent = [d for d in entries if d < day and d >= sessions[max(0, i - LATE_SESSIONS)]]
-            if recent and recent[-1] != prev:
-                signal, late = recent[-1], True
-        # Buy at this close when the previous session was the first panic close of an episode.
-        if (not state['positions'] and signal in entries and signal not in state['done_signals']):
+        pending = state.get('pending')
+        # Fill the order decided intraday (thermometer still in panic before this close) at this close.
+        if pending and pending['date'] == day and not state['positions']:
             picks = [(s, w) for s, w in holdings() if w and w > 0 and (prices.get(s) or {}).get(day)][:TOP]
             total_w = sum(w for _, w in picks)
             if picks and total_w > 0:
@@ -82,10 +78,10 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
                     state['positions'][symbol] = dict(shares=round(shares, 6), entry=px, weight=round(w, 6))
                     state['cash'] -= shares * px * (1 + COST)
                 state['cash'] = round(state['cash'], 6)
-                state.update(bought=day, signal=signal, sessions_held=0, late=late)
-                state['done_signals'].append(signal)
-                events.append(dict(type='BUY', date=day, signal=signal, heat=heat.get(signal), late=late,
-                                   symbols=[s for s, _ in picks]))
+                state.update(bought=day, signal=pending['signal'], sessions_held=0, pending=None)
+                state['done_signals'].append(pending['signal'])
+                events.append(dict(type='BUY', date=day, signal=pending['signal'], heat=pending['heat'],
+                                   heat_close=heat.get(day), symbols=[s for s, _ in picks]))
         elif state['positions']:
             state['sessions_held'] = state.get('sessions_held', 0) + 1
             euphoric = prev is not None and (heat.get(prev) or 0) >= EUPHORIA and prev > state['bought']
@@ -109,8 +105,30 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
                     state['positions'] = {}
                     state.update(bought=None, signal=None, sessions_held=0, selling=None)
                     events.append(dict(type='SELL', date=day, why=why))
+        if pending and pending['date'] <= day and state.get('pending'):
+            state['pending'] = None                 # unfilled (a missing close): decided again on the next day
         state['marks'].append(dict(date=day, equity=round(value(state, prices, day), 2), heat=heat.get(day)))
     return events
+
+
+def decide(state, sessions, heat, today, heat_now):
+    """Before the close of `today`: leave a buy order for today's close if the thermometer is still in panic
+    now (heat_now < 20, from intraday prices) and the current episode has not bought yet.
+
+    sessions/heat are completed closes before today. The episode is the last first-panic close (one per 63
+    sessions, panic_backtest.signals) within the last 63 sessions. Returns the order or None."""
+    import panic_backtest as pb
+    import pandas as pd
+    if state['positions'] or heat_now is None or heat_now >= pb.PANIC:
+        return None
+    series = pd.Series({pd.Timestamp(d): heat[d] for d in sessions if heat.get(d) is not None}, dtype=float)
+    entries = [str(d.date()) for d in pb.signals(series)[0]] if len(series) else []
+    recent = [d for d in entries if d in sessions[-pb.GAP:] and d >= state.get('start', '')]
+    if not recent or recent[-1] in state['done_signals'] or recent[-1] >= today:
+        return None
+    state['pending'] = dict(date=today, signal=recent[-1], heat=round(float(heat_now), 2),
+                            decided_at=datetime.now(timezone.utc).isoformat(timespec='minutes'))
+    return state['pending']
 
 
 # ------------------------------------------------------------------ data (network; GitHub Actions)
@@ -126,8 +144,11 @@ def top_holdings(fund):
     return sorted(out, key=lambda x: -x[1])
 
 
-def collect(today=None):
-    """Closes for the thermometer, the holdings and the account; returns (sessions, heat, prices, holdings, pulse)."""
+def collect(today=None, intraday=False):
+    """Closes for the thermometer, the holdings and the account; returns (sessions, heat, prices, holdings).
+
+    intraday=True keeps today's partial bar (the latest quote), so the last session is today and its heat is the
+    thermometer right now."""
     import pandas as pd
     import yfinance as yf
     import engine
@@ -141,7 +162,7 @@ def collect(today=None):
     raw.index = raw.index.tz_localize(None) if raw.index.tz is not None else raw.index
     cutoff = (today or pd.Timestamp.now(tz='America/New_York')).normalize()
     cutoff = cutoff.tz_localize(None) if getattr(cutoff, 'tz', None) is not None else cutoff
-    raw = raw[raw.index < cutoff].round(4)
+    raw = (raw[raw.index <= cutoff] if intraday else raw[raw.index < cutoff]).round(4)
     spx = raw['^GSPC'].dropna()
     heat = pb.heat(spx, raw['^VIX'], raw[[s for s in universe if s in raw.columns]])
     sessions = [str(d.date()) for d in spx.index]
@@ -175,6 +196,36 @@ def run(path=STATE, latest=LATEST):
     print(json.dumps(dict(session=last, heat=heat.get(last), events=events), indent=1))
 
 
+def decide_run(path=STATE, latest=LATEST):
+    """20:40 UTC: the intraday thermometer decides whether today's close buys."""
+    import pandas as pd
+    now = pd.Timestamp.now(tz='America/New_York')
+    minutes = now.hour * 60 + now.minute
+    if not 15 * 60 + 10 <= minutes <= 15 * 60 + 55:          # only shortly before a regular 16:00 close
+        print(json.dumps(dict(now=now.isoformat(timespec='minutes'), decision='outside the pre-close window')))
+        return None
+    sessions, heat, _, _ = collect(intraday=True)
+    today = str(now.date())
+    if not sessions or sessions[-1] != today:
+        print(json.dumps(dict(today=today, decision='no session today')))
+        return None
+    state = load(path, start=sessions[-2])
+    heat_now = heat.get(today)
+    order = decide(state, sessions[:-1][-130:], heat, today, heat_now)
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
+    try:
+        snapshot = json.loads(Path(latest).read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        snapshot = {}
+    snapshot['intraday'] = dict(date=today, heat=heat_now, order=bool(order),
+                                checked_at=datetime.now(timezone.utc).isoformat(timespec='minutes'))
+    Path(latest).parent.mkdir(parents=True, exist_ok=True)
+    Path(latest).write_text(json.dumps(snapshot, indent=1) + '\n', encoding='utf-8')
+    print(json.dumps(dict(today=today, heat_now=heat_now, order=order), indent=1))
+    return order
+
+
 # ------------------------------------------------------------------ page
 YELLOW = '#f5d000'
 BAND_COLOURS = (('Panic', '#0b6b2b'), ('Fear', '#7fb07f'), ('Neutral', '#c8c6b8'), ('Greed', '#7a4a0a'),
@@ -193,10 +244,11 @@ def render(snapshot, state, backtest=None):
     colour = dict(BAND_COLOURS).get(band, '#c8c6b8')
     bar = ''.join(f'<span style="background:{c}"></span>' for _, c in BAND_COLOURS)
     buy = h is not None and h < 20
-    status = (f'<b style="color:{YELLOW}">PANIC · buy signal</b>: the account buys the S&amp;P 500 leaders at the '
-              'next close (first panic close of an episode only).' if buy else
-              'No panic: the account does not buy. It buys the S&amp;P 500 leaders at the close after the first '
-              'panic close (thermometer under 20) of an episode and sells them at the close after the first '
+    intraday = snapshot.get('intraday') or {}
+    status = (f'<b style="color:{YELLOW}">PANIC · buy signal</b>: the account buys the S&amp;P 500 leaders at a '
+              'following close if the thermometer is still under 20 about 20 minutes before that close.' if buy else
+              'No panic: the account does not buy. After a panic close (thermometer under 20) it buys the S&amp;P 500 '
+              'leaders at a following close, only if the thermometer is still under 20 shortly before it, and sells them at the close after the first '
               'euphoria close (80 or more), at the latest after 252 sessions.')
     recent = ''.join(f'<span title="{escape(d)}: {v:.1f}" style="display:inline-block;width:8px;height:{max(3, v)}px;'
                      f'margin-right:2px;vertical-align:bottom;background:'
@@ -213,7 +265,12 @@ def render(snapshot, state, backtest=None):
              f'<b>{escape(band or "—")}</b> · close of {escape(snapshot.get("session") or "—")}'
              f'<div class="pulse-bar">{bar}<i class="pulse-marker" style="left:{0 if h is None else h:.1f}%"></i></div>'
              '<small>Panic · buy — Fear — Neutral — Greed — Euphoria · sell</small>'
-             f'<p>{status}</p><div style="margin-top:8px">Last 30 sessions: {recent}</div>'
+             f'<p>{status}</p>'
+             + (f'<p>Intraday check {escape(intraday["date"])} ({escape(intraday.get("checked_at", ""))} UTC): '
+                f'thermometer {"—" if intraday.get("heat") is None else format(intraday["heat"], ".1f")} → '
+                f'{"<b>buy order for the close</b>" if intraday.get("order") else "no buy order"}</p>'
+                if intraday.get('date') else '')
+             + f'<div style="margin-top:8px">Last 30 sessions: {recent}</div>'
              '<p class="muted">Rebuilt from closes without CNN Fear &amp; Greed, so it can differ slightly from the '
              'scoreboard\'s gauge. The industry bubble monitor is on the <a href="crash-monitor.html">crash '
              'monitor</a> page.</p></div>']
@@ -275,5 +332,9 @@ def site_pages(root):
 
 
 if __name__ == '__main__':
-    argparse.ArgumentParser(description=__doc__).parse_args()
-    run()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--decide', action='store_true', help='before the close: intraday thermometer, buy order')
+    if parser.parse_args().decide:
+        decide_run()
+    else:
+        run()
