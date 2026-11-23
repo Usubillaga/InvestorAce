@@ -178,7 +178,15 @@ VARIANTS = {
     'ewma_position_size': dict(sell_failed_breakout=True, vol_sizing='ewma'),
     'garch_exposure': dict(sell_failed_breakout=True, vol_exposure='garch'),
     'ewma_exposure': dict(sell_failed_breakout=True, vol_exposure='ewma'),
+    # User's request (23 Nov 2026, after NVDA's +28%): buy the oversold dip to sell the rebound. A sleeve on top
+    # of v1.6, allowed in corrections too: three red closes and at least 3 ATR under the 21-day EMA; out at the
+    # first close above the 10-day EMA, after 10 sessions, or at an 8% stop (close); 1% risk (12.5% of equity)
+    # each, at most 3 at a time, most oversold first. rebound_backtest.py tests the same signal trade by trade.
+    'rebound_sleeve': dict(sell_failed_breakout=True, rebound='all'),
+    'rebound_sleeve_below_200d': dict(sell_failed_breakout=True, rebound='below'),
+    'rebound_sleeve_no_stop': dict(sell_failed_breakout=True, rebound='all', rebound_stop=False),
 }
+REBOUND_SLOTS, REBOUND_STOP, REBOUND_HOLD, REBOUND_OVERSOLD = 3, 0.08, 10, 3.0
 VOL_WEIGHT, VOL_TYPICAL, VOL_FLOOR, VOL_TARGET = 0.125, 0.30, 0.05, 0.15
 SHORT_STOP, SHORT_SIZE, SHORT_TOTAL, BORROW = 0.08, 0.10, 0.40, 0.02
 
@@ -217,6 +225,15 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
         market_vol = volatility.series(rule['vol_exposure'], spx)
     short_pos = {}
     stale_sessions = {}
+    reb_pos, reb_signal = {}, None
+    if rule.get('rebound'):
+        ext = pd.DataFrame({s: f['ext_atr'] for s, f in frames.items()}).reindex(close.index)
+        sma200 = pd.DataFrame({s: f['sma200'] for s, f in frames.items()}).reindex(close.index)
+        red3 = ((close < close.shift(1)) & (close.shift(1) < close.shift(2)) & (close.shift(2) < close.shift(3)))
+        reb_signal = red3 & (ext <= -REBOUND_OVERSOLD)
+        if rule['rebound'] == 'below':
+            reb_signal &= close < sma200
+        reb_ext = ext
     for i, day in enumerate(dates):
         px = close.loc[day]
         for s, p in pos.items():
@@ -225,7 +242,8 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                 stale_sessions[s] = max(stale_sessions.get(s, 0), p['stale'])
         liability = sum(p['shares'] * marks.at[day, s] for s, p in short_pos.items())
         cash -= liability * BORROW / 252
-        equity = cash + sum(p['shares'] * marks.at[day, s] for s, p in pos.items()) - liability
+        equity = (cash + sum(p['shares'] * marks.at[day, s] for s, p in pos.items()) - liability
+                  + sum(p['shares'] * marks.at[day, s] for s, p in reb_pos.items()))
         curve.append((day, equity))
         if i == len(dates) - 1:
             break
@@ -281,7 +299,7 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
             sector_count[sectors.get(s)] = sector_count.get(sectors.get(s), 0) + 1
         cands = []
         for s, f in candidates.get(day, ()):
-            if s in pos or (s in cooldown and i - cooldown[s] <= 10):
+            if s in pos or s in reb_pos or (s in cooldown and i - cooldown[s] <= 10):
                 continue
             c = f.close
             if c < f.sma200 * (1 + rule.get('sma200_buffer', 0.)):
@@ -364,6 +382,46 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
                 room -= shares * c
                 short_plan.append((s, shares))
             planned = [x for x in planned if x[0] not in {s for s, _ in short_plan}]
+        reb_sells, reb_plan = [], []
+        if reb_signal is not None:
+            for s, p in reb_pos.items():
+                f = rows[s][day]
+                c = f.close
+                if np.isnan(c):
+                    continue
+                p['held'] += 1
+                why = ('STOP' if rule.get('rebound_stop', True) and c <= p['entry'] * (1 - REBOUND_STOP)
+                       else 'REBOUND' if c > f.ema10 else 'MAX_HOLD' if p['held'] >= REBOUND_HOLD else None)
+                if why:
+                    reb_sells.append((s, why))
+            open_reb = len(reb_pos) - len(reb_sells)
+            today = reb_signal.loc[day]
+            picks = sorted((reb_ext.at[day, s], s) for s in today.index[today.to_numpy(bool)]
+                           if s not in pos and s not in reb_pos and s not in short_pos
+                           and s not in {x[0] for x in planned})
+            for _, s in picks:
+                if open_reb + len(reb_plan) >= REBOUND_SLOTS:
+                    break
+                c = close.at[day, s]
+                shares = math.floor(min(equity * 0.01 / (REBOUND_STOP * c), buying_cash / (c * (1 + COST))))
+                if shares < 1 or shares * c < 50:
+                    continue
+                buying_cash -= shares * c * (1 + COST)
+                reb_plan.append((s, shares))
+        for s, why in reb_sells:
+            fill = close.at[nxt, s]
+            if np.isnan(fill):
+                continue
+            p = reb_pos.pop(s)
+            cash += p['shares'] * fill * (1 - COST)
+            trades.append(dict(symbol=s, side='REBOUND', ret=fill * (1 - COST) / (p['entry'] * (1 + COST)) - 1,
+                               held=p['held'], why=why))
+        for s, shares in reb_plan:
+            fill = close.at[nxt, s]
+            if np.isnan(fill) or s in pos or shares * fill * (1 + COST) > cash:
+                continue
+            cash -= shares * fill * (1 + COST)
+            reb_pos[s] = dict(shares=shares, entry=fill, held=0)
         if trace is not None and (sells or planned):
             trace.decisions[str(day.date())] = ([('SELL', s, pos[s]['shares']) for s, _ in sells] +
                                                 [('BUY', s, n) for s, n, _ in planned])
@@ -395,7 +453,7 @@ def simulate(frames, spx, sectors, start, end=None, prepared=None, trace=None, p
             cooldown[s] = i
         for s, shares, resistance in planned:
             fill = close.at[nxt, s]
-            if np.isnan(fill) or len(pos) >= 8:
+            if np.isnan(fill) or len(pos) >= 8 or s in reb_pos:
                 continue
             sector = sectors.get(s)
             if sector and sum(sectors.get(t) == sector for t in pos) >= 2:
