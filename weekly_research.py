@@ -736,7 +736,7 @@ def build_site(root, output, require_committed=False):
         report_pages += leaders_pages
     heat_dir = Path(__file__).parent / 'codex_heat'
     heat_pages = [(Path(name), (heat_dir / name).read_bytes())
-                  for name in ('heat-leaders.html', 'heat-study.json', 'heat-account.json')]
+                  for name in ('heat-leaders.html', 'heat-leaders.en.html', 'heat-study.json', 'heat-account.json')]
     scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in published,
                                    include_claude='claude' in published, include_scanner=committed_build is not None,
                                    include_comparison=committed_build is not None,
@@ -752,6 +752,9 @@ def build_site(root, output, require_committed=False):
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
     scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language)
+                    .replace('href="heat-leaders.html" style="color:#ff95c8;font-weight:700">Pánico y euforia',
+                             'href="heat-leaders.en.html" style="color:#ff95c8;font-weight:700">Panic and Euphoria' if language == 'en'
+                             else 'href="heat-leaders.html" style="color:#ff95c8;font-weight:700">Pánico y euforia')
                     .replace('href="correction_study/index.html">Atlas de correcciones',
                              'href="correction_study/en.html">US corrections atlas' if language == 'en'
                              else 'href="correction_study/index.html">Atlas de correcciones')
