@@ -119,6 +119,8 @@ def decide(state, sessions, heat, today, heat_now):
     sessions, panic_backtest.signals) within the last 63 sessions. Returns the order or None."""
     import panic_backtest as pb
     import pandas as pd
+    if (state.get('pending') or {}).get('date') == today:
+        state['pending'] = None               # the last check before the close decides; an earlier one is replaced
     if state['positions'] or heat_now is None or heat_now >= pb.PANIC:
         return None
     series = pd.Series({pd.Timestamp(d): heat[d] for d in sessions if heat.get(d) is not None}, dtype=float)

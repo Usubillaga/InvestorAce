@@ -47,6 +47,16 @@ class Account(unittest.TestCase):
         self.assertIsNone(state['pending'])
         self.assertIsNone(il.decide(state, days[:8], heat, days[8], 10))         # holding: no second buy
 
+    def test_the_last_check_before_the_close_decides(self):
+        days = self.days
+        heat, prices = book(days, [50] * 5 + [15] + [50] * (len(days) - 6))
+        state = il.fresh(days[0])
+        il.advance(state, days[:6], heat, prices, HOLDINGS)
+        self.assertIsNotNone(il.decide(state, days[:6], heat, days[6], 18))      # 15:10: still panic
+        self.assertIsNone(il.decide(state, days[:6], heat, days[6], 23))         # 15:40: over, order withdrawn
+        self.assertIsNone(state['pending'])
+        self.assertEqual(il.advance(state, days[:7], heat, prices, HOLDINGS), [])
+
     def test_sells_after_the_maximum_hold_and_at_the_close_after_euphoria(self):
         days = self.days
         heat, prices = book(days, [50] * 5 + [15] + [50] * (len(days) - 6))
