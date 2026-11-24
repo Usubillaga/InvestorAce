@@ -331,13 +331,49 @@ def backtest_html(root):
             f'<th>S&amp;P 500</th><th>Beats S&amp;P</th></tr></thead><tbody>{rows}</tbody></table></div>')
 
 
+def history_html(root):
+    """Twelve-month results of every basket after the panic signals since 2000 (backtests/panic_history.json)."""
+    try:
+        result = json.loads((Path(root) / 'backtests' / 'panic_history.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return ''
+    names = dict(top10_weight='Top 10 by weight (this account)', leaders='Leaders (&lt;20% off their high)',
+                 broken='Broken (20–40% off)', busted='Busted (&gt;40% off)', all_members='All members, equal weight',
+                 spx='S&amp;P 500')
+    blocks = []
+    for h, label in (('63', '3 months'), ('252', '12 months'), ('378', '18 months')):
+        cells = (result.get('summary') or {}).get(h) or {}
+        rows = ''.join(f'<tr><td>{names[k]}</td><td>{c["n"]}</td><td class="mono">{_pct(c["mean"], 1)}</td>'
+                       f'<td class="mono">{_pct(c["median"], 1)}</td><td class="mono">{_pct(c["worst"], 1)}</td>'
+                       f'<td>{"—" if k == "spx" else str(c["beats_spx"]) + "/" + str(c["n"])}</td></tr>'
+                       for k, c in cells.items())
+        if rows:
+            blocks.append(f'<h3>{label} after the buy</h3><div class="tw"><table><thead><tr><th>Basket</th>'
+                          '<th>Signals</th><th>Mean</th><th>Median</th><th>Worst</th><th>Beats S&amp;P</th></tr></thead>'
+                          f'<tbody>{rows}</tbody></table></div>')
+    if not blocks:
+        return ''
+    events = ''.join(f'<tr><td>{escape(e["date"])}</td><td>{e["heat"]}</td>'
+                     f'<td class="mono">{_pct((e["returns"].get("252") or {}).get("top10_weight"), 1)}</td>'
+                     f'<td class="mono">{_pct((e["returns"].get("252") or {}).get("busted"), 1)}</td>'
+                     f'<td class="mono">{_pct((e["returns"].get("252") or {}).get("spx"), 1)}</td>'
+                     f'<td>{escape(e["basis"])}</td></tr>' for e in result.get('events', []))
+    return ('<h2>Panic buys since 2000</h2><div class="note">Every first panic close since '
+            f'{escape(result.get("start", ""))}, with the S&amp;P 500 members of that day (survivorship: members '
+            'without Yahoo prices are left out, so early "busted" baskets look better than they were). '
+            'Details in backtests/panic_history.md.</div>' + ''.join(blocks)
+            + '<h3>Every signal (12 months)</h3><div class="tw"><table><thead><tr><th>Signal</th><th>Heat</th>'
+            '<th>Top 10</th><th>Busted</th><th>S&amp;P 500</th><th>Weights</th></tr></thead>'
+            f'<tbody>{events}</tbody></table></div>')
+
+
 def site_pages(root):
     try:
         snapshot = json.loads((Path(root) / 'index-leaders' / 'latest.json').read_text(encoding='utf-8'))
     except (OSError, ValueError):
         return []
     return [(Path(PAGE), render(snapshot, load(Path(root) / 'paper_trades' / 'index-leaders.json', start=''),
-                                backtest_html(root)))]
+                                backtest_html(root) + history_html(root)))]
 
 
 if __name__ == '__main__':

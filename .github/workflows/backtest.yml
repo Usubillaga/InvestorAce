@@ -14,6 +14,7 @@ on:
       - 'crash_study.py'
       - 'rebound_backtest.py'
       - 'panic_backtest.py'
+      - 'panic_history.py'
       - '.github/workflows/backtest.yml'
   schedule:
     - cron: '17 5 1 * *'        # 1st of each month, on main
@@ -66,6 +67,11 @@ jobs:
         # Optional: a failure keeps the previous crash_study.json and never blocks the backtest results.
         continue-on-error: true
         run: python crash_study.py
+      - name: Panic buys since 2000 (panic_history.py)
+        # Optional, like the crash study: a failure keeps the previous results and never blocks the backtest.
+        continue-on-error: true
+        timeout-minutes: 25
+        run: python panic_history.py
       - name: Commit results
         env:
           BRANCH: ${{ github.ref_name }}
@@ -76,6 +82,7 @@ jobs:
           tested=$(git rev-parse HEAD)   # the commit these results were calculated from
           git add backtests/latest.json backtests/latest.md
           if [ -f backtests/crash_study.json ]; then git add backtests/crash_study.json; fi
+          for f in backtests/panic_history.json backtests/panic_history.md; do if [ -f "$f" ]; then git add "$f"; fi; done
           if git diff --cached --quiet; then exit 0; fi
           git commit -qm "backtest: results $(date -u +%F)"
           target="$BRANCH"

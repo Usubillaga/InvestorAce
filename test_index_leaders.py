@@ -125,6 +125,16 @@ class Page(unittest.TestCase):
             self.assertIn('Holdings not available', html)
             self.assertIn(il.YELLOW, html)
             self.assertEqual(il.site_pages(Path(tmp) / 'missing'), [])
+            (root / 'backtests').mkdir()
+            cell = dict(n=7, mean=0.05, median=0.04, worst=-0.4, positive=5, beats_spx=3)
+            (root / 'backtests' / 'panic_history.json').write_text(json.dumps(dict(
+                start='1999-01-04', summary={'252': {'top10_weight': cell, 'spx': cell}},
+                events=[dict(date='2008-01-22', heat=12.0, basis='dollar volume (no share history)',
+                             returns={'252': dict(top10_weight=-0.38, busted=-0.45, spx=-0.40)})])))
+            html = dict(il.site_pages(root))[Path(il.PAGE)]
+            self.assertIn('Panic buys since 2000', html)
+            self.assertIn('2008-01-22', html)
+            self.assertIn('-38.0%', html)
 
 
 if __name__ == '__main__':
