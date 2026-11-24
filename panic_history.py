@@ -226,9 +226,14 @@ def _pct(x, digits=1):
     return '—' if x is None else f'{100 * x:+.{digits}f}%'
 
 
+def _share(x):
+    return '—' if x is None else f'{100 * x:.0f}%'
+
+
 def report(result):
+    first = result['events'][0]['date'] if result.get('events') else '—'
     lines = ['# Panic buys since 2000', '',
-             f"Thermometer panic signals {result['start']} → {result['end']}: {result['signals']} first panic closes. "
+             f"Thermometer panic signals {first} → {result['end']}: {result['signals']} first panic closes. "
              'Members as on each day (S&P 500), bought at the next close, 0.1% per side, delisted names carried at '
              'their last price. Survivorship: members without Yahoo prices are left out (counted per signal), so '
              'early busted baskets look better than they were.', '']
@@ -253,7 +258,7 @@ def report(result):
         b = e['breadth'] or {}
         x = e['euphoria_exit']
         lines.append(f"| {e['date']} | {e['heat']} | {b.get('priced', '—')}/{b.get('members', '—')} | "
-                     f"{_pct(b.get('broken'), 0)} | {_pct(b.get('busted'), 0)} | {e['basis']} | "
+                     f"{_share(b.get('broken'))} | {_share(b.get('busted'))} | {e['basis']} | "
                      f"{_pct(r.get('top10_weight'))} | {_pct(r.get('leaders'))} | {_pct(r.get('busted'))} | "
                      f"{_pct(r.get('all_members'))} | {_pct(r.get('spx'))} | {x['exit']} ({x['sessions']}) | "
                      f"{_pct(x.get('top10_weight'))} |")
