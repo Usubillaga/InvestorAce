@@ -15,7 +15,7 @@ def sessions(n, start='2026-11-02'):
 
 def book(days, heat_values, price=100.):
     heat = dict(zip(days, heat_values))
-    prices = {s: {d: price for d in days} for s in ('AAA', 'BBB')}
+    prices = {s: {d: price for d in days} for s in ('AAA', 'BBB', il.EQUAL_WEIGHT)}
     return heat, prices
 
 
@@ -24,7 +24,7 @@ HOLDINGS = lambda: [('AAA', 0.06), ('BBB', 0.02)]
 
 class Account(unittest.TestCase):
     def setUp(self):
-        self.days = sessions(il.HOLD + 30)
+        self.days = sessions(il.MIN_HOLD + 40)
 
     def buy_on(self, state, days, heat, prices, i, heat_now):
         """Intraday decision on days[i], then the close run through days[i]."""
@@ -43,7 +43,10 @@ class Account(unittest.TestCase):
         order, events = self.buy_on(state, days, heat, prices, 7, heat_now=18)   # panic again before the close
         self.assertEqual(order['signal'], days[5])
         self.assertEqual((events[0]['type'], events[0]['date'], events[0]['signal']), ('BUY', days[7], days[5]))
-        self.assertAlmostEqual(state['positions']['AAA']['shares'] / state['positions']['BBB']['shares'], 3)
+        self.assertAlmostEqual(state['positions']['AAA']['shares'] / state['positions']['BBB']['shares'], 3, places=5)
+        rsp = state['positions'][il.EQUAL_WEIGHT]
+        self.assertAlmostEqual(rsp['account_share'], 0.5)                     # half the account in RSP
+        self.assertAlmostEqual(state['positions']['AAA']['account_share'] + state['positions']['BBB']['account_share'], 0.5)
         self.assertIsNone(state['pending'])
         self.assertIsNone(il.decide(state, days[:8], heat, days[8], 10))         # holding: no second buy
 
@@ -57,23 +60,53 @@ class Account(unittest.TestCase):
         self.assertIsNone(state['pending'])
         self.assertEqual(il.advance(state, days[:7], heat, prices, HOLDINGS), [])
 
-    def test_sells_after_the_maximum_hold_and_at_the_close_after_euphoria(self):
+    def test_holds_42_months_and_then_sells_at_the_close_after_euphoria(self):
         days = self.days
-        heat, prices = book(days, [50] * 5 + [15] + [50] * (len(days) - 6))
+        hold = il.MIN_HOLD
+        values = [50.] * len(days)
+        values[5] = 15.                                                        # panic: bought at days[6]
+        values[16] = 85.                                                       # euphoria too early
+        euphoric_day = 6 + hold + 5                                            # euphoria after 42 months
+        values[euphoric_day] = 85.
+        heat, prices = book(days, values)
         state = il.fresh(days[0])
         il.advance(state, days[:6], heat, prices, HOLDINGS)
         self.buy_on(state, days, heat, prices, 6, heat_now=12)
+        events = il.advance(state, days[:hold], heat, prices, HOLDINGS)
+        self.assertEqual(events, [])                                          # euphoria at day 16 is too early
+        del prices['BBB'][days[euphoric_day + 1]]                             # no close on the planned sell day
         events = il.advance(state, days, heat, prices, HOLDINGS)
-        self.assertEqual([(e['type'], e['date'], e['why']) for e in events], [('SELL', days[6 + il.HOLD], 'MAX_HOLD')])
+        self.assertEqual([(e['date'], e['why']) for e in events],
+                         [(days[euphoric_day + 2], 'EUPHORIA_AFTER_42_MONTHS')])   # sold the next day instead
+        self.assertIsNone(state['selling'])
         self.assertLess(state['trades'][0]['ret'], 0)                         # flat prices, two costs
-        heat, prices = book(days, [50] * 5 + [15] + [50] * 10 + [85] + [70] * (len(days) - 17))
-        del prices['BBB'][days[17]]                                           # no close on the planned sell day
+        heat, prices = book(days, [50] * 5 + [15] + [50] * (len(days) - 6))   # no euphoria: never sold
         state = il.fresh(days[0])
         il.advance(state, days[:6], heat, prices, HOLDINGS)
         self.buy_on(state, days, heat, prices, 6, heat_now=12)
-        events = il.advance(state, days[:30], heat, prices, HOLDINGS)
-        self.assertEqual([(e['date'], e['why']) for e in events], [(days[18], 'EUPHORIA')])
-        self.assertIsNone(state['selling'])
+        self.assertEqual(il.advance(state, days, heat, prices, HOLDINGS), [])
+        self.assertTrue(state['positions'])
+
+    def test_level_17_needs_a_deeper_panic(self):
+        days = self.days
+        heat, prices = book(days, [50] * 5 + [18, 16] + [50] * (len(days) - 7))
+        twenty, seventeen = il.fresh(days[0], 20.), il.fresh(days[0], 17.)
+        for state in (twenty, seventeen):
+            il.advance(state, days[:6], heat, prices, HOLDINGS)
+        self.assertIsNotNone(il.decide(twenty, days[:6], heat, days[6], 18.5))      # under 20
+        self.assertIsNone(il.decide(seventeen, days[:6], heat, days[6], 18.5))      # not under 17, no 17-signal yet
+        il.advance(seventeen, days[:7], heat, prices, HOLDINGS)                    # days[6] closes at 16
+        self.assertIsNotNone(il.decide(seventeen, days[:7], heat, days[7], 16.5))
+        self.assertIsNone(il.decide(seventeen, days[:7], heat, days[7], 17.5))
+
+    def test_upgrade_of_the_flat_account_only(self):
+        old = dict(schema='index-leaders-v1', start='2026-11-20', hold=252, positions={}, marks=[])
+        new = il.upgrade(old, 20.)
+        self.assertEqual((new['schema'], new['level'], new['min_hold']), ('index-leaders-v2', 20., il.MIN_HOLD))
+        self.assertNotIn('hold', new)
+        self.assertTrue(new['rule_changes'])
+        with self.assertRaises(ValueError):
+            il.upgrade(dict(schema='index-leaders-v1', positions={'AAA': {}}), 20.)
 
     def test_an_old_or_unfilled_signal(self):
         days = self.days
@@ -115,13 +148,17 @@ class Page(unittest.TestCase):
             (root / 'index-leaders').mkdir()
             (root / 'index-leaders' / 'latest.json').write_text(json.dumps(dict(
                 session='2026-11-20', heat=15.4, heat_recent=[['2026-11-19', 25.0], ['2026-11-20', 15.4]],
-                intraday=dict(date='2026-11-23', heat=24.0, order=False, checked_at='2026-11-23T20:40+00:00'),
+                intraday=dict(date='2026-11-23', heat=24.0, order=False, orders={'20': False, '17': False},
+                              checked_at='2026-11-23T20:40+00:00'),
                 holdings={'SPY': [dict(symbol='NVDA', weight=0.07, name='NVIDIA')], 'QQQ': []})))
             pages = dict(il.site_pages(root))
             html = pages[Path(il.PAGE)]
             self.assertIn('PANIC · buy signal', html)
             self.assertIn('7.00%', html)
             self.assertIn('no buy order', html)
+            self.assertIn('buys under 20', html)
+            self.assertIn('buys under 17', html)
+            self.assertIn('RSP', html)
             self.assertIn('Holdings not available', html)
             self.assertIn(il.YELLOW, html)
             self.assertEqual(il.site_pages(Path(tmp) / 'missing'), [])

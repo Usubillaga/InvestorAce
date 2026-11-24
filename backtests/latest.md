@@ -200,7 +200,7 @@ Breakout failure rate 32.97% · 63-day mean: uptrend days 4.97%, just under resi
 | rebound_sleeve_below_200d | 0/3 | 1/3 | 1/3 |
 | rebound_sleeve_no_stop | 1/3 | 0/3 | 1/3 |
 
-Symbols: 125 · generated 2026-11-24T07:23+00:00 · price data 7dea579e2f034afa
+Symbols: 125 · generated 2026-11-24T13:04+00:00 · price data 7dea579e2f034afa
 
 ## Valuation coverage
 
@@ -430,7 +430,7 @@ Rules against buy and hold from 20 paired starts per period. Costs 0.1% per posi
 | 2014-01-02 → 2017-12-29 | codex_20d_5d_long_short | 0/20 | -16.50% | -29.29 [-30.42, -28.40] | -2.79 | -33.90 |
 | 2014-01-02 → 2017-12-29 | codex_20d_5d_long_only | 0/20 | -4.48% | -17.25 [-18.19, -16.72] | -1.68 | -4.88 |
 | 2014-01-02 → 2017-12-29 | trend_200d | 0/20 | 8.56% | -4.21 [-4.43, -4.02] | -0.09 | +3.46 |
-| 2014-01-02 → 2017-12-29 | codex_intraday_account | 0/20 | -27.92% | -40.87 [-41.82, -39.95] | -7.28 | -54.33 |
+| 2014-01-02 → 2017-12-29 | codex_intraday_account | 0/20 | -27.92% | -40.87 [-41.82, -39.96] | -7.28 | -54.33 |
 | 2018-01-02 → 2021-12-31 | buy_and_hold | — | 14.54% | — | — | — |
 | 2018-01-02 → 2021-12-31 | codex_20d_5d_long_short | 0/20 | -8.30% | -23.38 [-25.33, -21.24] | -1.15 | -4.97 |
 | 2018-01-02 → 2021-12-31 | codex_20d_5d_long_only | 0/20 | 2.17% | -12.94 [-13.91, -11.46] | -0.48 | +24.82 |

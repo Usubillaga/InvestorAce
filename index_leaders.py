@@ -6,16 +6,20 @@ Rule (the same as panic_backtest.weights_study tests):
   200-day averages, the share of the universe above its own 200-day average; CNN Fear & Greed is left out so the
   signal can be rebuilt from closes). Only the first panic close of an episode counts, at least 63 sessions after
   the previous one.
-* Buy: the ten largest S&P 500 holdings of SPY (Yahoo's top holdings), each in proportion to its index weight,
-  10,000 USD, at a close after the signal, but only if the thermometer is still in panic shortly before that close
+* Buy: half the account in the ten largest S&P 500 holdings of SPY (Yahoo's top holdings), each in proportion
+  to its index weight, and half in RSP (the equal-weight S&P 500 ETF), 10,000 USD, at a close after the signal, but only if the thermometer is still in panic shortly before that close
   (the user's rule of 23 Nov 2026: check intraday before buying; no buy once the panic is over). At 20:40 UTC
   (about 20 minutes before the US close) decide() rebuilds the thermometer with intraday prices and leaves a
   pending order; the run after the close fills it at the close. Without panic before the close there is no
   order, and the next sessions are checked again while the episode lasts (63 sessions after its first panic
   close). 0.1% per side.
-* Sell: everything at the close after the first euphoria close (thermometer at or above 80), and at the latest
-  252 sessions (about a year) after the buy. Until 23 Nov 2026 the rule sold after 63 sessions; the user asked to
-  sell in extreme euphoria instead, and the backtest's exit comparison found no reason against it.
+* Sell: hold at least 42 months (882 sessions); then everything at the close after the first euphoria close
+  (thermometer at or above 80). No other exit, no stop.
+* Two accounts with the same rules except the buy level (24 Nov 2026, after panic_history.py's study of every
+  level from 20 to 10): paper_trades/index-leaders.json buys under 20, paper_trades/index-leaders-17.json under 17.
+History of the rule: 23 Nov 2026 top 10 only, sold after 63 sessions, then at euphoria within 252 sessions; 24 Nov
+2026 the mixed basket and the 42-month hold, which held up on every panic since 2000 (including 2001 and 2008) in
+the backtest, at the cost of falls of up to 57% while held.
 Paper only. Weights are read on the day the order is filled, not on the signal day (Yahoo publishes only the
 current list). The live thermometer on the scoreboard can differ slightly when Fear & Greed is available.
 """
@@ -29,18 +33,37 @@ ROOT = Path(__file__).resolve().parent
 STATE = ROOT / 'paper_trades' / 'index-leaders.json'
 LATEST = ROOT / 'index-leaders' / 'latest.json'
 PAGE = 'index-leaders.html'
-CAPITAL, COST, HOLD, TOP = 10000., 0.001, 252, 10
+CAPITAL, COST, TOP = 10000., 0.001, 10
+MIN_HOLD = 882                  # 42 months
+EQUAL_WEIGHT = 'RSP'            # the equal-weight half of the basket
 EUPHORIA = 80.
+ACCOUNTS = (('20', 20., STATE), ('17', 17., ROOT / 'paper_trades' / 'index-leaders-17.json'))
+FIRST_START = '2026-11-20'      # both accounts watch the panic that began on 20 Nov 2026 (buys only via decide())
+RULES = dict(basket='half the ten largest S&P 500 holdings by weight, half RSP', min_hold=MIN_HOLD,
+             exit='close after the first euphoria close (80+) once 42 months are held', stop=None)
 FUNDS = (('SPY', 'S&P 500'), ('QQQ', 'Nasdaq-100'))
 
 
 # ------------------------------------------------------------------ account
 
 
-def fresh(start):
-    """A new account that never fills before `start` (the last completed session when it is first run)."""
-    return dict(schema='index-leaders-v1', start=start, capital=CAPITAL, cash=CAPITAL, cost=COST, hold=HOLD,
-                top=TOP, positions={}, bought=None, signal=None, done_signals=[], trades=[], marks=[])
+def fresh(start, level=20.):
+    """A new account that never fills before `start` and buys under `level`."""
+    return dict(schema='index-leaders-v2', start=start, level=level, capital=CAPITAL, cash=CAPITAL, cost=COST, top=TOP,
+                positions={}, bought=None, signal=None, done_signals=[], trades=[], marks=[], **RULES)
+
+
+def upgrade(state, level):
+    """Bring an account written under the earlier rule to the current one; only allowed while it holds nothing."""
+    if state.get('schema') == 'index-leaders-v2':
+        return state
+    if state.get('positions'):
+        raise ValueError('cannot change the rule of an account that holds positions')
+    state.pop('hold', None)
+    state.update(schema='index-leaders-v2', level=level, **RULES)
+    state.setdefault('rule_changes', []).append(dict(date='2026-11-24', change='mixed basket (top 10 + RSP), '
+                                                     'hold at least 42 months then sell in euphoria; no max hold'))
+    return state
 
 
 def value(state, prices, day):
@@ -70,24 +93,28 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
         if pending and pending['date'] == day and not state['positions']:
             picks = [(s, w) for s, w in holdings() if w and w > 0 and (prices.get(s) or {}).get(day)][:TOP]
             total_w = sum(w for _, w in picks)
-            if picks and total_w > 0:
+            if picks and total_w > 0 and (prices.get(EQUAL_WEIGHT) or {}).get(day):
                 cash = state['cash']
-                for symbol, w in picks:
+                plan = [(sym, 0.5 * w / total_w, w) for sym, w in picks] + [(EQUAL_WEIGHT, 0.5, None)]
+                for symbol, share, index_weight in plan:
                     px = prices[symbol][day]
-                    shares = cash * (w / total_w) / (px * (1 + COST))
-                    state['positions'][symbol] = dict(shares=round(shares, 6), entry=px, weight=round(w, 6))
+                    shares = cash * share / (px * (1 + COST))
+                    state['positions'][symbol] = dict(shares=round(shares, 6), entry=px, account_share=round(share, 6),
+                                                      index_weight=None if index_weight is None else round(index_weight, 6))
                     state['cash'] -= shares * px * (1 + COST)
                 state['cash'] = round(state['cash'], 6)
                 state.update(bought=day, signal=pending['signal'], sessions_held=0, pending=None)
                 state['done_signals'].append(pending['signal'])
                 events.append(dict(type='BUY', date=day, signal=pending['signal'], heat=pending['heat'],
-                                   heat_close=heat.get(day), symbols=[s for s, _ in picks]))
+                                   heat_close=heat.get(day), symbols=[s for s, _ in picks] + [EQUAL_WEIGHT]))
         elif state['positions']:
             state['sessions_held'] = state.get('sessions_held', 0) + 1
-            euphoric = prev is not None and (heat.get(prev) or 0) >= EUPHORIA and prev > state['bought']
-            if state['sessions_held'] >= HOLD or euphoric or state.get('selling'):
+            # Sell at this close when the previous close was euphoric and the account had then held 42 months.
+            euphoric = (prev is not None and (heat.get(prev) or 0) >= EUPHORIA and prev > state['bought']
+                        and state['sessions_held'] - 1 >= state.get('min_hold', MIN_HOLD))
+            if euphoric or state.get('selling'):
                 # The decision holds until every position has a close to sell at.
-                state['selling'] = state.get('selling') or ('EUPHORIA' if euphoric else 'MAX_HOLD')
+                state['selling'] = state.get('selling') or 'EUPHORIA_AFTER_42_MONTHS'
                 proceeds = 0.
                 for symbol, p in state['positions'].items():
                     px = (prices.get(symbol) or {}).get(day)
@@ -112,8 +139,8 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
 
 
 def decide(state, sessions, heat, today, heat_now):
-    """Before the close of `today`: leave a buy order for today's close if the thermometer is still in panic
-    now (heat_now < 20, from intraday prices) and the current episode has not bought yet.
+    """Before the close of `today`: leave a buy order for today's close if the thermometer is still under the
+    account's level now (heat_now, from intraday prices) and the current episode has not bought yet.
 
     sessions/heat are completed closes before today. The episode is the last first-panic close (one per 63
     sessions, panic_backtest.signals) within the last 63 sessions. Returns the order or None."""
@@ -121,10 +148,11 @@ def decide(state, sessions, heat, today, heat_now):
     import pandas as pd
     if (state.get('pending') or {}).get('date') == today:
         state['pending'] = None               # the last check before the close decides; an earlier one is replaced
-    if state['positions'] or heat_now is None or heat_now >= pb.PANIC:
+    level = state.get('level', pb.PANIC)
+    if state['positions'] or heat_now is None or heat_now >= level:
         return None
     series = pd.Series({pd.Timestamp(d): heat[d] for d in sessions if heat.get(d) is not None}, dtype=float)
-    entries = [str(d.date()) for d in pb.signals(series)[0]] if len(series) else []
+    entries = [str(d.date()) for d in pb.signals(series, panic=level)[0]] if len(series) else []
     recent = [d for d in entries if d in sessions[-pb.GAP:] and d >= state.get('start', '')]
     if not recent or recent[-1] in state['done_signals'] or recent[-1] >= today:
         return None
@@ -166,8 +194,10 @@ def collect(today=None, intraday=False):
     import panic_backtest as pb
     holdings = {fund: top_holdings(fund) for fund, _ in FUNDS}
     universe = sorted({row.get('yf') or key for key, row in engine.DATA.items()})
-    state = load(start='')
-    held = sorted(set(state['positions']) | {s for s, _, _ in holdings['SPY'][:TOP]})
+    held = {s for s, _, _ in holdings['SPY'][:TOP]} | {EQUAL_WEIGHT}
+    for _, _, path in ACCOUNTS:
+        held |= set(load(path, start='')['positions'])
+    held = sorted(held)
     raw = yf.download(sorted(set(universe) | set(held) | {'^GSPC', '^VIX'}), period='2y', auto_adjust=False,
                       progress=False, threads=True, group_by='column')['Close']
     raw.index = raw.index.tz_localize(None) if raw.index.tz is not None else raw.index
@@ -180,20 +210,26 @@ def collect(today=None, intraday=False):
     return sessions, heat_map, prices, holdings
 
 
-def load(path=STATE, start=None):
+def load(path=STATE, start=None, level=20.):
     try:
         return json.loads(Path(path).read_text(encoding='utf-8'))
     except (OSError, ValueError):
-        return fresh(start)
+        return fresh(start, level)
 
 
-def run(path=STATE, latest=LATEST):
+def _accounts(start=FIRST_START):
+    for name, level, path in ACCOUNTS:
+        yield name, level, path, upgrade(load(path, start=start, level=level), level)
+
+
+def run(latest=LATEST):
     sessions, heat, prices, holdings = collect()
-    state = load(path, start=sessions[-1])
-    events = advance(state, sessions[-130:], heat, prices,
-                     lambda: [(s, w) for s, w, _ in holdings['SPY'][:TOP]])
-    Path(path).parent.mkdir(parents=True, exist_ok=True)
-    Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
+    events = {}
+    for name, _, path, state in _accounts():
+        events[name] = advance(state, sessions[-130:], heat, prices,
+                               lambda: [(s, w) for s, w, _ in holdings['SPY'][:TOP]])
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
     last = sessions[-1]
     snapshot = dict(schema='index-leaders-latest-v1', as_of=datetime.now(timezone.utc).isoformat(timespec='minutes'),
                     session=last, heat=heat.get(last), heat_recent=[[d, heat[d]] for d in sessions[-30:] if d in heat],
@@ -205,7 +241,7 @@ def run(path=STATE, latest=LATEST):
     print(json.dumps(dict(session=last, heat=heat.get(last), events=events), indent=1))
 
 
-def decide_run(path=STATE, latest=LATEST):
+def decide_run(latest=LATEST):
     """20:40 UTC: the intraday thermometer decides whether today's close buys."""
     import pandas as pd
     now = pd.Timestamp.now(tz='America/New_York')
@@ -218,16 +254,19 @@ def decide_run(path=STATE, latest=LATEST):
     if not sessions or sessions[-1] != today:
         print(json.dumps(dict(today=today, decision='no session today')))
         return None
-    state = load(path, start=sessions[-2])
     heat_now = heat.get(today)
-    order = decide(state, sessions[:-1][-130:], heat, today, heat_now)
-    Path(path).parent.mkdir(parents=True, exist_ok=True)
-    Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
+    orders = {}
+    for name, _, path, state in _accounts():
+        orders[name] = decide(state, sessions[:-1][-130:], heat, today, heat_now)
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
+        Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
+    order = orders
     try:
         snapshot = json.loads(Path(latest).read_text(encoding='utf-8'))
     except (OSError, ValueError):
         snapshot = {}
-    snapshot['intraday'] = dict(date=today, heat=heat_now, order=bool(order),
+    snapshot['intraday'] = dict(date=today, heat=heat_now, orders={k: bool(v) for k, v in orders.items()},
+                                order=any(orders.values()),
                                 checked_at=datetime.now(timezone.utc).isoformat(timespec='minutes'))
     Path(latest).parent.mkdir(parents=True, exist_ok=True)
     Path(latest).write_text(json.dumps(snapshot, indent=1) + '\n', encoding='utf-8')
@@ -245,7 +284,8 @@ def _pct(x, digits=2):
     return '—' if x is None else f'{100 * x:.{digits}f}%'
 
 
-def render(snapshot, state, backtest=None):
+def render(snapshot, states, backtest=None):
+    """states: [(name, level, state)] of the paper accounts."""
     import market_pulse
     from war_scenario import shell
     h = snapshot.get('heat')
@@ -254,21 +294,23 @@ def render(snapshot, state, backtest=None):
     bar = ''.join(f'<span style="background:{c}"></span>' for _, c in BAND_COLOURS)
     buy = h is not None and h < 20
     intraday = snapshot.get('intraday') or {}
-    status = (f'<b style="color:{YELLOW}">PANIC · buy signal</b>: the account buys the S&amp;P 500 leaders at a '
-              'following close if the thermometer is still under 20 about 20 minutes before that close.' if buy else
-              'No panic: the account does not buy. After a panic close (thermometer under 20) it buys the S&amp;P 500 '
-              'leaders at a following close, only if the thermometer is still under 20 shortly before it, and sells them at the close after the first '
-              'euphoria close (80 or more), at the latest after 252 sessions.')
+    status = (f'<b style="color:{YELLOW}">PANIC · buy signal</b>: the accounts buy at a following close if the '
+              'thermometer is still under their level (20 or 17) about 20 minutes before that close.' if buy else
+              'No panic: the accounts do not buy. After a panic close they buy half the ten largest S&amp;P 500 '
+              'companies by weight and half RSP (equal weight) at a following close, only if the thermometer is still '
+              'under their level (20 or 17) shortly before it; they hold at least 42 months and then sell at the close '
+              'after the first euphoria close (80 or more).')
     recent = ''.join(f'<span title="{escape(d)}: {v:.1f}" style="display:inline-block;width:8px;height:{max(3, v)}px;'
                      f'margin-right:2px;vertical-align:bottom;background:'
                      f'{dict(BAND_COLOURS).get(market_pulse.band(v), "#888")}"></span>'
                      for d, v in snapshot.get('heat_recent', []))
     parts = [f'<style>{market_pulse.CSS}</style>', f'<h1 style="color:{YELLOW}">Panic &amp; index leaders</h1>',
              '<div class="note">The market thermometer (the scoreboard\'s crash and panic gauge) next to the '
-             'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. When the thermometer '
-             'closes under 20 (panic), a paper account buys the ten largest S&amp;P 500 holdings, weighted as in '
-             'the index, and sells them after the first close in extreme euphoria (80 or more), at the latest a year '
-             'later. Paper only; not advice.</div>',
+             'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. Two paper accounts buy in a '
+             'panic (one under 20, one under 17): half the ten largest S&amp;P 500 companies weighted as in the '
+             'index, half RSP (equal weight); they hold at least 42 months, then sell after the first close in '
+             'extreme euphoria (80 or more). The backtest since 2000 found falls of up to 57% while held. Paper '
+             'only; not advice.</div>',
              '<div class="box pulse-thermo"><h2>Thermometer</h2>'
              f'<span class="pulse-big" style="color:{colour}">{"—" if h is None else format(h, ".1f")}</span> /100 · '
              f'<b>{escape(band or "—")}</b> · close of {escape(snapshot.get("session") or "—")}'
@@ -277,7 +319,9 @@ def render(snapshot, state, backtest=None):
              f'<p>{status}</p>'
              + (f'<p>Intraday check {escape(intraday["date"])} ({escape(intraday.get("checked_at", ""))} UTC): '
                 f'thermometer {"—" if intraday.get("heat") is None else format(intraday["heat"], ".1f")} → '
-                f'{"<b>buy order for the close</b>" if intraday.get("order") else "no buy order"}</p>'
+                f'{"<b>buy order for the close</b>" if intraday.get("order") else "no buy order"}'
+                + ''.join(f' · under {k}: {"order" if v else "none"}' for k, v in (intraday.get('orders') or {}).items())
+                + '</p>'
                 if intraday.get('date') else '')
              + f'<div style="margin-top:8px">Last 30 sessions: {recent}</div>'
              '<p class="muted">Rebuilt from closes without CNN Fear &amp; Greed, so it can differ slightly from the '
@@ -293,21 +337,27 @@ def render(snapshot, state, backtest=None):
                      + ('<div class="tw"><table><thead><tr><th>#</th><th>Symbol</th><th>Company</th><th>Weight</th>'
                         f'<th></th></tr></thead><tbody>{body}</tbody></table></div>' if body
                         else '<p class="muted">Holdings not available.</p>'))
-    equity = state['marks'][-1]['equity'] if state.get('marks') else state.get('capital')
-    pos = ''.join(f'<tr><td class="mono">{escape(s)}</td><td class="mono">{p["shares"]:.4f}</td>'
-                  f'<td class="mono">{p["entry"]:.2f}</td><td class="mono">{_pct(p.get("weight"))}</td></tr>'
-                  for s, p in sorted(state.get('positions', {}).items()))
-    trades = ''.join(f'<tr><td>{escape(t["signal"])}</td><td>{escape(t["bought"])}</td><td>{escape(t["sold"])}</td>'
-                     f'<td class="mono">{_pct(t["ret"], 1)}</td></tr>' for t in state.get('trades', []))
-    parts.append('<h2>Paper account</h2>'
-                 f'<p>Equity <b>{equity:,.2f} USD</b> (start {state.get("capital", CAPITAL):,.0f}) · cash '
-                 f'{state.get("cash", 0):,.2f} · '
-                 + (f'holding since {escape(state["bought"])} (signal {escape(state["signal"])}), session '
-                    f'{state.get("sessions_held", 0)} of {HOLD}' if state.get('positions') else 'flat') + '</p>'
-                 + (f'<div class="tw"><table><thead><tr><th>Symbol</th><th>Shares</th><th>Entry</th><th>Index weight'
-                    f'</th></tr></thead><tbody>{pos}</tbody></table></div>' if pos else '')
-                 + (f'<div class="tw"><table><thead><tr><th>Signal</th><th>Bought</th><th>Sold</th><th>Return</th>'
-                    f'</tr></thead><tbody>{trades}</tbody></table></div>' if trades else ''))
+    for name, level, state in states:
+        equity = state['marks'][-1]['equity'] if state.get('marks') else state.get('capital')
+        pos = ''.join(f'<tr><td class="mono">{escape(sym)}</td><td class="mono">{p["shares"]:.4f}</td>'
+                      f'<td class="mono">{p["entry"]:.2f}</td><td class="mono">{_pct(p.get("account_share"))}</td>'
+                      f'<td class="mono">{_pct(p.get("index_weight"))}</td></tr>'
+                      for sym, p in sorted(state.get('positions', {}).items()))
+        trades = ''.join(f'<tr><td>{escape(t["signal"])}</td><td>{escape(t["bought"])}</td><td>{escape(t["sold"])}</td>'
+                         f'<td class="mono">{_pct(t["ret"], 1)}</td></tr>' for t in state.get('trades', []))
+        orders = (intraday.get('orders') or {})
+        parts.append(f'<h2>Paper account · buys under {level:g}</h2>'
+                     f'<p>Equity <b>{equity:,.2f} USD</b> (start {state.get("capital", CAPITAL):,.0f}) · cash '
+                     f'{state.get("cash", 0):,.2f} · '
+                     + (f'holding since {escape(state["bought"])} (signal {escape(state["signal"])}), session '
+                        f'{state.get("sessions_held", 0)} of at least {state.get("min_hold", MIN_HOLD)}, then the first '
+                        'euphoria close' if state.get('positions') else 'flat')
+                     + (f' · intraday check: {"buy order" if orders.get(name) else "no order"}' if name in orders else '')
+                     + '</p>'
+                     + (f'<div class="tw"><table><thead><tr><th>Symbol</th><th>Shares</th><th>Entry</th><th>Share of '
+                        f'account</th><th>Index weight</th></tr></thead><tbody>{pos}</tbody></table></div>' if pos else '')
+                     + (f'<div class="tw"><table><thead><tr><th>Signal</th><th>Bought</th><th>Sold</th><th>Return</th>'
+                        f'</tr></thead><tbody>{trades}</tbody></table></div>' if trades else ''))
     if backtest:
         parts.append('<h2>Backtest</h2><div class="note">From the last backtest run (backtest.html, section '
                      '"Thermometer Panic · buy"); six panic episodes since 2015, so treat it as a hint, not proof.'
@@ -339,14 +389,14 @@ def history_html(root):
         return ''
     names = dict(top10_weight='Top 10 by weight (this account)', leaders='Leaders (&lt;20% off their high)',
                  broken='Broken (20–40% off)', busted='Busted (&gt;40% off)', all_members='All members, equal weight',
-                 spx='S&amp;P 500')
+                 mix='Half top 10, half all members', spx='S&amp;P 500')
     blocks = []
-    for h, label in (('63', '3 months'), ('252', '12 months'), ('378', '18 months')):
+    for h, label in (('63', '3 months'), ('252', '12 months'), ('378', '18 months'), ('882', '42 months')):
         cells = (result.get('summary') or {}).get(h) or {}
         rows = ''.join(f'<tr><td>{names[k]}</td><td>{c["n"]}</td><td class="mono">{_pct(c["mean"], 1)}</td>'
                        f'<td class="mono">{_pct(c["median"], 1)}</td><td class="mono">{_pct(c["worst"], 1)}</td>'
                        f'<td>{"—" if k == "spx" else str(c["beats_spx"]) + "/" + str(c["n"])}</td></tr>'
-                       for k, c in cells.items())
+                       for k, c in cells.items() if k in names)
         if rows:
             blocks.append(f'<h3>{label} after the buy</h3><div class="tw"><table><thead><tr><th>Basket</th>'
                           '<th>Signals</th><th>Mean</th><th>Median</th><th>Worst</th><th>Beats S&amp;P</th></tr></thead>'
@@ -372,8 +422,9 @@ def site_pages(root):
         snapshot = json.loads((Path(root) / 'index-leaders' / 'latest.json').read_text(encoding='utf-8'))
     except (OSError, ValueError):
         return []
-    return [(Path(PAGE), render(snapshot, load(Path(root) / 'paper_trades' / 'index-leaders.json', start=''),
-                                backtest_html(root) + history_html(root)))]
+    states = [(name, level, load(Path(root) / 'paper_trades' / Path(path).name, start='', level=level))
+              for name, level, path in ACCOUNTS]
+    return [(Path(PAGE), render(snapshot, states, backtest_html(root) + history_html(root)))]
 
 
 if __name__ == '__main__':
