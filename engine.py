@@ -706,6 +706,8 @@ def epv(d):
 
 
 def _epv_input_block(d):
+    if d.get('yf') == 'CRWV':
+        return 'EPV unavailable until CoreWeave replacement capex and financing are normalized.'
     if d.get('fundamentals_refresh') == 'QUOTE_ONLY':
         return 'EPV unavailable for a quote-only watch entry.'
     analysis = d.get('dynamic_analysis') or {}

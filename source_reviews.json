@@ -1078,7 +1078,7 @@
           "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
           "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+          "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
         }
       },
       "as_of": "2026-11-21"
@@ -5556,7 +5556,7 @@
           "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
           "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+          "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
         }
       },
       "as_of": "2026-11-21"
@@ -7142,7 +7142,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates.",
@@ -7227,7 +7227,7 @@
             "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
             "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
             "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-            "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+            "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
           }
         }
       },
@@ -8474,7 +8474,7 @@
           "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
           "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+          "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
         }
       },
       "as_of": "2026-11-21"
@@ -8845,7 +8845,7 @@
           {
             "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000465/crwv-20260930.htm",
             "title": "CRWV Q3 Form 10-Q",
-            "published_at": "2026-11-10",
+            "published_at": "2026-11-12",
             "locator": "Cover; balance p6; Note8 pp26-27; Note10 pp30-31; Note11 pp38-39",
             "new_document": false
           }
@@ -8874,7 +8874,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates.",
@@ -8897,7 +8897,7 @@
               "id": "CRWV-Q3-10Q",
               "url": "https://www.sec.gov/Archives/edgar/data/1769628/000176962826000465/crwv-20260930.htm",
               "document_id": "0001769628-26-000465",
-              "published_at": "2026-11-10",
+              "published_at": "2026-11-12",
               "locator": "Balance sheet p6; Note11 pp38-39 (preferred conversion and dividends)",
               "status": "READ",
               "title": "Balance sheet p6; Note11 pp38-39 (preferred conversion and dividends)"
@@ -8937,7 +8937,7 @@
             "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
             "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
             "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-            "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+            "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
           }
         }
       },
@@ -9046,7 +9046,7 @@
           "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
           "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+          "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
         }
       },
       "as_of": "2026-11-21"
@@ -9160,7 +9160,7 @@
           "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
           "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+          "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
         }
       },
       "as_of": "2026-11-21"
@@ -9285,7 +9285,7 @@
           "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
           "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+          "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
         }
       },
       "as_of": "2026-11-21"
@@ -9497,7 +9497,7 @@
           "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
           "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+          "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
         }
       },
       "as_of": "2026-11-21"
@@ -10039,7 +10039,7 @@
           "own_sources.json": "1573ee347c8cf0f9ed06bb23ff7436ccacd5947d5c823c2adc071146b9a4c80f",
           "review-run.json": "8e61e836f72ac7cf9c3c62f9765a3dba380b236a7ea3126e9719cc81cb5363df",
           "intu-insider-evidence.json": "0015af9929b367f7cb7d6cfa23e1e72bac32016f471671c8bb5f9407b1ea5185",
-          "due_sources_a.json": "5b9302a579d338062200c8053cf4b03a28931fbf8834e5c896e504d3580ba652"
+          "due_sources_a.json": "aa2e48d64ad7033ee2ea035285d37e00cbb0e69539c9fcc29af6c92d997353a7"
         }
       },
       "as_of": "2026-11-21"
@@ -10185,7 +10185,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
@@ -10345,7 +10345,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
@@ -10516,7 +10516,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
@@ -10592,7 +10592,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
@@ -10674,7 +10674,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
@@ -10763,7 +10763,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
@@ -10830,7 +10830,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
@@ -10917,7 +10917,7 @@
         "evidence_packet": "docs/analysis/issuer-events-20261123",
         "evidence_sha256": {
           "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "15ab92845ba9bdbca3c9773195a16d80764b22c7295d9d7bcb0794446f430bae",
+          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
           "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
