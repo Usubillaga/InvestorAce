@@ -89,6 +89,23 @@ Signals under 20: 2001-03-21, 2001-09-07, 2002-07-02, 2003-01-24, 2008-01-17, 20
 Signals under 15: 2001-09-17, 2002-07-10, 2003-01-24, 2008-01-17, 2008-07-14, 2011-08-08, 2015-08-24, 2018-12-20, 2020-03-09, 2022-05-09, 2025-04-04
 Signals under 10: 2001-09-17, 2002-07-15, 2003-01-27, 2008-09-17, 2011-08-08, 2015-08-24, 2018-12-24, 2020-03-09, 2022-06-13, 2022-09-26, 2025-04-04
 
+## Buying in two halves: under 20, then under 10
+
+Mixed basket (half the ten largest, half all members) and the S&P 500 with the same timing; whole account including cash, from the first buy. staged_cash keeps the second half in cash if the thermometer does not reach 10 within 63 sessions; staged_fallback buys it then anyway.
+
+| Plan | Months | Mix mean / worst | Mix worst fall (mean / worst) | S&P mean / worst | S&P worst fall (mean / worst) |
+|---|---:|---|---|---|---|
+| all_at_20 | 12 | +12.6% / -45.8% | -23.0% / -53.9% | +8.4% / -39.4% | -20.5% / -48.2% |
+| all_at_10 | 12 | +14.3% / -20.7% | -13.3% / -50.0% | +9.8% / -25.7% | -11.9% / -46.1% |
+| staged_cash | 12 | +13.4% / -23.9% | -18.4% / -50.9% | +9.1% / -27.3% | -16.3% / -46.1% |
+| staged_fallback | 12 | +12.3% / -47.0% | -22.0% / -53.6% | +8.0% / -40.7% | -19.4% / -47.3% |
+| all_at_20 | 42 | +59.2% / +11.7% | -30.7% / -56.7% | +38.6% / -0.9% | -27.6% / -52.6% |
+| all_at_10 | 42 | +41.8% / +0.0% | -17.1% / -50.0% | +26.3% / +0.0% | -15.1% / -46.1% |
+| staged_cash | 42 | +50.5% / +5.8% | -24.4% / -50.9% | +32.4% / -0.4% | -21.6% / -46.1% |
+| staged_fallback | 42 | +59.3% / +7.0% | -29.9% / -56.5% | +38.2% / -5.7% | -26.7% / -52.6% |
+
+Reached 10 within the wait: 2001-03-21 → no, 2001-09-07 → 2001-09-18, 2002-07-02 → 2002-07-16, 2003-01-24 → 2003-01-28, 2008-01-17 → no, 2008-07-02 → 2008-09-18, 2010-06-07 → no, 2011-08-04 → 2011-08-09, 2015-08-24 → 2015-08-25, 2016-01-15 → no, 2018-12-19 → 2018-12-26, 2020-02-27 → 2020-03-10, 2022-03-07 → no, 2025-04-04 → 2025-04-07
+
 ## Timing sensitivity: buying 5 or 10 sessions later
 
 | Entry | Months | Top 10 mean / worst | All members mean / worst | Mix mean / worst | S&P mean / worst |
