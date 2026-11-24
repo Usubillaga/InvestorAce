@@ -11,6 +11,7 @@ Thermometer panic signals 2001-03-21 → 2026-11-23: 14 first panic closes. Memb
 | Broken (20-40%) | 14 | +6.1% | +7.1% | -11.8% | 11/14 | 10/14 |
 | Busted (>40%) | 14 | +5.8% | +7.5% | -22.4% | 11/14 | 9/14 |
 | All members, equal | 14 | +5.8% | +7.5% | -14.3% | 11/14 | 10/14 |
+| Half top 10, half all members | 14 | +6.1% | +5.9% | -14.0% | 11/14 | 9/14 |
 | S&P 500 | 14 | +5.2% | +5.0% | -13.2% | 11/14 | — |
 
 ## 6 months (126 sessions)
@@ -22,6 +23,7 @@ Thermometer panic signals 2001-03-21 → 2026-11-23: 14 first panic closes. Memb
 | Broken (20-40%) | 14 | +7.4% | +10.2% | -23.1% | 9/14 | 9/14 |
 | Busted (>40%) | 14 | +6.4% | +3.4% | -28.9% | 7/14 | 6/14 |
 | All members, equal | 14 | +7.7% | +10.4% | -26.3% | 9/14 | 9/14 |
+| Half top 10, half all members | 14 | +8.1% | +12.2% | -30.9% | 9/14 | 9/14 |
 | S&P 500 | 14 | +6.5% | +9.4% | -26.2% | 9/14 | — |
 
 ## 12 months (252 sessions)
@@ -33,7 +35,9 @@ Thermometer panic signals 2001-03-21 → 2026-11-23: 14 first panic closes. Memb
 | Broken (20-40%) | 14 | +13.3% | +17.3% | -38.3% | 10/14 | 12/14 |
 | Busted (>40%) | 14 | +17.7% | +20.9% | -46.8% | 10/14 | 10/14 |
 | All members, equal | 14 | +14.2% | +19.3% | -38.2% | 10/14 | 12/14 |
+| Half top 10, half all members | 14 | +12.6% | +17.9% | -45.8% | 10/14 | 11/14 |
 | S&P 500 | 14 | +8.6% | +16.4% | -39.2% | 10/14 | — |
+Worst fall from a high while held (mean / worst signal): Top 10 by weight -27.1% / -57.4%; All members, equal -21.0% / -51.3%; Half top 10, half all members -23.0% / -53.9%; S&P 500 -20.5% / -48.2%
 
 ## 18 months (378 sessions)
 
@@ -44,7 +48,45 @@ Thermometer panic signals 2001-03-21 → 2026-11-23: 14 first panic closes. Memb
 | Broken (20-40%) | 14 | +19.5% | +23.3% | -24.3% | 11/14 | 11/14 |
 | Busted (>40%) | 14 | +25.4% | +27.0% | -28.9% | 10/14 | 9/14 |
 | All members, equal | 14 | +21.0% | +25.4% | -24.5% | 10/14 | 10/14 |
+| Half top 10, half all members | 14 | +22.9% | +32.5% | -25.8% | 10/14 | 12/14 |
 | S&P 500 | 14 | +14.7% | +22.1% | -28.0% | 10/14 | — |
+
+## 42 months (882 sessions)
+
+| Basket | Signals | Mean | Median | Worst | Positive | Beats S&P |
+|---|---:|---:|---:|---:|---:|---:|
+| Top 10 by weight | 13 | +58.8% | +66.8% | -16.1% | 11/13 | 9/13 |
+| Leaders (<20% off high) | 13 | +56.3% | +57.0% | +15.2% | 13/13 | 12/13 |
+| Broken (20-40%) | 13 | +58.4% | +54.3% | +25.4% | 13/13 | 11/13 |
+| Busted (>40%) | 13 | +60.9% | +62.6% | +15.1% | 13/13 | 11/13 |
+| All members, equal | 13 | +59.7% | +54.6% | +19.0% | 13/13 | 12/13 |
+| Half top 10, half all members | 13 | +59.2% | +74.0% | +11.7% | 13/13 | 13/13 |
+| S&P 500 | 13 | +38.8% | +49.5% | -0.7% | 12/13 | — |
+Worst fall from a high while held (mean / worst signal): Top 10 by weight -35.7% / -58.8%; All members, equal -28.2% / -54.9%; Half top 10, half all members -30.7% / -56.7%; S&P 500 -27.6% / -52.6%
+
+## Hold at least 42 months, then sell at the close after the first euphoria close
+
+14 signals, 1 still open (no euphoria after 42 months yet, marked at the last close).
+
+| Basket | Mean | Median | Worst | Beats S&P | Worst fall while held |
+|---|---:|---:|---:|---:|---:|
+| Top 10 by weight | +65.9% | +66.1% | -9.2% | 10/14 | -58.8% |
+| All members, equal | +63.8% | +59.2% | +20.6% | 12/14 | -54.9% |
+| Half top 10, half all members | +64.9% | +76.5% | +19.8% | 14/14 | -56.7% |
+| S&P 500 | +42.5% | +54.3% | -0.5% | — | -52.6% |
+
+Per signal: 2001-03-21 → 2004-11-05: top 10 -9.2%, all +48.7%, S&P +4.3%; 2001-09-07 → 2005-06-20: top 10 +2.3%, all +54.4%, S&P +11.3%; 2002-07-02 → 2006-01-04: top 10 +44.0%, all +74.5%, S&P +33.5%; 2003-01-24 → 2006-09-27: top 10 +43.2%, all +119.4%, S&P +57.7%; 2008-01-17 → 2012-01-26: top 10 +28.3%, all +20.6%, S&P -0.5%; 2008-07-02 → 2012-01-26: top 10 +28.7%, all +24.3%, S&P +4.4%; 2010-06-07 → 2013-12-09: top 10 +67.9%, all +92.2%, S&P +70.3%; 2011-08-04 → 2015-02-23: top 10 +105.0%, all +103.5%, S&P +75.9%; 2015-08-24 → 2019-04-08: top 10 +128.3%, all +63.9%, S&P +55.1%; 2016-01-15 → 2019-07-23: top 10 +86.7%, all +72.4%, S&P +59.8%; 2018-12-19 → 2023-02-03: top 10 +122.3%, all +80.2%, S&P +67.6%; 2020-02-27 → 2023-11-21: top 10 +101.8%, all +52.4%, S&P +53.6%; 2022-03-07 → 2025-09-15: top 10 +108.5%, all +43.2%, S&P +58.6%; 2025-04-04 → 2026-11-23 (open): top 10 +64.4%, all +43.8%, S&P +43.0%
+
+## Timing sensitivity: buying 5 or 10 sessions later
+
+| Entry | Months | Top 10 mean / worst | All members mean / worst | Mix mean / worst | S&P mean / worst |
+|---|---:|---|---|---|---|
+| +0 sessions | 12 | +11.0% / -53.4% (n=14) | +14.2% / -38.2% (n=14) | +12.6% / -45.8% (n=14) | +8.6% / -39.2% (n=14) |
+| +0 sessions | 42 | +58.8% / -16.1% (n=13) | +59.7% / +19.0% (n=13) | +59.2% / +11.7% (n=13) | +38.8% / -0.7% (n=13) |
+| +5 sessions | 12 | +11.9% / -44.8% (n=14) | +13.3% / -37.6% (n=14) | +12.6% / -41.2% (n=14) | +7.8% / -37.5% (n=14) |
+| +5 sessions | 42 | +61.8% / -5.7% (n=13) | +60.9% / +12.2% (n=13) | +61.3% / +16.3% (n=13) | +39.1% / -3.6% (n=13) |
+| +10 sessions | 12 | +13.6% / -43.8% (n=14) | +15.8% / -40.1% (n=14) | +14.7% / -41.9% (n=14) | +9.5% / -39.3% (n=14) |
+| +10 sessions | 42 | +63.1% / -4.2% (n=13) | +62.7% / +4.8% (n=13) | +62.9% / +15.8% (n=13) | +39.8% / -8.7% (n=13) |
 
 ## Every signal
 
