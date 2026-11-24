@@ -20,6 +20,11 @@
    "date": "2026-11-23",
    "equity": 10000.0,
    "heat": 28.99
+  },
+  {
+   "date": "2026-11-24",
+   "equity": 10000.0,
+   "heat": 28.46
   }
  ],
  "level": 20.0,
@@ -32,5 +37,16 @@
    "date": "2026-11-24",
    "change": "mixed basket (top 10 + RSP), hold at least 42 months then sell in euphoria; no max hold"
   }
+ ],
+ "currency": "USD",
+ "basket_spec": [
+  [
+   "top10",
+   0.5
+  ],
+  [
+   "RSP",
+   0.5
+  ]
  ]
 }
