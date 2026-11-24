@@ -277,7 +277,9 @@ def run(latest=LATEST):
                     session=last, heat=heat.get(last), heat_recent=[[d, heat[d]] for d in sessions[-30:] if d in heat],
                     holdings={fund: [dict(symbol=s, weight=w, name=n) for s, w, n in rows]
                               for fund, rows in holdings.items()},
-                    events=events)
+                    events=events,
+                    # latest closes of everything an account holds, and EUR/USD, so the page can value each position
+                    prices={sym: [max(series), series[max(series)]] for sym, series in prices.items() if series})
     Path(latest).parent.mkdir(parents=True, exist_ok=True)
     Path(latest).write_text(json.dumps(snapshot, indent=1) + '\n', encoding='utf-8')
     print(json.dumps(dict(session=last, heat=heat.get(last), events=events), indent=1))
@@ -348,10 +350,11 @@ def render(snapshot, states, backtest=None):
                      for d, v in snapshot.get('heat_recent', []))
     parts = [f'<style>{market_pulse.CSS}</style>', f'<h1 style="color:{YELLOW}">Panic &amp; index leaders</h1>',
              '<div class="note">The market thermometer (the scoreboard\'s crash and panic gauge) next to the '
-             'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. Two paper accounts buy in a '
-             'panic (one under 20, one under 17): half the ten largest S&amp;P 500 companies weighted as in the '
-             'index, half RSP (equal weight); they hold at least 42 months, then sell after the first close in '
-             'extreme euphoria (80 or more). The backtest since 2000 found falls of up to 57% while held. Paper '
+             'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. Three paper accounts buy in a '
+             'panic: under 20 and under 17 with half the ten largest S&amp;P 500 companies weighted as in the index '
+             'and half RSP (equal weight), and a third under 17 that adds 15% SpaceX and 15% Anthropic (25,000 EUR, '
+             'no backtest). All hold at least 42 months, then sell after the first close in extreme euphoria (80 or '
+             'more). The backtest since 2000 found falls of up to 57% while held. Paper '
              'only; not advice.</div>',
              '<div class="box pulse-thermo"><h2>Thermometer</h2>'
              f'<span class="pulse-big" style="color:{colour}">{"—" if h is None else format(h, ".1f")}</span> /100 · '
@@ -379,35 +382,99 @@ def render(snapshot, states, backtest=None):
                      + ('<div class="tw"><table><thead><tr><th>#</th><th>Symbol</th><th>Company</th><th>Weight</th>'
                         f'<th></th></tr></thead><tbody>{body}</tbody></table></div>' if body
                         else '<p class="muted">Holdings not available.</p>'))
-    for name, level, state in states:
-        equity = state['marks'][-1]['equity'] if state.get('marks') else state.get('capital')
-        pos = ''.join(f'<tr><td class="mono">{escape(sym)}</td><td class="mono">{p["shares"]:.4f}</td>'
-                      f'<td class="mono">{p["entry"]:.2f}</td><td class="mono">{_pct(p.get("account_share"))}</td>'
-                      f'<td class="mono">{_pct(p.get("index_weight"))}</td></tr>'
-                      for sym, p in sorted(state.get('positions', {}).items()))
-        trades = ''.join(f'<tr><td>{escape(t["signal"])}</td><td>{escape(t["bought"])}</td><td>{escape(t["sold"])}</td>'
-                         f'<td class="mono">{_pct(t["ret"], 1)}</td></tr>' for t in state.get('trades', []))
-        orders = (intraday.get('orders') or {})
-        cur = state.get('currency', 'USD')
-        title = f'buys under {level:g}' + (' · with SpaceX and Anthropic' if 'ANT' in str(state.get('basket_spec')) else '')
-        parts.append(f'<h2>Paper account · {escape(title)}</h2>'
-                     f'<p class="muted">Basket: {escape(state.get("basket") or "")}</p>'
-                     f'<p>Equity <b>{equity:,.2f} {cur}</b> (start {state.get("capital", CAPITAL):,.0f} {cur}) · cash '
-                     f'{state.get("cash", 0):,.2f} · '
-                     + (f'holding since {escape(state["bought"])} (signal {escape(state["signal"])}), session '
-                        f'{state.get("sessions_held", 0)} of at least {state.get("min_hold", MIN_HOLD)}, then the first '
-                        'euphoria close' if state.get('positions') else 'flat')
-                     + (f' · intraday check: {"buy order" if orders.get(name) else "no order"}' if name in orders else '')
-                     + '</p>'
-                     + (f'<div class="tw"><table><thead><tr><th>Symbol</th><th>Shares</th><th>Entry</th><th>Share of '
-                        f'account</th><th>Index weight</th></tr></thead><tbody>{pos}</tbody></table></div>' if pos else '')
-                     + (f'<div class="tw"><table><thead><tr><th>Signal</th><th>Bought</th><th>Sold</th><th>Return</th>'
-                        f'</tr></thead><tbody>{trades}</tbody></table></div>' if trades else ''))
+    parts.append(accounts_html(states, snapshot, intraday))
     if backtest:
         parts.append('<h2>Backtest</h2><div class="note">From the last backtest run (backtest.html, section '
                      '"Thermometer Panic · buy"); six panic episodes since 2015, so treat it as a hint, not proof.'
                      '</div>' + backtest)
     return shell('Panic & index leaders', ''.join(parts))
+
+
+ACCOUNT_STYLE = {'20': ('#f5d000', 'Buys under 20', ''),
+                 '17': ('#ff9d2e', 'Buys under 17', ''),
+                 '17-spcx-ant': ('#b57bff', 'Buys under 17 · SpaceX + Anthropic',
+                                 'No backtest · the user\'s conviction')}
+CARD_CSS = '''
+.acc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0}
+.acc{border:2px solid var(--acc);border-radius:12px;padding:14px 16px;background:#11161f}
+.acc h3{margin:0 0 4px;color:var(--acc);font-size:18px}
+.acc .tag{display:inline-block;margin:2px 0 8px;padding:2px 8px;border-radius:999px;background:var(--acc);color:#111;
+  font-size:12px;font-weight:700}
+.acc .state{font-size:22px;font-weight:800;margin:6px 0}
+.acc .state.cash{color:#cfd6e4}.acc .state.inv{color:#66e39c}
+.acc dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:8px 0 0;font-size:14px}
+.acc dt{color:#9aa3b5}.acc dd{margin:0;font-variant-numeric:tabular-nums;font-weight:600}
+.acc .gap{font-weight:700}.acc .gap.near{color:#ff6b6b}
+.acc-detail{border-left:4px solid var(--acc);padding-left:12px;margin:18px 0}
+.acc-detail h3{color:var(--acc)}
+.up{color:#66e39c}.down{color:#f06a6a}
+'''
+
+
+def accounts_html(states, snapshot, intraday):
+    """Three colour-coded cards side by side, then each account's positions and trades in its own colour."""
+    h = snapshot.get('heat')
+    prices = snapshot.get('prices') or {}
+    fx = (prices.get(FX) or [None, None])[1]
+    orders = intraday.get('orders') or {}
+    cards, details = [], []
+    for name, level, state in states:
+        colour, title, tag = ACCOUNT_STYLE.get(name, ('#9aa3b5', f'Buys under {level:g}', ''))
+        cur = state.get('currency', 'USD')
+        euro = cur == 'EUR'
+        equity = state['marks'][-1]['equity'] if state.get('marks') else state.get('capital')
+        capital = state.get('capital', CAPITAL)
+        invested = bool(state.get('positions'))
+        gap = None if h is None else h - level
+        rows = []
+        for sym, p in sorted(state.get('positions', {}).items(), key=lambda kv: -kv[1].get('account_share', 0)):
+            last = (prices.get(sym) or [None, None])[1]
+            rate = (state.get('fx_buy') or 1.) if euro else 1.
+            cost = p['shares'] * p['entry'] * (1 + COST) / rate
+            now = None if last is None else p['shares'] * last / ((fx or rate) if euro else 1.)
+            pnl = None if now is None else now - cost
+            rows.append(f'<tr><td class="mono"><b>{escape(sym)}</b></td><td>{escape(state["bought"] or "")}</td>'
+                        f'<td class="mono">{p["shares"]:,.4f}</td><td class="mono">{p["entry"]:,.2f} USD</td>'
+                        f'<td class="mono">{cost:,.2f} {cur}</td>'
+                        f'<td class="mono">{"—" if last is None else format(last, ",.2f") + " USD"}</td>'
+                        f'<td class="mono">{"—" if now is None else format(now, ",.2f") + " " + cur}</td>'
+                        f'<td class="mono {"up" if (pnl or 0) >= 0 else "down"}">'
+                        f'{"—" if pnl is None else format(pnl, "+,.2f") + " " + cur}</td>'
+                        f'<td class="mono">{_pct(p.get("account_share"), 1)}</td></tr>')
+        result = equity / capital - 1 if capital else None
+        cards.append(
+            f'<div class="acc" style="--acc:{colour}"><h3>{escape(title)}</h3>'
+            + (f'<span class="tag">{escape(tag)}</span>' if tag else '')
+            + f'<div class="state {"inv" if invested else "cash"}">{"INVESTED" if invested else "IN CASH · waiting"}</div>'
+            '<dl>'
+            f'<dt>Value</dt><dd>{equity:,.2f} {cur} <span class="{"up" if (result or 0) >= 0 else "down"}">'
+            f'({_pct(result, 1)})</span></dd>'
+            f'<dt>Start capital</dt><dd>{capital:,.0f} {cur}</dd>'
+            f'<dt>Cash</dt><dd>{state.get("cash", 0):,.2f} {cur}</dd>'
+            f'<dt>Buys when</dt><dd>thermometer &lt; {level:g} shortly before the close</dd>'
+            + ('' if invested else
+               f'<dt>Thermometer now</dt><dd class="gap {"near" if gap is not None and gap < 5 else ""}">'
+               f'{"—" if h is None else format(h, ".1f")}'
+               f'{"" if gap is None else (" · " + format(gap, ".1f") + " points to go" if gap > 0 else " · in buy zone")}</dd>')
+            + (f'<dt>Holding since</dt><dd>{escape(state["bought"])} · session {state.get("sessions_held", 0)} of ≥'
+               f'{state.get("min_hold", MIN_HOLD)}</dd>' if invested else '')
+            + (f'<dt>Last intraday check</dt><dd>{escape(intraday.get("date", ""))}: '
+               f'{"BUY ORDER" if orders.get(name) else "no order"}</dd>' if name in orders else '')
+            + f'<dt>Basket</dt><dd style="font-weight:400">{escape(state.get("basket") or "")}</dd>'
+            + '</dl></div>')
+        trades = ''.join(f'<tr><td>{escape(t["signal"])}</td><td>{escape(t["bought"])}</td><td>{escape(t["sold"])}</td>'
+                         f'<td class="mono">{_pct(t["ret"], 1)}</td></tr>' for t in state.get('trades', []))
+        details.append(
+            f'<div class="acc-detail" style="--acc:{colour}"><h3>{escape(title)} · positions</h3>'
+            + (f'<div class="tw"><table><thead><tr><th>Symbol</th><th>Bought</th><th>Units</th><th>Buy price</th>'
+               f'<th>Cost</th><th>Last price</th><th>Value now</th><th>Gain / loss</th><th>Share at buy</th></tr></thead>'
+               f'<tbody>{"".join(rows)}</tbody></table></div>' if rows else
+               '<p class="muted">No positions yet: the account is in cash until the next panic.</p>')
+            + (f'<div class="tw"><table><thead><tr><th>Signal</th><th>Bought</th><th>Sold</th><th>Return</th></tr>'
+               f'</thead><tbody>{trades}</tbody></table></div>' if trades else '')
+            + '</div>')
+    return (f'<style>{CARD_CSS}</style><h2>The three paper accounts</h2><div class="acc-grid">' + ''.join(cards)
+            + '</div>' + ''.join(details))
 
 
 def backtest_html(root):
