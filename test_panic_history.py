@@ -160,6 +160,10 @@ class Study(unittest.TestCase):
         self.assertIn('Breadth check against Scion', md)
         self.assertEqual(sorted(result['delays']), ['0', '10', '5'])
         self.assertIn('Timing sensitivity', md)
+        self.assertEqual(sorted(result['levels']), ['10', '15', '20'])
+        for deeper in ('15', '10'):                                  # deeper levels only ever drop signals
+            self.assertLessEqual(len(result['levels'][deeper]['signals']), len(result['levels']['20']['signals']))
+        self.assertIn('Buying deeper in the panic', md)
 
 
 if __name__ == '__main__':

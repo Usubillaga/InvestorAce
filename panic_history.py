@@ -42,7 +42,8 @@ HORIZONS = (63, 126, 252, 378, 882)          # 882 sessions = 42 months
 TEN_YEARS = 2520
 BASKETS = ('top10_weight', 'leaders', 'broken', 'busted', 'all_members', 'mix', 'spx')
 RISK = ('top10_weight', 'all_members', 'mix', 'spx')   # baskets whose drawdown during the holding is measured
-DELAYS = (0, 5, 10)                                   # entry later by this many sessions (timing sensitivity)
+DELAYS = (0, 5, 10)
+LEVELS = (20., 15., 10.)                              # buy at the first close under this thermometer level                                   # entry later by this many sessions (timing sensitivity)
 LONG = 882
 # Scion's "Bear market heroes II" (Bloomberg, adjusted closes): members, broken 20%+ and busted 40%+ on each top.
 SCION_TOPS = {'2000-03-24': (489, 0.71, 0.32), '2007-10-09': (497, 0.43, 0.22), '2011-04-29': (493, 0.49, 0.25),
@@ -296,6 +297,19 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
                                          horizons=(252, LONG)) for d in days) if e]
         full = summary(delayed, horizons=(252, LONG))
         delays[str(lag)] = {h: {k: v for k, v in cells.items() if k in RISK} for h, cells in full.items()}
+    levels = {}
+    for level in LEVELS:
+        if level == pb.PANIC:
+            lev_events = events
+        else:
+            lev_days = pb.signals(heat[heat.index >= pd.Timestamp(start)], panic=level)[0]
+            lev_events = [e for e in (event(d, adj, split_close, volume, members, dd, recent_high, spx, heat, shares,
+                                            horizons=(252, LONG)) for d in lev_days) if e]
+        full = summary(lev_events, horizons=(252, LONG))
+        levels[f'{level:g}'] = dict(signals=[e['date'] for e in lev_events],
+                                    summary={h: {k: v for k, v in c.items() if k in RISK or k == 'drawdown'}
+                                             for h, c in full.items()},
+                                    long_exit=long_summary(lev_events))
     checks = {}
     for date, (n, broken, busted) in SCION_TOPS.items():
         day = pd.Timestamp(date)
@@ -306,7 +320,7 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
     last = heat.dropna()
     return dict(schema='panic-history-v1', start=str(index[0].date()), end=str(index[-1].date()),
                 signals=len(events), events=events, summary=summary(events), breadth_checks=checks,
-                long_exit=long_summary(events), delays=delays,
+                long_exit=long_summary(events), delays=delays, levels=levels,
                 last_heat=dict(date=str(last.index[-1].date()), value=round(float(last.iloc[-1]), 1)) if len(last) else None,
                 breadth_now=breadth_on(index[-1], adj, dd, members, recent_high))
 
@@ -359,6 +373,19 @@ def report(result):
             f"{e['date']} → {e['long_exit']['exit']}{' (open)' if e['long_exit']['open'] else ''}: top 10 "
             f"{_pct(e['long_exit']['top10_weight'])}, all {_pct(e['long_exit']['all_members'])}, S&P "
             f"{_pct(e['long_exit']['spx'])}" for e in result['events'] if e.get('long_exit')), '']
+    if result.get('levels'):
+        lines += ['## Buying deeper in the panic: first close under 20, 15 or 10', '',
+                  '| Level | Signals | Top 10 12 m mean / worst | Top 10 worst fall while held, 12 m | Mix 42 m mean / worst | '
+                  'Mix worst fall while held, 42 m | S&P 12 m mean |', '|---|---:|---|---:|---|---:|---:|']
+        for level, block in result['levels'].items():
+            y1, y42 = block['summary'].get('252') or {}, block['summary'].get(str(LONG)) or {}
+            t1, m42, s1 = y1.get('top10_weight'), y42.get('mix'), y1.get('spx')
+            d1, d42 = (y1.get('drawdown') or {}).get('top10_weight'), (y42.get('drawdown') or {}).get('mix')
+            lines.append(f"| < {level} | {len(block['signals'])} | "
+                         f"{_pct(t1['mean']) + ' / ' + _pct(t1['worst']) if t1 else '—'} | {_pct(d1['worst']) if d1 else '—'} | "
+                         f"{_pct(m42['mean']) + ' / ' + _pct(m42['worst']) if m42 else '—'} | {_pct(d42['worst']) if d42 else '—'} | "
+                         f"{_pct(s1['mean']) if s1 else '—'} |")
+        lines += [''] + [f"Signals under {lv}: " + ', '.join(b['signals']) for lv, b in result['levels'].items()] + ['']
     if result.get('delays'):
         lines += ['## Timing sensitivity: buying 5 or 10 sessions later', '',
                   '| Entry | Months | Top 10 mean / worst | All members mean / worst | Mix mean / worst | S&P mean / worst |',
