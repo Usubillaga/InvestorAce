@@ -200,7 +200,7 @@ Breakout failure rate 32.97% · 63-day mean: uptrend days 4.97%, just under resi
 | rebound_sleeve_below_200d | 0/3 | 1/3 | 1/3 |
 | rebound_sleeve_no_stop | 1/3 | 0/3 | 1/3 |
 
-Symbols: 125 · generated 2026-11-24T12:01+00:00 · price data 7dea579e2f034afa
+Symbols: 125 · generated 2026-11-24T13:04+00:00 · price data 7dea579e2f034afa
 
 ## Valuation coverage
 
@@ -526,12 +526,12 @@ Signals: 2015-08-24 (368/500 members priced; leader NFLX, 63 sessions +22.9%; to
 
 | Sessions | Signals | Leader mean / median | Top 5 mean | Top 10 mean | All members mean | S&P 500 mean | Leader beats S&P | Leader worst |
 |---:|---:|---|---:|---:|---:|---:|---:|---:|
-| 21 | 6 | +5.6% / +7.9% | +5.8% | +4.6% | +4.9% | +4.4% | 3/6 | -16.6% |
-| 63 | 6 | +28.0% / +25.9% | +14.9% | +12.9% | +11.8% | +10.3% | 5/6 | +6.4% |
-| 126 | 6 | +39.1% / +19.2% | +17.8% | +12.9% | +14.5% | +13.6% | 3/6 | -16.6% |
-| 252 | 6 | +54.6% / +11.5% | +26.7% | +18.2% | +28.6% | +22.4% | 2/6 | -17.4% |
+| 21 | 6 | +7.7% / +7.9% | +5.2% | +4.7% | +4.8% | +4.4% | 3/6 | -16.6% |
+| 63 | 6 | +28.3% / +25.9% | +15.3% | +12.7% | +11.6% | +10.3% | 5/6 | +6.4% |
+| 126 | 6 | +38.6% / +19.0% | +18.8% | +13.2% | +14.5% | +13.6% | 3/6 | -16.6% |
+| 252 | 6 | +52.0% / +3.5% | +27.6% | +17.5% | +28.4% | +22.4% | 2/6 | -17.4% |
 
-Signals: 2015-08-27 (326/500 members priced; leader NFLX, 63 sessions +6.4%; top 5 NFLX, AMZN, UAA, EXPE, MLM); 2016-01-22 (329/505 members priced; leader NVDA, 63 sessions +28.5%; top 5 NVDA, HRL, FSLR, EXR, AMZN); 2019-01-02 (368/505 members priced; leader MKC, 63 sessions +11.3%; top 5 MKC, LLY, MRK, WELL, NRG); 2020-04-14 (384/505 members priced; leader REGN, 63 sessions +23.4%; top 5 REGN, KR, NVDA, NEM, AMD); 2022-03-09 (402/505 members priced; leader DVN, 63 sessions +30.4%; top 5 DVN, OXY, APA, HAL, CF); 2025-04-09 (429/503 members priced; leader PLTR, 63 sessions +68.0%; top 5 PLTR, TPR, GILD, EQT, VRSN)
+Signals: 2015-08-27 (368/500 members priced; leader NFLX, 63 sessions +6.4%; top 5 NFLX, AMZN, UAA, EXPE, MLM); 2016-01-22 (374/505 members priced; leader NVDA, 63 sessions +28.5%; top 5 NVDA, HRL, FSLR, EXR, AMZN); 2019-01-02 (418/505 members priced; leader CHD, 63 sessions +13.2%; top 5 CHD, MKC, AZO, LLY, MRK); 2020-04-14 (437/505 members priced; leader REGN, 63 sessions +23.4%; top 5 REGN, KR, NVDA, NEM, AMD); 2022-03-09 (457/505 members priced; leader DVN, 63 sessions +30.4%; top 5 DVN, OXY, APA, HAL, CF); 2025-04-09 (485/503 members priced; leader PLTR, 63 sessions +68.0%; top 5 PLTR, TPR, GILD, EQT, VRSN)
 
 #### Ten largest S&P 500 members by market cap, cap-weighted (first panic close)
 
