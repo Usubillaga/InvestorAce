@@ -43,7 +43,8 @@ TEN_YEARS = 2520
 BASKETS = ('top10_weight', 'leaders', 'broken', 'busted', 'all_members', 'mix', 'spx')
 RISK = ('top10_weight', 'all_members', 'mix', 'spx')   # baskets whose drawdown during the holding is measured
 DELAYS = (0, 5, 10)
-LEVELS = (20., 15., 10.)                              # buy at the first close under this thermometer level
+LEVELS = tuple(float(x) for x in range(20, 9, -1))     # buy at the first close under this level: 20, 19, ..., 10
+SECOND = (18., 16., 15., 14., 12., 10.)               # second-half level of the two-tranche buy
 STAGE_WAIT = 63                                       # the second tranche waits at most this long for a close under 10                                   # entry later by this many sessions (timing sensitivity)
 LONG = 882
 # Scion's "Bear market heroes II" (Bloomberg, adjusted closes): members, broken 20%+ and busted 40%+ on each top.
@@ -267,7 +268,7 @@ def summary(events, horizons=HORIZONS):
 STAGED = ('all_at_20', 'all_at_10', 'staged_cash', 'staged_fallback')
 
 
-def staged(day, heat, adj, split_close, volume, members, spx, shares, horizons=(252, LONG)):
+def staged(day, heat, adj, split_close, volume, members, spx, shares, horizons=(252, LONG), second=10.):
     """Half at the close after the first panic close (under 20), half at the close after the first close under 10
     within STAGE_WAIT sessions. staged_cash keeps the second half in cash if 10 never comes; staged_fallback buys it
     after STAGE_WAIT sessions anyway. all_at_20 / all_at_10 put everything in at one of the two points (all_at_10 is
@@ -280,7 +281,7 @@ def staged(day, heat, adj, split_close, volume, members, spx, shares, horizons=(
     if a >= len(index):
         return None
     window = heat.iloc[pos:pos + STAGE_WAIT + 1]
-    deep = np.nonzero((window < 10.).to_numpy())[0]
+    deep = np.nonzero((window < second).to_numpy())[0]
     b10 = pos + int(deep[0]) + 1 if len(deep) else None
     on = members.loc[day]
     priced = [t for t in adj.columns if on.get(t, False) and np.isfinite(adj.at[day, t])]
@@ -385,6 +386,12 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
                                              for h, c in full.items()},
                                     long_exit=long_summary(lev_events))
     staged_rows = [r for r in (staged(d, heat, adj, split_close, volume, members, spx, shares) for d in entries) if r]
+    staged_grid = {}
+    for second in SECOND:
+        rows_ = staged_rows if second == 10. else [r for r in (staged(d, heat, adj, split_close, volume, members, spx,
+                                                                      shares, second=second) for d in entries) if r]
+        staged_grid[f'{second:g}'] = dict(summary=staged_summary(rows_),
+                                          reached=sum(1 for r in rows_ if r['reached_10']), n=len(rows_))
     checks = {}
     for date, (n, broken, busted) in SCION_TOPS.items():
         day = pd.Timestamp(date)
@@ -396,7 +403,7 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
     return dict(schema='panic-history-v1', start=str(index[0].date()), end=str(index[-1].date()),
                 signals=len(events), events=events, summary=summary(events), breadth_checks=checks,
                 long_exit=long_summary(events), delays=delays, levels=levels,
-                staged=dict(rows=staged_rows, summary=staged_summary(staged_rows)),
+                staged=dict(rows=staged_rows, summary=staged_summary(staged_rows)), staged_grid=staged_grid,
                 last_heat=dict(date=str(last.index[-1].date()), value=round(float(last.iloc[-1]), 1)) if len(last) else None,
                 breadth_now=breadth_on(index[-1], adj, dd, members, recent_high))
 
@@ -450,7 +457,9 @@ def report(result):
             f"{_pct(e['long_exit']['top10_weight'])}, all {_pct(e['long_exit']['all_members'])}, S&P "
             f"{_pct(e['long_exit']['spx'])}" for e in result['events'] if e.get('long_exit')), '']
     if result.get('levels'):
-        lines += ['## Buying deeper in the panic: first close under 20, 15 or 10', '',
+        lines += ['## Buying deeper in the panic: first close under each level from 20 to 10', '',
+                  'Eleven levels on 11-14 overlapping signals: the best-looking level is partly luck. Look for a smooth '
+                  'pattern across neighbouring levels, not for the single best row.', '',
                   '| Level | Signals | Top 10 12 m mean / worst | Top 10 worst fall while held, 12 m | Mix 42 m mean / worst | '
                   'Mix worst fall while held, 42 m | S&P 12 m mean |', '|---|---:|---|---:|---|---:|---:|']
         for level, block in result['levels'].items():
@@ -461,6 +470,10 @@ def report(result):
                          f"{_pct(t1['mean']) + ' / ' + _pct(t1['worst']) if t1 else '—'} | {_pct(d1['worst']) if d1 else '—'} | "
                          f"{_pct(m42['mean']) + ' / ' + _pct(m42['worst']) if m42 else '—'} | {_pct(d42['worst']) if d42 else '—'} | "
                          f"{_pct(s1['mean']) if s1 else '—'} |")
+        lines += ['', '42 months then euphoria (mixed basket): ' + '; '.join(
+            f"< {lv}: {_pct(b['long_exit']['mix']['mean'])} mean, worst {_pct(b['long_exit']['mix']['worst'])}, beats S&P "
+            f"{b['long_exit']['mix']['beats_spx']}/{b['long_exit']['n']}"
+            for lv, b in result['levels'].items() if (b.get('long_exit') or {}).get('mix'))]
         lines += [''] + [f"Signals under {lv}: " + ', '.join(b['signals']) for lv, b in result['levels'].items()] + ['']
     st = result.get('staged')
     if st and st.get('summary'):
@@ -478,6 +491,18 @@ def report(result):
                     lines.append(f"| {name} | {months} | {_pct(m['mean'])} / {_pct(m['worst'])} | {_pct(m['dd_mean'])} / "
                                  f"{_pct(m['dd_worst'])} | {_pct(x['mean'])} / {_pct(x['worst'])} | {_pct(x['dd_mean'])} / "
                                  f"{_pct(x['dd_worst'])} |")
+        grid = result.get('staged_grid') or {}
+        if grid:
+            lines += ['', '### Second half under 18, 16, 15, 14, 12 or 10 (first half under 20, mixed basket)', '',
+                      '| Second half under | Reached | 12 m mean / worst | 12 m worst fall mean | 42 m mean / worst | '
+                      '42 m worst fall mean | Everything under that level: 42 m mean |', '|---:|---:|---|---:|---|---:|---:|']
+            for lv, g in grid.items():
+                y1, y42 = g['summary'].get('252') or {}, g['summary'].get(str(LONG)) or {}
+                a1, a42, b42 = y1.get('staged_cash:mix'), y42.get('staged_cash:mix'), y42.get('all_at_10:mix')
+                lines.append(f"| {lv} | {g['reached']}/{g['n']} | "
+                             f"{_pct(a1['mean']) + ' / ' + _pct(a1['worst']) if a1 else '—'} | {_pct(a1['dd_mean']) if a1 else '—'} | "
+                             f"{_pct(a42['mean']) + ' / ' + _pct(a42['worst']) if a42 else '—'} | {_pct(a42['dd_mean']) if a42 else '—'} | "
+                             f"{_pct(b42['mean']) if b42 else '—'} |")
         lines += ['', 'Reached 10 within the wait: ' + ', '.join(
             f"{r['date']} → {r['reached_10'] or 'no'}" for r in st['rows']), '']
     if result.get('delays'):
