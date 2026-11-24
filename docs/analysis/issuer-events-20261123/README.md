@@ -19,10 +19,19 @@ do not support a historical point-in-time assertion.
 * ALLE: USD140.2m nine-month ordinary cash dividends; tariff cash timing unresolved.
 * ADT: USD130.493m cash paid differs from USD125.784m equity deductions.
   Takeover-related rank/entry suppression is unchanged.
-* CRWV: September net debt carrying components sum to USD46,873m;
-  principal USD47,505m, finance leases USD649m and operating leases USD18,697m
-  are separate definitions. Cover shares total556,125,724 at October30.
-  No automatic debt/share overwrite until the model/EBITDA contract is reconciled.
+* CRWV: September gross debt at carrying value totals USD46,873m before cash
+  and either lease class. Principal totals USD47,505m. Finance leases are
+  USD649m and operating leases USD18,697m. The October 30 cover count is
+  556,125,724 shares. This monitoring batch left the model inputs unchanged.
+
+  The subsequent [model reconciliation](../../../coreweave_financials.py) pairs
+  USD43,338m of net debt (46,873 + 649 − 4,122 − 62) with USD5,174m of
+  trailing operating EBITDA after rent. This is 8.38×. Issuer-adjusted EBITDA
+  of USD5,819m implies 7.45× on the same perimeter. Before fixed operating
+  rent, USD62,035m divided by USD7,696m of adjusted EBITDAR gives 8.06×.
+  At fixed EV, charging operating leases a second time would reduce equity by
+  USD33.62 per October cover share. September TTM OCF less cash capex is
+  USD−20,421m. Sustainable equity cash flow remains unverified.
 * ALC: returned USD748m includes buybacks. ALM management FCF includes investment
   cashflows; AMD prior total versus continuing OCF must not be mixed.
 * B: USD0.175 common dividend declared November6, announced November9,

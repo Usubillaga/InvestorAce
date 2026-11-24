@@ -280,9 +280,27 @@
       ['DCF-Szenario je Aktie', perShare(valuation.dcf_per_share)],
       ['Vom Kurs impliziertes Wachstum (Reverse DCF)', pct(valuation.reverse_dcf_growth_pct)],
     ];
+    const issuerLeverage = inputs.issuer_leverage_ebitda != null;
+    if (issuerLeverage) {
+      rows.push(
+        ['Schuldenbuchwert ohne Leasing', amount(inputs.debt_carrying_ex_leases)],
+        ['Nominalbetrag ohne Leasing', amount(inputs.debt_principal_ex_leases)],
+        ['Finanzierungsleasing', amount(inputs.finance_lease_liabilities)],
+        ['Operating-Leasing', amount(inputs.operating_lease_liabilities)],
+        ['Cash und Zahlungsmitteläquivalente', amount(inputs.cash_equivalents)],
+        ['Kurzfristige Wertpapiere', amount(inputs.marketable_securities)],
+        ['Nettoschulden einschließlich Finanzierungsleasing', amount(analysis.metrics?.net_debt)],
+        ['Operatives EBITDA nach Operating-Mieten', amount(inputs.issuer_leverage_ebitda)],
+        ['Nettoschulden / operatives EBITDA', num(analysis.metrics?.net_debt_ebitda) + '×'],
+        ['Stichtag der Aktienzahl', analysis.overlay?.shares_asof ?? '—'],
+      );
+    }
     const scenarios = Array.isArray(valuation.scenarios) ? valuation.scenarios : [];
     const warnings = Array.isArray(analysis.warnings) ? analysis.warnings : [];
     const warningLabels = {
+      'CoreWeave needs a sustainable cash-flow bridge for replacement capex and financing.': 'Für CoreWeave fehlen belastbare Annahmen zu Ersatzinvestitionen und Finanzierung. DCF und NGV bleiben offen.',
+      'No matching dated CoreWeave debt, lease and EBITDA bridge for this reporting window.': 'Für diesen Zeitraum fehlt eine geprüfte Überleitung von Schulden, Leasing und EBITDA.',
+      'September issuer leverage includes finance leases and unrestricted securities. Operating rent remains in EBIT plus D&A. Customer prepayments and financed capex require separate normalization.': 'Die September-Schuldenbasis berücksichtigt Finanzierungsleasing und frei verfügbare Wertpapiere. Operating-Mieten bleiben im Ergebnis. Kundenanzahlungen und finanzierte Investitionen sind separat zu prüfen.',
       'Reported leveraged FCF proxy; sustainable cash flow has not been normalized.': 'Gemeldeter Cashflow nach Fremdkapitalkosten als Näherungswert; nachhaltiger Cashflow ist noch nicht normalisiert.',
       'OCF/capex bridge unavailable; cash flow uses Yahoo reported Free Cash Flow.': 'Die Überleitung aus operativem Cashflow und Investitionen fehlt; verwendet wird der von Yahoo gemeldete Free Cashflow.',
       'Five-year growth and terminal growth are scenario assumptions, not forecasts.': 'Wachstum über fünf Jahre und Terminalwachstum sind Szenarioannahmen, keine Prognosen.',
@@ -310,9 +328,10 @@
     const periods = analysis.metric_periods || {};
     const periodPair = key => (periods[key] || []).map(value => esc(value)).join(' / ') || '—';
     const sources = Array.isArray(analysis.source_urls) ? analysis.source_urls.filter(url =>
-      typeof url === 'string' && /^https:\/\/finance\.yahoo\.com\/quote\//.test(url)) : [];
-    return `<section id="dynamic-analysis" aria-labelledby="dynamic-analysis-title"><h3 id="dynamic-analysis-title">Aktuelles yfinance-Modellszenario · Prüfung erforderlich</h3>
-      <p class="small">Beim Erstellen der Seite aus yfinance-Eingaben berechnet. Berechnung: ${esc(at(analysis.as_of))} · Eingaben abgerufen: ${esc(at(analysis.fetched_at))} · Kurs vom ${esc(at(analysis.quote_observed_at))}. Finanzperiode: ${esc(analysis.financial_period ?? '—')} · Basis: ${esc(analysis.basis ?? '—')} · Kurswährung: ${esc(currency)} · Berichtswährung: ${esc(financialCurrency)} · Status: ${esc(analysis.status ?? '—')} · Datenabruf: ${esc(analysis.data_status ?? '—')}.</p>
+      typeof url === 'string' && (/^https:\/\/finance\.yahoo\.com\/quote\//.test(url)
+        || (issuerLeverage && /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\/1769628\//.test(url)))) : [];
+    return `<section id="dynamic-analysis" aria-labelledby="dynamic-analysis-title"><h3 id="dynamic-analysis-title">${issuerLeverage ? 'Schuldenüberleitung aus SEC-Berichten' : 'Aktuelles yfinance-Modellszenario'} · Prüfung erforderlich</h3>
+      <p class="small">${issuerLeverage ? 'Schulden, Leasing und operatives EBITDA aus Emittentenberichten.' : 'Beim Erstellen der Seite aus yfinance-Eingaben berechnet.'} Berechnung: ${esc(at(analysis.as_of))} · Eingaben abgerufen: ${esc(at(analysis.fetched_at))} · Kurs vom ${esc(at(analysis.quote_observed_at))}. Finanzperiode: ${esc(analysis.financial_period ?? '—')} · Basis: ${esc(analysis.basis ?? '—')} · Kurswährung: ${esc(currency)} · Berichtswährung: ${esc(financialCurrency)} · Status: ${esc(analysis.status ?? '—')} · Datenabruf: ${esc(analysis.data_status ?? '—')}.</p>
       <p>Die Szenarien hängen von den angegebenen Annahmen ab und benötigen eine Gegenprüfung.</p>
       <p class="small">Jahresvergleich Umsatz: ${periodPair('revenue_growth')} · Cashflow: ${periodPair('fcf_growth')} · Aktienzahl: ${periodPair('share_change')}.</p>
       <div class="table-scroll"><table class="score-table"><tbody>${rows.map(([key,value]) => `<tr><td>${esc(key)}</td><td>${esc(value)}</td></tr>`).join('')}</tbody></table></div>

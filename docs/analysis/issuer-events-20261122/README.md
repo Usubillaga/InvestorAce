@@ -19,7 +19,7 @@ certified. All ten remain `PARTIAL`, with separate attempt and completion data.
 | --- | --- | --- |
 | OXY | Nov9 Q3 release + 10-Q; YTD USD1,271m combined cash dividends versus USD509m preferred declarations; common USD0.28 payable Jan15, record Dec10 | Paid preferred split; continuing TTM/midcycle bridge. Declared509 is not paid509. |
 | ENB.TO | Nov6 Q3 original CAD statements; preferred319m/common6355m paid; Dec1 common CAD0.97 payable, record Nov13; series-specific preferred payments separate | CAD equity/DCF and total versus maintenance-capex contract; no second preferred deduction from management DCF; SEDI wall. |
-| CRWV | Nov10 Q3 release/10-Q; no preferred outstanding or paid in 2026; cover556125724 shares Oct30 | Sept debt46873m plus separate finance leases649m versus mixed-window provider debt51608m: definition/lease perimeter before replacement. |
+| CRWV | Nov10 earnings release, Nov12 Form 10-Q. No preferred outstanding or paid in 9M2026. Cover: 556,125,724 shares on Oct30. | The provider's USD51,608m equals June gross debt plus both lease classes (35,068 + 221 + 16,319). September under that definition is USD66,219m (46,873 + 649 + 18,697). |
 | MRNA | Nov6 Q3 actual report; YTD USD OCF−2715m/PPE146m/intangibles74m separate | Preferred/equity-note payment tieout, TTM and normalization. No payment zero from omission. |
 | NBIS | Nov12 Q3 actual PDF/6-K; all-class292902405 shares Sept30 match cache | Continuing TTM, capex/SBC, valuation contract and AFM issuer/window export. |
 | OPEN | Nov5 release/10-Q; Note13 expressly zero common/preferred declared/paid/accumulated Q3/9M2026/2025 | TTM and cashflow sustainability; zero is not a blanket redemption assertion. Mainstay preferred investment is not OPEN-issued preference capital. |

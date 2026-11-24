@@ -12,6 +12,7 @@ from urllib.parse import quote as urlquote
 
 import assessment
 import autoscore
+import coreweave_financials
 import equity_basis
 from integrity import finite_number, positive_number
 
@@ -541,6 +542,9 @@ def leverage_ebitda(inputs):
 
 def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5):
     """Reprice frozen facts with current parameters; no network or stored scores."""
+    coreweave = facts.get('symbol') == 'CRWV'
+    if coreweave:
+        facts = coreweave_financials.reconcile(facts, as_of)
     facts = equity_basis.apply(facts, as_of=as_of)
     common_basis = facts.get('common_equity_basis') or {}
     current_common = common_basis.get('current')
@@ -659,6 +663,13 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         inputs['rejected_valuation_fcf'] = valuation_fcf
         valuation_fcf, policy = None, 'BLOCKED_INPUT_CONFLICT'
         warnings.extend('Valuation blocked: ' + item['reason'] for item in conflicts)
+    # A trailing cash yield is observable even when no sustainable stream can
+    # be capitalized. Keep the existing common-equity / SBC basis for this ratio.
+    cash_for_yield = valuation_fcf
+    if coreweave and not conflicts:
+        inputs['reported_fcf_for_yield'] = cash_for_yield
+        valuation_fcf, policy = None, 'SUSTAINABLE_FCF_UNAVAILABLE'
+        warnings.append(coreweave_financials.FCF_LIMIT)
     inputs['valuation_fcf'] = valuation_fcf
     usable = valuation_fcf is not None and valuation_fcf > 0 and shares is not None and rate is not None and factor is not None
     ngv = valuation_fcf / shares / rate * factor if usable else None
@@ -703,7 +714,11 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     rev = positive_number(inputs.get('revenue'))
     cash_revenue = positive_number(current_common.get('comparable_revenue')) if current_common else rev
     opinc = finite_number(inputs.get('operating_income'))
-    ebitda, leverage_basis = leverage_ebitda(inputs)
+    if coreweave:
+        ebitda = inputs['issuer_leverage_ebitda']
+        leverage_basis = 'ISSUER_OPERATING_INCOME_PLUS_DA_AFTER_RENT' if ebitda is not None else None
+    else:
+        ebitda, leverage_basis = leverage_ebitda(inputs)
     if leverage_basis in ('OPERATING_INCOME_PLUS_DA', 'OPERATING_INCOME_FLOOR'):
         warnings.append(('Provider EBITDA is missing; ' if finite_number(inputs.get('ebitda')) is None else
                          'Provider EBITDA is below operating income, so it includes non-operating or unusual items; ')
@@ -770,7 +785,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         fcf_margin_pct=100*fcf/cash_revenue if fcf is not None and cash_revenue else None,
         net_debt=debt-cash if debt is not None and cash is not None else None,
         net_debt_ebitda=(debt-cash)/ebitda if None not in (debt,cash) and ebitda else None,
-        fcf_yield_pct=100*valuation_fcf/market_cap if valuation_fcf is not None and market_cap else None,
+        fcf_yield_pct=100*cash_for_yield/market_cap if cash_for_yield is not None and market_cap else None,
         shareholder_yield_pct=returns, share_change_pct=share_change,
         fcf_growth_pct=historical, market_cap=market_cap,
         reported_pe=market_cap/earnings if market_cap and earnings is not None and earnings > 0 else None,
@@ -813,6 +828,9 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         financial_published_at=facts.get('published_at'), financial_retrieved_at=facts.get('fetched_at'),
         shares_asof=facts.get('shares_asof'), shares_basis=facts.get('shares_basis'),
         score_fixed=None, fundamentals_refresh='PRIMARY_DYNAMIC' if facts.get('primary_current') else 'YFINANCE_DYNAMIC')
+    if coreweave:
+        # A partial live assessment must not overwrite the separate legacy total.
+        del overlay['score_fixed']
     return dict(schema=VERSION, status='COMPLETE' if complete else 'PARTIAL', as_of=as_of.isoformat(),
         fetched_at=facts.get('fetched_at'), financial_period=facts.get('financial_period'),
         basis=facts.get('basis'), currency=currency, financial_currency=financial_currency,
