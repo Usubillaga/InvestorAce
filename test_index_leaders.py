@@ -15,7 +15,8 @@ def sessions(n, start='2026-11-02'):
 
 def book(days, heat_values, price=100.):
     heat = dict(zip(days, heat_values))
-    prices = {s: {d: price for d in days} for s in ('AAA', 'BBB', il.EQUAL_WEIGHT)}
+    prices = {s: {d: price for d in days} for s in ('AAA', 'BBB', il.EQUAL_WEIGHT, 'SPCX', 'ANT')}
+    prices[il.FX] = {d: 1.25 for d in days}
     return heat, prices
 
 
@@ -99,6 +100,26 @@ class Account(unittest.TestCase):
         self.assertIsNotNone(il.decide(seventeen, days[:7], heat, days[7], 16.5))
         self.assertIsNone(il.decide(seventeen, days[:7], heat, days[7], 17.5))
 
+    def test_euro_account_with_spacex_and_anthropic(self):
+        days = self.days
+        heat, prices = book(days, [50] * 5 + [15] + [50] * (len(days) - 6))
+        state = il.fresh(days[0], 17., '17-spcx-ant')
+        self.assertEqual((state['capital'], state['currency']), (25000., 'EUR'))
+        il.advance(state, days[:6], heat, prices, HOLDINGS)
+        self.buy_on(state, days, heat, prices, 6, heat_now=12)
+        pos = state['positions']
+        self.assertAlmostEqual(pos['SPCX']['account_share'], 0.15)
+        self.assertAlmostEqual(pos['ANT']['account_share'], 0.15)
+        self.assertAlmostEqual(pos[il.EQUAL_WEIGHT]['account_share'], 0.35)
+        self.assertAlmostEqual(pos['AAA']['account_share'] + pos['BBB']['account_share'], 0.35)
+        usd = 25000 * 1.25                                                   # converted at the buy close
+        self.assertAlmostEqual(pos['SPCX']['shares'], usd * 0.15 / (100 * (1 + il.COST)), places=4)
+        self.assertAlmostEqual(il.value(state, prices, days[6]), 25000 / (1 + il.COST), places=1)
+        for d in days[7:]:
+            prices[il.FX][d] = 1.0                                            # the dollar strengthens 25%
+        self.assertAlmostEqual(il.value(state, prices, days[8]), 25000 * 1.25 / (1 + il.COST), places=1)
+        self.assertFalse(il.fresh(days[0], 17., '17')['currency'] == 'EUR')
+
     def test_upgrade_of_the_flat_account_only(self):
         old = dict(schema='index-leaders-v1', start='2026-11-20', hold=252, positions={}, marks=[])
         new = il.upgrade(old, 20.)
@@ -158,6 +179,8 @@ class Page(unittest.TestCase):
             self.assertIn('no buy order', html)
             self.assertIn('buys under 20', html)
             self.assertIn('buys under 17', html)
+            self.assertIn('with SpaceX and Anthropic', html)
+            self.assertIn('25,000 EUR', html)
             self.assertIn('RSP', html)
             self.assertIn('Holdings not available', html)
             self.assertIn(il.YELLOW, html)
