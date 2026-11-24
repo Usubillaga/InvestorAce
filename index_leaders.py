@@ -37,7 +37,18 @@ CAPITAL, COST, TOP = 10000., 0.001, 10
 MIN_HOLD = 882                  # 42 months
 EQUAL_WEIGHT = 'RSP'            # the equal-weight half of the basket
 EUPHORIA = 80.
-ACCOUNTS = (('20', 20., STATE), ('17', 17., ROOT / 'paper_trades' / 'index-leaders-17.json'))
+ACCOUNTS = (('20', 20., STATE), ('17', 17., ROOT / 'paper_trades' / 'index-leaders-17.json'),
+            ('17-spcx-ant', 17., ROOT / 'paper_trades' / 'index-leaders-17-spcx-ant.json'))
+FX = 'EURUSD=X'                 # USD per EUR, for accounts kept in euros
+MIX = (('top10', .5), (EQUAL_WEIGHT, .5))
+# The third account (user's request, 24 Nov 2026): 25,000 EUR, level 17, 15% SpaceX and 15% Anthropic on top of the
+# mixed basket. Neither has a backtest or a model label (Anthropic listed on 19 Nov 2026, SpaceX in June 2026).
+SETUP = {'20': dict(capital=CAPITAL, currency='USD', basket_spec=MIX),
+         '17': dict(capital=CAPITAL, currency='USD', basket_spec=MIX),
+         '17-spcx-ant': dict(capital=25000., currency='EUR',
+                             basket_spec=(('top10', .35), (EQUAL_WEIGHT, .35), ('SPCX', .15), ('ANT', .15)),
+                             basket='35% the ten largest S&P 500 holdings by weight, 35% RSP, 15% SpaceX (SPCX), '
+                                    '15% Anthropic (ANT)')}
 FIRST_START = '2026-11-20'      # both accounts watch the panic that began on 20 Nov 2026 (buys only via decide())
 RULES = dict(basket='half the ten largest S&P 500 holdings by weight, half RSP', min_hold=MIN_HOLD,
              exit='close after the first euphoria close (80+) once 42 months are held', stop=None)
@@ -47,33 +58,49 @@ FUNDS = (('SPY', 'S&P 500'), ('QQQ', 'Nasdaq-100'))
 # ------------------------------------------------------------------ account
 
 
-def fresh(start, level=20.):
-    """A new account that never fills before `start` and buys under `level`."""
-    return dict(schema='index-leaders-v2', start=start, level=level, capital=CAPITAL, cash=CAPITAL, cost=COST, top=TOP,
-                positions={}, bought=None, signal=None, done_signals=[], trades=[], marks=[], **RULES)
+def fresh(start, level=20., name=None):
+    """A new account that never fills before `start` and buys under `level` (setup of the account `name`)."""
+    setup = dict(SETUP.get(name or f'{level:g}', SETUP['20']))
+    rules = dict(RULES, **{k: v for k, v in setup.items() if k == 'basket'})
+    return dict(schema='index-leaders-v2', start=start, level=level, capital=setup['capital'], cash=setup['capital'],
+                currency=setup['currency'], basket_spec=[list(x) for x in setup['basket_spec']], cost=COST, top=TOP,
+                positions={}, bought=None, signal=None, done_signals=[], trades=[], marks=[], **rules)
+
+
+def _fx(prices, day):
+    """USD per EUR at the last close on or before `day`, or None."""
+    series = prices.get(FX) or {}
+    known = [d for d in series if d <= day]
+    return series[max(known)] if known else None
 
 
 def upgrade(state, level):
     """Bring an account written under the earlier rule to the current one; only allowed while it holds nothing."""
     if state.get('schema') == 'index-leaders-v2':
+        state.setdefault('currency', 'USD')                  # accounts written before the euro account existed
+        state.setdefault('basket_spec', [list(x) for x in MIX])
         return state
     if state.get('positions'):
         raise ValueError('cannot change the rule of an account that holds positions')
     state.pop('hold', None)
-    state.update(schema='index-leaders-v2', level=level, **RULES)
+    state.update(schema='index-leaders-v2', level=level, currency='USD', basket_spec=[list(x) for x in MIX], **RULES)
     state.setdefault('rule_changes', []).append(dict(date='2026-11-24', change='mixed basket (top 10 + RSP), '
                                                      'hold at least 42 months then sell in euphoria; no max hold'))
     return state
 
 
 def value(state, prices, day):
-    """Cash plus positions at the closes of `day` (last known close when a stock has none that day)."""
-    total = state['cash']
+    """Cash plus positions at the closes of `day` (last known close when a stock has none that day), in the
+    account's currency: USD positions of a euro account are converted at that day's EUR/USD close."""
+    usd = 0.
     for symbol, p in state['positions'].items():
         series = prices.get(symbol) or {}
         known = [d for d in series if d <= day]
-        total += p['shares'] * (series[max(known)] if known else p['entry'])
-    return total
+        usd += p['shares'] * (series[max(known)] if known else p['entry'])
+    if state.get('currency', 'USD') == 'EUR' and state['positions']:
+        rate = _fx(prices, day) or state.get('fx_buy')
+        usd /= rate
+    return state['cash'] + usd
 
 
 def advance(state, sessions, heat, prices, holdings, today_signal=None):
@@ -91,22 +118,32 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
         pending = state.get('pending')
         # Fill the order decided intraday (thermometer still in panic before this close) at this close.
         if pending and pending['date'] == day and not state['positions']:
-            picks = [(s, w) for s, w in holdings() if w and w > 0 and (prices.get(s) or {}).get(day)][:TOP]
+            spec = state.get('basket_spec') or [list(x) for x in MIX]
+            picks = [(s_, w) for s_, w in holdings() if w and w > 0 and (prices.get(s_) or {}).get(day)][:TOP]
             total_w = sum(w for _, w in picks)
-            if picks and total_w > 0 and (prices.get(EQUAL_WEIGHT) or {}).get(day):
-                cash = state['cash']
-                plan = [(sym, 0.5 * w / total_w, w) for sym, w in picks] + [(EQUAL_WEIGHT, 0.5, None)]
+            fixed = [(sym, share) for sym, share in spec if sym != 'top10']
+            top_share = sum(share for sym, share in spec if sym == 'top10')
+            euro = state.get('currency', 'USD') == 'EUR'
+            rate = (prices.get(FX) or {}).get(day) if euro else 1.
+            ready = (picks and total_w > 0 and rate and all((prices.get(sym) or {}).get(day) for sym, _ in fixed))
+            if ready:
+                usd = state['cash'] * rate                     # a euro account converts at this close
+                plan = ([(sym, top_share * w / total_w, w) for sym, w in picks]
+                        + [(sym, share, None) for sym, share in fixed])
+                spent = 0.
                 for symbol, share, index_weight in plan:
                     px = prices[symbol][day]
-                    shares = cash * share / (px * (1 + COST))
+                    shares = usd * share / (px * (1 + COST))
                     state['positions'][symbol] = dict(shares=round(shares, 6), entry=px, account_share=round(share, 6),
                                                       index_weight=None if index_weight is None else round(index_weight, 6))
-                    state['cash'] -= shares * px * (1 + COST)
-                state['cash'] = round(state['cash'], 6)
-                state.update(bought=day, signal=pending['signal'], sessions_held=0, pending=None)
+                    spent += shares * px * (1 + COST)
+                state['cash'] = round((usd - spent) / rate, 6)
+                state.update(bought=day, signal=pending['signal'], sessions_held=0, pending=None,
+                             fx_buy=rate if euro else None)
                 state['done_signals'].append(pending['signal'])
                 events.append(dict(type='BUY', date=day, signal=pending['signal'], heat=pending['heat'],
-                                   heat_close=heat.get(day), symbols=[s for s, _ in picks] + [EQUAL_WEIGHT]))
+                                   heat_close=heat.get(day), symbols=[sym for sym, _, _ in plan],
+                                   **({'eurusd': rate} if euro else {})))
         elif state['positions']:
             state['sessions_held'] = state.get('sessions_held', 0) + 1
             # Sell at this close when the previous close was euphoric and the account had then held 42 months.
@@ -116,21 +153,25 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
                 # The decision holds until every position has a close to sell at.
                 state['selling'] = state.get('selling') or 'EUPHORIA_AFTER_42_MONTHS'
                 proceeds = 0.
+                euro = state.get('currency', 'USD') == 'EUR'
+                rate = (prices.get(FX) or {}).get(day) if euro else 1.
                 for symbol, p in state['positions'].items():
                     px = (prices.get(symbol) or {}).get(day)
-                    if px is None:                       # no close today: keep it and try tomorrow
+                    if px is None or not rate:           # no close (or no EUR/USD) today: try tomorrow
                         break
                     proceeds += p['shares'] * px * (1 - COST)
                 else:
                     why = state['selling']
-                    start_value = sum(p['shares'] * p['entry'] * (1 + COST) for p in state['positions'].values())
+                    proceeds /= rate                      # in the account's currency
+                    start_value = (sum(p['shares'] * p['entry'] * (1 + COST) for p in state['positions'].values())
+                                   / (state.get('fx_buy') or 1.))
                     state['trades'].append(dict(signal=state['signal'], bought=state['bought'], sold=day, why=why,
                                                 symbols=sorted(state['positions']), cost=round(start_value, 2),
                                                 proceeds=round(proceeds, 2),
                                                 ret=round(proceeds / start_value - 1, 6) if start_value else None))
                     state['cash'] = round(state['cash'] + proceeds, 6)
                     state['positions'] = {}
-                    state.update(bought=None, signal=None, sessions_held=0, selling=None)
+                    state.update(bought=None, signal=None, sessions_held=0, selling=None, fx_buy=None)
                     events.append(dict(type='SELL', date=day, why=why))
         if pending and pending['date'] <= day and state.get('pending'):
             state['pending'] = None                 # unfilled (a missing close): decided again on the next day
@@ -194,9 +235,10 @@ def collect(today=None, intraday=False):
     import panic_backtest as pb
     holdings = {fund: top_holdings(fund) for fund, _ in FUNDS}
     universe = sorted({row.get('yf') or key for key, row in engine.DATA.items()})
-    held = {s for s, _, _ in holdings['SPY'][:TOP]} | {EQUAL_WEIGHT}
-    for _, _, path in ACCOUNTS:
-        held |= set(load(path, start='')['positions'])
+    held = {s for s, _, _ in holdings['SPY'][:TOP]} | {EQUAL_WEIGHT, FX}
+    for name, level, path in ACCOUNTS:
+        state = load(path, start='', level=level, name=name)
+        held |= set(state['positions']) | {sym for sym, _ in (state.get('basket_spec') or []) if sym != 'top10'}
     held = sorted(held)
     raw = yf.download(sorted(set(universe) | set(held) | {'^GSPC', '^VIX'}), period='2y', auto_adjust=False,
                       progress=False, threads=True, group_by='column')['Close']
@@ -210,16 +252,16 @@ def collect(today=None, intraday=False):
     return sessions, heat_map, prices, holdings
 
 
-def load(path=STATE, start=None, level=20.):
+def load(path=STATE, start=None, level=20., name=None):
     try:
         return json.loads(Path(path).read_text(encoding='utf-8'))
     except (OSError, ValueError):
-        return fresh(start, level)
+        return fresh(start, level, name)
 
 
 def _accounts(start=FIRST_START):
     for name, level, path in ACCOUNTS:
-        yield name, level, path, upgrade(load(path, start=start, level=level), level)
+        yield name, level, path, upgrade(load(path, start=start, level=level, name=name), level)
 
 
 def run(latest=LATEST):
@@ -235,7 +277,9 @@ def run(latest=LATEST):
                     session=last, heat=heat.get(last), heat_recent=[[d, heat[d]] for d in sessions[-30:] if d in heat],
                     holdings={fund: [dict(symbol=s, weight=w, name=n) for s, w, n in rows]
                               for fund, rows in holdings.items()},
-                    events=events)
+                    events=events,
+                    # latest closes of everything an account holds, and EUR/USD, so the page can value each position
+                    prices={sym: [max(series), series[max(series)]] for sym, series in prices.items() if series})
     Path(latest).parent.mkdir(parents=True, exist_ok=True)
     Path(latest).write_text(json.dumps(snapshot, indent=1) + '\n', encoding='utf-8')
     print(json.dumps(dict(session=last, heat=heat.get(last), events=events), indent=1))
@@ -306,10 +350,11 @@ def render(snapshot, states, backtest=None):
                      for d, v in snapshot.get('heat_recent', []))
     parts = [f'<style>{market_pulse.CSS}</style>', f'<h1 style="color:{YELLOW}">Panic &amp; index leaders</h1>',
              '<div class="note">The market thermometer (the scoreboard\'s crash and panic gauge) next to the '
-             'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. Two paper accounts buy in a '
-             'panic (one under 20, one under 17): half the ten largest S&amp;P 500 companies weighted as in the '
-             'index, half RSP (equal weight); they hold at least 42 months, then sell after the first close in '
-             'extreme euphoria (80 or more). The backtest since 2000 found falls of up to 57% while held. Paper '
+             'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. Three paper accounts buy in a '
+             'panic: under 20 and under 17 with half the ten largest S&amp;P 500 companies weighted as in the index '
+             'and half RSP (equal weight), and a third under 17 that adds 15% SpaceX and 15% Anthropic (25,000 EUR, '
+             'no backtest). All hold at least 42 months, then sell after the first close in extreme euphoria (80 or '
+             'more). The backtest since 2000 found falls of up to 57% while held. Paper '
              'only; not advice.</div>',
              '<div class="box pulse-thermo"><h2>Thermometer</h2>'
              f'<span class="pulse-big" style="color:{colour}">{"—" if h is None else format(h, ".1f")}</span> /100 · '
@@ -337,32 +382,99 @@ def render(snapshot, states, backtest=None):
                      + ('<div class="tw"><table><thead><tr><th>#</th><th>Symbol</th><th>Company</th><th>Weight</th>'
                         f'<th></th></tr></thead><tbody>{body}</tbody></table></div>' if body
                         else '<p class="muted">Holdings not available.</p>'))
-    for name, level, state in states:
-        equity = state['marks'][-1]['equity'] if state.get('marks') else state.get('capital')
-        pos = ''.join(f'<tr><td class="mono">{escape(sym)}</td><td class="mono">{p["shares"]:.4f}</td>'
-                      f'<td class="mono">{p["entry"]:.2f}</td><td class="mono">{_pct(p.get("account_share"))}</td>'
-                      f'<td class="mono">{_pct(p.get("index_weight"))}</td></tr>'
-                      for sym, p in sorted(state.get('positions', {}).items()))
-        trades = ''.join(f'<tr><td>{escape(t["signal"])}</td><td>{escape(t["bought"])}</td><td>{escape(t["sold"])}</td>'
-                         f'<td class="mono">{_pct(t["ret"], 1)}</td></tr>' for t in state.get('trades', []))
-        orders = (intraday.get('orders') or {})
-        parts.append(f'<h2>Paper account · buys under {level:g}</h2>'
-                     f'<p>Equity <b>{equity:,.2f} USD</b> (start {state.get("capital", CAPITAL):,.0f}) · cash '
-                     f'{state.get("cash", 0):,.2f} · '
-                     + (f'holding since {escape(state["bought"])} (signal {escape(state["signal"])}), session '
-                        f'{state.get("sessions_held", 0)} of at least {state.get("min_hold", MIN_HOLD)}, then the first '
-                        'euphoria close' if state.get('positions') else 'flat')
-                     + (f' · intraday check: {"buy order" if orders.get(name) else "no order"}' if name in orders else '')
-                     + '</p>'
-                     + (f'<div class="tw"><table><thead><tr><th>Symbol</th><th>Shares</th><th>Entry</th><th>Share of '
-                        f'account</th><th>Index weight</th></tr></thead><tbody>{pos}</tbody></table></div>' if pos else '')
-                     + (f'<div class="tw"><table><thead><tr><th>Signal</th><th>Bought</th><th>Sold</th><th>Return</th>'
-                        f'</tr></thead><tbody>{trades}</tbody></table></div>' if trades else ''))
+    parts.append(accounts_html(states, snapshot, intraday))
     if backtest:
         parts.append('<h2>Backtest</h2><div class="note">From the last backtest run (backtest.html, section '
                      '"Thermometer Panic · buy"); six panic episodes since 2015, so treat it as a hint, not proof.'
                      '</div>' + backtest)
     return shell('Panic & index leaders', ''.join(parts))
+
+
+ACCOUNT_STYLE = {'20': ('#f5d000', 'Buys under 20', ''),
+                 '17': ('#ff9d2e', 'Buys under 17', ''),
+                 '17-spcx-ant': ('#b57bff', 'Buys under 17 · SpaceX + Anthropic',
+                                 'No backtest · the user\'s conviction')}
+CARD_CSS = '''
+.acc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0}
+.acc{border:2px solid var(--acc);border-radius:12px;padding:14px 16px;background:#11161f}
+.acc h3{margin:0 0 4px;color:var(--acc);font-size:18px}
+.acc .tag{display:inline-block;margin:2px 0 8px;padding:2px 8px;border-radius:999px;background:var(--acc);color:#111;
+  font-size:12px;font-weight:700}
+.acc .state{font-size:22px;font-weight:800;margin:6px 0}
+.acc .state.cash{color:#cfd6e4}.acc .state.inv{color:#66e39c}
+.acc dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:8px 0 0;font-size:14px}
+.acc dt{color:#9aa3b5}.acc dd{margin:0;font-variant-numeric:tabular-nums;font-weight:600}
+.acc .gap{font-weight:700}.acc .gap.near{color:#ff6b6b}
+.acc-detail{border-left:4px solid var(--acc);padding-left:12px;margin:18px 0}
+.acc-detail h3{color:var(--acc)}
+.up{color:#66e39c}.down{color:#f06a6a}
+'''
+
+
+def accounts_html(states, snapshot, intraday):
+    """Three colour-coded cards side by side, then each account's positions and trades in its own colour."""
+    h = snapshot.get('heat')
+    prices = snapshot.get('prices') or {}
+    fx = (prices.get(FX) or [None, None])[1]
+    orders = intraday.get('orders') or {}
+    cards, details = [], []
+    for name, level, state in states:
+        colour, title, tag = ACCOUNT_STYLE.get(name, ('#9aa3b5', f'Buys under {level:g}', ''))
+        cur = state.get('currency', 'USD')
+        euro = cur == 'EUR'
+        equity = state['marks'][-1]['equity'] if state.get('marks') else state.get('capital')
+        capital = state.get('capital', CAPITAL)
+        invested = bool(state.get('positions'))
+        gap = None if h is None else h - level
+        rows = []
+        for sym, p in sorted(state.get('positions', {}).items(), key=lambda kv: -kv[1].get('account_share', 0)):
+            last = (prices.get(sym) or [None, None])[1]
+            rate = (state.get('fx_buy') or 1.) if euro else 1.
+            cost = p['shares'] * p['entry'] * (1 + COST) / rate
+            now = None if last is None else p['shares'] * last / ((fx or rate) if euro else 1.)
+            pnl = None if now is None else now - cost
+            rows.append(f'<tr><td class="mono"><b>{escape(sym)}</b></td><td>{escape(state["bought"] or "")}</td>'
+                        f'<td class="mono">{p["shares"]:,.4f}</td><td class="mono">{p["entry"]:,.2f} USD</td>'
+                        f'<td class="mono">{cost:,.2f} {cur}</td>'
+                        f'<td class="mono">{"—" if last is None else format(last, ",.2f") + " USD"}</td>'
+                        f'<td class="mono">{"—" if now is None else format(now, ",.2f") + " " + cur}</td>'
+                        f'<td class="mono {"up" if (pnl or 0) >= 0 else "down"}">'
+                        f'{"—" if pnl is None else format(pnl, "+,.2f") + " " + cur}</td>'
+                        f'<td class="mono">{_pct(p.get("account_share"), 1)}</td></tr>')
+        result = equity / capital - 1 if capital else None
+        cards.append(
+            f'<div class="acc" style="--acc:{colour}"><h3>{escape(title)}</h3>'
+            + (f'<span class="tag">{escape(tag)}</span>' if tag else '')
+            + f'<div class="state {"inv" if invested else "cash"}">{"INVESTED" if invested else "IN CASH · waiting"}</div>'
+            '<dl>'
+            f'<dt>Value</dt><dd>{equity:,.2f} {cur} <span class="{"up" if (result or 0) >= 0 else "down"}">'
+            f'({_pct(result, 1)})</span></dd>'
+            f'<dt>Start capital</dt><dd>{capital:,.0f} {cur}</dd>'
+            f'<dt>Cash</dt><dd>{state.get("cash", 0):,.2f} {cur}</dd>'
+            f'<dt>Buys when</dt><dd>thermometer &lt; {level:g} shortly before the close</dd>'
+            + ('' if invested else
+               f'<dt>Thermometer now</dt><dd class="gap {"near" if gap is not None and gap < 5 else ""}">'
+               f'{"—" if h is None else format(h, ".1f")}'
+               f'{"" if gap is None else (" · " + format(gap, ".1f") + " points to go" if gap > 0 else " · in buy zone")}</dd>')
+            + (f'<dt>Holding since</dt><dd>{escape(state["bought"])} · session {state.get("sessions_held", 0)} of ≥'
+               f'{state.get("min_hold", MIN_HOLD)}</dd>' if invested else '')
+            + (f'<dt>Last intraday check</dt><dd>{escape(intraday.get("date", ""))}: '
+               f'{"BUY ORDER" if orders.get(name) else "no order"}</dd>' if name in orders else '')
+            + f'<dt>Basket</dt><dd style="font-weight:400">{escape(state.get("basket") or "")}</dd>'
+            + '</dl></div>')
+        trades = ''.join(f'<tr><td>{escape(t["signal"])}</td><td>{escape(t["bought"])}</td><td>{escape(t["sold"])}</td>'
+                         f'<td class="mono">{_pct(t["ret"], 1)}</td></tr>' for t in state.get('trades', []))
+        details.append(
+            f'<div class="acc-detail" style="--acc:{colour}"><h3>{escape(title)} · positions</h3>'
+            + (f'<div class="tw"><table><thead><tr><th>Symbol</th><th>Bought</th><th>Units</th><th>Buy price</th>'
+               f'<th>Cost</th><th>Last price</th><th>Value now</th><th>Gain / loss</th><th>Share at buy</th></tr></thead>'
+               f'<tbody>{"".join(rows)}</tbody></table></div>' if rows else
+               '<p class="muted">No positions yet: the account is in cash until the next panic.</p>')
+            + (f'<div class="tw"><table><thead><tr><th>Signal</th><th>Bought</th><th>Sold</th><th>Return</th></tr>'
+               f'</thead><tbody>{trades}</tbody></table></div>' if trades else '')
+            + '</div>')
+    return (f'<style>{CARD_CSS}</style><h2>The three paper accounts</h2><div class="acc-grid">' + ''.join(cards)
+            + '</div>' + ''.join(details))
 
 
 def backtest_html(root):
@@ -422,7 +534,7 @@ def site_pages(root):
         snapshot = json.loads((Path(root) / 'index-leaders' / 'latest.json').read_text(encoding='utf-8'))
     except (OSError, ValueError):
         return []
-    states = [(name, level, load(Path(root) / 'paper_trades' / Path(path).name, start='', level=level))
+    states = [(name, level, load(Path(root) / 'paper_trades' / Path(path).name, start='', level=level, name=name))
               for name, level, path in ACCOUNTS]
     return [(Path(PAGE), render(snapshot, states, backtest_html(root) + history_html(root)))]
 
