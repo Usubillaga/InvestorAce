@@ -4645,7 +4645,7 @@
   }
  },
  "FICO": {
-  "asof": "2026-11-17",
+  "asof": "2026-11-24",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4700,7 +4700,7 @@
   }
  },
  "GDDY": {
-  "asof": "2026-11-17",
+  "asof": "2026-11-24",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4755,7 +4755,7 @@
   }
  },
  "GEN": {
-  "asof": "2026-11-17",
+  "asof": "2026-11-24",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4810,7 +4810,7 @@
   }
  },
  "MU": {
-  "asof": "2026-11-17",
+  "asof": "2026-11-24",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
@@ -4865,7 +4865,7 @@
   }
  },
  "TPR": {
-  "asof": "2026-11-17",
+  "asof": "2026-11-24",
   "inputs": {
    "input_schema": "epv-inputs-v2-aligned-known-debt",
    "revenue": [
