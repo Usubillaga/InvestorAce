@@ -10922,6 +10922,409 @@
         },
         "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
       }
+    },
+    "BBW": {
+      "issuer": "Build-A-Bear Workshop Inc.",
+      "listing": "BBW / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "No completed valuation tie-out; separately dated monitoring only.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "No complete current disclosure window certified.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See dated partial monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-24",
+        "attempted_at": "2026-11-24T07:59:41Z",
+        "window_start": "2026-08-26",
+        "window_end": "2026-11-24",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://ir.buildabear.com/node/21581/html",
+            "title": "BBW Q2 Form10Q",
+            "locator": "Cashflow financing row vested participating securities dividends; no class split inferred",
+            "published_at": "2026-09-10",
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          },
+          {
+            "url": "https://buildabear.gcs-web.com/news-releases/news-release-details/build-bear-workshop-inc-announces-quarterly-cash-dividend-3",
+            "title": "BBW dividend declaration",
+            "locator": "Declaration paragraph",
+            "published_at": "2026-11-11",
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          },
+          {
+            "url": "https://buildabear.gcs-web.com/news-releases/news-release-details/build-bear-workshop-announce-third-quarter-fiscal-2026-results",
+            "title": "BBW report date",
+            "locator": "Report period and premarket date",
+            "published_at": "2026-11-19",
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          },
+          {
+            "url": "https://ir.buildabear.com/node/21516/html",
+            "title": "BBW historical Form4 excluded from window",
+            "locator": "Aug24 S6818 direct common at weighted40.0336USD, explicit March19 10b5-1; filedAug25",
+            "published_at": "2026-08-25",
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          }
+        ],
+        "gap": "Matched FY/priorYTD/TTM, sustainable common-equity cashflow, SBC, dated all-class outstanding shares and discount/FX contract not completed; no model input replacement.",
+        "next_check_date": "2026-12-03",
+        "financial_period": "2026-08-01",
+        "summary": "Q3 report confirmed December3 premarket; USD0.23 common dividend declared for January7, not paid evidence.",
+        "payments": {
+          "period": "26 weeks ended2026-08-01",
+          "unit": "USD thousand",
+          "vested_participating_securities_cash_dividends": 5768,
+          "common_cash_paid": null,
+          "preferred_cash_paid": null
+        },
+        "next_common_payment": {
+          "amount": 0.23,
+          "currency": "USD",
+          "declared_on": "2026-11-11",
+          "record_date": "2026-11-25",
+          "ex_date": null,
+          "payable_date": "2027-01-07",
+          "actual_payment_date": null,
+          "status": "DECLARED_NOT_PAID"
+        },
+        "next_earnings": {
+          "event_date": "2026-12-03",
+          "status": "ISSUER_CONFIRMED",
+          "timing": "BEFORE_NYSE_OPEN; call09:00 America/New_York",
+          "announcement_date": "2026-11-19"
+        },
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "IR first ten filings and one original Form4 read; full native issuer/window pagination inaccessible. Aug24 trade/filedAug25 is outside Aug26-Nov24 rolling window and excluded, not a current event.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261124",
+        "evidence_sha256": {
+          "packet.json": "0a1ffc5637e467b716d04cb0ea918f42c4144e6cebaf344ac4cebec0a5bd4d5e"
+        },
+        "note": "Partial source check only. Does not refresh valuation or insider checks; actual payment date unknown."
+      }
+    },
+    "BKNG": {
+      "issuer": "Booking Holdings Inc.",
+      "listing": "BKNG / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "No completed valuation tie-out; separately dated monitoring only.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "No complete current disclosure window certified.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See dated partial monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-24",
+        "attempted_at": "2026-11-24T07:59:41Z",
+        "window_start": "2026-08-26",
+        "window_end": "2026-11-24",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://www.bookingholdings.com/wp-content/uploads/2026/11/Q3-26-BKNG-Earnings-Release-Final.pdf",
+            "title": "BKNG Q3 release",
+            "locator": "Return of capital p2; cashflow p5; FCF reconciliation p11; paid dividends978m unclassified",
+            "published_at": null,
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          }
+        ],
+        "gap": "Matched FY/priorYTD/TTM, sustainable common-equity cashflow, SBC, dated all-class outstanding shares and discount/FX contract not completed; no model input replacement.",
+        "next_check_date": "2026-12-01",
+        "financial_period": "2026-09-30",
+        "summary": "9M OCF8071 less PPE251 = reported FCF7820mUSD; quarter FCF1069 vs1371m differs from YTD growth. USD0.42 payable December31, not paid.",
+        "payments": {
+          "period": "9M2026",
+          "unit": "USD million",
+          "dividend_cash_paid_unclassified": 978,
+          "common_cash_paid": null,
+          "preferred_cash_paid": null,
+          "ocf": 8071,
+          "cash_capex": 251,
+          "reported_fcf_derived": 7820,
+          "prior_fcf": 7670
+        },
+        "next_common_payment": {
+          "amount": 0.42,
+          "currency": "USD",
+          "declared_on": null,
+          "record_date": "2026-12-11",
+          "ex_date": null,
+          "payable_date": "2026-12-31",
+          "actual_payment_date": null,
+          "status": "DECLARED_NOT_PAID"
+        },
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "Native SEC issuer type4 listing inaccessible; complete90d documents/amendments not established. No no-events claim.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261124",
+        "evidence_sha256": {
+          "packet.json": "0a1ffc5637e467b716d04cb0ea918f42c4144e6cebaf344ac4cebec0a5bd4d5e"
+        },
+        "note": "Partial source check only. Does not refresh valuation or insider checks; actual payment date unknown."
+      }
+    },
+    "CAE": {
+      "issuer": "CAE Inc.",
+      "listing": "CAE / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "No completed valuation tie-out; separately dated monitoring only.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "No complete current disclosure window certified.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See dated partial monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-24",
+        "attempted_at": "2026-11-24T07:59:41Z",
+        "window_start": "2026-08-26",
+        "window_end": "2026-11-24",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1173382/000117338226000046/cae_q2fy27xex1xpressrelease.htm",
+            "title": "CAE issuer Q2FY27 release SEC exhibit",
+            "locator": "Summary of financial highlights and FCF reconciliation; all financials CAD unless stated",
+            "published_at": "2026-11-11",
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          }
+        ],
+        "gap": "Matched FY/priorYTD/TTM, sustainable common-equity cashflow, SBC, dated all-class outstanding shares and discount/FX contract not completed; no model input replacement.",
+        "next_check_date": "2026-12-01",
+        "financial_period": "2026-09-30",
+        "summary": "CAD quarterly OCF215.5 less total capex48.9 =166.6m; company non-IFRS FCF179.9m has other cashflow adjustments. Not a USD TTM valuation input.",
+        "payments": {
+          "period": "Q2FY2027",
+          "unit": "CAD million",
+          "common_cash_paid": null,
+          "preferred_cash_paid": null,
+          "ocf": 215.5,
+          "total_capex": 48.9,
+          "ocf_minus_total_capex_derived": 166.6,
+          "management_fcf": 179.9,
+          "fcf_components": [
+            215.5,
+            -38.7,
+            -10.2,
+            2.8,
+            0.1,
+            10.3,
+            0.1
+          ]
+        },
+        "next_common_payment": null,
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "Native SEDI validation wall; company IR403. Canadian/native reporting coverage unavailable, SEC no-events inference inappropriate.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261124",
+        "evidence_sha256": {
+          "packet.json": "0a1ffc5637e467b716d04cb0ea918f42c4144e6cebaf344ac4cebec0a5bd4d5e"
+        },
+        "note": "Partial source check only. Does not refresh valuation or insider checks; actual payment date unknown."
+      }
+    },
+    "CAT": {
+      "issuer": "Caterpillar Inc.",
+      "listing": "CAT / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "No completed valuation tie-out; separately dated monitoring only.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "No complete current disclosure window certified.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See dated partial monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-24",
+        "attempted_at": "2026-11-24T07:59:41Z",
+        "window_start": "2026-08-26",
+        "window_end": "2026-11-24",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://www.caterpillar.com/en/news/corporate-press-releases/h/caterpillar-maintains-dividend-october-14-2026.html",
+            "title": "CAT dividend notice",
+            "locator": "Declaration and record/payable paragraph",
+            "published_at": "2026-10-14",
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          },
+          {
+            "url": "https://investors.caterpillar.com/stock-info/dividend-history/default.aspx",
+            "title": "CAT dividend schedule",
+            "locator": "ExOct26 recordOct26 payableNov19; schedule not actual paid confirmation",
+            "published_at": null,
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          }
+        ],
+        "gap": "Matched FY/priorYTD/TTM, sustainable common-equity cashflow, SBC, dated all-class outstanding shares and discount/FX contract not completed; no model input replacement.",
+        "next_check_date": "2026-12-01",
+        "financial_period": null,
+        "summary": "USD1.63 common dividend payable November19; passed payable is not verified actual payment. Quarterly report link rendered without documents.",
+        "payments": {
+          "common_cash_paid": null,
+          "preferred_cash_paid": null
+        },
+        "next_common_payment": {
+          "amount": 1.63,
+          "currency": "USD",
+          "declared_on": "2026-10-14",
+          "record_date": "2026-10-26",
+          "ex_date": "2026-10-26",
+          "payable_date": "2026-11-19",
+          "actual_payment_date": null,
+          "status": "PAYABLE_PASSED_ACTUAL_NOT_VERIFIED"
+        },
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "IR SEC page rendered no filing table; native90d issuer list and original reports not obtained.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261124",
+        "evidence_sha256": {
+          "packet.json": "0a1ffc5637e467b716d04cb0ea918f42c4144e6cebaf344ac4cebec0a5bd4d5e"
+        },
+        "note": "Partial source check only. Does not refresh valuation or insider checks; actual payment date unknown."
+      }
+    },
+    "CEG": {
+      "issuer": "Constellation Energy Corporation",
+      "listing": "CEG / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "No completed valuation tie-out; separately dated monitoring only.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "No complete current disclosure window certified.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See dated partial monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-24",
+        "attempted_at": "2026-11-24T07:59:41Z",
+        "window_start": "2026-08-26",
+        "window_end": "2026-11-24",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investors.constellationenergy.com/static-files/7f18203a-80d7-4d8f-9be2-a6174e92a513",
+            "title": "CEG Q3 Form10Q",
+            "locator": "MD&A financing dividend table and Calpine acquisition debt discussion",
+            "published_at": "2026-11-09",
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          },
+          {
+            "url": "https://investors.constellationenergy.com/stock-information/dividends-splits",
+            "title": "CEG IR-hosted third-party schedule",
+            "locator": "ExNov16 from Mergent; not independently confirmed original ex-date",
+            "published_at": null,
+            "retrieved_at": "2026-11-24T07:59:41Z"
+          }
+        ],
+        "gap": "Matched FY/priorYTD/TTM, sustainable common-equity cashflow, SBC, dated all-class outstanding shares and discount/FX contract not completed; no model input replacement.",
+        "next_check_date": "2026-12-05",
+        "financial_period": "2026-09-30",
+        "summary": "USD0.4265 common dividend declared October30, recordNovember16, payableDecember4. Calpine acquisition cashflow/perimeter needs tie-out.",
+        "payments": {
+          "period": "9M2026",
+          "unit": "USD million",
+          "common_cash_paid": null,
+          "preferred_cash_paid": null
+        },
+        "next_common_payment": {
+          "amount": 0.4265,
+          "currency": "USD",
+          "declared_on": "2026-10-30",
+          "record_date": "2026-11-16",
+          "ex_date": null,
+          "payable_date": "2026-12-04",
+          "actual_payment_date": null,
+          "status": "DECLARED_NOT_PAID"
+        },
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "IR SEC listing renders no filing rows;90d original ownership reports not obtained. No no-events conclusion.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261124",
+        "evidence_sha256": {
+          "packet.json": "0a1ffc5637e467b716d04cb0ea918f42c4144e6cebaf344ac4cebec0a5bd4d5e"
+        },
+        "note": "Partial source check only. Does not refresh valuation or insider checks; actual payment date unknown."
+      }
     }
   }
 }
