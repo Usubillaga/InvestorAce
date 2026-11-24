@@ -83,6 +83,29 @@ class Events(unittest.TestCase):
         self.assertAlmostEqual(sum(w), 1.0)
 
 
+class Download(unittest.TestCase):
+    def test_throttled_chunks_are_fetched_again_and_dead_tickers_left_out(self):
+        idx = pd.bdate_range('2020-01-01', periods=5)
+        calls = []
+
+        def fetch(batch):
+            calls.append(list(batch))
+            throttled = len(calls) == 1                              # the first request is rate limited
+            data = {}
+            for field in ('Adj Close', 'Close', 'Volume'):
+                data[field] = pd.DataFrame({t: (np.nan if throttled or t == 'DEAD' else 1.0) for t in batch},
+                                           index=idx)
+            return pd.concat(data, axis=1), throttled
+
+        waits = []
+        out = ph.download(['AAA', 'BBB', 'DEAD'], fetch=fetch, chunk=2, sleep=waits.append, pause=5)
+        self.assertEqual(calls, [['AAA', 'BBB'], ['AAA', 'BBB'], ['DEAD']])   # a dead ticker is not retried
+        self.assertIn(5, waits)                                      # waited before the second try
+        self.assertEqual(sorted(out['adj'].columns), ['AAA', 'BBB', 'DEAD'])
+        self.assertTrue(out['adj']['AAA'].notna().all())
+        self.assertTrue(out['adj']['DEAD'].isna().all())
+
+
 class Study(unittest.TestCase):
     def test_end_to_end_with_a_panic_and_the_report(self):
         idx, adj = panel(n=1300, start='1999-06-01')

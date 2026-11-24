@@ -277,29 +277,74 @@ def report(result):
 
 
 # ------------------------------------------------------------------ data (GitHub Actions)
-def download(tickers):
+CHUNK, RETRIES, PAUSE = 100, 5, 30
+
+
+def _yahoo(tickers):
+    """(frame, throttled): throttled when yfinance reported a rate-limit error for any ticker."""
     import yfinance as yf
     raw = yf.download(sorted(tickers), start='1988-01-01', auto_adjust=False, progress=False, threads=True,
                       group_by='column')
-    out = {}
-    for field, name in (('Adj Close', 'adj'), ('Close', 'split_close'), ('Volume', 'volume')):
-        frame = raw[field]
-        frame.index = frame.index.tz_localize(None) if frame.index.tz is not None else frame.index
-        out[name] = frame.round(4) if name != 'volume' else frame
-    return out
+    errors = ' '.join(str(e) for e in getattr(yf.shared, '_ERRORS', {}).values())
+    return raw, ('RateLimit' in errors or 'Too Many Requests' in errors)
+
+
+def download(tickers, fetch=_yahoo, chunk=CHUNK, retries=RETRIES, pause=PAUSE, sleep=None):
+    """{'adj', 'split_close', 'volume'} for all tickers, fetched in chunks.
+
+    Yahoo throttles bulk requests (run 45338277691: every one of 1,162 tickers came back 'Too Many Requests' right
+    after the main backtest's own download). A chunk that yfinance reports as rate limited is fetched again after
+    a growing pause; tickers that stay empty are left out (most are long delisted, which is not throttling)."""
+    import time
+    sleep = sleep or time.sleep
+    parts = {name: [] for name in ('adj', 'split_close', 'volume')}
+    tickers = sorted(tickers)
+    for i in range(0, len(tickers), chunk):
+        batch = tickers[i:i + chunk]
+        raw = None
+        for attempt in range(retries):
+            raw, throttled = fetch(batch)
+            if not throttled or attempt == retries - 1:
+                break
+            sleep(pause * (attempt + 1))
+        if raw is None or not len(raw):
+            continue
+        for field, name in (('Adj Close', 'adj'), ('Close', 'split_close'), ('Volume', 'volume')):
+            frame = raw[field]
+            if isinstance(frame, pd.Series):
+                frame = frame.to_frame(batch[0])
+            frame.index = frame.index.tz_localize(None) if frame.index.tz is not None else frame.index
+            parts[name].append(frame.round(4) if name != 'volume' else frame)
+        sleep(2)                                        # be polite between chunks
+    return {name: pd.concat(frames, axis=1) if frames else pd.DataFrame() for name, frames in parts.items()}
+
+
+def index_series(sleep=None, retries=RETRIES, pause=PAUSE):
+    """S&P 500 and VIX closes since 1988, retried while Yahoo throttles; raises if either stays empty."""
+    import time
+    import yfinance as yf
+    sleep = sleep or time.sleep
+    for attempt in range(retries):
+        idx = yf.download(['^GSPC', '^VIX'], start='1988-01-01', auto_adjust=False, progress=False, threads=False,
+                          group_by='column')['Close']
+        if len(idx) and idx['^GSPC'].notna().sum() > 1000 and idx['^VIX'].notna().sum() > 1000:
+            idx.index = idx.index.tz_localize(None) if idx.index.tz is not None else idx.index
+            return idx['^GSPC'].dropna(), idx['^VIX'].dropna()
+        sleep(pause * (attempt + 1))
+    raise RuntimeError('Yahoo returned no S&P 500 / VIX history (rate limited?); keeping the previous results')
 
 
 def main():
-    import yfinance as yf
     rows = pb.fetch_members()
     tickers = sorted({pb.yahoo(t) for d, members in rows if d >= pd.Timestamp('1998-01-01') for t in members})
-    idx = yf.download(['^GSPC', '^VIX'], start='1988-01-01', auto_adjust=False, progress=False, threads=False,
-                      group_by='column')['Close']
-    idx.index = idx.index.tz_localize(None) if idx.index.tz is not None else idx.index
+    spx, vix = index_series()
     cutoff = pd.Timestamp.now(tz='America/New_York').normalize().tz_localize(None)
-    spx, vix = idx['^GSPC'].dropna(), idx['^VIX'].dropna()
     spx = spx[spx.index < cutoff]
     data = download(tickers)
+    priced = int(data['adj'].notna().any().sum()) if len(data['adj'].columns) else 0
+    if priced < 0.5 * len(tickers):
+        raise RuntimeError(f'Only {priced} of {len(tickers)} tickers priced (rate limited?); keeping the previous '
+                           'results')
     result = study(spx, vix, data['adj'], data['split_close'], data['volume'], rows, pb.yahoo_shares)
     result['tickers_requested'] = len(tickers)
     result['tickers_priced'] = int(data['adj'].notna().any().sum())

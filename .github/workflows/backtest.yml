@@ -37,7 +37,7 @@ concurrency:
 jobs:
   backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 80
     steps:
       - uses: actions/checkout@v6
         with:
@@ -70,7 +70,7 @@ jobs:
       - name: Panic buys since 2000 (panic_history.py)
         # Optional, like the crash study: a failure keeps the previous results and never blocks the backtest.
         continue-on-error: true
-        timeout-minutes: 25
+        timeout-minutes: 45              # chunked download with pauses while Yahoo throttles
         run: python panic_history.py
       - name: Commit results
         env:
