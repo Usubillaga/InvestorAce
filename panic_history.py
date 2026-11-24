@@ -38,9 +38,12 @@ ROOT = Path(__file__).resolve().parent
 OUT_JSON = ROOT / 'backtests' / 'panic_history.json'
 OUT_MD = ROOT / 'backtests' / 'panic_history.md'
 START = '1999-01-01'                  # first signals need 200 sessions of history
-HORIZONS = (63, 126, 252, 378)
+HORIZONS = (63, 126, 252, 378, 882)          # 882 sessions = 42 months
 TEN_YEARS = 2520
-BASKETS = ('top10_weight', 'leaders', 'broken', 'busted', 'all_members', 'spx')
+BASKETS = ('top10_weight', 'leaders', 'broken', 'busted', 'all_members', 'mix', 'spx')
+RISK = ('top10_weight', 'all_members', 'mix', 'spx')   # baskets whose drawdown during the holding is measured
+DELAYS = (0, 5, 10)                                   # entry later by this many sessions (timing sensitivity)
+LONG = 882
 # Scion's "Bear market heroes II" (Bloomberg, adjusted closes): members, broken 20%+ and busted 40%+ on each top.
 SCION_TOPS = {'2000-03-24': (489, 0.71, 0.32), '2007-10-09': (497, 0.43, 0.22), '2011-04-29': (493, 0.49, 0.25),
               '2015-05-21': (495, 0.26, 0.12), '2018-09-20': (501, 0.28, 0.11), '2020-02-19': (505, 0.31, 0.13),
@@ -115,6 +118,30 @@ def basket_return(adj, picks, weights, start, end):
     return float(total / wsum) if wsum > 0 else None
 
 
+def basket_path(adj, picks, weights, start, end):
+    """Value of a buy-and-hold basket (1 at the close at `start`) on every close up to `end`, last price carried."""
+    parts, wsum = [], 0.
+    for t, w in zip(picks, weights):
+        series = adj[t].iloc[start:end + 1].ffill()
+        a = series.iloc[0]
+        if not np.isfinite(a) or a <= 0:
+            continue
+        parts.append(w * series / a)
+        wsum += w
+    if wsum <= 0:
+        return None
+    return sum(parts) / wsum
+
+
+def max_drawdown(path):
+    """Largest fall from a running high, as a negative fraction (0 when it never falls)."""
+    if path is None or not len(path):
+        return None
+    values = path.to_numpy(dtype=float)
+    peak = np.maximum.accumulate(values)
+    return float(np.nanmin(values / peak - 1))
+
+
 def top10(day, cols, split_close, volume, shares, candidates=30):
     """(tickers, weights, basis) of the ten largest members by cap on `day`, or by dollar volume as a stand-in."""
     dollar = (split_close.loc[:day, cols].iloc[-63:] * volume.loc[:day, cols].iloc[-63:]).mean().dropna()
@@ -139,6 +166,16 @@ def euphoria_exit(index, start, heat, cap=252):
     hits = np.nonzero((after >= pb.EUPHORIA).to_numpy())[0]
     end = start + 1 + int(hits[0]) + 1 if len(hits) else start + cap
     return min(end, len(index) - 1)
+
+
+def long_euphoria_exit(index, start, heat, minimum=LONG):
+    """Position of the close after the first close at or above 80 at least `minimum` sessions after `start`;
+    (last position, True) when there was none yet."""
+    after = heat.iloc[start + minimum:]
+    hits = np.nonzero((after >= pb.EUPHORIA).to_numpy())[0]
+    if len(hits) and start + minimum + int(hits[0]) + 1 < len(index):
+        return start + minimum + int(hits[0]) + 1, False
+    return len(index) - 1, True
 
 
 def event(day, adj, split_close, volume, members, dd, recent_high, spx, heat, shares, horizons=HORIZONS):
@@ -169,6 +206,10 @@ def event(day, adj, split_close, volume, members, dd, recent_high, spx, heat, sh
             cell[k] = basket_return(adj, names, [1.] * len(names), start, end) if names else None
         cell['spx'] = (float(spx.iloc[spx_i + h] / spx.iloc[spx_i] - 1)
                        if spx_i is not None and spx_i + h < len(spx) else None)
+        cell['mix'] = (0.5 * cell['top10_weight'] + 0.5 * cell['all_members']
+                       if None not in (cell['top10_weight'], cell['all_members']) else None)
+        if h in (252, LONG):
+            cell['drawdown'] = holding_drawdowns(adj, top, top_w, groups['all_members'], spx, start, end)
         row['returns'][str(h)] = cell
     end = euphoria_exit(index, start, heat)
     row['euphoria_exit'] = dict(exit=str(index[end].date()), sessions=int(end - start),
@@ -177,7 +218,27 @@ def event(day, adj, split_close, volume, members, dd, recent_high, spx, heat, sh
                                    for k, v in groups.items()},
                                 spx=float(spx.loc[index[end]] / spx.loc[index[start]] - 1)
                                 if index[end] in spx.index and index[start] in spx.index else None)
+    end, open_ = long_euphoria_exit(index, start, heat)
+    if end > start:
+        top_r = basket_return(adj, top, top_w, start, end)
+        all_r = basket_return(adj, groups['all_members'], [1.] * len(priced), start, end)
+        row['long_exit'] = dict(exit=str(index[end].date()), sessions=int(end - start), open=open_,
+                                top10_weight=top_r, all_members=all_r,
+                                mix=0.5 * top_r + 0.5 * all_r if None not in (top_r, all_r) else None,
+                                spx=float(spx.loc[index[end]] / spx.loc[index[start]] - 1),
+                                drawdown=holding_drawdowns(adj, top, top_w, groups['all_members'], spx, start, end))
     return row
+
+
+def holding_drawdowns(adj, top, top_w, members, spx, start, end):
+    """Worst fall from a running high while held, per basket (the mix rebalances nowhere: half each at the buy)."""
+    t = basket_path(adj, top, top_w, start, end)
+    a = basket_path(adj, members, [1.] * len(members), start, end)
+    idx = adj.index
+    s_ = spx.reindex(idx).iloc[start:end + 1].ffill()
+    return dict(top10_weight=max_drawdown(t), all_members=max_drawdown(a),
+                mix=max_drawdown(0.5 * t + 0.5 * a) if t is not None and a is not None else None,
+                spx=max_drawdown(s_ / s_.iloc[0]))
 
 
 def summary(events, horizons=HORIZONS):
@@ -192,7 +253,25 @@ def summary(events, horizons=HORIZONS):
                                worst=float(min(xs)), positive=int(sum(x > 0 for x in xs)),
                                beats_spx=int(sum(r[k] > r['spx'] for r in rows
                                                  if r.get(k) is not None and r.get('spx') is not None)))
+        dds = [r.get('drawdown') for r in rows if r.get('drawdown')]
+        if dds:
+            cell['drawdown'] = {k: dict(mean=float(statistics.fmean(d[k] for d in dds if d.get(k) is not None)),
+                                        worst=float(min(d[k] for d in dds if d.get(k) is not None)))
+                                for k in RISK if any(d.get(k) is not None for d in dds)}
         out[str(h)] = cell
+    return out
+
+
+def long_summary(events):
+    """The 42-months-then-euphoria exit: completed and still open holdings, against the S&P 500."""
+    rows = [e['long_exit'] for e in events if e.get('long_exit')]
+    out = dict(n=len(rows), open=int(sum(r['open'] for r in rows)))
+    for k in RISK:
+        xs = [r[k] for r in rows if r.get(k) is not None]
+        if xs:
+            out[k] = dict(mean=float(statistics.fmean(xs)), median=float(statistics.median(xs)), worst=float(min(xs)),
+                          beats_spx=int(sum(r[k] > r['spx'] for r in rows if r.get(k) is not None)) if k != 'spx' else None,
+                          drawdown_worst=float(min(r['drawdown'][k] for r in rows if r['drawdown'].get(k) is not None)))
     return out
 
 
@@ -207,6 +286,16 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
     entries = [d for d in pb.signals(heat[heat.index >= pd.Timestamp(start)])[0]]
     events = [e for e in (event(d, adj, split_close, volume, members, dd, recent_high, spx, heat, shares)
                           for d in entries) if e]
+    delays = {}
+    for lag in DELAYS:
+        if not lag:
+            delayed = events
+        else:
+            days = [index[index.get_loc(d) + lag] for d in entries if index.get_loc(d) + lag < len(index) - 1]
+            delayed = [e for e in (event(d, adj, split_close, volume, members, dd, recent_high, spx, heat, shares,
+                                         horizons=(252, LONG)) for d in days) if e]
+        full = summary(delayed, horizons=(252, LONG))
+        delays[str(lag)] = {h: {k: v for k, v in cells.items() if k in RISK} for h, cells in full.items()}
     checks = {}
     for date, (n, broken, busted) in SCION_TOPS.items():
         day = pd.Timestamp(date)
@@ -217,6 +306,7 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
     last = heat.dropna()
     return dict(schema='panic-history-v1', start=str(index[0].date()), end=str(index[-1].date()),
                 signals=len(events), events=events, summary=summary(events), breadth_checks=checks,
+                long_exit=long_summary(events), delays=delays,
                 last_heat=dict(date=str(last.index[-1].date()), value=round(float(last.iloc[-1]), 1)) if len(last) else None,
                 breadth_now=breadth_on(index[-1], adj, dd, members, recent_high))
 
@@ -238,9 +328,10 @@ def report(result):
              'their last price. Survivorship: members without Yahoo prices are left out (counted per signal), so '
              'early busted baskets look better than they were.', '']
     names = dict(top10_weight='Top 10 by weight', leaders='Leaders (<20% off high)', broken='Broken (20-40%)',
-                 busted='Busted (>40%)', all_members='All members, equal', spx='S&P 500')
+                 busted='Busted (>40%)', all_members='All members, equal', mix='Half top 10, half all members',
+                 spx='S&P 500')
     for h, cells in result['summary'].items():
-        months = {63: 3, 126: 6, 252: 12, 378: 18}[int(h)]
+        months = {63: 3, 126: 6, 252: 12, 378: 18, 882: 42}[int(h)]
         lines += [f'## {months} months ({h} sessions)', '',
                   '| Basket | Signals | Mean | Median | Worst | Positive | Beats S&P |', '|---|---:|---:|---:|---:|---:|---:|']
         for k in BASKETS:
@@ -248,6 +339,37 @@ def report(result):
             if c:
                 lines.append(f"| {names[k]} | {c['n']} | {_pct(c['mean'])} | {_pct(c['median'])} | {_pct(c['worst'])} | "
                              f"{c['positive']}/{c['n']} | {'—' if k == 'spx' else str(c['beats_spx']) + '/' + str(c['n'])} |")
+        dd = cells.get('drawdown')
+        if dd:
+            lines.append('Worst fall from a high while held (mean / worst signal): ' + '; '.join(
+                f"{names[k]} {_pct(v['mean'])} / {_pct(v['worst'])}" for k, v in dd.items()))
+        lines.append('')
+    lx = result.get('long_exit') or {}
+    if lx.get('n'):
+        lines += ['## Hold at least 42 months, then sell at the close after the first euphoria close', '',
+                  f"{lx['n']} signals, {lx['open']} still open (no euphoria after 42 months yet, marked at the last close).",
+                  '', '| Basket | Mean | Median | Worst | Beats S&P | Worst fall while held |', '|---|---:|---:|---:|---:|---:|']
+        for k in RISK:
+            c = lx.get(k)
+            if c:
+                lines.append(f"| {names[k]} | {_pct(c['mean'])} | {_pct(c['median'])} | {_pct(c['worst'])} | "
+                             f"{'—' if c['beats_spx'] is None else str(c['beats_spx']) + '/' + str(lx['n'])} | "
+                             f"{_pct(c['drawdown_worst'])} |")
+        lines += ['', 'Per signal: ' + '; '.join(
+            f"{e['date']} → {e['long_exit']['exit']}{' (open)' if e['long_exit']['open'] else ''}: top 10 "
+            f"{_pct(e['long_exit']['top10_weight'])}, all {_pct(e['long_exit']['all_members'])}, S&P "
+            f"{_pct(e['long_exit']['spx'])}" for e in result['events'] if e.get('long_exit')), '']
+    if result.get('delays'):
+        lines += ['## Timing sensitivity: buying 5 or 10 sessions later', '',
+                  '| Entry | Months | Top 10 mean / worst | All members mean / worst | Mix mean / worst | S&P mean / worst |',
+                  '|---|---:|---|---|---|---|']
+        for lag, by_h in result['delays'].items():
+            for h, cells in by_h.items():
+                months = {252: 12, 882: 42}[int(h)]
+                cell = lambda k: (f"{_pct(cells[k]['mean'])} / {_pct(cells[k]['worst'])} (n={cells[k]['n']})"
+                                  if cells.get(k) else '—')
+                lines.append(f"| +{lag} sessions | {months} | {cell('top10_weight')} | {cell('all_members')} | "
+                             f"{cell('mix')} | {cell('spx')} |")
         lines.append('')
     lines += ['## Every signal', '',
               '| Signal | Heat | Priced / members | Broken | Busted | Basis | Top 10 (12 m) | Leaders (12 m) | Busted (12 m) | '
@@ -339,6 +461,43 @@ def index_series(sleep=None, retries=RETRIES, pause=PAUSE):
     raise RuntimeError('Yahoo returned no S&P 500 / VIX history (rate limited?); keeping the previous results')
 
 
+class CachedShares:
+    """Shares outstanding in today's split terms, with each ticker's share history and splits fetched once.
+
+    The timing-sensitivity runs look up the same companies on many nearby days; one request per ticker instead of
+    one per (ticker, day) keeps Yahoo from throttling the run."""
+
+    def __init__(self, fetch=None):
+        self.fetch = fetch or self._yahoo
+        self.cache = {}
+
+    @staticmethod
+    def _yahoo(ticker):
+        import yfinance as yf
+        t = yf.Ticker(ticker)
+        s = t.get_shares_full(start='1998-01-01')
+        splits = []
+        for when, ratio in (t.splits.items() if t.splits is not None else ()):
+            when = pd.Timestamp(when)
+            splits.append((when.tz_localize(None) if when.tz is not None else when, float(ratio)))
+        if s is not None and len(s):
+            s.index = s.index.tz_localize(None) if getattr(s.index, 'tz', None) is not None else s.index
+            s = s.sort_index()
+        return s, splits
+
+    def __call__(self, ticker, day):
+        if ticker not in self.cache:
+            try:
+                self.cache[ticker] = self.fetch(ticker)
+            except Exception:
+                self.cache[ticker] = (None, [])
+        s, splits = self.cache[ticker]
+        if s is None or not len(s):
+            return None
+        s = s[(s.index <= day + pd.Timedelta(days=1)) & (s.index >= day - pd.Timedelta(days=550))]
+        return float(s.iloc[-1]) * pb.split_factor(splits, day) if len(s) else None
+
+
 def main():
     rows = pb.fetch_members()
     tickers = sorted({pb.yahoo(t) for d, members in rows if d >= pd.Timestamp('1998-01-01') for t in members})
@@ -350,7 +509,7 @@ def main():
     if priced < 0.5 * len(tickers):
         raise RuntimeError(f'Only {priced} of {len(tickers)} tickers priced (rate limited?); keeping the previous '
                            'results')
-    result = study(spx, vix, data['adj'], data['split_close'], data['volume'], rows, pb.yahoo_shares)
+    result = study(spx, vix, data['adj'], data['split_close'], data['volume'], rows, CachedShares())
     result['tickers_requested'] = len(tickers)
     result['tickers_priced'] = int(data['adj'].notna().any().sum())
     OUT_JSON.parent.mkdir(exist_ok=True)

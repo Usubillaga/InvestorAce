@@ -339,14 +339,14 @@ def history_html(root):
         return ''
     names = dict(top10_weight='Top 10 by weight (this account)', leaders='Leaders (&lt;20% off their high)',
                  broken='Broken (20–40% off)', busted='Busted (&gt;40% off)', all_members='All members, equal weight',
-                 spx='S&amp;P 500')
+                 mix='Half top 10, half all members', spx='S&amp;P 500')
     blocks = []
-    for h, label in (('63', '3 months'), ('252', '12 months'), ('378', '18 months')):
+    for h, label in (('63', '3 months'), ('252', '12 months'), ('378', '18 months'), ('882', '42 months')):
         cells = (result.get('summary') or {}).get(h) or {}
         rows = ''.join(f'<tr><td>{names[k]}</td><td>{c["n"]}</td><td class="mono">{_pct(c["mean"], 1)}</td>'
                        f'<td class="mono">{_pct(c["median"], 1)}</td><td class="mono">{_pct(c["worst"], 1)}</td>'
                        f'<td>{"—" if k == "spx" else str(c["beats_spx"]) + "/" + str(c["n"])}</td></tr>'
-                       for k, c in cells.items())
+                       for k, c in cells.items() if k in names)
         if rows:
             blocks.append(f'<h3>{label} after the buy</h3><div class="tw"><table><thead><tr><th>Basket</th>'
                           '<th>Signals</th><th>Mean</th><th>Median</th><th>Worst</th><th>Beats S&amp;P</th></tr></thead>'

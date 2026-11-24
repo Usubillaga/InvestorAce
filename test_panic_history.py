@@ -106,6 +106,44 @@ class Download(unittest.TestCase):
         self.assertTrue(out['adj']['DEAD'].isna().all())
 
 
+class Holding(unittest.TestCase):
+    def test_drawdown_long_exit_mix_and_shares_cache(self):
+        path = pd.Series([1., 1.2, 0.9, 1.1])
+        self.assertAlmostEqual(ph.max_drawdown(path), 0.9 / 1.2 - 1)
+        idx = pd.bdate_range('2001-01-01', periods=1200)
+        heat = pd.Series(50., index=idx)
+        heat.iloc[10 + ph.LONG + 30] = 85.
+        self.assertEqual(ph.long_euphoria_exit(idx, 10, heat), (10 + ph.LONG + 31, False))
+        heat.iloc[40] = 90.                                           # euphoria before 42 months does not count
+        self.assertEqual(ph.long_euphoria_exit(idx, 10, heat)[0], 10 + ph.LONG + 31)
+        self.assertEqual(ph.long_euphoria_exit(idx, 10, pd.Series(50., index=idx)), (len(idx) - 1, True))
+        calls = []
+
+        def fetch(t):
+            calls.append(t)
+            return pd.Series([1e9, 2e9], index=pd.to_datetime(['2010-01-01', '2012-01-01'])), [(pd.Timestamp('2015-01-01'), 2.0)]
+        shares = ph.CachedShares(fetch)
+        self.assertEqual(shares('A', pd.Timestamp('2011-06-01')), 2e9)          # 1e9 x the later 2-for-1 split
+        self.assertEqual(shares('A', pd.Timestamp('2012-06-01')), 4e9)
+        self.assertIsNone(shares('A', pd.Timestamp('2016-01-01')))            # last report too old (>550 days)
+        self.assertEqual(calls, ['A'])                                       # fetched once
+
+    def test_event_mix_and_drawdowns(self):
+        idx, adj = panel(n=1700)
+        members = pd.DataFrame(True, index=idx, columns=adj.columns)
+        dd, fresh = ph.drawdowns(adj), ph.fresh_high(adj)
+        spx = pd.Series(np.linspace(100, 120, len(idx)), index=idx)
+        heat = pd.Series(50., index=idx)
+        volume = pd.DataFrame(1e6, index=idx, columns=adj.columns)
+        e = ph.event(idx[500], adj, adj, volume, members, dd, fresh, spx, heat, lambda t, d: 1e9, horizons=(252, ph.LONG))
+        r = e['returns']['252']
+        self.assertAlmostEqual(r['mix'], 0.5 * r['top10_weight'] + 0.5 * r['all_members'])
+        self.assertLessEqual(r['drawdown']['all_members'], 0)
+        self.assertEqual(r['drawdown']['spx'], 0.0)                         # a rising index never falls
+        self.assertTrue(e['long_exit']['open'])                             # no euphoria at all
+        json.dumps(e, allow_nan=False)
+
+
 class Study(unittest.TestCase):
     def test_end_to_end_with_a_panic_and_the_report(self):
         idx, adj = panel(n=1300, start='1999-06-01')
@@ -120,6 +158,8 @@ class Study(unittest.TestCase):
         md = ph.report(result)
         self.assertIn('Panic buys since 2000', md)
         self.assertIn('Breadth check against Scion', md)
+        self.assertEqual(sorted(result['delays']), ['0', '10', '5'])
+        self.assertIn('Timing sensitivity', md)
 
 
 if __name__ == '__main__':
