@@ -1,0 +1,14 @@
+.ia-paper-tabs{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin:10px 0 16px;padding:8px 0;border-bottom:1px solid #414354}
+.ia-paper-tabs [role=tab]{padding:10px 15px;border:1px solid #4d5061;background:#171c28;color:#e3e5ef;border-radius:8px;cursor:pointer;font:600 .94rem/1.3 system-ui}
+.ia-paper-tabs [aria-selected=true]{border-color:#ff94c6;color:#ffbddb;background:#342332}.ia-paper-tabs a{margin-left:auto}
+.ia-pp,.ia-pp *{box-sizing:border-box}.ia-pp{max-width:1120px;margin:12px auto 36px;color:#e8eaf2;background:#111621;border:1px solid #383e4e;border-radius:14px;padding:clamp(14px,3vw,30px);font:1rem/1.5 system-ui,sans-serif}
+.ia-pp h2{color:#ffa3cb;margin:.1em 0;font-size:clamp(1.7rem,4vw,2.4rem)}.ia-pp h3{margin:1em 0 .25em;font-size:1.15rem;color:#edeff7}.ia-pp h4{margin:1em 0 .3em}.ia-pp p{margin:6px 0 12px;color:#c2c8d6}.ia-pp a{color:#ffb4d5}.ia-pp a:focus-visible,.ia-pp summary:focus-visible,.ia-paper-tabs button:focus-visible{outline:2px solid #9ed5ff;outline-offset:3px}
+.ia-pp .pp-signal{border-left:3px solid #f595bf;padding:1px 14px;margin:17px 0}.ia-pp .pp-signal h3{margin:0}.ia-pp .pp-signal strong{font-size:1.3rem}
+.ia-pp .pp-books{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.ia-pp article,.ia-pp details{border:1px solid #3c4251;border-radius:10px;padding:14px;background:#1a202b;min-width:0}.ia-pp article h3{margin:0}.ia-pp article .pp-state{color:#ffb4d5;font-size:.86rem}.ia-pp .pp-value{display:block;font-size:1.5rem;font-variant-numeric:tabular-nums}.ia-pp dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 12px;max-width:540px}.ia-pp dt{color:#b4bdce}.ia-pp dd{margin:0;text-align:right}.ia-pp summary{color:#ffb4d5;cursor:pointer;font-weight:650}.ia-pp details{margin:8px 0}.ia-pp .pp-scroll{overflow:auto}.ia-pp table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.ia-pp th,.ia-pp td{text-align:right;white-space:nowrap;padding:7px;border-bottom:1px solid #3d4250}.ia-pp th:first-child,.ia-pp td:first-child{text-align:left}.ia-pp .pp-studies{margin-top:16px}
+.ia-pp-lang{display:flex;flex-wrap:wrap;gap:12px}.ia-pp-lang [aria-current]{font-weight:bold}.ia-paper-shell [hidden]{display:none!important}
+@media(max-width:780px){.ia-pp .pp-books{grid-template-columns:1fr}.ia-pp article dl{margin:6px 0}.ia-paper-tabs{position:static}.ia-pp{padding:12px}.ia-pp article{padding:12px}}
+/* CSS provides the tab and a usable deep link before the enhancement loads. */
+.ia-paper-shell:has(>.ia-pp:not([hidden]):target)>#ia-primary:not([hidden]),
+.ia-paper-shell:has(>.ia-pp:not([hidden]) :target)>#ia-primary:not([hidden]){display:none}
+.ia-paper-shell>.ia-pp:not([hidden]):not(:target):not(:has(:target)){display:none}
+.ia-paper-shell:has(.ia-paper-tabs [aria-controls="panic-paper"][aria-selected=true])>.ia-pp:not([hidden]){display:block}

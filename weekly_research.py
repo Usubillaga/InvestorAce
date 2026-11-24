@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 from collections import Counter
@@ -20,6 +21,7 @@ from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
 import i18n
+from codex_heat.native import Panel as PanicPanel
 from integrity import atomic_text, atomic_bytes
 
 TOPICS = {
@@ -670,7 +672,7 @@ def market_redirects(config, market_issues, research_issues):
     return pages
 
 
-def build_site(root, output, require_committed=False):
+def build_site(root, output, require_committed=False, *, refresh_paper=False):
     root, output = Path(root).resolve(), Path(output).resolve()
     if output == root or output in (root / 'history', root / 'weekly-research',
                                    root / 'market-briefings', root / 'daily-briefings',
@@ -734,15 +736,16 @@ def build_site(root, output, require_committed=False):
         from index_leaders import site_pages as leaders_site_pages
         leaders_pages = list(leaders_site_pages(root))
         report_pages += leaders_pages
-    heat_dir = Path(__file__).parent / 'codex_heat'
-    heat_pages = [(Path(name), (heat_dir / name).read_bytes())
-                  for name in ('heat-leaders.html', 'heat-leaders.en.html', 'heat-study.json', 'heat-account.json')]
+    panic = PanicPanel.build(root, refresh=refresh_paper)
+    report_pages = [(name, panic.embed(page, 'en', leader_page=True) if str(name) == 'index-leaders.html' else page)
+                    for name, page in report_pages]
+    heat_pages = list(panic.assets())
     scoreboard = add_research_link(report.read_text(encoding='utf-8'), include_daily='daily' in published,
                                    include_claude='claude' in published, include_scanner=committed_build is not None,
                                    include_comparison=committed_build is not None,
                                    include_enagas=bool(enagas_review_pages),
                                    include_paper=bool(paper_pages), include_war=bool(war_pages),
-                                   include_crash=bool(crash_pages), include_heat_leaders=True, include_market='market' in published,
+                                   include_crash=bool(crash_pages), include_market='market' in published,
                                    include_research='research' in published, include_trade=bool(trade_pages),
                                    include_backtest=bool(backtest_pages), include_codex=bool(codex),
                                    include_earnings=bool(earnings_index(root / 'earnings')),
@@ -751,16 +754,15 @@ def build_site(root, output, require_committed=False):
                                    include_index_leaders=bool(leaders_pages))
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
-    scoreboards = [(Path(i18n.homepage(language)), i18n.localize(scoreboard, language)
-                    .replace('href="heat-leaders.html" style="color:#ff95c8;font-weight:700">Pánico y euforia',
-                             'href="heat-leaders.en.html" style="color:#ff95c8;font-weight:700">Panic and Euphoria' if language == 'en'
-                             else 'href="heat-leaders.html" style="color:#ff95c8;font-weight:700">Pánico y euforia')
-                    .replace('href="correction_study/index.html">Atlas de correcciones',
-                             'href="correction_study/en.html">US corrections atlas' if language == 'en'
-                             else 'href="correction_study/index.html">Atlas de correcciones')
-                    .replace('href="swing-experiments.html"', f'href="swing-experiments.{language}.html"'
-                             if language != 'en' else 'href="swing-experiments.html"'))
-                   for language in ('en', 'de', 'es')]
+    scoreboards = []
+    for language in ('en', 'de', 'es'):
+        localized = (i18n.localize(scoreboard, language)
+                     .replace('href="correction_study/index.html">Atlas de correcciones',
+                              'href="correction_study/en.html">US corrections atlas' if language == 'en'
+                              else 'href="correction_study/index.html">Atlas de correcciones')
+                     .replace('href="swing-experiments.html"', f'href="swing-experiments.{language}.html"'
+                              if language != 'en' else 'href="swing-experiments.html"'))
+        scoreboards.append((Path(i18n.homepage(language)), panic.embed(localized, language)))
     # Validate all content before creating an uploadable site.
     pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages + trade_pages + backtest_pages
     pages += heat_pages
@@ -815,7 +817,7 @@ def main():
     parser.add_argument('--output', type=Path, default=Path('public'))
     parser.add_argument('--require-committed-report', action='store_true')
     args = parser.parse_args()
-    build_site(args.root, args.output, args.require_committed_report)
+    build_site(args.root, args.output, args.require_committed_report, refresh_paper=os.getenv('GITHUB_ACTIONS') == 'true')
 
 
 if __name__ == '__main__':

@@ -2,105 +2,189 @@
   "schema": 1,
   "account": "Codex · Pánico y euforia",
   "initial": 10000,
-  "cash": 10000,
-  "benchmark_cash": 10000,
-  "as_of": "2026-11-20",
+  "cash": 0.0,
+  "benchmark_cash": 0.0,
+  "as_of": "2026-11-24",
   "monitor": {
-    "day": "2026-11-20",
-    "heat": 15.4,
-    "as_of": "2026-11-21T04:18:27.761940+00:00",
+    "day": "2026-11-24",
+    "intraday": false,
+    "heat": 29.6,
+    "as_of": "2026-11-24T21:56:45.111164+00:00",
     "components": {
       "sp500_ma200": {
-        "date": "2026-11-20",
-        "score": 20.2,
-        "value": -5.96
+        "date": "2026-11-24",
+        "score": 39.8,
+        "value": -2.04
       },
       "sp500_ma50": {
-        "date": "2026-11-20",
+        "date": "2026-11-24",
         "score": 0.0,
-        "value": -9.37
+        "value": -5.37
       },
       "universe_above_ma200": {
-        "count": 122,
-        "score": 27.9,
-        "value": 27.9
+        "count": 126,
+        "score": 33.3,
+        "value": 33.3
       },
       "vix": {
-        "date": "2026-11-20",
-        "score": 13.7,
-        "value": 35.89
+        "date": "2026-11-24",
+        "score": 45.5,
+        "value": 26.36
       }
     },
-    "url": "https://github.com/Usubillaga/InvestorAce/blob/5d5741a84fa762cac4b6d265e5ea8b6132660596/history/_builds/20261121T041841559562-68db66574d824434b91ead2c6bb29d4e/observation.json"
+    "url": "https://github.com/Usubillaga/InvestorAce/blob/main/history/_builds/20261124T215658367051-72d377b9d5854254ad55d26dc966acbf/observation.json"
   },
   "leaders": [
     {
       "fund": "SPY",
       "symbol": "AAPL",
       "name": "APPLE INC",
-      "weight_pct": 8.224947,
-      "as_of": "2026-11-19",
+      "weight_pct": 8.377218,
+      "as_of": "2026-11-20",
       "source": "spdr_cdn",
-      "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/sp500/sp500-2026-11.parquet"
+      "url": "https://github.com/kovagent/indexkit/blob/acf2ed32397cfa939bf7a71402070fbbb04c760a/data/sp500/sp500-2026-11.parquet"
     },
     {
       "fund": "QQQ",
       "symbol": "AAPL",
       "name": "Apple Inc",
-      "weight_pct": 8.859377,
-      "as_of": "2026-11-19",
+      "weight_pct": 9.205365,
+      "as_of": "2026-11-23",
       "source": "invesco_cdn",
-      "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/ndx/ndx-2026-11.parquet"
+      "url": "https://github.com/kovagent/indexkit/blob/acf2ed32397cfa939bf7a71402070fbbb04c760a/data/ndx/ndx-2026-11.parquet"
     },
     {
       "fund": "DIA",
       "symbol": "GS",
       "name": "GOLDMAN SACHS GROUP INC",
-      "weight_pct": 10.245464,
-      "as_of": "2026-11-19",
+      "weight_pct": 9.754781,
+      "as_of": "2026-11-20",
       "source": "spdr_cdn",
-      "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/dji/dji-2026-11.parquet"
+      "url": "https://github.com/kovagent/indexkit/blob/acf2ed32397cfa939bf7a71402070fbbb04c760a/data/dji/dji-2026-11.parquet"
     }
   ],
-  "pending": {
-    "side": "BUY",
-    "signal_day": "2026-11-20",
-    "heat": 15.4,
-    "target": "2026-11-23",
-    "submitted": "2026-11-23T17:57:19.309737+00:00",
-    "leaders": [
+  "pending": null,
+  "position": {
+    "order": {
+      "side": "BUY",
+      "signal_day": "2026-11-20",
+      "heat": 15.4,
+      "target": "2026-11-23",
+      "submitted": "2026-11-23T17:57:19.309737+00:00",
+      "leaders": [
+        {
+          "fund": "SPY",
+          "symbol": "AAPL",
+          "name": "APPLE INC",
+          "weight_pct": 8.224947,
+          "as_of": "2026-11-19",
+          "source": "spdr_cdn",
+          "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/sp500/sp500-2026-11.parquet"
+        },
+        {
+          "fund": "QQQ",
+          "symbol": "AAPL",
+          "name": "Apple Inc",
+          "weight_pct": 8.859377,
+          "as_of": "2026-11-19",
+          "source": "invesco_cdn",
+          "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/ndx/ndx-2026-11.parquet"
+        },
+        {
+          "fund": "DIA",
+          "symbol": "GS",
+          "name": "GOLDMAN SACHS GROUP INC",
+          "weight_pct": 10.245464,
+          "as_of": "2026-11-19",
+          "source": "spdr_cdn",
+          "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/dji/dji-2026-11.parquet"
+        }
+      ]
+    },
+    "entry": "2026-11-23",
+    "legs": [
       {
+        "side": "leader",
         "fund": "SPY",
         "symbol": "AAPL",
-        "name": "APPLE INC",
-        "weight_pct": 8.224947,
-        "as_of": "2026-11-19",
-        "source": "spdr_cdn",
-        "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/sp500/sp500-2026-11.parquet"
+        "entry_price": 349.0799865722656,
+        "entry_units": 9.53937051133111,
+        "value": 3377.6049868154423
       },
       {
+        "side": "etf",
+        "fund": "SPY",
+        "symbol": "SPY",
+        "entry_price": 722.2899780273438,
+        "entry_units": 4.610341319005905,
+        "value": 3313.821268343658
+      },
+      {
+        "side": "leader",
         "fund": "QQQ",
         "symbol": "AAPL",
-        "name": "Apple Inc",
-        "weight_pct": 8.859377,
-        "as_of": "2026-11-19",
-        "source": "invesco_cdn",
-        "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/ndx/ndx-2026-11.parquet"
+        "entry_price": 349.0799865722656,
+        "entry_units": 9.53937051133111,
+        "value": 3377.6049868154423
       },
       {
+        "side": "etf",
+        "fund": "QQQ",
+        "symbol": "QQQ",
+        "entry_price": 651.030029296875,
+        "entry_units": 5.114976545090859,
+        "value": 3263.8664085451205
+      },
+      {
+        "side": "leader",
         "fund": "DIA",
         "symbol": "GS",
-        "name": "GOLDMAN SACHS GROUP INC",
-        "weight_pct": 10.245464,
-        "as_of": "2026-11-19",
-        "source": "spdr_cdn",
-        "url": "https://github.com/kovagent/indexkit/blob/f5671a5e273e27392d427f9b68978a1f2816edd0/data/dji/dji-2026-11.parquet"
+        "entry_price": 823.6199951171875,
+        "entry_units": 4.043130751736456,
+        "value": 3258.8443274820156
+      },
+      {
+        "side": "etf",
+        "fund": "DIA",
+        "symbol": "DIA",
+        "entry_price": 495.79998779296875,
+        "entry_units": 6.716424792236664,
+        "value": 3356.466060082265
       }
     ]
   },
-  "position": null,
   "history": [],
   "skipped": [],
-  "equity": 10000,
-  "benchmark": 10000
+  "equity": 10014.054301112901,
+  "benchmark": 9934.153736971044,
+  "warnings": [],
+  "intraday_monitor": {
+    "day": "2026-11-24",
+    "intraday": true,
+    "heat": 27.7,
+    "as_of": "2026-11-24T15:36:07.481285+00:00",
+    "components": {
+      "sp500_ma200": {
+        "date": "2026-11-24",
+        "score": 38.3,
+        "value": -2.34
+      },
+      "sp500_ma50": {
+        "date": "2026-11-24",
+        "score": 0.0,
+        "value": -5.66
+      },
+      "universe_above_ma200": {
+        "count": 126,
+        "score": 31.7,
+        "value": 31.7
+      },
+      "vix": {
+        "date": "2026-11-24",
+        "score": 40.9,
+        "value": 27.74
+      }
+    },
+    "url": "https://github.com/Usubillaga/InvestorAce/blob/main/history/_builds/20261124T153618844178-20f3eb60e2cd44f7bffe9173b52a8976/observation.json"
+  }
 }

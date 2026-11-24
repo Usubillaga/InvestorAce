@@ -15,15 +15,8 @@ h2{font-size:1.35rem;margin:0 0 12px}h3{font-size:1.04rem}p{margin:7px 0;color:v
 summary{cursor:pointer;color:var(--pink);padding:8px 0}canvas{width:100%;height:230px;display:block;margin:12px 0}.legend{display:flex;gap:20px;font-size:.85rem}.legend b:first-child{color:var(--pink)}.legend b:last-child{color:var(--blue)}.status{color:var(--pink);font-weight:650}footer{margin:0 0 38px}
 @media(max-width:740px){main,nav{padding-left:14px;padding-right:14px}.layout{grid-template-columns:1fr;gap:0}nav{gap:12px}.card{padding:16px}header{padding-top:25px}canvas{height:170px}}
 </style></head><body>
-<nav><b>InvestorAce</b><a href="https://usubillaga.github.io/InvestorAce/">Home</a><a href="https://usubillaga.github.io/InvestorAce-Tradingdesk/dist/">TradingDesk</a><a href="#historia">Backtest</a><a lang="es" hreflang="es" href="heat-leaders.html">Español</a></nav>
-<main><header><small>CODEX PAPER ACCOUNT · USD</small><h1>Panic and Euphoria</h1><p>The paper account buys the largest holding by weight in each index at the session close if the monitor recorded a reading below 20 during trading and the order was registered before the close. It sells at the following session’s close after a closing reading of 80 or higher.</p></header>
-<noscript>Enable JavaScript to view the monitor and trading journal. <a href="https://github.com/Usubillaga/InvestorAce-Tradingdesk/blob/main/dist/heat-account.json">Open the account ledger</a>.</noscript>
-<section class="layout"><div class="card"><h2>Market thermometer</h2><div class="value"><span id="heat">—</span><small> / 100 · <span id="band">Pending</span></small></div>
-<div class="bar"><i class="marker" id="marker" hidden></i></div><div class="scale meta"><span>0 · Panic</span><span>50 · Neutral</span><span>100 · Euphoria</span></div><p class="meta" id="monitorDate"></p><details><summary>Monitor components</summary><div id="parts"></div></details></div>
-<div class="card"><h2>Paper account</h2><div class="value" id="navValue">—</div><dl class="metrics" id="metrics"></dl><p id="order" class="status" role="status">Loading the journal…</p><p id="orderDetails"></p><p class="meta" id="accountDate"></p><p class="meta" id="warnings"></p></div></section>
-<section class="card"><h2>Leaders by index weight</h2><div class="scroll" id="leaders"></div><p class="meta">Each index receives one third of the capital at entry. Allocations add up when several indices share a leader. Weights come from published holdings of SPY, QQQ and DIA.</p></section>
-<section class="card"><h2>Comparison with Claude</h2><p>Claude divides its portfolio among the ten largest S&amp;P 500 holdings and includes a mandatory exit after 252 sessions. Codex selects the largest holding in each of three indices and holds the basket until euphoria.</p><p class="meta">In Claude’s November 23 study, selling at euphoria returned 13.5% per episode versus 12.0% for the S&amp;P 500 across five signals. <a href="https://github.com/Usubillaga/InvestorAce/blob/a7e02de66d4f75ad2bc3ed7d3a4f7c7aba849ad5/backtests/latest.md">Trade results</a>.</p><p id="claude">Checking Claude’s journal…</p><a id="claudeLink" href="https://github.com/Usubillaga/InvestorAce/pull/219">View Claude’s strategy ↗</a></section>
-<section class="card"><h2>Paper account purchases</h2><div class="scroll" id="fills"></div><h2>Trade journal</h2><div class="scroll" id="journal"></div></section>
+<nav><b>InvestorAce</b><a href="index.html#panic-paper">Paper · InvestorAce</a><a href="heat-archive.html#historia">Español</a><a href="heat-archive.en.html#historia">English</a></nav>
+<main><header><h1>Panic and euphoria · Index-leader backtest</h1></header>
 <section class="card" id="historia"><h2>Intraday signal backtest</h2><p>The archive contains 12 readings across 9 sessions from November 2 to 23, 2026. There was one entry and no completed trades. On Friday, November 20, the monitor reached 19.2 at 2:28 p.m. New York time.</p><p>The simulated account started with $10,000 and paid 0.1% to buy at the close. It allocated $6,666.67 to AAPL at $342.56 and $3,333.33 to GS at $790.69. At 11:49 a.m. New York time on Monday, November 23, the leaders were worth $10,237.98 (+2.38%) and the three ETFs $10,469.46 (+4.69%). Both positions were open. Sessions without intraday readings were excluded.</p><h2>Historical comparison using a closing signal and entry at the next close</h2><p id="studyCaption">Loading results…</p><div class="legend"><b>Leaders by index weight</b><b>SPY + QQQ + DIA</b></div>
 <canvas id="chart" role="img" aria-label="Monthly portfolio and ETF benchmark values in US dollars. The table shows results by period."></canvas>
 <div class="scroll" id="study"></div><p id="risk"></p><details><summary>Historical trades and data limitations</summary><div class="scroll" id="episodes"></div><p>The simulation reconstructs market breadth using the November 2026 InvestorAce universe and omits the optional CNN indicator. The ETF holdings reports were public before each signal, but some weights were up to 493 days old. The paper account requires daily holdings dated within the previous seven days.</p><p>The 63-session holding period starts at entry. Each portfolio starts the period in cash, reinvests dividends and pays 0.1% per side. The 20 starting dates overlap.</p></details></section>
@@ -39,44 +32,6 @@ const raw='https://raw.githubusercontent.com/Usubillaga/InvestorAce-Tradingdesk/
 function link(text,url){const a=document.createElement('a');a.textContent=text;if(url && /^https:\/\//.test(url))a.href=url;return a}
 function table(id,headers,rows){const t=document.createElement('table');const h=t.createTHead().insertRow();for(const x of headers){const th=document.createElement('th');th.textContent=x;h.append(th)}const b=t.createTBody();for(const row of rows){const r=b.insertRow();for(const x of row){const c=r.insertCell();if(x instanceof Node)c.append(x);else c.textContent=x}}el(id).replaceChildren(t)}
 async function fetchJSON(url){const r=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(8500)});if(!r.ok)throw Error(r.status);return r.json()}
-async function account(){
-  let local=null,live=null;
-  [local,live]=await Promise.all([fetchJSON('heat-account.json').catch(()=>null),fetchJSON(raw+'heat-account.json').catch(()=>null)]);
-  const s=[live,local].filter(x=>x?.schema===1).sort((a,b)=>b.as_of.localeCompare(a.as_of))[0];
-  if(!s)throw Error('Journal unavailable');
-  const m=s.intraday_monitor?.as_of>s.monitor.as_of?s.intraday_monitor:s.monitor,score=m.heat;el('heat').textContent=fmt(score,1);el('band').textContent=score<20?'Panic':score<40?'Fear':score<60?'Neutral':score<80?'Greed':'Euphoria';
-  el('marker').hidden=false;el('marker').style.left=Math.min(score,99.5)+'%';
-  el('monitorDate').replaceChildren(link((m.intraday?'Intraday · '+new Date(m.as_of).toLocaleString('en-US',{timeZone:'America/New_York'})+' New York time':'Close on '+m.day)+' · archived reading',m.url));
-  table('parts',['Component','Score / 100'],Object.entries(m.components).map(([k,v])=>[labels[k]||k,fmt(v.score,1)]));
-  el('navValue').textContent=usd(s.equity);
-  for(const [key,val] of [['Cash',usd(s.cash)],['ETF benchmark',usd(s.benchmark)],['Since inception',pct(s.equity/s.initial-1)]]){const wrap=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=key;dd.textContent=val;wrap.append(dt,dd);el('metrics').append(wrap)}
-  const o=s.pending;el('order').textContent=o?(o.side==='BUY'?'Buy order':'Sell order')+' registered for the close on '+o.target:s.position?'Basket open since '+s.position.entry:'Account in cash';
-  if(o?.leaders || s.position){const picks=o?.leaders||s.position.order.leaders;el('orderDetails').textContent='Selected basket · '+picks.map(x=>x.fund+' → '+x.symbol).join(' / ')}
-  const buys=[];
-  if(o?.side==='BUY'){
-    for(const x of o.leaders)buys.push([o.target,x.fund,x.symbol,usd((o.budget??s.cash)/o.leaders.length),'Pending','Pending']);
-  }
-  for(const trade of [s.position,...s.history.slice().reverse()].filter(Boolean)){
-    for(const leg of trade.legs.filter(x=>x.side==='leader')){
-      buys.push([trade.entry,leg.fund,leg.symbol,usd(leg.entry_units*leg.entry_price*1.001),usd(leg.entry_price),fmt(leg.entry_units,6)]);
-    }
-  }
-  if(buys.length)table('fills',['Session close','Index (ETF)','Stock','Allocation incl. costs','Entry price','Shares'],buys);
-  else el('fills').textContent='No purchases recorded.';
-  el('accountDate').textContent='Latest valuation: '+s.as_of+' · Starting capital: '+usd(s.initial)+'.';
-  el('warnings').textContent=[...(!live && location.hostname!=='localhost'?['Showing the journal saved with this release.']:[]),...(s.warnings||[]).map(w=>w.replace(/^Pesos pendientes:/,'Holdings pending:').replace(/^Monitor intradía:/,'Intraday monitor:')),...(s.skipped?.length?['Sessions without a new signal check: '+s.skipped.join(', ')]:[])].join(' ');
-  table('leaders',['Index','Leader','Company','Weight','Holdings date'],s.leaders.map(x=>[funds[x.fund],x.symbol,x.name,fmt(x.weight_pct,2)+'%',link(x.as_of,x.url)]));
-  const rows=s.history.map(t=>[t.entry,t.buy.leaders.map(x=>x.symbol).join(' / '),t.exit,usd(t.equity),usd(t.benchmark)]);
-  if(s.position)rows.push([s.position.entry,s.position.order.leaders.map(x=>x.symbol).join(' / '),'Open',usd(s.equity),usd(s.benchmark)]);
-  if(rows.length)table('journal',['Entry','Basket','Exit','Account','ETF'],rows.reverse());else el('journal').textContent='No confirmed fills yet.';
-  return s
-}
-async function compare(s){
-  try{const c=await fetchJSON('https://raw.githubusercontent.com/Usubillaga/InvestorAce/main/paper_trades/index-leaders.json');const m=c.marks?.at(-1);if(!m||!Number.isFinite(m.equity))throw Error();
-    el('claude').textContent='Claude: '+usd(m.equity)+' on '+m.date+'. Codex: '+usd(s.equity)+' on '+s.as_of+'. '+(s.as_of===m.date?'Difference in account value: '+usd(s.equity-m.equity)+'.':'The valuation dates differ.');
-    el('claudeLink').href='https://usubillaga.github.io/InvestorAce/index-leaders.html';
-  }catch{el('claude').textContent='Awaiting a published valuation from Claude.'}
-}
 function plot(points){const c=el('chart');function draw(){const rect=c.getBoundingClientRect();const w=rect.width,h=rect.height,r=window.devicePixelRatio||1;c.width=w*r;c.height=h*r;const ctx=c.getContext('2d');ctx.scale(r,r);
  const left=49,right=w-12,top=13,bottom=h-21,vals=points.flatMap(p=>p.slice(1));const lo=Math.floor(Math.min(...vals)/5000)*5000,hi=Math.ceil(Math.max(...vals)/5000)*5000;const y=v=>bottom-(v-lo)/(hi-lo)*(bottom-top);
  ctx.font='11px system-ui';ctx.fillStyle='#b3b8c8';for(let v=lo;v<=hi;v+=5000){ctx.strokeStyle='#343948';ctx.beginPath();ctx.moveTo(left,y(v));ctx.lineTo(right,y(v));ctx.stroke();ctx.fillText(fmt(v,0),0,y(v)+3)}
@@ -87,6 +42,5 @@ async function study(){const s=await fetchJSON('heat-study.json').catch(()=>fetc
  el('risk').textContent='Maximum drawdown using daily values: '+pct(t.dd)+' for the account and '+pct(t.benchmark_dd)+' for the benchmark. ¹ Starting dates on which the leaders finished ahead of the ETFs.';
  table('episodes',['Entry','Leaders','Exit','Sessions','Leaders','ETF'],s.episodes.map(t=>[t.entry,t.symbols.join(' / '),t.exit,t.days,pct(t.pnl),pct(t.benchmark)]))
 }
-account().then(compare).catch(()=>{el('order').textContent='Journal unavailable.';el('claude').textContent='Comparison pending.'});
 study().catch(()=>{el('studyCaption').textContent='Historical data unavailable.'});
 </script></body></html>
