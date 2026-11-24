@@ -1,10 +1,10 @@
 {
  "schema": "codex-long-short-v1",
- "archive_build": "20261124T153618844178-20f3eb60e2cd44f7bffe9173b52a8976",
- "as_of": "2026-11-24T10:36:18.844178-05:00",
+ "archive_build": "20261124T215658367051-72d377b9d5854254ad55d26dc966acbf",
+ "as_of": "2026-11-24T16:56:58.367051-05:00",
  "opportunity_version": "opportunity-v18.1",
  "timing_version": "experimental-timing-v2",
- "verified_builds": 152,
+ "verified_builds": 153,
  "parameters": {
   "capital_usd": 10000.0,
   "position_usd": 500.0,
@@ -972,27 +972,27 @@
   }
  },
  "paper": {
-  "sessions": 1,
-  "decision_sessions": 1,
+  "sessions": 2,
+  "decision_sessions": 2,
   "first": "2026-11-23",
-  "last": "2026-11-23",
-  "final_equity": 9999.5,
-  "return_pct": -0.004999999999999449,
+  "last": "2026-11-24",
+  "final_equity": 10018.857791239727,
+  "return_pct": 0.18857791239725863,
   "drawdown_pct": -0.004999999999999449,
   "gap_sessions": 0,
-  "execution_fees": 0.5,
-  "borrow_cost": 0.0,
-  "borrow_stress_cost": 0.0,
+  "execution_fees": 1.0,
+  "borrow_cost": 0.0273972602739726,
+  "borrow_stress_cost": 0.0684931506849315,
   "by_side": {
    "LONG": {
-    "entries": 0,
+    "entries": 1,
     "exits": 0,
-    "net_pnl": 0.0
+    "net_pnl": -0.5
    },
    "SHORT": {
     "entries": 1,
     "exits": 0,
-    "net_pnl": -0.5
+    "net_pnl": 19.357791239725998
    }
   },
   "fundamental_sides": [
@@ -1004,30 +1004,19 @@
     "side": "SHORT",
     "opened_on": "2026-11-23",
     "entry_close": 313.54998779296875,
-    "marked_on": "2026-11-23",
+    "marked_on": "2026-11-24",
+    "marked_notional": 480.11481150000003
+   },
+   "RMD": {
+    "symbol": "RMD",
+    "side": "LONG",
+    "opened_on": "2026-11-24",
+    "entry_close": 243.44000244140625,
+    "marked_on": "2026-11-24",
     "marked_notional": 500.0
    }
   },
-  "pending": [
-   {
-    "ticker": "RMD",
-    "symbol": "RMD",
-    "signal_session": "2026-11-23",
-    "submitted_at": "2026-11-24T02:20:40.060733-05:00",
-    "signal_build": "20261124T072040060733-a9fa355dd68f4a68a00c646c43f86b7d",
-    "signal_close": 239.3800048828125,
-    "sma36": 237.79982079399957,
-    "sma50": 233.62151733398437,
-    "sma200": 221.95125778198243,
-    "side": "LONG",
-    "action": "OPEN",
-    "entry_basis": "FUNDAMENTAL_AND_TECHNICAL",
-    "fundamental_score": 7.557182154839815,
-    "quality_score": 9.122222222222222,
-    "reason": "Trend and SMA36 crossing",
-    "status": "PENDING"
-   }
-  ],
+  "pending": [],
   "orders": [
    {
     "ticker": "AVGO",
@@ -1051,12 +1040,40 @@
     "execution_close": 313.54998779296875,
     "turnover": 500.0,
     "fee": 0.5
+   },
+   {
+    "ticker": "RMD",
+    "symbol": "RMD",
+    "signal_session": "2026-11-23",
+    "submitted_at": "2026-11-24T02:20:40.060733-05:00",
+    "signal_build": "20261124T072040060733-a9fa355dd68f4a68a00c646c43f86b7d",
+    "signal_close": 239.3800048828125,
+    "sma36": 237.79982079399957,
+    "sma50": 233.62151733398437,
+    "sma200": 221.95125778198243,
+    "side": "LONG",
+    "action": "OPEN",
+    "entry_basis": "FUNDAMENTAL_AND_TECHNICAL",
+    "fundamental_score": 7.557182154839815,
+    "quality_score": 9.122222222222222,
+    "reason": "Trend and SMA36 crossing",
+    "execution_session": "2026-11-24",
+    "status": "FILLED",
+    "price_build": "20261124T215658367051-72d377b9d5854254ad55d26dc966acbf",
+    "execution_close": 243.44000244140625,
+    "turnover": 500.0,
+    "fee": 0.5
    }
   ],
   "daily_equity": [
    {
     "session": "2026-11-23",
     "equity": 9999.5,
+    "missing": []
+   },
+   {
+    "session": "2026-11-24",
+    "equity": 10018.857791239727,
     "missing": []
    }
   ]
