@@ -144,6 +144,34 @@ class Holding(unittest.TestCase):
         json.dumps(e, allow_nan=False)
 
 
+class Staged(unittest.TestCase):
+    def test_two_halves_with_cash_or_fallback(self):
+        idx, adj = panel(n=1300)
+        members = pd.DataFrame(True, index=idx, columns=adj.columns)
+        spx = pd.Series(np.r_[np.full(500, 100.), np.linspace(100, 80, 20), np.linspace(80, 120, 780)], index=idx)
+        heat = pd.Series(50., index=idx)
+        heat.iloc[500] = 18.
+        heat.iloc[515] = 8.                                          # deeper panic 15 sessions later
+        volume = pd.DataFrame(1e6, index=idx, columns=adj.columns)
+        r = ph.staged(idx[500], heat, adj, adj, volume, members, spx, lambda t, d: None, horizons=(252,))
+        self.assertEqual(r['reached_10'], str(idx[516].date()))
+        p = r['plans']['252']
+        # the S&P leg: buying half at 100 and half near the low beats buying everything at 100
+        self.assertGreater(p['staged_cash']['spx']['ret'], p['all_at_20']['spx']['ret'])
+        self.assertGreater(p['all_at_20']['spx']['drawdown'], -0.21)
+        self.assertGreater(p['staged_cash']['spx']['drawdown'], p['all_at_20']['spx']['drawdown'])   # smaller fall
+        self.assertEqual(p['staged_cash'], p['staged_fallback'])                                   # 10 was reached
+        heat.iloc[515] = 30.                                         # never deeper than 18
+        r = ph.staged(idx[500], heat, adj, adj, volume, members, spx, lambda t, d: None, horizons=(252,))
+        p = r['plans']['252']
+        self.assertIsNone(r['reached_10'])
+        self.assertEqual(p['all_at_10']['spx']['ret'], 0.0)                                         # all cash
+        self.assertNotEqual(p['staged_cash']['spx']['ret'], p['staged_fallback']['spx']['ret'])
+        s = ph.staged_summary([r], horizons=(252,))
+        self.assertEqual(s['252']['staged_cash:spx']['n'], 1)
+        json.dumps(dict(r=r, s=s), allow_nan=False)
+
+
 class Study(unittest.TestCase):
     def test_end_to_end_with_a_panic_and_the_report(self):
         idx, adj = panel(n=1300, start='1999-06-01')
@@ -164,6 +192,7 @@ class Study(unittest.TestCase):
         for deeper in ('15', '10'):                                  # deeper levels only ever drop signals
             self.assertLessEqual(len(result['levels'][deeper]['signals']), len(result['levels']['20']['signals']))
         self.assertIn('Buying deeper in the panic', md)
+        self.assertIn('staged', result)
 
 
 if __name__ == '__main__':

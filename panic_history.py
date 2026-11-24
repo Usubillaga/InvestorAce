@@ -43,7 +43,8 @@ TEN_YEARS = 2520
 BASKETS = ('top10_weight', 'leaders', 'broken', 'busted', 'all_members', 'mix', 'spx')
 RISK = ('top10_weight', 'all_members', 'mix', 'spx')   # baskets whose drawdown during the holding is measured
 DELAYS = (0, 5, 10)
-LEVELS = (20., 15., 10.)                              # buy at the first close under this thermometer level                                   # entry later by this many sessions (timing sensitivity)
+LEVELS = (20., 15., 10.)                              # buy at the first close under this thermometer level
+STAGE_WAIT = 63                                       # the second tranche waits at most this long for a close under 10                                   # entry later by this many sessions (timing sensitivity)
 LONG = 882
 # Scion's "Bear market heroes II" (Bloomberg, adjusted closes): members, broken 20%+ and busted 40%+ on each top.
 SCION_TOPS = {'2000-03-24': (489, 0.71, 0.32), '2007-10-09': (497, 0.43, 0.22), '2011-04-29': (493, 0.49, 0.25),
@@ -263,6 +264,79 @@ def summary(events, horizons=HORIZONS):
     return out
 
 
+STAGED = ('all_at_20', 'all_at_10', 'staged_cash', 'staged_fallback')
+
+
+def staged(day, heat, adj, split_close, volume, members, spx, shares, horizons=(252, LONG)):
+    """Half at the close after the first panic close (under 20), half at the close after the first close under 10
+    within STAGE_WAIT sessions. staged_cash keeps the second half in cash if 10 never comes; staged_fallback buys it
+    after STAGE_WAIT sessions anyway. all_at_20 / all_at_10 put everything in at one of the two points (all_at_10 is
+    cash until then, and cash throughout when 10 never comes). The basket is the mix (half the ten largest by weight,
+    half all members) chosen on the signal day; the same timing is applied to the S&P 500. Returns and the worst
+    fall are for the whole account, cash included, from the first buy."""
+    index = adj.index
+    pos = index.get_loc(day)
+    a = pos + 1
+    if a >= len(index):
+        return None
+    window = heat.iloc[pos:pos + STAGE_WAIT + 1]
+    deep = np.nonzero((window < 10.).to_numpy())[0]
+    b10 = pos + int(deep[0]) + 1 if len(deep) else None
+    on = members.loc[day]
+    priced = [t for t in adj.columns if on.get(t, False) and np.isfinite(adj.at[day, t])]
+    top, top_w, _ = top10(day, priced, split_close, volume, shares)
+    spx_full = spx.reindex(index).ffill()
+    row = dict(date=str(day.date()), reached_10=str(index[b10].date()) if b10 is not None and b10 < len(index) else None,
+               plans={})
+    for h in horizons:
+        end = a + h
+        if end >= len(index):
+            continue
+        def leg(start):
+            t = basket_path(adj, top, top_w, start, end)
+            m = basket_path(adj, priced, [1.] * len(priced), start, end)
+            mix = 0.5 * t + 0.5 * m if t is not None and m is not None else None
+            s_ = spx_full.iloc[start:end + 1]
+            return mix, s_ / s_.iloc[0]
+        def account(parts):
+            vals = {}
+            for which in (0, 1):
+                v = pd.Series(0., index=index[a:end + 1])
+                for weight, start in parts:
+                    if start is None or start > end:
+                        v += weight                                      # stays in cash
+                        continue
+                    path = leg(start)[which]
+                    if path is None:
+                        return None
+                    v.loc[index[a:start]] += weight                      # cash before this tranche is bought
+                    v.loc[path.index] += weight * path * (1 - pb.COST) / (1 + pb.COST)
+                vals['mix' if which == 0 else 'spx'] = dict(ret=float(v.iloc[-1] - 1), drawdown=max_drawdown(v))
+            return vals
+        fallback = b10 if b10 is not None else pos + STAGE_WAIT + 1
+        plans = dict(all_at_20=[(1., a)], all_at_10=[(1., b10)], staged_cash=[(.5, a), (.5, b10)],
+                     staged_fallback=[(.5, a), (.5, fallback)])
+        row['plans'][str(h)] = {name: account(parts) for name, parts in plans.items()}
+    return row
+
+
+def staged_summary(rows, horizons=(252, LONG)):
+    out = {}
+    for h in horizons:
+        cell = {}
+        for name in STAGED:
+            for which in ('mix', 'spx'):
+                xs = [r['plans'][str(h)][name][which] for r in rows
+                      if str(h) in r['plans'] and r['plans'][str(h)].get(name)]
+                if xs:
+                    cell[f'{name}:{which}'] = dict(n=len(xs), mean=float(statistics.fmean(x['ret'] for x in xs)),
+                                                   worst=float(min(x['ret'] for x in xs)),
+                                                   dd_mean=float(statistics.fmean(x['drawdown'] for x in xs)),
+                                                   dd_worst=float(min(x['drawdown'] for x in xs)))
+        out[str(h)] = cell
+    return out
+
+
 def long_summary(events):
     """The 42-months-then-euphoria exit: completed and still open holdings, against the S&P 500."""
     rows = [e['long_exit'] for e in events if e.get('long_exit')]
@@ -310,6 +384,7 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
                                     summary={h: {k: v for k, v in c.items() if k in RISK or k == 'drawdown'}
                                              for h, c in full.items()},
                                     long_exit=long_summary(lev_events))
+    staged_rows = [r for r in (staged(d, heat, adj, split_close, volume, members, spx, shares) for d in entries) if r]
     checks = {}
     for date, (n, broken, busted) in SCION_TOPS.items():
         day = pd.Timestamp(date)
@@ -321,6 +396,7 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
     return dict(schema='panic-history-v1', start=str(index[0].date()), end=str(index[-1].date()),
                 signals=len(events), events=events, summary=summary(events), breadth_checks=checks,
                 long_exit=long_summary(events), delays=delays, levels=levels,
+                staged=dict(rows=staged_rows, summary=staged_summary(staged_rows)),
                 last_heat=dict(date=str(last.index[-1].date()), value=round(float(last.iloc[-1]), 1)) if len(last) else None,
                 breadth_now=breadth_on(index[-1], adj, dd, members, recent_high))
 
@@ -386,6 +462,24 @@ def report(result):
                          f"{_pct(m42['mean']) + ' / ' + _pct(m42['worst']) if m42 else '—'} | {_pct(d42['worst']) if d42 else '—'} | "
                          f"{_pct(s1['mean']) if s1 else '—'} |")
         lines += [''] + [f"Signals under {lv}: " + ', '.join(b['signals']) for lv, b in result['levels'].items()] + ['']
+    st = result.get('staged')
+    if st and st.get('summary'):
+        lines += ['## Buying in two halves: under 20, then under 10', '',
+                  f'Mixed basket (half the ten largest, half all members) and the S&P 500 with the same timing; whole '
+                  f'account including cash, from the first buy. staged_cash keeps the second half in cash if the '
+                  f'thermometer does not reach 10 within {STAGE_WAIT} sessions; staged_fallback buys it then anyway.', '',
+                  '| Plan | Months | Mix mean / worst | Mix worst fall (mean / worst) | S&P mean / worst | S&P worst fall (mean / worst) |',
+                  '|---|---:|---|---|---|---|']
+        for h, cell in st['summary'].items():
+            months = {252: 12, LONG: 42}[int(h)]
+            for name in STAGED:
+                m, x = cell.get(f'{name}:mix'), cell.get(f'{name}:spx')
+                if m and x:
+                    lines.append(f"| {name} | {months} | {_pct(m['mean'])} / {_pct(m['worst'])} | {_pct(m['dd_mean'])} / "
+                                 f"{_pct(m['dd_worst'])} | {_pct(x['mean'])} / {_pct(x['worst'])} | {_pct(x['dd_mean'])} / "
+                                 f"{_pct(x['dd_worst'])} |")
+        lines += ['', 'Reached 10 within the wait: ' + ', '.join(
+            f"{r['date']} → {r['reached_10'] or 'no'}" for r in st['rows']), '']
     if result.get('delays'):
         lines += ['## Timing sensitivity: buying 5 or 10 sessions later', '',
                   '| Entry | Months | Top 10 mean / worst | All members mean / worst | Mix mean / worst | S&P mean / worst |',
