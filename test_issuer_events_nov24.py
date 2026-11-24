@@ -40,7 +40,7 @@ class PaymentMonitoring(unittest.TestCase):
         rows=copy.deepcopy(build['record']['_evidence']['inputs'])
         self.assertEqual(set(rows),set(e.DATA))
         macro=copy.deepcopy(build['record']['_evidence']['macro'])
-        at=datetime.fromisoformat(build['record']['_captured_at']) if '_captured_at' in build['record'] else datetime.fromisoformat('2026-11-24T07:00:00+00:00')
+        at=datetime.fromisoformat(build['record']['_evidence']['captured_at'])
         def capture(register):
             with patch.object(e.SOURCE_REVIEW,'load',return_value=register):
                 return dict(rows={t:(e.score(d),e.ngv(d),e.implied_growth(d),e.cover(d),e.cushion(d),e.risk(d),e.verdict(t,d),e.regime_scores(d)) for t,d in rows.items()},
