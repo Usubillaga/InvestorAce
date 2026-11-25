@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from html import escape
 from urllib.parse import urlsplit, quote as urlquote
+from low_radar_data import quote_fields
 import evidence as EVIDENCE
 import assessment as ASSESSMENT
 import source_review as SOURCE_REVIEW
@@ -1392,6 +1393,7 @@ def fetch_prices():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
         d['timing'] = TIMING.unavailable('History not requested: no accepted quote.')
         ser = None
+        d['low_radar_quote'] = None
         d['quote_observed_at'], d['quote_time_status'] = None, 'UNKNOWN'
         for field in ('mom_12_1', 'from_high', 'r_wacc', 'beta', 'wacc_inputs', 'wacc_details',
                       'momentum_observed_at', 'momentum_history_start', 'wacc_note'):
@@ -1444,6 +1446,8 @@ def fetch_prices():
                     d['price_note'] = f'REJECTED {px:.2f} outside {lo}-{hi}'; continue
             else:
                 d['price_note'] = f'accepted UNBOUNDED at {px:.2f} - no 52w range, set sanity by hand'
+            if observed:
+                d['low_radar_quote'] = quote_fields(info, d.get('yf', t), d.get('cur'))
             d['price'], d['price_ts'] = float(px), stamp
             # Retrieval time is not necessarily the quote's exchange timestamp.
             d['quote_observed_at'] = observed
