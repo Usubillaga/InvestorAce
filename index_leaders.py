@@ -27,6 +27,7 @@ import argparse
 import json
 from datetime import datetime, timezone
 from html import escape
+from math import floor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -128,13 +129,20 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
             ready = (picks and total_w > 0 and rate and all((prices.get(sym) or {}).get(day) for sym, _ in fixed))
             if ready:
                 usd = state['cash'] * rate                     # a euro account converts at this close
-                plan = ([(sym, top_share * w / total_w, w) for sym, w in picks]
-                        + [(sym, share, None) for sym, share in fixed])
+                # The same symbol can be an index holding and a fixed allocation.
+                index_weights = {}
+                for symbol, weight in picks:
+                    index_weights[symbol] = index_weights.get(symbol, 0.) + weight
+                allocations = {s: top_share * w / total_w for s, w in index_weights.items()}
+                for symbol, share in fixed:
+                    allocations[symbol] = allocations.get(symbol, 0.) + share
                 spent = 0.
-                for symbol, share, index_weight in plan:
+                for symbol, share in allocations.items():
                     px = prices[symbol][day]
-                    shares = usd * share / (px * (1 + COST))
-                    state['positions'][symbol] = dict(shares=round(shares, 6), entry=px, account_share=round(share, 6),
+                    # Debit only the six-decimal quantity booked, including its buy fee.
+                    shares = floor(usd * share / (px * (1 + COST)) * 1_000_000) / 1_000_000
+                    index_weight = index_weights.get(symbol)
+                    state['positions'][symbol] = dict(shares=shares, entry=px, account_share=round(share, 6),
                                                       index_weight=None if index_weight is None else round(index_weight, 6))
                     spent += shares * px * (1 + COST)
                 state['cash'] = round((usd - spent) / rate, 6)
@@ -142,7 +150,7 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
                              fx_buy=rate if euro else None)
                 state['done_signals'].append(pending['signal'])
                 events.append(dict(type='BUY', date=day, signal=pending['signal'], heat=pending['heat'],
-                                   heat_close=heat.get(day), symbols=[sym for sym, _, _ in plan],
+                                   heat_close=heat.get(day), symbols=list(allocations),
                                    **({'eurusd': rate} if euro else {})))
         elif state['positions']:
             state['sessions_held'] = state.get('sessions_held', 0) + 1
