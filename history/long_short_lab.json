@@ -1,10 +1,10 @@
 {
  "schema": "codex-long-short-v1",
- "archive_build": "20261124T215658367051-72d377b9d5854254ad55d26dc966acbf",
- "as_of": "2026-11-24T16:56:58.367051-05:00",
+ "archive_build": "20261125T002106733088-e0da682e5c3840a59f81937842974ccf",
+ "as_of": "2026-11-24T19:21:06.733088-05:00",
  "opportunity_version": "opportunity-v18.1",
  "timing_version": "experimental-timing-v2",
- "verified_builds": 153,
+ "verified_builds": 154,
  "parameters": {
   "capital_usd": 10000.0,
   "position_usd": 500.0,
