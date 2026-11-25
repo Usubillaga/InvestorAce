@@ -556,7 +556,7 @@ def _payment_list(monitoring):
         instrument = ' '.join(filter(None, (event.get('issuer'), kind)))
         value = '' if amount is None else f' · {amount:g} {currency}'
         key = (day, status, instrument, amount, currency)
-        item = escape(f'{status} · {day} · {instrument}{value}')
+        item = '<b>' + escape(status) + '</b>' + escape(f' · {day} · {instrument}{value}')
         if actual:
             item += ' · ' + _sources([dict(url=event['payment_evidence_url'], title='Payment evidence')])
         facts.setdefault(key, item)
@@ -636,7 +636,9 @@ def panel(rows, reviews):
         events = []
         for event in row['events']:
             amount = '' if event.get('amount') is None else f' · {event["amount"]:g} {event["currency"]}'
-            label = ' · '.join((event.get('date') or event['month'], event['kind'].replace('_', ' '),
+            kind = {'common': 'common dividend', 'preferred': 'preferred dividend',
+                    'fund': 'fund distribution'}.get(event['kind'], event['kind'].replace('_', ' '))
+            label = ' · '.join((event.get('date') or event['month'], kind,
                                 event['status'].replace('_', ' ').lower()))
             events.append(escape(label + amount))
         if row.get('provider_earnings'):

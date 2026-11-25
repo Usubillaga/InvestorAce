@@ -245,7 +245,7 @@ class _Report(HTMLParser):
                         return
                 is_ui = (category or core in {
                     'No transactions reported in the checked public register for this window.',
-                    'Filing', 'checked', '· checked'}
+                    'Filing', 'Payment evidence', 'checked', '· checked'}
                     or core.startswith(('Primary source ', '10b5-1:')))
                 if core.startswith('Next review:'):
                     translated = TRANSLATIONS[self.language]['Next review:']
@@ -259,7 +259,7 @@ class _Report(HTMLParser):
             return
         if tag == 'a' and current['attrs'].get('href', '').startswith(('https://', 'http://')):
             core = value.strip()
-            if core not in {'How stop orders work', 'Filing'} and not core.startswith('Primary source '):
+            if core not in {'How stop orders work', 'Filing', 'Payment evidence', 'provider date'} and not core.startswith('Primary source '):
                 self.parts.append(raw)
                 return
         # The detail includes a user-authored growth-metric description. Keep

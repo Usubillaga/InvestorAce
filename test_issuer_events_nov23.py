@@ -21,8 +21,15 @@ SELECTED = ('VNT', 'ALLE', 'ADT', 'OXY', 'CRWV', 'ALC', 'ALM', 'AMD', 'ANT', 'B'
 class DatedBatch(unittest.TestCase):
     def test_only_monitoring_changes_and_old_dates_survive(self):
         new = source_review.load((ROOT / 'source_reviews.json').read_text())
-        projection = copy.deepcopy(new)
-        projection['entries'] = {t: projection['entries'][t] for t in BASE_ENTRIES}
+        # The hash covers the November 23 register envelope. Compare current
+        # issuer fields against it while allowing later, independently dated calendars.
+        archive = ROOT / 'history/runs/20261125T060416260690-22422c486bb94c3d9f83d74343db38c2.json'
+        baseline = json.loads(archive.read_text())['_source_reviews']
+        projection = {k: v for k, v in baseline.items() if k != 'entries'}
+        projection['entries'] = {t: copy.deepcopy(new['entries'][t]) for t in BASE_ENTRIES}
+        for ticker in BASE_ENTRIES:
+            self.assertEqual(source_review.entry_dates(new['entries'][ticker], new),
+                             source_review.entry_dates(baseline['entries'][ticker], baseline))
         for value in projection['entries'].values():
             value.pop('monitoring', None)
         digest = hashlib.sha256(json.dumps(projection,sort_keys=True,separators=(',',':')).encode()).hexdigest()

@@ -48,11 +48,18 @@ class NovemberCalendarFollowup(unittest.TestCase):
         self.assertEqual(paid['actual_payment_date'], '2026-10-02')
         self.assertTrue(paid['payment_evidence_url'])
         html = source_review.panel({'ENS', 'ELE', 'CTVA'}, self.register)
-        self.assertIn('Scheduled payable date · 2026-12-31 · common', html)
-        self.assertIn('Payment confirmed · 2026-10-02 · common', html)
-        self.assertNotIn('Payment confirmed · 2026-12-31', html)
-        self.assertEqual(html.count('Scheduled payable date · 2027-01-12 · common'), 1)
+        self.assertIn('Scheduled payable date</b> · 2026-12-31 · common', html)
+        self.assertIn('Payment confirmed</b> · 2026-10-02 · common', html)
+        self.assertNotIn('Payment confirmed</b> · 2026-12-31', html)
+        self.assertEqual(html.count('Scheduled payable date</b> · 2027-01-12 · common'), 1)
         self.assertIn('2027-01-25 · EIDP, Inc. preferred', html)
+        import i18n
+        page = '<html lang="en"><body>' + html + '</body></html>'
+        for language, scheduled, evidenced in (('de', 'Vorgesehener Zahltag', 'Zahlung bestätigt'),
+                                               ('es', 'Fecha de pago prevista', 'Pago confirmado')):
+            rendered = i18n.localize(page, language)
+            self.assertIn(scheduled, rendered)
+            self.assertIn(evidenced, rendered)
         for field in ('actual_payment_date', 'actual_paid_date'):
             doc = copy.deepcopy(self.register)
             doc['calendar_checks']['issuers']['JEQE']['events'][0][field] = '2026-11-27'
