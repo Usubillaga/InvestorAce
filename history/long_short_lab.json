@@ -55,24 +55,39 @@
      "side": "SHORT",
      "opened_on": "2026-11-16",
      "entry_close": 93.98999786376953,
+     "mark_close": 87.80000305175781,
      "marked_on": "2026-11-20",
-     "marked_notional": 467.070991844168
+     "marked_notional": 467.070991844168,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.1088020178811902,
+     "gross_return_pct": 6.585801631166396,
+     "net_return_pct": 6.464041227590158
     },
     "NKE": {
      "symbol": "NKE",
      "side": "SHORT",
      "opened_on": "2026-11-18",
      "entry_close": 36.310001373291016,
+     "mark_close": 32.91999816894531,
      "marked_on": "2026-11-20",
-     "marked_notional": 453.3186026583963
+     "marked_notional": 453.3186026583963,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.05330053650136986,
+     "gross_return_pct": 9.336279468320743,
+     "net_return_pct": 9.225619361020469
     },
     "CEG": {
      "symbol": "CEG",
      "side": "SHORT",
      "opened_on": "2026-11-18",
      "entry_close": 262.739990234375,
+     "mark_close": 237.41000366210938,
      "marked_on": "2026-11-20",
-     "marked_notional": 451.7964765301589
+     "marked_notional": 451.7964765301589,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.05367773424109589,
+     "gross_return_pct": 9.640704693968223,
+     "net_return_pct": 9.529969147120005
     }
    },
    "pending": [],
@@ -341,24 +356,39 @@
      "side": "SHORT",
      "opened_on": "2026-11-16",
      "entry_close": 93.98999786376953,
+     "mark_close": 87.80000305175781,
      "marked_on": "2026-11-20",
-     "marked_notional": 467.070991844168
+     "marked_notional": 467.070991844168,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.1088020178811902,
+     "gross_return_pct": 6.585801631166396,
+     "net_return_pct": 6.464041227590158
     },
     "BSX": {
      "symbol": "BSX",
      "side": "SHORT",
      "opened_on": "2026-11-17",
      "entry_close": 43.029998779296875,
+     "mark_close": 41.97999954223633,
      "marked_on": "2026-11-20",
-     "marked_notional": 487.79921840750455
+     "marked_notional": 487.79921840750455,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.08255470285365453,
+     "gross_return_pct": 2.4401563184990893,
+     "net_return_pct": 2.3236453779283583
     },
     "BKNG": {
      "symbol": "BKNG",
      "side": "SHORT",
      "opened_on": "2026-11-17",
      "entry_close": 154.4600067138672,
+     "mark_close": 144.91000366210938,
      "marked_on": "2026-11-20",
-     "marked_notional": 469.08583890943487
+     "marked_notional": 469.08583890943487,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.0807160240147676,
+     "gross_return_pct": 6.182832218113026,
+     "net_return_pct": 6.066689013310073
     }
    },
    "pending": [],
@@ -715,24 +745,39 @@
      "side": "SHORT",
      "opened_on": "2026-11-16",
      "entry_close": 93.98999786376953,
+     "mark_close": 87.80000305175781,
      "marked_on": "2026-11-20",
-     "marked_notional": 467.070991844168
+     "marked_notional": 467.070991844168,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.1088020178811902,
+     "gross_return_pct": 6.585801631166396,
+     "net_return_pct": 6.464041227590158
     },
     "BSX": {
      "symbol": "BSX",
      "side": "SHORT",
      "opened_on": "2026-11-17",
      "entry_close": 43.029998779296875,
+     "mark_close": 41.97999954223633,
      "marked_on": "2026-11-20",
-     "marked_notional": 487.79921840750455
+     "marked_notional": 487.79921840750455,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.08255470285365453,
+     "gross_return_pct": 2.4401563184990893,
+     "net_return_pct": 2.3236453779283583
     },
     "BKNG": {
      "symbol": "BKNG",
      "side": "SHORT",
      "opened_on": "2026-11-17",
      "entry_close": 154.4600067138672,
+     "mark_close": 144.91000366210938,
      "marked_on": "2026-11-20",
-     "marked_notional": 469.08583890943487
+     "marked_notional": 469.08583890943487,
+     "entry_fee": 0.5,
+     "borrow_cost": 0.0807160240147676,
+     "gross_return_pct": 6.182832218113026,
+     "net_return_pct": 6.066689013310073
     }
    },
    "pending": [],
@@ -1004,16 +1049,26 @@
     "side": "SHORT",
     "opened_on": "2026-11-23",
     "entry_close": 313.54998779296875,
+    "mark_close": 301.0799865722656,
     "marked_on": "2026-11-24",
-    "marked_notional": 480.11481150000003
+    "marked_notional": 480.11481150000003,
+    "entry_fee": 0.5,
+    "borrow_cost": 0.0273972602739726,
+    "gross_return_pct": 3.977037699999994,
+    "net_return_pct": 3.8715582479451998
    },
    "RMD": {
     "symbol": "RMD",
     "side": "LONG",
     "opened_on": "2026-11-24",
     "entry_close": 243.44000244140625,
+    "mark_close": 243.44000244140625,
     "marked_on": "2026-11-24",
-    "marked_notional": 500.0
+    "marked_notional": 500.0,
+    "entry_fee": 0.5,
+    "borrow_cost": 0.0,
+    "gross_return_pct": 0.0,
+    "net_return_pct": -0.1
    }
   },
   "pending": [],

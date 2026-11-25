@@ -204,8 +204,11 @@ def book_results(sessions, observations, bars, *, fundamental_sides, first=None,
             for mark in marking_chain(day, pos, bars, catchup_bars):
                 elapsed = (date.fromisoformat(mark['day']) - date.fromisoformat(pos['marked_on'])).days
                 if pos['side'] == 'SHORT':
-                    borrow_base += pos['marked_notional'] * elapsed / 365
-                pos.update(marked_on=mark['day'], marked_notional=pos['marked_notional'] * mark['relative'])
+                    exposure_years = pos['marked_notional'] * elapsed / 365
+                    borrow_base += exposure_years
+                    pos['borrow_cost'] += exposure_years * BORROW
+                pos.update(marked_on=mark['day'], mark_close=mark['close'],
+                           marked_notional=pos['marked_notional'] * mark['relative'])
         for order in due:
             ticker, side = order['ticker'], order['side']
             mark = bars.get(day, {}).get(order['symbol'])
@@ -216,7 +219,8 @@ def book_results(sessions, observations, bars, *, fundamental_sides, first=None,
             if order['action'] == 'OPEN':
                 turnover = NOTIONAL
                 positions[ticker] = dict(symbol=order['symbol'], side=side, opened_on=day,
-                    entry_close=mark['close'], marked_on=day, marked_notional=NOTIONAL)
+                    entry_close=mark['close'], mark_close=mark['close'], marked_on=day,
+                    marked_notional=NOTIONAL, entry_fee=COST * turnover, borrow_cost=0.)
             else:
                 pos = positions.pop(ticker)
                 turnover = pos['marked_notional']
@@ -251,6 +255,11 @@ def book_results(sessions, observations, bars, *, fundamental_sides, first=None,
             expected += timedelta(days=7 - expected.weekday())
         due, _ = proposed(len(sessions), datetime.combine(expected, time(12), NY))
         pending = [dict(order, status='PENDING') for order in due]
+    for pos in positions.values():
+        gross = (pos['marked_notional'] - NOTIONAL) * (1 if pos['side'] == 'LONG' else -1)
+        pos['gross_return_pct'] = 100 * gross / NOTIONAL
+        pos['net_return_pct'] = 100 * (gross - pos['entry_fee'] - pos['borrow_cost']) / NOTIONAL
+
     fills = [o for o in orders if o['status'] == 'FILLED']
     entered = any(o['action'] == 'OPEN' for o in fills)
     return dict(
@@ -331,9 +340,24 @@ def render(report):
                    summary('Backtest · both sides technical', bt['technical_only']),
                    summary('Backtest · forward rules', bt['forward_rules']),
                    summary('Forward paper account', x)])
-    positions = table(('Ticker', 'Side', 'Entry date', 'Entry close', 'Last mark', 'Marked notional'),
-        [(t, p['side'], p['opened_on'], f"${p['entry_close']:.2f}", p['marked_on'], f"${p['marked_notional']:.2f}")
-         for t, p in sorted(x['positions'].items())]) if x['positions'] else '<p>No open paper positions.</p>'
+    def position_row(ticker, pos):
+        def percent(value):
+            return '—' if value is None else f'{value:+.2f}%'
+        gross = pos.get('gross_return_pct')
+        base = report['parameters'].get('position_usd')
+        if gross is None and base and pos.get('marked_notional') is not None:
+            gross = (1 if pos['side'] == 'LONG' else -1) * 100 * (pos['marked_notional'] / base - 1)
+        last = pos['marked_on']
+        if x['last'] and last < x['last']:
+            last += ' (older close)'
+        close = pos.get('mark_close')
+        return (ticker, pos['side'], percent(pos.get('net_return_pct')), percent(gross), last,
+                f'${close:.2f}' if close is not None else '—', pos['opened_on'], f"${pos['entry_close']:.2f}", f"${pos['marked_notional']:.2f}")
+
+    positions = table(('Ticker', 'Side', 'Net P&L %', 'Gross P&L %', 'Valuation date', 'Last close',
+                       'Entry date', 'Entry close', 'Marked notional'),
+                      [position_row(t, p) for t, p in sorted(x['positions'].items())]
+                      ) if x['positions'] else '<p>No open paper positions.</p>'
     events = [*x['orders'], *x['pending']]
     basis = {'TECHNICAL_ONLY': 'Technical only', 'FUNDAMENTAL_AND_TECHNICAL': 'Fundamental and technical'}
     journal = table(('Setup', 'Execution', 'Ticker', 'Side', 'Action', 'Entry basis', 'Status'),
@@ -358,7 +382,10 @@ def render(report):
             'Forward execution closes must be verified by noon New York time on the following calendar day. '
             'Late data can repair an open position’s next mark. Missed orders stay missed. '
             'A dash indicates no filled entries or an incomplete mark.</p>'
-            '<h2>Open paper positions</h2>' + positions + '<h2>Forward order journal</h2>' + journal
+            '<h2>Open paper positions</h2>' + positions +
+            '<p>Unrealized returns use the opening notional and the last verified mark for each position. '
+            'Net includes the entry fee and accrued short borrowing costs through that mark.</p>'
+            '<h2>Forward order journal</h2>' + journal
             + '<p><a href="codex-long-short.json">Results, orders and source build IDs</a> · '
             f'<a href="https://github.com/Usubillaga/InvestorAce/tree/main/history/_builds/{escape(report["archive_build"])}">'
             'Verified source build</a></p>')

@@ -93,6 +93,36 @@ class LabTest(unittest.TestCase):
         self.assertEqual(confirmed['orders'], [])
         self.assertEqual(control['by_side']['SHORT']['entries'], 1)
 
+    def test_each_open_position_uses_its_own_fee_direction_and_borrow(self):
+        a, b, c, d, e = self.DAYS
+        prior = snapshot(a, b + 'T08:45', 102)
+        current = snapshot(b, c + 'T08:45', 97)
+        prior['rows']['L'] = ('L', tech(a, 99, swap=True), None)
+        current['rows']['L'] = ('L', tech(b, 106, swap=True), verified_opportunity(8, 7))
+        entry = dict(previous=b, relative=1, close=100, build='open')
+        down = dict(previous=c, relative=.9, close=90, build='mark')
+        up = dict(previous=d, relative=1.5, close=135, build='mark')
+        prices = {c:{'T':entry, 'L':entry}, d:{'T':down, 'L':down}, e:{'T':up}}
+        def result(days):
+            return lab.book_results(days, {a:prior, b:current}, prices, fundamental_sides=lab.FORWARD_FUNDAMENTAL_SIDES,
+                                    as_of=datetime.fromisoformat(e + 'T17:00').replace(tzinfo=lab.NY))
+        for pos in result([a,b,c])['positions'].values():
+            self.assertEqual(pos['gross_return_pct'], 0.)
+            self.assertAlmostEqual(pos['net_return_pct'], -.1)
+        marked = result([a,b,c,d])
+        short, long = marked['positions']['T'], marked['positions']['L']
+        self.assertAlmostEqual(short['gross_return_pct'], 10.)
+        self.assertAlmostEqual(short['net_return_pct'], 9.9 - 100 * lab.BORROW / 365)
+        self.assertAlmostEqual(long['gross_return_pct'], -10.)
+        self.assertAlmostEqual(long['net_return_pct'], -10.1)
+        self.assertAlmostEqual(marked['final_equity'] - lab.CAPITAL,
+                               sum(p['net_return_pct'] * lab.NOTIONAL / 100 for p in (short,long)))
+        gap = result(self.DAYS)
+        self.assertIsNone(gap['final_equity'])
+        self.assertEqual(gap['positions']['L']['marked_on'], d)
+        self.assertAlmostEqual(gap['positions']['L']['net_return_pct'], long['net_return_pct'])
+        self.assertLess(gap['positions']['T']['net_return_pct'], -35.)
+
     def test_missing_price_and_one_session_delay(self):
         a,b,c,d,e = self.DAYS
         observations = {a: snapshot(a, b + 'T08:45', 102), b: snapshot(b, c + 'T08:45', 97)}
