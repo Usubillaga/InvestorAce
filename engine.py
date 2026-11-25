@@ -617,6 +617,21 @@ DATA = {
 'TEAM': dict(name='Atlassian', yf='TEAM', fcf=1667.0, shares=253.14, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 4.0, 'c': 9.0, 'b': 8.0, 'v': None, 'r': 7.5}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(28.0, 459.92)),
 'TPR': dict(name='Tapestry', yf='TPR', fcf=1880.5, shares=196.52, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': None, 'c': 9.0, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': None, 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(49.51, 329.6)),
 'TTWO': dict(name='Take-Two Interactive', yf='TTWO', fcf=337.5, shares=186.98, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 2.0, 'c': 6.0, 'b': 7.0, 'v': None, 'r': 1.0}, draft_periods={'fcf': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'rev': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'opinc': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'ebitda': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'netdebt': '2026-06-30'}, pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(91.93, 531.88)),
+'VIS': dict(name='Viscofan', yf='VIS.MC', cur='EUR',
+    fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    sector='Consumer Defensive', built='watch', normalization_status='REVIEW_REQUIRED',
+    sanity=(25, 110), fundamentals_refresh='PRIMARY_REVIEW_ONLY', primary_inputs_only=True,
+    cash_flow_basis='ISSUER_NET_DEBT_BRIDGE',
+    na='Yahoo carries no cash flow or share count for VIS.MC. Scored from the FY2025 issuer net-bank-debt bridge (EBITDA less taxes paid, working capital, forex/other and capex); 9M26 cash flow is not yet bridged.',
+    financial_sources=[{
+        'url':'https://public.viscofan.com/investor-relations/financialinformation/en/Presentaci%C3%B3n%20Resultados%202025%20y%20BEAT30_EN.pdf',
+        'title':'Viscofan 2025 results and Beat\'30 strategy presentation', 'period':'2025-12-31'
+    }, {
+        'url':'https://public.viscofan.com/investor-relations/financialinformation/en/Nota%20de%20resultados.%20Enero-Septiembre%202026_EN.pdf',
+        'title':'Viscofan results report January-September 2026', 'period':'2026-09-30'
+    }],
+    boot_note='2026-11-25 review: 9M26 revenue EUR965.4m (+3.1%), EBITDA EUR207.7m (-4.9%), net profit EUR111.8m (+2.9%); 2026 EBITDA guidance cut to EUR290-295m; net bank debt EUR266.6m after EUR99.7m of buybacks. See earnings/viscofan-deep-dive-2026-11-25.html.'),
 'VNT': dict(name='Vontier Corporation', yf='VNT', cur='USD',
     fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
@@ -1553,8 +1568,10 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
         if not isinstance(facts, dict):
             facts = dict(schema=LIVE_ANALYSIS.VERSION, symbol=symbol, inputs={}, currency=row.get('cur'))
         primary = primary_entries.get(ticker, {}).get('valuation', {}).get('financial_packet')
-        if row.get('cash_offer') and primary and (facts.get('financial_period') or '') > primary['financial_period']:
-            # A new raw provider quarter lacks the issuer's acquisition-capex and share-class bridge.
+        if ((row.get('cash_offer') or row.get('primary_inputs_only')) and primary
+                and (facts.get('financial_period') or '') > primary['financial_period']):
+            # A new raw provider quarter lacks the issuer's acquisition-capex and share-class bridge,
+            # or (primary_inputs_only) the provider carries no usable cash flow or share count at all.
             facts = {k: facts[k] for k in ('schema', 'symbol', 'currency', 'beta') if k in facts}
         facts = LIVE_ANALYSIS.prefer_primary(facts, primary, as_of=as_of)
         facts = dict(facts, midcycle=bool(row.get('midcycle')),
