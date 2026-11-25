@@ -5,9 +5,11 @@ on:
     branches: [main]
     paths: ['panic_monitor/**', '.github/workflows/panic-monitor.yml']
   schedule:
-    - cron: '42 9 * * 1-5'
+    - cron: '32,47 9 * * 1-5'
       timezone: America/New_York
-    - cron: '12,42 10-15 * * 1-5'
+    - cron: '2,17,32,47 10-15 * * 1-5'
+      timezone: America/New_York
+    - cron: '55 12,15 * * 1-5'
       timezone: America/New_York
 
 permissions: {}
@@ -38,7 +40,7 @@ jobs:
             panic_monitor/requirements.txt
       - run: pip install -q -r panic_monitor/requirements.txt
       - if: github.event_name != 'schedule'
-        run: python -m unittest panic_monitor.test_watch
+        run: python -m unittest panic_monitor.test_watch panic_monitor.test_market_sessions
       - name: Observe and notify for an open US equity session
         env:
           GITHUB_TOKEN: ${{ github.token }}

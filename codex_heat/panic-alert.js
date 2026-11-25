@@ -37,21 +37,31 @@
       const lang = this.getAttribute('lang') || document.documentElement.lang;
       const t = words[lang] || words.en;
       const r = saved?.reading;
-      const stale = failure || saved?.status === 'unavailable' || (r &&
-        (Date.now() - Date.parse(r.as_of) > 25 * 60000 || Date.now() >= Date.parse(r.close)));
+      const labels = {
+        de: ['InvestorAce-Marktthermometer', 'Index-Leader-Strategie', 'Komponenten', 'Kursdaten ggf. verzögert. Feed-Latenz unbekannt.'],
+        en: ['InvestorAce market thermometer', 'Index-leader strategy', 'components', 'Quotes may be delayed. Feed latency is unknown.'],
+        es: ['Termómetro de mercado InvestorAce', 'Estrategia de líderes', 'componentes', 'Posible retraso de cotizaciones. Latencia desconocida.']
+      }[lang] || ['InvestorAce thermometer', 'Index-leader strategy', 'components', 'Feed latency unknown.'];
       const head = node('h2', t[0]);
-      const value = node('p');
-      if (r && Number.isFinite(r.heat)) {
-        value.append(node('strong', r.heat.toLocaleString(lang, {maximumFractionDigits:3}) + ' / 100'),
-          ' · ' + (stale ? t[2] : r.heat < 20 ? t[3] : t[4]) + ' · ',
-          clock(r.as_of, lang, 'America/New_York')+' / '+clock(r.as_of, lang, 'Europe/Berlin')+' · '+r.components+'/4 '+
-          ({de:'Komponenten',es:'componentes',en:'components'}[lang] || 'components'));
-      } else {
-        value.textContent = stale ? t[12]+' · '+t[11] : t[1];
+      const readings = node('div');
+      for (const [title, slot] of [[labels[0], saved?.dashboard], [labels[1], saved]]) {
+        const sample = slot?.reading;
+        const stale = failure || slot?.status === 'unavailable' || (sample &&
+          (Date.now() - Date.parse(sample.as_of) > 25 * 60000 || Date.now() >= Date.parse(sample.close)));
+        const value = node('p');
+        value.append(node('strong', title), ' · ');
+        if (sample && Number.isFinite(sample.heat)) {
+          value.append(node('strong', sample.heat.toLocaleString(lang, {maximumFractionDigits:3}) + ' / 100'),
+            ' · ' + (stale ? t[2] : sample.heat < 20 ? t[3] : t[4]) + ' · ',
+            clock(sample.as_of, lang, 'America/New_York')+' / '+clock(sample.as_of, lang, 'Europe/Berlin') +
+            ' · '+sample.components+' '+labels[2]+' · ', link(t[14], sample.method), ' · ', link(t[5], sample.source));
+        } else {
+          value.append(stale ? t[12]+' · '+t[11] : t[1]);
+        }
+        readings.append(value);
       }
       const sources = node('p');
-      sources.append(link(t[6], thread));
-      if (r) sources.append(' · ', link(t[5], r.source), ' · ', link(t[14], r.method));
+      sources.append(link(t[6], thread), ' · '+labels[3]);
       const details = node('details');
       details.open = this.querySelector('details')?.open || false;
       details.append(node('summary', t[7]));
@@ -78,7 +88,7 @@
         });
         details.append(table);
       }
-      this.replaceChildren(head, value, sources, details);
+      this.replaceChildren(head, readings, sources, details);
     }
   }
   function draw() { document.querySelectorAll('ia-panic-alert').forEach(el => el.draw()); }
