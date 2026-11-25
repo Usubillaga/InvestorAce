@@ -622,9 +622,12 @@ DATA = {
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
     sector='Consumer Defensive', built='watch', normalization_status='REVIEW_REQUIRED',
     sanity=(25, 110), fundamentals_refresh='PRIMARY_REVIEW_ONLY', primary_inputs_only=True,
-    cash_flow_basis='ISSUER_NET_DEBT_BRIDGE',
-    na='Yahoo carries no cash flow or share count for VIS.MC. Scored from the FY2025 issuer net-bank-debt bridge (EBITDA less taxes paid, working capital, forex/other and capex); 9M26 cash flow is not yet bridged.',
+    cash_flow_basis='ISSUER_CONSOLIDATED_CASH_FLOW',
+    na='Use the dated consolidated FY cash-flow statement and net outstanding share count. September earnings have no matching nine-month cash-flow statement.',
     financial_sources=[{
+        'url':'https://public.viscofan.com/investor-relations/financialinformation/en/Informe%20consolidado%20Grupo%20Viscofan%202025_EN_v2.pdf',
+        'title':'Viscofan audited consolidated financial statements FY2025', 'period':'2025-12-31'
+    }, {
         'url':'https://public.viscofan.com/investor-relations/financialinformation/en/Presentaci%C3%B3n%20Resultados%202025%20y%20BEAT30_EN.pdf',
         'title':'Viscofan 2025 results and Beat\'30 strategy presentation', 'period':'2025-12-31'
     }, {
