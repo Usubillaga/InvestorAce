@@ -120,6 +120,9 @@ def _monitoring_payments(monitoring, cutoff):
 
     check(monitoring.get('payments'))
     for event in monitoring.get('payment_events', []):
+        _payment_amount(event.get('amount', event.get('amount_per_share')))
+        if event.get('payable_date') is not None:
+            _date(event['payable_date'])
         _actual_payment(event, cutoff)
 
 
@@ -535,6 +538,33 @@ def _sources(sources):
                              f'rel="noopener">{escape(s["title"])}</a>' for s in sources)
 
 
+def _payment_list(monitoring):
+    events = list(monitoring.get('payment_events', []))
+    if monitoring.get('next_common_payment'):
+        events.append(monitoring['next_common_payment'])
+    facts = {}
+    for event in events:
+        actual = event.get('actual_payment_date') or event.get('actual_paid_date')
+        day = actual or event.get('payable_date')
+        if not day:
+            continue
+        kind = event.get('security') or event.get('event_type') or event.get('kind') or 'common'
+        kind = kind.lower().replace('_dividend', '').replace('_', ' ')
+        amount = event.get('amount', event.get('amount_per_share'))
+        currency = event.get('currency') or ''
+        status = 'Payment confirmed' if actual else 'Scheduled payable date'
+        instrument = ' '.join(filter(None, (event.get('issuer'), kind)))
+        value = '' if amount is None else f' · {amount:g} {currency}'
+        key = (day, status, instrument, amount, currency)
+        item = escape(f'{status} · {day} · {instrument}{value}')
+        if actual:
+            item += ' · ' + _sources([dict(url=event['payment_evidence_url'], title='Payment evidence')])
+        facts.setdefault(key, item)
+    if not facts:
+        return ''
+    return '<ul>' + ''.join('<li>' + item + '</li>' for item in facts.values()) + '</ul>'
+
+
 def panel(rows, reviews):
     entries = {t: e for t, e in reviews['entries'].items() if t in rows}
     intro = (f'{len(entries)} of {len(rows)} tickers have a dated review entry; '
@@ -560,7 +590,7 @@ def panel(rows, reviews):
                                f'Next check: {escape(monitoring.get("next_check_date") or "UNKNOWN")}. '
                                + escape(monitoring['gap']) + '</p><p>'
                                + escape(monitoring.get('summary', '')) + '</p><p>'
-                               + _sources(monitoring['sources']) + '</p>')
+                               + _sources(monitoring['sources']) + '</p>' + _payment_list(monitoring))
         events = []
         for tx in insider['transactions']:
             code = tx['code']

@@ -47,6 +47,12 @@ class NovemberCalendarFollowup(unittest.TestCase):
         paid = next(e for e in monitoring['payment_events'] if e.get('status') == 'PAYMENT_CONFIRMED')
         self.assertEqual(paid['actual_payment_date'], '2026-10-02')
         self.assertTrue(paid['payment_evidence_url'])
+        html = source_review.panel({'ENS', 'ELE', 'CTVA'}, self.register)
+        self.assertIn('Scheduled payable date · 2026-12-31 · common', html)
+        self.assertIn('Payment confirmed · 2026-10-02 · common', html)
+        self.assertNotIn('Payment confirmed · 2026-12-31', html)
+        self.assertEqual(html.count('Scheduled payable date · 2027-01-12 · common'), 1)
+        self.assertIn('2027-01-25 · EIDP, Inc. preferred', html)
         for field in ('actual_payment_date', 'actual_paid_date'):
             doc = copy.deepcopy(self.register)
             doc['calendar_checks']['issuers']['JEQE']['events'][0][field] = '2026-11-27'
