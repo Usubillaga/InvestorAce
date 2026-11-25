@@ -2,7 +2,6 @@
   const panel=document.getElementById('panic-paper');
   if (!panel) return;
   const content=panel.querySelector('[data-paper-content]');
-  const round2=document.getElementById('paper-round2');
   const tabs=[...document.querySelectorAll('.ia-paper-tabs [role="tab"]')];
   const lang=panel.dataset.language;
   const data=JSON.parse(document.getElementById('ia-paper-data').textContent);
@@ -27,7 +26,7 @@
   function followHash() {
     const id=location.hash.slice(1);
     const isPaper=id==='panic-paper'||id.startsWith('panic-paper-');
-    activate(isPaper?'panic-paper':id==='paper-round2' && round2?'paper-round2':'ia-primary');
+    activate(isPaper?'panic-paper':tabs.some(tab=>tab.getAttribute('aria-controls')===id)?id:'ia-primary');
     const target=isPaper && document.getElementById(id);
     if(target && target.tagName==='DETAILS') {
       target.open=true;
