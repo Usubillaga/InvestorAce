@@ -67,6 +67,7 @@ const tickerLibrary = [
  {yf:"VICI",name:"VICI Properties",index:"S&P 500",group:"High Yield",sector:"REIT",cur:"USD"},
  {yf:"ENB.TO",name:"Enbridge (Toronto)",index:"TSX",group:"High Yield",sector:"Midstream",cur:"CAD"},
  {yf:"ENG.MC",name:"Enagas",index:"IBEX 35",group:"High Yield",sector:"Utilities",cur:"EUR"},
+ {yf:"VIS.MC",name:"Viscofan",index:"IBEX Medium Cap",group:"Defensive",sector:"Consumer Defensive",cur:"EUR"},
  {yf:"WKL.AS",name:"Wolters Kluwer",index:"AEX",group:"High Yield",sector:"Info Svcs",cur:"EUR"},
  {yf:"MC.PA",name:"LVMH",index:"CAC 40",group:"High Yield",sector:"Luxury",cur:"EUR"},
  {yf:"ALV.DE",name:"Allianz SE",index:"DAX",group:"High Yield",sector:"Financials",cur:"EUR"},

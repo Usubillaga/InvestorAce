@@ -15,6 +15,7 @@ ROOT = Path(__file__).parent
 BASE = '194f3291951e3c617b3c292f7506327350c3ec59'
 BASE_ENTRIES = ["CRM","ASML","SAN","WKL","LVMH","ENB","UNH","NFLX","NVDA","PFE","LULU","DVN","ZTS","AR","OXY","ENG","VICI","GOOGL","SMCI","PG","APP","SPGI","ISRG","PL","REP","WIX","BYRN","AWK","BABA","BNTX","GRAB","IBST","CRWV","MRNA","NBIS","OPEN","RIVN","AVGO","O","RCAT","SPCX","TEM","JEQE","VOW3","MELI","INTU","VNT","ALLE","ADT"]
 BASE_PROJECTION_SHA256 = 'c8e2fbe4cb401ea2ef8a4c2df18c2cba24ca9308aac82fa5f3d818d0be68bc91'
+ADDED_AFTER_BUILD = {'VIS'}
 SELECTED = ('VNT', 'ALLE', 'ADT', 'OXY', 'CRWV', 'ALC', 'ALM', 'AMD', 'ANT', 'B')
 
 
@@ -23,6 +24,7 @@ class DatedBatch(unittest.TestCase):
         new = source_review.load((ROOT / 'source_reviews.json').read_text())
         projection = copy.deepcopy(new)
         projection['entries'] = {t: projection['entries'][t] for t in BASE_ENTRIES}
+        projection['as_of'] = '2026-11-22'      # later issuers (VIS, 25 Nov) move only the register cutoff
         for value in projection['entries'].values():
             value.pop('monitoring', None)
         digest = hashlib.sha256(json.dumps(projection,sort_keys=True,separators=(',',':')).encode()).hexdigest()
@@ -43,7 +45,8 @@ class DatedBatch(unittest.TestCase):
             value.pop('monitoring', None)
         build = evidence.current_build(ROOT / 'history')
         rows = copy.deepcopy(build['record']['_evidence']['inputs'])
-        self.assertEqual(set(rows), set(e.DATA))
+        self.assertLessEqual(set(rows), set(e.DATA))
+        self.assertLessEqual(set(e.DATA) - set(rows), ADDED_AFTER_BUILD)   # not yet in the latest build
         macro = copy.deepcopy(build['record']['_evidence']['macro'])
         def capture(register):
             with patch.object(e.SOURCE_REVIEW, 'load', return_value=register):
