@@ -66,8 +66,7 @@ def usable_series(symbol, now=None):
     return close, stamp
 
 
-def observe(now, symbols):
-    now = now.astimezone(UTC)
+def collect_quotes(symbols):
     indices = ['^GSPC', '^VIX']
     # Select a new reference time after the HTTP fetch so ticking quotes are not
     # rejected just because their timestamp is a few seconds after the job began.
@@ -78,7 +77,13 @@ def observe(now, symbols):
             return symbol, None
 
     with ThreadPoolExecutor(max_workers=8) as pool:
-        samples = dict(pool.map(get, indices + sorted((set(symbols) | {'EURUSD=X'}) - set(indices))))
+        return dict(pool.map(get, indices + sorted((set(symbols) | {'EURUSD=X'}) - set(indices))))
+
+
+def observe(now, symbols, samples=None):
+    now = now.astimezone(UTC)
+    indices = ['^GSPC', '^VIX']
+    samples = collect_quotes(symbols) if samples is None else samples
     if not all(samples.get(s) for s in indices):
         raise ValueError('Current S&P 500 or VIX quote unavailable')
     equities = {s: pair[0] for s, pair in samples.items() if s in symbols and pair}
