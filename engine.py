@@ -595,6 +595,28 @@ DATA = {
 'NTAP': dict(yf='NTAP', fcf=1650.0, shares=196.42, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 7.5, 'c': 9.0, 'b': 8.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'rev': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'opinc': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'ebitda': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'netdebt': '2026-07-31'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(46.85, 481.74), name='NetApp, Inc.'),
 'OKLO': dict(name='Oklo', yf='OKLO', fcf=None, shares=195.29, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 2.0, 'c': 1.5, 'b': None, 'v': None, 'r': 1.0}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=0.5, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Utilities', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(9.27, 233.96), na='FCF non-positive (-452.6m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
 'PAYX': dict(yf='PAYX', fcf=2016.7, shares=355.98, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 9.0, 'c': 9.5, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'rev': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'opinc': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'ebitda': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'netdebt': '2026-08-31'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(42.72, 255.96), name='Paychex, Inc.'),
+'JD': dict(name='JD.com', yf='JD', cur='USD', sector='Consumer Cyclical',
+    fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    built='primary-review', normalization_status='REVIEW_REQUIRED',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', primary_inputs_only=True,
+    cash_flow_basis='ISSUER_CONSOLIDATED_CASH_FLOW', sanity=None,
+    na='Use the dated CNY statement packet, FX and issuer ADS-equivalent share bridge.',
+    financial_sources=[dict(title='JD.com Q3 2026 results', period='2026-09-30',
+        url='https://www.sec.gov/Archives/edgar/data/1549802/000119312526464688/d179042dex991.htm')],
+    deep_dive='earnings/jd-deep-dive-2026-11-25.html',
+    boot_note='JD Retail profits support investment in new businesses. The September cash bridge precedes CECONOMY consolidation.'),
+'BIDU': dict(name='Baidu', yf='BIDU', cur='USD', sector='Communication Services',
+    fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    built='primary-review', normalization_status='REVIEW_REQUIRED',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', primary_inputs_only=True,
+    cash_flow_basis='ISSUER_CONSOLIDATED_CASH_FLOW', sanity=None,
+    na='Use the dated CNY statement packet, FX and issuer ADS-equivalent share bridge.',
+    financial_sources=[dict(title='Baidu Q3 2026 results', period='2026-09-30',
+        url='https://ir.baidu.com/news-releases/news-release-details/baidu-announces-third-quarter-2026-results')],
+    deep_dive='earnings/bidu-deep-dive-2026-11-25.html',
+    boot_note='AI Cloud Infra is growing while legacy marketing contracts. Trailing consolidated free cash flow remains negative.'),
 'PDD': dict(name='PDD Holdings (Pinduoduo / Temu)', yf='PDD', cur='USD',
     fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
@@ -1572,6 +1594,7 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
             facts = dict(schema=LIVE_ANALYSIS.VERSION, symbol=symbol, inputs={}, currency=row.get('cur'))
         primary = primary_entries.get(ticker, {}).get('valuation', {}).get('financial_packet')
         if ((row.get('cash_offer') or row.get('primary_inputs_only')) and primary
+                and 'depositary_shares' not in primary
                 and (facts.get('financial_period') or '') > primary['financial_period']):
             # A new raw provider quarter lacks the issuer's acquisition-capex and share-class bridge,
             # or (primary_inputs_only) the provider carries no usable cash flow or share count at all.
@@ -1611,6 +1634,19 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
                     and ASSESSMENT.quote_status(cached_quote,as_of)=='DATED'):
                 row.update(cached_quote,price_ts=previous.get('fetched_at'),quote_time_status='CACHED_DATED',
                     price_note='Live quote unavailable; dated cached market quote retained within 96 hours.')
+        # A dated research close can bridge a feed outage on a new ADS listing.
+        # It expires against the original session clock, including on later builds.
+        reference = (primary or {}).get('market_reference') or {}
+        stamp = ASSESSMENT.timestamp(reference.get('quote_observed_at'))
+        if (facts.get('primary_current') and reference.get('currency') == quote_cur and stamp and
+                0 <= (as_of - stamp).total_seconds() <= 72 * 3600):
+            if ASSESSMENT.quote_status(row, as_of) != 'DATED' and positive_number(reference.get('price')):
+                row.update(price=reference['price'], quote_observed_at=reference['quote_observed_at'],
+                           quote_time_status='CACHED_DATED', price_note='Last verified research close.')
+            if finite_number(facts.get('beta')) is None:
+                facts['beta'] = reference.get('beta')
+            if not (facts.get('fx') or {}).get('rate'):
+                facts['fx'] = reference.get('fx')
         pricing = dict(quote=dict(price=row.get('price'), observed_at=row.get('quote_observed_at')),
             risk_free=WACC.resolve_risk_free()/100., mrp=WACC.MARKET_RISK_PREMIUM/100., as_of=as_of,
             cushion_tolerance=CUSHION_TOL)
@@ -2714,6 +2750,8 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
         ticker_label = ('<a href="enagas.html">ENG</a>' if t == 'ENG' else escape(t))
         ticker_label += (f'<br><small><a href="scanner.html?view=universe&amp;ticker={urlquote(t, safe="")}">'
                          'Current analysis</a></small>')
+        if d.get('deep_dive'):
+            ticker_label += f'<br><small><a href="{escape(d["deep_dive"], quote=True)}">Deep dive · ES / EN / DE</a></small>'
         ticker_label += (f'<br><small><a data-company-pdf="{escape(t)}" href="{pdf_urls(t)["en"]}" '
                          'download aria-label="Download company PDF">Download PDF</a></small>')
         rows.append(

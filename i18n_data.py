@@ -2,6 +2,7 @@
 
 TRANSLATIONS = {
   "de": {
+    "Deep dive · ES / EN / DE": "Unternehmensanalyse · ES / EN / DE",
     "Cash offer": "Barangebot",
     "Gross spread at archived close": "Bruttospread zum archivierten Schlusskurs",
     "Offer terms reviewed": "Angebotsbedingungen geprüft",
@@ -602,6 +603,7 @@ TRANSLATIONS = {
     "10y": "10J"
   },
   "es": {
+    "Deep dive · ES / EN / DE": "Análisis en profundidad · ES / EN / DE",
     "Cash offer": "Oferta en efectivo",
     "Gross spread at archived close": "Diferencial bruto al cierre archivado",
     "Offer terms reviewed": "Condiciones de la oferta revisadas",
