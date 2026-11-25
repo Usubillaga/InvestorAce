@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "status": "awaiting",
+  "weights": {
+    "SPX": {
+      "as_of": "2026-11-24",
+      "source": "https://www.ssga.com/us/en/intermediary/etfs/state-street-spdr-sp-500-etf-trust-spy",
+      "rows": [
+        {
+          "name": "Apple Inc.",
+          "ticker": "AAPL",
+          "pct": 8.33
+        },
+        {
+          "name": "NVIDIA Corporation",
+          "ticker": "NVDA",
+          "pct": 6.06
+        },
+        {
+          "name": "Microsoft Corporation",
+          "ticker": "MSFT",
+          "pct": 5.94
+        },
+        {
+          "name": "Amazon.com Inc.",
+          "ticker": "AMZN",
+          "pct": 3.99
+        },
+        {
+          "name": "Alphabet Inc. Class A",
+          "ticker": "GOOGL",
+          "pct": 2.64
+        },
+        {
+          "name": "Broadcom Inc.",
+          "ticker": "AVGO",
+          "pct": 2.31
+        }
+      ]
+    },
+    "NDX": {
+      "as_of": "2026-11-02",
+      "source": "https://www.nasdaq.com/docs/global-indexes/NDX",
+      "rows": [
+        {
+          "name": "APPLE INC.",
+          "ticker": "AAPL",
+          "pct": 8.15
+        },
+        {
+          "name": "NVIDIA CORPORATION",
+          "ticker": "NVDA",
+          "pct": 8.03
+        },
+        {
+          "name": "MICROSOFT CORP",
+          "ticker": "MSFT",
+          "pct": 6.21
+        },
+        {
+          "name": "AMAZON.COM INC",
+          "ticker": "AMZN",
+          "pct": 4.37
+        },
+        {
+          "name": "MICRON TECHNOLOGY",
+          "ticker": "MU",
+          "pct": 4.29
+        },
+        {
+          "name": "TESLA, INC.",
+          "ticker": "TSLA",
+          "pct": 3.5
+        }
+      ]
+    }
+  },
+  "weights_checked": "2026-11-25",
+  "weights_previous_session": "2026-11-24"
+}
