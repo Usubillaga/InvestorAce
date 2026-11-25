@@ -120,6 +120,43 @@ class Account(unittest.TestCase):
         self.assertAlmostEqual(il.value(state, prices, days[8]), 25000 * 1.25 / (1 + il.COST), places=1)
         self.assertFalse(il.fresh(days[0], 17., '17')['currency'] == 'EUR')
 
+    def test_euro_account_combines_index_and_fixed_allocations_through_sale(self):
+        days = self.days[:4]
+        heat, prices = book(days, [12, 12, 85, 50])
+        prices['SPCX'][days[1]] = 345.67
+        holdings = lambda: [('SPCX', .06), ('ANT', .02)]
+        state = il.fresh(days[0], 17., '17-spcx-ant')
+        self.assertIsNotNone(il.decide(state, days[:1], heat, days[1], 12))
+        buy, = il.advance(state, days[:2], heat, prices, holdings)
+        expected = {'SPCX': .4125, 'ANT': .2375, 'RSP': .35}
+        self.assertCountEqual(buy['symbols'], expected.keys())
+        self.assertEqual(set(state['positions']), set(expected))
+        rate = state['fx_buy']
+        cost = 0.
+        for symbol, weight in expected.items():
+            p = state['positions'][symbol]
+            self.assertEqual(p['account_share'], weight)
+            self.assertEqual(p['entry'], prices[symbol][days[1]])
+            self.assertEqual(p['index_weight'], dict(holdings()).get(symbol))
+            self.assertAlmostEqual(p['shares'], 25000 * rate * weight / (p['entry'] * (1 + il.COST)), delta=1e-6)
+            cost += p['shares'] * p['entry'] * (1 + il.COST) / rate
+        self.assertGreaterEqual(state['cash'], 0)
+        self.assertAlmostEqual(state['cash'] + cost, 25000, places=6)
+        self.assertEqual(state['marks'][-1]['equity'], round(25000 / (1 + il.COST), 2))
+        self.assertEqual(il.advance(state, days[:2], heat, prices, holdings), [])
+
+        state['min_hold'] = 1
+        prices[il.FX][days[-1]] = 1.10
+        proceeds = sum(p['shares'] * prices[s][days[-1]] * (1 - il.COST)
+                       for s, p in state['positions'].items()) / 1.10
+        cash = state['cash']
+        sell, = il.advance(state, days, heat, prices, holdings)
+        self.assertEqual(sell['type'], 'SELL')
+        self.assertEqual(state['positions'], {})
+        self.assertAlmostEqual(state['cash'], cash + proceeds, places=6)
+        self.assertEqual(state['trades'][0]['cost'], round(cost, 2))
+        self.assertEqual(state['trades'][0]['proceeds'], round(proceeds, 2))
+
     def test_account_cards_show_positions_value_and_gain(self):
         days = self.days
         heat, prices = book(days, [50] * 5 + [15] + [50] * (len(days) - 6))

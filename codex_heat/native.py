@@ -30,9 +30,13 @@ def load_data(root, refresh):
             if not re.fullmatch('[0-9a-f]{40}', revision):
                 raise ValueError('invalid revision')
             pair = [fetch_json(f'https://raw.githubusercontent.com/{REPO}/{revision}/dist/{name}') for name in FILES]
-            if (not all(x.get('schema') == 1 and x['as_of'] >= prev['as_of'] for x, prev in zip(pair, snapshots))
-                    or not isinstance(pair[0]['history'], list) or set(pair[1]['books']) != {'5', '6'}):
+            if (not all(isinstance(x, dict) and x.get('schema') == 1 and x['as_of'] >= prev['as_of']
+                        for x, prev in zip(pair, snapshots)) or not isinstance(pair[0]['history'], list)
+                    or not isinstance(pair[1]['books'], dict) or set(pair[1]['books']) != {'5', '6'}):
                 raise ValueError('unexpected paper ledger schema or date')
+            for size, book in pair[1]['books'].items():
+                if not isinstance(book, dict) or not isinstance(book.get('holdings'), list):
+                    raise ValueError(f'missing or invalid holdings list for the {size}-company account')
             snapshots = pair
         except (OSError, KeyError, TypeError, ValueError) as exc:
             print(f'Using dated bundled paper journals: {exc}')
