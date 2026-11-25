@@ -1,7 +1,7 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-25T19:36:50.261119+00:00",
- "universe_count": 131,
+ "generated_at": "2026-11-25T21:12:39.801463+00:00",
+ "universe_count": 132,
  "rows": [
   {
    "ticker": "AAPL",
@@ -7558,6 +7558,134 @@
    ]
   },
   {
+   "ticker": "FPS",
+   "listing": "FPS",
+   "name": "Forgent Power Solutions, Inc.",
+   "sector": "Industrials",
+   "financial_currency": "USD",
+   "quote_currency": "USD",
+   "retrieved_at": "2026-11-25T21:12:39.801463+00:00",
+   "attempted_at": "2026-11-25T21:12:39.801463+00:00",
+   "status": "OK",
+   "annual": [
+    {
+     "period_end": "2026-06-30",
+     "basis": "FY",
+     "revenue": 1420059000.0,
+     "gross_profit": 497600000.0,
+     "operating_income": 182489000.0,
+     "net_income": 81845000.0,
+     "ebitda": 251426000.0,
+     "shares_diluted": 243802000.0,
+     "shares_basic": 243532000.0,
+     "debt": 703771000.0,
+     "cash": 97477000.0,
+     "equity": 564317000.0,
+     "assets": 2230765000.0,
+     "liabilities": 1559364000.0,
+     "ocf": 109081000.0,
+     "capex": 115905000.0,
+     "stock_comp": 10036000.0,
+     "buybacks": 1524964000.0,
+     "fcf": -6824000.0,
+     "net_debt": 606294000.0,
+     "gross_margin": 35.04079760066307,
+     "operating_margin": 12.85080408630909,
+     "net_margin": 5.763492925293949,
+     "fcf_margin": -0.48054341404124756,
+     "net_debt_ebitda": 2.4114212531719073,
+     "debt_equity": 1.2471199698042057,
+     "revenue_growth": 88.53978024078981,
+     "dilution": 5.6116305539148925
+    },
+    {
+     "period_end": "2025-06-30",
+     "basis": "FY",
+     "revenue": 753188000.0,
+     "gross_profit": 278066000.0,
+     "operating_income": 72237000.0,
+     "net_income": 15196000.0,
+     "ebitda": 142428000.0,
+     "shares_diluted": 230847681.0,
+     "shares_basic": 230847681.0,
+     "debt": 630477000.0,
+     "cash": 111322000.0,
+     "equity": 374534000.0,
+     "assets": 1536686000.0,
+     "liabilities": 963400000.0,
+     "ocf": 45022000.0,
+     "capex": 84115000.0,
+     "stock_comp": 1784000.0,
+     "buybacks": 0.0,
+     "fcf": -39093000.0,
+     "net_debt": 519155000.0,
+     "gross_margin": 36.91853826667445,
+     "operating_margin": 9.5908325676989,
+     "net_margin": 2.0175573694748192,
+     "fcf_margin": -5.190337604953877,
+     "net_debt_ebitda": 3.6450346841913106,
+     "debt_equity": 1.6833638601568883,
+     "revenue_growth": 315.41448348133036,
+     "dilution": -0.1290608533134896
+    },
+    {
+     "period_end": "2024-06-30",
+     "basis": "FY",
+     "revenue": 181310000.0,
+     "gross_profit": 67740000.0,
+     "operating_income": -4755000.0,
+     "net_income": -17821000.0,
+     "ebitda": 18000000.0,
+     "shares_diluted": 231146000.0,
+     "shares_basic": 231146000.0,
+     "debt": 523374000.0,
+     "cash": 186396000.0,
+     "equity": 517950000.0,
+     "assets": 1352010000.0,
+     "liabilities": 759058000.0,
+     "ocf": -4630000.0,
+     "capex": 2907000.0,
+     "stock_comp": 653000.0,
+     "buybacks": null,
+     "fcf": -7537000.0,
+     "net_debt": 336978000.0,
+     "gross_margin": 37.36142518338757,
+     "operating_margin": -2.622580111411395,
+     "net_margin": -9.829022116816502,
+     "fcf_margin": -4.156968727593624,
+     "net_debt_ebitda": 18.721,
+     "debt_equity": 1.0104720532869969,
+     "revenue_growth": null,
+     "dilution": null
+    }
+   ],
+   "market": {
+    "shares_outstanding": 274527094.0,
+    "float_shares": 190928103.0,
+    "float_pct": 69.54799987792826,
+    "retrieved_at": "2026-11-25T21:12:39.801463+00:00"
+   },
+   "warnings": [],
+   "sources": [
+    {
+     "label": "Yahoo Finance \u00b7 Income statement",
+     "url": "https://finance.yahoo.com/quote/FPS/financials/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Balance sheet",
+     "url": "https://finance.yahoo.com/quote/FPS/balance-sheet/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Cash flow",
+     "url": "https://finance.yahoo.com/quote/FPS/cash-flow/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Share statistics",
+     "url": "https://finance.yahoo.com/quote/FPS/key-statistics/"
+    }
+   ]
+  },
+  {
    "ticker": "FSLR",
    "listing": "FSLR",
    "name": "First Solar, Inc.",
@@ -9937,7 +10065,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-25T19:36:50.261119+00:00",
+   "attempted_at": "2026-11-25T21:12:39.801463+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
