@@ -28,7 +28,9 @@ class DatedBatch(unittest.TestCase):
         digest = hashlib.sha256(json.dumps(projection,sort_keys=True,separators=(',',':')).encode()).hexdigest()
         self.assertEqual(digest,BASE_PROJECTION_SHA256)
         for key in SELECTED:
-            m = new['entries'][key]['monitoring']
+            entry = new['entries'][key]
+            m = next(item for item in [entry['monitoring'], *entry.get('monitoring_history', [])]
+                     if item['as_of'] == '2026-11-23')
             self.assertEqual(m['as_of'], '2026-11-23')
             self.assertEqual(m['coverage'], 'PARTIAL')
             self.assertTrue(m['gap'])

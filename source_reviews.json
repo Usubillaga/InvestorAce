@@ -10790,30 +10790,48 @@
         "transactions": []
       },
       "monitoring": {
-        "as_of": "2026-11-23",
-        "attempted_at": "2026-11-23T08:01:01.943729+00:00",
-        "window_start": "2026-08-25",
-        "window_end": "2026-11-23",
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:31:00Z",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
         "coverage": "PARTIAL",
         "sources": [
           {
+            "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074944/anthropicpbc-424b4.htm",
+            "title": "ANT final prospectus424B4",
+            "id": "0001628280-26-074944",
+            "published_at": "2026-11-18",
+            "retrieved_at": "2026-11-25T07:31:00Z",
+            "locator": "Dividend Policy section; Capitalization pp130-132; consolidated cashflows investing/operating rows; MD&A cashflow table",
+            "facts": "No cash dividends ever declared or paid through prospectus. Pro forma September30 capital table gives A7,583,103,996 and economic N4,789,697,318 before147m full underwriter option and excludes later adjustments; legally outstanding N includes subsidiary-held shares excluded for accounting. No exact post-close denominator inferred."
+          },
+          {
             "url": "https://www.anthropic.com/news/ipo-close",
+            "title": "IPO close and full option",
             "published_at": "2026-11-20",
-            "locator": "IPO close paragraphs",
-            "facts": "Issuer confirms ClassA Nasdaq trading beganNov19. Offering1127000000 shares incl underwriter option147000000; concurrently313253007 ClassN shares privately placed. Offering shares are not total current all-class outstanding. No FCF/share valuation inferred.",
-            "title": "IPO close paragraphs"
+            "retrieved_at": "2026-11-25T07:31:00Z",
+            "locator": "IPO/company versus selling stockholder shares and ClassN concurrent placement",
+            "facts": "1,127m offered ClassA includes1,103,351,354 company-issued plus23,648,646 secondary;313,253,007 ClassN placement. Offering quantities are not all-class outstanding."
           }
         ],
-        "gap": "Read final prospectus consolidated cashflow, converted preferred rights and all-class post-IPO denominator; calendar/payment policies unknown. Watch-only unchanged.",
-        "next_check_date": "2026-11-25",
-        "financial_period": null,
-        "summary": "IPO close and Nasdaq ClassA listing confirmed by issuer. Offering shares are not total spot all-class outstanding; no valuation inferred.",
+        "gap": "Final prospectus read, but period-matched sustainable FCFE, all-class post-close outstanding and full ownership window remain unresolved. Watch-only input retained, no guessed rate or numerical valuation.",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-09-30",
+        "summary": "Final prospectus confirms historical zero cash dividends; IPO offering shares differ from total economic shares. No sustainable valuation or complete insider-window check.",
         "payments": {
-          "common_cash_paid": null,
-          "preferred_cash_paid": null,
+          "period": "Prospectus dated2026-11-18, financials through2026-09-30",
+          "unit": "USD million",
+          "common_cash_paid": 0,
+          "preferred_cash_paid": 0,
+          "cash_dividend_basis": "Dividend Policy section explicitly never declared or paid cash dividends on capital stock through prospectus date; not a claim about later undisclosed events.",
           "preferred_earnings_deduction": null,
           "redemptions": null,
-          "redemption_premium": null
+          "redemption_premium": null,
+          "ocf_9m2026": 6569,
+          "ppe_cash_capex_9m2026": 925,
+          "leased_asset_equipment_prepayments_9m2026": 1955,
+          "prior_ocf_9m2025": -2024,
+          "note": "Do not call OCF minus PPE sustainable FCFE; hosting prepayments, equipment, leases, financing and settlement payments need full bridge."
         },
         "next_common_payment": null,
         "next_earnings": null,
@@ -10821,20 +10839,64 @@
         "insider_attempt": {
           "status": "PARTIAL",
           "complete": false,
-          "gap": "Native IR filing page renders only filters/no rows. Indexed Forms3 and prospectus existence do not prove complete Forms4/4A coverage or no events.",
+          "gap": "IR filings page renders filters only; native SEC issuer type4 count100 query inaccessible. No full pagination or Forms4/4A documents read, no no-events inference.",
           "events": [],
-          "sources": [
-            "https://investor.anthropic.com/sec-filings/default.aspx"
-          ]
+          "sources": []
         },
-        "evidence_packet": "docs/analysis/issuer-events-20261123",
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
         "evidence_sha256": {
-          "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
-          "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
-          "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
         },
-        "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
-      }
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      },
+      "monitoring_history": [
+        {
+          "as_of": "2026-11-23",
+          "attempted_at": "2026-11-23T08:01:01.943729+00:00",
+          "window_start": "2026-08-25",
+          "window_end": "2026-11-23",
+          "coverage": "PARTIAL",
+          "sources": [
+            {
+              "url": "https://www.anthropic.com/news/ipo-close",
+              "published_at": "2026-11-20",
+              "locator": "IPO close paragraphs",
+              "facts": "Issuer confirms ClassA Nasdaq trading beganNov19. Offering1127000000 shares incl underwriter option147000000; concurrently313253007 ClassN shares privately placed. Offering shares are not total current all-class outstanding. No FCF/share valuation inferred.",
+              "title": "IPO close paragraphs"
+            }
+          ],
+          "gap": "Read final prospectus consolidated cashflow, converted preferred rights and all-class post-IPO denominator; calendar/payment policies unknown. Watch-only unchanged.",
+          "next_check_date": "2026-11-25",
+          "financial_period": null,
+          "summary": "IPO close and Nasdaq ClassA listing confirmed by issuer. Offering shares are not total spot all-class outstanding; no valuation inferred.",
+          "payments": {
+            "common_cash_paid": null,
+            "preferred_cash_paid": null,
+            "preferred_earnings_deduction": null,
+            "redemptions": null,
+            "redemption_premium": null
+          },
+          "next_common_payment": null,
+          "next_earnings": null,
+          "payment_events": [],
+          "insider_attempt": {
+            "status": "PARTIAL",
+            "complete": false,
+            "gap": "Native IR filing page renders only filters/no rows. Indexed Forms3 and prospectus existence do not prove complete Forms4/4A coverage or no events.",
+            "events": [],
+            "sources": [
+              "https://investor.anthropic.com/sec-filings/default.aspx"
+            ]
+          },
+          "evidence_packet": "docs/analysis/issuer-events-20261123",
+          "evidence_sha256": {
+            "new.json": "c281057b9716e3c14e5ec30c1c1832e78fd6b89186f618c1a165d3b6e4daf18b",
+            "due.json": "8b7443d982daaaf0375c67f0fb31ba81020028a8bf05b29378c494c298c1a555",
+            "rotation.json": "a4713548b2159a211e2c4456745e6607cb7b769ca70b1ea3614436c793119812"
+          },
+          "note": "Partial source check, not a sustainable valuation or full90d insider certification. Historical reviews keep their own dates."
+        }
+      ]
     },
     "B": {
       "issuer": "Barrick Mining Corporation",
@@ -11324,6 +11386,859 @@
           "packet.json": "0a1ffc5637e467b716d04cb0ea918f42c4144e6cebaf344ac4cebec0a5bd4d5e"
         },
         "note": "Partial source check only. Does not refresh valuation or insider checks; actual payment date unknown."
+      }
+    },
+    "CLX": {
+      "issuer": "CLX",
+      "listing": "CLX / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:32:58.019549+00:00",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investors.thecloroxcompany.com/news/news-details/2026/Clorox-Reports-Q1-Fiscal-Year-2027-Results-Updates-Outlook/default.aspx",
+            "published_at": "2026-11-02",
+            "retrieved_at": "2026-11-25T07:32:58.019549+00:00",
+            "locator": "Q1FY27 summary and ERP transition paragraphs",
+            "facts": "Q1 OCF143m USD vs93m; sales+33%, GOJO acquisition15points, organic+18% reflecting ERP inventory lap. Revenue growth is not cashflow-growth cushion.",
+            "title": "CLX original source"
+          },
+          {
+            "url": "https://investors.thecloroxcompany.com/news/news-details/2026/Clorox-Declares-Regular-Quarterly-Dividend-of-1-25-Per-Share-553801cb4/default.aspx",
+            "published_at": "2026-11-17",
+            "retrieved_at": "2026-11-25T07:32:58.019549+00:00",
+            "locator": "Declaration paragraph",
+            "facts": "Common dividend1.25USD, payableFeb12 2027, recordJan27 close of business.",
+            "title": "CLX original source"
+          }
+        ],
+        "gap": "GOJO/ERP comparability, matched annual/prior-quarter TTM, point-in-time shares and current preferred/equity claims unresolved. Calendar beyond reported Q1 unknown.",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-09-30",
+        "summary": "1.25 USD common dividend declared; payable 2027-02-12, actual payment unverified. GOJO/ERP comparability, matched annual/prior-quarter TTM, point-in-time shares and current preferred/equity claims unresolved. Calendar beyond reported Q1 unknown.",
+        "payments": {
+          "period": "Q1FY27",
+          "unit": "USD million",
+          "ocf": 143,
+          "prior_ocf": 93,
+          "common_cash_paid": null,
+          "preferred_cash_paid": null
+        },
+        "next_common_payment": {
+          "amount": 1.25,
+          "currency": "USD",
+          "declared_on": "2026-11-17",
+          "record_date": "2027-01-27",
+          "record_timing": "CLOSE_OF_BUSINESS",
+          "ex_date": null,
+          "payable_date": "2027-02-12",
+          "actual_payment_date": null,
+          "status": "DECLARED_NOT_PAID"
+        },
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "Native IR filings page rendered filters but no document rows. Full90d pagination/original reports unavailable. No no-events claim.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      }
+    },
+    "CSCO": {
+      "issuer": "CSCO",
+      "listing": "CSCO / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:32:58.019549+00:00",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investor.cisco.com/news/news-details/2026/CISCO-REPORTS-FIRST-QUARTER-EARNINGS/default.aspx",
+            "published_at": "2026-11-12",
+            "retrieved_at": "2026-11-25T07:32:58.019549+00:00",
+            "locator": "Dividend declaration; Capital Allocation; consolidated cashflows rows",
+            "facts": "Q1 USDm OCF4357 vs3212; cash PPE502 vs323; paid common dividend0.42USD/~1.7bn described, cashflow dividends paid1654m. Future0.42USD Jan20 2027 recordJan4. EPS shares3948m/3978m weighted, not spot.",
+            "title": "CSCO original source"
+          }
+        ],
+        "gap": "Q1 data read; FY/priorQ TTM, sustainable normalization, dated spot shares and preferred/equity notes unresolved. Quarterly paid aggregate verified, exact paid day unverified.",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-10-24",
+        "summary": "0.42 USD common dividend declared; payable 2027-01-20, actual payment unverified. Q1 data read; FY/priorQ TTM, sustainable normalization, dated spot shares and preferred/equity notes unresolved. Quarterly paid aggregate verified, exact paid day unverified.",
+        "payments": {
+          "period": "three months ended2026-10-24",
+          "unit": "USD million",
+          "ocf": 4357,
+          "cash_capex": 502,
+          "ocf_minus_cashcapex_derived": 3855,
+          "common_cash_paid": 1654,
+          "preferred_cash_paid": null,
+          "actual_payment_date": null,
+          "basis": "Release explicitly says common cash dividend declared and paid in Q1; cashflow total1654m. Exact paid day not independently reconciled."
+        },
+        "next_common_payment": {
+          "amount": 0.42,
+          "currency": "USD",
+          "declared_on": "2026-11-12",
+          "record_date": "2027-01-04",
+          "record_timing": "CLOSE_OF_BUSINESS",
+          "ex_date": null,
+          "payable_date": "2027-01-20",
+          "actual_payment_date": null,
+          "status": "DECLARED_NOT_PAID"
+        },
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "Native IR filings page rendered filter/table header without rows; original90d Forms4/4A and pagination not obtained.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      }
+    },
+    "CPAY": {
+      "issuer": "CPAY",
+      "listing": "CPAY / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:32:58.019549+00:00",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investor.corpay.com/news-releases/news-release-details/corpay-reports-third-quarter-financial-results-0/",
+            "published_at": "2026-11-04",
+            "retrieved_at": "2026-11-25T07:32:58.019549+00:00",
+            "locator": "Condensed cashflows, USD thousands; growth highlights",
+            "facts": "9M OCF716283 thousand less PPE143382 thousand=572901 thousand reported proxy. SBC92928 thousand. Q3 revenue+18%, adjusted EPS+32%, distinct from FCF growth. Redeemable NCI320000 thousand separate from issuer preferred claims. Important non-GAAP definition paragraph: issuer uses free cash flow, cash net income and adjusted net income interchangeably. This is adjusted earnings, not reported OCF minus cash capex.",
+            "title": "CPAY original source"
+          },
+          {
+            "url": "https://investor.corpay.com/financial-information/sec-filings",
+            "published_at": null,
+            "retrieved_at": "2026-11-25T07:32:58.019549+00:00",
+            "locator": "First10/1467 rows",
+            "facts": "Latest Nov24 Form144 is intended sale, not executed transaction; Aug25 Forms4 are before Aug27-Nov25 cutoff. Page1 inaccessible.",
+            "title": "CPAY original source"
+          }
+        ],
+        "gap": "Annual/priorYTD TTM, merchant/customer cash/restricted funds and redeemable NCI common-equity bridge, dated outstanding shares and payment notes unresolved; no zero dividend inferred. Issuer-named free cash flow is adjusted net income under its own definition; importing that label as OCF-capex would mix bases.",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-09-30",
+        "summary": "Annual/priorYTD TTM, merchant/customer cash/restricted funds and redeemable NCI common-equity bridge, dated outstanding shares and payment notes unresolved; no zero dividend inferred. Issuer-named free cash flow is adjusted net income under its own definition; importing that label as OCF-capex would mix bases.",
+        "payments": {
+          "period": "9M2026",
+          "unit": "USD thousand",
+          "ocf": 716283,
+          "cash_capex": 143382,
+          "ocf_minus_cashcapex_derived": 572901,
+          "common_cash_paid": null,
+          "preferred_cash_paid": null
+        },
+        "next_common_payment": null,
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "First10/1467 filings read, page1 inaccessible. No current original4/4A obtained. Form144 intended sale is not confirmed execution; Aug25 Forms4 outside rolling window.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      }
+    },
+    "CTVA": {
+      "issuer": "CTVA",
+      "listing": "CTVA / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:35:00Z",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000035/ctva-20260930.htm",
+            "published_at": "2026-11-12",
+            "id": "0001755672-26-000035",
+            "locator": "Printed pp2-3 separation/accounting-successor paragraphs; Note13 p35; balance and equity notes",
+            "facts": "October1 Vylor Seed spin-off completed. Vylor is accounting successor despite legal spinnee status. Historical combined Corteva/EIDP statements are not automatically continuing Crop Protection CTVA. EIDP third-party preferred shares1.673m/$4.50 series and0.700m/$3.50 series are NCI at Corteva level; period/scope reconciliation required.",
+            "title": "0001755672-26-000035"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/30554/000175567226000031/a3q_2026xearningsxnewsxr.htm",
+            "published_at": "2026-11-11",
+            "id": "0001755672-26-000031-EX99.1",
+            "locator": "Release pp1-2 pro forma current crop-protection summary and definition",
+            "facts": "New Corteva 9M pro forma sales5357mUSD versus5419m prior, organic sales-4%, flat volume. Pro forma GAAP continuing income112m; these are not cashflow growth or a sustainable FCFE calculation. First post-spin common dividend authorized, exact amount/date was not present in read release.",
+            "title": "0001755672-26-000031-EX99.1"
+          },
+          {
+            "url": "https://investors.corteva.com/financial-information/sec-filings",
+            "published_at": null,
+            "locator": "First10 native filings; Nov23 Form4 and Nov16 Forms4",
+            "facts": "First10 listing read. Nov23 original HTML and PDF returned403. page1 and SEC issuer type4 query inaccessible. Completeness not established.",
+            "title": "CTVA original source"
+          }
+        ],
+        "gap": "Postspin crop protection cashflow/annual/priorYTD/TTM, preferred/NCI bridge, dated common shares and native ownership coverage remain incomplete. Preserve existing null valuation; no numeric replacement.",
+        "next_check_date": "2026-12-01",
+        "financial_period": "2026-09-30",
+        "summary": "Postspin crop protection cashflow/annual/priorYTD/TTM, preferred/NCI bridge, dated common shares and native ownership coverage remain incomplete. Preserve existing null valuation; no numeric replacement.",
+        "payments": {
+          "period": "9M2026",
+          "common_cash_paid": null,
+          "preferred_cash_paid": null,
+          "preferred_earnings_deduction": null,
+          "redemptions": null,
+          "redemption_premium": null,
+          "gap": "Historical EIDP preferred obligations must be assigned to correct entity following spin. No actual cash-paid split asserted."
+        },
+        "next_common_payment": null,
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "First10 list only; failed original Nov23 Form4 and pagination. No complete90d assertion or no-events claim.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      }
+    },
+    "DLO": {
+      "issuer": "DLO",
+      "listing": "DLO / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:35:00Z",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1846832/000184683226000037/ex_991-dlocalxearningsxres.htm",
+            "id": "0001846832-26-000037-EX99.1",
+            "published_at": "2026-11-12",
+            "locator": "Adjusted Free Cash Flow reconciliation; consolidated cashflows financing; financial highlights",
+            "facts": "USD thousands 9M2026: IFRS OCF412539, merchant WC201571, capex28717, management adjustedFCF182251. Prior adjustedFCF125775. Capex includes PPE+intangibles. Dividends paid57211 unclassified, quarter zero. Corporate cash536.9mUSD within total1033.887m. Revenue growth50% and TPV81% are separate from cashflow. Management adjustedFCF is non-IFRS, not certified sustainable FCFE.",
+            "title": "0001846832-26-000037-EX99.1"
+          },
+          {
+            "url": "https://dlocal.gcs-web.com/node/8981/html",
+            "id": "0000950142-26-003131",
+            "published_at": "2026-11-19",
+            "locator": "Schedule13D/A Item5(c), signature/date",
+            "facts": "General Atlantic DO B.V. sold12,813,179 ClassA common shares in open-market transactions Nov17 at average12.90USD. Shared ownership reported by group must not multiply the transaction. 10b5-1 evidence unknown; not a Form4 or standalone manager motive.",
+            "title": "0000950142-26-003131"
+          },
+          {
+            "url": "https://dlocal.gcs-web.com/financials/sec-filings",
+            "published_at": null,
+            "locator": "First10 filings Nov19 throughAug10",
+            "facts": "Listing spans the review window; page1 inaccessible. Read Nov19 original13D/A. Nov17 Form144 exists but original rendered no transaction data; intention is not execution. Full ownership/amendment coverage unresolved.",
+            "title": "DLO original source"
+          }
+        ],
+        "gap": "Merchant/customer flows remain material. Need matched FY/priorYTD/TTM and corporate liabilities/cash/spot shares bridge; no blind provider or management-FCF override.",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-09-30",
+        "summary": "Merchant/customer flows remain material. Need matched FY/priorYTD/TTM and corporate liabilities/cash/spot shares bridge; no blind provider or management-FCF override.",
+        "payments": {
+          "period": "9M2026",
+          "unit": "USD thousand",
+          "dividend_cash_paid_unclassified": 57211,
+          "quarter_dividend_cash_paid": 0,
+          "common_cash_paid": null,
+          "preferred_cash_paid": null,
+          "preferred_earnings_deduction": null,
+          "redemptions": null,
+          "redemption_premium": null
+        },
+        "next_common_payment": null,
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "Native first10 read and one13D/A adjudicated; full90d ownership coverage and foreign-private-issuer reporting obligations not certified. Form144 is proposed sale only.",
+          "events": [
+            {
+              "owner": "General Atlantic DO B.V.",
+              "role": "reporting shareholder group",
+              "transaction_date": "2026-11-17",
+              "filing_date": "2026-11-19",
+              "published_date": "2026-11-19",
+              "form": "13D/A",
+              "code": "S",
+              "instrument": "Class A common shares",
+              "table": "SCHEDULE13D_ITEM5C",
+              "quantity": 12813179,
+              "unit": "shares",
+              "price": 12.9,
+              "currency": "USD",
+              "ownership": "Direct record holder GA DO; shared beneficial reporting group",
+              "acquisition_disposition": "D",
+              "plan_10b5_1": "UNKNOWN",
+              "source": "https://dlocal.gcs-web.com/node/8981/html"
+            }
+          ],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      }
+    },
+    "ELE": {
+      "issuer": "ELE",
+      "listing": "ELE.MC / EUR",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:35:00Z",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://www.endesa.com/content/dam/endesa-com/home/inversores/informacionpublicaperiodica/documentos/2026/novedades/1s/dividendo-a-cuenta-2026---24-nov-2026.pdf",
+            "id": "CNMV-OIR43818",
+            "published_at": "2026-11-24T18:18:00+01:00",
+            "locator": "One-page declaration, amount and three relevant dates",
+            "facts": "Board Nov24 approves0.50EUR gross per common share against2026 earnings. ExJan8, recordJan11, paymentJan12 2027. Future payable only.",
+            "retrieval_ref": "turn753546176view0",
+            "page": 1,
+            "extracted_facts_by_line": {
+              "L2": "Madrid24 November2026",
+              "L7-L8": "Interim against2026 profits0.50EUR gross/share",
+              "L9-L13": "Payment from12January2027 via Banco Santander",
+              "L15-L16": "Exdate8January2027",
+              "L17-L18": "Record11January2027",
+              "L19": "Payment12January2027"
+            },
+            "title": "CNMV-OIR43818"
+          },
+          {
+            "url": "https://www.endesa.com/content/dam/endesa-com/home/inversores/informacionpublicaperiodica/documentos/2026/cnmv/9m/informedegestionconsolidado3t2026.pdf",
+            "published_at": "2026-10-28",
+            "id": "CNMV-OIR43352",
+            "locator": "Printed pp49-51 and113 cashflow; dividend section84",
+            "facts": "EUR million9M2026: OCF3467, cash PPE+intangibles1574, parent dividends paid1629, NCI89. Gross investments1622 differ from cashcapex1574. Derived OCF-cashcapex1893 is9M reported consolidated proxy, not sustainable TTM FCFE. Keep cash payments separate from equity distributions.",
+            "title": "CNMV-OIR43352"
+          },
+          {
+            "url": "https://www.cnmv.es/portal/otra-informacion-regulada-corporativa/derechos-voto-capital?Nif=A-28023430&lang=es",
+            "published_at": null,
+            "locator": "Total shares/voting rights current table",
+            "facts": "RegisteredOct27 2026 total issued shares1,023,738,244 versus March28 1,041,744,551. Net outstanding denominator still requires treasury-stock reconciliation.",
+            "title": "ELE original source"
+          },
+          {
+            "url": "https://www.endesa.com/en/shareholders-and-investors/for-investors/investors-calendar",
+            "published_at": null,
+            "locator": "2026 calendar",
+            "facts": "Oct28 2026 nine-month results is past; no confirmed next earnings date in retrieved calendar.",
+            "title": "ELE original source"
+          },
+          {
+            "url": "https://www.cnmv.es/portal/Consultas/Notificacion-Directivos",
+            "published_at": null,
+            "locator": "Native managers notification landing",
+            "facts": "Query controls/categories only; no issuer/window records or pagination obtained. Corporate buyback filings are not insider trades.",
+            "title": "ELE original source"
+          }
+        ],
+        "gap": "FY/priorYTD/TTM, EUR rate/common-equity cashflow and net treasury-share denominator remain unresolved; native90d ownership coverage incomplete.",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-09-30",
+        "summary": "0.5 EUR common dividend declared; payable 2027-01-12, actual payment unverified. FY/priorYTD/TTM, EUR rate/common-equity cashflow and net treasury-share denominator remain unresolved; native90d ownership coverage incomplete.",
+        "payments": {
+          "period": "9M2026",
+          "unit": "EUR million",
+          "common_parent_cash_paid": 1629,
+          "noncontrolling_cash_paid": 89,
+          "preferred_cash_paid": null,
+          "preferred_earnings_deduction": null,
+          "redemptions": null,
+          "redemption_premium": null
+        },
+        "next_common_payment": {
+          "declared_on": "2026-11-24",
+          "published_on": "2026-11-24",
+          "amount": 0.5,
+          "currency": "EUR",
+          "ex_date": "2027-01-08",
+          "record_date": "2027-01-11",
+          "payable_date": "2027-01-12",
+          "actual_payment_date": null,
+          "status": "DECLARED_NOT_PAID",
+          "timezone": "Europe/Madrid",
+          "published_on_timestamp": "2026-11-24T18:18:00+01:00"
+        },
+        "next_earnings": null,
+        "payment_events": [
+          {
+            "event_type": "COMMON_DIVIDEND",
+            "declaration_date": "2026-11-24",
+            "announcement_date": "2026-11-24T18:18:00+01:00",
+            "ex_date": "2027-01-08",
+            "record_date": "2027-01-11",
+            "payable_date": "2027-01-12",
+            "actual_paid_date": null,
+            "amount_per_share": 0.5,
+            "currency": "EUR",
+            "timezone": "Europe/Madrid",
+            "payment_status": "DECLARED_NOT_PAID",
+            "source": "https://www.endesa.com/content/dam/endesa-com/home/inversores/informacionpublicaperiodica/documentos/2026/novedades/1s/dividendo-a-cuenta-2026---24-nov-2026.pdf"
+          }
+        ],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "NativeCNMV query not issuer/window filtered; no original manager reports obtained; no no-events claim.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      }
+    },
+    "ENS": {
+      "issuer": "ENS",
+      "listing": "ENS / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:28:34Z",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://investor.enersys.com/news/news-details/2026/EnerSys-Reports-Second-Quarter-Fiscal-Year-2027-Results/default.aspx",
+            "id": "ENS-Q2FY27-20261111",
+            "published_at": "2026-11-11",
+            "retrieved_at": "2026-11-25T07:28:34Z",
+            "locator": "Quarterly Dividend; Balance Sheet/Cash Flow; six-month cash-flow statement financing; GAAP/non-GAAP reconciliation",
+            "facts": "Quarter OCF142.8m/capex12.4m/FCF130.4m versus218.0/20.9/197.1m; prior-year tax refund affects comparison. Six-month OCF372819k less24821k capex=347998k. Future dividend0.2875USD recordDec18 payableDec31. Net debt554.9m is credit-facility definition, not automatically generic debt minus cash.",
+            "title": "ENS-Q2FY27-20261111"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1289308/000143774926036172/xslF345X06/rdgdoc.xml",
+            "id": "0001437749-26-036172",
+            "published_at": "2026-11-10T16:15:12-05:00",
+            "retrieved_at": "2026-11-25T07:28:34Z",
+            "locator": "TableI and footnote1",
+            "title": "0001437749-26-036172"
+          }
+        ],
+        "gap": "FY/priorYTD/TTM and dated outstanding shares not independently reconciled; source current period agrees with cachedOct4. IRC45X/tariff refunds and acquisition effects require normalization. Empty dynamic calendar does not certify no future events. No numeric override.",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-10-04",
+        "summary": "0.2875 USD common dividend declared; payable 2026-12-31, actual payment unverified. FY/priorYTD/TTM and dated outstanding shares not independently reconciled; source current period agrees with cachedOct4. IRC45X/tariff refunds and acquisition effects require normalization. Empty dynamic calendar does not certify no future events. No numeric override.",
+        "payments": {
+          "period": "six months ended2026-10-04",
+          "unit": "USD thousand",
+          "scope": "CONSOLIDATED",
+          "dividend_cash_paid_unclassified": 19854,
+          "common_cash_paid": null,
+          "preferred_cash_paid": null,
+          "preferred_earnings_deduction": null,
+          "redemptions": null,
+          "redemption_premium": null,
+          "ocf": 372819,
+          "cash_capex": 24821,
+          "derived_ocf_minus_cashcapex": 347998,
+          "formula": "372819-24821",
+          "quarter_common_dividend_paid_approx_usd_m": 10.3,
+          "cash_paid_basis": "Quarter narrative explicitly calls10.3m quarterly dividend payment. Six-month financing line is dividends paid to stockholders, class split not assumed."
+        },
+        "next_common_payment": {
+          "amount": 0.2875,
+          "currency": "USD",
+          "declared_on": "2026-11-11",
+          "announcement_date": "2026-11-11",
+          "ex_date": null,
+          "record_date": "2026-12-18",
+          "payable_date": "2026-12-31",
+          "actual_payment_date": null,
+          "status": "DECLARED_NOT_PAID"
+        },
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "IR SEC page contains filters but no filing rows. Native SEC count100 type4 query inaccessible. One original Form4 read, no full90day pagination or amendments reconciliation.",
+          "events": [
+            {
+              "owner": "Shawn M. O'Connell",
+              "role": "Director; President and CEO",
+              "transaction_date": "2026-11-08",
+              "filing_date": "2026-11-10",
+              "published_date": "2026-11-10",
+              "instrument": "Common Stock",
+              "table": "NON_DERIVATIVE",
+              "code": "F",
+              "acquisition_disposition": "D",
+              "quantity": 568,
+              "unit": "shares",
+              "price": 147.02,
+              "currency": "USD",
+              "ownership": "DIRECT",
+              "plan_10b5_1": "UNKNOWN",
+              "classification": "RSU-vesting forfeiture per footnote1; not classified as discretionary open-market sale",
+              "source": "https://www.sec.gov/Archives/edgar/data/1289308/000143774926036172/xslF345X06/rdgdoc.xml"
+            }
+          ],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      }
+    },
+    "FICO": {
+      "issuer": "FICO",
+      "listing": "FICO / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:28:34Z",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/814547/000081454726000042/fico-20260930.htm",
+            "id": "0000814547-26-000042",
+            "published_at": null,
+            "retrieved_at": "2026-11-25T07:28:34Z",
+            "locator": "10K cover; Item5 dividends p36; balance sheetp57; cashflowp60",
+            "facts": "FY2026 OCF1072065k, PPE2140k, capitalized internal software35550k, SBC185457k. Cover21380929 common outstandingOct23 excluding treasury. Preferred none issued/outstanding at both balance dates. No common dividends sinceMay2017. Raw cached FCF1034375k already includes both investing categories; no replacement justified.",
+            "title": "0000814547-26-000042"
+          },
+          {
+            "url": "https://investors.fico.com/event-calendar",
+            "published_at": null,
+            "retrieved_at": "2026-11-25T07:28:34Z",
+            "locator": "Current Events: More events coming soon; Nov4 Q4 call under Past Events",
+            "title": "FICO original source"
+          },
+          {
+            "url": "https://investors.fico.com/sec-filings",
+            "retrieved_at": "2026-11-25T07:28:34Z",
+            "locator": "First10 rowsNov24-Nov13; native IR table",
+            "title": "FICO original source"
+          }
+        ],
+        "gap": "Sustainable common-equity FCF/rate and cashflow growth normalization remain unverified despite matching FY raw FCF. Spot shares now independently sourced but no automatic denominator correction needed. Full90day ownership/amendment list incomplete. Calendar explicitly supplies no current event date.",
+        "next_check_date": "2026-12-02",
+        "financial_period": "2026-09-30",
+        "summary": "Sustainable common-equity FCF/rate and cashflow growth normalization remain unverified despite matching FY raw FCF. Spot shares now independently sourced but no automatic denominator correction needed. Full90day ownership/amendment list incomplete. Calendar explicitly supplies no current event date.",
+        "payments": {
+          "period": "FY2026 ended2026-09-30",
+          "unit": "USD thousand",
+          "scope": "CONSOLIDATED",
+          "common_cash_paid": 0,
+          "common_dividend_policy": "10KItem5 explicitly no common cash dividends declared or paid sinceMay2017, no present plan for foreseeable future",
+          "preferred_outstanding": 0,
+          "preferred_outstanding_dates": [
+            "2026-09-30",
+            "2025-09-30"
+          ],
+          "preferred_cash_paid": null,
+          "preferred_earnings_deduction": null,
+          "redemptions": null,
+          "redemption_premium": null,
+          "ocf": 1072065,
+          "ppe_cash_capex": 2140,
+          "capitalized_internal_software": 35550,
+          "derived_ocf_minus_ppe_and_software": 1034375,
+          "formula": "1072065-2140-35550",
+          "shares_outstanding": 21380929,
+          "shares_asof": "2026-10-23",
+          "share_unit": "shares"
+        },
+        "next_common_payment": null,
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "PARTIAL",
+          "complete": false,
+          "gap": "First ten native IR filings read; pagination page1 inaccessible. Selected Nov16 Form4 URL initially resolved but repeat403 prevented transaction-table verification. Nov24 Form144 is intended sale disclosure, not proof of executed trade. No complete90day coverage or no-events conclusion.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
+      }
+    },
+    "FNV": {
+      "issuer": "FNV",
+      "listing": "FNV / USD",
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Numerical tie-out remains open; see individually dated monitoring.",
+        "sources": []
+      },
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Full current disclosure-window certification remains open.",
+        "sources": [],
+        "coverage": {
+          "complete": false
+        },
+        "limitations": [
+          "See individually dated monitoring."
+        ],
+        "transactions": []
+      },
+      "monitoring": {
+        "as_of": "2026-11-25",
+        "attempted_at": "2026-11-25T07:28:34Z",
+        "window_start": "2026-08-27",
+        "window_end": "2026-11-25",
+        "coverage": "PARTIAL",
+        "sources": [
+          {
+            "url": "https://s201.q4cdn.com/345177888/files/content_files/FNV_News_Release_2026-11-11.pdf",
+            "id": "FNV-Q3-20261111",
+            "published_at": "2026-11-11",
+            "retrieved_at": "2026-11-25T07:28:34Z",
+            "locator": "p1 headline; p8 dividend declaration; p15 cashflow",
+            "facts": "USD0.44 common dividend recordDec3/payableDec17. Q3 revenue549.3m+13%, GEOsold130435 -6%, OCF429.2m+23%; these growth types differ. Nine-month OCF1432.1m; royalty/stream/working-interest acquisitions663.6m, energy-well equipment1.1m, PPE0.5m; dividends paid241.3m. CobrePanama partial impairment reversal10.3m and stockpile deliveries differ from sustained restart.",
+            "title": "FNV-Q3-20261111"
+          },
+          {
+            "url": "https://www.sec.gov/Archives/edgar/data/1456346/000110465926125540/fnv-ex99d1.htm",
+            "id": "0001104659-26-125540-EX99.1",
+            "published_at": "2026-11-11",
+            "retrieved_at": "2026-11-25T07:28:34Z",
+            "locator": "Dividend Declaration; cashflow financing Payment of dividends",
+            "title": "0001104659-26-125540-EX99.1"
+          }
+        ],
+        "gap": "Dated all-class outstanding shares, royalty/stream investment and impairment normalization and FY/priorYTD/TTM comparison remain open. Do not substitute operating GEO growth for cashflow growth. Dynamic calendar blank does not prove no events.",
+        "next_check_date": "2026-12-18",
+        "financial_period": "2026-09-30",
+        "summary": "0.44 USD common dividend declared; payable 2026-12-17, actual payment unverified. Dated all-class outstanding shares, royalty/stream investment and impairment normalization and FY/priorYTD/TTM comparison remain open. Do not substitute operating GEO growth for cashflow growth. Dynamic calendar blank does not prove no events.",
+        "payments": {
+          "period": "9M2026 ended2026-09-30",
+          "unit": "USD million",
+          "scope": "CONSOLIDATED",
+          "dividend_cash_paid_unclassified": 241.3,
+          "common_cash_paid": null,
+          "preferred_cash_paid": null,
+          "preferred_earnings_deduction": null,
+          "redemptions": null,
+          "redemption_premium": null,
+          "ocf": 1432.1,
+          "royalty_stream_working_interest_acquisitions": 663.6,
+          "energy_well_equipment": 1.1,
+          "ppe": 0.5,
+          "caution": "Royalty acquisition investment not identical to maintenance capex; no sustainable FCF normalization certified."
+        },
+        "next_common_payment": {
+          "amount": 0.44,
+          "currency": "USD",
+          "declared_on": null,
+          "announced_on": "2026-11-11",
+          "ex_date": null,
+          "record_date": "2026-12-03",
+          "payable_date": "2026-12-17",
+          "actual_payment_date": null,
+          "status": "DECLARED_NOT_PAID",
+          "fx_note": "CAD equivalent determined using Bank of Canada daily average on record date, not fixed current FX"
+        },
+        "next_earnings": null,
+        "payment_events": [],
+        "insider_attempt": {
+          "status": "UNAVAILABLE",
+          "complete": false,
+          "gap": "NativeSEDI redirects to Perfdrive validation wall. No issuer-window list, originals or pagination available; SEC Form4 absence is not suitable substitute for Canadian native disclosure.",
+          "events": [],
+          "sources": []
+        },
+        "evidence_packet": "docs/analysis/issuer-events-20261125",
+        "evidence_sha256": {
+          "packet.json": "81a57fd94c5ed7164921c0f281296365686ba42c3b5721917bcb2fb3848e7196"
+        },
+        "note": "Partial monitoring only. Earlier valuation and insider reviews retain their original dates. Payable is not actual payment."
       }
     }
   }
