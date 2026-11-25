@@ -11341,8 +11341,20 @@
       },
       "valuation": {
         "status": "PARTIAL",
-        "reason": "Issuer FY2025 cash flow derived from the net-bank-debt bridge, not a reported cash-flow statement. Treasury shares not deducted. Reconcile the 9M26 cash bridge and the December 2026 scrip dividend before approval.",
+        "reason": "Audited FY2025 consolidated cash flow, profit, financial debt and cash. June 2026 ordinary shares exclude treasury stock; later repurchases and the December scrip require a fresh denominator. September has no complete cash-flow statement. Analyst review remains open.",
         "sources": [
+          {
+            "title": "FY2025 consolidated accounts: cash flows pp. 7–8; notes 7, 12, 15, 20 and 21.4",
+            "url": "https://public.viscofan.com/investor-relations/financialinformation/en/Informe%20consolidado%20Grupo%20Viscofan%202025_EN_v2.pdf"
+          },
+          {
+            "title": "H1 2026 consolidated interim report, note 12: share capital and treasury shares",
+            "url": "https://docs.publicnow.com/viewDoc?filename=46558%5CEXT%5C493BAFCE124FECD1C5B0A6B06743CFAE16167217_92E4E0C835252211C094BA8080C0EEE7464DDFF4.PDF"
+          },
+          {
+            "title": "H1 2025 consolidated interim report: comparative treasury shares",
+            "url": "https://public.viscofan.com/investor-relations/financialinformation/es/Informe%20financiero%20Enero-Junio%202025_ES.pdf"
+          },
           {
             "title": "Viscofan 2025 results and Beat'30 strategy (27 Feb 2026)",
             "url": "https://public.viscofan.com/investor-relations/financialinformation/en/Presentaci%C3%B3n%20Resultados%202025%20y%20BEAT30_EN.pdf"
@@ -11365,45 +11377,51 @@
           "symbol": "VIS.MC",
           "currency": "EUR",
           "financial_currency": "EUR",
-          "published_at": "2026-02-27T23:59:59+00:00",
-          "fetched_at": "2026-11-25T13:30:00+00:00",
-          "publication_time_basis": "Conservative end-of-day bound for the 27 Feb 2026 results and Beat'30 presentation; documents supplied by the user on 25 Nov 2026 because the issuer site serves an incomplete TLS chain.",
+          "published_at": "2026-07-29T23:59:59+00:00",
+          "fetched_at": "2026-11-25T15:50:00+00:00",
+          "publication_time_basis": "Latest underlying disclosure in the numeric packet is H1 2026, filed 29 July (end-of-day bound). FY cash statements are for December 2025.",
           "financial_period": "2025-12-31",
           "basis": "FY",
           "period_ends": [
             "2025-12-31"
           ],
           "inputs": {
-            "operating_cash_flow": 178900000,
-            "capex": 84100000,
-            "fcf": 94800000,
-            "revenue": 1252000000,
-            "operating_income": 204800000,
-            "depreciation": 85200000,
-            "ebitda": 290000000,
+            "operating_cash_flow": 195369000,
+            "capex": 80447000,
+            "fcf": 114922000,
+            "revenue": 1251983000,
+            "operating_income": 204794000,
+            "depreciation": 85196000,
+            "ebitda": 289990000,
             "net_income": 159917000,
-            "debt": 268893000,
+            "debt": 301016000,
             "cash": 62790000,
-            "dividends": 117100000,
-            "shares": 46000000
+            "dividends": 51144000,
+            "shares": 45603643,
+            "stock_based_compensation": 6775000,
+            "common_dividends_paid": 51144000
           },
-          "shares_basis": "ISSUED_SHARE_PROXY_NOT_TREASURY_ADJUSTED",
-          "shares_asof": "2026-09-30",
-          "revenue_growth_pct": 3.9867109634551534,
+          "shares_basis": "ISSUED_LESS_TREASURY_AT_H1_2026",
+          "shares_asof": "2026-06-30",
+          "revenue_growth_pct": 3.98581720506912,
           "revenue_growth_periods": [
             "2025-12-31",
             "2024-12-31"
           ],
-          "share_change_pct": -1.0752688172043001,
+          "share_change_pct": -0.705455333413374,
           "share_change_periods": [
-            "2026-09-30",
-            "2025-12-31"
+            "2026-06-30",
+            "2025-06-30"
           ],
-          "cash_flow_calculation": "ISSUER_NET_DEBT_BRIDGE_EBITDA_LESS_TAX_WC_OTHER_AND_CAPEX",
+          "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
           "annual_fcf_series": [
             {
               "period": "2025-12-31",
-              "value": 94800000
+              "value": 114922000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 160795000
             }
           ],
           "annual_net_income_series": [
@@ -11413,32 +11431,36 @@
             },
             {
               "period": "2024-12-31",
-              "value": 157000000
+              "value": 157019000
             }
           ],
           "annual_revenue_series": [
             {
               "period": "2025-12-31",
-              "value": 1252000000
+              "value": 1251983000
             },
             {
               "period": "2024-12-31",
-              "value": 1204000000
+              "value": 1203994000
             }
           ],
           "source_urls": [
+            "https://public.viscofan.com/investor-relations/financialinformation/en/Informe%20consolidado%20Grupo%20Viscofan%202025_EN_v2.pdf",
+            "https://docs.publicnow.com/viewDoc?filename=46558%5CEXT%5C493BAFCE124FECD1C5B0A6B06743CFAE16167217_92E4E0C835252211C094BA8080C0EEE7464DDFF4.PDF",
+            "https://public.viscofan.com/investor-relations/financialinformation/es/Informe%20financiero%20Enero-Junio%202025_ES.pdf",
             "https://public.viscofan.com/investor-relations/financialinformation/en/Presentaci%C3%B3n%20Resultados%202025%20y%20BEAT30_EN.pdf",
             "https://public.viscofan.com/investor-relations/financialinformation/en/Nota%20de%20resultados.%20Enero-Septiembre%202026_EN.pdf",
             "https://public.viscofan.com/investor-relations/financialinformation/en/Presentaci%C3%B3n%20de%20resultados.%20Enero%20-%20Septiembre%202026_EN.pdf",
             "https://public.viscofan.com/investor-relations/financialinformation/en/Anexos%20financieros.%20Enero%20-%20Septiembre%202026_EN.xlsx"
           ],
           "primary_warnings": [
-            "Viscofan publishes no cash-flow statement in its results packs. Operating cash flow is derived from the FY2025 net-bank-debt bridge: EBITDA 290.0 less taxes paid 46.4, working-capital build 49.9 and forex/others 14.8 (EUR m; interest and leases sit in forex/others). FCF = that less capex 84.1 = 94.8, before acquisitions (8.9) and shareholder remuneration (145.1).",
-            "Dividends 117.1m = 2025 shareholder remuneration 145.1m less the 28m buyback listed in the same presentation (derived, not a reported line).",
-            "Shares: 46,000,000 issued at 30 Sep 2026 (capital EUR32.2m at EUR0.70); treasury shares (EUR37.1m at cost) are not deducted. The share change compares issued shares with 46,500,000 at Dec 2025.",
-            "Financial debt is bank debt only (Dec 2025: 40.4 non-current + 228.5 current); other financial liabilities of 47.4m, mostly leases, are excluded.",
-            "FY2025 FCF was held down by a 49.9m working-capital build; 9M26 is not bridged (net bank debt rose 60.5m to 266.6m after 99.7m buybacks and 25.1m cash dividends, implying roughly 64m of pre-remuneration cash generation)."
-          ]
+            "FY2025 consolidated cash flows (EUR): CFO 195.369m less cash purchases of fixed assets 80.447m = 114.922m. The opportunity model deducts 6.775m of same-year share-based compensation for valuation. Interest paid (8.881m) and lease payments (5.503m) are financing flows, outside reported CFO.",
+            "FY2025 financing cash flows: parent dividends 51.144m and purchases of own shares 93.984m. Repurchase spending is not an extra input to shareholder yield, which uses the net share-count change.",
+            "H1 2026: 46,000,000 issued less 396,357 treasury shares. H1 2025: 46,500,000 issued less 572,358 treasury shares. Later repurchases and the December scrip can change outstanding shares.",
+            "FY2025 financial debt: 288.773m in note 21.4 plus 12.243m IFRS 16 lease liabilities. Cash 62.790m. Excludes 15.302m in capital suppliers. The issuer's narrower Sep 2026 net bank debt is 266.631m.",
+            "All income and cash-flow inputs use the same audited FY2025 period. H1 2026 CFO 83.172m and fixed-asset payments 44.160m are interim flows. The 9M26 release has no cash-flow statement; its net-debt movement does not determine free cash flow."
+          ],
+          "dividends_basis": "CONSOLIDATED_CASH_FLOW_STATEMENT"
         }
       }
     }

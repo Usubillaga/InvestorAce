@@ -58,6 +58,13 @@
   footer{margin-top:30px;border-top:1px solid var(--line);padding-top:14px;font-size:11.5px;color:var(--muted);line-height:1.55}
   .card,.vbox,tr,.bar{break-inside:avoid}
   @media (max-width:720px){table{display:block;overflow-x:auto;white-space:nowrap}.bars{overflow:hidden}.verdict,.grid2{grid-template-columns:1fr}.bar{grid-template-columns:120px 1fr 60px}.datebox{text-align:left}}
+a{color:var(--blue)}
+  @media print{
+    @page{size:A4;margin:13mm}
+    :root{--bg:white;--panel:white;--panel2:#edf1f3;--line:#c8cfd5;--text:#111;--muted:#424951;--green:#205b38;--accent:#925313;--red:#8a272a;--blue:#245b79}
+    .wrap{padding:0}body{background:white;font-size:10pt}.hero{margin-bottom:10px}.verdict,.grid2{gap:7px}.lead,.vbox,.card{padding:9px}
+    .note,.card,.vbox .n,.lead,.sub{font-size:10pt}table{font-size:9pt}th,td{padding:4px}h2,h3{break-after:avoid}.src{font-size:8pt}
+  }
 </style>
 </head>
 <body><div class="wrap">
@@ -66,17 +73,16 @@
   <div style="flex:1 1 560px">
     <div class="ticker">VIS · BME Madrid · EUR · Consumer Defensive</div>
     <h1>Viscofan: a steady casings leader that is paying out more cash than it makes</h1>
-    <div class="sub">Deep dive for the InvestorAce universe entry. The figures come from Viscofan's own reports for 9M 2026 and 2025, its Beat'30 strategy presentation and its financial annex. Yahoo carries no cash flow or share count for VIS.MC, and the issuer does not publish a quarterly cash-flow statement.</div>
+    <div class="sub">Deep dive for the InvestorAce universe entry. The figures come from Viscofan's own reports for 9M 2026 and 2025, its Beat'30 strategy presentation and its financial annex. The audited consolidated FY2025 cash-flow statement supplies the scorecard inputs. The September 2026 release supplies a newer earnings and balance-sheet check.</div>
   </div>
   <div class="datebox"><b>25 Nov 2026</b>9M26 reported 22 Oct 2026<br>FY2025 / Beat'30: 27 Feb 2026<br>Next: FY2026, late Feb 2027</div>
 </div>
 
-<div class="lead"><b>The uncomfortable part first.</b> In 2025 Viscofan paid shareholders €145.1m but generated €94.8m of free cash flow (our derivation from its net-bank-debt bridge). In 9M26 it paid €124.8m (€99.7m buybacks + €25.1m cash dividends) against roughly €64m of cash generated. Net bank debt rose from €146.9m (Dec 2024) to €266.6m (Sep 2026). Leverage is still low (about 0.9x EBITDA), so this is a choice, not a strain. But the payout is partly debt-funded while capex steps up to an average of €120m a year. And eight months after launching Beat'30, the 2026 EBITDA guidance was cut from €305–314m to €290–295m.</div>
-
+<div class="lead"><b>FY2025 cash distributions exceeded free cash flow by €30.206m.</b> Shareholders received €51.144m in cash dividends and €93.984m through repurchases, versus €114.922m of free cash flow. Net bank debt rose from €146.9m in December 2024 to €266.6m in September 2026. Viscofan lowered 2026 EBITDA guidance to €290–295m.</div>
 <div class="verdict">
-  <div class="vbox ia"><div class="k">InvestorAce read (model, pre-build)</div><div class="v">Hold Positive · ~6.1</div><div class="n">Offline score at €54 under today's regime mix: quality 6.5, valuation 6.6, current fit 44. <b>No price reaches Buy</b>: the score stays below 7.00 even at 30% of the price, because growth and margins cap it. The live label, score and Buy-up-to come from the next build.</div></div>
-  <div class="vbox"><div class="k">Valuation at €54 <span class="tag d">price unverified</span></div><div class="v">15.2× P/E · 3.8% FCF</div><div class="n">TTM P/E on €163.1m net profit; FY2025 FCF yield on 46.0m shares. EV/EBITDA TTM about 9.8×. The model's base scenario is €42.6 a share; reverse DCF implies 5.3% FCF growth.</div></div>
-  <div class="vbox"><div class="k">Income</div><div class="v">€3.25 / share (2025)</div><div class="n">Includes €1.00 extraordinary. Ordinary €2.24 ≈ 4.2% yield at €54. Interim of at least €1.40 in Dec 2026 as a scrip (cash or shares).</div></div>
+  <div class="vbox ia"><div class="k">Opportunity v18.1 · dated model reading</div><div class="v">5.99 / 10 · Hold Positive</div><div class="n">Recalculated at €53.70 on 25 Nov 2026, 16:24 CET, with the published 15:39 CET macro build. Buy starts at 7.00. Analyst review remains open. <a href="https://usubillaga.github.io/InvestorAce/scanner.html?view=universe&amp;ticker=VIS">Latest scorecard</a></div></div>
+  <div class="vbox"><div class="k">FY2025 valuation inputs</div><div class="v">15.3× P/E · 4.42% yield</div><div class="n">FY2025 earnings and cash. The model deducts €6.775m of share-based compensation from free cash flow. The share denominator is 45,603,643 at 30 June 2026.</div></div>
+  <div class="vbox"><div class="k">Shareholder remuneration</div><div class="v">€3.25 / share for 2025</div><div class="n">Includes €2.24 ordinary dividend, €1.00 extraordinary and €0.01 AGM attendance fee. The November 2026 flexible-dividend terms set €1.434 per share as the cash alternative.</div></div>
 </div>
 
 <h2>The business in one paragraph</h2>
@@ -105,7 +111,7 @@
 <p class="note">€ million. TTM to Sep 2026 = FY2025 − 9M25 + 9M26 (our arithmetic on issuer figures). Like-for-like (LFL) excludes currency and the Pet Mania acquisition (Brazil, March 2025).</p>
 <table>
   <tr><th></th><th>FY2024</th><th>FY2025</th><th>9M25</th><th>9M26</th><th>3Q26</th><th>TTM Sep-26</th><th>2026 guide</th></tr>
-  <tr><td>Revenue</td><td class="num">1,204.0</td><td class="num">1,252.0</td><td class="num">936.9</td><td class="num">965.4</td><td class="num">335.7</td><td class="num">1,280.5</td><td class="num">1,310–1,340</td></tr>
+  <tr><td>Revenue</td><td class="num">1,204.0</td><td class="num">1,252.0</td><td class="num">936.9</td><td class="num">965.4</td><td class="num">335.7</td><td class="num">1,280.6</td><td class="num">1,310–1,340</td></tr>
   <tr><td>EBITDA</td><td class="num">285.3</td><td class="num">290.0</td><td class="num">218.2</td><td class="num">207.7</td><td class="num">73.2</td><td class="num">279.4</td><td class="num dn">290–295 <span class="mut">(was 305–314)</span></td></tr>
   <tr><td>EBITDA margin</td><td class="num">23.7%</td><td class="num">23.2%</td><td class="num">23.3%</td><td class="num dn">21.5%</td><td class="num">21.8%</td><td class="num">21.8%</td><td class="num">≈22%</td></tr>
   <tr><td>Operating profit</td><td class="num">201.5</td><td class="num">204.8</td><td class="num">153.8</td><td class="num">143.2</td><td class="num">51.4</td><td class="num">194.2</td><td class="num mut">—</td></tr>
@@ -115,20 +121,17 @@
 </table>
 <p class="note">* FY2024 capex implied by "+18.4% vs 2024" in the Beat'30 deck (84.1 / 1.184). † Sep-2025 net bank debt as reported in press coverage of the 9M25 release (not re-checked against the issuer document). 9M26 net profit grew despite lower EBITDA because currency losses in financial results shrank (−€19.3m in 9M25 → +€4.5m in 9M26). The tax rate rose from 16.0% to 20.2%, as 9M25 included a €7.5m US tax-loss credit.</p>
 
-<h2>Where the 2025 cash went <span class="tag d">derived from the issuer bridge</span></h2>
-<p class="note">Viscofan shows a net-bank-debt walk rather than a cash-flow statement (Beat'30 deck, p. 22). Reading it as cash flows: EBITDA €290.0m − taxes paid €46.4m − working-capital build €49.9m − forex and others €14.8m = <b>€178.9m operating cash flow</b>; − capex €84.1m = <b>€94.8m free cash flow</b>. Then €8.9m on acquisitions and €145.1m to shareholders. "Forex and others" probably includes interest and lease payments; Viscofan does not split it.</p>
-<div class="bars">
-  <div class="bar"><span>EBITDA</span><div class="t" style="width:100%;background:var(--green)"></div><span class="val">+290.0</span></div>
-  <div class="bar"><span>Taxes paid</span><div class="t" style="width:16%;background:var(--red)"></div><span class="val">−46.4</span></div>
-  <div class="bar"><span>Working capital</span><div class="t" style="width:17.2%;background:var(--red)"></div><span class="val">−49.9</span></div>
-  <div class="bar"><span>Forex &amp; others</span><div class="t" style="width:5.1%;background:var(--red)"></div><span class="val">−14.8</span></div>
-  <div class="bar"><span>Capex</span><div class="t" style="width:29%;background:var(--red)"></div><span class="val">−84.1</span></div>
-  <div class="bar"><span><b>Free cash flow</b></span><div class="t" style="width:32.7%;background:var(--accent)"></div><span class="val"><b>94.8</b></span></div>
-  <div class="bar"><span>Acquisitions</span><div class="t" style="width:3.1%;background:var(--muted)"></div><span class="val">−8.9</span></div>
-  <div class="bar"><span>Shareholders</span><div class="t" style="width:50%;background:var(--blue)"></div><span class="val">−145.1</span></div>
-  <div class="bar"><span><b>Rise in net debt</b></span><div class="t" style="width:20.6%;background:var(--red)"></div><span class="val"><b>+59.2</b></span></div>
-</div>
-<p class="note" style="margin-top:8px">9M26 has no published bridge. Net bank debt rose €60.5m while €124.8m went to shareholders, which implies about €64m of cash generated before remuneration. Inventories rose €52.7m since December, so working capital again absorbed cash. That is our estimate, not an issuer figure.</p>
+<h2>Cash available to shareholders</h2>
+<table><tr><th>Consolidated cash flow (€m)</th><th>FY2024</th><th>FY2025</th></tr>
+<tr><td>Operating cash flow</td><td>235.822</td><td>195.369</td></tr>
+<tr><td>Cash purchases of tangible and intangible assets</td><td>75.027</td><td>80.447</td></tr>
+<tr><td>Free cash flow</td><td>160.795</td><td>114.922</td></tr>
+<tr><td>Share-based compensation</td><td>2.001</td><td>6.775</td></tr>
+<tr><td>Valuation cash flow after share-based compensation</td><td>158.794</td><td>108.147</td></tr>
+<tr><td>Cash dividends paid</td><td>60.063</td><td>51.144</td></tr>
+<tr><td>Purchases of own shares</td><td>90.716</td><td>93.984</td></tr></table>
+<p class="note">Interest of €8.881m and lease payments of €5.503m are financing flows in FY2025. Deducting both from the model’s €108.147m gives €93.763m. Cash capex in the audited statements differs from investment additions in the strategy presentation. The old €94.8m approximation came from a net-bank-debt bridge.</p>
+<p class="note">Cash flow improved in the first half. Operating cash flow less cash capex was €39.012m in H1 2026 versus €16.819m in H1 2025, or €137.115m over the twelve months to June. The FY score uses a single full-year window with identifiable share-based compensation. The September release provides no complete nine-month cash-flow statement.</p>
 
 <h2>Beat'30: the plan and the first stumble</h2>
 <table>
@@ -141,20 +144,18 @@
   <tr><td>EBITDA − capex</td><td class="num">205.9</td><td class="num">205–214</td><td class="num dn">≈190–195</td><td class="num">avg 250 / yr</td></tr>
   <tr><td>Shareholders</td><td class="num">€3.25/sh</td><td class="num" colspan="2">growth vs total 2025</td><td class="num">progressive total dividend</td></tr>
 </table>
-<p class="note">The 2030 ambition needs about 9% a year EBITDA growth. The last two years delivered +1.6% (2025) and about +0.9% (2026 at the revised midpoint). The cut is blamed on energy costs after the Middle East conflict; currency is now helping (USD stronger in 3Q). Q4 needs €82–87m of EBITDA versus €71.8m in 4Q25, and Viscofan itself expects a net energy hit of more than €5m in Spain in 4Q26. The Oct "≈190–195" is our arithmetic: revised EBITDA minus the €100m capex.</p>
+<p class="note">The 2030 ambition needs about 9% a year EBITDA growth. EBITDA grew 1.6% in 2025. The midpoint of the revised 2026 guidance implies about 0.9% growth. The cut is blamed on energy costs after the Middle East conflict; currency is now helping (USD stronger in 3Q). Q4 needs €82–87m of EBITDA versus €71.8m in 4Q25, and Viscofan itself expects a net energy hit of more than €5m in Spain in 4Q26. The Oct "≈190–195" is our arithmetic: revised EBITDA minus the €100m capex.</p>
 
-<h2>Valuation at a reference price of €54 <span class="tag u">price to be confirmed by the build</span></h2>
-<table>
-  <tr><th>Metric</th><th>Value</th><th>Basis</th></tr>
-  <tr><td>Market cap</td><td class="num">€2,484m</td><td>46.0m issued shares (treasury not deducted) × €54</td></tr>
-  <tr><td>EV / EBITDA TTM</td><td class="num">9.8×</td><td>EV ≈ €2,751m incl. €266.6m net bank debt; €36m of other financial liabilities (mostly leases) excluded</td></tr>
-  <tr><td>EV / EBITDA 2026e</td><td class="num">9.4×</td><td>revised guidance midpoint €292.5m</td></tr>
-  <tr><td>P/E TTM · 2026e</td><td class="num">15.2× · 14.8×</td><td>€163.1m TTM; €167.5m guidance midpoint</td></tr>
-  <tr><td>FCF yield (FY2025)</td><td class="num">3.8%</td><td>€94.8m, after the working-capital build</td></tr>
-  <tr><td>FCF yield, no working-capital build</td><td class="num">5.8%</td><td><span class="tag d">scenario</span> €144.7m = FY2025 FCF + €49.9m working capital</td></tr>
-  <tr><td>Analyst consensus target</td><td class="num">€67.9</td><td>Investing.com / MarketScreener, late Oct 2026, about 10 analysts (aggregator, not verified)</td></tr>
+<h2>What the price implies at €53.70</h2><table>
+<tr><th>Metric</th><th>Value</th><th>Basis</th></tr>
+<tr><td>Market cap</td><td>€2,449m</td><td>€53.70 × 45,603,643 shares outstanding at June 2026</td></tr>
+<tr><td>Operating growth</td><td>+4.0%</td><td>Audited FY2025 sales growth</td></tr>
+<tr><td>Free cash flow growth</td><td>−28.5%</td><td>Audited FY2025 versus FY2024</td></tr>
+<tr><td>Valuation cash yield</td><td>4.42%</td><td>€108.147m divided by the indicated market cap</td></tr>
+<tr><td>Implied annual FCF growth</td><td>7.31%</td><td>Five-year reverse DCF, 7.67% cost of equity and 2% terminal growth</td></tr>
+<tr><td>No-growth value per share</td><td>€30.92</td><td>Valuation cash per share divided by the model cost of equity</td></tr>
 </table>
-<p class="note">The €54 reference is the late-October close reported by Investing.com and Tradersunion. The stock goes ex-dividend for the December scrip around now, so the live quote will be lower. On reported cash the model's no-growth value is about €32 a share and its base scenario about €43, both well below the price. The market pays for Beat'30 growth that has not yet appeared in cash flow.</p>
+<p class="note">At the indicated price, financial quality is 6.49/10, valuation is 6.62/10 and weighted regime fit is 43.0/100. Holding the inputs and regime constant, the price-only scan finds no Buy threshold between 30% and 300% of the reference quote.</p>
 
 <div class="grid2" style="margin-top:20px">
   <div class="card bull"><h3>Bull case</h3><ul>
@@ -165,7 +166,7 @@
     <li>Low leverage (≈0.9× net bank debt / EBITDA) and a shareholder-friendly policy; a defensive profile scores well in recession and stagflation regimes.</li>
   </ul></div>
   <div class="card bear"><h3>Bear case</h3><ul>
-    <li>Free cash flow (€94.8m in 2025) does not cover the payout (€145.1m), so debt funds the gap; capex rises to an average of €120m.</li>
+    <li>FY2025 free cash flow of €114.9m covered about 79% of €145.1m paid to shareholders. The plan calls for average annual investment of €120m.</li>
     <li>EBITDA margin is sliding (23.7% → 23.2% → 21.5% in 9M26) while the plan needs 25% by 2030.</li>
     <li>Guidance cut within eight months of the plan launch; Q4 still needs a strong energy and currency outcome.</li>
     <li>Producing in Mexico and Brazil means stronger local currencies raise costs even when the USD helps revenue.</li>
@@ -176,21 +177,23 @@
 <h2>What would change the read</h2>
 <div class="grid2">
   <div class="card"><h3>Catalysts and dates</h3><ul>
-    <li>Dec 2026: interim scrip of at least €1.40 (new shares listed around 23 Dec per press reports); Viscofan normally buys back shares to offset dilution.</li>
+    <li>Dec 2026: flexible interim remuneration with a €1.434 cash alternative; Viscofan normally buys back shares to offset dilution.</li>
     <li>Late Feb 2027: FY2026 results, the first full year of Beat'30, plus the full cash flow in the annual accounts.</li>
     <li>4Q26: whether EBITDA reaches €82–87m with energy hedges in place.</li>
     <li>2027–28: Czech plant ramp; Beat'30 growth capex of €300m over five years.</li>
   </ul></div>
   <div class="card"><h3>Data gaps (marked in the model)</h3><ul>
-    <li>No issuer cash-flow statement for 9M26; FY2025 FCF is our reading of the debt bridge.</li>
-    <li>Treasury shares not deducted (€37.1m at cost at Sep 2026); share count is the issued 46.0m.</li>
-    <li>Dividends 2025 cash (€117.1m) = €145.1m remuneration − €28m buyback, derived.</li>
-    <li>Stock-based compensation not reported; insider transactions not reviewed.</li>
+    <li>FY2025 cash flow is audited. A full nine-month 2026 cash-flow statement is unavailable.</li>
+    <li>June shares outstanding exclude treasury shares. Subsequent repurchases and flexible dividends may change the denominator.</li>
+    <li>Bank debt and financial debt differ. The FY2025 score includes €288.773m of financial debt plus €12.243m of lease liabilities and deducts €62.790m of cash.</li>
+    <li>Insider coverage and sustainable cash-flow normalization remain under review.</li>
+
   </ul></div>
 </div>
 
 <h2>Sources</h2>
 <div class="src">
+  <a href="https://public.viscofan.com/investor-relations/financialinformation/en/Informe%20consolidado%20Grupo%20Viscofan%202025_EN_v2.pdf">FY2025 consolidated accounts: cash flows pp. 7–8; notes 7, 12, 15, 20 and 21.4</a> · <a href="https://docs.publicnow.com/viewDoc?filename=46558%5CEXT%5C493BAFCE124FECD1C5B0A6B06743CFAE16167217_92E4E0C835252211C094BA8080C0EEE7464DDFF4.PDF">H1 2026 consolidated interim report, note 12: share capital and treasury shares</a> · <a href="https://public.viscofan.com/investor-relations/financialinformation/es/Informe%20financiero%20Enero-Junio%202025_ES.pdf">H1 2025 consolidated interim report: comparative treasury shares</a> · <a href="https://www.boe.es/diario_borme/txt.php?id=BORME-C-2026-6315">November flexible-dividend terms</a> · <a href="https://www.debelegger.nl/es/accion/VIS.MC">Madrid quote</a> ·
   <a href="https://public.viscofan.com/investor-relations/financialinformation/en/Nota%20de%20resultados.%20Enero-Septiembre%202026_EN.pdf">Viscofan results report January–September 2026 (22 Oct 2026)</a> ·
   <a href="https://public.viscofan.com/investor-relations/financialinformation/en/Presentaci%C3%B3n%20de%20resultados.%20Enero%20-%20Septiembre%202026_EN.pdf">9M26 results presentation</a> ·
   <a href="https://public.viscofan.com/investor-relations/financialinformation/en/Anexos%20financieros.%20Enero%20-%20Septiembre%202026_EN.xlsx">9M26 financial annexes</a> ·
@@ -199,6 +202,6 @@
   Aggregators, marked where used: <a href="https://www.investing.com/equities/viscofan-sa-consensus-estimates">Investing.com consensus</a>, <a href="https://www.marketscreener.com/quote/stock/VISCOFAN-S-A-75245/">MarketScreener</a>, <a href="https://www.noticiasdenavarra.com/economia/2025/10/23/viscofan-gana-109-millones-septiembre-10257738.amp.html">Noticias de Navarra (Sep-2025 net debt)</a>.
 </div>
 
-<footer>InvestorAce research, generated by Claude. Not investment advice. Issuer figures are unaudited interim IFRS figures from English translations; the Spanish originals prevail. Figures marked as derived, scenario or unverified are our calculations or third-party data. The automatic model label is not an approved recommendation.</footer>
+<footer>InvestorAce research. Scorecard and FY cash-flow figures updated 25 Nov 2026. Not investment advice. Interim IFRS figures are unaudited. Annual cash flows are from the audited consolidated statements; the Spanish originals prevail. Figures marked as derived, scenario or unverified are our calculations or third-party data. The automatic model label is not an approved recommendation.</footer>
 </div></body>
 </html>
