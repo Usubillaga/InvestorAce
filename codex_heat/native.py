@@ -10,7 +10,7 @@ from urllib.request import Request, urlopen
 DIR = Path(__file__).resolve().parent
 REPO = 'Usubillaga/InvestorAce-Tradingdesk'
 FILES = ('heat-account.json', 'heat-overlap.json')
-JS = ('heat-paper-i18n.js', 'heat-paper-model.js', 'paper-panel.js', 'paper-tabs.js')
+JS = ('panic-alert.js', 'heat-paper-i18n.js', 'heat-paper-model.js', 'paper-panel.js', 'paper-tabs.js')
 LABELS = {'es': ('Panel principal', 'Pánico · Cuentas en papel', 'Cuentas de Claude'),
           'de': ('Übersicht', 'Panik · Paper-Konten', 'Claudes Konten'),
           'en': ('Dashboard', 'Panic · Paper accounts', 'Claude’s accounts')}
@@ -105,7 +105,7 @@ class Panel:
         state = json.dumps(self.data, ensure_ascii=True, separators=(',', ':')).replace('<', '\\u003c')
         panel = (f'<section id="panic-paper" class="ia-pp" data-language="{language}" role="tabpanel" '
                  f'aria-labelledby="ia-paper-tab" tabindex="0"><nav class="ia-pp-lang">{langs}</nav>'
-                 f'<div data-paper-content>{self.languages[language]}</div></section>'
+                 f'<ia-panic-alert lang="{language}"></ia-panic-alert><div data-paper-content>{self.languages[language]}</div></section>'
                  f'<script type="application/json" id="ia-paper-data">{state}</script>'
                  '<script defer src="panic-paper.js"></script>')
         document = document.replace('</head>', '<link rel="stylesheet" href="panic-paper.css"></head>', 1)

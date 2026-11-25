@@ -1,0 +1,5 @@
+-r ../requirements.txt
+exchange-calendars>=4.8,<5
+beautifulsoup4>=4.12,<5
+pypdf>=5,<7
+requests>=2.31,<3
