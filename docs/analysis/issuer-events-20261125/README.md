@@ -1,5 +1,20 @@
 # Issuer events and payment review, 25 November 2026
 
+## Follow-up with a 09:00 UTC information cutoff
+
+| Item | Result |
+| --- | --- |
+| CTVA | Financials and peer comparisons now use the crop-protection carve-out. Trailing operating cash from continuing activities was −827m USD and cash capex was 236m USD. Before preferred claims the historical cash proxy was −1,063m USD. Voluntary pension contributions materially affected the period. Sustainable standalone valuation remains open. See [Corteva](corteva.md). |
+| CPAY | Management uses “free cash flow” for adjusted net income, 1,785.834m USD over the twelve months through September 2026. Operating cash after cash capex was 1,333.198m USD. The model's separate stock-compensation deduction brings this to 1,212.459m USD. See [Corpay](corpay.md). |
+| Ownership | Eight of ten public disclosure windows are reconciled. Anthropic is covered from registration. Earlier private transfers remain open. Canadian SEDI coverage for Franco-Nevada remains open. The [filing inventory](insiders.json) distinguishes original filings, amendments, transactions, holdings, sale proposals and execution evidence. |
+| Calendars | All 96 previously uninitialized listings have primary-source checks. The [register](../../../source_reviews.json) records 60 announced events or schedules across 50 listings and separately records 64 provider earnings dates awaiting issuer confirmation. These groups overlap. For 13 titles neither an issuer date nor a forward provider estimate was found in the checked material. |
+| Payments | Declarations, proposed distributions, indicative schedules and evidenced payments are separate. EnerSys' Form 4 confirms the prior October 2 common payment. The December 31 declaration has no actual payment date. Corteva common and EIDP preferred declarations are separate. Repsol's approved reserve distribution and proposed interim dividend have separate status. JEQE is the EUR-hedged distributing class, ISIN IE0006FIW9Z0. |
+
+See the [structured financial review](followup-review.json) for the calculation scope. The dated packet below records the earlier source status. The follow-up register supersedes the corresponding open statuses for new report generations.
+
+## Original 07:48 UTC batch
+
+
 The active default-branch DATA watchlist has 128 titles at 7015b6c5. All saved
 calendar/recheck dates were considered. ANT's scheduled post-IPO gap takes one
 slot; the first nine never-checked rotation titles fill the Wednesday allowance.

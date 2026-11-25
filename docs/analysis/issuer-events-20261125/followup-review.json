@@ -1,0 +1,253 @@
+{
+  "mode": "live",
+  "as_of": "2026-11-25T09:00:00Z",
+  "run_at": "2026-11-25T10:18:52+00:00",
+  "max_quote_age_hours": 96,
+  "methodology": null,
+  "evidence": [
+    {
+      "id": "CTVA1",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000028/newcorteva-fy23xfy25carvex.htm · FY 2023–25 crop-protection financial statements, continuing operating cash and capex",
+      "published_at": "2026-10-01T21:25:11Z",
+      "retrieved_at": "2026-11-25T10:18:52+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "CTVA2",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000037/newcorteva-q326_25carvexou.htm · 9M 2026/2025 crop-protection statements, cash from continuing operations and capital spending",
+      "published_at": "2026-11-12T22:23:11Z",
+      "retrieved_at": "2026-11-25T10:18:52+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "CTVA3",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1755672/000175567226000035/ctva-20260930.htm · Q3 10-Q cover and separation disclosures",
+      "published_at": "2026-11-12T22:12:38Z",
+      "retrieved_at": "2026-11-25T10:18:52+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "CPAY1",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1175454/000117545426000018/flt-20251231.htm · Consolidated statements of cash flows; Item 5 dividends and repurchases",
+      "published_at": "2026-02-27T01:28:38.000Z",
+      "retrieved_at": "2026-11-25T10:18:52+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "CPAY2",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1175454/000117545426000008/ex991q4_2025.htm · Adjusted net income and adjusted earnings per share reconciliation",
+      "published_at": "2026-02-04T21:17:04.000Z",
+      "retrieved_at": "2026-11-25T10:18:52+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "CPAY3",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1175454/000117545426000059/cpay-20260930.htm · Cover; statements of cash flows; Note 1 cash reconciliation and redeemable NCI; liquidity; segment capex footnote",
+      "published_at": "2026-11-05T22:19:22.000Z",
+      "retrieved_at": "2026-11-25T10:18:52+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "CPAY4",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1175454/000117545426000054/ex991q3_2026.htm · Non-GAAP definitions and adjusted net income reconciliation",
+      "published_at": "2026-11-04T21:16:02.000Z",
+      "retrieved_at": "2026-11-25T10:18:52+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "CPAY5",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1175454/000117545426000050/cpay-20260630.htm · Unaudited consolidated statements of cash flows, six months ended June 30, 2026",
+      "published_at": "2026-08-07T21:39:26.000Z",
+      "retrieved_at": "2026-11-25T10:18:52+00:00",
+      "status": "verified"
+    }
+  ],
+  "issues": [
+    {
+      "id": "CPAY-scope",
+      "ticker": "CPAY",
+      "severity": "major",
+      "status": "open",
+      "claim": "Reconcile sustainable common-shareholder cash, customer funds and noncontrolling interests.",
+      "owner": "Financial review",
+      "affected_metric_ids": [],
+      "evidence_ids": [
+        "CPAY1",
+        "CPAY2",
+        "CPAY3",
+        "CPAY4",
+        "CPAY5"
+      ]
+    },
+    {
+      "id": "CTVA-scope",
+      "ticker": "CTVA",
+      "severity": "major",
+      "status": "open",
+      "claim": "Normalize separated crop-protection pension contributions and preferred claims.",
+      "owner": "Financial review",
+      "affected_metric_ids": [],
+      "evidence_ids": [
+        "CTVA1",
+        "CTVA2",
+        "CTVA3"
+      ]
+    }
+  ],
+  "issuers": [
+    {
+      "ticker": "CPAY",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "pass",
+        "comparability": "open",
+        "per_share_basis": "pass",
+        "calculations": "pass",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "CPAY-management_adjusted_net_income",
+          "name": "management_adjusted_net_income",
+          "value": 1785.834,
+          "price_dependent": false,
+          "unit": "USD million",
+          "period": "TTM through 2026-09-30",
+          "basis": "Issuer cash statements and matched management reconciliation",
+          "evidence_ids": [
+            "CPAY1",
+            "CPAY2",
+            "CPAY3",
+            "CPAY4",
+            "CPAY5"
+          ]
+        },
+        {
+          "id": "CPAY-operating_cash_flow",
+          "name": "operating_cash_flow",
+          "value": 1529.021,
+          "price_dependent": false,
+          "unit": "USD million",
+          "period": "TTM through 2026-09-30",
+          "basis": "Issuer cash statements and matched management reconciliation",
+          "evidence_ids": [
+            "CPAY1",
+            "CPAY2",
+            "CPAY3",
+            "CPAY4",
+            "CPAY5"
+          ]
+        },
+        {
+          "id": "CPAY-cash_capex",
+          "name": "cash_capex",
+          "value": 195.823,
+          "price_dependent": false,
+          "unit": "USD million",
+          "period": "TTM through 2026-09-30",
+          "basis": "Issuer cash statements and matched management reconciliation",
+          "evidence_ids": [
+            "CPAY1",
+            "CPAY2",
+            "CPAY3",
+            "CPAY4",
+            "CPAY5"
+          ]
+        },
+        {
+          "id": "CPAY-cash_after_capex",
+          "name": "cash_after_capex",
+          "value": 1333.198,
+          "price_dependent": false,
+          "unit": "USD million",
+          "period": "TTM through 2026-09-30",
+          "basis": "Issuer cash statements and matched management reconciliation",
+          "evidence_ids": [
+            "CPAY1",
+            "CPAY2",
+            "CPAY3",
+            "CPAY4",
+            "CPAY5"
+          ]
+        },
+        {
+          "id": "CPAY-cash_after_capex_and_sbc",
+          "name": "cash_after_capex_and_sbc",
+          "value": 1212.459,
+          "price_dependent": false,
+          "unit": "USD million",
+          "period": "TTM through 2026-09-30",
+          "basis": "Issuer cash statements and matched management reconciliation",
+          "evidence_ids": [
+            "CPAY1",
+            "CPAY2",
+            "CPAY3",
+            "CPAY4",
+            "CPAY5"
+          ]
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "CTVA",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "pass",
+        "comparability": "open",
+        "per_share_basis": "pass",
+        "calculations": "pass",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "CTVA-operating_cash_flow",
+          "name": "operating_cash_flow",
+          "value": -827,
+          "price_dependent": false,
+          "unit": "USD million",
+          "period": "TTM through 2026-09-30",
+          "basis": "Issuer cash statements and matched management reconciliation",
+          "evidence_ids": [
+            "CTVA1",
+            "CTVA2",
+            "CTVA3"
+          ]
+        },
+        {
+          "id": "CTVA-cash_capex",
+          "name": "cash_capex",
+          "value": 236,
+          "price_dependent": false,
+          "unit": "USD million",
+          "period": "TTM through 2026-09-30",
+          "basis": "Issuer cash statements and matched management reconciliation",
+          "evidence_ids": [
+            "CTVA1",
+            "CTVA2",
+            "CTVA3"
+          ]
+        },
+        {
+          "id": "CTVA-cash_after_capex",
+          "name": "cash_after_capex",
+          "value": -1063,
+          "price_dependent": false,
+          "unit": "USD million",
+          "period": "TTM through 2026-09-30",
+          "basis": "Issuer cash statements and matched management reconciliation",
+          "evidence_ids": [
+            "CTVA1",
+            "CTVA2",
+            "CTVA3"
+          ]
+        }
+      ],
+      "decision": "not_assessed",
+      "decision_basis": "data_gap"
+    }
+  ]
+}

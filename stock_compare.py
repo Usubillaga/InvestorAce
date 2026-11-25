@@ -239,20 +239,36 @@ def load_snapshot(path):
         return None
 
 
-def apply_primary_annuals(row, review, *, as_of):
+def apply_primary_annuals(row, review, *, as_of, perimeter_since=None):
     """Repair exact fiscal years using the source facts frozen with the build."""
     valuation = (review or {}).get('valuation', {})
     packet = valuation.get('financial_packet') or {}
     published = ASSESSMENT.timestamp(packet.get('published_at'))
     retrieved = ASSESSMENT.timestamp(packet.get('fetched_at'))
-    if (not published or not retrieved or not published <= retrieved <= as_of or
-            packet.get('symbol') != row.get('listing') or
-            packet.get('financial_currency') != row.get('financial_currency')):
-        return row
     ledger = valuation.get('calculation_ledger', {})
-    if ledger.get('unit') != 'USD millions except per-share amounts':
-        return row
-    result = copy.deepcopy(row)
+    perimeter_since = perimeter_since or packet.get('perimeter_since')
+    separated = perimeter_since and perimeter_since <= as_of.date().isoformat()
+    dated = published and retrieved and published <= retrieved <= as_of
+    same_listing = packet.get('symbol') == row.get('listing')
+    if separated:
+        # The provider's comparative years belong to the accounting successor.
+        # Build every displayed year (including its optional fields) from the
+        # named carve-out. Never patch carve-out cash into predecessor earnings.
+        result = copy.deepcopy(row)
+        result.update(annual=[], market={}, financial_currency=None, retrieved_at=None,
+                      status='UNAVAILABLE', sources=[], warnings=['ACCOUNTING_PERIMETER_CHANGED'])
+        if (not same_listing or not dated or packet.get('perimeter_since') != perimeter_since
+                or ledger.get('unit') != 'USD million'):
+            return result
+        result.update(financial_currency=packet['financial_currency'], retrieved_at=packet['fetched_at'],
+                      status='PARTIAL', market=dict(shares_outstanding=packet['inputs']['shares'],
+                      as_of=packet['shares_asof'], retrieved_at=packet['fetched_at']))
+        result['annual'] = [dict(period_end=x['period'], basis='FY') for x in ledger.get('annual', [])]
+    else:
+        if (not same_listing or not dated or packet.get('financial_currency') != row.get('financial_currency')
+                or ledger.get('unit') != 'USD millions except per-share amounts'):
+            return row
+        result = copy.deepcopy(row)
     years = {item['period']: item for item in ledger.get('annual', [])}
     for item in result.get('annual', []):
         source = years.get(item.get('period_end'))
@@ -260,7 +276,7 @@ def apply_primary_annuals(row, review, *, as_of):
             continue
         for field, source_field in (('ocf','operating_cash_flow'), ('capex','capex'),
                 ('fcf','fcf'), ('net_income','net_income'), ('revenue','revenue'),
-                ('operating_income','operating_income')):
+                ('operating_income','operating_income'), ('gross_profit','gross_profit')):
             if number(source.get(source_field)) is not None:
                 item[field] = source[source_field] * 1e6
         for field, numerator in (('gross_margin','gross_profit'), ('operating_margin','operating_income'),
@@ -290,7 +306,8 @@ def site_pages(root, build, *, now=None):
         row = copy.deepcopy(cache.get(key))
         if not row or row.get('listing') != (model.get('yf') or key):
             row = empty_row(key, model)
-        row = apply_primary_annuals(row, record.get('_source_reviews', {}).get('entries', {}).get(key), as_of=now)
+        row = apply_primary_annuals(row, record.get('_source_reviews', {}).get('entries', {}).get(key),
+            as_of=now, perimeter_since=model.get('primary_perimeter_since'))
         output = record.get(key) or {}
         objections = notes.get('entries', {}).get(key, {}).get('objections', [])
         checked = ASSESSMENT.project(output.get('assessment'), raw_score=output.get('score'), as_of=now,

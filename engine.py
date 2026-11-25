@@ -574,7 +574,14 @@ DATA = {
 'CAT': dict(yf='CAT', fcf=9616.0, shares=457.59, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 6.0, 'c': 7.5, 'b': 6.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(268.54, 2146.92), name='Caterpillar Inc.'),
 'CEG': dict(name='Constellation Energy', yf='CEG', fcf=309.0, shares=354.31, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 6.0, 'c': 4.0, 'b': 6.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'rev': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'opinc': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'ebitda': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'netdebt': '2026-06-30'}, pr=None, dil=0.5, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Utilities', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(114.32, 761.56)),
 'CSCO': dict(name='Cisco Systems', yf='CSCO', fcf=12767.0, shares=3942.59, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 7.5, 'c': 9.0, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'rev': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'opinc': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'ebitda': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'netdebt': '2026-07-31'}, pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(35.55, 260.74)),
-'CTVA': dict(name='Corteva', yf='CTVA', fcf=2046.0, shares=667.2, r=0.08, cur='USD', deliver=2.9, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': 4.0, 'p': 6.0, 'c': None, 'b': None, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-03-31', '2025-12-31', '2025-09-30', '2025-06-30'], 'rev': ['FY', '2025-12-31'], 'rev_prev': ['FY', '2024-12-31'], 'opinc': ['FY', '2025-12-31'], 'ebitda': None, 'netdebt': '2026-03-31'}, pr=None, dil=8.5, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Materials', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(4.77, 29.24), midcycle=True),
+'CTVA': dict(name='Corteva (Crop Protection)', yf='CTVA', cur='USD',
+    fcf=None, shares=667.323, shares_asof='2026-11-05', shares_basis='ISSUER_COMMON_OUTSTANDING',
+    deliver=None, deliver_basis='UNSPECIFIED', dl='', sub=None, pr=None, dil=None,
+    clock='CLOCK', ins='NOT CHECKED', held=False, sector='Materials', midcycle=True, sanity=(4.77,29.24),
+    built='primary-review', normalization_status='REVIEW_REQUIRED',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY',
+    primary_perimeter_since='2026-10-01', cash_flow_basis='CROP_PROTECTION_CARVE_OUT',
+    na='New Corteva crop protection. Sustainable cash flow after the Vylor separation remains open.'),
 'DLO': dict(name='DLocal', yf='DLO', fcf=388.4, shares=286.47, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 6.0, 'c': 9.0, 'b': 9.5, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'rev': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'opinc': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'ebitda': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'netdebt': '2026-06-30'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(5.32, 32.3)),
 'ELE': dict(name='Endesa', yf='ELE.MC', fcf=1984.0, shares=1014.65, r=0.08, cur='EUR', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 6.0, 'c': 6.0, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=8.5, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Utilities', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(14.89, 90.1)),
 'ENS': dict(name='EnerSys', yf='ENS', fcf=717.3, shares=36.07, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 6.0, 'c': 7.5, 'b': 8.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'rev': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'opinc': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'ebitda': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'netdebt': '2026-06-30'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(65.5, 488.6)),
@@ -657,6 +664,8 @@ def rate_used(d):
         rate = d['dynamic_analysis'].get('parameters', {}).get('discount_rate_pct')
         if positive_number(rate):
             return rate / 100., 'cost-of-equity'
+    if d.get('primary_perimeter_since'):
+        return None, 'unavailable'
     return (d['r_wacc'], 'wacc') if d.get('r_wacc') else (d.get('r', .08), 'manual')
 
 def cover(d):
@@ -666,7 +675,7 @@ def cover(d):
 def implied_growth(d):
     c = cover(d)
     r = rate_used(d)[0]   # must match ngv(), or cushion lies
-    return None if c is None else r*(1-c)/(1+c*r)
+    return None if c is None or r is None else r*(1-c)/(1+c*r)
 
 def cushion(d):
     """Compare cash-flow growth only; untyped and proxy metrics stay descriptive.
@@ -708,6 +717,8 @@ def epv(d):
 def _epv_input_block(d):
     if d.get('yf') == 'CRWV':
         return 'EPV unavailable until CoreWeave replacement capex and financing are normalized.'
+    if d.get('primary_perimeter_since'):
+        return 'EPV unavailable until its annual inputs have been reconciled to the separated business.'
     if d.get('fundamentals_refresh') == 'QUOTE_ONLY':
         return 'EPV unavailable for a quote-only watch entry.'
     analysis = d.get('dynamic_analysis') or {}
@@ -1168,6 +1179,8 @@ def _fetch_momentum(tk, d):
     d['timing'] = TIMING.unavailable('Adjusted daily history is unavailable.')
     try:
         h = tk.history(period='13mo', auto_adjust=True)
+        if d.get('primary_perimeter_since') and h is not None and not h.empty:
+            h = h.loc[d['primary_perimeter_since']:]
         try:
             d['timing'] = TIMING.calculate(h)
         except Exception as exc:
@@ -1226,7 +1239,7 @@ def bootstrap_fundamentals():
     for t, d in DATA.items():
         # Primary packets may deliberately leave annual FCF unresolved. A Yahoo
         # fill would mix acquisition/recast periods and discard their provenance.
-        if d.get('fundamentals_refresh') in ('PRIMARY_REVIEW_ONLY', 'QUOTE_ONLY'):
+        if d.get('primary_perimeter_since') or d.get('fundamentals_refresh') in ('PRIMARY_REVIEW_ONLY', 'QUOTE_ONLY'):
             continue
         if d.get('midcycle'):              # producers: mean annual FCF, not TTM
             try:
@@ -1401,7 +1414,7 @@ def fetch_prices():
                 d['quote_observed_at'] = ser.index[-1].isoformat()
                 d['quote_time_status'] = 'DAILY_CLOSE'
             _fetch_momentum(tk, d)
-            if WACC is not None and d.get('shares'):
+            if WACC is not None and d.get('shares') and not d.get('primary_perimeter_since'):
                 try:
                     inp = WACC.fetch(d.get('yf', t), yf=yf)
                     if inp and finite_number(inp.get('beta')) is not None:
@@ -1507,6 +1520,8 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
                 or previous.get('schema') != LIVE_ANALYSIS.VERSION or fetched is None or fetched > as_of
                 or period is None or period > as_of.date()):
             previous = None
+        if previous is not None:
+            previous = LIVE_ANALYSIS.corpay_cash_facts(previous, as_of=as_of)
         try:
             obj = ticker_factory(symbol) if ticker_factory else _LIVE_TICKERS.get(ticker)
             obj = obj if obj is not None else yf.Ticker(symbol)
@@ -1525,8 +1540,9 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
             fresh_period = None
         regressed = (valid and previous is not None and period is not None and fresh_period is not None
                      and fresh_period < period
-                     and finite_number((previous.get('inputs') or {}).get('fcf')) is not None
-                     and positive_number((previous.get('inputs') or {}).get('shares')) is not None)
+                     and (row.get('primary_perimeter_since') or
+                          (finite_number((previous.get('inputs') or {}).get('fcf')) is not None
+                           and positive_number((previous.get('inputs') or {}).get('shares')) is not None)))
         if regressed:
             market = {key: fresh[key] for key in
                       ('beta', 'quote_price', 'quote_observed_at', 'quote_type', 'short_interest', 'earnings')
@@ -1556,7 +1572,20 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
         if row.get('cash_offer') and primary and (facts.get('financial_period') or '') > primary['financial_period']:
             # A new raw provider quarter lacks the issuer's acquisition-capex and share-class bridge.
             facts = {k: facts[k] for k in ('schema', 'symbol', 'currency', 'beta') if k in facts}
-        facts = LIVE_ANALYSIS.prefer_primary(facts, primary, as_of=as_of)
+        if row.get('primary_perimeter_since'):
+            # Even a new report with incomplete cash rows supersedes the
+            # old covered window. Keep this signal when the cache supplies a quote.
+            reports = [item for item in (fresh, previous) if isinstance(item, dict)
+                       and item.get('symbol') == symbol and isinstance(item.get('financial_period'), str)
+                       and item['financial_period'] <= as_of.date().isoformat()]
+            if reports:
+                latest = max(reports, key=lambda report: report['financial_period'])
+                facts = dict(facts, financial_period=latest['financial_period'])
+                if not valid and latest is fresh and latest['financial_period'] > (previous or {}).get('financial_period', ''):
+                    entries[symbol] = latest
+                    dirty = True
+        facts = LIVE_ANALYSIS.prefer_primary(facts, primary, as_of=as_of,
+            perimeter_since=row.get('primary_perimeter_since'))
         facts = dict(facts, midcycle=bool(row.get('midcycle')),
                      common_equity_bridge=primary_entries.get(ticker, {}).get('valuation', {}).get('common_equity_bridge'),
                      valuation_input_conflicts=SOURCE_REVIEW.valuation_input_conflicts(
@@ -1598,10 +1627,13 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
         analysis['data_status'] = 'CACHED_INPUTS' if cached else 'FRESH_INPUTS' if valid else 'UNAVAILABLE'
         if facts.get('primary_current'):
             analysis['data_status'] = 'PRIMARY_INPUTS'
+        elif facts.get('awaiting_perimeter_packet'):
+            analysis['data_status'] = 'UNAVAILABLE'
+            analysis['unverified_financial_period'] = facts.get('unverified_financial_period')
         analysis['rate_provenance'] = WACC.provenance()
-        if cached:
+        if cached and not facts.get('awaiting_perimeter_packet'):
             analysis['warnings'].append('Financial refresh failed; dated last-good inputs retained and repriced.')
-        if regressed:
+        if regressed and not facts.get('awaiting_perimeter_packet'):
             if not facts.get('primary_current'):
                 analysis['data_status'] = 'NEWER_PERIOD_RETAINED'
             analysis['warnings'].append('Provider returned an older financial period ('+fresh_period.isoformat()
@@ -2745,7 +2777,7 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
           + (lambda rr, src: f'<td class="pv {d.get("built","exact")}">{d.get("built","exact")}'
              + '<br><span style="font-size:10px;color:'
              + ('#5cc8d8' if src == 'wacc' else '#7b8195')
-             + f'">r {100*rr:.2f}% {src}</span>')(*rate_used(d))
+             + (f'">r {100*rr:.2f}% {src}</span>' if rr is not None else '">Rate unavailable</span>'))(*rate_used(d))
           + (f'<br><span style="color:#e5b45c;font-size:10px">{cycle_note(d)}</span>' if cycle_note(d) else '')
           + ('<br><span class="pill x-appr">NORMALIZATION REVIEW</span>'
              if d.get('normalization_status') == 'REVIEW_REQUIRED' else '')
