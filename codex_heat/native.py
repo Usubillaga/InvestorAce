@@ -70,7 +70,7 @@ class Panel:
                              text=True, capture_output=True, check=True)
         return cls(data, json.loads(run.stdout))
 
-    def embed(self, document, language, leader_page=False):
+    def embed(self, document, language, leader_page=False, round2_html=None):
         """Apply after localization, so archived report HTML stays untouched."""
         primary, paper, claude = LABELS[language]
         primary = claude if leader_page else primary
@@ -79,6 +79,17 @@ class Panel:
                     f'aria-controls="ia-primary">{primary}</button>'
                     f'<button type="button" id="ia-paper-tab" role="tab" aria-selected="false" tabindex="-1" '
                     f'aria-controls="panic-paper">{paper}</button></div>')
+        round2_panel = ''
+        if round2_html is not None:
+            title = {'en': 'Paper round 2', 'de': 'Paper-Runde 2', 'es': 'Ronda de papel 2'}[language]
+            switch = (f'<button type="button" id="ia-round2-tab" role="tab" aria-selected="false" tabindex="-1" '
+                      f'aria-controls="paper-round2">{title}</button>')
+            controls = controls.removesuffix('</div>') + switch + '</div>'
+            links = ' · '.join(f'<a href="{home}#paper-round2" hreflang="{code}">{label}</a>'
+                               for (code, home), label in zip(HOME.items(), ('Español', 'Deutsch', 'English')))
+            round2_panel = (f'<section id="paper-round2" aria-labelledby="ia-round2-tab" role="tabpanel" tabindex="0">'
+                            f'<nav class="ia-pp-lang">{links}</nav>{round2_html}</section>')
+            document = document.replace('</head>', '<link rel="stylesheet" href="round2.css"></head>', 1)
         langs = ' · '.join(f'<a href="{home}#panic-paper" hreflang="{code}" lang="{code}"'
                            + (' aria-current="true"' if code == language else '') + f'>{label}</a>'
                            for (code, home), label in zip(HOME.items(), ('Español', 'Deutsch', 'English')))
@@ -93,7 +104,7 @@ class Panel:
         closing = document.lower().rindex('</body>')
         return (document[:body.end()] + '<div class="ia-paper-shell">' + controls + f'<noscript><a href="#ia-primary">{primary}</a> · <a href="#panic-paper">{paper}</a></noscript>'
                 + '<div role="tabpanel" aria-labelledby="ia-primary-tab" id="ia-primary">'
-                + document[body.end():closing] + '</div>' + panel + '</div>' + document[closing:])
+                + document[body.end():closing] + '</div>' + panel + round2_panel + '</div>' + document[closing:])
 
     def assets(self):
         yield Path('panic-paper.js'), '\n'.join((DIR / name).read_text() for name in JS)

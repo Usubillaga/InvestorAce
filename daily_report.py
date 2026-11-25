@@ -143,6 +143,9 @@ def report_page(root, build, *, now=None):
         parts.append('<div class="note"><b>Datos viejos:</b> el último build tiene más de '
                      f'{STALE_DAYS} días; las cifras pueden no reflejar el mercado actual.</div>')
     flags = []
+    if any(d.get('comparison_group') == pp.ROUND2 for d in docs):
+        parts.append('<p><a href="index.es.html#paper-round2">Ronda 2 · reglas frente a puntuación</a></p>')
+        docs = [d for d in docs if d.get('comparison_group') != pp.ROUND2]
     if docs:
         results = [pp.evaluate(d, series, today) for d in docs]
         html, flags = model_section(docs, results, record, today)
