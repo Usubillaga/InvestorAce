@@ -1,7 +1,7 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-25T06:05:24.094997+00:00",
- "universe_count": 128,
+ "generated_at": "2026-11-25T14:21:36.276924+00:00",
+ "universe_count": 129,
  "rows": [
   {
    "ticker": "AAPL",
@@ -9621,7 +9621,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-25T06:05:24.094997+00:00",
+   "attempted_at": "2026-11-25T14:21:36.276924+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
@@ -10739,13 +10739,13 @@
   {
    "ticker": "MKC",
    "listing": "MKC",
-   "name": "MKC",
+   "name": "McCormick & Company, Incorporated",
    "sector": "Consumer Defensive",
-   "financial_currency": null,
-   "quote_currency": null,
-   "retrieved_at": "2026-11-18T10:05:54.378934+00:00",
-   "attempted_at": "2026-11-18T10:05:54.378934+00:00",
-   "status": "PARTIAL",
+   "financial_currency": "USD",
+   "quote_currency": "USD",
+   "retrieved_at": "2026-11-25T14:21:36.276924+00:00",
+   "attempted_at": "2026-11-25T14:21:36.276924+00:00",
+   "status": "OK",
    "annual": [
     {
      "period_end": "2025-11-30",
@@ -10869,14 +10869,13 @@
     }
    ],
    "market": {
-    "shares_outstanding": null,
-    "float_shares": null,
+    "shares_outstanding": 254541615.0,
+    "float_shares": 265838396.0,
     "float_pct": null,
-    "retrieved_at": null
+    "retrieved_at": "2026-11-25T14:21:36.276924+00:00"
    },
    "warnings": [
-    "FINANCIAL_CURRENCY_UNKNOWN",
-    "PROVIDER_REQUEST_PARTIAL"
+    "FLOAT_EXCEEDS_SHARES"
    ],
    "sources": [
     {
@@ -18926,6 +18925,164 @@
     {
      "label": "Yahoo Finance \u00b7 Share statistics",
      "url": "https://finance.yahoo.com/quote/VICI/key-statistics/"
+    }
+   ]
+  },
+  {
+   "ticker": "VIS",
+   "listing": "VIS.MC",
+   "name": "Viscofan, S.A.",
+   "sector": "Consumer Defensive",
+   "financial_currency": "EUR",
+   "quote_currency": "EUR",
+   "retrieved_at": "2026-11-25T14:21:36.276924+00:00",
+   "attempted_at": "2026-11-25T14:21:36.276924+00:00",
+   "status": "OK",
+   "annual": [
+    {
+     "period_end": "2025-12-31",
+     "basis": "FY",
+     "revenue": 1251983000.0,
+     "gross_profit": 842768000.0,
+     "operating_income": 204146000.0,
+     "net_income": 159917000.0,
+     "ebitda": 271318000.0,
+     "shares_diluted": 45656226.0,
+     "shares_basic": 45656226.0,
+     "debt": 280040000.0,
+     "cash": 63606000.0,
+     "equity": 927630000.0,
+     "assets": 1441576000.0,
+     "liabilities": 508524000.0,
+     "ocf": 195369000.0,
+     "capex": 80447000.0,
+     "stock_comp": 6775000.0,
+     "buybacks": 93984000.0,
+     "fcf": 114922000.0,
+     "net_debt": 216434000.0,
+     "gross_margin": 67.31465203601007,
+     "operating_margin": 16.30581245911486,
+     "net_margin": 12.773096759301044,
+     "fcf_margin": 9.179198120102269,
+     "net_debt_ebitda": 0.7977133842944442,
+     "debt_equity": 0.3018876060498259,
+     "revenue_growth": 3.98581720506912,
+     "dilution": -0.0947165495928437
+    },
+    {
+     "period_end": "2024-12-31",
+     "basis": "FY",
+     "revenue": 1203994000.0,
+     "gross_profit": 813583000.0,
+     "operating_income": 201959000.0,
+     "net_income": 157019000.0,
+     "ebitda": 300602000.0,
+     "shares_diluted": 45699511.0,
+     "shares_basic": 45548368.0,
+     "debt": 212951000.0,
+     "cash": 55938000.0,
+     "equity": 937220000.0,
+     "assets": 1407113000.0,
+     "liabilities": 465342000.0,
+     "ocf": 235822000.0,
+     "capex": 75027000.0,
+     "stock_comp": 2001000.0,
+     "buybacks": 90716000.0,
+     "fcf": 160795000.0,
+     "net_debt": 157013000.0,
+     "gross_margin": 67.57367561632367,
+     "operating_margin": 16.77408691405439,
+     "net_margin": 13.04151017363874,
+     "fcf_margin": 13.355132999001656,
+     "net_debt_ebitda": 0.5223285274216406,
+     "debt_equity": 0.2272155950577239,
+     "revenue_growth": -1.7778782121200543,
+     "dilution": -1.384056134435907
+    },
+    {
+     "period_end": "2023-12-31",
+     "basis": "FY",
+     "revenue": 1225787000.0,
+     "gross_profit": 804820000.0,
+     "operating_income": 185172000.0,
+     "net_income": 140962000.0,
+     "ebitda": 259519000.0,
+     "shares_diluted": 46340895.0,
+     "shares_basic": 46184195.0,
+     "debt": 201124000.0,
+     "cash": 52755000.0,
+     "equity": 957772000.0,
+     "assets": 1407509000.0,
+     "liabilities": 449737000.0,
+     "ocf": 145710000.0,
+     "capex": 77126000.0,
+     "stock_comp": 2346000.0,
+     "buybacks": 6264000.0,
+     "fcf": 68584000.0,
+     "net_debt": 148369000.0,
+     "gross_margin": 65.65741030048451,
+     "operating_margin": 15.106376556449042,
+     "net_margin": 11.499714061252076,
+     "fcf_margin": 5.595099311707498,
+     "net_debt_ebitda": 0.5717076591694635,
+     "debt_equity": 0.2099915219906199,
+     "revenue_growth": 2.061483995377289,
+     "dilution": -0.17397268206028604
+    },
+    {
+     "period_end": "2022-12-31",
+     "basis": "FY",
+     "revenue": 1201028000.0,
+     "gross_profit": 811721000.0,
+     "operating_income": 188984000.0,
+     "net_income": 139430000.0,
+     "ebitda": 263470000.0,
+     "shares_diluted": 46421656.0,
+     "shares_basic": 46186656.0,
+     "debt": 162816000.0,
+     "cash": 51929000.0,
+     "equity": 906870000.0,
+     "assets": 1347393000.0,
+     "liabilities": 440523000.0,
+     "ocf": 120729000.0,
+     "capex": 115566000.0,
+     "stock_comp": 1581000.0,
+     "buybacks": 12231000.0,
+     "fcf": 5163000.0,
+     "net_debt": 110887000.0,
+     "gross_margin": 67.58551840589895,
+     "operating_margin": 15.735186856592854,
+     "net_margin": 11.609221433638517,
+     "fcf_margin": 0.42988173464731877,
+     "net_debt_ebitda": 0.4208714464644931,
+     "debt_equity": 0.1795362069535876,
+     "revenue_growth": null,
+     "dilution": null
+    }
+   ],
+   "market": {
+    "shares_outstanding": 45057403.0,
+    "float_shares": 34128398.0,
+    "float_pct": 75.7442633788725,
+    "retrieved_at": "2026-11-25T14:21:36.276924+00:00"
+   },
+   "warnings": [],
+   "sources": [
+    {
+     "label": "Yahoo Finance \u00b7 Income statement",
+     "url": "https://finance.yahoo.com/quote/VIS.MC/financials/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Balance sheet",
+     "url": "https://finance.yahoo.com/quote/VIS.MC/balance-sheet/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Cash flow",
+     "url": "https://finance.yahoo.com/quote/VIS.MC/cash-flow/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Share statistics",
+     "url": "https://finance.yahoo.com/quote/VIS.MC/key-statistics/"
     }
    ]
   },
