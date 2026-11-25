@@ -435,12 +435,21 @@ def prefer_primary(provider, primary, *, as_of):
     if not primary:
         return provider
     ads = primary.get('depositary_shares')
-    if ads is not None:
-        # A vendor may supply ordinary shares, ADSs or a mix of the two.
+    interests = primary.get('upc_interests')
+    if ads is not None or interests is not None:
+        # Vendor share counts and earnings series may cover only one class.
         # Only market fields can cross into this issuer-authored statement set.
         provider = {k: v for k, v in provider.items() if v is not None and k in (
             'schema', 'symbol', 'currency', 'beta', 'quote_price', 'quote_observed_at',
             'quote_type', 'short_interest', 'earnings', 'last_earnings')}
+    if interests is not None:
+        listed = positive_number(interests.get('class_a'))
+        paired = finite_number(interests.get('paired_opco_units'))
+        if (listed is None or paired is None or paired < 0
+                or interests.get('class_a_per_unit') != 1 or not primary.get('shares_asof')
+                or (primary.get('inputs') or {}).get('shares') != listed + paired):
+            raise ValueError('Invalid primary Up-C share bridge')
+    if ads is not None:
         outstanding = positive_number(ads.get('ordinary_outstanding'))
         ratio = positive_number(ads.get('ordinary_per_ads'))
         if (not outstanding or not ratio or

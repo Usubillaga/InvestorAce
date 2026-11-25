@@ -51,6 +51,7 @@ const tickerLibrary = [
  {yf:"AIR.PA",name:"Airbus SE",index:"CAC 40",group:"Cyclical",sector:"Aerospace",cur:"EUR"},
  {yf:"SAN.MC",name:"Banco Santander",index:"IBEX 35",group:"Cyclical",sector:"Financials",cur:"EUR"},
  {yf:"IBST.L",name:"Ibstock plc",index:"FTSE 250",group:"Cyclical",sector:"Materials",cur:"GBp"},
+ {yf:"FPS",name:"Forgent Power Solutions",index:"NYSE",group:"Cyclical",sector:"Industrials",cur:"USD"},
  {yf:"JD",name:"JD.com",index:"Nasdaq",group:"Cyclical",sector:"Consumer Cyclical",cur:"USD"},
  // SENSITIVE
  {yf:"BIDU",name:"Baidu",index:"Nasdaq",group:"Sensitive",sector:"Communication Services",cur:"USD"},
