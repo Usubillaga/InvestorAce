@@ -1,6 +1,6 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-25T00:22:23.347138+00:00",
+ "generated_at": "2026-11-25T06:05:24.094997+00:00",
  "universe_count": 128,
  "rows": [
   {
@@ -9621,7 +9621,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-25T00:22:23.347138+00:00",
+   "attempted_at": "2026-11-25T06:05:24.094997+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
@@ -16754,8 +16754,8 @@
    "sector": "Technology",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-18T04:29:11.786164+00:00",
-   "attempted_at": "2026-11-18T04:29:11.786164+00:00",
+   "retrieved_at": "2026-11-25T06:05:24.094997+00:00",
+   "attempted_at": "2026-11-25T06:05:24.094997+00:00",
    "status": "OK",
    "annual": [
     {
@@ -16883,7 +16883,7 @@
     "shares_outstanding": 659227367.0,
     "float_shares": 559980687.0,
     "float_pct": 84.9450000154499,
-    "retrieved_at": "2026-11-18T04:29:11.786164+00:00"
+    "retrieved_at": "2026-11-25T06:05:24.094997+00:00"
    },
    "warnings": [],
    "sources": [
