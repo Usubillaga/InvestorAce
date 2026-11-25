@@ -12,3 +12,7 @@
 .ia-paper-shell:has(>.ia-pp:not([hidden]) :target)>#ia-primary:not([hidden]){display:none}
 .ia-paper-shell>.ia-pp:not([hidden]):not(:target):not(:has(:target)){display:none}
 .ia-paper-shell:has(.ia-paper-tabs [aria-controls="panic-paper"][aria-selected=true])>.ia-pp:not([hidden]){display:block}
+
+.ia-paper-shell>#paper-round2:not(:target){display:none}
+.ia-paper-shell:has([aria-controls="paper-round2"][aria-selected=true])>#paper-round2:not([hidden]){display:block}
+.ia-paper-shell:has(>#paper-round2:target)>#ia-primary{display:none}

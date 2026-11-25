@@ -754,6 +754,15 @@ def build_site(root, output, require_committed=False, *, refresh_paper=False):
                                    include_index_leaders=bool(leaders_pages))
     # Translate the verified canonical report; never re-fetch or recalculate it.
     # Prepare every variant before replacing any previously published page.
+    round2_panels = {}
+    round2_data = dict(paper_pages).get(Path('paper-round2.json'))
+    if round2_data is not None:
+        import subprocess
+        assets = Path(__file__).parent / 'codex_heat'
+        process = subprocess.run(['node', str(assets / 'round2-panel.js')], input=round2_data,
+                                 text=True, capture_output=True, check=True)
+        round2_panels = json.loads(process.stdout)
+        paper_pages.append((Path('round2.css'), (assets / 'round2.css').read_text()))
     scoreboards = []
     for language in ('en', 'de', 'es'):
         localized = (i18n.localize(scoreboard, language)
@@ -762,7 +771,7 @@ def build_site(root, output, require_committed=False, *, refresh_paper=False):
                               else 'href="correction_study/index.html">Atlas de correcciones')
                      .replace('href="swing-experiments.html"', f'href="swing-experiments.{language}.html"'
                               if language != 'en' else 'href="swing-experiments.html"'))
-        scoreboards.append((Path(i18n.homepage(language)), panic.embed(localized, language)))
+        scoreboards.append((Path(i18n.homepage(language)), panic.embed(localized, language, round2_html=round2_panels.get(language))))
     # Validate all content before creating an uploadable site.
     pages = list(enagas_review_pages) + paper_pages + war_pages + crash_pages + trade_pages + backtest_pages
     pages += heat_pages
