@@ -11772,6 +11772,235 @@
           ]
         }
       }
+    },
+    "FPS": {
+      "issuer": "Forgent Power Solutions, Inc.",
+      "listing": "FPS / NYSE / Class A / USD",
+      "as_of": "2026-11-25",
+      "window_start": "2026-11-12",
+      "window_end": "2026-11-25",
+      "insider": {
+        "status": "PARTIAL",
+        "reason": "Six November Forms 4 with purchase transactions reviewed.",
+        "sources": [
+          {
+            "title": "SEC Form 4 · SPIERKEL GREGORY M",
+            "url": "https://www.sec.gov/Archives/edgar/data/2080126/000208012626000048/xslF345X06/form4.xml"
+          },
+          {
+            "title": "SEC Form 4 · Lund Inez",
+            "url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003126/xslF345X06/es260856188_4-lund.xml"
+          },
+          {
+            "title": "SEC Form 4 · Hottinger Tyson",
+            "url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003077/xslF345X06/es260856185_4-hottinger.xml"
+          },
+          {
+            "title": "SEC Form 4 · Bhatia Neel",
+            "url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003069/xslF345X06/es260856447_4-bhatia.xml"
+          },
+          {
+            "title": "SEC Form 4 · Niederpruem Gary John",
+            "url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003068/xslF345X06/es260856191_4-niederpruem.xml"
+          },
+          {
+            "title": "SEC Form 4 · Ard Amy E",
+            "url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003067/xslF345X06/es260856184_4-ard.xml"
+          }
+        ],
+        "transactions": [
+          {
+            "owner": "SPIERKEL GREGORY M",
+            "role": "Director",
+            "code": "P",
+            "transaction_date": "2026-11-20",
+            "filing_date": "2026-11-23",
+            "shares": 25000.0,
+            "price": 18.48,
+            "currency": "USD",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/2080126/000208012626000048/xslF345X06/form4.xml"
+          },
+          {
+            "owner": "Lund Inez",
+            "role": "Chief Accounting Officer",
+            "code": "P",
+            "transaction_date": "2026-11-17",
+            "filing_date": "2026-11-18",
+            "shares": 3000.0,
+            "price": 21.66,
+            "currency": "USD",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003126/xslF345X06/es260856188_4-lund.xml"
+          },
+          {
+            "owner": "Hottinger Tyson",
+            "role": "Chief Legal Officer",
+            "code": "P",
+            "transaction_date": "2026-11-16",
+            "filing_date": "2026-11-16",
+            "shares": 11800.0,
+            "price": 20.759,
+            "currency": "USD",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003077/xslF345X06/es260856185_4-hottinger.xml"
+          },
+          {
+            "owner": "Bhatia Neel",
+            "role": "",
+            "code": "P",
+            "transaction_date": "2026-11-16",
+            "filing_date": "2026-11-16",
+            "shares": 9366.0,
+            "price": 21.26,
+            "currency": "USD",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003069/xslF345X06/es260856447_4-bhatia.xml"
+          },
+          {
+            "owner": "Niederpruem Gary John",
+            "role": "Chief Executive Officer",
+            "code": "P",
+            "transaction_date": "2026-11-16",
+            "filing_date": "2026-11-16",
+            "shares": 15163.0,
+            "price": 20.8525,
+            "currency": "USD",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003068/xslF345X06/es260856191_4-niederpruem.xml"
+          },
+          {
+            "owner": "Niederpruem Gary John",
+            "role": "Chief Executive Officer",
+            "code": "P",
+            "transaction_date": "2026-11-16",
+            "filing_date": "2026-11-16",
+            "shares": 837.0,
+            "price": 21.5944,
+            "currency": "USD",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003068/xslF345X06/es260856191_4-niederpruem.xml"
+          },
+          {
+            "owner": "Ard Amy E",
+            "role": "Chief Financial Officer",
+            "code": "P",
+            "transaction_date": "2026-11-16",
+            "filing_date": "2026-11-16",
+            "shares": 14617.0,
+            "price": 20.5238,
+            "currency": "USD",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/2080126/000095014226003067/xslF345X06/es260856184_4-ard.xml"
+          }
+        ],
+        "limitations": [
+          "Coverage is limited to the specified November filing window."
+        ]
+      },
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "TTM reported cash includes a USD318.270m increase in deferred revenue. Sustainable cash after contract working capital and the tax receivable agreement is unverified.",
+        "sources": [
+          {
+            "title": "FY2026 Form 10-K · consolidated cash flow, income, acquisition history and ownership",
+            "url": "https://www.sec.gov/Archives/edgar/data/2080126/000208012626000035/fps-20260630.htm"
+          },
+          {
+            "title": "FY2027 Q1 Form 10-Q · comparative cash flow, Up-C units, tax agreement and capital structure",
+            "url": "https://www.sec.gov/Archives/edgar/data/2080126/000208012626000046/fps-20260930.htm"
+          },
+          {
+            "title": "FY2027 Q1 release · earnings, demand and guidance",
+            "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000045/exhibit991earningsrelease_.htm"
+          },
+          {
+            "title": "FY2027 Q1 presentation · pages 12 and 21, outlook and cash assumptions",
+            "url": "https://d1io3yog0oux5.cloudfront.net/_b4cdae27a53c8e46ab4827382c71d3f7/forgentpower/db/3594/34531/presentation/Forgent_Fiscal_Q127_Earnings_Presentation_Final.pdf"
+          }
+        ],
+        "financial_packet": {
+          "schema": "dynamic-analysis-v1",
+          "symbol": "FPS",
+          "currency": "USD",
+          "financial_currency": "USD",
+          "published_at": "2026-11-12T11:36:28+00:00",
+          "fetched_at": "2026-11-25T20:37:00+00:00",
+          "financial_period": "2026-09-30",
+          "basis": "TTM",
+          "period_ends": [
+            "2026-09-30",
+            "2026-06-30",
+            "2026-03-31",
+            "2025-12-31"
+          ],
+          "inputs": {
+            "operating_cash_flow": 239261000,
+            "capex": 117722000,
+            "fcf": 121539000,
+            "stock_based_compensation": 23360000,
+            "revenue": 1615351000,
+            "operating_income": 230508000,
+            "depreciation": 62993000,
+            "debt": 581340000,
+            "cash": 199916000,
+            "shares": 304428889,
+            "net_income": null
+          },
+          "market_reference": {
+            "price": 18.63,
+            "currency": "USD",
+            "quote_observed_at": "2026-11-24T21:00:00+00:00",
+            "quote_url": "https://stockanalysis.com/stocks/fps/history/"
+          },
+          "upc_interests": {
+            "class_a": 274527094,
+            "paired_opco_units": 29901795,
+            "class_a_per_unit": 1
+          },
+          "shares_basis": "ISSUER_CLASS_A_PLUS_PAIRED_OPCO_UNITS",
+          "shares_asof": "2026-11-05",
+          "revenue_growth_pct": 88.53978024078981,
+          "revenue_growth_periods": [
+            "2026-06-30",
+            "2025-06-30"
+          ],
+          "annual_fcf_series": [
+            {
+              "period": "2026-06-30",
+              "value": -6824000
+            },
+            {
+              "period": "2025-06-30",
+              "value": -39093000
+            }
+          ],
+          "annual_sbc_series": [
+            {
+              "period": "2026-06-30",
+              "value": 10036000
+            },
+            {
+              "period": "2025-06-30",
+              "value": 1784000
+            }
+          ],
+          "annual_revenue_series": [
+            {
+              "period": "2026-06-30",
+              "value": 1420059000
+            },
+            {
+              "period": "2025-06-30",
+              "value": 753188000
+            }
+          ],
+          "cash_flow_calculation": "OCF_MINUS_CASH_PP_AND_E",
+          "primary_warnings": [
+            "TTM reported cash includes a USD318.270m increase in deferred revenue. Sustainable cash after contract working capital and the tax receivable agreement is unverified.",
+            "Class A trades in USD. Use the November 5 Class A count plus exchangeable Opco interests. Class B voting shares represent the paired interests once. The historical Class A GAAP EPS series starts at the February 2026 IPO. A comparable TTM Class A P/E and year-over-year share count are unavailable.",
+            "Balance sheet uses carrying debt of USD581.340m and unrestricted cash only. Operating leases and the separate USD483.027m tax receivable agreement are disclosed in the deep dive."
+          ],
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/2080126/000208012626000035/fps-20260630.htm",
+            "https://www.sec.gov/Archives/edgar/data/2080126/000208012626000046/fps-20260930.htm",
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000045/exhibit991earningsrelease_.htm"
+          ]
+        }
+      }
     }
   }
 }
