@@ -11463,6 +11463,315 @@
           "dividends_basis": "CONSOLIDATED_CASH_FLOW_STATEMENT"
         }
       }
+    },
+    "JD": {
+      "issuer": "JD.com, Inc.",
+      "listing": "JD / Nasdaq / USD per ADS",
+      "as_of": "2026-11-25",
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "No verified individual dealing window in this financial review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": [
+          "Corporate repurchases are distinct from insider transactions."
+        ]
+      },
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "CECONOMY closed November 12. The trailing standalone proxy excludes its operations, purchase funding and third-party claims; it is not a pro forma valuation.",
+        "sources": [
+          {
+            "title": "Q3 issuer release · TTM cash reconciliation, segment results, balance sheet and nine-month P&L",
+            "url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526464688/d179042dex991.htm"
+          },
+          {
+            "title": "FY2025 release · FY and Q4 results, depreciation and share compensation",
+            "url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526092445/d150586dex991.htm"
+          },
+          {
+            "title": "FY2025 Form 20-F · Item 3.D, Item 5 cash flows, Item 8, consolidated statements",
+            "url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm"
+          },
+          {
+            "title": "September 2025 balance sheet · issued and outstanding ordinary shares",
+            "url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312525278665/d715997dex991.htm"
+          },
+          {
+            "title": "Q1 results · 2025 dividend paid in April 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526218013/d128173dex991.htm"
+          },
+          {
+            "title": "CECONOMY takeover completion · 12 Nov 2026",
+            "url": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526456897/d114554dex991.htm"
+          }
+        ],
+        "financial_packet": {
+          "schema": "dynamic-analysis-v1",
+          "symbol": "JD",
+          "currency": "USD",
+          "financial_currency": "CNY",
+          "market_reference": {
+            "price": 25.73,
+            "currency": "USD",
+            "quote_observed_at": "2026-11-24T21:00:00+00:00",
+            "beta": 0.3,
+            "quote_url": "https://stockanalysis.com/stocks/jd/history/",
+            "beta_url": "https://stockanalysis.com/stocks/jd/statistics/",
+            "fx": {
+              "pair": "CNYUSD",
+              "rate": 0.1500487658489009,
+              "observed_at": "2026-11-24",
+              "source": "https://www.investing.com/currencies/usd-cny-historical-data"
+            }
+          },
+          "published_at": "2026-11-17T23:59:59+00:00",
+          "fetched_at": "2026-11-25T18:38:00+00:00",
+          "publication_time_basis": "JD uses an end-of-day bound for Q3. The Baidu share return was published November 25 at 18:12 Hong Kong time.",
+          "financial_period": "2026-09-30",
+          "basis": "TTM",
+          "period_ends": [
+            "2026-09-30",
+            "2026-06-30",
+            "2026-03-31",
+            "2025-12-31"
+          ],
+          "inputs": {
+            "operating_cash_flow": 40444000000,
+            "capex": 20898000000,
+            "fcf": 19546000000,
+            "stock_based_compensation": 4487000000,
+            "revenue": 1323972000000,
+            "operating_income": 7659000000,
+            "net_income": 16021000000,
+            "depreciation": 10741000000,
+            "debt": 110537000000,
+            "cash": 82637000000,
+            "shares": 1345500000.0
+          },
+          "depositary_shares": {
+            "ordinary_per_ads": 2,
+            "ordinary_outstanding": 2691000000
+          },
+          "shares_basis": "ISSUER_ECONOMIC_ADS_EQUIVALENTS",
+          "shares_asof": "2026-09-30",
+          "revenue_growth_pct": 12.967167435121452,
+          "revenue_growth_periods": [
+            "2025-12-31",
+            "2024-12-31"
+          ],
+          "share_change_pct": -5.179704016913322,
+          "share_change_periods": [
+            "2026-09-30",
+            "2025-09-30"
+          ],
+          "cash_flow_calculation": "OCF_MINUS_CAPEX_NET_OF_RELATED_SALE_PROCEEDS",
+          "annual_fcf_series": [
+            {
+              "period": "2025-12-31",
+              "value": 6256000000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 43872000000
+            }
+          ],
+          "annual_net_income_series": [
+            {
+              "period": "2025-12-31",
+              "value": 19631000000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 41359000000
+            }
+          ],
+          "annual_revenue_series": [
+            {
+              "period": "2025-12-31",
+              "value": 1309085000000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 1158819000000
+            }
+          ],
+          "primary_warnings": [
+            "Consolidated cash flow is a proxy before distributions to minority owners. Earnings are attributable to the parent. Market-cap/earnings differs from the diluted ADS P/E.",
+            "Debt includes reported lease liabilities. Cash includes cash and equivalents only, excluding restricted cash and investment portfolios.",
+            "The balance sheet and TTM operating figures are dated September 30. A later period requires a new issuer cash-flow and ADS reconciliation.",
+            "Issuer capex is net of related sale proceeds; gross TTM investment is unavailable. OCF less net capex equals CNY19.546bn. Deducting CNY0.743bn consumer financing gives the issuer FCF of CNY18.803bn. Same-window share compensation is CNY4.487bn.",
+            "CECONOMY closed November 12. The trailing standalone proxy excludes its operations, purchase funding and third-party claims; it is not a pro forma valuation.",
+            "Shareholder yield uses the actual paid USD1.00 per ADS and September-to-September change in outstanding shares."
+          ],
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1549802/000119312526464688/d179042dex991.htm",
+            "https://www.sec.gov/Archives/edgar/data/1549802/000119312526092445/d150586dex991.htm",
+            "https://www.sec.gov/Archives/edgar/data/1549802/000119312526157870/d53690d20f.htm",
+            "https://www.sec.gov/Archives/edgar/data/1549802/000119312525278665/d715997dex991.htm",
+            "https://www.sec.gov/Archives/edgar/data/1549802/000119312526218013/d128173dex991.htm",
+            "https://www.sec.gov/Archives/edgar/data/1549802/000119312526456897/d114554dex991.htm"
+          ],
+          "cash_dividend_per_listed_share": {
+            "amount": 1,
+            "currency": "USD",
+            "period_end": "2026-09-30",
+            "source": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526218013/d128173dex991.htm"
+          }
+        }
+      }
+    },
+    "BIDU": {
+      "issuer": "Baidu, Inc.",
+      "listing": "BIDU / Nasdaq / USD per ADS",
+      "as_of": "2026-11-25",
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "No verified individual dealing window in this financial review.",
+        "sources": [],
+        "transactions": [],
+        "limitations": [
+          "Corporate repurchases are distinct from insider transactions."
+        ]
+      },
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Depreciation uses the disclosed depreciation and amortization line excluding business-combination intangibles. Negative TTM cash flow precludes the positive-base DCF.",
+        "sources": [
+          {
+            "title": "Q3 2026 release · Q2/Q3 consolidated cash flows, SBC, balance sheet and AI mix",
+            "url": "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-third-quarter-2026-results"
+          },
+          {
+            "title": "Q1 2026 release · Q4 2025 and Q1 2026 consolidated cash flows, SBC and earnings",
+            "url": "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-first-quarter-2026-results"
+          },
+          {
+            "title": "FY2025 release · FY annual consolidated cash flows",
+            "url": "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-fourth-quarter-and-fiscal-year-2025-results/"
+          },
+          {
+            "title": "FY2025 Form 20-F · balance sheets, EPS, cash restrictions and VIE disclosures",
+            "url": "https://www.sec.gov/Archives/edgar/data/1329099/000119312526109289/d38065d20f.htm"
+          },
+          {
+            "title": "31 October monthly return · Sections II and III(E), shares awaiting cancellation",
+            "url": "https://www.sec.gov/Archives/edgar/data/1329099/000119312526446265/d168684dex991.htm"
+          },
+          {
+            "title": "25 November HKEX return · Class A closing balance, pending purchases and current mandate",
+            "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/1125/2026112500822.pdf"
+          }
+        ],
+        "financial_packet": {
+          "schema": "dynamic-analysis-v1",
+          "symbol": "BIDU",
+          "currency": "USD",
+          "financial_currency": "CNY",
+          "market_reference": {
+            "price": 63.51,
+            "currency": "USD",
+            "quote_observed_at": "2026-11-24T21:00:00+00:00",
+            "beta": 0.58,
+            "quote_url": "https://stockanalysis.com/stocks/bidu/history/",
+            "beta_url": "https://stockanalysis.com/stocks/bidu/statistics/",
+            "fx": {
+              "pair": "CNYUSD",
+              "rate": 0.1500487658489009,
+              "observed_at": "2026-11-24",
+              "source": "https://www.investing.com/currencies/usd-cny-historical-data"
+            }
+          },
+          "published_at": "2026-11-25T10:12:00+00:00",
+          "fetched_at": "2026-11-25T18:38:00+00:00",
+          "publication_time_basis": "JD uses an end-of-day bound for Q3. The Baidu share return was published November 25 at 18:12 Hong Kong time.",
+          "financial_period": "2026-09-30",
+          "basis": "TTM",
+          "period_ends": [
+            "2026-09-30",
+            "2026-06-30",
+            "2026-03-31",
+            "2025-12-31"
+          ],
+          "inputs": {
+            "operating_cash_flow": 11493000000,
+            "capex": 26627000000,
+            "fcf": -15134000000,
+            "stock_based_compensation": 3031000000,
+            "revenue": 126947000000,
+            "operating_income": 8326000000,
+            "net_income": 8941000000,
+            "depreciation": 9053000000,
+            "debt": 114603000000,
+            "cash": 31013000000,
+            "dividends": 0,
+            "shares": 340070527.25
+          },
+          "depositary_shares": {
+            "ordinary_per_ads": 8,
+            "ordinary_outstanding": 2720564218
+          },
+          "shares_basis": "ISSUER_ECONOMIC_ADS_EQUIVALENTS",
+          "shares_asof": "2026-11-25",
+          "revenue_growth_pct": -3.0392488262910744,
+          "revenue_growth_periods": [
+            "2025-12-31",
+            "2024-12-31"
+          ],
+          "share_change_pct": -1.5038714936965403,
+          "share_change_periods": [
+            "2025-12-31",
+            "2024-12-31"
+          ],
+          "cash_flow_calculation": "OCF_MINUS_ABS_CAPEX",
+          "annual_fcf_series": [
+            {
+              "period": "2025-12-31",
+              "value": -15086000000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 13100000000
+            }
+          ],
+          "annual_net_income_series": [
+            {
+              "period": "2025-12-31",
+              "value": 5589000000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 23760000000
+            }
+          ],
+          "annual_revenue_series": [
+            {
+              "period": "2025-12-31",
+              "value": 129079000000
+            },
+            {
+              "period": "2024-12-31",
+              "value": 133125000000
+            }
+          ],
+          "primary_warnings": [
+            "Consolidated cash flow is a proxy before distributions to minority owners. Earnings are attributable to the parent. Market-cap/earnings differs from the diluted ADS P/E.",
+            "Debt includes reported lease liabilities. Cash includes cash and equivalents only, excluding restricted cash and investment portfolios.",
+            "The balance sheet and TTM operating figures are dated September 30. A later period requires a new issuer cash-flow and ADS reconciliation.",
+            "Class A on November 25 plus last disclosed Class B on October 31, less 15,029,832 Class A shares bought back pending cancellation, divided by eight. The B count is carried forward.",
+            "Share-count growth compares outstanding A+B at FY2025 vs FY2024, as reported in the annual balance sheet; repurchases do not measure net dilution.",
+            "Depreciation uses the disclosed depreciation and amortization line excluding business-combination intangibles. Negative TTM cash flow precludes the positive-base DCF."
+          ],
+          "source_urls": [
+            "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-third-quarter-2026-results",
+            "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-first-quarter-2026-results",
+            "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-fourth-quarter-and-fiscal-year-2025-results/",
+            "https://www.sec.gov/Archives/edgar/data/1329099/000119312526109289/d38065d20f.htm",
+            "https://www.sec.gov/Archives/edgar/data/1329099/000119312526446265/d168684dex991.htm",
+            "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/1125/2026112500822.pdf"
+          ]
+        }
+      }
     }
   }
 }
