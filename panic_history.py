@@ -132,6 +132,44 @@ def touch_study(heat, touch, start, make_event, levels=TOUCH_LEVELS, gap=63):
     return out
 
 
+MOVE_WINDOW = 756            # three years of sessions, as in 3Fourteen's VIX & MOVE chart
+MOVE_BANDS = (('high (> +15)', lambda m: m > 15.), ('elevated (0 to +15)', lambda m: 0. <= m <= 15.),
+              ('calm (< 0)', lambda m: m < 0.))
+
+
+def excess(series, index, window=MOVE_WINDOW):
+    """Points above the trailing three-year mean (known on the day), aligned to `index`."""
+    s = series.reindex(index).ffill()
+    return s - s.rolling(window, min_periods=window // 2).mean()
+
+
+def move_study(level_events, move, vix, index):
+    """Panic buys split by bond-market stress on the signal day (MOVE vs its 3-year mean; 3Fourteen's chart, asked
+    for on 26 Nov 2026). Same events and exits as the level study; only the grouping is new."""
+    mx, vx = excess(move, index), excess(vix, index)
+    out = {}
+    for level, events in level_events.items():
+        tagged = []
+        for e in events:
+            day = pd.Timestamp(e['date'])
+            m = mx.get(day)
+            tagged.append((e, None if m is None or m != m else float(m),
+                           None if vx.get(day) is None or vx.get(day) != vx.get(day) else float(vx.get(day))))
+        groups = {}
+        for name, band in MOVE_BANDS:
+            sub = [e for e, m, _ in tagged if m is not None and band(m)]
+            full = summary(sub, horizons=(252, LONG))
+            groups[name] = dict(signals=[e['date'] for e in sub], long_exit=long_summary(sub),
+                                summary={h: {k: v for k, v in c.items() if k in RISK or k == 'drawdown'}
+                                         for h, c in full.items()})
+        out[level] = dict(groups=groups, no_move=[e['date'] for e, m, _ in tagged if m is None],
+                          per_signal=[dict(date=e['date'], move_excess=None if m is None else round(m, 1),
+                                           vix_excess=None if v is None else round(v, 1),
+                                           mix_42m=(e['long_exit'] or {}).get('mix') if e.get('long_exit') else None)
+                                      for e, m, v in tagged])
+    return out
+
+
 def drawdowns(adj):
     """Distance from each stock's own trailing ten-year high close (dividend-adjusted), and the date of that high."""
     high = adj.rolling(TEN_YEARS, min_periods=252).max()
@@ -405,7 +443,7 @@ def long_summary(events):
     return out
 
 
-def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extremes=None):
+def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extremes=None, move=None):
     index = spx.index[spx.index >= pd.Timestamp(start) - pd.Timedelta(days=400)]
     adj, split_close, volume = (f.reindex(index) for f in (adj, split_close, volume))
     spx, vix = spx.reindex(index), vix.reindex(index).ffill()
@@ -426,7 +464,7 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extreme
                                          horizons=(252, LONG)) for d in days) if e]
         full = summary(delayed, horizons=(252, LONG))
         delays[str(lag)] = {h: {k: v for k, v in cells.items() if k in RISK} for h, cells in full.items()}
-    levels = {}
+    levels, level_events = {}, {}
     for level in LEVELS:
         if level == pb.PANIC:
             lev_events = events
@@ -434,6 +472,8 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extreme
             lev_days = pb.signals(heat[heat.index >= pd.Timestamp(start)], panic=level)[0]
             lev_events = [e for e in (event(d, adj, split_close, volume, members, dd, recent_high, spx, heat, shares,
                                             horizons=(252, LONG)) for d in lev_days) if e]
+        if level in (20., 17.):
+            level_events[f'{level:g}'] = lev_events
         full = summary(lev_events, horizons=(252, LONG))
         levels[f'{level:g}'] = dict(signals=[e['date'] for e in lev_events],
                                     summary={h: {k: v for k, v in c.items() if k in RISK or k == 'drawdown'}
@@ -459,8 +499,9 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extreme
         th = touch_heat(spx, vix, adj, members, spx_low.reindex(index), vix_high.reindex(index))
         touch = touch_study(heat, th, start, lambda d: event(d, adj, split_close, volume, members, dd, recent_high,
                                                              spx, heat, shares, horizons=(252, LONG)))
+    bonds = move_study(level_events, move, vix, index) if move is not None and len(move) else None
     last = heat.dropna()
-    return dict(schema='panic-history-v1', touch=touch, start=str(index[0].date()), end=str(index[-1].date()),
+    return dict(schema='panic-history-v1', touch=touch, move=bonds, start=str(index[0].date()), end=str(index[-1].date()),
                 signals=len(events), events=events, summary=summary(events), breadth_checks=checks,
                 long_exit=long_summary(events), delays=delays, levels=levels,
                 staged=dict(rows=staged_rows, summary=staged_summary(staged_rows)), staged_grid=staged_grid,
@@ -635,6 +676,33 @@ def report(result):
                     f"{_pct(d42['worst']) if d42 else '—'} |")
         lines += [''] + [f"Under {lv}: touch signals {', '.join(b['touch_signals']) or '—'}; touch-only "
                          f"{', '.join(b['touch_only']) or '—'}" for lv, b in touch.items()] + ['']
+    bonds = result.get('move')
+    if bonds:
+        lines += ['## Panic buys split by bond-market stress (MOVE vs its 3-year mean on the signal day)', '',
+                  'Idea from 3Fourteen Research\'s VIX & MOVE chart: stock fear with calm bonds was followed by the best '
+                  'years, fear in both by the weakest. Same buys and exits as above; only the grouping is new. A handful '
+                  'of signals per group: read the direction, not the decimals.', '',
+                  '| Level | MOVE on the signal day | Signals | Mix 12 m mean / worst | Mix 42 m mean / worst | '
+                  'Mix 42 m then euphoria: mean / worst / beats S&P | Mix worst fall, 42 m |',
+                  '|---|---|---:|---|---|---|---:|']
+        for level, b in bonds.items():
+            for name, g in b['groups'].items():
+                y1, y42 = g['summary'].get('252') or {}, g['summary'].get(str(LONG)) or {}
+                m1, m42 = y1.get('mix'), y42.get('mix')
+                d42 = (y42.get('drawdown') or {}).get('mix')
+                le = (g.get('long_exit') or {}).get('mix')
+                lines.append(
+                    f"| < {level} | {name} | {len(g['signals'])} | "
+                    f"{_pct(m1['mean']) + ' / ' + _pct(m1['worst']) if m1 else '—'} | "
+                    f"{_pct(m42['mean']) + ' / ' + _pct(m42['worst']) if m42 else '—'} | "
+                    f"{(_pct(le['mean']) + ' / ' + _pct(le['worst']) + ' / ' + str(le['beats_spx']) + '/' + str(g['long_exit']['n'])) if le else '—'} | "
+                    f"{_pct(d42['worst']) if d42 else '—'} |")
+        for level, b in bonds.items():
+            lines += ['', f'Signals under {level} (MOVE / VIX points vs their 3-year mean; mix 42 m then euphoria): ' + '; '.join(
+                f"{r['date']} {'—' if r['move_excess'] is None else format(r['move_excess'], '+.1f')} / "
+                f"{'—' if r['vix_excess'] is None else format(r['vix_excess'], '+.1f')}"
+                f"{'' if r['mix_42m'] is None else ' → ' + _pct(r['mix_42m'])}" for r in b['per_signal'])]
+        lines.append('')
     return '\n'.join(lines) + '\n'
 
 
@@ -713,6 +781,23 @@ def index_extremes(sleep=None, retries=RETRIES, pause=PAUSE):
     return None
 
 
+def move_series(sleep=None, retries=RETRIES, pause=PAUSE):
+    """ICE BofA MOVE index closes (^MOVE on Yahoo); None if Yahoo has no history."""
+    import time
+    import yfinance as yf
+    sleep = sleep or time.sleep
+    for attempt in range(retries):
+        raw = yf.download('^MOVE', start='1988-01-01', auto_adjust=False, progress=False, threads=False)
+        close = raw['Close']
+        close = close.iloc[:, 0] if isinstance(close, pd.DataFrame) else close
+        close = close.dropna()
+        if len(close) > 1000:
+            close.index = close.index.tz_localize(None) if close.index.tz is not None else close.index
+            return close
+        sleep(pause * (attempt + 1))
+    return None
+
+
 class CachedShares:
     """Shares outstanding in today's split terms, with each ticker's share history and splits fetched once.
 
@@ -768,8 +853,15 @@ def main():
         extremes = None
     if extremes is not None:
         extremes = tuple(x[x.index < cutoff] for x in extremes)
+    try:
+        move = move_series()
+    except Exception as exc:                     # optional, like the touch study
+        print(f'MOVE unavailable: {type(exc).__name__}')
+        move = None
+    if move is not None:
+        move = move[move.index < cutoff]
     result = study(spx, vix, data['adj'], data['split_close'], data['volume'], rows, CachedShares(),
-                   extremes=extremes)
+                   extremes=extremes, move=move)
     result['tickers_requested'] = len(tickers)
     result['tickers_priced'] = int(data['adj'].notna().any().sum())
     OUT_JSON.parent.mkdir(exist_ok=True)
