@@ -1,0 +1,16 @@
+{
+  "universe": 132,
+  "fixture": "Same latest verified market/fundamental/macro inputs for both runs",
+  "captured_at": "2026-11-26T05:16:56.729548+00:00",
+  "compared": [
+    "scorecard",
+    "regimes",
+    "books",
+    "screens",
+    "portfolios"
+  ],
+  "identical": true,
+  "frozen_register_model_observation_html": true,
+  "regime_golden_errors": 0,
+  "numeric_updates": 0
+}

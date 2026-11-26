@@ -1,0 +1,679 @@
+{
+  "as_of": "2026-11-26T08:01:57.801743+00:00",
+  "window_start": "2026-08-28T08:01:57.801743+00:00",
+  "window_end": "2026-11-26T08:01:57.801743+00:00",
+  "status": "PARTIAL",
+  "interpretation": "IR filing-date pagination is separate from transaction dates. Form144 proposals, Form3 initial holdings, 13G holdings, powers of attorney and derivative holdings are not executed common-share trades. No net buying/selling conclusion.",
+  "issuers": {
+    "FPS": {
+      "pages": [
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/section-16-filings",
+          "sha256": "389a4adcd3b09ac2b3174b6603963d88a8da0cea4db8099e98a834281e0bdb7c",
+          "rows": 10,
+          "oldest": "2026-09-03"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/section-16-filings?page=2",
+          "sha256": "f9ab74cc0c14f88db68adc7694c48bcf64023b2b94b682896030638935d6b2d6",
+          "rows": 10,
+          "oldest": "2026-04-01"
+        }
+      ],
+      "listing": [
+        {
+          "filing_date": "2026-11-23",
+          "text": "11/23/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000048/form4.html"
+          ]
+        },
+        {
+          "filing_date": "2026-11-18",
+          "text": "11/18/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003126/es260856188_4-lund.html"
+          ]
+        },
+        {
+          "filing_date": "2026-11-16",
+          "text": "11/16/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003077/es260856185_4-hottinger.html"
+          ]
+        },
+        {
+          "filing_date": "2026-11-16",
+          "text": "11/16/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003069/es260856447_4-bhatia.html"
+          ]
+        },
+        {
+          "filing_date": "2026-11-16",
+          "text": "11/16/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003068/es260856191_4-niederpruem.html"
+          ]
+        },
+        {
+          "filing_date": "2026-11-16",
+          "text": "11/16/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003067/es260856184_4-ard.html"
+          ]
+        },
+        {
+          "filing_date": "2026-11-03",
+          "text": "11/03/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000039/form4.html"
+          ]
+        },
+        {
+          "filing_date": "2026-11-02",
+          "text": "11/02/26 3 Form 3: Initial statement of beneficial ownership of securities 2",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000037/form3.html"
+          ]
+        },
+        {
+          "filing_date": "2026-09-03",
+          "text": "09/03/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000028/form4.html"
+          ]
+        },
+        {
+          "filing_date": "2026-09-03",
+          "text": "09/03/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000026/form4.html"
+          ]
+        },
+        {
+          "filing_date": "2026-09-03",
+          "text": "09/03/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000024/form4.html"
+          ]
+        },
+        {
+          "filing_date": "2026-09-03",
+          "text": "09/03/26 4 Form 4: Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000020/form4.html"
+          ]
+        }
+      ],
+      "fetched_documents": [
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000048/form4.html",
+          "sha256": "05d1a5884457ec145c4a5bba60c8a4b0c09277e30687362c0757d4d52bc17cec"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003126/es260856188_4-lund.html",
+          "sha256": "043f72cda9323438a134e63122feb0b1ef3d4dfaf27ac2291a7b89e32a1aa1ef"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003077/es260856185_4-hottinger.html",
+          "sha256": "7b8c742496e1ff9778707d1e538161ae10ded2c50dd9a1646a6b41e457f6ce72"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003069/es260856447_4-bhatia.html",
+          "sha256": "f219e107475c0def7e42cff19a31bfac4b4efb6d75a7cc1ac8f37a93aaa248c4"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003068/es260856191_4-niederpruem.html",
+          "sha256": "eeb00bc420b94aa115953295e240634341fa47dd39fc6d7dcdbca7bf23568ae2"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0000950142-26-003067/es260856184_4-ard.html",
+          "sha256": "ec8164c29681af05f2df692ff1f38193b9470fcf2fbaf2a50e5b7dc32ef057c2"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000039/form4.html",
+          "sha256": "898329d9b16862939f9f79e4838bca4054a9823bfdc6df02966f8d67b593681b"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000028/form4.html",
+          "sha256": "97baf0e73e059dba7252a8150084640da422c0db0dbc81a52e5409d7fc0969d2"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000026/form4.html",
+          "sha256": "40552d8f32e701db7dff105df4452e2d7769d66e68efc785e8e6906c5b710263"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000024/form4.html",
+          "sha256": "f3c151d6b3cbf88ea49ce464bbc2c29f2dcc3ba75048617ce7df2fec5b4f48fc"
+        },
+        {
+          "url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000020/form4.html",
+          "sha256": "39931384f5f3fdfdf478bed295680bd9b8afdb1d82c60745e293ff24f2d817e1"
+        }
+      ],
+      "form4_documents_with_tableI": 11,
+      "listing_status": "IR_DATE_WINDOW_PAGINATED",
+      "coverage": "PARTIAL",
+      "gap": "SEC-native reconciliation, amendments, acceptance timestamps and complete derivative/footnote adjudication are not certified; page list includes non-ownership documents.",
+      "adjudicated_samples": [
+        {
+          "owner": "Gregory M. Spierkel",
+          "role": "Director",
+          "transaction_date": "2026-11-20",
+          "filing_date": "2026-11-23",
+          "published_date": "2026-11-23",
+          "instrument": "Class A Common Stock",
+          "table": "NON_DERIVATIVE",
+          "code": "P",
+          "acquisition_disposition": "A",
+          "quantity": 25000,
+          "unit": "shares",
+          "price": 18.48,
+          "currency": "USD",
+          "ownership": "DIRECT",
+          "plan_10b5_1": "UNKNOWN; no affirmative checked-box/plan evidence established",
+          "source_url": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000048/form4.html",
+          "interpretation": "P-coded acquisition; no assumption about venue or investment motive"
+        }
+      ]
+    },
+    "PAYX": {
+      "pages": [
+        {
+          "url": "https://investor.paychex.com/sec-filings/section-16-filings",
+          "sha256": "44f5a86d53f135afc33426063637035b855df1a9296095361eb6b555fe7b9992",
+          "rows": 10,
+          "oldest": "2026-10-16"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/section-16-filings?page=2",
+          "sha256": "fa8e4ec4bed53ba0e7af0c07a1df8d447d4cfb3e9b921f232d6e149174af47fa",
+          "rows": 10,
+          "oldest": "2026-10-16"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/section-16-filings?page=3",
+          "sha256": "3a8d72bd4b7094e7bb709300a0d6533943eedf5ae55875ad33a9936be61adcc1",
+          "rows": 10,
+          "oldest": "2026-09-04"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/section-16-filings?page=4",
+          "sha256": "071b28bc9d37ca03048aa67781c849732c8a6812c386c10b524822a76690b90e",
+          "rows": 10,
+          "oldest": "2026-07-17"
+        }
+      ],
+      "listing": [
+        {
+          "filing_date": "2026-11-16",
+          "text": "11/16/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-074285/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-074285/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001628280-26-074285/0001628280-26-074285.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-11-16",
+          "text": "11/16/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-074267/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-074267/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001628280-26-074267/0001628280-26-074267.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-11-13",
+          "text": "11/13/26 SCHEDULE 13G/A Statement of Beneficial Ownership by Certain Investors 4",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001562230-26-000153/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001562230-26-000153/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001562230-26-000153/0001562230-26-000153.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-11-10",
+          "text": "11/10/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-072785/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-072785/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001628280-26-072785/0001628280-26-072785.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-27",
+          "text": "10/27/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-067612/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-067612/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001628280-26-067612/0001628280-26-067612.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-23",
+          "text": "10/23/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-067009/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-067009/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001628280-26-067009/0001628280-26-067009.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-21",
+          "text": "10/21/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-427799/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-427799/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-427799/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-427799/0001193125-26-427799.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-21",
+          "text": "10/21/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-066664/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-066664/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001628280-26-066664/0001628280-26-066664.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-21",
+          "text": "10/21/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-066645/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-066645/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001628280-26-066645/0001628280-26-066645.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 8-K Current report 4",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000008/payx-20261015.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000008/payx-20261015.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0000723531-26-000008/0000723531-26-000008.pdf",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0000723531-26-000008/0000723531-26-000008-xbrl.zip"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 4",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424047/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424047/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424047/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424047/0001193125-26-424047.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 4",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424040/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424040/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424040/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424040/0001193125-26-424040.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424048/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424048/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424048/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424048/0001193125-26-424048.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424042/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424042/ownership.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424042/0001193125-26-424042.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424041/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424041/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424041/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424041/0001193125-26-424041.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424043/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424043/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424043/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424043/0001193125-26-424043.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424044/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424044/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424044/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424044/0001193125-26-424044.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424045/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424045/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424045/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424045/0001193125-26-424045.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424038/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424038/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424038/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424038/0001193125-26-424038.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424046/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424046/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424046/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424046/0001193125-26-424046.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-16",
+          "text": "10/16/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 5",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424039/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424039/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424039/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-424039/0001193125-26-424039.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-14",
+          "text": "10/14/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001959173-26-007370/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001959173-26-007370/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001959173-26-007370/0001959173-26-007370.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-02",
+          "text": "10/02/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 4",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412201/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412201/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412201/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-412201/0001193125-26-412201.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-10-02",
+          "text": "10/02/26 4 Statement of changes in beneficial ownership of securities Documents EX-24.POA 4",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412198/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412198/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412198/payx-ex24_poa.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-412198/0001193125-26-412198.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-09-30",
+          "text": "09/30/26 4 Statement of changes in beneficial ownership of securities 1",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-409025/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-409025/ownership.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-409025/0001193125-26-409025.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-09-29",
+          "text": "09/29/26 144 Report of proposed sale of securities 2",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-063810/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001628280-26-063810/primary_doc.html",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001628280-26-063810/0001628280-26-063810.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-09-24",
+          "text": "09/24/26 10-Q Quarterly report [Sections 13 or 15(d)] Documents EX-31.1 EX-31.2 EX-32.1 EX-32.2 44",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000006/payx-20260831.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000006/payx-20260831.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000006/payx-ex31_1.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000006/payx-ex31_2.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000006/payx-ex32_1.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000006/payx-ex32_2.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0000723531-26-000006/0000723531-26-000006.pdf",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0000723531-26-000006/0000723531-26-000006-xbrl.zip"
+          ]
+        },
+        {
+          "filing_date": "2026-09-23",
+          "text": "09/23/26 8-K Current report Documents EX-99.1 11",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000004/payx-20260923.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000004/payx-20260923.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000004/payx-ex99_1.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0000723531-26-000004/0000723531-26-000004.pdf",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0000723531-26-000004/0000723531-26-000004-xbrl.zip"
+          ]
+        },
+        {
+          "filing_date": "2026-09-04",
+          "text": "09/04/26 ARS Annual Report to Security Holders 116",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-382815/d112171dars.pdf",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-382815/d112171dars.pdf",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-382815/0001193125-26-382815.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-09-04",
+          "text": "09/04/26 DEFA14A Additional definitive proxy soliciting materials and Rule 14(a)(12) material 3",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-382807/d112120ddefa14a.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-382807/d112120ddefa14a.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-382807/0001193125-26-382807.pdf"
+          ]
+        },
+        {
+          "filing_date": "2026-09-04",
+          "text": "09/04/26 DEF 14A Definitive proxy statements 82",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-382805/d111983ddef14a.htm",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-382805/d111983ddef14a.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-382805/0001193125-26-382805.pdf",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-382805/0001193125-26-382805-xbrl.zip"
+          ]
+        },
+        {
+          "filing_date": "2026-09-02",
+          "text": "09/02/26 4 Statement of changes in beneficial ownership of securities Documents EX-24 4",
+          "urls": [
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-380142/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-380142/ownership.html",
+            "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-380142/payx-ex24.htm",
+            "https://investor.paychex.com/sec-filings/section-16-filings/content/0001193125-26-380142/0001193125-26-380142.pdf"
+          ]
+        }
+      ],
+      "fetched_documents": [
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001562230-26-000153/primary_doc.html",
+          "sha256": "c50e2866858b641be05c8ca6cae9a2372e4d63fc93eb7e9bd991447c9ba8f8e8"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-427799/ownership.html",
+          "sha256": "194379bffbf3865feb3c8d9cf3f6f60f7ba9ad83a91b60b91e9bdb2801d5460f"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-427799/payx-ex24_poa.htm",
+          "sha256": "e1a6283e7aabc8f2288f9718f85145d35f22dbd16856f80119718c14c56a78dc"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000008/payx-20261015.htm",
+          "sha256": "3cad71719867cbef911af673f70fb1a338c403b343267ce958fb63a3ccaf6d2e"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424047/ownership.html",
+          "sha256": "7f3b24d42fcf5b84b5322b1c577a8445857e2fe65cc0fd35d2fecd1b79215b6e"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424047/payx-ex24_poa.htm",
+          "sha256": "469bbe9d868f160ffe95c9553f78bc06bedb83220c8621bfe68c879bedfe0ad9"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424040/ownership.html",
+          "sha256": "fe4cda7f0e3579f503b84b691b647432b3856bed720c5de3a8b5e2be308441a2"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424040/payx-ex24_poa.htm",
+          "sha256": "2ae2081c3bc5e076b2ec49a99b889ab017096a86d9a0b99c6a060b47d8afd880"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424048/ownership.html",
+          "sha256": "2c2394f232f7d01963a80ff0e89e4a9ec80de12d63a6417cf6f663b765829639"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424048/payx-ex24_poa.htm",
+          "sha256": "6b5ec8cbed2aadae7fc01e0b08ed803ce00f6397b4cc8a4864710d9011bf1c65"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424042/ownership.html",
+          "sha256": "a7423e545525d25dce2f2beff0f316ea476d9fde2f5599edcfb43761ef8399cc"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424041/ownership.html",
+          "sha256": "2ee8d4882c999d36aef872c56499a2d5a4f9f090a469f263c5e28321fde75146"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424041/payx-ex24_poa.htm",
+          "sha256": "7fa78189b9b1769a603d4598149222bcffb0f5b82a5394471d31966194e532e8"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424043/ownership.html",
+          "sha256": "c5487909fa463c07d229cc777f26cf225bc7afc4ce42e55aa7bff72fc766dc87"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424043/payx-ex24_poa.htm",
+          "sha256": "1ee7043ef4f3910d859761781d6750f94e3a9924ffdd6c2e3bb6dae7d9492fd3"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424044/ownership.html",
+          "sha256": "28409a17229b1789e03f3aa3f11ed7944e568e849d55de246382a84abbf8356c"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424044/payx-ex24_poa.htm",
+          "sha256": "8d308335bff25da3a913e6ecb3a1832929fed49515ff907132b603929c8235a8"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424045/ownership.html",
+          "sha256": "ae7b6c400a28dfa617584dd71d2486f5ed77b6bc5d882aad6b8588c918621a92"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424045/payx-ex24_poa.htm",
+          "sha256": "abc052fd418866b66fb943f42ffb5d4331cdd242a9d1b5246ba6eebb4bccde2e"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424038/ownership.html",
+          "sha256": "1d22c9560ef747647f25c026fd16a71cec528f87ce52d179c1ab60ad96b6def9"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424038/payx-ex24_poa.htm",
+          "sha256": "bd180347c0d5e33beb617a154abff580c6d9847f9ff2ae909bfd8713da1da22a"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424046/ownership.html",
+          "sha256": "de59a9d132291428586c6d66b5ebbdd3e43e58c533bd83354fd0d59cd4a1bf18"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424046/payx-ex24_poa.htm",
+          "sha256": "4689db7a1ec2f83e6b09003bd2132d8e51f01c2bfb407ffce4c6ff0dead30b07"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424039/ownership.html",
+          "sha256": "f99cd790be00518adb086775a27f9a9ef579e22aab111f8b437a475cb10d8f65"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-424039/payx-ex24_poa.htm",
+          "sha256": "7a1dd18de309460d9c1957d57c7012a66a1f30ea632fc5c7007d2832a9162395"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412201/ownership.html",
+          "sha256": "953784bca403cf31e567a058e642e07fc7ccd2d321d6593fedb086c360bc53f5"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412201/payx-ex24_poa.htm",
+          "sha256": "3f59e697550fb58f4a99b60c08dd7ea84789919f9b1a35b8e06ccc46d3e35748"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412198/ownership.html",
+          "sha256": "b02c16d9a2f8a14ad1922caefde08aa6fdfeec89e91db1188e1e6072e1378d2d"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-412198/payx-ex24_poa.htm",
+          "sha256": "320412c42a165e5bb86ef74ac2e3b5421a35b5631cb94bbbeea247bce7cb6ee1"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-409025/ownership.html",
+          "sha256": "760192a1ae56662770523133ec09326aeaa0de3c2469f09c97bab5f92b898e7b"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-380142/ownership.html",
+          "sha256": "2890a7d24bdfd64baa136c7bcd2771dc9ffd0fd9b238a78876f78bcd60ade7ed"
+        },
+        {
+          "url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-380142/payx-ex24.htm",
+          "sha256": "932a04b90e30b50d7bd39d74b2945cae725aaa21cfe97c653687e92ccc44ab1a"
+        }
+      ],
+      "form4_documents_with_tableI": 16,
+      "listing_status": "IR_DATE_WINDOW_PAGINATED",
+      "coverage": "PARTIAL",
+      "gap": "SEC-native reconciliation, amendments, acceptance timestamps and complete derivative/footnote adjudication are not certified; page list includes non-ownership documents.",
+      "adjudicated_samples": [
+        {
+          "owner": "John B. Gibson",
+          "role": "President and CEO; Director",
+          "transaction_date": "2026-10-19",
+          "filing_date": "2026-10-21",
+          "published_date": "2026-10-21",
+          "instrument": "Common Stock",
+          "table": "NON_DERIVATIVE",
+          "code": "F",
+          "acquisition_disposition": "D",
+          "quantity": 409,
+          "unit": "shares",
+          "price": 110.75,
+          "currency": "USD",
+          "ownership": "DIRECT",
+          "plan_10b5_1": "UNKNOWN",
+          "source_url": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0001193125-26-427799/ownership.html",
+          "locator": "Table I and footnote1",
+          "interpretation": "Tax withholding on lapse of RSU restrictions; not an open-market sale"
+        }
+      ]
+    }
+  }
+}
