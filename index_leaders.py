@@ -40,7 +40,8 @@ MIN_HOLD = 882                  # 42 months
 EQUAL_WEIGHT = 'RSP'            # the equal-weight half of the basket
 EUPHORIA = 80.
 ACCOUNTS = (('20', 20., STATE), ('17', 17., ROOT / 'paper_trades' / 'index-leaders-17.json'),
-            ('17-spcx-ant', 17., ROOT / 'paper_trades' / 'index-leaders-17-spcx-ant.json'))
+            ('17-spcx-ant', 17., ROOT / 'paper_trades' / 'index-leaders-17-spcx-ant.json'),
+            ('20-move', 20., ROOT / 'paper_trades' / 'index-leaders-20-move.json'))
 FX = 'EURUSD=X'                 # USD per EUR, for accounts kept in euros
 MIX = (('top10', .5), (EQUAL_WEIGHT, .5))
 # The third account (user's request, 24 Nov 2026): 25,000 EUR, level 17, 15% SpaceX and 15% Anthropic on top of the
@@ -50,7 +51,13 @@ SETUP = {'20': dict(capital=CAPITAL, currency='USD', basket_spec=MIX),
          '17-spcx-ant': dict(capital=25000., currency='EUR',
                              basket_spec=(('top10', .35), (EQUAL_WEIGHT, .35), ('SPCX', .15), ('ANT', .15)),
                              basket='35% the ten largest S&P 500 holdings by weight, 35% RSP, 15% SpaceX (SPCX), '
-                                    '15% Anthropic (ANT)')}
+                                    '15% Anthropic (ANT)'),
+         # The fourth account (user's request, 26 Nov 2026): the account under 20, but it buys only while bond-market
+         # stress is not high, the MOVE index at most 15 points above its three-year mean (3Fourteen's VIX & MOVE
+         # chart). Experimental: in the panic study the five buys with MOVE above +15 all beat the S&P 500 after
+         # 42 months (+60% on average), so this filter would have skipped them.
+         '20-move': dict(capital=CAPITAL, currency='USD', basket_spec=MIX, move_max=15.)}
+MOVE_WINDOW = 756               # three years of sessions
 FIRST_START = '2026-11-20'      # both accounts watch the panic that began on 20 Nov 2026 (buys only via decide())
 RULES = dict(basket='half the ten largest S&P 500 holdings by weight, half RSP', min_hold=MIN_HOLD,
              exit='close after the first euphoria close (80+) once 42 months are held', stop=None)
@@ -63,7 +70,7 @@ FUNDS = (('SPY', 'S&P 500'), ('QQQ', 'Nasdaq-100'))
 def fresh(start, level=20., name=None):
     """A new account that never fills before `start` and buys under `level` (setup of the account `name`)."""
     setup = dict(SETUP.get(name or f'{level:g}', SETUP['20']))
-    rules = dict(RULES, **{k: v for k, v in setup.items() if k == 'basket'})
+    rules = dict(RULES, **{k: v for k, v in setup.items() if k in ('basket', 'move_max')})
     return dict(schema='index-leaders-v2', start=start, level=level, capital=setup['capital'], cash=setup['capital'],
                 currency=setup['currency'], basket_spec=[list(x) for x in setup['basket_spec']], cost=COST, top=TOP,
                 positions={}, bought=None, signal=None, done_signals=[], trades=[], marks=[], **rules)
@@ -188,12 +195,14 @@ def advance(state, sessions, heat, prices, holdings, today_signal=None):
     return events
 
 
-def decide(state, sessions, heat, today, heat_now):
+def decide(state, sessions, heat, today, heat_now, move_now=None):
     """Before the close of `today`: leave a buy order for today's close if the thermometer is still under the
     account's level now (heat_now, from intraday prices) and the current episode has not bought yet.
 
     sessions/heat are completed closes before today. The episode is the last first-panic close (one per 63
-    sessions, panic_backtest.signals) within the last 63 sessions. Returns the order or None."""
+    sessions, panic_backtest.signals) within the last 63 sessions. An account with move_max buys only while the MOVE
+    index is at most that many points above its three-year mean (move_now); unknown MOVE means no buy, and the
+    episode stays open for a later session. Returns the order or None."""
     import panic_backtest as pb
     import pandas as pd
     if (state.get('pending') or {}).get('date') == today:
@@ -201,12 +210,15 @@ def decide(state, sessions, heat, today, heat_now):
     level = state.get('level', pb.PANIC)
     if state['positions'] or heat_now is None or heat_now >= level:
         return None
+    if state.get('move_max') is not None and (move_now is None or move_now > state['move_max']):
+        return None
     series = pd.Series({pd.Timestamp(d): heat[d] for d in sessions if heat.get(d) is not None}, dtype=float)
     entries = [str(d.date()) for d in pb.signals(series, panic=level)[0]] if len(series) else []
     recent = [d for d in entries if d in sessions[-pb.GAP:] and d >= state.get('start', '')]
     if not recent or recent[-1] in state['done_signals'] or recent[-1] >= today:
         return None
     state['pending'] = dict(date=today, signal=recent[-1], heat=round(float(heat_now), 2),
+                            **({'move_excess': round(float(move_now), 1)} if move_now is not None else {}),
                             decided_at=datetime.now(timezone.utc).isoformat(timespec='minutes'))
     return state['pending']
 
@@ -261,6 +273,29 @@ def collect(today=None, intraday=False):
     return sessions, heat_map, prices, holdings
 
 
+def move_excess(today=None, intraday=False, download=None):
+    """{date: MOVE points above its trailing three-year mean}; today's quote counts intraday."""
+    import pandas as pd
+    if download is None:
+        import yfinance as yf
+        raw = yf.download('^MOVE', period='6y', auto_adjust=False, progress=False, threads=False)['Close']
+    else:
+        raw = download()
+    raw = raw.iloc[:, 0] if isinstance(raw, pd.DataFrame) else raw
+    raw.index = raw.index.tz_localize(None) if raw.index.tz is not None else raw.index
+    raw = raw[raw.index < session_cutoff(today, intraday)].dropna()
+    ex = (raw - raw.rolling(MOVE_WINDOW, min_periods=MOVE_WINDOW // 2).mean()).dropna()
+    return {str(d.date()): round(float(v), 2) for d, v in ex.items()}
+
+
+def _move_now(day, intraday=False):
+    try:
+        return move_excess(intraday=intraday).get(day)
+    except Exception as exc:                  # no MOVE: the MOVE account does not buy, the others are unaffected
+        print(f'MOVE unavailable: {type(exc).__name__}')
+        return None
+
+
 def load(path=STATE, start=None, level=20., name=None):
     try:
         return json.loads(Path(path).read_text(encoding='utf-8'))
@@ -283,7 +318,7 @@ def run(latest=LATEST):
         Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
     last = sessions[-1]
     snapshot = dict(schema='index-leaders-latest-v1', as_of=datetime.now(timezone.utc).isoformat(timespec='minutes'),
-                    session=last, heat=heat.get(last), heat_recent=[[d, heat[d]] for d in sessions[-30:] if d in heat],
+                    session=last, heat=heat.get(last), move_excess=_move_now(last), heat_recent=[[d, heat[d]] for d in sessions[-30:] if d in heat],
                     holdings={fund: [dict(symbol=s, weight=w, name=n) for s, w, n in rows]
                               for fund, rows in holdings.items()},
                     events=events,
@@ -327,7 +362,7 @@ def window(now):
     return None
 
 
-def decide_run(latest=LATEST, now=None, collect_fn=None):
+def decide_run(latest=LATEST, now=None, collect_fn=None, move_fn=None):
     """Intraday thermometer. About one hour after the open it is only recorded (the morning reading, no
     order: the rule buys on the reading shortly before the close). Shortly before the close, the regular
     16:00 or an early 13:00 close, it decides whether today's close buys."""
@@ -343,6 +378,7 @@ def decide_run(latest=LATEST, now=None, collect_fn=None):
         print(json.dumps(dict(today=today, decision='no session today')))
         return None
     heat_now = heat.get(today)
+    move_now = (move_fn or (lambda d: _move_now(d, intraday=True)))(today)
     try:
         snapshot = json.loads(Path(latest).read_text(encoding='utf-8'))
     except (OSError, ValueError):
@@ -350,17 +386,18 @@ def decide_run(latest=LATEST, now=None, collect_fn=None):
     checked_at = datetime.now(timezone.utc).isoformat(timespec='minutes')
     if when == 'morning':
         levels = {name: level for name, level, _ in ACCOUNTS}
-        snapshot['morning'] = dict(date=today, heat=heat_now, checked_at=checked_at,
+        snapshot['morning'] = dict(date=today, heat=heat_now, move_excess=move_now, checked_at=checked_at,
                                    under={k: heat_now is not None and heat_now < v for k, v in levels.items()})
         order = None
     else:
         orders = {}
         for name, _, path, state in _accounts():
-            orders[name] = decide(state, sessions[:-1][-130:], heat, today, heat_now)
+            orders[name] = decide(state, sessions[:-1][-130:], heat, today, heat_now, move_now)
             Path(path).parent.mkdir(parents=True, exist_ok=True)
             Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
         order = orders
-        snapshot['intraday'] = dict(date=today, heat=heat_now, orders={k: bool(v) for k, v in orders.items()},
+        snapshot['intraday'] = dict(date=today, heat=heat_now, move_excess=move_now,
+                                    orders={k: bool(v) for k, v in orders.items()},
                                     order=any(orders.values()), checked_at=checked_at)
     Path(latest).parent.mkdir(parents=True, exist_ok=True)
     Path(latest).write_text(json.dumps(snapshot, indent=1) + '\n', encoding='utf-8')
@@ -401,10 +438,11 @@ def render(snapshot, states, backtest=None):
                      for d, v in snapshot.get('heat_recent', []))
     parts = [f'<style>{market_pulse.CSS}</style>', f'<h1 style="color:{YELLOW}">Panic &amp; index leaders</h1>',
              '<div class="note">The market thermometer (the scoreboard\'s crash and panic gauge) next to the '
-             'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. Three paper accounts buy in a '
+             'largest companies of the S&amp;P 500 and the Nasdaq-100 by index weight. Four paper accounts buy in a '
              'panic: under 20 and under 17 with half the ten largest S&amp;P 500 companies weighted as in the index '
-             'and half RSP (equal weight), and a third under 17 that adds 15% SpaceX and 15% Anthropic (25,000 EUR, '
-             'no backtest). All hold at least 42 months, then sell after the first close in extreme euphoria (80 or '
+             'and half RSP (equal weight), a third under 17 that adds 15% SpaceX and 15% Anthropic (25,000 EUR, '
+             'no backtest), and a fourth under 20 that buys only while bond stress is not high (MOVE at most 15 '
+             'points above its 3-year mean; experimental). All hold at least 42 months, then sell after the first close in extreme euphoria (80 or '
              'more). The backtest since 2000 found falls of up to 57% while held. Paper '
              'only; not advice.</div>',
              '<div class="box pulse-thermo"><h2>Thermometer</h2>'
@@ -424,6 +462,7 @@ def render(snapshot, states, backtest=None):
                 f'{"—" if morning.get("heat") is None else format(morning["heat"], ".1f")}'
                 + ''.join(f' · under {k}: {"yes" if v else "no"}' for k, v in (morning.get('under') or {}).items())
                 + '</p>' if morning.get('date') else '')
+             + _move_html(snapshot.get('move_excess'))
              + f'<div style="margin-top:8px">Last 30 sessions: {recent}</div>'
              '<p class="muted">Rebuilt from closes without CNN Fear &amp; Greed, so it can differ slightly from the '
              'scoreboard\'s gauge. The industry bubble monitor is on the <a href="crash-monitor.html">crash '
@@ -446,10 +485,25 @@ def render(snapshot, states, backtest=None):
     return shell('Panic & index leaders', ''.join(parts))
 
 
+def _move_html(move):
+    """Bond-market stress next to the thermometer (panic study, 26 Nov 2026)."""
+    if move is None:
+        return '<p>MOVE (bond volatility) vs its 3-year mean: —</p>'
+    high = move > 15
+    return (f'<p>MOVE (bond volatility): <b style="color:{"#ff6b6b" if high else "#66e39c"}">{move:+.1f}</b> points vs '
+            'its 3-year mean. ' + ('<b>High bond stress</b>: in the panic study since 2002, buys with MOVE above +15 '
+            '(2008, 2015, 2020, 2022) averaged −4% after 12 months and fell up to −57% while held, yet all beat the '
+            'S&amp;P 500 after 42 months. The MOVE account waits.' if high else
+            'Not high: in the panic study, buys with MOVE at or below +15 averaged +24% to +36% after 12 months.')
+            + '</p>')
+
+
 ACCOUNT_STYLE = {'20': ('#f5d000', 'Buys under 20', ''),
                  '17': ('#ff9d2e', 'Buys under 17', ''),
                  '17-spcx-ant': ('#b57bff', 'Buys under 17 · SpaceX + Anthropic',
-                                 'No backtest · the user\'s conviction')}
+                                 'No backtest · the user\'s conviction'),
+                 '20-move': ('#2ec4b6', 'Buys under 20 · only if MOVE ≤ +15',
+                             'Experimental · backtest: the filter would have skipped 5 winners')}
 CARD_CSS = '''
 .acc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0}
 .acc{border:2px solid var(--acc);border-radius:12px;padding:14px 16px;background:#11161f}
