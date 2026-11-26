@@ -1,0 +1,102 @@
+//@version=5
+// InvestorAce · Panic thermometer (study version of panic_backtest.heat and index_leaders.py)
+//
+// The same four scores as the Python thermometer, each 0-100, averaged (at least 3 must exist):
+//   VIX            (40 - VIX) / 30 * 100
+//   S&P 500 / MA200   50 + 5  * (percent above the 200-day average)
+//   S&P 500 / MA50    50 + 10 * (percent above the 50-day average)
+//   Breadth        percent of stocks above their 200-day average
+// Bands: Panic < 20, Fear < 40, Neutral < 60, Greed < 80, Euphoria >= 80.
+// The paper accounts buy when the thermometer is still under 20 (or 17) shortly before the US close, and the
+// MOVE account only while MOVE is at most 15 points above its 3-year mean.
+//
+// Daily values on any chart timeframe: the current day uses the live quote, like the intraday check in Python.
+// Breadth: Python uses the InvestorAce universe; here INDEX:S5TH (S&P 500 stocks above their 200-day average),
+// so the reading can differ by a few points. Symbols are inputs in case your data feed names them differently.
+// Not investment advice.
+indicator("InvestorAce · Panic thermometer", shorttitle="IA Thermo", overlay=false, max_bars_back=1000)
+
+// ---- inputs
+spxSym     = input.symbol("SP:SPX",     "S&P 500")
+vixSym     = input.symbol("TVC:VIX",    "VIX")
+breadthSym = input.symbol("INDEX:S5TH", "Breadth: % of S&P 500 above its 200-day average")
+moveSym    = input.symbol("TVC:MOVE",   "MOVE index")
+level20    = input.float(20.0, "Buy level, accounts 20 and MOVE")
+level17    = input.float(17.0, "Buy level, accounts 17")
+euphoria   = input.float(80.0, "Euphoria (sell after 42 months)")
+moveMax    = input.float(15.0, "MOVE account: max points above the 3-year mean")
+moveLen    = input.int(756, "MOVE mean length (sessions, 3 years)")
+checkHour  = input.int(15, "Pre-close check hour (New York)", minval=0, maxval=23)
+checkMin   = input.int(40, "Pre-close check minute (New York)", minval=0, maxval=59)
+
+clip(x) => na(x) ? na : math.max(0.0, math.min(100.0, x))
+
+// ---- daily inputs (lookahead off: today's bar is the live quote)
+[spx, ma200, ma50] = request.security(spxSym, "D", [close, ta.sma(close, 200), ta.sma(close, 50)])
+vix     = request.security(vixSym, "D", close)
+breadth = request.security(breadthSym, "D", close)
+[move, moveMean] = request.security(moveSym, "D", [close, ta.sma(close, moveLen)])
+
+// ---- scores
+sVix  = clip((40.0 - vix) / 30.0 * 100.0)
+s200  = clip(50.0 + 5.0 * 100.0 * (spx / ma200 - 1.0))
+s50   = clip(50.0 + 10.0 * 100.0 * (spx / ma50 - 1.0))
+sBrd  = clip(breadth)
+
+n     = (na(sVix) ? 0 : 1) + (na(s200) ? 0 : 1) + (na(s50) ? 0 : 1) + (na(sBrd) ? 0 : 1)
+total = nz(sVix) + nz(s200) + nz(s50) + nz(sBrd)
+heat  = n >= 3 ? total / n : na
+
+moveExcess = na(moveMean) ? na : move - moveMean
+
+band = na(heat) ? "—" : heat < 20 ? "Panic" : heat < 40 ? "Fear" : heat < 60 ? "Neutral" : heat < 80 ? "Greed" : "Euphoria"
+bandColor = na(heat) ? color.gray : heat < 20 ? #0b6b2b : heat < 40 ? #7fb07f : heat < 60 ? #c8c6b8 : heat < 80 ? #b07a2a : #8f2525
+
+// ---- plots
+plot(heat, "Thermometer", color=bandColor, linewidth=2)
+hline(level20, "Buy 20", color=#f5d000, linestyle=hline.style_dashed)
+hline(level17, "Buy 17", color=#ff9d2e, linestyle=hline.style_dashed)
+hline(euphoria, "Euphoria", color=#8f2525, linestyle=hline.style_dotted)
+bgcolor(heat < level20 ? color.new(#0b6b2b, 80) : na, title="Panic background")
+
+// ---- table
+var table t = table.new(position.top_right, 2, 8, border_width=1, bgcolor=color.new(#11161f, 0))
+fmt(x) => na(x) ? "—" : str.tostring(x, "#.0")
+if barstate.islast
+    table.cell(t, 0, 0, "Thermometer", text_color=color.white)
+    table.cell(t, 1, 0, fmt(heat) + " · " + band, text_color=bandColor)
+    table.cell(t, 0, 1, "VIX " + fmt(vix), text_color=color.silver)
+    table.cell(t, 1, 1, fmt(sVix), text_color=color.silver)
+    table.cell(t, 0, 2, "S&P vs MA200 " + fmt(100 * (spx / ma200 - 1)) + "%", text_color=color.silver)
+    table.cell(t, 1, 2, fmt(s200), text_color=color.silver)
+    table.cell(t, 0, 3, "S&P vs MA50 " + fmt(100 * (spx / ma50 - 1)) + "%", text_color=color.silver)
+    table.cell(t, 1, 3, fmt(s50), text_color=color.silver)
+    table.cell(t, 0, 4, "Breadth (S5TH)", text_color=color.silver)
+    table.cell(t, 1, 4, fmt(sBrd), text_color=color.silver)
+    table.cell(t, 0, 5, "MOVE vs 3y mean", text_color=color.silver)
+    table.cell(t, 1, 5, na(moveExcess) ? "—" : (moveExcess > 0 ? "+" : "") + fmt(moveExcess),
+         text_color=na(moveExcess) ? color.silver : moveExcess > moveMax ? color.red : color.lime)
+    table.cell(t, 0, 6, "Under 20 / 17", text_color=color.white)
+    table.cell(t, 1, 6, (heat < level20 ? "yes" : "no") + " / " + (heat < level17 ? "yes" : "no"), text_color=color.white)
+    table.cell(t, 0, 7, "MOVE account may buy", text_color=color.white)
+    table.cell(t, 1, 7, heat < level20 and not na(moveExcess) and moveExcess <= moveMax ? "yes" : "no", text_color=color.white)
+
+// ---- alerts
+// Level alerts (any timeframe): create them with "Once per bar close" or "Once per bar".
+alertcondition(ta.crossunder(heat, level20), "Thermometer under 20", "InvestorAce thermometer under 20: {{plot_0}}")
+alertcondition(ta.crossunder(heat, level17), "Thermometer under 17", "InvestorAce thermometer under 17: {{plot_0}}")
+alertcondition(ta.crossover(heat, euphoria), "Thermometer euphoria", "InvestorAce thermometer at euphoria: {{plot_0}}")
+
+// Pre-close webhook (for n8n): on a 5-minute chart, create ONE alert on this indicator with the condition
+// "Any alert() function call" and your webhook URL. It sends a JSON body once at the check time (New York).
+// The paper accounts still decide in GitHub (index_leaders.py --decide); this only starts the check if GitHub's
+// own schedule fails. Early 13:00 closes need a separate check time (input above) on those days.
+nyHour = hour(time, "America/New_York")
+nyMin  = minute(time, "America/New_York")
+isCheckBar = barstate.isrealtime and nyHour == checkHour and nyMin == checkMin
+if isCheckBar
+    msg = '{"source":"tradingview","check":"pre-close","heat":' + (na(heat) ? "null" : str.tostring(heat, "#.##")) +
+          ',"move_excess":' + (na(moveExcess) ? "null" : str.tostring(moveExcess, "#.##")) +
+          ',"under20":' + (heat < level20 ? "true" : "false") +
+          ',"under17":' + (heat < level17 ? "true" : "false") + '}'
+    alert(msg, alert.freq_once_per_bar)
