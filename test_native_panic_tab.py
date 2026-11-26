@@ -5,7 +5,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from unittest.mock import patch
 
-from codex_heat.native import Panel
+from codex_heat.native import DIR, FILES, Panel
 
 
 class Parse(HTMLParser):
@@ -58,3 +58,12 @@ class PanicTabTests(unittest.TestCase):
             data = json.loads(dict(saved.assets())[Path('heat-overlap.json')])
             self.assertEqual(data, saved.data['overlap'])
             self.assertEqual(saved.data['claude'], [])
+
+    def test_complete_refresh_accepts_an_explicit_empty_holdings_list(self):
+        original, overlap = [json.loads((DIR / name).read_text()) for name in FILES]
+        for book in overlap['books'].values():
+            book.update(holdings=[], cash=12345, nav=12345, entry=None, pending=None)
+        with tempfile.TemporaryDirectory() as tmp, patch(
+                'codex_heat.native.fetch_json', side_effect=[{'object': {'sha': 'a' * 40}}, original, overlap]):
+            panel = Panel.build(Path(tmp), refresh=True)
+        self.assertEqual(panel.data['overlap'], overlap)

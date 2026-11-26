@@ -113,6 +113,25 @@ class ResearchPublicationTests(unittest.TestCase):
         self.assertEqual((self.root / 'index.html').read_text(), self.html)
         self.assertIn('href="research.html"', (self.output / 'index.html').read_text())
 
+    def test_incomplete_panic_refresh_publishes_the_dated_pair_in_all_languages(self):
+        from codex_heat import native
+
+        bundled = [json.loads((native.DIR / name).read_text()) for name in native.FILES]
+        original, overlap = copy.deepcopy(bundled)
+        original['cash'] += 123
+        del overlap['books']['6']['holdings']
+        with patch.object(native, 'fetch_json', side_effect=[{'object': {'sha': 'a' * 40}}, original, overlap]):
+            research.build_site(self.root, self.output, refresh_paper=True)
+
+        for name, saved in zip(native.FILES, bundled):
+            self.assertEqual(json.loads((self.output / name).read_text()), saved)
+        for name in ('index.html', 'index.de.html', 'index.es.html'):
+            html = (self.output / name).read_text()
+            embedded = html.split('id="ia-paper-data">', 1)[1].split('</script>', 1)[0]
+            data = json.loads(embedded)
+            self.assertEqual([data['original'], data['overlap']], bundled)
+            self.assertIn('data-book="6"', html)
+
     def test_empty_page_does_not_invent_an_edition(self):
         research.build_site(self.root, self.output)
         page = (self.output / 'research.html').read_text()

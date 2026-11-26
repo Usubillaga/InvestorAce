@@ -45,6 +45,11 @@
    "date": "2026-11-24",
    "equity": 25000.0,
    "heat": 28.46
+  },
+  {
+   "date": "2026-11-25",
+   "equity": 25000.0,
+   "heat": 25.83
   }
  ],
  "basket": "35% the ten largest S&P 500 holdings by weight, 35% RSP, 15% SpaceX (SPCX), 15% Anthropic (ANT)",

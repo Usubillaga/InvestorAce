@@ -14,6 +14,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 FOLDER = ROOT / 'paper_trades'
 TRACK_DAYS_AFTER_EXIT = 5
+ROUND2 = 'v18-2026-11-24'
+ROUND2_FILES = {
+    '2026-11-24-round2-rules-v18.json': 'rules',
+    '2026-11-24-round2-pure-model-v18.json': 'score',
+}
 
 
 def load(folder=FOLDER):
@@ -21,6 +26,8 @@ def load(folder=FOLDER):
     for path in sorted(Path(folder).glob('*.json')):
         doc = json.loads(path.read_text(encoding='utf-8'))
         if doc.get('schema') == 'paper-portfolio-v1':
+            if path.name in ROUND2_FILES:
+                doc['comparison_group'] = ROUND2
             out.append(dict(doc, _file=path.name))
     return out
 
@@ -107,7 +114,7 @@ def _leg(holdings, series, entry, exit_):
     return rows, (total / weight_used if weight_used else None), weight_used
 
 
-def _size(rows, amount, fx, account='USD'):
+def _size(rows, amount, fx, account='USD', *, planned=False):
     """Whole shares per position, never more than `amount` in total.
 
     Rounding down first, then the leftover cash buys one more share at a time for the position furthest below
@@ -122,9 +129,10 @@ def _size(rows, amount, fx, account='USD'):
         if price and rate:
             unit = price * rate
             target = amount * h['weight_pct'] / 100
-            sized.append([h, unit, target, math.floor(target / unit)])
+            shares = h['shares_planned'] if planned else math.floor(target / unit)
+            sized.append([h, unit, target, shares])
     cash = amount - sum(unit * n for _, unit, _, n in sized)
-    while True:
+    while not planned:
         short = [x for x in sized if x[2] - x[1] * x[3] > 0 and x[1] <= cash + 1e-9]
         if not short:
             break
@@ -172,8 +180,61 @@ def signed(value, cur, money):
 
 def evaluate(doc, series, as_of=None):
     result = _evaluate(doc, series, as_of)
-    _capital(doc, result)
+    if doc.get('comparison_group') == ROUND2:
+        _round2_account(doc, result)
+    else:
+        _capital(doc, result)
     return result
+
+
+def _round2_account(doc, result):
+    """Two alternative EUR accounts with the same opening NAV and frozen FX."""
+    fixed = 'planned_cash_eur' in doc
+    initial = doc['account_value_eur'] if fixed else doc['capital']
+    rows = result['holdings'] + result['discretionary']
+    bench = result['benchmark_return_pct']
+    result.update(comparison_group=ROUND2, benchmark_return_pct=None, capital=initial, account_currency=doc['account_currency'],
+                  invested=None, cash=None, value_now=None, pnl=None, account_return_pct=None,
+                  combined_return_pct=None, excess_combined_vs_benchmark_pct=None,
+                  account_status='Awaiting complete closes')
+    if fixed and (abs(initial - doc['capital'] - doc['planned_cash_eur']) > 0.005 or
+                  any(type(h.get('shares_planned')) is not int or h['shares_planned'] < 0 for h in rows)):
+        result['account_status'] = 'Invalid frozen plan'
+        return
+    if not rows or any(h.get('entry_close_date') != doc['entry_date'] or h['status'] != 'PRICED' for h in rows):
+        return
+    mark = rows[0]['exit_close_date']
+    if any(h['exit_close_date'] != mark for h in rows) or (result['final'] and mark != doc['exit_date']):
+        return
+    fx = doc['fx']
+    currency = doc['account_currency']
+    planned_cost = 0.
+    for h in rows:
+        listing = h.get('currency') or 'USD'
+        rate = 1. if listing == currency else fx.get(listing)
+        if not all(x is not None and math.isfinite(x) and x > 0 for x in (rate, h['entry_close'], h['exit_close'])):
+            result['account_status'] = 'Invalid close or FX'
+            return
+        if fixed:
+            planned_cost += h['shares_planned'] * h['entry_close'] * rate
+    if planned_cost > initial + 1e-8:
+        result['account_status'] = 'Frozen plan exceeds opening NAV'
+        return
+    cost, value = _size(rows, initial, fx, currency, planned=fixed)
+    cash = initial - cost
+    pnl = value - cost
+    ret = 100 * pnl / initial
+    if result.get('benchmark_dates') != (doc['entry_date'], mark):
+        bench = None
+    if fixed:
+        tech = sum(h['cost'] for h in rows if h.get('sector') in ('Technology', 'Software', 'Ad Tech'))
+        flags = [h['ticker'] for h in rows if h['cost'] > 0.10 * initial]
+        if tech > 0.35 * initial:
+            flags.append('Technology group')
+        result['entry_cap_breaches'] = flags
+    result.update(account_status='Valued', account_mark=mark, invested=cost, cash=cash, value_now=value + cash,
+                  pnl=pnl, account_return_pct=ret, combined_return_pct=ret, benchmark_return_pct=bench,
+                  excess_combined_vs_benchmark_pct=ret - bench if bench is not None else None)
 
 
 def _evaluate(doc, series, as_of=None):
@@ -197,8 +258,10 @@ def _evaluate(doc, series, as_of=None):
     control_rows, control, control_used = _leg((doc.get('control_basket') or {}).get('holdings', []),
                                                series, entry, exit_)
     bench = None
+    benchmark_dates = None
     if doc.get('benchmark'):
         rows, bench, _ = _leg([dict(doc['benchmark'], weight_pct=100.)], series, entry, exit_)
+        benchmark_dates = (rows[0].get('entry_close_date'), rows[0].get('exit_close_date'))
     # The user's own pick is a separate sleeve: the model result stays clean.
     pick = doc.get('discretionary') or {}
     pick_rows, pick_return, _ = _leg(pick.get('holdings', []), series, entry, exit_)
@@ -207,6 +270,7 @@ def _evaluate(doc, series, as_of=None):
         if None not in (portfolio, pick_return) and sleeve else None
     final = exit_ == doc['exit_date']
     return dict(name=doc['name'], entry_date=entry, valued_to=exit_, final=final,
+                **({'benchmark_dates': benchmark_dates} if doc.get('comparison_group') == ROUND2 else {}),
                 status='FINAL' if final else 'RUNNING', discretionary_name=pick.get('name'), discretionary=pick_rows,
                 discretionary_return_pct=pick_return, discretionary_sleeve_pct=sleeve,
                 combined_return_pct=combined,
@@ -218,9 +282,29 @@ def _evaluate(doc, series, as_of=None):
                 excess_vs_control_pct=portfolio - control if None not in (portfolio, control) else None)
 
 
+def signed_pp(value):
+    return '—' if value is None else f'{value:+.2f} pp'
+
+
 def report(result):
     """Short markdown summary for the user."""
     pct = lambda v: '—' if v is None else ('%+.2f%%' % v)
+    if result.get('comparison_group') == ROUND2:
+        summary = f"**{result['name']}** · {result['account_status']}"
+        if result['account_return_pct'] is None:
+            return summary
+        flags = ', '.join(result.get('entry_cap_breaches', []))
+        head = (f"{summary} · {result['account_mark']} · account {pct(result['account_return_pct'])} · "
+                f"S&P 500 {pct(result['benchmark_return_pct'])} · excess "
+                f"{signed_pp(result['excess_combined_vs_benchmark_pct'])} · "
+                f"opening EUR {result['capital']:,.2f} · cash EUR {result['cash']:,.2f} · "
+                f"NAV EUR {result['value_now']:,.2f}")
+        lines = [head, '| Ticker | Shares | Entry | Latest |', '|---|---:|---:|---:|']
+        for h in result['holdings'] + result['discretionary']:
+            lines.append(f"| {h['ticker']} | {h['shares']} | {h['entry_close']} | {h['exit_close']} |")
+        if flags:
+            lines.append('Over cap at entry: ' + flags)
+        return '\n'.join(lines)
     if result.get('status') == 'PENDING':
         return f"**{result['name']}** · starts with the close of {result['entry_date']}; nothing held yet."
     lines = [f"**{result['name']}** · {result['entry_date']} → {result['valued_to']}"
@@ -271,7 +355,7 @@ def _price(h, key):
 
 def combine(results, docs):
     """Both portfolios as one view: totals and one position table. Evaluation stays separate per test."""
-    parts = [(r, d) for r, d in zip(results, docs) if r.get('capital')]
+    parts = [(r, d) for r, d in zip(results, docs) if r.get('capital') and r.get('comparison_group') != ROUND2]
     if len(parts) < 2:
         return None
     rows = []
@@ -296,6 +380,13 @@ def comparison(results, docs):
     """Side-by-side figures per test and together: returns against the S&P 500 and the controls."""
     cols = []
     for r, d in zip(results, docs):
+        if r.get('comparison_group') == ROUND2:
+            cols.append(dict(name=d['short_name'], since=r['entry_date'], mark=r.get('account_mark'),
+                             model=r['portfolio_return_pct'], pick=r['discretionary_return_pct'],
+                             control=r['control_return_pct'], bench=r['benchmark_return_pct'],
+                             total=r['account_return_pct'], invested=r['invested'], pnl=r['pnl'],
+                             best=[], worst=[], comparison_group=ROUND2))
+            continue
         moved = [h for h in r['holdings'] if h.get('return_pct') is not None
                  and (h.get('exit_close_date') or '') > (h.get('entry_close_date') or '')]
         ranked = sorted(moved, key=lambda h: -h['return_pct'])
@@ -306,8 +397,9 @@ def comparison(results, docs):
                          total=100 * r['pnl'] / invested if invested and r.get('pnl') is not None and r['status'] != 'PENDING'
                          else None,
                          best=ranked[:3], worst=ranked[::-1][:3] if len(ranked) > 3 else []))
-    priced = [c for c in cols if c['invested'] and c['total'] is not None]
-    if len(cols) > 1 and priced:
+    pooled = [c for c in cols if c.get('comparison_group') != ROUND2]
+    priced = [c for c in pooled if c['invested'] and c['total'] is not None]
+    if len(pooled) > 1 and priced:
         invested = sum(c['invested'] for c in priced)
         pnl = sum(c['pnl'] for c in priced)
         with_bench = [c for c in priced if c['bench'] is not None]
@@ -328,6 +420,38 @@ def render(results, docs, *, now):
             'InvestorAce Buy labels beat the market out of sample. Holdings, weights and dates were frozen '
             'before the entry date; prices come only from the nightly builds, never from hindsight. '
             f'Updated {escape(now.strftime("%Y-%m-%d %H:%M"))} UTC.</p>']
+    legacy = []
+    round2 = []
+    for r, d in zip(results, docs):
+        (round2 if r.get('comparison_group') == ROUND2 else legacy).append((r, d))
+    if round2:
+        body.append('<h2>Round 2 · account comparison</h2><table><thead><tr><th>Account</th>'
+                    '<th>Close / status</th><th>Opening EUR</th><th>Invested EUR</th><th>Cash EUR</th>'
+                    '<th>NAV EUR</th><th>Return</th><th>S&amp;P 500</th><th>Excess (pp)</th></tr></thead><tbody>')
+        money = lambda n: '—' if n is None else format(n, ',.2f')
+        for r, d in round2:
+            body.append(f'<tr><th>{escape(d["short_name"])}</th>'
+                        f'<td>{escape(r.get("account_mark") or r["account_status"])}</td>'
+                        + ''.join(f'<td>{money(r[k])}</td>' for k in ('capital', 'invested', 'cash', 'value_now'))
+                        + f'<td>{_pct(r["account_return_pct"])}</td><td>{_pct(r["benchmark_return_pct"])}</td>'
+                        + f'<td>{money(r["excess_combined_vs_benchmark_pct"])}</td></tr>')
+        body.append('</tbody></table>')
+        for r, d in round2:
+            body.append(f'<details><summary>{escape(d["short_name"])} · positions</summary>'
+                        '<table><tr><th>Ticker</th><th>Plan qty</th><th>Priced qty</th><th>Entry</th>'
+                        '<th>Latest</th><th>Return</th></tr>')
+            for h in r['holdings'] + r['discretionary']:
+                body.append(f'<tr><td>{escape(h["ticker"])}</td><td>{h.get("shares_planned", "—")}</td>'
+                            f'<td>{h.get("shares", "—")}</td><td>{_price(h, "entry_close")}</td>'
+                            f'<td>{_price(h, "exit_close")}</td><td>{_pct(h.get("return_pct"))}</td></tr>')
+            body.append('</table>')
+            if r.get('entry_cap_breaches'):
+                body.append('<p>Over cap at entry: ' + escape(', '.join(r['entry_cap_breaches'])) + '</p>')
+            if r['control']:
+                body.append('<p>Sold basket (control): ' + _pct(r['control_return_pct']) + '</p>')
+            body.append('</details>')
+    results = [r for r, _ in legacy]
+    docs = [d for _, d in legacy]
     together = combine(results, docs)
     if together:
         money0 = lambda v: format(v, ',.0f')
@@ -482,7 +606,12 @@ def site_pages(root, build, *, now=None):
     snapshots.append(build['record'])
     series = merge_series(snapshots)
     results = [evaluate(doc, series, now.date()) for doc in docs]
-    return [(Path(PAGE), render(results, docs, now=now))]
+    pages = [(Path(PAGE), render(results, docs, now=now))]
+    if ROUND2_FILES.keys() <= {d['_file'] for d in docs}:
+        from paper_round2 import snapshot
+        data = snapshot(docs, series, now, Path(root) / 'paper_trades')
+        pages.append((Path('paper-round2.json'), json.dumps(data, ensure_ascii=False, allow_nan=False)))
+    return pages
 
 
 def main(argv=None):

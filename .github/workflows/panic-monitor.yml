@@ -1,0 +1,47 @@
+name: Intraday panic alerts
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['panic_monitor/**', '.github/workflows/panic-monitor.yml']
+  schedule:
+    - cron: '32,47 9 * * 1-5'
+      timezone: America/New_York
+    - cron: '2,17,32,47 10-15 * * 1-5'
+      timezone: America/New_York
+    - cron: '55 12,15 * * 1-5'
+      timezone: America/New_York
+
+permissions: {}
+concurrency:
+  group: intraday-panic-feed
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            panic_monitor
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            panic_monitor/requirements.txt
+      - run: pip install -q -r panic_monitor/requirements.txt
+      - if: github.event_name != 'schedule'
+        run: python -m unittest panic_monitor.test_watch panic_monitor.test_market_sessions
+      - name: Observe and notify for an open US equity session
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m panic_monitor.watch

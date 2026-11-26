@@ -499,13 +499,35 @@ def prefer_primary(provider, primary, *, as_of, perimeter_since=None):
             return provider
     if not primary:
         return provider
+    ads = primary.get('depositary_shares')
+    interests = primary.get('upc_interests')
+    if ads is not None or interests is not None:
+        # Vendor share counts and earnings series may cover only one class.
+        # Only market fields can cross into this issuer-authored statement set.
+        provider = {k: v for k, v in provider.items() if v is not None and k in (
+            'schema', 'symbol', 'currency', 'beta', 'quote_price', 'quote_observed_at',
+            'quote_type', 'short_interest', 'earnings', 'last_earnings')}
+    if interests is not None:
+        listed = positive_number(interests.get('class_a'))
+        paired = finite_number(interests.get('paired_opco_units'))
+        if (listed is None or paired is None or paired < 0
+                or interests.get('class_a_per_unit') != 1 or not primary.get('shares_asof')
+                or (primary.get('inputs') or {}).get('shares') != listed + paired):
+            raise ValueError('Invalid primary Up-C share bridge')
+    if ads is not None:
+        outstanding = positive_number(ads.get('ordinary_outstanding'))
+        ratio = positive_number(ads.get('ordinary_per_ads'))
+        if (not outstanding or not ratio or
+                (primary.get('inputs') or {}).get('shares') != outstanding / ratio or
+                not primary.get('financial_currency') or not primary.get('shares_asof')):
+            raise ValueError('Invalid primary depositary share bridge')
     published = assessment.timestamp(primary.get('published_at'))
     retrieved = assessment.timestamp(primary.get('fetched_at'))
     if not published or not retrieved or not published <= retrieved <= as_of:
         return provider
     if (primary.get('symbol') != provider.get('symbol') or
             primary.get('schema') != VERSION or not primary.get('source_urls') or
-            primary.get('financial_currency') != primary.get('currency') or
+            (ads is None and primary.get('financial_currency') != primary.get('currency')) or
             provider.get('currency') not in (None, primary.get('currency')) or
             provider.get('financial_currency') not in (None, primary.get('financial_currency'))):
         raise ValueError('Primary financial identity/currency/source mismatch')
@@ -636,8 +658,9 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         # A US-listed ADR quoted in USD on statements in DKK/EUR/CHF/CNY:
         # one statement-currency unit is worth `rate` quote-currency units.
         factor = positive_number(fx['rate'])
-        warnings.append(f"Quote converted with the {fx['pair']} rate {factor:.6g} ({str(fx.get('observed_at'))[:10]}); "
-                        'the reported share count is assumed to match the listed shares.')
+        share_note = ('Issuer ordinary shares converted to ADS equivalents.'
+                      if facts.get('depositary_shares') else 'The reported share count is assumed to match the listed shares.')
+        warnings.append(f"Currency conversion {fx['pair']} {factor:.6g} ({str(fx.get('observed_at'))[:10]}). " + share_note)
     if factor is None:
         warnings.append('Quote and financial currencies are missing or incompatible; valuation suspended.')
     if financial_currency and financial_currency != 'USD':
@@ -848,6 +871,10 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
         dividends = current_common['common_dividends_paid']
     share_change = finite_number(facts.get('share_change_pct'))
     div_yield = abs(dividends) / market_cap * 100 if dividends is not None and market_cap else None
+    distribution = facts.get('cash_dividend_per_listed_share') or {}
+    if (div_yield is None and distribution.get('currency') == currency and price
+            and finite_number(distribution.get('amount')) is not None and distribution['amount'] >= 0):
+        div_yield = distribution['amount'] / price * 100
     buybacks = max(0., -share_change) if share_change is not None else None
     returns = div_yield + buybacks if div_yield is not None and buybacks is not None else None
     metrics = dict(revenue_growth_pct=facts.get('revenue_growth_pct'),

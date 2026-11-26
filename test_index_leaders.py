@@ -2,6 +2,7 @@
 import json
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 
 import pandas as pd
@@ -120,6 +121,43 @@ class Account(unittest.TestCase):
         self.assertAlmostEqual(il.value(state, prices, days[8]), 25000 * 1.25 / (1 + il.COST), places=1)
         self.assertFalse(il.fresh(days[0], 17., '17')['currency'] == 'EUR')
 
+    def test_euro_account_combines_index_and_fixed_allocations_through_sale(self):
+        days = self.days[:4]
+        heat, prices = book(days, [12, 12, 85, 50])
+        prices['SPCX'][days[1]] = 345.67
+        holdings = lambda: [('SPCX', .06), ('ANT', .02)]
+        state = il.fresh(days[0], 17., '17-spcx-ant')
+        self.assertIsNotNone(il.decide(state, days[:1], heat, days[1], 12))
+        buy, = il.advance(state, days[:2], heat, prices, holdings)
+        expected = {'SPCX': .4125, 'ANT': .2375, 'RSP': .35}
+        self.assertCountEqual(buy['symbols'], expected.keys())
+        self.assertEqual(set(state['positions']), set(expected))
+        rate = state['fx_buy']
+        cost = 0.
+        for symbol, weight in expected.items():
+            p = state['positions'][symbol]
+            self.assertEqual(p['account_share'], weight)
+            self.assertEqual(p['entry'], prices[symbol][days[1]])
+            self.assertEqual(p['index_weight'], dict(holdings()).get(symbol))
+            self.assertAlmostEqual(p['shares'], 25000 * rate * weight / (p['entry'] * (1 + il.COST)), delta=1e-6)
+            cost += p['shares'] * p['entry'] * (1 + il.COST) / rate
+        self.assertGreaterEqual(state['cash'], 0)
+        self.assertAlmostEqual(state['cash'] + cost, 25000, places=6)
+        self.assertEqual(state['marks'][-1]['equity'], round(25000 / (1 + il.COST), 2))
+        self.assertEqual(il.advance(state, days[:2], heat, prices, holdings), [])
+
+        state['min_hold'] = 1
+        prices[il.FX][days[-1]] = 1.10
+        proceeds = sum(p['shares'] * prices[s][days[-1]] * (1 - il.COST)
+                       for s, p in state['positions'].items()) / 1.10
+        cash = state['cash']
+        sell, = il.advance(state, days, heat, prices, holdings)
+        self.assertEqual(sell['type'], 'SELL')
+        self.assertEqual(state['positions'], {})
+        self.assertAlmostEqual(state['cash'], cash + proceeds, places=6)
+        self.assertEqual(state['trades'][0]['cost'], round(cost, 2))
+        self.assertEqual(state['trades'][0]['proceeds'], round(proceeds, 2))
+
     def test_account_cards_show_positions_value_and_gain(self):
         days = self.days
         heat, prices = book(days, [50] * 5 + [15] + [50] * (len(days) - 6))
@@ -177,6 +215,80 @@ class Cutoff(unittest.TestCase):
         self.assertEqual(il.session_cutoff(ny(12, 0)), pd.Timestamp('2026-11-23'))      # partial bar left out
         self.assertEqual(il.session_cutoff(ny(15, 40), intraday=True), pd.Timestamp('2026-11-24'))
         self.assertEqual(il.session_cutoff(ny(20, 41)), pd.Timestamp('2026-11-24'))
+
+
+class Windows(unittest.TestCase):
+    def test_close_time_and_check_windows(self):
+        ny = lambda day, h, m: pd.Timestamp(f'{day} {h:02d}:{m:02d}', tz='America/New_York')
+        self.assertEqual(il.close_minutes('2026-11-25'), 16 * 60)
+        self.assertEqual(il.close_minutes('2026-11-27'), 13 * 60)          # day after Thanksgiving
+        self.assertEqual(il.close_minutes('2027-11-26'), 13 * 60)
+        self.assertEqual(il.close_minutes('2026-12-24'), 13 * 60)
+        self.assertEqual(il.close_minutes('2026-07-03'), 13 * 60)
+        self.assertEqual(il.window(ny('2026-11-25', 15, 40)), 'pre-close')
+        self.assertIsNone(il.window(ny('2026-11-25', 15, 56)))
+        self.assertEqual(il.window(ny('2026-11-25', 10, 30)), 'morning')
+        self.assertIsNone(il.window(ny('2026-11-25', 12, 10)))
+        self.assertEqual(il.window(ny('2026-11-27', 12, 25)), 'pre-close')   # early close
+        self.assertIsNone(il.window(ny('2026-11-27', 15, 40)))               # the market is already closed
+
+    def test_morning_reading_records_without_an_order(self):
+        days = sessions(30)
+        today = days[-1]
+        heat = {d: 50. for d in days}
+        heat[days[20]] = 12.                                                 # an open panic episode
+        heat[today] = 15.
+        with tempfile.TemporaryDirectory() as tmp:
+            latest = Path(tmp) / 'latest.json'
+            accounts = []
+            for name, level, path in il.ACCOUNTS:
+                accounts.append((name, level, Path(tmp) / Path(path).name, il.fresh(days[0], level, name)))
+            collect = lambda intraday: (days, heat, None, None)
+            with unittest.mock.patch.object(il, '_accounts', return_value=accounts):
+                morning = pd.Timestamp(f'{today} 10:31', tz='America/New_York')
+                self.assertIsNone(il.decide_run(latest, now=morning, collect_fn=collect, move_fn=lambda d: 5.))
+                snap = json.loads(latest.read_text())
+                self.assertEqual(snap['morning']['heat'], 15.)
+                self.assertEqual(snap['morning']['under'], {'20': True, '17': True, '17-spcx-ant': True,
+                                                            '20-move': True})
+                self.assertNotIn('intraday', snap)
+                self.assertTrue(all(state.get('pending') is None for *_, state in accounts))
+                close = pd.Timestamp(f'{today} 15:40', tz='America/New_York')
+                orders = il.decide_run(latest, now=close, collect_fn=collect, move_fn=lambda d: 5.)
+                self.assertTrue(all(orders.values()))
+                snap = json.loads(latest.read_text())
+                self.assertTrue(snap['intraday']['order'])
+                self.assertIn('Morning reading', il.render(snap, [(n, l, s) for n, l, _, s in accounts]))
+
+
+class MoveAccount(unittest.TestCase):
+    def test_buys_only_while_bond_stress_is_not_high(self):
+        days = sessions(30)
+        today = days[-1]
+        heat = {d: 50. for d in days}
+        heat[days[20]] = 12.
+        state = il.fresh(days[0], 20., '20-move')
+        self.assertEqual(state['move_max'], 15.)
+        self.assertIsNone(il.decide(state, days[:-1], heat, today, 15., move_now=22.))   # high bond stress: waits
+        self.assertIsNone(il.decide(state, days[:-1], heat, today, 15., move_now=None))  # unknown MOVE: no buy
+        order = il.decide(state, days[:-1], heat, today, 15., move_now=9.)
+        self.assertEqual((order['signal'], order['move_excess']), (days[20], 9.))
+        plain = il.fresh(days[0], 20., '20')
+        self.assertNotIn('move_max', plain)
+        self.assertIsNotNone(il.decide(plain, days[:-1], heat, today, 15., move_now=22.))  # other accounts ignore it
+
+    def test_move_excess_and_page(self):
+        idx = pd.bdate_range('2021-01-04', periods=900)
+        move = pd.Series(100., index=idx)
+        move.iloc[-5:] = 130.
+        ex = il.move_excess(today=pd.Timestamp('2030-01-01'), download=lambda: move)
+        last = str(idx[-1].date())
+        self.assertGreater(ex[last], 15.)
+        self.assertEqual(ex[str(idx[700].date())], 0.)
+        self.assertIn('High bond stress', il._move_html(ex[last]))
+        self.assertIn('Not high', il._move_html(3.))
+        html = il.accounts_html([('20-move', 20., il.fresh('2026-11-20', 20., '20-move'))], {}, {})
+        self.assertIn('only if MOVE', html)
 
 
 class Page(unittest.TestCase):

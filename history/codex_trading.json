@@ -134,6 +134,33 @@
     }
    },
    "entry_policy": "fundamental-and-technical-v1"
+  },
+  {
+   "session": "2026-11-25",
+   "market": "CORRECTION",
+   "at": "2026-11-25T21:12:39.105085+00:00",
+   "run": "20261125T211102764477-c94fd006220d443fbf6023d07d223ff9",
+   "outcomes": {
+    "timing": {
+     "equity": 10000.0,
+     "cash": 10000.0,
+     "gaps": [],
+     "new_orders": 0
+    },
+    "opportunity": {
+     "equity": 10000.0,
+     "cash": 10000.0,
+     "gaps": [],
+     "new_orders": 0
+    },
+    "fundamental": {
+     "equity": 10000.0,
+     "cash": 10000.0,
+     "gaps": [],
+     "new_orders": 0
+    }
+   },
+   "entry_policy": "fundamental-and-technical-v1"
   }
  ],
  "accounts": {
@@ -448,7 +475,8 @@
    "2026-11-19": 7175.830078,
    "2026-11-20": 6910.390137,
    "2026-11-23": 7237.169922,
-   "2026-11-24": 7201.089844
+   "2026-11-24": 7201.089844,
+   "2026-11-25": 7182.779785
   }
  }
 }

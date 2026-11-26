@@ -1,0 +1,272 @@
+{
+  "mode": "live",
+  "as_of": "2026-11-25T18:38:00+00:00",
+  "run_at": "2026-11-25T18:43:18.292251+00:00",
+  "max_quote_age_hours": 72,
+  "methodology": null,
+  "evidence": [
+    {
+      "id": "JD-0",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526464688/d179042dex991.htm — Q3 issuer release · TTM cash reconciliation, segment results, balance sheet and nine-month P&L",
+      "published_at": "2026-11-17T23:59:59+00:00",
+      "retrieved_at": "2026-11-25T18:38:00+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "JD-1",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1549802/000119312526092445/d150586dex991.htm — FY2025 release · FY and Q4 results, depreciation and share compensation",
+      "published_at": "2026-03-05T23:59:59+00:00",
+      "retrieved_at": "2026-11-25T18:38:00+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "JD-price",
+      "locator": "https://stockanalysis.com/stocks/jd/history/ — 24 Nov Nasdaq regular close",
+      "published_at": "2026-11-24T21:00:00+00:00",
+      "retrieved_at": "2026-11-25T18:38:00+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "BIDU-0",
+      "locator": "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-third-quarter-2026-results — Q3 2026 release · Q2/Q3 consolidated cash flows, SBC, balance sheet and AI mix",
+      "published_at": "2026-11-16T23:59:59+00:00",
+      "retrieved_at": "2026-11-25T18:38:00+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "BIDU-1",
+      "locator": "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-first-quarter-2026-results — Q1 2026 release · Q4 2025 and Q1 2026 consolidated cash flows, SBC and earnings",
+      "published_at": "2026-05-18T23:59:59+00:00",
+      "retrieved_at": "2026-11-25T18:38:00+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "BIDU-4",
+      "locator": "https://www.sec.gov/Archives/edgar/data/1329099/000119312526446265/d168684dex991.htm — 31 October monthly return · Sections II and III(E), shares awaiting cancellation",
+      "published_at": "2026-11-04T23:59:59+00:00",
+      "retrieved_at": "2026-11-25T18:38:00+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "BIDU-5",
+      "locator": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/1125/2026112500822.pdf — 25 November HKEX return · Class A closing balance, pending purchases and current mandate",
+      "published_at": "2026-11-25T10:12:00+00:00",
+      "retrieved_at": "2026-11-25T18:38:00+00:00",
+      "status": "verified"
+    },
+    {
+      "id": "BIDU-price",
+      "locator": "https://stockanalysis.com/stocks/bidu/history/ — 24 Nov Nasdaq regular close",
+      "published_at": "2026-11-24T21:00:00+00:00",
+      "retrieved_at": "2026-11-25T18:38:00+00:00",
+      "status": "verified"
+    }
+  ],
+  "issuers": [
+    {
+      "ticker": "JD",
+      "currency": "USD",
+      "quote": {
+        "value": 25.73,
+        "currency": "USD",
+        "as_of": "2026-11-24T21:00:00+00:00",
+        "evidence_ids": [
+          "JD-price"
+        ]
+      },
+      "checks": {
+        "source_tieout": "pass",
+        "comparability": "open",
+        "per_share_basis": "pass",
+        "calculations": "pass",
+        "framework": "pass"
+      },
+      "metrics": [
+        {
+          "id": "JD-proxy",
+          "name": "consolidated_fcf_after_sbc",
+          "value": 15059000000,
+          "unit": "CNY",
+          "period": "TTM 2026-09-30",
+          "basis": "Issuer net capex",
+          "price_dependent": false,
+          "evidence_ids": [
+            "JD-0",
+            "JD-1"
+          ]
+        },
+        {
+          "id": "JD-normalized",
+          "name": "sustainable_common_fcf",
+          "value": null,
+          "unit": "CNY",
+          "period": "TTM 2026-09-30",
+          "basis": "Normalized distributable cash",
+          "price_dependent": false,
+          "evidence_ids": [
+            "JD-0",
+            "JD-1"
+          ],
+          "reason": "TTM proceeds from property sales, post-acquisition economics and parent-only cash remain unresolved."
+        },
+        {
+          "id": "JD-score",
+          "name": "fundamental_score",
+          "value": null,
+          "unit": "points / 100",
+          "period": "TTM 2026-09-30",
+          "basis": "Audited normalized composite",
+          "price_dependent": true,
+          "evidence_ids": [
+            "JD-0",
+            "JD-1"
+          ],
+          "reason": "TTM proceeds from property sales, post-acquisition economics and parent-only cash remain unresolved."
+        }
+      ],
+      "decision": "blocked_review",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "BIDU",
+      "currency": "USD",
+      "quote": {
+        "value": 63.51,
+        "currency": "USD",
+        "as_of": "2026-11-24T21:00:00+00:00",
+        "evidence_ids": [
+          "BIDU-price"
+        ]
+      },
+      "checks": {
+        "source_tieout": "pass",
+        "comparability": "open",
+        "per_share_basis": "pass",
+        "calculations": "pass",
+        "framework": "pass"
+      },
+      "metrics": [
+        {
+          "id": "BIDU-proxy",
+          "name": "consolidated_fcf_after_sbc",
+          "value": -18165000000,
+          "unit": "CNY",
+          "period": "TTM 2026-09-30",
+          "basis": "Consolidated operating cash less capex and SBC",
+          "price_dependent": false,
+          "evidence_ids": [
+            "BIDU-0",
+            "BIDU-1"
+          ]
+        },
+        {
+          "id": "BIDU-normalized",
+          "name": "sustainable_common_fcf",
+          "value": null,
+          "unit": "CNY",
+          "period": "TTM 2026-09-30",
+          "basis": "Normalized distributable cash",
+          "price_dependent": false,
+          "evidence_ids": [
+            "BIDU-0",
+            "BIDU-1"
+          ],
+          "reason": "Negative trailing cash base; a sustainable positive stream is unproven."
+        },
+        {
+          "id": "BIDU-score",
+          "name": "fundamental_score",
+          "value": null,
+          "unit": "points / 100",
+          "period": "TTM 2026-09-30",
+          "basis": "Audited normalized composite",
+          "price_dependent": true,
+          "evidence_ids": [
+            "BIDU-0",
+            "BIDU-1"
+          ],
+          "reason": "Negative trailing cash base; a sustainable positive stream is unproven."
+        }
+      ],
+      "decision": "blocked_review",
+      "decision_basis": "data_gap"
+    }
+  ],
+  "issues": [
+    {
+      "id": "JD-normalization",
+      "ticker": "JD",
+      "severity": "major",
+      "status": "open",
+      "owner": "Valuation analyst",
+      "claim": "TTM proceeds from property sales, post-acquisition economics and parent-only cash remain unresolved.",
+      "evidence_ids": [
+        "JD-0",
+        "JD-1"
+      ],
+      "affected_metric_ids": [
+        "JD-normalized",
+        "JD-score"
+      ]
+    },
+    {
+      "id": "JD-bridge",
+      "ticker": "JD",
+      "severity": "minor",
+      "status": "verified",
+      "owner": "Valuation analyst",
+      "reviewer": "Quality analyst",
+      "claim": "Reconcile the cash-flow proxy and share compensation in the same window.",
+      "response": "40444 − 20898 − 4487 = 15059; subtract 743 separately for issuer definition.",
+      "evidence_ids": [
+        "JD-0",
+        "JD-1"
+      ],
+      "resolution_evidence_ids": [
+        "JD-0",
+        "JD-1"
+      ],
+      "affected_metric_ids": [
+        "JD-proxy"
+      ]
+    },
+    {
+      "id": "BIDU-normalization",
+      "ticker": "BIDU",
+      "severity": "major",
+      "status": "open",
+      "owner": "Valuation analyst",
+      "claim": "Negative trailing cash base; a sustainable positive stream is unproven.",
+      "evidence_ids": [
+        "BIDU-0",
+        "BIDU-1"
+      ],
+      "affected_metric_ids": [
+        "BIDU-normalized",
+        "BIDU-score"
+      ]
+    },
+    {
+      "id": "BIDU-bridge",
+      "ticker": "BIDU",
+      "severity": "minor",
+      "status": "verified",
+      "owner": "Valuation analyst",
+      "reviewer": "Quality analyst",
+      "claim": "Reconcile the cash-flow proxy and share compensation in the same window.",
+      "response": "11493 − 26627 − 3031 = −18165; quarter sums match consolidated statements.",
+      "evidence_ids": [
+        "BIDU-0",
+        "BIDU-1"
+      ],
+      "resolution_evidence_ids": [
+        "BIDU-0",
+        "BIDU-1"
+      ],
+      "affected_metric_ids": [
+        "BIDU-proxy"
+      ]
+    }
+  ],
+  "scope": "Audit of sustainable common-equity cash flow. The dated reports separately reproduce opportunity-v18 using consolidated cash proxies. No approved purchase recommendation."
+}

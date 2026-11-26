@@ -51,7 +51,10 @@ const tickerLibrary = [
  {yf:"AIR.PA",name:"Airbus SE",index:"CAC 40",group:"Cyclical",sector:"Aerospace",cur:"EUR"},
  {yf:"SAN.MC",name:"Banco Santander",index:"IBEX 35",group:"Cyclical",sector:"Financials",cur:"EUR"},
  {yf:"IBST.L",name:"Ibstock plc",index:"FTSE 250",group:"Cyclical",sector:"Materials",cur:"GBp"},
+ {yf:"FPS",name:"Forgent Power Solutions",index:"NYSE",group:"Cyclical",sector:"Industrials",cur:"USD"},
+ {yf:"JD",name:"JD.com",index:"Nasdaq",group:"Cyclical",sector:"Consumer Cyclical",cur:"USD"},
  // SENSITIVE
+ {yf:"BIDU",name:"Baidu",index:"Nasdaq",group:"Sensitive",sector:"Communication Services",cur:"USD"},
  {yf:"AVGO",name:"Broadcom",index:"S&P 500",group:"Sensitive",sector:"Semis",cur:"USD"},
  {yf:"INTC",name:"Intel",index:"Dow",group:"Sensitive",sector:"Semis",cur:"USD"},
  {yf:"ORCL",name:"Oracle",index:"S&P 500",group:"Sensitive",sector:"Software",cur:"USD"},
@@ -67,6 +70,7 @@ const tickerLibrary = [
  {yf:"VICI",name:"VICI Properties",index:"S&P 500",group:"High Yield",sector:"REIT",cur:"USD"},
  {yf:"ENB.TO",name:"Enbridge (Toronto)",index:"TSX",group:"High Yield",sector:"Midstream",cur:"CAD"},
  {yf:"ENG.MC",name:"Enagas",index:"IBEX 35",group:"High Yield",sector:"Utilities",cur:"EUR"},
+ {yf:"VIS.MC",name:"Viscofan",index:"IBEX Medium Cap",group:"Defensive",sector:"Consumer Defensive",cur:"EUR"},
  {yf:"WKL.AS",name:"Wolters Kluwer",index:"AEX",group:"High Yield",sector:"Info Svcs",cur:"EUR"},
  {yf:"MC.PA",name:"LVMH",index:"CAC 40",group:"High Yield",sector:"Luxury",cur:"EUR"},
  {yf:"ALV.DE",name:"Allianz SE",index:"DAX",group:"High Yield",sector:"Financials",cur:"EUR"},

@@ -2,7 +2,6 @@
   const panel=document.getElementById('panic-paper');
   if (!panel) return;
   const content=panel.querySelector('[data-paper-content]');
-  const primary=document.getElementById('ia-primary');
   const tabs=[...document.querySelectorAll('.ia-paper-tabs [role="tab"]')];
   const lang=panel.dataset.language;
   const data=JSON.parse(document.getElementById('ia-paper-data').textContent);
@@ -12,8 +11,10 @@
 
   function activate(key, focus=false) {
     const paper=key==='panic-paper';
-    primary.hidden=paper;
-    panel.hidden=!paper;
+    for (const tab of tabs) {
+      const id=tab.getAttribute('aria-controls');
+      document.getElementById(id).hidden=id!==key;
+    }
     for(const tab of tabs) {
       const current=tab.getAttribute('aria-controls')===key;
       tab.setAttribute('aria-selected',String(current));
@@ -25,7 +26,7 @@
   function followHash() {
     const id=location.hash.slice(1);
     const isPaper=id==='panic-paper'||id.startsWith('panic-paper-');
-    activate(isPaper?'panic-paper':'ia-primary');
+    activate(isPaper?'panic-paper':tabs.some(tab=>tab.getAttribute('aria-controls')===id)?id:'ia-primary');
     const target=isPaper && document.getElementById(id);
     if(target && target.tagName==='DETAILS') {
       target.open=true;
@@ -34,7 +35,7 @@
   }
   function switchTab(tab,focus=false) {
     const id=tab.getAttribute('aria-controls');
-    const hash=id==='panic-paper'?'#panic-paper':'';
+    const hash=id==='ia-primary'?'':'#'+id;
     if(location.hash!==hash) history.pushState(null,'',location.pathname+location.search+hash);
     activate(id,focus);
   }
@@ -43,7 +44,7 @@
     tab.addEventListener('keydown',e=>{
       if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key)) return;
       e.preventDefault();
-      switchTab(tabs[e.key==='Home'?0:e.key==='End'?tabs.length-1:1-i],true);
+      switchTab(tabs[e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length],true);
     });
   });
   async function load(name,check,previous) {

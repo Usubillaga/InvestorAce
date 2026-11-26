@@ -1,10 +1,10 @@
 {
  "schema": "codex-long-short-v1",
- "archive_build": "20261125T060416260690-22422c486bb94c3d9f83d74343db38c2",
- "as_of": "2026-11-25T01:04:16.260690-05:00",
+ "archive_build": "20261126T110623466802-9d9797438729440782710ca534809e89",
+ "as_of": "2026-11-26T06:06:23.466802-05:00",
  "opportunity_version": "opportunity-v18.1",
  "timing_version": "experimental-timing-v2",
- "verified_builds": 155,
+ "verified_builds": 165,
  "parameters": {
   "capital_usd": 10000.0,
   "position_usd": 500.0,
@@ -1017,27 +1017,27 @@
   }
  },
  "paper": {
-  "sessions": 2,
-  "decision_sessions": 2,
+  "sessions": 3,
+  "decision_sessions": 3,
   "first": "2026-11-23",
-  "last": "2026-11-24",
-  "final_equity": 10018.857791239727,
-  "return_pct": 0.18857791239725863,
+  "last": "2026-11-25",
+  "final_equity": 10023.570584934378,
+  "return_pct": 0.23570584934378136,
   "drawdown_pct": -0.004999999999999449,
   "gap_sessions": 0,
-  "execution_fees": 1.0,
-  "borrow_cost": 0.0273972602739726,
-  "borrow_stress_cost": 0.0684931506849315,
+  "execution_fees": 1.5,
+  "borrow_cost": 0.05370492117808219,
+  "borrow_stress_cost": 0.13426230294520547,
   "by_side": {
    "LONG": {
     "entries": 1,
     "exits": 0,
-    "net_pnl": -0.5
+    "net_pnl": 4.388278150000019
    },
    "SHORT": {
-    "entries": 1,
+    "entries": 2,
     "exits": 0,
-    "net_pnl": 19.357791239725998
+    "net_pnl": 19.18230678437712
    }
   },
   "fundamental_sides": [
@@ -1049,44 +1049,57 @@
     "side": "SHORT",
     "opened_on": "2026-11-23",
     "entry_close": 313.54998779296875,
-    "mark_close": 301.0799865722656,
-    "marked_on": "2026-11-24",
-    "marked_notional": 480.11481150000003,
+    "mark_close": 300.8599853515625,
+    "marked_on": "2026-11-25",
+    "marked_notional": 479.7639882944448,
     "entry_fee": 0.5,
-    "borrow_cost": 0.0273972602739726,
-    "gross_return_pct": 3.977037699999994,
-    "net_return_pct": 3.8715582479451998
+    "borrow_cost": 0.05370492117808219,
+    "gross_return_pct": 4.04720234111104,
+    "net_return_pct": 3.936461356875424
    },
    "RMD": {
     "symbol": "RMD",
     "side": "LONG",
     "opened_on": "2026-11-24",
     "entry_close": 243.44000244140625,
-    "mark_close": 243.44000244140625,
-    "marked_on": "2026-11-24",
+    "mark_close": 245.82000732421875,
+    "marked_on": "2026-11-25",
+    "marked_notional": 504.88827815,
+    "entry_fee": 0.5,
+    "borrow_cost": 0.0,
+    "gross_return_pct": 0.9776556300000039,
+    "net_return_pct": 0.8776556300000038
+   },
+   "NRG": {
+    "symbol": "NRG",
+    "side": "SHORT",
+    "opened_on": "2026-11-25",
+    "entry_close": 91.94000244140625,
+    "mark_close": 91.94000244140625,
+    "marked_on": "2026-11-25",
     "marked_notional": 500.0,
     "entry_fee": 0.5,
     "borrow_cost": 0.0,
-    "gross_return_pct": 0.0,
+    "gross_return_pct": -0.0,
     "net_return_pct": -0.1
    }
   },
   "pending": [
    {
-    "ticker": "NRG",
-    "symbol": "NRG",
-    "signal_session": "2026-11-24",
-    "submitted_at": "2026-11-25T01:04:16.260690-05:00",
-    "signal_build": "20261125T060416260690-22422c486bb94c3d9f83d74343db38c2",
-    "signal_close": 90.9000015258789,
-    "sma36": 96.69533665974934,
-    "sma50": 97.50248733520507,
-    "sma200": 129.2801889038086,
-    "side": "SHORT",
+    "ticker": "MO",
+    "symbol": "MO",
+    "signal_session": "2026-11-25",
+    "submitted_at": "2026-11-26T00:16:56.729548-05:00",
+    "signal_build": "20261126T051656729548-32cdaacfc6be4955b9d3297ee3b6c2de",
+    "signal_close": 76.27999877929688,
+    "sma36": 75.12749968634711,
+    "sma50": 73.2709992980957,
+    "sma200": 68.73659498214721,
+    "side": "LONG",
     "action": "OPEN",
-    "entry_basis": "TECHNICAL_ONLY",
-    "fundamental_score": null,
-    "quality_score": null,
+    "entry_basis": "FUNDAMENTAL_AND_TECHNICAL",
+    "fundamental_score": 7.935578126131181,
+    "quality_score": 8.88888888888889,
     "reason": "Trend and SMA36 crossing",
     "status": "PENDING"
    }
@@ -1137,6 +1150,29 @@
     "execution_close": 243.44000244140625,
     "turnover": 500.0,
     "fee": 0.5
+   },
+   {
+    "ticker": "NRG",
+    "symbol": "NRG",
+    "signal_session": "2026-11-24",
+    "submitted_at": "2026-11-25T01:04:16.260690-05:00",
+    "signal_build": "20261125T060416260690-22422c486bb94c3d9f83d74343db38c2",
+    "signal_close": 90.9000015258789,
+    "sma36": 96.69533665974934,
+    "sma50": 97.50248733520507,
+    "sma200": 129.2801889038086,
+    "side": "SHORT",
+    "action": "OPEN",
+    "entry_basis": "TECHNICAL_ONLY",
+    "fundamental_score": null,
+    "quality_score": null,
+    "reason": "Trend and SMA36 crossing",
+    "execution_session": "2026-11-25",
+    "status": "FILLED",
+    "price_build": "20261125T211102764477-c94fd006220d443fbf6023d07d223ff9",
+    "execution_close": 91.94000244140625,
+    "turnover": 500.0,
+    "fee": 0.5
    }
   ],
   "daily_equity": [
@@ -1148,6 +1184,11 @@
    {
     "session": "2026-11-24",
     "equity": 10018.857791239727,
+    "missing": []
+   },
+   {
+    "session": "2026-11-25",
+    "equity": 10023.570584934378,
     "missing": []
    }
   ]

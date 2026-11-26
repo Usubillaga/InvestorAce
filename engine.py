@@ -14,6 +14,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from html import escape
 from urllib.parse import urlsplit, quote as urlquote
+from low_radar_data import quote_fields
 import evidence as EVIDENCE
 import assessment as ASSESSMENT
 import source_review as SOURCE_REVIEW
@@ -601,7 +602,48 @@ DATA = {
 'NRG': dict(name='NRG Energy', yf='NRG', fcf=316.0, shares=210.21, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 4.0, 'c': 4.0, 'b': 1.5, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'rev': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'opinc': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'ebitda': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'netdebt': '2026-06-30'}, pr=None, dil=2.0, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Utilities', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(39.83, 379.92)),
 'NTAP': dict(yf='NTAP', fcf=1650.0, shares=196.42, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 7.5, 'c': 9.0, 'b': 8.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'rev': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'opinc': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'ebitda': ['TTM', '2026-07-31', '2026-04-30', '2026-01-31', '2025-10-31'], 'netdebt': '2026-07-31'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(46.85, 481.74), name='NetApp, Inc.'),
 'OKLO': dict(name='Oklo', yf='OKLO', fcf=None, shares=195.29, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 2.0, 'c': 1.5, 'b': None, 'v': None, 'r': 1.0}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=0.5, clock='CLOCK', ins='NOT CHECKED', held=False, sector='Utilities', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(9.27, 233.96), na='FCF non-positive (-452.6m from Yahoo); NGV intentionally disabled until a model-appropriate metric is supplied'),
+'ORCL': dict(name='Oracle Corporation', yf='ORCL', cur='USD', sector='Technology',
+    fcf=None, shares=None, r=0.08, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    built='primary-review', normalization_status='REVIEW_REQUIRED', sanity=None,
+    na='Trailing cash after capital expenditures is negative.',
+    deep_dive='earnings/orcl-scoreboard-2026-11-25.html',
+    financial_sources=[dict(title='Oracle FY2027 Q1 Form 10-Q', period='2026-08-31',
+        url='https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm')]),
 'PAYX': dict(yf='PAYX', fcf=2016.7, shares=355.98, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 9.0, 'c': 9.5, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'rev': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'opinc': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'ebitda': ['TTM', '2026-08-31', '2026-05-31', '2026-02-28', '2025-11-30'], 'netdebt': '2026-08-31'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(42.72, 255.96), name='Paychex, Inc.'),
+'FPS': dict(name='Forgent Power Solutions', yf='FPS', cur='USD', sector='Industrials',
+    fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    built='primary-review', normalization_status='REVIEW_REQUIRED',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', primary_inputs_only=True,
+    cash_flow_basis='ISSUER_CONSOLIDATED_CASH_FLOW', sanity=None,
+    na='Use consolidated cash flow per Class A equivalent. Historical Class A earnings cover only the post-IPO period.',
+    financial_sources=[dict(title='Forgent FY2027 Q1 Form 10-Q', period='2026-09-30',
+        url='https://www.sec.gov/Archives/edgar/data/2080126/000208012626000046/fps-20260930.htm')],
+    deep_dive='earnings/fps-deep-dive-2026-11-25.html',
+    boot_note='Electrical distribution equipment for data centers, utilities and industrial customers. Customer advances finance project inventory.'),
+'JD': dict(name='JD.com', yf='JD', cur='USD', sector='Consumer Cyclical',
+    fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    built='primary-review', normalization_status='REVIEW_REQUIRED',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', primary_inputs_only=True,
+    cash_flow_basis='ISSUER_CONSOLIDATED_CASH_FLOW', sanity=None,
+    na='Use the dated CNY statement packet, FX and issuer ADS-equivalent share bridge.',
+    financial_sources=[dict(title='JD.com Q3 2026 results', period='2026-09-30',
+        url='https://www.sec.gov/Archives/edgar/data/1549802/000119312526464688/d179042dex991.htm')],
+    deep_dive='earnings/jd-deep-dive-2026-11-25.html',
+    boot_note='JD Retail profits support investment in new businesses. The September cash bridge precedes CECONOMY consolidation.'),
+'BIDU': dict(name='Baidu', yf='BIDU', cur='USD', sector='Communication Services',
+    fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    built='primary-review', normalization_status='REVIEW_REQUIRED',
+    fundamentals_refresh='PRIMARY_REVIEW_ONLY', primary_inputs_only=True,
+    cash_flow_basis='ISSUER_CONSOLIDATED_CASH_FLOW', sanity=None,
+    na='Use the dated CNY statement packet, FX and issuer ADS-equivalent share bridge.',
+    financial_sources=[dict(title='Baidu Q3 2026 results', period='2026-09-30',
+        url='https://ir.baidu.com/news-releases/news-release-details/baidu-announces-third-quarter-2026-results')],
+    deep_dive='earnings/bidu-deep-dive-2026-11-25.html',
+    boot_note='AI Cloud Infra is growing while legacy marketing contracts. Trailing consolidated free cash flow remains negative.'),
 'PDD': dict(name='PDD Holdings (Pinduoduo / Temu)', yf='PDD', cur='USD',
     fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
@@ -624,6 +666,24 @@ DATA = {
 'TEAM': dict(name='Atlassian', yf='TEAM', fcf=1667.0, shares=253.14, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 4.0, 'c': 9.0, 'b': 8.0, 'v': None, 'r': 7.5}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(28.0, 459.92)),
 'TPR': dict(name='Tapestry', yf='TPR', fcf=1880.5, shares=196.52, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': None, 'c': 9.0, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': None, 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(49.51, 329.6)),
 'TTWO': dict(name='Take-Two Interactive', yf='TTWO', fcf=337.5, shares=186.98, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 2.0, 'c': 6.0, 'b': 7.0, 'v': None, 'r': 1.0}, draft_periods={'fcf': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'rev': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'opinc': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'ebitda': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'netdebt': '2026-06-30'}, pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(91.93, 531.88)),
+'VIS': dict(name='Viscofan', yf='VIS.MC', cur='EUR',
+    fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
+    sector='Consumer Defensive', built='watch', normalization_status='REVIEW_REQUIRED',
+    sanity=(25, 110), fundamentals_refresh='PRIMARY_REVIEW_ONLY', primary_inputs_only=True,
+    cash_flow_basis='ISSUER_CONSOLIDATED_CASH_FLOW',
+    na='Use the dated consolidated FY cash-flow statement and net outstanding share count. September earnings have no matching nine-month cash-flow statement.',
+    financial_sources=[{
+        'url':'https://public.viscofan.com/investor-relations/financialinformation/en/Informe%20consolidado%20Grupo%20Viscofan%202025_EN_v2.pdf',
+        'title':'Viscofan audited consolidated financial statements FY2025', 'period':'2025-12-31'
+    }, {
+        'url':'https://public.viscofan.com/investor-relations/financialinformation/en/Presentaci%C3%B3n%20Resultados%202025%20y%20BEAT30_EN.pdf',
+        'title':'Viscofan 2025 results and Beat\'30 strategy presentation', 'period':'2025-12-31'
+    }, {
+        'url':'https://public.viscofan.com/investor-relations/financialinformation/en/Nota%20de%20resultados.%20Enero-Septiembre%202026_EN.pdf',
+        'title':'Viscofan results report January-September 2026', 'period':'2026-09-30'
+    }],
+    boot_note='2026-11-25 review: 9M26 revenue EUR965.4m (+3.1%), EBITDA EUR207.7m (-4.9%), net profit EUR111.8m (+2.9%); 2026 EBITDA guidance cut to EUR290-295m; net bank debt EUR266.6m after EUR99.7m of buybacks. See earnings/viscofan-deep-dive-2026-11-25.html.'),
 'VNT': dict(name='Vontier Corporation', yf='VNT', cur='USD',
     fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
@@ -1354,6 +1414,7 @@ def fetch_prices():
         d['price'], d['price_ts'], d['price_note'] = None, None, ''
         d['timing'] = TIMING.unavailable('History not requested: no accepted quote.')
         ser = None
+        d['low_radar_quote'] = None
         d['quote_observed_at'], d['quote_time_status'] = None, 'UNKNOWN'
         for field in ('mom_12_1', 'from_high', 'r_wacc', 'beta', 'wacc_inputs', 'wacc_details',
                       'momentum_observed_at', 'momentum_history_start', 'wacc_note'):
@@ -1406,6 +1467,8 @@ def fetch_prices():
                     d['price_note'] = f'REJECTED {px:.2f} outside {lo}-{hi}'; continue
             else:
                 d['price_note'] = f'accepted UNBOUNDED at {px:.2f} - no 52w range, set sanity by hand'
+            if observed:
+                d['low_radar_quote'] = quote_fields(info, d.get('yf', t), d.get('cur'))
             d['price'], d['price_ts'] = float(px), stamp
             # Retrieval time is not necessarily the quote's exchange timestamp.
             d['quote_observed_at'] = observed
@@ -1569,8 +1632,11 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
         if not isinstance(facts, dict):
             facts = dict(schema=LIVE_ANALYSIS.VERSION, symbol=symbol, inputs={}, currency=row.get('cur'))
         primary = primary_entries.get(ticker, {}).get('valuation', {}).get('financial_packet')
-        if row.get('cash_offer') and primary and (facts.get('financial_period') or '') > primary['financial_period']:
-            # A new raw provider quarter lacks the issuer's acquisition-capex and share-class bridge.
+        if ((row.get('cash_offer') or row.get('primary_inputs_only')) and primary
+                and 'depositary_shares' not in primary
+                and (facts.get('financial_period') or '') > primary['financial_period']):
+            # A new raw provider quarter lacks the issuer's acquisition-capex and share-class bridge,
+            # or (primary_inputs_only) the provider carries no usable cash flow or share count at all.
             facts = {k: facts[k] for k in ('schema', 'symbol', 'currency', 'beta') if k in facts}
         if row.get('primary_perimeter_since'):
             # Even a new report with incomplete cash rows supersedes the
@@ -1620,6 +1686,19 @@ def refresh_dynamic_analysis(cache_path=None, as_of=None, ticker_factory=None, s
                     and ASSESSMENT.quote_status(cached_quote,as_of)=='DATED'):
                 row.update(cached_quote,price_ts=previous.get('fetched_at'),quote_time_status='CACHED_DATED',
                     price_note='Live quote unavailable; dated cached market quote retained within 96 hours.')
+        # A dated research close can bridge a feed outage on a new ADS listing.
+        # It expires against the original session clock, including on later builds.
+        reference = (primary or {}).get('market_reference') or {}
+        stamp = ASSESSMENT.timestamp(reference.get('quote_observed_at'))
+        if (facts.get('primary_current') and reference.get('currency') == quote_cur and stamp and
+                0 <= (as_of - stamp).total_seconds() <= 72 * 3600):
+            if ASSESSMENT.quote_status(row, as_of) != 'DATED' and positive_number(reference.get('price')):
+                row.update(price=reference['price'], quote_observed_at=reference['quote_observed_at'],
+                           quote_time_status='CACHED_DATED', price_note='Last verified research close.')
+            if finite_number(facts.get('beta')) is None:
+                facts['beta'] = reference.get('beta')
+            if not (facts.get('fx') or {}).get('rate'):
+                facts['fx'] = reference.get('fx')
         pricing = dict(quote=dict(price=row.get('price'), observed_at=row.get('quote_observed_at')),
             risk_free=WACC.resolve_risk_free()/100., mrp=WACC.MARKET_RISK_PREMIUM/100., as_of=as_of,
             cushion_tolerance=CUSHION_TOL)
@@ -2726,6 +2805,8 @@ def build_html(macro=None, write=True, monitoring=None, reviews=None, assessment
         ticker_label = ('<a href="enagas.html">ENG</a>' if t == 'ENG' else escape(t))
         ticker_label += (f'<br><small><a href="scanner.html?view=universe&amp;ticker={urlquote(t, safe="")}">'
                          'Current analysis</a></small>')
+        if d.get('deep_dive'):
+            ticker_label += f'<br><small><a href="{escape(d["deep_dive"], quote=True)}">Deep dive · ES / EN / DE</a></small>'
         ticker_label += (f'<br><small><a data-company-pdf="{escape(t)}" href="{pdf_urls(t)["en"]}" '
                          'download aria-label="Download company PDF">Download PDF</a></small>')
         rows.append(
