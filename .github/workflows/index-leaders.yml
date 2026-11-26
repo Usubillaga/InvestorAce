@@ -15,10 +15,25 @@ on:
     - cron: '10 19 * * 1-5'     # before the close in summer (EDT): the intraday thermometer decides the buy
     - cron: '25 19 * * 1-5'
     - cron: '40 19 * * 1-5'
-    - cron: '10 20 * * 1-5'     # the same in winter (EST); index_leaders.py --decide acts only 15:10-15:55 New York
+    - cron: '10 20 * * 1-5'     # the same in winter (EST); index_leaders.py --decide times itself (window())
     - cron: '25 20 * * 1-5'
     - cron: '40 20 * * 1-5'
+    - cron: '30 14 * * 1-5'     # morning reading, about one hour after the open (10:25-11:00 New York): EDT
+    - cron: '45 14 * * 1-5'
+    - cron: '30 15 * * 1-5'     # the same in winter (EST)
+    - cron: '45 15 * * 1-5'
+    - cron: '10 16 * * 1-5'     # early 13:00 closes (day after Thanksgiving, 24 Dec, 3 Jul): EDT
+    - cron: '25 16 * * 1-5'
+    - cron: '10 17 * * 1-5'     # the same in winter (EST); on other days these runs only print 'outside'
+    - cron: '25 17 * * 1-5'
+    - cron: '40 17 * * 1-5'
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 'close (fill, mark, sell) or check (intraday: morning reading or the pre-close decision, by the time)'
+        type: choice
+        options: [close, check]
+        default: close
 
 permissions:
   contents: write
@@ -45,10 +60,14 @@ jobs:
       - name: Advance the account
         env:
           SCHEDULE: ${{ github.event.schedule }}
+          MODE: ${{ github.event.inputs.mode }}
         run: |
+          # Only the three after-the-close schedules (and a manual 'close') fill and mark; every other schedule,
+          # and a manual 'check', is an intraday check that index_leaders.py --decide times itself.
           case "$SCHEDULE" in
-            '10 19 * * 1-5'|'25 19 * * 1-5'|'40 19 * * 1-5'|'10 20 * * 1-5'|'25 20 * * 1-5'|'40 20 * * 1-5') decide=1 ;;
-            *) decide=0 ;;
+            '41 22 * * 1-5'|'41 23 * * 1-5'|'41 1 * * 2-6') decide=0 ;;
+            '') if [ "$MODE" = check ]; then decide=1; else decide=0; fi ;;
+            *) decide=1 ;;
           esac
           if [ "$decide" = 1 ]; then
             python index_leaders.py --decide | tee run.json

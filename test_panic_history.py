@@ -172,6 +172,31 @@ class Staged(unittest.TestCase):
         json.dumps(dict(r=r, s=s), allow_nan=False)
 
 
+class Touch(unittest.TestCase):
+    def test_touch_episodes_earlier_and_touch_only(self):
+        idx = pd.bdate_range('2001-01-01', periods=600)
+        heat = pd.Series(50., index=idx)
+        touch = heat.copy()
+        touch.iloc[100] = 15.                     # touched intraday, never closed under 20: touch-only
+        heat.iloc[300] = 15.                      # a close under 20 ...
+        touch.iloc[298:301] = 15.                 # ... touched two sessions earlier
+        r = ph.touch_study(heat, touch, '2001-01-01', lambda d: None, levels=(20.,))['20']
+        self.assertEqual(r['touch_only'], [str(idx[100].date())])
+        self.assertEqual(r['sessions_earlier'], [2])
+        json.dumps(r, allow_nan=False)
+
+    def test_touch_heat_is_at_or_below_the_close_heat(self):
+        idx, adj = panel(n=700)
+        members = pd.DataFrame(True, index=idx, columns=adj.columns)
+        spx = pd.Series(np.linspace(100, 90, len(idx)), index=idx)
+        vix = pd.Series(25., index=idx)
+        close = ph.breadth_heat(spx, vix, adj, members)
+        touch = ph.touch_heat(spx, vix, adj, members, spx * 0.98, vix * 1.2)
+        both = pd.concat([close, touch], axis=1).dropna()
+        self.assertTrue((both.iloc[:, 1] <= both.iloc[:, 0]).all())
+        self.assertTrue((both.iloc[:, 1] < both.iloc[:, 0]).any())
+
+
 class Study(unittest.TestCase):
     def test_end_to_end_with_a_panic_and_the_report(self):
         idx, adj = panel(n=1300, start='1999-06-01')
@@ -180,7 +205,8 @@ class Study(unittest.TestCase):
         vix = pd.Series(np.r_[np.full(700, 14.), np.full(120, 45.), np.full(480, 14.)], index=idx)
         rows = [(pd.Timestamp('1999-01-04'), list(adj.columns))]
         volume = pd.DataFrame(1e6, index=idx, columns=adj.columns)
-        result = ph.study(spx, vix, adj, adj, volume, rows, lambda t, d: None, start='2000-01-01')
+        result = ph.study(spx, vix, adj, adj, volume, rows, lambda t, d: None, start='2000-01-01',
+                          extremes=(spx * 0.99, vix * 1.1))
         self.assertGreaterEqual(result['signals'], 1)
         json.dumps(result, allow_nan=False)
         md = ph.report(result)
@@ -194,6 +220,9 @@ class Study(unittest.TestCase):
             self.assertLessEqual(len(result['levels'][deeper]['signals']), len(result['levels']['20']['signals']))
         self.assertIn('Buying deeper in the panic', md)
         self.assertIn('staged', result)
+        self.assertEqual(sorted(result['touch']), ['17', '20'])
+        self.assertGreaterEqual(len(result['touch']['20']['touch_signals']), 1)
+        self.assertIn('Touching the level intraday', md)
 
 
 if __name__ == '__main__':

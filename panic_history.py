@@ -78,6 +78,60 @@ def breadth_heat(spx, vix, close, members):
     return frame.mean(axis=1).where(frame.notna().sum(axis=1) >= 3)
 
 
+TOUCH_LEVELS = (20., 17.)
+
+
+def touch_heat(spx, vix, close, members, spx_low, vix_high):
+    """The thermometer at the day's worst moment, approximated from daily extremes: the S&P 500 low against its
+    averages and the VIX high (25 Nov 2026, the user's question: buy when the level is touched intraday). The two
+    extremes need not happen at the same time, so this is a lower bound of the intraday reading; breadth stays on
+    closes (no intraday lows for the members), which errs the other way."""
+    ma200, ma50 = spx.rolling(200).mean(), spx.rolling(50).mean()
+    low = spx_low.reindex(spx.index).where(lambda x: x > 0).fillna(spx)
+    high = vix_high.reindex(spx.index).ffill().fillna(vix.reindex(spx.index).ffill())
+    s200 = pb._clip(50 + 5 * 100 * (low / ma200 - 1))
+    s50 = pb._clip(50 + 10 * 100 * (low / ma50 - 1))
+    svix = pb._clip((40 - high) / 30 * 100)
+    sma = close.rolling(200).mean()
+    valid = sma.notna() & close.notna() & members
+    count = valid.sum(axis=1)
+    share = 100 * ((close > sma) & valid).sum(axis=1) / count.where(count >= 20)
+    frame = pd.concat([s200, s50, svix, share], axis=1)
+    return frame.mean(axis=1).where(frame.notna().sum(axis=1) >= 3)
+
+
+def touch_study(heat, touch, start, make_event, levels=TOUCH_LEVELS, gap=63):
+    """Buy at the close of the first day the level is touched intraday, against the current rule (the first close
+    under the level). Episodes: touch-only (no close under the level within `gap` sessions of the touch), and how
+    many sessions earlier the touch rule buys in shared episodes."""
+    out = {}
+    index = heat.index
+    for level in levels:
+        h, t = heat[heat.index >= pd.Timestamp(start)], touch[touch.index >= pd.Timestamp(start)]
+        closes = pb.signals(h, panic=level, gap=gap)[0]
+        touches = pb.signals(t, panic=level, gap=gap)[0]
+        only, earlier = [], []
+        for d in touches:
+            i = index.get_loc(d)
+            match = [c for c in closes if 0 <= index.get_loc(c) - i <= gap]
+            if match:
+                earlier.append(index.get_loc(match[0]) - i)
+            else:
+                only.append(str(d.date()))
+        events = [e for e in (make_event(d) for d in touches) if e]
+        base = [e for e in (make_event(d) for d in closes) if e]
+        out[f'{level:g}'] = dict(
+            touch_signals=[e['date'] for e in events], close_signals=[e['date'] for e in base],
+            touch_only=only, sessions_earlier=earlier,
+            touch=dict(summary={k: {b: v for b, v in c.items() if b in RISK or b == 'drawdown'}
+                                for k, c in summary(events, horizons=(252, LONG)).items()},
+                       long_exit=long_summary(events)),
+            close=dict(summary={k: {b: v for b, v in c.items() if b in RISK or b == 'drawdown'}
+                                for k, c in summary(base, horizons=(252, LONG)).items()},
+                       long_exit=long_summary(base)))
+    return out
+
+
 def drawdowns(adj):
     """Distance from each stock's own trailing ten-year high close (dividend-adjusted), and the date of that high."""
     high = adj.rolling(TEN_YEARS, min_periods=252).max()
@@ -351,7 +405,7 @@ def long_summary(events):
     return out
 
 
-def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
+def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extremes=None):
     index = spx.index[spx.index >= pd.Timestamp(start) - pd.Timedelta(days=400)]
     adj, split_close, volume = (f.reindex(index) for f in (adj, split_close, volume))
     spx, vix = spx.reindex(index), vix.reindex(index).ffill()
@@ -399,8 +453,14 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START):
             b = breadth_on(day, adj, dd, members, recent_high)
             if b:
                 checks[date] = dict(ours=b, scion=dict(members=n, broken=broken, busted=busted))
+    touch = None
+    if extremes is not None:
+        spx_low, vix_high = extremes
+        th = touch_heat(spx, vix, adj, members, spx_low.reindex(index), vix_high.reindex(index))
+        touch = touch_study(heat, th, start, lambda d: event(d, adj, split_close, volume, members, dd, recent_high,
+                                                             spx, heat, shares, horizons=(252, LONG)))
     last = heat.dropna()
-    return dict(schema='panic-history-v1', start=str(index[0].date()), end=str(index[-1].date()),
+    return dict(schema='panic-history-v1', touch=touch, start=str(index[0].date()), end=str(index[-1].date()),
                 signals=len(events), events=events, summary=summary(events), breadth_checks=checks,
                 long_exit=long_summary(events), delays=delays, levels=levels,
                 staged=dict(rows=staged_rows, summary=staged_summary(staged_rows)), staged_grid=staged_grid,
@@ -546,6 +606,35 @@ def report(result):
         lines += ['', f"Now ({result['end']}): {100 * now['broken']:.0f}% broken, {100 * now['busted']:.0f}% busted "
                   f"({now['busted_names']} names, {now['busted_fresh_high']} of them with a ten-year high set in the "
                   f"last two years); thermometer {result['last_heat']['value'] if result.get('last_heat') else '—'}."]
+    touch = result.get('touch')
+    if touch:
+        lines += ['## Touching the level intraday (any time of day) vs a close under it', '',
+                  'The touch thermometer uses the S&P 500 daily low and the VIX daily high (they need not coincide, so '
+                  'it overstates the intraday panic a little); breadth stays on closes. Both rules are bought the same '
+                  'way (next close after the signal day), so only the trigger differs. The touch fill in a live account '
+                  'would be at the moment of the touch, which daily data cannot price.', '',
+                  '| Level | Rule | Signals | Touch-only episodes | Earlier (sessions, median) | Mix 12 m mean / worst | '
+                  'Mix 42 m mean / worst | Mix 42 m then euphoria: mean / worst / beats S&P | Mix worst fall, 42 m |',
+                  '|---|---|---:|---:|---:|---|---|---|---:|']
+        for level, b in touch.items():
+            for rule in ('close', 'touch'):
+                blk = b[rule]
+                y1, y42 = blk['summary'].get('252') or {}, blk['summary'].get(str(LONG)) or {}
+                m1, m42 = y1.get('mix'), y42.get('mix')
+                d42 = (y42.get('drawdown') or {}).get('mix')
+                le = (blk.get('long_exit') or {}).get('mix')
+                n = len(b['touch_signals'] if rule == 'touch' else b['close_signals'])
+                early = sorted(b['sessions_earlier'])
+                lines.append(
+                    f"| < {level} | {'touch' if rule == 'touch' else 'close (current)'} | {n} | "
+                    f"{len(b['touch_only']) if rule == 'touch' else '—'} | "
+                    f"{early[len(early) // 2] if rule == 'touch' and early else '—'} | "
+                    f"{_pct(m1['mean']) + ' / ' + _pct(m1['worst']) if m1 else '—'} | "
+                    f"{_pct(m42['mean']) + ' / ' + _pct(m42['worst']) if m42 else '—'} | "
+                    f"{(_pct(le['mean']) + ' / ' + _pct(le['worst']) + ' / ' + str(le['beats_spx']) + '/' + str(blk['long_exit']['n'])) if le else '—'} | "
+                    f"{_pct(d42['worst']) if d42 else '—'} |")
+        lines += [''] + [f"Under {lv}: touch signals {', '.join(b['touch_signals']) or '—'}; touch-only "
+                         f"{', '.join(b['touch_only']) or '—'}" for lv, b in touch.items()] + ['']
     return '\n'.join(lines) + '\n'
 
 
@@ -607,6 +696,23 @@ def index_series(sleep=None, retries=RETRIES, pause=PAUSE):
     raise RuntimeError('Yahoo returned no S&P 500 / VIX history (rate limited?); keeping the previous results')
 
 
+def index_extremes(sleep=None, retries=RETRIES, pause=PAUSE):
+    """S&P 500 daily lows and VIX daily highs since 1988 for the intraday-touch study; None if Yahoo has none."""
+    import time
+    import yfinance as yf
+    sleep = sleep or time.sleep
+    for attempt in range(retries):
+        raw = yf.download(['^GSPC', '^VIX'], start='1988-01-01', auto_adjust=False, progress=False, threads=False,
+                          group_by='column')
+        low, high = raw['Low']['^GSPC'].dropna(), raw['High']['^VIX'].dropna()
+        if len(low) > 1000 and len(high) > 1000:
+            for s in (low, high):
+                s.index = s.index.tz_localize(None) if s.index.tz is not None else s.index
+            return low, high
+        sleep(pause * (attempt + 1))
+    return None
+
+
 class CachedShares:
     """Shares outstanding in today's split terms, with each ticker's share history and splits fetched once.
 
@@ -655,7 +761,15 @@ def main():
     if priced < 0.5 * len(tickers):
         raise RuntimeError(f'Only {priced} of {len(tickers)} tickers priced (rate limited?); keeping the previous '
                            'results')
-    result = study(spx, vix, data['adj'], data['split_close'], data['volume'], rows, CachedShares())
+    try:
+        extremes = index_extremes()
+    except Exception as exc:                     # the touch study is optional; the main results still publish
+        print(f'index extremes unavailable: {type(exc).__name__}')
+        extremes = None
+    if extremes is not None:
+        extremes = tuple(x[x.index < cutoff] for x in extremes)
+    result = study(spx, vix, data['adj'], data['split_close'], data['volume'], rows, CachedShares(),
+                   extremes=extremes)
     result['tickers_requested'] = len(tickers)
     result['tickers_priced'] = int(data['adj'].notna().any().sum())
     OUT_JSON.parent.mkdir(exist_ok=True)

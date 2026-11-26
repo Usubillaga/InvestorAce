@@ -8,9 +8,10 @@ Rule (the same as panic_backtest.weights_study tests):
   the previous one.
 * Buy: half the account in the ten largest S&P 500 holdings of SPY (Yahoo's top holdings), each in proportion
   to its index weight, and half in RSP (the equal-weight S&P 500 ETF), 10,000 USD, at a close after the signal, but only if the thermometer is still in panic shortly before that close
-  (the user's rule of 23 Nov 2026: check intraday before buying; no buy once the panic is over). At 20:40 UTC
-  (about 20 minutes before the US close) decide() rebuilds the thermometer with intraday prices and leaves a
-  pending order; the run after the close fills it at the close. Without panic before the close there is no
+  (the user's rule of 23 Nov 2026: check intraday before buying; no buy once the panic is over). Between 50 and
+  5 minutes before the close (16:00 New York, or 13:00 on early-close days) decide() rebuilds the thermometer
+  with intraday prices and leaves a pending order (the last check wins); about one hour after the open the
+  thermometer is only recorded (25 Nov 2026, the user's request), it places no order; the run after the close fills it at the close. Without panic before the close there is no
   order, and the next sessions are checked again while the episode lasts (63 sessions after its first panic
   close). 0.1% per side.
 * Sell: hold at least 42 months (882 sessions); then everything at the close after the first euphoria close
@@ -293,36 +294,77 @@ def run(latest=LATEST):
     print(json.dumps(dict(session=last, heat=heat.get(last), events=events), indent=1))
 
 
-def decide_run(latest=LATEST):
-    """20:40 UTC: the intraday thermometer decides whether today's close buys."""
-    import pandas as pd
-    now = pd.Timestamp.now(tz='America/New_York')
+def _fourth_thursday_of_november(year):
+    from datetime import date as _date
+    first = _date(year, 11, 1)
+    return first.toordinal() + (3 - first.weekday()) % 7 + 21
+
+
+def close_minutes(day):
+    """Regular NYSE close in New York minutes: 13:00 on the early-close days (the day after Thanksgiving,
+    24 December and 3 July when they are weekdays), otherwise 16:00. Full holidays are found by the data:
+    a day without a session never reaches a decision."""
+    from datetime import date as _date
+    day = _date.fromisoformat(str(day)[:10])
+    early = (day.toordinal() == _fourth_thursday_of_november(day.year) + 1
+             or (day.month, day.day) == (12, 24) or (day.month, day.day) == (7, 3))
+    return 13 * 60 if early and day.weekday() < 5 else 16 * 60
+
+
+OPEN_MINUTES = 9 * 60 + 30
+MORNING = (55, 90)            # minutes after the open: the morning reading (about one hour into the session)
+PRE_CLOSE = (50, 5)           # minutes before the close: the window in which the last check decides
+
+
+def window(now):
+    """'morning', 'pre-close' or None for a New York timestamp."""
     minutes = now.hour * 60 + now.minute
-    if not 15 * 60 + 10 <= minutes <= 15 * 60 + 55:          # only shortly before a regular 16:00 close
-        print(json.dumps(dict(now=now.isoformat(timespec='minutes'), decision='outside the pre-close window')))
+    close = close_minutes(now.date())
+    if close - PRE_CLOSE[0] <= minutes <= close - PRE_CLOSE[1]:
+        return 'pre-close'
+    if OPEN_MINUTES + MORNING[0] <= minutes <= OPEN_MINUTES + MORNING[1]:
+        return 'morning'
+    return None
+
+
+def decide_run(latest=LATEST, now=None, collect_fn=None):
+    """Intraday thermometer. About one hour after the open it is only recorded (the morning reading, no
+    order: the rule buys on the reading shortly before the close). Shortly before the close, the regular
+    16:00 or an early 13:00 close, it decides whether today's close buys."""
+    import pandas as pd
+    now = now or pd.Timestamp.now(tz='America/New_York')
+    when = window(now)
+    if when is None:
+        print(json.dumps(dict(now=now.isoformat(timespec='minutes'), decision='outside the morning and pre-close windows')))
         return None
-    sessions, heat, _, _ = collect(intraday=True)
+    sessions, heat, _, _ = (collect_fn or collect)(intraday=True)
     today = str(now.date())
     if not sessions or sessions[-1] != today:
         print(json.dumps(dict(today=today, decision='no session today')))
         return None
     heat_now = heat.get(today)
-    orders = {}
-    for name, _, path, state in _accounts():
-        orders[name] = decide(state, sessions[:-1][-130:], heat, today, heat_now)
-        Path(path).parent.mkdir(parents=True, exist_ok=True)
-        Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
-    order = orders
     try:
         snapshot = json.loads(Path(latest).read_text(encoding='utf-8'))
     except (OSError, ValueError):
         snapshot = {}
-    snapshot['intraday'] = dict(date=today, heat=heat_now, orders={k: bool(v) for k, v in orders.items()},
-                                order=any(orders.values()),
-                                checked_at=datetime.now(timezone.utc).isoformat(timespec='minutes'))
+    checked_at = datetime.now(timezone.utc).isoformat(timespec='minutes')
+    if when == 'morning':
+        levels = {name: level for name, level, _ in ACCOUNTS}
+        snapshot['morning'] = dict(date=today, heat=heat_now, checked_at=checked_at,
+                                   under={k: heat_now is not None and heat_now < v for k, v in levels.items()})
+        order = None
+    else:
+        orders = {}
+        for name, _, path, state in _accounts():
+            orders[name] = decide(state, sessions[:-1][-130:], heat, today, heat_now)
+            Path(path).parent.mkdir(parents=True, exist_ok=True)
+            Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
+        order = orders
+        snapshot['intraday'] = dict(date=today, heat=heat_now, orders={k: bool(v) for k, v in orders.items()},
+                                    order=any(orders.values()), checked_at=checked_at)
     Path(latest).parent.mkdir(parents=True, exist_ok=True)
     Path(latest).write_text(json.dumps(snapshot, indent=1) + '\n', encoding='utf-8')
-    print(json.dumps(dict(today=today, heat_now=heat_now, order=order), indent=1))
+    print(json.dumps(dict(today=today, check=when, heat_now=heat_now, order=order), indent=1))
     return order
 
 
@@ -346,8 +388,9 @@ def render(snapshot, states, backtest=None):
     bar = ''.join(f'<span style="background:{c}"></span>' for _, c in BAND_COLOURS)
     buy = h is not None and h < 20
     intraday = snapshot.get('intraday') or {}
+    morning = snapshot.get('morning') or {}
     status = (f'<b style="color:{YELLOW}">PANIC · buy signal</b>: the accounts buy at a following close if the '
-              'thermometer is still under their level (20 or 17) about 20 minutes before that close.' if buy else
+              'thermometer is still under their level (20 or 17) shortly before that close.' if buy else
               'No panic: the accounts do not buy. After a panic close they buy half the ten largest S&amp;P 500 '
               'companies by weight and half RSP (equal weight) at a following close, only if the thermometer is still '
               'under their level (20 or 17) shortly before it; they hold at least 42 months and then sell at the close '
@@ -376,6 +419,11 @@ def render(snapshot, states, backtest=None):
                 + ''.join(f' · under {k}: {"order" if v else "none"}' for k, v in (intraday.get('orders') or {}).items())
                 + '</p>'
                 if intraday.get('date') else '')
+             + (f'<p>Morning reading {escape(morning["date"])} ({escape(morning.get("checked_at", ""))} UTC, '
+                'about one hour after the open; recorded only, no order): thermometer '
+                f'{"—" if morning.get("heat") is None else format(morning["heat"], ".1f")}'
+                + ''.join(f' · under {k}: {"yes" if v else "no"}' for k, v in (morning.get('under') or {}).items())
+                + '</p>' if morning.get('date') else '')
              + f'<div style="margin-top:8px">Last 30 sessions: {recent}</div>'
              '<p class="muted">Rebuilt from closes without CNN Fear &amp; Greed, so it can differ slightly from the '
              'scoreboard\'s gauge. The industry bubble monitor is on the <a href="crash-monitor.html">crash '

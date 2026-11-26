@@ -2,6 +2,7 @@
 import json
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 
 import pandas as pd
@@ -214,6 +215,49 @@ class Cutoff(unittest.TestCase):
         self.assertEqual(il.session_cutoff(ny(12, 0)), pd.Timestamp('2026-11-23'))      # partial bar left out
         self.assertEqual(il.session_cutoff(ny(15, 40), intraday=True), pd.Timestamp('2026-11-24'))
         self.assertEqual(il.session_cutoff(ny(20, 41)), pd.Timestamp('2026-11-24'))
+
+
+class Windows(unittest.TestCase):
+    def test_close_time_and_check_windows(self):
+        ny = lambda day, h, m: pd.Timestamp(f'{day} {h:02d}:{m:02d}', tz='America/New_York')
+        self.assertEqual(il.close_minutes('2026-11-25'), 16 * 60)
+        self.assertEqual(il.close_minutes('2026-11-27'), 13 * 60)          # day after Thanksgiving
+        self.assertEqual(il.close_minutes('2027-11-26'), 13 * 60)
+        self.assertEqual(il.close_minutes('2026-12-24'), 13 * 60)
+        self.assertEqual(il.close_minutes('2026-07-03'), 13 * 60)
+        self.assertEqual(il.window(ny('2026-11-25', 15, 40)), 'pre-close')
+        self.assertIsNone(il.window(ny('2026-11-25', 15, 56)))
+        self.assertEqual(il.window(ny('2026-11-25', 10, 30)), 'morning')
+        self.assertIsNone(il.window(ny('2026-11-25', 12, 10)))
+        self.assertEqual(il.window(ny('2026-11-27', 12, 25)), 'pre-close')   # early close
+        self.assertIsNone(il.window(ny('2026-11-27', 15, 40)))               # the market is already closed
+
+    def test_morning_reading_records_without_an_order(self):
+        days = sessions(30)
+        today = days[-1]
+        heat = {d: 50. for d in days}
+        heat[days[20]] = 12.                                                 # an open panic episode
+        heat[today] = 15.
+        with tempfile.TemporaryDirectory() as tmp:
+            latest = Path(tmp) / 'latest.json'
+            accounts = []
+            for name, level, path in il.ACCOUNTS:
+                accounts.append((name, level, Path(tmp) / Path(path).name, il.fresh(days[0], level, name)))
+            collect = lambda intraday: (days, heat, None, None)
+            with unittest.mock.patch.object(il, '_accounts', return_value=accounts):
+                morning = pd.Timestamp(f'{today} 10:31', tz='America/New_York')
+                self.assertIsNone(il.decide_run(latest, now=morning, collect_fn=collect))
+                snap = json.loads(latest.read_text())
+                self.assertEqual(snap['morning']['heat'], 15.)
+                self.assertEqual(snap['morning']['under'], {'20': True, '17': True, '17-spcx-ant': True})
+                self.assertNotIn('intraday', snap)
+                self.assertTrue(all(state.get('pending') is None for *_, state in accounts))
+                close = pd.Timestamp(f'{today} 15:40', tz='America/New_York')
+                orders = il.decide_run(latest, now=close, collect_fn=collect)
+                self.assertTrue(all(orders.values()))
+                snap = json.loads(latest.read_text())
+                self.assertTrue(snap['intraday']['order'])
+                self.assertIn('Morning reading', il.render(snap, [(n, l, s) for n, l, _, s in accounts]))
 
 
 class Page(unittest.TestCase):
