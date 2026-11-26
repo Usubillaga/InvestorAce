@@ -345,7 +345,8 @@ def build_scan(record, *, as_of=None, notes=None, run_id=None, market=None, repo
             retrieved_at=raw.get('price_ts'), valuation={key: None for key in archived},
             archived_valuation=archived, regime_fit=output.get('regime', {}),
             source_status=source_valuation.get('status') or 'NOT_REVIEWED',
-            source_review_as_of=reviews.get('as_of'),
+            source_review_as_of=(source_valuation.get('reviewed_at') or source_review.get('reviewed_at')
+                                 or source_review.get('as_of') or reviews.get('as_of')) if source_review else None,
             source_reason=source_valuation.get('reason') or '',
             sources=_safe_sources(source_valuation.get('sources', []) + note.get('sources', [])),
             thesis=note.get('thesis') or '', counterargument=note.get('counterargument') or '',
