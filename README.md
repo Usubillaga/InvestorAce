@@ -4,6 +4,10 @@ Investment strategy with friends: a scoreboard of stocks scored on the
 InvestorAce framework (normalised gross value, EPV, WACC, risk, macro regime),
 rebuilt nightly and published to GitHub Pages.
 
+## Company research
+
+- 2026-11-26 · [Alantra Partners · sum-of-the-parts valuation and implied earnings](research/alantra-2026-11-26.md) (ES / EN / DE)
+
 ## Opportunity score v18
 
 The main report and the universe scanner now lead with a separate versioned
