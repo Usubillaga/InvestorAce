@@ -1,0 +1,27 @@
+{
+  "reviewer_role": "Quality analyst, separate source re-read",
+  "reviewed_at": "2026-11-25T07:40:40.281271+00:00",
+  "findings": [
+    {
+      "id": "FICO-financial-denominator",
+      "status": "support",
+      "evidence_url": "https://www.sec.gov/Archives/edgar/data/814547/000081454726000042/fico-20260930.htm",
+      "check": "Independently read cashflows lines1933-1936: FY2026USDthousands OCF1072065 less PPE2140 and capitalized software35550 =1034375. Cover line78 verifies21380929 outstandingOct23 excluding treasury. No cash common dividends sinceMay2017 explicitly atItem5 line1102. Sustainable/FCFE status still unverified.",
+      "calculation": 1034375
+    },
+    {
+      "id": "ENS-paid-vs-payable",
+      "status": "support",
+      "evidence_url": "https://investor.enersys.com/news/news-details/2026/EnerSys-Reports-Second-Quarter-Fiscal-Year-2027-Results/default.aspx",
+      "check": "Original announcement lines67-72 independently confirms0.2875 common, recordDec18/payDec31, and quarter FCF decline driven by prior-year federal tax refund. Six-month OCF372819 less24821=347998 is arithmetic proxy only.",
+      "calculation": 347998
+    },
+    {
+      "id": "ANT-zero-dividends-date",
+      "status": "support_with_locator_correction",
+      "evidence_url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074944/anthropicpbc-424b4.htm",
+      "check": "Dividend Policy explicitly never declared/paid cash dividends on capital stock as of prospectus. Notes separately say none throughSept30. Correct scope is dated prospectus, not Nov25 certification. Heading appears after printed129 and ends before printed130; use named Dividend Policy section to avoid ambiguous page129 reference.",
+      "open_gap": "Post-prospectus events and complete ownership/denominator remain unverified."
+    }
+  ]
+}

@@ -74,6 +74,20 @@ def _payment_amount(value):
         raise ValueError('Payment amounts must be finite nonnegative numbers or unknown')
 
 
+def _actual_payment(event, cutoff):
+    dates = {event[k] for k in ('actual_payment_date', 'actual_paid_date') if event.get(k) is not None}
+    status = event.get('status', event.get('payment_status'))
+    if not dates:
+        if status in ('PAID', 'PAYMENT_CONFIRMED'):
+            raise ValueError('A confirmed payment requires its evidenced actual date')
+        return
+    if len(dates) != 1 or _date(dates.pop()) > cutoff:
+        raise ValueError('Actual cash payment dates conflict or postdate the monitoring cutoff')
+    if status != 'PAYMENT_CONFIRMED':
+        raise ValueError('An actual payment date needs a confirmed payment')
+    _url(event.get('payment_evidence_url'))
+
+
 def _monitoring_payments(monitoring, cutoff):
     """A declared payable date is not evidence of an actual cash payment."""
     payment = monitoring.get('next_common_payment')
@@ -84,11 +98,7 @@ def _monitoring_payments(monitoring, cutoff):
                      'ex_date', 'payable_date', 'actual_payment_date'):
             if payment.get(name) is not None:
                 _date(payment[name])
-        actual = payment.get('actual_payment_date')
-        if actual is not None and _date(actual) > cutoff:
-            raise ValueError('Actual cash payment postdates the monitoring cutoff')
-        if payment.get('status') == 'DECLARED_NOT_PAID' and actual is not None:
-            raise ValueError('An unpaid declaration cannot certify an actual payment')
+        _actual_payment(payment, cutoff)
         _payment_amount(payment.get('amount'))
         if payment.get('currency') is not None and (
                 not isinstance(payment['currency'], str) or not payment['currency'].strip()):
@@ -109,6 +119,46 @@ def _monitoring_payments(monitoring, cutoff):
                 check(item)
 
     check(monitoring.get('payments'))
+    for event in monitoring.get('payment_events', []):
+        _payment_amount(event.get('amount', event.get('amount_per_share')))
+        if event.get('payable_date') is not None:
+            _date(event['payable_date'])
+        _actual_payment(event, cutoff)
+
+
+def _calendar_checks(calendar, cutoff):
+    if not calendar:
+        return
+    if _date(calendar['as_of']) > cutoff:
+        raise ValueError('Calendar check postdates the register')
+    for row in calendar['issuers'].values():
+        urls = {s['url'] for s in row['sources']}
+        if not urls:
+            raise ValueError('Calendar checks require an inspected source')
+        for url in urls:
+            _url(url)
+            if any(ch.isspace() for ch in url):
+                raise ValueError('Calendar source URL contains whitespace')
+        hint = row.get('provider_earnings')
+        if hint:
+            _url(calendar['provider_archive'])
+            if hint.get('status') != 'UNCONFIRMED_BY_ISSUER' or _date(hint['date']) < _date(calendar['as_of']):
+                raise ValueError('Invalid unconfirmed provider earnings date')
+        for event in row['events']:
+            if event.get('status') not in {'DECLARED_SCHEDULED', 'INDICATIVE_SCHEDULE', 'APPROVED_SCHEDULED',
+                                           'PROPOSED', 'ISSUER_SCHEDULED', 'CONTRACTUAL_SCHEDULE'}:
+                raise ValueError('Calendar event requires its announcement or schedule status')
+            if event['source_url'] not in urls or not event.get('locator'):
+                raise ValueError('Calendar event requires a checked source and locator')
+            if event.get('date'):
+                if _date(event['date']) < _date(calendar['as_of']):
+                    raise ValueError('Historical event in forward calendar')
+            else:
+                date.fromisoformat(event['month'] + '-01')
+            _payment_amount(event.get('amount'))
+            _actual_payment(event, _date(calendar['as_of']))
+            if any(event.get(k) is not None for k in ('actual_payment_date', 'actual_paid_date')):
+                raise ValueError('A forward calendar does not establish a cash payment')
 
 
 def load(payload=None):
@@ -124,6 +174,7 @@ def load(payload=None):
         start, end, asof = (_date(doc[k]) for k in ('window_start', 'window_end', 'as_of'))
         if not start <= end <= asof:
             raise ValueError('Invalid source review window')
+        _calendar_checks(doc.get('calendar_checks'), asof)
         for ticker, entry in doc['entries'].items():
             if not isinstance(ticker, str) or not ticker or not entry['issuer'] or not entry['listing']:
                 raise ValueError('Review requires an issuer and listing')
@@ -487,6 +538,33 @@ def _sources(sources):
                              f'rel="noopener">{escape(s["title"])}</a>' for s in sources)
 
 
+def _payment_list(monitoring):
+    events = list(monitoring.get('payment_events', []))
+    if monitoring.get('next_common_payment'):
+        events.append(monitoring['next_common_payment'])
+    facts = {}
+    for event in events:
+        actual = event.get('actual_payment_date') or event.get('actual_paid_date')
+        day = actual or event.get('payable_date')
+        if not day:
+            continue
+        kind = event.get('security') or event.get('event_type') or event.get('kind') or 'common'
+        kind = kind.lower().replace('_dividend', '').replace('_', ' ')
+        amount = event.get('amount', event.get('amount_per_share'))
+        currency = event.get('currency') or ''
+        status = 'Payment confirmed' if actual else 'Scheduled payable date'
+        instrument = ' '.join(filter(None, (event.get('issuer'), kind)))
+        value = '' if amount is None else f' · {amount:g} {currency}'
+        key = (day, status, instrument, amount, currency)
+        item = '<b>' + escape(status) + '</b>' + escape(f' · {day} · {instrument}{value}')
+        if actual:
+            item += ' · ' + _sources([dict(url=event['payment_evidence_url'], title='Payment evidence')])
+        facts.setdefault(key, item)
+    if not facts:
+        return ''
+    return '<ul>' + ''.join('<li>' + item + '</li>' for item in facts.values()) + '</ul>'
+
+
 def panel(rows, reviews):
     entries = {t: e for t, e in reviews['entries'].items() if t in rows}
     intro = (f'{len(entries)} of {len(rows)} tickers have a dated review entry; '
@@ -512,7 +590,7 @@ def panel(rows, reviews):
                                f'Next check: {escape(monitoring.get("next_check_date") or "UNKNOWN")}. '
                                + escape(monitoring['gap']) + '</p><p>'
                                + escape(monitoring.get('summary', '')) + '</p><p>'
-                               + _sources(monitoring['sources']) + '</p>')
+                               + _sources(monitoring['sources']) + '</p>' + _payment_list(monitoring))
         events = []
         for tx in insider['transactions']:
             code = tx['code']
@@ -550,6 +628,34 @@ def panel(rows, reviews):
                     + f'<p><b>Insider coverage: {escape(insider["status"])}</b><br>'
                     + escape(insider['reason']) + '</p><p>' + escape(limits) + '</p><p>'
                     + _sources(insider['sources']) + '</p>' + table + monitoring_html + '</details>')
+    calendar = reviews.get('calendar_checks') or {}
+    calendar_rows = []
+    for ticker, row in sorted(calendar.get('issuers', {}).items()):
+        if ticker not in rows:
+            continue
+        events = []
+        for event in row['events']:
+            amount = '' if event.get('amount') is None else f' · {event["amount"]:g} {event["currency"]}'
+            kind = {'common': 'common dividend', 'preferred': 'preferred dividend',
+                    'fund': 'fund distribution'}.get(event['kind'], event['kind'].replace('_', ' '))
+            label = ' · '.join((event.get('date') or event['month'], kind,
+                                event['status'].replace('_', ' ').lower()))
+            events.append(escape(label + amount))
+        if row.get('provider_earnings'):
+            hint = row['provider_earnings']
+            archive = escape(calendar['provider_archive'], quote=True)
+            events.append(escape(hint['date']) + f' · earnings · <a href="{archive}">provider date</a>, '
+                          'awaiting issuer confirmation')
+        calendar_rows.append('<tr><td>' + escape(ticker) + '</td><td>'
+                             + ('<br>'.join(events) or 'Next date unconfirmed')
+                             + '</td><td>' + _sources(row['sources']) + '</td></tr>')
+    calendar_html = ''
+    if calendar_rows:
+        calendar_html = ('<details><summary>Additional issuer and fund calendars · ' + escape(calendar['as_of'])
+                         + '</summary><p>A payable date is a scheduled event. An unknown date can still '
+                           'be announced later.</p><div class="tw"><table><thead><tr><th>Listing</th>'
+                           '<th>Announced events</th><th>Sources checked</th></tr></thead><tbody>'
+                         + ''.join(calendar_rows) + '</tbody></table></div></details>')
     return ('<section class="box"><h2>Source and insider review</h2><p>' + intro + '</p>'
             f'<p>Register assembled as of {escape(reviews["as_of"])}; '
             'individual review dates and transaction windows are shown per issuer. '
@@ -557,4 +663,4 @@ def panel(rows, reviews):
             'withholding, gifts and employee fund subscriptions are shown separately. '
             'Quantities can refer to different security or fund-unit types; read each filing. '
             'Unknown or incomplete coverage is not evidence of no activity. No motive is inferred.</p>'
-            + ''.join(body) + '</section>')
+            + calendar_html + ''.join(body) + '</section>')

@@ -15,22 +15,29 @@ ROOT = Path(__file__).parent
 BASE = '194f3291951e3c617b3c292f7506327350c3ec59'
 BASE_ENTRIES = ["CRM","ASML","SAN","WKL","LVMH","ENB","UNH","NFLX","NVDA","PFE","LULU","DVN","ZTS","AR","OXY","ENG","VICI","GOOGL","SMCI","PG","APP","SPGI","ISRG","PL","REP","WIX","BYRN","AWK","BABA","BNTX","GRAB","IBST","CRWV","MRNA","NBIS","OPEN","RIVN","AVGO","O","RCAT","SPCX","TEM","JEQE","VOW3","MELI","INTU","VNT","ALLE","ADT"]
 BASE_PROJECTION_SHA256 = 'c8e2fbe4cb401ea2ef8a4c2df18c2cba24ca9308aac82fa5f3d818d0be68bc91'
-ADDED_AFTER_BUILD = {'VIS', 'JD', 'BIDU', 'FPS', 'ORCL'}
 SELECTED = ('VNT', 'ALLE', 'ADT', 'OXY', 'CRWV', 'ALC', 'ALM', 'AMD', 'ANT', 'B')
 
 
 class DatedBatch(unittest.TestCase):
     def test_only_monitoring_changes_and_old_dates_survive(self):
         new = source_review.load((ROOT / 'source_reviews.json').read_text())
-        projection = copy.deepcopy(new)
-        projection['entries'] = {t: projection['entries'][t] for t in BASE_ENTRIES}
-        projection['as_of'] = '2026-11-22'      # later issuers (VIS, 25 Nov) move only the register cutoff
+        # The hash covers the November 23 register envelope. Compare current
+        # issuer fields against it while allowing later, independently dated calendars.
+        archive = ROOT / 'history/runs/20261125T060416260690-22422c486bb94c3d9f83d74343db38c2.json'
+        baseline = json.loads(archive.read_text())['_source_reviews']
+        projection = {k: v for k, v in baseline.items() if k != 'entries'}
+        projection['entries'] = {t: copy.deepcopy(new['entries'][t]) for t in BASE_ENTRIES}
+        for ticker in BASE_ENTRIES:
+            self.assertEqual(source_review.entry_dates(new['entries'][ticker], new),
+                             source_review.entry_dates(baseline['entries'][ticker], baseline))
         for value in projection['entries'].values():
             value.pop('monitoring', None)
         digest = hashlib.sha256(json.dumps(projection,sort_keys=True,separators=(',',':')).encode()).hexdigest()
         self.assertEqual(digest,BASE_PROJECTION_SHA256)
         for key in SELECTED:
-            m = new['entries'][key]['monitoring']
+            entry = new['entries'][key]
+            m = next(item for item in [entry['monitoring'], *entry.get('monitoring_history', [])]
+                     if item['as_of'] == '2026-11-23')
             self.assertEqual(m['as_of'], '2026-11-23')
             self.assertEqual(m['coverage'], 'PARTIAL')
             self.assertTrue(m['gap'])
@@ -45,8 +52,7 @@ class DatedBatch(unittest.TestCase):
             value.pop('monitoring', None)
         build = evidence.current_build(ROOT / 'history')
         rows = copy.deepcopy(build['record']['_evidence']['inputs'])
-        self.assertLessEqual(set(rows), set(e.DATA))
-        self.assertLessEqual(set(e.DATA) - set(rows), ADDED_AFTER_BUILD)   # not yet in the latest build
+        self.assertEqual(set(rows), set(e.DATA))
         macro = copy.deepcopy(build['record']['_evidence']['macro'])
         def capture(register):
             with patch.object(e.SOURCE_REVIEW, 'load', return_value=register):

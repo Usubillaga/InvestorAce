@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import copy
 from datetime import datetime, timezone
+from functools import partial
 from urllib.parse import quote as urlquote
 
 import assessment
@@ -131,11 +132,11 @@ def _total(frame, key, columns):
     return sum(vals) if vals and all(v is not None for v in vals) else None
 
 
-def _cash(frame, columns):
+def _cash(frame, columns, *, allow_reported=True):
     ocf = _total(frame, 'operating_cash_flow', columns)
     capex = [_value(frame, 'capex', c) for c in columns]
     capex = sum(abs(x) for x in capex) if capex and all(x is not None for x in capex) else None
-    reported = _total(frame, 'fcf', columns)
+    reported = _total(frame, 'fcf', columns) if allow_reported else None
     fcf = ocf - capex if ocf is not None and capex is not None else reported
     return ocf, capex, fcf
 
@@ -158,7 +159,7 @@ def _material_discontinued(amounts, net_income, operating_cash):
     return large(amounts['discontinued_income'], net_income) or large(cash, operating_cash)
 
 
-def _equity_row(cf, income, balance, dates, basis):
+def _equity_row(cf, income, balance, dates, basis, *, allow_reported=True):
     """Only create metadata when the provider actually discloses a claim/scope row.
 
     A material discontinued business moves the window to continuing operations
@@ -175,9 +176,9 @@ def _equity_row(cf, income, balance, dates, basis):
     amounts = {key: _event_total(income if key == 'discontinued_income' else cf, key, dates)
                for key in ('discontinued_income',) + DISCONTINUED_CASH}
     discontinued = any(v not in (None, 0.) for v in amounts.values())
-    if all(x is None for x in (paid, deduction, common, outstanding)) and not discontinued:
+    if allow_reported and all(x is None for x in (paid, deduction, common, outstanding)) and not discontinued:
         return None
-    ocf, capex, reported = _cash(cf, dates)
+    ocf, capex, reported = _cash(cf, dates, allow_reported=allow_reported)
     net_income, revenue = _total(income, 'net_income', dates), _total(income, 'revenue', dates)
     material = discontinued and _material_discontinued(amounts, net_income, ocf)
     scope = earnings_scope = 'REPORTED'
@@ -313,6 +314,46 @@ def no_dividend(info):
     return rate == 0 and not paid
 
 
+def _corpay_requires_cash_components(symbol, as_of):
+    # Apply the issuer-definition review from its cutoff; old as-of replays
+    # still use the published model's generic provider fallback.
+    return symbol == 'CPAY' and as_of >= datetime(2026, 11, 25, 9, tzinfo=timezone.utc)
+
+
+def corpay_cash_facts(facts, *, as_of):
+    """Rebuild cached Corpay cash proxies from same-window statement components."""
+    if not _corpay_requires_cash_components(facts.get('symbol'), as_of):
+        return facts
+
+    def cash_proxy(row):
+        ocf, capex = (finite_number(row.get(key)) for key in ('operating_cash_flow', 'capex'))
+        return ocf - abs(capex) if ocf is not None and capex is not None else None
+
+    inputs = dict(facts.get('inputs') or {})
+    rows = [dict(row) for row in facts.get('equity_periods') or []]
+    current_key = (facts.get('financial_period'), facts.get('basis'))
+    for row in rows:
+        if (row['period'], row['basis']) == current_key and row.get('scope', 'REPORTED') == 'REPORTED':
+            # Caches can have the complete pair only in one representation.
+            # Only copy an entire same-window pair on the same perimeter.
+            if cash_proxy(inputs) is None and cash_proxy(row) is not None:
+                inputs.update(operating_cash_flow=row['operating_cash_flow'], capex=row['capex'])
+            elif cash_proxy(row) is None and cash_proxy(inputs) is not None:
+                row.update(operating_cash_flow=inputs['operating_cash_flow'], capex=inputs['capex'])
+        row['reported_fcf'] = cash_proxy(row)
+    fcf = cash_proxy(inputs)
+    annual = {row['period']: row['reported_fcf'] for row in rows if row['basis'] == 'FY'}
+    if facts.get('basis') == 'FY':
+        annual[facts.get('financial_period')] = fcf
+    return dict(facts, inputs=dict(inputs, fcf=fcf), equity_periods=rows, common_equity_basis=None,
+                annual_fcf_series=[dict(row, value=annual.get(row['period']))
+                                   for row in facts.get('annual_fcf_series') or []],
+                # calculate derives growth from the matching annual equity rows.
+                annual_fcf_growth_pct=None,
+                cash_flow_calculation='OCF_MINUS_ABS_CAPEX' if fcf is not None
+                                      else 'CASH_COMPONENTS_UNAVAILABLE')
+
+
 def extract(ticker, symbol, *, as_of):
     """Collect an atomic financial packet; fiscal dates are not publication dates."""
     try:
@@ -325,17 +366,23 @@ def extract(ticker, symbol, *, as_of):
         ('qbalance', 'quarterly_balance_sheet'))}
     cf, income = frames['cf'], frames['income']
     qcf, qi = frames['qcf'], frames['qincome']
+    allow_reported = not _corpay_requires_cash_components(symbol, as_of)
+    cash = partial(_cash, allow_reported=allow_reported)
     quarterly = sorted(set(qcf.columns).intersection(qi.columns), reverse=True) if qcf is not None and qi is not None else []
     quarter_dates = quarterly[:4]
     complete = len(quarter_dates) == 4 and all(60 <= (a-b).days <= 120
                                                 for a, b in zip(quarter_dates, quarter_dates[1:]))
-    if complete and _cash(qcf, quarter_dates)[2] is not None:
+    if complete and cash(qcf, quarter_dates)[2] is not None:
         selected_cf, selected_income, dates, basis = qcf, qi, quarter_dates, 'TTM'
     else:
         annual = sorted(set(cf.columns).intersection(income.columns), reverse=True) if cf is not None and income is not None else []
         selected_cf, selected_income, dates, basis = cf, income, annual[:1], 'FY'
+        if not allow_reported and complete and cash(cf, dates)[2] is None:
+            # Keep current earnings and available cash components observable
+            # even when neither the TTM nor the fiscal year has a cash proxy.
+            selected_cf, selected_income, dates, basis = qcf, qi, quarter_dates, 'TTM'
     end = dates[0] if dates else None
-    ocf, capex, fcf = _cash(selected_cf, dates)
+    ocf, capex, fcf = cash(selected_cf, dates)
     values = {key: _total(selected_income, key, dates) for key in
               ('revenue', 'operating_income', 'net_income', 'ebitda')}
     values.update(operating_cash_flow=ocf, capex=capex, fcf=fcf,
@@ -352,7 +399,8 @@ def extract(ticker, symbol, *, as_of):
                     if b is not None and end is not None and end in b.columns), None)
     values.update({key: _value(balance, key, end) for key in ('debt', 'cash', 'liabilities')})
     equity_rows = []
-    current_equity = _equity_row(selected_cf, selected_income, balance, dates, basis)
+    current_equity = _equity_row(selected_cf, selected_income, balance, dates, basis,
+                                 allow_reported=allow_reported)
     if current_equity:
         if dividends_basis == 'PROVIDER_ZERO_TRAILING_DIVIDEND':
             # This is a sourced common-share zero, independent of preferred cash.
@@ -360,7 +408,7 @@ def extract(ticker, symbol, *, as_of):
         equity_rows.append(current_equity)
     if cf is not None:
         for c in cf.columns[:5]:
-            row = _equity_row(cf, income, frames['balance'], [c], 'FY')
+            row = _equity_row(cf, income, frames['balance'], [c], 'FY', allow_reported=allow_reported)
             if row and (row['period'], row['basis']) != ((current_equity or {}).get('period'), basis):
                 equity_rows.append(row)
     shares = positive_number(info.get('sharesOutstanding'))
@@ -382,8 +430,8 @@ def extract(ticker, symbol, *, as_of):
     if whole is not None and share_basis == 'YAHOO_CURRENT_SNAPSHOT_UNDATED':
         shares, share_basis = whole, 'ALL_CLASSES_MIN_IMPLIED_DILUTED'
     values['shares'] = shares
-    previous_cf = _cash(cf, [cf.columns[1]])[2] if cf is not None and len(cf.columns) > 1 else None
-    latest_cf = _cash(cf, [cf.columns[0]])[2] if cf is not None and len(cf.columns) else None
+    previous_cf = cash(cf, [cf.columns[1]])[2] if cf is not None and len(cf.columns) > 1 else None
+    latest_cf = cash(cf, [cf.columns[0]])[2] if cf is not None and len(cf.columns) else None
     annual_dates = list(cf.columns[:2]) if cf is not None else []
     comparable_fcf = (len(annual_dates) == 2 and 300 <= (annual_dates[0]-annual_dates[1]).days <= 400
                       and latest_cf is not None and previous_cf is not None and previous_cf > 0)
@@ -410,8 +458,9 @@ def extract(ticker, symbol, *, as_of):
         revenue_growth_periods=[c.date().isoformat() for c in list(income.columns[:2])] if income is not None else [],
         share_change_periods=[c.date().isoformat() for c in list(frames['balance'].columns[:2])]
             if frames['balance'] is not None else [],
-        cash_flow_calculation='OCF_MINUS_ABS_CAPEX' if ocf is not None and capex is not None else 'YAHOO_REPORTED_FCF',
-        annual_fcf_series=[dict(period=c.date().isoformat(), value=_cash(cf, [c])[2])
+        cash_flow_calculation=('OCF_MINUS_ABS_CAPEX' if ocf is not None and capex is not None
+                               else 'YAHOO_REPORTED_FCF' if allow_reported else 'CASH_COMPONENTS_UNAVAILABLE'),
+        annual_fcf_series=[dict(period=c.date().isoformat(), value=cash(cf, [c])[2])
                            for c in list(cf.columns[:5])] if cf is not None else [],
         annual_sbc_series=[dict(period=c.date().isoformat(), value=_value(cf, 'sbc', c))
                            for c in list(cf.columns[:5])] if cf is not None else [],
@@ -425,13 +474,29 @@ def extract(ticker, symbol, *, as_of):
                      for part in ('cash-flow', 'financials', 'balance-sheet', 'key-statistics')])
 
 
-def prefer_primary(provider, primary, *, as_of):
+def prefer_primary(provider, primary, *, as_of, perimeter_since=None):
     """Use a dated issuer packet, retaining live market data and later periods.
 
     Exact-year corrections remain authoritative when a provider advances to a
     later financial period. Neither source narrative nor analyst approval is
     treated as a numeric input.
     """
+    # After an accounting succession the same symbol and CIK can return the
+    # predecessor's statements, annual series, and beta. Keep market observations
+    # separately and admit only dated financials for the new reporting entity.
+    perimeter_since = perimeter_since or (primary or {}).get('perimeter_since')
+    if perimeter_since and as_of.date().isoformat() >= perimeter_since:
+        observed_period = provider.get('financial_period')
+        provider = {k: provider[k] for k in ('schema', 'symbol', 'currency', 'quote_price',
+            'quote_observed_at', 'quote_type', 'short_interest', 'earnings', 'last_earnings') if k in provider}
+        provider.update(awaiting_perimeter_packet=True, primary_warnings=[
+            'Financial inputs require issuer statements covering the separated company.'])
+        if not primary or primary.get('perimeter_since') != perimeter_since:
+            return provider
+        if observed_period and primary['financial_period'] < observed_period <= as_of.date().isoformat():
+            provider['unverified_financial_period'] = observed_period
+            provider['primary_warnings'].append(f'The {observed_period} report requires a new perimeter check.')
+            return provider
     if not primary:
         return provider
     ads = primary.get('depositary_shares')
@@ -492,6 +557,7 @@ def prefer_primary(provider, primary, *, as_of):
             result['inputs']['stock_based_compensation'] = (provider.get('inputs') or {}).get(
                 'stock_based_compensation')
         result['primary_current'] = True
+        result.pop('awaiting_perimeter_packet', None)
     for key in ('annual_fcf_series', 'annual_net_income_series', 'annual_revenue_series'):
         series = {item['period']: copy.deepcopy(item) for item in provider.get(key, [])}
         for item in primary.get(key, []):
@@ -567,6 +633,7 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
     coreweave = facts.get('symbol') == 'CRWV'
     if coreweave:
         facts = coreweave_financials.reconcile(facts, as_of)
+    facts = corpay_cash_facts(facts, as_of=as_of)
     facts = equity_basis.apply(facts, as_of=as_of)
     common_basis = facts.get('common_equity_basis') or {}
     current_common = common_basis.get('current')
@@ -579,6 +646,9 @@ def calculate(facts, *, quote=None, risk_free, mrp, as_of, cushion_tolerance=.5)
                         '(smaller of the market-value-implied and diluted average counts).')
     if facts.get('cash_flow_calculation') == 'YAHOO_REPORTED_FCF':
         warnings.append('OCF/capex bridge unavailable; cash flow uses Yahoo reported Free Cash Flow.')
+    if facts.get('cash_flow_calculation') == 'CASH_COMPONENTS_UNAVAILABLE':
+        warnings.append('Corpay uses free cash flow as a name for adjusted net income. '
+                        'Valuation requires operating cash flow and cash capital spending for the same window.')
     currency, financial_currency = facts.get('currency'), facts.get('financial_currency')
     factor = 1. if currency and financial_currency and currency == financial_currency else None
     if currency == 'GBp' and financial_currency == 'GBP':

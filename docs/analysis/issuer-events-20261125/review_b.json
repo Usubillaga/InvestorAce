@@ -1,0 +1,11 @@
+{
+ "reviewer":"source_b round2 risk review of source_a evidence",
+ "scope":["CPAY","CLX","CSCO"],
+ "checks":[
+  {"issuer":"CPAY","status":"supported","claim":"Issuer free cash flow terminology differs from OCF less PPE cashcapex","source":"https://investor.corpay.com/news-releases/news-release-details/corpay-reports-third-quarter-financial-results-0/","locator":"Non-GAAP definition lines142-145 and cashflow lines261-264","ref":"turn608947963view0 / turn608947963view1","test":"Read actual definition and both statement rows. 716283 -143382 =572901 USD thousand. This derived9M proxy is separate from issuer adjusted-net-income label. Do not import latter as FCFE or certified TTM."},
+  {"issuer":"CLX","status":"supported","claim":"Future declared common dividend must remain unpaid status","source":"https://investors.thecloroxcompany.com/news/news-details/2026/Clorox-Declares-Regular-Quarterly-Dividend-of-1-25-Per-Share-553801cb4/default.aspx","locator":"Declaration paragraph lines39-41","ref":"turn307821528view2","test":"Actual original Nov17 declaration states1.25USD, payableFeb12 2027, recordJan27 close. No actual cash payment claimed. Ex-date correctly unknown."},
+  {"issuer":"CSCO","status":"supported","claim":"Quarterly paid common aggregate differs from future Jan20 payable","source":"https://investor.cisco.com/news/news-details/2026/CISCO-REPORTS-FIRST-QUARTER-EARNINGS/default.aspx","locator":"Declaration lines69-71; Capital Allocation line100; cashflow441; dividends-paid table554-556","ref":"turn307821528view1 / turn608947963view2","test":"Read original. Cashflow/common payout table confirms1654mUSD during quarter endedOct24. Future0.42USD Jan20 2027 recordJan4 remains DECLARED_NOT_PAID with actual day null. 4357-502=3855m reported quarterly proxy, no sustainable TTM inference."}
+ ],
+ "objections":[],
+ "limitations":"Round2 source consistency check only. No independent economic normalization, rate or complete insider coverage certification. No repository edits."
+}
