@@ -12001,6 +12001,150 @@
           ]
         }
       }
+    },
+    "ORCL": {
+      "issuer": "Oracle Corporation",
+      "listing": "NYSE: ORCL (USD common stock)",
+      "as_of": "2026-11-25",
+      "insider": {
+        "status": "UNAVAILABLE",
+        "reason": "No transaction review in this valuation update.",
+        "sources": [],
+        "transactions": [],
+        "limitations": [
+          "No transaction review in this valuation update."
+        ]
+      },
+      "valuation": {
+        "status": "PARTIAL",
+        "reason": "Reported capex and preferred claims reconciled. The sustainable level of data-center investment and customer advances remains uncertain.",
+        "sources": [
+          {
+            "title": "Oracle FY2026 Form 10-K",
+            "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm"
+          },
+          {
+            "title": "Oracle Q1 FY2027 Form 10-Q",
+            "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm"
+          },
+          {
+            "title": "Oracle 2026 proxy, record-date common shares",
+            "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526402816/orcl-20260925.htm"
+          }
+        ],
+        "common_equity_bridge": {
+          "schema": "common-equity-bridge-v1",
+          "issuer_key": "ORCL",
+          "symbol": "ORCL",
+          "currency": "USD",
+          "units": "currency_units",
+          "required_scope": "REPORTED",
+          "preferred_claims_required": false,
+          "published_at": "2026-09-11T23:59:59+00:00",
+          "fetched_at": "2026-11-25T23:10:00+00:00",
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+            "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm"
+          ],
+          "periods": [
+            {
+              "period": "2026-08-31",
+              "basis": "TTM",
+              "scope": "REPORTED",
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+                "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm"
+              ],
+              "operating_cash_flow": 46940000000,
+              "capex": 75660000000,
+              "preferred_cash_paid": 144000000,
+              "preferred_earnings_deduction": 184000000,
+              "net_income": 18920000000,
+              "net_income_common": 18736000000,
+              "preferred_outstanding": 4954000000,
+              "revenue": 71776000000,
+              "common_dividends_paid": 5795000000
+            },
+            {
+              "period": "2026-05-31",
+              "basis": "FY",
+              "scope": "REPORTED",
+              "source_urls": [
+                "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+                "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm"
+              ],
+              "operating_cash_flow": 31977000000,
+              "capex": 55663000000,
+              "preferred_cash_paid": 63000000,
+              "preferred_earnings_deduction": 103000000,
+              "net_income": 17087000000,
+              "net_income_common": 16984000000,
+              "preferred_outstanding": 4954000000,
+              "revenue": 67357000000,
+              "common_dividends_paid": 5724000000
+            }
+          ]
+        },
+        "financial_packet": {
+          "schema": "dynamic-analysis-v1",
+          "symbol": "ORCL",
+          "currency": "USD",
+          "financial_currency": "USD",
+          "published_at": "2026-09-25T23:59:59+00:00",
+          "fetched_at": "2026-11-25T23:10:00+00:00",
+          "financial_period": "2026-08-31",
+          "basis": "TTM",
+          "period_ends": [
+            "2026-08-31",
+            "2026-05-31",
+            "2026-02-28",
+            "2025-11-30"
+          ],
+          "source_urls": [
+            "https://www.sec.gov/Archives/edgar/data/1341439/000119312526277521/orcl-20260531.htm",
+            "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm",
+            "https://www.sec.gov/Archives/edgar/data/1341439/000119312526402816/orcl-20260925.htm"
+          ],
+          "shares_basis": "ISSUER_PROXY_RECORD_DATE",
+          "shares_asof": "2026-09-21",
+          "revenue_growth_pct": 17.34873429850694,
+          "revenue_growth_periods": [
+            "2026-05-31",
+            "2025-05-31"
+          ],
+          "share_change_pct": 2.6006412540078294,
+          "share_change_periods": [
+            "2026-05-31",
+            "2025-05-31"
+          ],
+          "market_reference": {
+            "price": 103.88,
+            "currency": "USD",
+            "quote_observed_at": "2026-11-25T21:00:00+00:00",
+            "quote_url": "https://stockanalysis.com/stocks/orcl/history/"
+          },
+          "inputs": {
+            "revenue": 71776000000,
+            "operating_income": 23057000000,
+            "net_income": 18920000000,
+            "net_income_common": 18736000000,
+            "operating_cash_flow": 46940000000,
+            "capex": 75660000000,
+            "fcf": -28720000000,
+            "stock_based_compensation": 4814000000,
+            "depreciation": 10881000000,
+            "debt": 125337000000,
+            "cash": 36369000000,
+            "dividends": 5939000000,
+            "common_dividends_paid": 5795000000,
+            "shares": 3031501149
+          },
+          "cash_flow_calculation": "OCF_MINUS_CASH_PP_AND_E",
+          "primary_warnings": [
+            "TTM = FY26 + Q1 FY27 − Q1 FY26. Customer prepayments are included in OCF. Borrowings exclude separately presented operating leases. Common shares use the 21 September proxy record date."
+          ]
+        }
+      }
     }
   }
 }

@@ -1,0 +1,289 @@
+{
+  "schema_version": 1,
+  "issue_date": "2026-11-26",
+  "period_start": "2026-11-23",
+  "period_end": "2026-11-26",
+  "data_cutoff": "2026-11-26T08:40:46+01:00",
+  "translations": {
+    "de": {
+      "summary": "[Sicher] Die USA gingen mit mehr Schwung in den Herbst als bisher gemessen. Im Oktober gaben Haushalte dann mehr Dollar aus, ohne real mehr zu kaufen. Die Berichtsperiode beginnt nach 2026-11-23T08:52:01+01:00.",
+      "priority_review": "[Wahrscheinlich] Zwei Prüffragen für InvestorAce. Erholen sich reale Absatzmengen trotz steigender Vorleistungskosten? Welche vorgeschlagenen Zölle erreichen den Zolltarif und verändern die von Unternehmen ausgewiesenen Kosten?",
+      "items": [
+        {
+          "title": "Stärkeres Sommerquartal, stagnierender Konsum im Oktober",
+          "what_changed": "[Sicher] Am 25. November korrigierte das BEA das reale US-Wachstum im dritten Quartal von annualisiert 3,4% auf 4,3% gegenüber dem Vorquartal. Ausschlaggebend waren höhere Investitionen und Konsumausgaben. Laut separatem Oktoberbericht stiegen die nominalen Ausgaben um 0,3%, während der reale Konsum stagnierte. Gesamt- und Kernindex der PCE-Preise stiegen gegenüber September jeweils um 0,3%.",
+          "investorace_implication": "[Sicher] Am 25. November veröffentlichte der Handelsbeauftragte der Trump-Regierung Feststellungen zu 14 Volkswirtschaften einschließlich Chinas und der EU und schlug Maßnahmen nach Section 301 vor. Die Feststellungen sind amtlich. Zollsätze, erfasste Produkte und Starttermine hängen von der endgültigen Entscheidung ab.",
+          "review_question": "[Wahrscheinlich] Steigen die Importkosten, können Händler die Preise erhöhen und Absatz verlieren oder die Kosten zulasten ihrer Marge tragen. Hartnäckige Inflation begrenzt den Zinssenkungsspielraum der Fed. Das verteuert Refinanzierungen und mindert den heutigen Wert ferner Gewinne.",
+          "limitations": "[Vermutung] Anziehende Nachfrage bei schneller steigenden Preisen spräche für Reflation. Schwache Produktion bei anhaltendem Kostendruck spräche für Stagflation. Ein breiter Rückgang von Beschäftigung und Konsum würde das Rezessionsrisiko erhöhen. Nachlassender Preisdruck bei stabilem Absatz stützt ein Goldilocks-Szenario. Ein stagnierender Monat reicht zur Unterscheidung nicht aus.",
+          "source_url": "https://www.bea.gov/sites/default/files/2026-11/gdp3q26-2nd.pdf",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "Weniger Erstanträge lassen der Fed Zeit",
+          "what_changed": "[Sicher] Am 25. November meldete das Arbeitsministerium für die Woche bis 21. November 189 Tausend Erstanträge nach revidiert 202 Tausend. Das BLS meldete separat am 6. November für Oktober 4,1% Arbeitslosigkeit und 165 Tausend zusätzliche Stellen. Erstanträge erfassen Versicherungsanträge. Daraus lässt sich die aktuelle Arbeitslosenquote nicht ableiten.",
+          "investorace_implication": "[Sicher] Die Fed beließ das Zielband im Oktober bei 3,75%–4,00%. Die vom Weißen Haus unterstützte Genehmigungsreform passierte den Senat und wartete laut Bericht vom 25. November auf das Repräsentantenhaus. Der Demokrat Richard Neal wollte am 22. November Gesundheitszuschüsse wiederherstellen und Zölle prüfen. Beide Vorhaben erfordern weitere parlamentarische Entscheidungen.",
+          "review_question": "[Wahrscheinlich] Schnellere Genehmigungen können während des Baus Finanzierungskosten senken und nach Inbetriebnahme das Angebot erweitern. Gesundheitszuschüsse können Haushalte früher entlasten, brauchen aber öffentliche Mittel. Vergleichbar sind Kosten je entlastetem Haushalt, Kostenträger und Zeitpunkt der Entlastung. Gemessene Einsparungen stehen bei beiden Vorhaben aus.",
+          "limitations": "[Sicher] Die Finanzierungsfrist am 11. Dezember bleibt ein Haushaltsrisiko. [Wahrscheinlich] Eine Finanzierungslücke könnte staatliche Zahlungen verzögern. Höhere Kreditkosten belasten den Haushalt schrittweise, wenn Schulden fällig werden.",
+          "source_url": "https://www.dol.gov/sites/dolgov/files/OPA/newsreleases/ui-claims/20261732.pdf",
+          "publication_date": "2026-11-06 – 2026-11-25"
+        },
+        {
+          "title": "Neue EU-Beschränkungen erhöhen den Prüfaufwand für Exporteure",
+          "what_changed": "[Sicher] Am 25. November beschränkte der Rat den Handel mit 15 russischen Einrichtungen mit Verbindungen zum militärisch-industriellen Komplex. Europäischen Exporteuren drohen zusätzlich die vorgeschlagenen US-Zölle. Die EU-Maßnahme nennt einzelne Geschäftspartner. Der endgültige Umfang der US-Maßnahme ist offen.",
+          "investorace_implication": "[Wahrscheinlich] Ein Hersteller muss womöglich Kunden überprüfen oder einen Vertriebspartner ersetzen. Energieintensive Betriebe und Transportunternehmen sind besonders exponiert, wenn der Krieg die Brennstoffversorgung stört. Geben sie Mehrkosten weiter, sinkt die Kaufkraft der Haushalte. Die Listungen und der Zollvorschlag beziffern diesen Effekt nicht.",
+          "review_question": "[Sicher] Eurostat meldete am 18. November für Oktober eine Jahresinflation von 4,0% im Euroraum. Die EZB hielt den Einlagenzins am 29. Oktober bei 2,50%. Die Kommission prognostizierte am 17. November für 2027 ein Wachstum von 1,4% in der EU und 1,2% im Euroraum.",
+          "limitations": "[Sicher] Der EZB-Referenzkurs vom 25. November betrug 1 EUR = 1,0935 USD nach 1,0963 am 24. November. Der Euro verlor 0,26%, der Dollar gewann. Die übliche Beobachtung erfolgt gegen 14:10 MEZ. [Wahrscheinlich] Ein schwächerer Euro verteuert ungesicherte Dollarimporte und erhöht umgerechnete Dollarerlöse.",
+          "source_url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/25/russia-s-war-of-aggression-against-ukraine-eu-restricts-trade-with-15-entities-linked-to-russia-s-military-and-industrial-complex/",
+          "publication_date": "2026-10-29 – 2026-11-25"
+        },
+        {
+          "title": "Der Fiskalrat sieht selbst bei Umsetzung der Reform eine Lücke",
+          "what_changed": "[Sicher] Am 23. November schätzte der Fiskalrat CARF, dass die öffentliche Schuldenquote 2030 bei vollständiger Annahme des Rettungsgesetzes um 13,2 Prozentpunkte des BIP unter dem Szenario ohne Konsolidierung läge. Er hält weitere Maßnahmen für nötig. Die Schätzung vergleicht zwei Projektionen und setzt Zustimmung des Kongresses sowie Umsetzung voraus.",
+          "investorace_implication": "[Sicher] Frühere DANE-Berichte zeigen im dritten Quartal 0,5% reales BIP-Wachstum zum Vorjahr und saisonbereinigt 0,8% Rückgang zum Vorquartal, im September 8,0% Arbeitslosigkeit und im Oktober 6,30% Jahresinflation. Banrep hielt den Leitzins am 30. Oktober bei 12,25%. Am 25. November verurteilte Präsident De La Espriella einen Angriff, der eine Kirche in Dagua traf. Aus dem lokalen Vorfall lässt sich kein landesweiter Trend ableiten.",
+          "review_question": "[Sicher] Laut SFC gilt 1 USD = 3630,89 COP vom 26.–27. November aus Geschäften vom 25. November, nach 3592,03 am 25. November aus Geschäften vom 24. November. Der Dollar gewann 1,08% gegenüber dem Peso. Abgeleitet ergibt sich 1 EUR = 3970,38 COP (3630,89 × 1,0935), zuvor 3937,94 (3592,03 × 1,0963). Der Euro gewann 0,82% gegenüber dem Peso.",
+          "limitations": "[Wahrscheinlich] Ein schwächerer Peso verteuert importierte Vorleistungen und Dollarschulden für ungesicherte Unternehmen. [Sicher] Jeder Kreuzkurs verbindet den kolumbianischen Handelstagesdurchschnitt mit der EZB-Beobachtung gegen 14:10 MEZ desselben Tages. Die Beobachtungszeitpunkte unterscheiden sich.",
+          "source_url": "https://www.carf.gov.co/documents/d/guest/comunicado-40-proyecto-de-ley-de-rescate-economico",
+          "publication_date": "2026-10-30 – 2026-11-26"
+        }
+      ]
+    },
+    "es": {
+      "summary": "[Sicher] Estados Unidos llegó al otoño con más impulso del que se había medido. En octubre los hogares gastaron más dólares sin comprar más en términos reales. La cobertura comienza después de 2026-11-23T08:52:01+01:00.",
+      "priority_review": "[Wahrscheinlich] Dos preguntas para InvestorAce. ¿Se recuperan los volúmenes de venta pese al encarecimiento de insumos? ¿Qué aranceles propuestos llegan a las aduanas y modifican los costes declarados por las empresas?",
+      "items": [
+        {
+          "title": "Mayor crecimiento en verano y consumo estancado en octubre",
+          "what_changed": "[Sicher] El 25 de noviembre la BEA revisó el crecimiento real estadounidense del tercer trimestre del 3,4% al 4,3% trimestral anualizado, principalmente por inversión y consumo. Su informe separado de octubre registra un aumento del gasto nominal del 0,3% con consumo real estancado. Los precios PCE tanto generales como subyacentes subieron 0,3% frente a septiembre.",
+          "investorace_implication": "[Sicher] El 25 de noviembre el representante comercial de Trump publicó conclusiones sobre 14 economías, entre ellas China y la UE, y propuso medidas bajo la Sección 301. Las conclusiones son oficiales. Tasas, cobertura y fechas de aplicación dependen de la decisión definitiva.",
+          "review_question": "[Wahrscheinlich] Si suben los costes importados, los comercios pueden subir precios y perder volumen o absorber el coste con menores márgenes. La inflación persistente limita las bajadas de tipos de la Fed, encarece la refinanciación y reduce el valor presente de beneficios futuros.",
+          "limitations": "[Vermutung] Más demanda con precios en aceleración favorecería la reflación. Producción débil con inflación de costes persistente favorecería la estanflación. Caídas generalizadas del empleo y del gasto elevarían el riesgo de recesión. Precios moderándose con volúmenes estables apoyarían un escenario Goldilocks. Un mes plano no distingue estas trayectorias.",
+          "source_url": "https://www.bea.gov/sites/default/files/2026-11/gdp3q26-2nd.pdf",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "Menos solicitudes dan margen de espera a la Fed",
+          "what_changed": "[Sicher] El 25 de noviembre Trabajo comunicó 189 mil solicitudes iniciales de desempleo en la semana terminada el 21 de noviembre, frente a 202 mil revisadas. El BLS había comunicado el 6 de noviembre un desempleo de octubre del 4,1% y 165 mil empleos adicionales. Las solicitudes de seguro no permiten calcular la tasa de desempleo actual.",
+          "investorace_implication": "[Sicher] En octubre la Fed mantuvo el rango en 3,75%–4,00%. Según la información del 25 de noviembre, la reforma de permisos respaldada por la Casa Blanca pasó el Senado y esperaba a la Cámara. El demócrata Richard Neal planteó el 22 de noviembre restaurar subsidios sanitarios y examinar aranceles. Ambos programas requieren decisiones legislativas.",
+          "review_question": "[Wahrscheinlich] Agilizar permisos podría abaratar la financiación durante las obras y ampliar la oferta al entrar en servicio. Los subsidios podrían reducir antes las facturas familiares, pero requieren fondos públicos. Compárense coste por hogar beneficiado, quién paga y cuándo llega el beneficio. Aún faltan ahorros medidos en ambos casos.",
+          "limitations": "[Sicher] El plazo presupuestario del 11 de diciembre sigue siendo un riesgo fiscal. [Wahrscheinlich] Una interrupción podría retrasar pagos públicos. El encarecimiento de la deuda afecta progresivamente al presupuesto conforme vencen obligaciones.",
+          "source_url": "https://www.dol.gov/sites/dolgov/files/OPA/newsreleases/ui-claims/20261732.pdf",
+          "publication_date": "2026-11-06 – 2026-11-25"
+        },
+        {
+          "title": "Las restricciones europeas aumentan los controles para exportadores",
+          "what_changed": "[Sicher] El 25 de noviembre el Consejo restringió el comercio con 15 entidades rusas vinculadas al complejo militar-industrial. Los exportadores europeos también afrontan los aranceles estadounidenses propuestos. La medida europea identifica contrapartes concretas. El alcance definitivo estadounidense sigue abierto.",
+          "investorace_implication": "[Wahrscheinlich] Un fabricante podría tener que revisar clientes o sustituir distribuidores. Industrias intensivas en energía y transportistas son especialmente vulnerables si la guerra interrumpe el combustible. Trasladar costes erosiona el poder adquisitivo familiar. Las sanciones y la propuesta arancelaria no cuantifican ese efecto.",
+          "review_question": "[Sicher] Eurostat comunicó el 18 de noviembre inflación interanual de octubre del 4,0% en la eurozona. El BCE mantuvo el depósito en 2,50% el 29 de octubre. La Comisión proyectó el 17 de noviembre crecimiento en 2027 del 1,4% en la UE y 1,2% en la eurozona.",
+          "limitations": "[Sicher] Referencia BCE del 25 de noviembre, 1 EUR = 1,0935 USD frente a 1,0963 el 24 de noviembre. El euro perdió 0,26% y el dólar se apreció. Observación habitual hacia 14:10 CET. [Wahrscheinlich] Un euro débil encarece importaciones en dólares sin cobertura y eleva el contravalor de ingresos en dólares.",
+          "source_url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/25/russia-s-war-of-aggression-against-ukraine-eu-restricts-trade-with-15-entities-linked-to-russia-s-military-and-industrial-complex/",
+          "publication_date": "2026-10-29 – 2026-11-25"
+        },
+        {
+          "title": "El comité fiscal detecta una brecha incluso con la reforma",
+          "what_changed": "[Sicher] El 23 de noviembre el CARF estimó que aprobar íntegro el proyecto de rescate dejaría la deuda pública de 2030 en 13,2 puntos porcentuales del PIB por debajo del escenario sin ajuste. Aun así considera necesarias medidas adicionales. La comparación entre proyecciones depende de aprobación legislativa e implementación.",
+          "investorace_implication": "[Sicher] Datos anteriores del DANE sitúan el crecimiento real del tercer trimestre en 0,5% interanual con caída trimestral ajustada del 0,8%, desempleo de septiembre en 8,0% e inflación interanual de octubre en 6,30%. Banrep mantuvo el tipo en 12,25% el 30 de octubre. El 25 de noviembre el presidente De La Espriella condenó un ataque que afectó una iglesia en Dagua. El incidente local no establece tendencia nacional.",
+          "review_question": "[Sicher] Según SFC, 1 USD = 3630,89 COP, vigente el 26–27 de noviembre por operaciones del 25 de noviembre, frente a 3592,03 el 25 de noviembre por operaciones del 24 de noviembre. USD ganó 1,08% frente a COP. Cruce derivado, 1 EUR = 3970,38 COP (3630,89 × 1,0935), frente a 3937,94 (3592,03 × 1,0963). EUR ganó 0,82% frente a COP.",
+          "limitations": "[Wahrscheinlich] La depreciación encarece insumos importados y deuda en dólares para empresas sin cobertura. [Sicher] Cada cruce combina el promedio colombiano con la referencia del BCE hacia 14:10 CET de la misma fecha. Las observaciones no son simultáneas.",
+          "source_url": "https://www.carf.gov.co/documents/d/guest/comunicado-40-proyecto-de-ley-de-rescate-economico",
+          "publication_date": "2026-10-30 – 2026-11-26"
+        }
+      ]
+    }
+  },
+  "summary": "[Sicher] The US entered autumn with more momentum than previously measured. October households then spent more dollars without buying more in real terms. Coverage begins after 2026-11-23T08:52:01+01:00.",
+  "priority_review": "[Wahrscheinlich] Two checks matter for InvestorAce. Do real sales volumes recover as input costs rise? Which proposed duties reach customs schedules and change the costs companies actually report?",
+  "items": [
+    {
+      "title": "Stronger summer growth meets flat October consumption",
+      "what_changed": "[Sicher] On November 25 BEA revised third-quarter US real GDP growth from 3.4% to 4.3% at an annualised quarterly rate, chiefly on stronger investment and consumption. Its separate October report shows spending rose 0.3% in dollars while real spending was flat. Both headline and core PCE prices rose 0.3% from September.",
+      "investorace_implication": "[Sicher] On November 25 the Trump administration’s trade representative issued findings covering 14 economies, including China and the EU, and proposed action under Section 301. The findings are official. The eventual duties, coverage and start dates still depend on the final action.",
+      "review_question": "[Wahrscheinlich] If import costs rise, retailers can raise prices and risk losing volume, or absorb the increase in their margins. Persistent inflation would give the Fed less room to ease, raising refinancing costs and reducing the present value of distant earnings.",
+      "limitations": "[Vermutung] Renewed demand alongside faster price increases would favour reflation. Weak production with persistent cost inflation would favour stagflation. A broader fall in employment and spending would raise recession risk. Easing prices with steady volumes would support a Goldilocks scenario. One flat month cannot distinguish those paths.",
+      "source_url": "https://www.bea.gov/sites/default/files/2026-11/gdp3q26-2nd.pdf",
+      "publication_date": "2026-11-25",
+      "section": "regime",
+      "authors": "BEA, USTR",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "BEA: GDP (Second Estimate) and Corporate Profits, 3rd Quarter 2026",
+          "url": "https://www.bea.gov/sites/default/files/2026-11/gdp3q26-2nd.pdf",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "BEA: Personal Income and Outlays, October 2026",
+          "url": "https://www.bea.gov/sites/default/files/2026-11/pi1026.pdf",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "USTR: Determinations and proposed actions relating to structural excess capacity",
+          "url": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural",
+          "publication_date": "2026-11-25"
+        }
+      ]
+    },
+    {
+      "title": "Fewer initial jobless claims give the Fed room to wait",
+      "what_changed": "[Sicher] On November 25 the Labor Department reported 189 thousand initial claims for the week ending November 21, down from a revised 202 thousand. The separate November 6 BLS release put October unemployment at 4.1% and payroll growth at 165 thousand. Claims measure applications for insurance and cannot establish the current unemployment rate.",
+      "investorace_implication": "[Sicher] The October Fed decision kept the target at 3.75%–4.00%. In Congress, the White House-backed permitting bill cleared the Senate and awaited House action as reported November 25. Democrat Richard Neal’s November 22 agenda included restoring health subsidies and examining tariffs. Both programmes still face legislative decisions.",
+      "review_question": "[Wahrscheinlich] Faster permits can reduce financing costs during construction and expand supply once projects operate. Health subsidies can reduce household bills sooner, but require public funding. Compare the cost per household helped, who bears it and when the benefit arrives. Neither proposal yet provides a measured saving.",
+      "limitations": "[Sicher] The December 11 funding deadline remains a fiscal risk. [Wahrscheinlich] A funding lapse could delay government payments. Higher borrowing costs would affect the budget progressively as debt matures.",
+      "source_url": "https://www.dol.gov/sites/dolgov/files/OPA/newsreleases/ui-claims/20261732.pdf",
+      "publication_date": "2026-11-06 – 2026-11-25",
+      "section": "usa",
+      "authors": "Department of Labor, BLS, Federal Reserve, FT, Axios, USTR",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Department of Labor: Unemployment Insurance Weekly Claims",
+          "url": "https://www.dol.gov/sites/dolgov/files/OPA/newsreleases/ui-claims/20261732.pdf",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "BLS: The Employment Situation — October 2026",
+          "url": "https://www.bls.gov/news.release/archives/empsit_11062026.htm",
+          "publication_date": "2026-11-06"
+        },
+        {
+          "title": "Federal Reserve: Lisa D. Cook, The U.S. Economy in Global Context",
+          "url": "https://www.federalreserve.gov/newsevents/speech/cook20261120a.htm",
+          "publication_date": "2026-11-20"
+        },
+        {
+          "title": "Financial Times: Democrats will seek to unwind Trump’s tax and tariff policies",
+          "url": "https://www.ft.com/content/8af97161-2ae0-4655-9f8b-a560f9227359",
+          "publication_date": "2026-11-22"
+        },
+        {
+          "title": "Axios: House Dems recoil at government shutdown fight over Iran",
+          "url": "https://www.axios.com/2026/11/19/government-shutdown-funding-iran-democrat",
+          "publication_date": "2026-11-19"
+        },
+        {
+          "title": "Axios: Get ready for the House permitting showdown",
+          "url": "https://www.axios.com/2026/11/25/house-energy-permitting-bill-vote-schedule",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "USTR: Determinations and proposed actions relating to structural excess capacity",
+          "url": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural",
+          "publication_date": "2026-11-25"
+        }
+      ]
+    },
+    {
+      "title": "New EU restrictions add a compliance cost for exporters",
+      "what_changed": "[Sicher] On November 25 the Council restricted trade with 15 Russian entities linked to the military and industrial complex. European exporters also face the proposed US duties. The EU measure targets named counterparties. The eventual scope of the American measure remains open.",
+      "investorace_implication": "[Wahrscheinlich] A manufacturer may need to screen customers or replace a distributor. Energy-intensive firms and freight operators are particularly exposed if the war disrupts fuel supply. Passing higher costs to households reduces their purchasing power. Neither the listings nor the tariff proposal quantifies that effect.",
+      "review_question": "[Sicher] Eurostat reported October euro-area inflation of 4.0% annually on November 18. The ECB held its deposit rate at 2.50% on October 29. The Commission’s November 17 forecast projects 2027 growth of 1.4% for the EU and 1.2% for the euro area.",
+      "limitations": "[Sicher] ECB reference on November 25 was 1 EUR = 1.0935 USD against 1.0963 on November 24. The euro fell 0.26% and the dollar strengthened. The usual observation is around 14:10 CET. [Wahrscheinlich] A weaker euro raises unhedged dollar import costs and lifts the euro value of dollar revenues.",
+      "source_url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/25/russia-s-war-of-aggression-against-ukraine-eu-restricts-trade-with-15-entities-linked-to-russia-s-military-and-industrial-complex/",
+      "publication_date": "2026-10-29 – 2026-11-25",
+      "section": "eu",
+      "authors": "Council of the EU, Eurostat, European Commission, ECB, USTR",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "Council: EU restricts trade with 15 entities linked to Russia’s military and industrial complex",
+          "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/25/russia-s-war-of-aggression-against-ukraine-eu-restricts-trade-with-15-entities-linked-to-russia-s-military-and-industrial-complex/",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "Eurostat: Annual inflation up to 4.0% in the euro area — October 2026",
+          "url": "https://ec.europa.eu/eurostat/web/products-euro-indicators/w/2-18112026-ap",
+          "publication_date": "2026-11-18"
+        },
+        {
+          "title": "European Commission: Autumn 2026 Economic Forecast shows continued growth amid higher inflation",
+          "url": "https://economy-finance.ec.europa.eu/economic-forecast-and-surveys/economic-forecasts/autumn-2026-economic-forecast-shows-continued-growth-amid-higher-inflation_en",
+          "publication_date": "2026-11-17"
+        },
+        {
+          "title": "ECB: Monetary policy decisions",
+          "url": "https://www.ecb.europa.eu/press/pr/date/2026/html/ecb.mp261029~9a493adf17.en.html",
+          "publication_date": "2026-10-29"
+        },
+        {
+          "title": "ECB: USD reference observations, 24 and 25 November",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "USTR: Determinations and proposed actions relating to structural excess capacity",
+          "url": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural",
+          "publication_date": "2026-11-25"
+        }
+      ]
+    },
+    {
+      "title": "The fiscal watchdog identifies a gap even with reform",
+      "what_changed": "[Sicher] On November 23 CARF estimated that adopting the full rescue bill would leave the 2030 public debt ratio 13.2 percentage points of GDP below its no-adjustment scenario. It still saw a need for additional measures. The estimate compares two projections and depends on congressional approval and implementation.",
+      "investorace_implication": "[Sicher] Earlier DANE releases put third-quarter real GDP growth at 0.5% annually and a seasonally adjusted quarterly decline of 0.8%, September unemployment at 8.0% and October annual inflation at 6.30%. Banrep held its rate at 12.25% on October 30. On November 25 President De La Espriella condemned an attack that hit a church in Dagua. The local incident cannot establish a national trend.",
+      "review_question": "[Sicher] SFC quotes 1 USD = 3630.89 COP, valid November 26–27 from November 25 trades, versus 3592.03 valid November 25 from November 24 trades. USD gained 1.08% against COP. Derived 1 EUR = 3970.38 COP (3630.89 × 1.0935), versus 3937.94 (3592.03 × 1.0963). EUR gained 0.82% against COP.",
+      "limitations": "[Wahrscheinlich] Peso weakness makes imported inputs and dollar debt more expensive for unhedged firms. [Sicher] Each cross pairs the Colombian trading-day average with the ECB observation around 14:10 CET on the same date. The two prices are observed at different times.",
+      "source_url": "https://www.carf.gov.co/documents/d/guest/comunicado-40-proyecto-de-ley-de-rescate-economico",
+      "publication_date": "2026-10-30 – 2026-11-26",
+      "section": "colombia",
+      "authors": "CARF, Presidencia, DANE, Banco de la República, SFC, ECB",
+      "topics": [
+        "macro_regimes"
+      ],
+      "review": "framework",
+      "confidence": "Wahrscheinlich",
+      "sources": [
+        {
+          "title": "CARF: Comunicado 40 sobre el proyecto de Ley de Rescate Económico",
+          "url": "https://www.carf.gov.co/documents/d/guest/comunicado-40-proyecto-de-ley-de-rescate-economico",
+          "publication_date": "2026-11-23"
+        },
+        {
+          "title": "Presidencia: Presidente De La Espriella condena ataque que afectó una iglesia en Valle del Cauca",
+          "url": "https://www.presidencia.gov.co/prensa/Paginas/Presidente-De-La-Espriella-lanza-advertencia-a-terroristas-por-ataque-que-afecto-una-iglesia-en-el-Valle-20261125.aspx",
+          "publication_date": "2026-11-25"
+        },
+        {
+          "title": "DANE: Boletín técnico Producto Interno Bruto, tercer trimestre de 2026, preliminar",
+          "url": "https://www.dane.gov.co/files/operaciones/PIB/bol-PIB-IIItrim2026.pdf",
+          "publication_date": "2026-11-17"
+        },
+        {
+          "title": "DANE: Empleo y desocupación — septiembre de 2026",
+          "url": "https://www.dane.gov.co/estadisticas-por-tema/mercado-laboral/empleo-y-desempleo",
+          "publication_date": "2026-10-30"
+        },
+        {
+          "title": "DANE: Boletín técnico Índice de Precios al Consumidor — octubre de 2026",
+          "url": "https://www.dane.gov.co/files/operaciones/IPC/oct2026/bol-IPC-oct2026.pdf",
+          "publication_date": "2026-11-09"
+        },
+        {
+          "title": "Minutas BanRep: La Junta Directiva decidió mantener inalterada la tasa de interés de política en 12,25%",
+          "url": "https://banrep.gov.co/es/noticias/junta-directiva/minutas-banrep-octubre-2026",
+          "publication_date": "2026-11-05"
+        },
+        {
+          "title": "SFC: TRM histórica vigente el 25 y el 26 de noviembre",
+          "url": "https://www.datos.gov.co/resource/mcec-87by.json?%24where=vigenciadesde+between+%272026-11-24T00%3A00%3A00%27+and+%272026-11-26T00%3A00%3A00%27",
+          "publication_date": "2026-11-26"
+        },
+        {
+          "title": "ECB: USD reference observations, 24 and 25 November",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "publication_date": "2026-11-25"
+        }
+      ]
+    }
+  ]
+}
