@@ -334,7 +334,7 @@ DATA = {
 'FSLR': dict(name='First Solar', yf='FSLR', fcf=None, shares=107.0, r=.090, cur='USD', deliver=-4.0,
     deliver_basis='REVENUE_PROXY', dl='net sales YoY', sub=(4,8.5,1,7.5,7.5,1), pr=None, dil=6.5, clock='CLOCK',
     ins='NOT CHECKED', held=False, sector='Semis', built='exact', sanity=(60,600),
-    na='H1 2026 free cash flow -$640m (OCF -$360m, capex -$280m). And the margin is policy: Section 45X credits decline after 2029.'),
+    na='9M 2026 (10-Q): operating cash -$402.7m after a $1,285.8m build of unsold Section 45X credits (government grants receivable $1,874.9m at 30 Sep 2026; no 2026 credit sales), capex -$434.7m. Excluding that build the 9M cash after capex was about $448m. The margin is policy: Section 45X credits decline after 2029.'),
 'SITE': dict(name='SiteOne Landscape Supply', yf='SITE', fcf=250.2, shares=43.66, r=.080, cur='USD', deliver=5.2, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,6.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(45.03,337.12)),
 'TSLA': dict(name='Tesla', yf='TSLA', fcf=5755.0, shares=3949.55, r=0.08, cur='USD', deliver=6.1, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,8.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(148.69,997.66)),
 'PG'  : dict(yf='PG', fcf=15147.0, shares=2324.43, r=0.08, cur='USD', deliver=3.3, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(4.0,7.5,7.5,7.0,5.0,7.5), pr=None, dil=7.0, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Defensive', built='auto', sanity=(68.81,334.5)),
