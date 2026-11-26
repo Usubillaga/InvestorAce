@@ -20,6 +20,8 @@ The inherited 128-calendar inventory is the pinned `source_reviews.json#/calenda
 
 ## Financial and growth boundaries
 
+The separately read original January–September2026 results (October22, CNMV PDF, printed p7) confirm **EUR25.1m common cash dividends paid in June2026**, distinct from EUR99.7m repurchases. The exact payment day is unknown. Latest source period September30 does not relabel the unchanged FY2025 model packet. Reported investment of EUR54.2m is not treated as cash capex without a cashflow statement; matched current/prior9M cashflows and FY/TTM bridge remain open.
+
 No numeric valuation input is replaced. Existing subjective categories, approval status, growth basis, rates and ticker mappings stay intact.
 
 - VIS FY2025 reported OCF EUR195.369m less cash PPE EUR80.447m = EUR114.922m; model subtracts EUR6.775m SBC to EUR108.147m. This source proxy does not certify sustainable common FCFE. Gross issued shares including treasury cannot replace the dated net denominator automatically.

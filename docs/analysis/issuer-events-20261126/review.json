@@ -1,7 +1,7 @@
 {
   "mode": "live",
-  "as_of": "2026-11-26T08:01:57.801743+00:00",
-  "run_at": "2026-11-26T08:01:57.801743+00:00",
+  "as_of": "2026-11-26T08:08:58.126591+00:00",
+  "run_at": "2026-11-26T08:08:58.126591+00:00",
   "max_quote_age_hours": 96,
   "evidence": [
     {
@@ -75,6 +75,14 @@
       "retrieved_at": "2026-11-26T07:53:06.143884+00:00",
       "status": "verified",
       "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "VIS-9M",
+      "locator": "https://www.cnmv.es/webservices/verdocumento/ver?t=%7Ba427be2c-3513-47fe-8d7a-5bbe1b8af0d0%7D # Printed p7 net bank debt/shareholder return paragraphs; p2 revenue and EBITDA; no complete cashflow statement in release",
+      "published_at": "2026-10-22T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T08:07:49.025162+00:00",
+      "status": "verified",
+      "timestamp_precision": "Date-only publication represented by conservative end-of-day bound"
     }
   ],
   "methodology": null,
@@ -84,10 +92,11 @@
       "ticker": "VIS",
       "severity": "major",
       "status": "open",
-      "claim": "Cash election totals, net treasury shares after execution, sustainable cash flow and full CNMV manager coverage remain open. Direct issuer pages failed; actual issuer PDFs were read via CNMV.",
+      "claim": "New9M2026 release read; a full current/prior9M cashflow statement and matched FY/TTM bridge are not established. Cash election totals, net treasury shares after execution, sustainable cash flow and full CNMV manager coverage remain open.",
       "owner": "source-review",
       "evidence_ids": [
-        "VIS-0"
+        "VIS-0",
+        "VIS-9M"
       ],
       "affected_metric_ids": [
         "VIS-sustainable-ngv"
@@ -168,10 +177,10 @@
           "name": "ngv",
           "value": null,
           "unit": "EUR/share",
-          "period": "2025-12-31",
+          "period": "2026-09-30",
           "basis": "Sustainable common-equity cash flow/rate not certified by this source update",
           "price_dependent": false,
-          "reason": "Cash election totals, net treasury shares after execution, sustainable cash flow and full CNMV manager coverage remain open. Direct issuer pages failed; actual issuer PDFs were read via CNMV."
+          "reason": "New9M2026 release read; a full current/prior9M cashflow statement and matched FY/TTM bridge are not established. Cash election totals, net treasury shares after execution, sustainable cash flow and full CNMV manager coverage remain open."
         }
       ],
       "decision": "blocked_review",

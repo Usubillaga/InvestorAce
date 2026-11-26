@@ -18,6 +18,10 @@ class NovemberPaymentEvidence(unittest.TestCase):
         self.assertEqual((vis['record_date'], vis['election_end'], vis['payable_date']),
                          ('2026-11-26', '2026-12-09', '2026-12-21'))
         self.assertIsNone(vis['actual_payment_date'])
+        paid = issuers['VIS']['payments']['prior_common_payment']
+        self.assertEqual((paid['amount'], paid['unit'], paid['actual_payment_month']),
+                         (25100000, 'EUR aggregate', '2026-06'))
+        self.assertIsNone(paid['actual_payment_date'])
         payx = issuers['PAYX']['payment']
         self.assertEqual(payx['status'], 'PAYABLE_PASSED_ACTUAL_NOT_VERIFIED')
         self.assertIsNone(payx['actual_payment_date'])
