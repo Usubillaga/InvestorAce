@@ -52,11 +52,15 @@ SETUP = {'20': dict(capital=CAPITAL, currency='USD', basket_spec=MIX),
                              basket_spec=(('top10', .35), (EQUAL_WEIGHT, .35), ('SPCX', .15), ('ANT', .15)),
                              basket='35% the ten largest S&P 500 holdings by weight, 35% RSP, 15% SpaceX (SPCX), '
                                     '15% Anthropic (ANT)'),
-         # The fourth account (user's request, 26 Nov 2026): the account under 20, but it buys only while bond-market
-         # stress is not high, the MOVE index at most 15 points above its three-year mean (3Fourteen's VIX & MOVE
-         # chart). Experimental: in the panic study the five buys with MOVE above +15 all beat the S&P 500 after
-         # 42 months (+60% on average), so this filter would have skipped them.
-         '20-move': dict(capital=CAPITAL, currency='USD', basket_spec=MIX, move_max=15.)}
+         # The fourth account (user's request, 26 Nov 2026): buys under 20, but only while bond-market stress is not
+         # high, the MOVE index at most 15 points above its three-year mean (3Fourteen's VIX & MOVE chart), and with
+         # 15% SpaceX and 15% Anthropic like the third account (user's request the same day, before any buy).
+         # Experimental: in the panic study the five buys with MOVE above +15 all beat the S&P 500 after 42 months
+         # (+60% on average), so this filter would have skipped them; SpaceX and Anthropic have no backtest.
+         '20-move': dict(capital=CAPITAL, currency='USD', move_max=15.,
+                         basket_spec=(('top10', .35), (EQUAL_WEIGHT, .35), ('SPCX', .15), ('ANT', .15)),
+                         basket='35% the ten largest S&P 500 holdings by weight, 35% RSP, 15% SpaceX (SPCX), '
+                                '15% Anthropic (ANT)')}
 MOVE_WINDOW = 756               # three years of sessions
 FIRST_START = '2026-11-20'      # both accounts watch the panic that began on 20 Nov 2026 (buys only via decide())
 RULES = dict(basket='half the ten largest S&P 500 holdings by weight, half RSP', min_hold=MIN_HOLD,
@@ -83,11 +87,21 @@ def _fx(prices, day):
     return series[max(known)] if known else None
 
 
-def upgrade(state, level):
+def upgrade(state, level, name=None):
     """Bring an account written under the earlier rule to the current one; only allowed while it holds nothing."""
     if state.get('schema') == 'index-leaders-v2':
         state.setdefault('currency', 'USD')                  # accounts written before the euro account existed
         state.setdefault('basket_spec', [list(x) for x in MIX])
+        setup = SETUP.get(name) if name else None
+        spec = [list(x) for x in setup['basket_spec']] if setup else None
+        if spec and state['basket_spec'] != spec and not state['positions'] and not state.get('pending'):
+            # a flat account follows a later change of its basket (26 Nov 2026: SpaceX and Anthropic in the MOVE
+            # account); an account that holds or has an order keeps the basket it bought with
+            state['basket_spec'] = spec
+            if setup.get('basket'):
+                state['basket'] = setup['basket']
+            state.setdefault('rule_changes', []).append(dict(date=datetime.now(timezone.utc).date().isoformat(),
+                                                             change='basket: ' + (setup.get('basket') or str(spec))))
         return state
     if state.get('positions'):
         raise ValueError('cannot change the rule of an account that holds positions')
@@ -305,7 +319,7 @@ def load(path=STATE, start=None, level=20., name=None):
 
 def _accounts(start=FIRST_START):
     for name, level, path in ACCOUNTS:
-        yield name, level, path, upgrade(load(path, start=start, level=level, name=name), level)
+        yield name, level, path, upgrade(load(path, start=start, level=level, name=name), level, name)
 
 
 def run(latest=LATEST):
@@ -442,7 +456,7 @@ def render(snapshot, states, backtest=None):
              'panic: under 20 and under 17 with half the ten largest S&amp;P 500 companies weighted as in the index '
              'and half RSP (equal weight), a third under 17 that adds 15% SpaceX and 15% Anthropic (25,000 EUR, '
              'no backtest), and a fourth under 20 that buys only while bond stress is not high (MOVE at most 15 '
-             'points above its 3-year mean; experimental). All hold at least 42 months, then sell after the first close in extreme euphoria (80 or '
+             'points above its 3-year mean) with the same 15% SpaceX and 15% Anthropic (10,000 USD; experimental). All hold at least 42 months, then sell after the first close in extreme euphoria (80 or '
              'more). The backtest since 2000 found falls of up to 57% while held. Paper '
              'only; not advice.</div>',
              '<div class="box pulse-thermo"><h2>Thermometer</h2>'
@@ -502,7 +516,7 @@ ACCOUNT_STYLE = {'20': ('#f5d000', 'Buys under 20', ''),
                  '17': ('#ff9d2e', 'Buys under 17', ''),
                  '17-spcx-ant': ('#b57bff', 'Buys under 17 · SpaceX + Anthropic',
                                  'No backtest · the user\'s conviction'),
-                 '20-move': ('#2ec4b6', 'Buys under 20 · only if MOVE ≤ +15',
+                 '20-move': ('#2ec4b6', 'Buys under 20 · only if MOVE ≤ +15 · SpaceX + Anthropic',
                              'Experimental · backtest: the filter would have skipped 5 winners')}
 CARD_CSS = '''
 .acc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0}

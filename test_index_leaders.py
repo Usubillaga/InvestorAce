@@ -277,6 +277,17 @@ class MoveAccount(unittest.TestCase):
         self.assertNotIn('move_max', plain)
         self.assertIsNotNone(il.decide(plain, days[:-1], heat, today, 15., move_now=22.))  # other accounts ignore it
 
+    def test_flat_move_account_takes_the_new_basket(self):
+        state = il.fresh('2026-11-20', 20., '20-move')
+        self.assertEqual([x[0] for x in state['basket_spec']], ['top10', il.EQUAL_WEIGHT, 'SPCX', 'ANT'])
+        old = dict(state, basket_spec=[list(x) for x in il.MIX])
+        il.upgrade(old, 20., '20-move')
+        self.assertEqual(old['basket_spec'], state['basket_spec'])
+        self.assertIn('SpaceX', old['rule_changes'][-1]['change'])
+        held = dict(state, basket_spec=[list(x) for x in il.MIX], positions={'AAA': dict(shares=1, entry=1.)})
+        il.upgrade(held, 20., '20-move')
+        self.assertEqual(held['basket_spec'], [list(x) for x in il.MIX])    # an account that holds keeps its basket
+
     def test_move_excess_and_page(self):
         idx = pd.bdate_range('2021-01-04', periods=900)
         move = pd.Series(100., index=idx)
