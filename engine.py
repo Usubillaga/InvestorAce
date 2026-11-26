@@ -334,6 +334,13 @@ DATA = {
 'FSLR': dict(name='First Solar', yf='FSLR', fcf=None, shares=107.0, r=.090, cur='USD', deliver=-4.0,
     deliver_basis='REVENUE_PROXY', dl='net sales YoY', sub=(4,8.5,1,7.5,7.5,1), pr=None, dil=6.5, clock='CLOCK',
     ins='NOT CHECKED', held=False, sector='Semis', built='exact', sanity=(60,600),
+    cash_scenario=dict(name='unsold Section 45X credits counted as cash at the 2025 sale price', basis='TTM',
+        period='2026-09-30', add=854.2,
+        note=('Government grants receivable rose from $980.4m (30 Sep 2025) to $1,874.9m (30 Sep 2026), a $894.5m '
+              'net build of credits generated but not yet sold or refunded; counted at 95.5%, the price of the '
+              'October 2025 sale ($668.2m for $699.7m of credits).'),
+        sources=['https://www.sec.gov/Archives/edgar/data/1274494/000127449426000212/fslr-20260930.htm',
+                 'https://www.sec.gov/Archives/edgar/data/1274494/000127449425000082/fslr-20250930.htm']),
     na='9M 2026 (10-Q): operating cash -$402.7m after a $1,285.8m build of unsold Section 45X credits (government grants receivable $1,874.9m at 30 Sep 2026; no 2026 credit sales), capex -$434.7m. Excluding that build the 9M cash after capex was about $448m. The margin is policy: Section 45X credits decline after 2029.'),
 'SITE': dict(name='SiteOne Landscape Supply', yf='SITE', fcf=250.2, shares=43.66, r=.080, cur='USD', deliver=5.2, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,6.0,5.0,6.0), pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Industrials', built='auto', sanity=(45.03,337.12)),
 'TSLA': dict(name='Tesla', yf='TSLA', fcf=5755.0, shares=3949.55, r=0.08, cur='USD', deliver=6.1, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=(5.5,4.0,6.0,8.0,5.0,1.0), pr=None, dil=0.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', sanity=(148.69,997.66)),
@@ -1049,6 +1056,10 @@ def opportunity(d, *, regime, as_of=None, weights=None):
             d, regime=regime, spec=spec, as_of=as_of, weights=weights)
     result['price_thresholds'] = (None if result.get('withdrawn') else
         OPPORTUNITY.price_thresholds(d, regime=regime, spec=spec, as_of=as_of, weights=weights))
+    if d.get('cash_scenario') and not result.get('withdrawn'):
+        scenario = OPPORTUNITY.cash_scenario(d, regime=regime, spec=spec, as_of=as_of, weights=weights)
+        if scenario:
+            result['cash_scenario'] = scenario
     return result
 
 
