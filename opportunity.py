@@ -387,6 +387,44 @@ def cash_flow_sensitivity(row, **context):
     return scenarios
 
 
+def cash_scenario(row, **context):
+    """A dated issuer cash scenario shown next to the label, never in it (26 Nov 2026, First Solar's unsold
+    Section 45X credits). The row's cash_scenario adds `add` (financial currency, millions) to the valuation cash
+    flow of exactly one reporting window; another window is not rolled forward and returns None."""
+    spec = row.get('cash_scenario')
+    dynamic = row.get('dynamic_analysis') or {}
+    if not spec or dynamic.get('financial_period') != spec.get('period') or dynamic.get('basis') != spec.get('basis'):
+        return None
+    inputs = dynamic.get('inputs') or {}
+    old = positive_number(inputs.get('valuation_fcf'))
+    add = finite_number(spec.get('add'))
+    if old is None or add is None:
+        return None
+    new = old + add * 1e6
+    if new <= 0:
+        return None
+    k = new / old
+    shocked = copy.deepcopy(row)
+    shocked.pop('cash_scenario', None)
+    packet = shocked['dynamic_analysis']
+    packet['inputs']['valuation_fcf'] = new
+    for key in ('fcf_yield_pct', 'cover_pct'):
+        if finite_number(packet['metrics'].get(key)) is not None:
+            packet['metrics'][key] *= k
+    if positive_number((packet.get('valuation') or {}).get('ngv_per_share')):
+        packet['valuation']['ngv_per_share'] *= k
+    priced = _at_price(shocked, row.get('price'))
+    if priced is None:
+        return None
+    result = assess(priced, **context)
+    thresholds = price_thresholds(priced, **context)
+    return dict(name=spec.get('name'), add=add, period=spec['period'], basis=spec['basis'],
+                label=result.get('label'), score=result.get('score'),
+                fcf_yield_pct=priced['dynamic_analysis']['metrics'].get('fcf_yield_pct'),
+                buy=thresholds.get('buy'), strong_buy=thresholds.get('strong_buy'),
+                sources=list(spec.get('sources') or []))
+
+
 def _blocker(result):
     """Why no price reaches Buy: the non-price condition that fails at 30% of the quote."""
     reasons = []

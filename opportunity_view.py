@@ -180,6 +180,13 @@ def decision_context(item):
         text += ' A model cap limits the label.'
     for scenario in item.get('cash_flow_sensitivity', []):
         text += f" Midcycle cash flow {scenario['change']:+d}%: {scenario['label'] or 'Incomplete'}."
+    cs = item.get('cash_scenario')
+    if cs:
+        text += (f" Scenario, not the label: {cs['name']} ({cs['basis']} to {cs['period']}): "
+                 f"{cs['label'] or 'Incomplete'}"
+                 + (f", score {cs['score']:.2f}" if cs.get('score') is not None else '')
+                 + (f", FCF yield {cs['fcf_yield_pct']:.1f}%" if cs.get('fcf_yield_pct') is not None else '')
+                 + (f", Buy up to {cs['buy']:.2f}" if cs.get('buy') else ', no Buy price') + '.')
     return '<p data-opportunity-field="decision-context">'+escape(text)+'</p>'
 
 
