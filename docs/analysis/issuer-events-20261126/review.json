@@ -1,0 +1,295 @@
+{
+  "mode": "live",
+  "as_of": "2026-11-26T08:01:57.801743+00:00",
+  "run_at": "2026-11-26T08:01:57.801743+00:00",
+  "max_quote_age_hours": 96,
+  "evidence": [
+    {
+      "id": "VIS-0",
+      "locator": "https://www.boe.es/diario_borme/txt.php?id=BORME-C-2026-6315 # Sections 4-6, 13; 38 rights, record date, 1.434 cash option, matched treasury redemption",
+      "published_at": "2026-11-24T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:53:05.743068+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "VIS-1",
+      "locator": "https://www.cnmv.es/webservices/verdocumento/ver?t=%7b9fa54a5e-c933-4d36-8517-a765d124b50a%7d # Printed pp7-8 cash option on 21 December; election window",
+      "published_at": "2026-11-12T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:54:19.722813+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "VIS-2",
+      "locator": "https://www.cnmv.es/webservices/verdocumento/ver?t=%7b4ac1c2d7-bf7d-455e-af5e-b664bc7be81a%7d # Signed November20; final amount1.434 and rights ratio38",
+      "published_at": "2026-11-20T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:54:19.434919+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "JD-0",
+      "locator": "https://ir.jd.com/news-releases/news-release-details/jdcom-announces-third-quarter-2026-results # Cash Flow and Working Capital TTM table; CECONOMY closing paragraph",
+      "published_at": "2026-11-17T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:53:04.862944+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "JD-1",
+      "locator": "https://ir.jd.com/node/12206 # CFO statement: annual dividend completed in April",
+      "published_at": "2026-05-12T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:52:35.289785+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "BIDU-0",
+      "locator": "https://ir.baidu.com/news-releases/news-release-details/baidu-announces-third-quarter-2026-results # Corporate dividend policy paragraph; FCF reconciliation and ADS ratio",
+      "published_at": "2026-11-16T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:53:05.351768+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "FPS-0",
+      "locator": "https://ir.forgentpower.com/sec-filings/all-sec-filings/content/0002080126-26-000046/fps-20260930.htm # Cashflow p4; Note15 p18 tax distributions; cover November5 share classes",
+      "published_at": "2026-11-12T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:53:05.101027+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "PAYX-0",
+      "locator": "https://investor.paychex.com/news-events/press-releases/detail/855/paychex-declares-quarterly-dividend # Declaration paragraph, USD1.19 due November25, record October26",
+      "published_at": "2026-10-15T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:53:05.636954+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    },
+    {
+      "id": "PAYX-1",
+      "locator": "https://investor.paychex.com/sec-filings/all-sec-filings/content/0000723531-26-000006/payx-20260831.htm # Cash-flow dividends paid424.1m; equity dividends423.6m; period August31",
+      "published_at": "2026-09-24T23:59:59+00:00",
+      "retrieved_at": "2026-11-26T07:53:06.143884+00:00",
+      "status": "verified",
+      "timestamp_precision": "Conservative end-of-day upper bound when only publication date is available; exact hour not asserted"
+    }
+  ],
+  "methodology": null,
+  "issues": [
+    {
+      "id": "VIS-bridge",
+      "ticker": "VIS",
+      "severity": "major",
+      "status": "open",
+      "claim": "Cash election totals, net treasury shares after execution, sustainable cash flow and full CNMV manager coverage remain open. Direct issuer pages failed; actual issuer PDFs were read via CNMV.",
+      "owner": "source-review",
+      "evidence_ids": [
+        "VIS-0"
+      ],
+      "affected_metric_ids": [
+        "VIS-sustainable-ngv"
+      ]
+    },
+    {
+      "id": "JD-bridge",
+      "ticker": "JD",
+      "severity": "major",
+      "status": "open",
+      "claim": "Gross cash capex, CNY743m consumer-finance adjustment, parent cash and post-November12 CECONOMY consolidation need reconciliation. Full HKEX director coverage not obtained.",
+      "owner": "source-review",
+      "evidence_ids": [
+        "JD-0"
+      ],
+      "affected_metric_ids": [
+        "JD-sustainable-ngv"
+      ]
+    },
+    {
+      "id": "BIDU-bridge",
+      "ticker": "BIDU",
+      "severity": "major",
+      "status": "open",
+      "claim": "Expected declaration is not a declared dividend. Consolidated cashflow, capital investment, ADS denominator and HKEX director window remain partial.",
+      "owner": "source-review",
+      "evidence_ids": [
+        "BIDU-0"
+      ],
+      "affected_metric_ids": [
+        "BIDU-sustainable-ngv"
+      ]
+    },
+    {
+      "id": "FPS-bridge",
+      "ticker": "FPS",
+      "severity": "major",
+      "status": "open",
+      "claim": "Deferred revenue/customer advances, TRA, OpCo distributions and economic-interest cash flow remain unresolved. Full SEC ownership/document reconciliation is partial.",
+      "owner": "source-review",
+      "evidence_ids": [
+        "FPS-0"
+      ],
+      "affected_metric_ids": [
+        "FPS-sustainable-ngv"
+      ]
+    },
+    {
+      "id": "PAYX-bridge",
+      "ticker": "PAYX",
+      "severity": "major",
+      "status": "open",
+      "claim": "Actual November payment remains unverified. Paycor/client-fund perimeter, matched TTM, dated shares and full insider document adjudication are incomplete.",
+      "owner": "source-review",
+      "evidence_ids": [
+        "PAYX-0"
+      ],
+      "affected_metric_ids": [
+        "PAYX-sustainable-ngv"
+      ]
+    }
+  ],
+  "issuers": [
+    {
+      "ticker": "VIS",
+      "currency": "EUR",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "pass",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "VIS-sustainable-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "EUR/share",
+          "period": "2025-12-31",
+          "basis": "Sustainable common-equity cash flow/rate not certified by this source update",
+          "price_dependent": false,
+          "reason": "Cash election totals, net treasury shares after execution, sustainable cash flow and full CNMV manager coverage remain open. Direct issuer pages failed; actual issuer PDFs were read via CNMV."
+        }
+      ],
+      "decision": "blocked_review",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "JD",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "pass",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "JD-sustainable-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "2026-09-30",
+          "basis": "Sustainable common-equity cash flow/rate not certified by this source update",
+          "price_dependent": false,
+          "reason": "Gross cash capex, CNY743m consumer-finance adjustment, parent cash and post-November12 CECONOMY consolidation need reconciliation. Full HKEX director coverage not obtained."
+        }
+      ],
+      "decision": "blocked_review",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "BIDU",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "pass",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "BIDU-sustainable-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "2026-09-30",
+          "basis": "Sustainable common-equity cash flow/rate not certified by this source update",
+          "price_dependent": false,
+          "reason": "Expected declaration is not a declared dividend. Consolidated cashflow, capital investment, ADS denominator and HKEX director window remain partial."
+        }
+      ],
+      "decision": "blocked_review",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "FPS",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "pass",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "FPS-sustainable-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "2026-09-30",
+          "basis": "Sustainable common-equity cash flow/rate not certified by this source update",
+          "price_dependent": false,
+          "reason": "Deferred revenue/customer advances, TRA, OpCo distributions and economic-interest cash flow remain unresolved. Full SEC ownership/document reconciliation is partial."
+        }
+      ],
+      "decision": "blocked_review",
+      "decision_basis": "data_gap"
+    },
+    {
+      "ticker": "PAYX",
+      "currency": "USD",
+      "quote": null,
+      "checks": {
+        "source_tieout": "open",
+        "comparability": "open",
+        "per_share_basis": "open",
+        "calculations": "pass",
+        "framework": "open"
+      },
+      "metrics": [
+        {
+          "id": "PAYX-sustainable-ngv",
+          "name": "ngv",
+          "value": null,
+          "unit": "USD/share",
+          "period": "2026-08-31",
+          "basis": "Sustainable common-equity cash flow/rate not certified by this source update",
+          "price_dependent": false,
+          "reason": "Actual November payment remains unverified. Paycor/client-fund perimeter, matched TTM, dated shares and full insider document adjudication are incomplete."
+        }
+      ],
+      "decision": "blocked_review",
+      "decision_basis": "data_gap"
+    }
+  ],
+  "cross_review": {
+    "rounds": 2,
+    "roles": [
+      "quality_1126",
+      "valuation_1126",
+      "risk_1126"
+    ],
+    "resolved": "Cash election December21 supported by separately read issuer memorandum via CNMV; not actual payment. JD reported proxy versus issuer adjusted FCF kept distinct.",
+    "remaining": "Sustainable common cash flow, matched denominator/perimeter/rate and full native ownership reconciliation remain partial for the selected issuers. No new investment judgment."
+  }
+}
