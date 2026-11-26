@@ -39,7 +39,7 @@ class PaymentMonitoring(unittest.TestCase):
         build=evidence.current_build(ROOT/'history')
         rows=copy.deepcopy(build['record']['_evidence']['inputs'])
         self.assertLessEqual(set(rows),set(e.DATA))
-        self.assertLessEqual(set(e.DATA)-set(rows),{'VIS', 'JD', 'BIDU', 'FPS'})   # added 25 Nov, not yet in the latest build
+        self.assertLessEqual(set(e.DATA)-set(rows),{'VIS', 'JD', 'BIDU', 'FPS', 'ORCL'})   # added 25 Nov, not yet in the latest build
         macro=copy.deepcopy(build['record']['_evidence']['macro'])
         at=datetime.fromisoformat(build['record']['_evidence']['captured_at'])
         def capture(register):
