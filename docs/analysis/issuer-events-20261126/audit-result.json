@@ -1,0 +1,65 @@
+{
+  "valid": true,
+  "posture": "live",
+  "errors": [],
+  "warnings": [
+    "Source truth, accounting judgments, formulas and reviewer independence require human/agent review."
+  ],
+  "issuers": {
+    "VIS": {
+      "ready_for_price_judgment": false,
+      "blockers": [
+        "quote_missing_or_invalid",
+        "checks_incomplete",
+        "unresolved_major_or_critical"
+      ],
+      "unresolved_issue_ids": [
+        "VIS-bridge"
+      ]
+    },
+    "JD": {
+      "ready_for_price_judgment": false,
+      "blockers": [
+        "quote_missing_or_invalid",
+        "checks_incomplete",
+        "unresolved_major_or_critical"
+      ],
+      "unresolved_issue_ids": [
+        "JD-bridge"
+      ]
+    },
+    "BIDU": {
+      "ready_for_price_judgment": false,
+      "blockers": [
+        "quote_missing_or_invalid",
+        "checks_incomplete",
+        "unresolved_major_or_critical"
+      ],
+      "unresolved_issue_ids": [
+        "BIDU-bridge"
+      ]
+    },
+    "FPS": {
+      "ready_for_price_judgment": false,
+      "blockers": [
+        "quote_missing_or_invalid",
+        "checks_incomplete",
+        "unresolved_major_or_critical"
+      ],
+      "unresolved_issue_ids": [
+        "FPS-bridge"
+      ]
+    },
+    "PAYX": {
+      "ready_for_price_judgment": false,
+      "blockers": [
+        "quote_missing_or_invalid",
+        "checks_incomplete",
+        "unresolved_major_or_critical"
+      ],
+      "unresolved_issue_ids": [
+        "PAYX-bridge"
+      ]
+    }
+  }
+}
