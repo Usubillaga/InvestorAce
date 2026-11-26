@@ -246,18 +246,49 @@ class Windows(unittest.TestCase):
             collect = lambda intraday: (days, heat, None, None)
             with unittest.mock.patch.object(il, '_accounts', return_value=accounts):
                 morning = pd.Timestamp(f'{today} 10:31', tz='America/New_York')
-                self.assertIsNone(il.decide_run(latest, now=morning, collect_fn=collect))
+                self.assertIsNone(il.decide_run(latest, now=morning, collect_fn=collect, move_fn=lambda d: 5.))
                 snap = json.loads(latest.read_text())
                 self.assertEqual(snap['morning']['heat'], 15.)
-                self.assertEqual(snap['morning']['under'], {'20': True, '17': True, '17-spcx-ant': True})
+                self.assertEqual(snap['morning']['under'], {'20': True, '17': True, '17-spcx-ant': True,
+                                                            '20-move': True})
                 self.assertNotIn('intraday', snap)
                 self.assertTrue(all(state.get('pending') is None for *_, state in accounts))
                 close = pd.Timestamp(f'{today} 15:40', tz='America/New_York')
-                orders = il.decide_run(latest, now=close, collect_fn=collect)
+                orders = il.decide_run(latest, now=close, collect_fn=collect, move_fn=lambda d: 5.)
                 self.assertTrue(all(orders.values()))
                 snap = json.loads(latest.read_text())
                 self.assertTrue(snap['intraday']['order'])
                 self.assertIn('Morning reading', il.render(snap, [(n, l, s) for n, l, _, s in accounts]))
+
+
+class MoveAccount(unittest.TestCase):
+    def test_buys_only_while_bond_stress_is_not_high(self):
+        days = sessions(30)
+        today = days[-1]
+        heat = {d: 50. for d in days}
+        heat[days[20]] = 12.
+        state = il.fresh(days[0], 20., '20-move')
+        self.assertEqual(state['move_max'], 15.)
+        self.assertIsNone(il.decide(state, days[:-1], heat, today, 15., move_now=22.))   # high bond stress: waits
+        self.assertIsNone(il.decide(state, days[:-1], heat, today, 15., move_now=None))  # unknown MOVE: no buy
+        order = il.decide(state, days[:-1], heat, today, 15., move_now=9.)
+        self.assertEqual((order['signal'], order['move_excess']), (days[20], 9.))
+        plain = il.fresh(days[0], 20., '20')
+        self.assertNotIn('move_max', plain)
+        self.assertIsNotNone(il.decide(plain, days[:-1], heat, today, 15., move_now=22.))  # other accounts ignore it
+
+    def test_move_excess_and_page(self):
+        idx = pd.bdate_range('2021-01-04', periods=900)
+        move = pd.Series(100., index=idx)
+        move.iloc[-5:] = 130.
+        ex = il.move_excess(today=pd.Timestamp('2030-01-01'), download=lambda: move)
+        last = str(idx[-1].date())
+        self.assertGreater(ex[last], 15.)
+        self.assertEqual(ex[str(idx[700].date())], 0.)
+        self.assertIn('High bond stress', il._move_html(ex[last]))
+        self.assertIn('Not high', il._move_html(3.))
+        html = il.accounts_html([('20-move', 20., il.fresh('2026-11-20', 20., '20-move'))], {}, {})
+        self.assertIn('only if MOVE', html)
 
 
 class Page(unittest.TestCase):

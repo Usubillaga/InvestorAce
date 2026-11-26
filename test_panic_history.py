@@ -197,6 +197,26 @@ class Touch(unittest.TestCase):
         self.assertTrue((both.iloc[:, 1] < both.iloc[:, 0]).any())
 
 
+class Move(unittest.TestCase):
+    def test_excess_over_three_years_and_bands(self):
+        idx = pd.bdate_range('2005-01-03', periods=900)
+        move = pd.Series(100., index=idx)
+        move.iloc[850:] = 130.
+        x = ph.excess(move, idx)
+        self.assertTrue(np.isnan(x.iloc[100]))                       # under 18 months of history
+        self.assertEqual(x.iloc[500], 0.)
+        self.assertGreater(x.iloc[860], 15.)
+        events = [dict(date=str(idx[860].date()), returns={}, long_exit=None),
+                  dict(date=str(idx[500].date()), returns={}, long_exit=None),
+                  dict(date=str(idx[50].date()), returns={}, long_exit=None)]
+        r = ph.move_study({'20': events}, move, move, idx)['20']
+        self.assertEqual(r['groups']['high (> +15)']['signals'], [str(idx[860].date())])
+        self.assertEqual(r['groups']['calm (< 0)']['signals'], [])
+        self.assertEqual(r['groups']['elevated (0 to +15)']['signals'], [str(idx[500].date())])
+        self.assertEqual(r['no_move'], [str(idx[50].date())])
+        json.dumps(r, allow_nan=False)
+
+
 class Study(unittest.TestCase):
     def test_end_to_end_with_a_panic_and_the_report(self):
         idx, adj = panel(n=1300, start='1999-06-01')
@@ -206,7 +226,7 @@ class Study(unittest.TestCase):
         rows = [(pd.Timestamp('1999-01-04'), list(adj.columns))]
         volume = pd.DataFrame(1e6, index=idx, columns=adj.columns)
         result = ph.study(spx, vix, adj, adj, volume, rows, lambda t, d: None, start='2000-01-01',
-                          extremes=(spx * 0.99, vix * 1.1))
+                          extremes=(spx * 0.99, vix * 1.1), move=pd.Series(100., index=idx))
         self.assertGreaterEqual(result['signals'], 1)
         json.dumps(result, allow_nan=False)
         md = ph.report(result)
@@ -223,6 +243,9 @@ class Study(unittest.TestCase):
         self.assertEqual(sorted(result['touch']), ['17', '20'])
         self.assertGreaterEqual(len(result['touch']['20']['touch_signals']), 1)
         self.assertIn('Touching the level intraday', md)
+        self.assertEqual(sorted(result['move']), ['17', '20'])
+        self.assertEqual(len(result['move']['20']['per_signal']), len(result['levels']['20']['signals']))
+        self.assertIn('bond-market stress', md)
 
 
 if __name__ == '__main__':
