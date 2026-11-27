@@ -1,0 +1,60 @@
+{
+ "schema": "index-leaders-v2",
+ "start": "2026-11-20",
+ "level": 20.0,
+ "capital": 10000.0,
+ "cash": 10000.0,
+ "currency": "USD",
+ "basket_spec": [
+  [
+   "top10",
+   0.35
+  ],
+  [
+   "RSP",
+   0.35
+  ],
+  [
+   "SPCX",
+   0.15
+  ],
+  [
+   "ANT",
+   0.15
+  ]
+ ],
+ "cost": 0.001,
+ "top": 10,
+ "positions": {},
+ "bought": null,
+ "signal": null,
+ "done_signals": [],
+ "trades": [],
+ "marks": [
+  {
+   "date": "2026-11-20",
+   "equity": 10000.0,
+   "heat": 11.3
+  },
+  {
+   "date": "2026-11-23",
+   "equity": 10000.0,
+   "heat": 28.99
+  },
+  {
+   "date": "2026-11-24",
+   "equity": 10000.0,
+   "heat": 28.42
+  },
+  {
+   "date": "2026-11-25",
+   "equity": 10000.0,
+   "heat": 25.83
+  }
+ ],
+ "basket": "35% the ten largest S&P 500 holdings by weight, 35% RSP, 15% SpaceX (SPCX), 15% Anthropic (ANT)",
+ "min_hold": 882,
+ "exit": "close after the first euphoria close (80+) once 42 months are held",
+ "stop": null,
+ "move_max": 15.0
+}
