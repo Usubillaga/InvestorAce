@@ -673,6 +673,21 @@ DATA = {
 'TEAM': dict(name='Atlassian', yf='TEAM', fcf=1667.0, shares=253.14, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 4.0, 'c': 9.0, 'b': 8.0, 'v': None, 'r': 7.5}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=8.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Technology', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(28.0, 459.92)),
 'TPR': dict(name='Tapestry', yf='TPR', fcf=1880.5, shares=196.52, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': None, 'c': 9.0, 'b': 7.0, 'v': None, 'r': None}, draft_periods={'fcf': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'rev': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'opinc': None, 'ebitda': ['TTM', '2026-09-30', '2026-06-30', '2026-03-31', '2025-12-31'], 'netdebt': '2026-09-30'}, pr=None, dil=9.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Consumer Cyclical', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(49.51, 329.6)),
 'TTWO': dict(name='Take-Two Interactive', yf='TTWO', fcf=337.5, shares=186.98, r=0.08, cur='USD', deliver=None, deliver_basis='REVENUE_PROXY', dl='revenue growth (PROXY)', sub=None, draft_components={'g': None, 'p': 2.0, 'c': 6.0, 'b': 7.0, 'v': None, 'r': 1.0}, draft_periods={'fcf': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'rev': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'opinc': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'ebitda': ['TTM', '2026-06-30', '2026-03-31', '2025-12-31', '2025-09-30'], 'netdebt': '2026-06-30'}, pr=None, dil=5.5, clock='CONC', ins='NOT CHECKED', held=False, sector='Communication Services', built='auto', normalization_status='REVIEW_REQUIRED', sanity=(91.93, 531.88)),
+'SNDK': dict(name='Sandisk', yf='SNDK', cur='USD',
+    fcf=None, shares=None, r=.090, deliver=None, deliver_basis='UNSPECIFIED', dl='',
+    sub=None, pr=None, dil=None, clock=None, ins='SELLING', held=False,
+    sector='Technology', built='watch', midcycle=True, normalization_status='REVIEW_REQUIRED',
+    sanity=(20, 600),
+    financial_sources=[{
+        'url':'https://www.sec.gov/Archives/edgar/data/2023554/000162828026068601/sndk-20261002.htm',
+        'title':'Sandisk 10-Q, quarter ended 2 Oct 2026 (Q1 FY2027)', 'period':'2026-10-02'
+    }],
+    boot_note=('2026-11-27 review: Q1 FY27 (to 2 Oct 2026, 10-Q) revenue $11,031m vs $2,308m a year earlier, gross '
+        'margin 85%, net income $8,101m, operating cash $6,363m, capex $54m: a NAND price peak, so the row is scored '
+        'on mid-cycle (mean annual) cash flow, not the peak quarter. 8-for-1 split in November 2026. Insiders '
+        '(Form 4, May-Nov 2026): no open-market purchases; $134.6m of sales, incl. CEO Goeckeler $105.0m in Sep 2026 '
+        'at about $1,523-1,576 before the split (~$190-197 after), CTO Ilkbahar $11.6m, CLO Shek $9.7m (monthly), '
+        'CAO Pokorny $5.9m (26,016 shares at $90.99 on 23 Nov), CFO Visoso $1.6m.')),
 'VIS': dict(name='Viscofan', yf='VIS.MC', cur='EUR',
     fcf=None, shares=None, deliver=None, deliver_basis='UNSPECIFIED', dl='',
     sub=None, pr=None, dil=None, clock=None, ins='NOT CHECKED', held=False,
