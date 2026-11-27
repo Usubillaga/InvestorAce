@@ -15,6 +15,7 @@ on:
       - 'rebound_backtest.py'
       - 'panic_backtest.py'
       - 'panic_history.py'
+      - 'insider_backtest.py'
       - '.github/workflows/backtest.yml'
   schedule:
     - cron: '17 5 1 * *'        # 1st of each month, on main
@@ -37,7 +38,7 @@ concurrency:
 jobs:
   backtest:
     runs-on: ubuntu-latest
-    timeout-minutes: 80
+    timeout-minutes: 130
     steps:
       - uses: actions/checkout@v6
         with:
@@ -72,6 +73,11 @@ jobs:
         continue-on-error: true
         timeout-minutes: 45              # chunked download with pauses while Yahoo throttles
         run: python panic_history.py
+      - name: Insider purchase clusters since 2006 (insider_backtest.py)
+        # Optional as well: SEC data sets and Yahoo prices; a failure keeps the previous results.
+        continue-on-error: true
+        timeout-minutes: 50
+        run: python insider_backtest.py
       - name: Commit results
         env:
           BRANCH: ${{ github.ref_name }}
@@ -82,7 +88,7 @@ jobs:
           tested=$(git rev-parse HEAD)   # the commit these results were calculated from
           git add backtests/latest.json backtests/latest.md
           if [ -f backtests/crash_study.json ]; then git add backtests/crash_study.json; fi
-          for f in backtests/panic_history.json backtests/panic_history.md; do if [ -f "$f" ]; then git add "$f"; fi; done
+          for f in backtests/panic_history.json backtests/panic_history.md backtests/insider_clusters.json backtests/insider_clusters.md; do if [ -f "$f" ]; then git add "$f"; fi; done
           if git diff --cached --quiet; then exit 0; fi
           git commit -qm "backtest: results $(date -u +%F)"
           target="$BRANCH"

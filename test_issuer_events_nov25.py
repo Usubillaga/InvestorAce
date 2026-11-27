@@ -38,7 +38,8 @@ class November25Monitoring(unittest.TestCase):
                 del old['entries'][t]
         build=evidence.current_build(ROOT/'history')
         rows=copy.deepcopy(build['record']['_evidence']['inputs'])
-        self.assertEqual(set(rows),set(e.DATA))
+        # Tickers added after the latest build (e.g. an add-ticker draft) are not in it yet; none may vanish.
+        self.assertLessEqual(set(rows), set(e.DATA))
         macro=copy.deepcopy(build['record']['_evidence']['macro'])
         at=datetime.fromisoformat(build['record']['_evidence']['captured_at'])
         def capture(register):

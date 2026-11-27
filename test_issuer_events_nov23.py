@@ -52,7 +52,8 @@ class DatedBatch(unittest.TestCase):
             value.pop('monitoring', None)
         build = evidence.current_build(ROOT / 'history')
         rows = copy.deepcopy(build['record']['_evidence']['inputs'])
-        self.assertEqual(set(rows), set(e.DATA))
+        # Tickers added after the latest build (e.g. an add-ticker draft) are not in it yet; none may vanish.
+        self.assertLessEqual(set(rows), set(e.DATA))
         macro = copy.deepcopy(build['record']['_evidence']['macro'])
         def capture(register):
             with patch.object(e.SOURCE_REVIEW, 'load', return_value=register):
