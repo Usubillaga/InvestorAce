@@ -31,6 +31,10 @@ class McClellan(unittest.TestCase):
         st = mb.strategy(spx, sig['oversold'], start='2005-01-01')
         self.assertLessEqual(st['invested'], 1) and self.assertGreaterEqual(st['strategy']['total'], -1)
         self.assertGreater(st['buy_hold']['total'], 0.9)                 # 100 -> 200 over the sample
+        rb = mb.robustness(spx, sig['oversold'], starts=3, placebo=5)
+        self.assertEqual(len(rb['starts']), 3)
+        self.assertEqual(sorted(rb['holds']), ['126', '252', '63'])
+        self.assertTrue(0 <= rb['placebo']['share_at_least_real'] <= 1)
         members.iloc[:, 15:] = False                           # under 50 counted stocks: no reading
         self.assertTrue(mb.oscillator(close, members).empty)
 
