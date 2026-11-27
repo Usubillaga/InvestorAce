@@ -200,7 +200,7 @@ Breakout failure rate 33.17% · 63-day mean: uptrend days 5.02%, just under resi
 | rebound_sleeve_below_200d | 2/3 | 1/3 | 2/3 |
 | rebound_sleeve_no_stop | 2/3 | 1/3 | 2/3 |
 
-Symbols: 130 · generated 2026-11-27T20:30+00:00 · price data 06c58425f20ed845
+Symbols: 130 · generated 2026-11-27T21:28+00:00 · price data 06c58425f20ed845
 
 ## Valuation coverage
 
