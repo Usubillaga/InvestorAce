@@ -669,7 +669,24 @@ def site_pages(root):
         return []
     states = [(name, level, load(Path(root) / 'paper_trades' / Path(path).name, start='', level=level, name=name))
               for name, level, path in ACCOUNTS]
-    return [(Path(PAGE), render(snapshot, states, backtest_html(root) + history_html(root)))]
+    return [(Path(PAGE), render(snapshot, states, mcclellan_html(root) + backtest_html(root) + history_html(root)))]
+
+
+def mcclellan_html(root):
+    """The experimental McClellan Thrust account (mcclellan_paper.py), shown with its failed test."""
+    try:
+        s = json.loads((Path(root) / 'paper_trades' / 'mcclellan-thrust.json').read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return ''
+    mark = (s.get('marks') or [{}])[-1]
+    osc = s.get('oscillator') or {}
+    held = f"{s['shares']:.2f} SPY since {s.get('bought')} at {s.get('entry'):.2f}" if s.get('shares') else 'cash'
+    return ('<div class="acc" style="--acc:#e05ad6;margin:18px 0"><h3>McClellan Thrust</h3>'
+            '<span class="tag">Experimental · failed the 3-period test (2010-2019 below buy and hold)</span>'
+            f"<p>Buys SPY after a breadth thrust and holds 126 sessions. Last thrust {escape(str(s.get('signal')))}; "
+            f"holding until {escape(str(s.get('hold_until') or 'open'))}. Position: {escape(held)}. "
+            f"Equity {mark.get('equity', s.get('capital')):,.2f} USD ({escape(str(mark.get('date', '—')))}). "
+            f"Oscillator {osc.get('value', '—')} (oversold level {osc.get('level', '—')}).</p></div>")
 
 
 if __name__ == '__main__':
