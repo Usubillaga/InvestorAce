@@ -24,8 +24,10 @@ def advance(state, reading):
     if previous and reading['as_of'] <= previous['as_of']:
         return
     if not previous or previous['session'] < reading['session']:
-        if reading['previous_close'] is not None:
-            prior = reading['previous_close']
+        # A new session compares with the previous session's close, never with yesterday's last intraday reading:
+        # a panic that ended by the close must re-arm the alert (27 Nov 2026). Unknown close: alert on any reading
+        # under 20 (a duplicate alert is cheaper than a missed one).
+        prior = reading['previous_close']
     # Preserve a still-current pending alert across an interrupted delivery.
     pending = state.get('pending')
     if pending and (pending['session'] != reading['session'] or reading['heat'] >= 20):

@@ -35,6 +35,18 @@ class PanicWatchTests(unittest.TestCase):
         watch.advance(state, reading(19, '27T16:00', baseline=18))
         self.assertEqual(state['pending']['prior'], 20)
 
+    def test_a_new_session_compares_with_the_previous_close(self):
+        state = {}
+        watch.advance(state, reading(18, '24T20:55'))
+        state.pop('pending')                                          # alerted on the 24th
+        watch.advance(state, reading(18.5, '25T14:45', baseline=23))  # closed at 23: a new fall re-arms
+        self.assertEqual(state['pending']['prior'], 23)
+        state = {}
+        watch.advance(state, reading(18, '24T20:55'))
+        state.pop('pending')
+        watch.advance(state, reading(18.5, '25T14:45', baseline=None))  # close unknown: alert rather than miss
+        self.assertIsNone(state['pending']['prior'])
+
     def test_partial_delivery_resumes_once_and_ignores_out_of_order(self):
         state = {}
         watch.advance(state, reading(18, '25T17:00'))
