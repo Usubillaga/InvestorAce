@@ -448,7 +448,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -800,7 +800,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -1152,7 +1152,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -1504,7 +1504,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -1861,7 +1861,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -2213,7 +2213,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -2575,7 +2575,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -2927,7 +2927,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -3279,7 +3279,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -3631,7 +3631,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -3983,7 +3983,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -4345,7 +4345,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -4697,7 +4697,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -5049,7 +5049,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -5401,7 +5401,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -5753,7 +5753,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -6105,7 +6105,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -6457,7 +6457,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -6819,7 +6819,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -7181,7 +7181,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -7533,7 +7533,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -7885,7 +7885,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -8237,7 +8237,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -8589,7 +8589,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -8941,7 +8941,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -9303,7 +9303,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -9650,7 +9650,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -10002,7 +10002,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -10349,7 +10349,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -10701,7 +10701,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -11063,7 +11063,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -11415,7 +11415,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -11767,7 +11767,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -12119,7 +12119,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -12466,7 +12466,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -12828,7 +12828,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -13180,7 +13180,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -13532,7 +13532,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -13884,7 +13884,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -14236,7 +14236,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -14598,7 +14598,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -14950,7 +14950,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -15302,7 +15302,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -15654,7 +15654,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -16016,7 +16016,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -16368,7 +16368,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -16720,7 +16720,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -17082,7 +17082,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -17429,7 +17429,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -17781,7 +17781,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -18133,7 +18133,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -18485,7 +18485,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -18837,7 +18837,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -19189,7 +19189,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -19546,7 +19546,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -19898,7 +19898,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -20250,7 +20250,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -20602,7 +20602,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -20954,7 +20954,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -21306,7 +21306,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -21658,7 +21658,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -22010,7 +22010,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -22362,7 +22362,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -22714,7 +22714,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -23066,7 +23066,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -23413,7 +23413,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -23765,7 +23765,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -24117,7 +24117,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -24469,7 +24469,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -24821,7 +24821,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -25168,7 +25168,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -25520,7 +25520,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -25872,7 +25872,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -26234,7 +26234,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -26586,7 +26586,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -26948,7 +26948,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -27295,7 +27295,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -27647,7 +27647,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -27999,7 +27999,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -28351,7 +28351,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -28703,7 +28703,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -29065,7 +29065,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -29417,7 +29417,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -29769,7 +29769,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -30121,7 +30121,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -30473,7 +30473,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -30825,7 +30825,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -31177,7 +31177,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -31524,7 +31524,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -31876,7 +31876,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -32223,7 +32223,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -32575,7 +32575,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -32927,7 +32927,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -33279,7 +33279,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -33636,7 +33636,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -33988,7 +33988,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -34340,7 +34340,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -34692,7 +34692,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -35039,7 +35039,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -35391,7 +35391,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -35743,7 +35743,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -36095,7 +36095,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -36447,7 +36447,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -36799,7 +36799,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -37151,7 +37151,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -37498,7 +37498,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -37845,7 +37845,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -38197,7 +38197,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -38559,7 +38559,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -38911,7 +38911,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -39263,7 +39263,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -39615,7 +39615,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -39967,7 +39967,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -40319,7 +40319,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -40666,7 +40666,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -41018,7 +41018,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -41370,7 +41370,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -41722,7 +41722,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -42074,7 +42074,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -42426,7 +42426,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -42788,7 +42788,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -43140,7 +43140,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -43492,7 +43492,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -43844,7 +43844,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -44196,7 +44196,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -44548,7 +44548,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -44900,7 +44900,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -45252,7 +45252,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -45604,7 +45604,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -45956,7 +45956,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -46318,7 +46318,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -46670,7 +46670,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -47017,7 +47017,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -47364,7 +47364,7 @@
    "rating": null,
    "review_status": "REVIEW_PENDING",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -47720,7 +47720,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -48084,7 +48084,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -48440,7 +48440,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -48796,7 +48796,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -49152,7 +49152,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -49525,7 +49525,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -49881,7 +49881,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -50237,7 +50237,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -50593,7 +50593,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -50966,7 +50966,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -51331,7 +51331,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -51687,7 +51687,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -52069,7 +52069,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -52433,7 +52433,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -52789,7 +52789,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -53145,7 +53145,7 @@
    "rating": null,
    "review_status": "BLOCKED_BY_DATA",
    "quote_status": "DATED",
-   "quote_age_hours": 28.982658556388888,
+   "quote_age_hours": 52.984715549444445,
    "quote_policy": {
     "max_age_hours": 96,
     "basis": "DAILY_CLOSE_DATE_UTC_MIDNIGHT",
@@ -53155,7 +53155,7 @@
   }
  ],
  "quote_refresh": {
-  "attempted_at": "2026-11-26T04:58:57.570803+00:00",
+  "attempted_at": "2026-11-27T04:59:04.975978+00:00",
   "failures": [],
   "policy": {
    "max_age_hours": 96,
