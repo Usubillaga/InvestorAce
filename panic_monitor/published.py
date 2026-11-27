@@ -56,4 +56,10 @@ def observe(now, symbols, samples):
                 quotes={s: samples[s][1].isoformat() for s in indices},
                 components=len(current['components']), scores=current['components'], breadth_count=count,
                 universe=len(symbols), session=str(today), close=window[1].isoformat(),
-                previous_close=None, previous_session=str(previous), source=SOURCE + '%5EGSPC', method=METHOD)
+                previous_close=_finite(baseline.get('heat')), previous_session=str(previous), source=SOURCE + '%5EGSPC',
+                method=METHOD)
+
+
+def _finite(value):
+    # The previous session's thermometer on its closes (without the day's Fear & Greed, which has no history).
+    return float(value) if value is not None and math.isfinite(value) else None

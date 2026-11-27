@@ -232,6 +232,31 @@ class Windows(unittest.TestCase):
         self.assertEqual(il.window(ny('2026-11-27', 12, 25)), 'pre-close')   # early close
         self.assertIsNone(il.window(ny('2026-11-27', 15, 40)))               # the market is already closed
 
+    def test_close_run_keeps_the_morning_and_pre_close_readings(self):
+        days = sessions(30)
+        today = days[-1]
+        heat = {d: 50. for d in days}
+        heat[days[20]] = 12.
+        heat[today] = 15.
+        _, prices = book(days, [50.] * len(days))
+        holdings = {'SPY': [('AAA', .06, 'A'), ('BBB', .02, 'B')], 'QQQ': []}
+        with tempfile.TemporaryDirectory() as tmp:
+            latest = Path(tmp) / 'latest.json'
+            accounts = [(n, l, Path(tmp) / Path(p).name, il.fresh(days[0], l, n)) for n, l, p in il.ACCOUNTS]
+            with unittest.mock.patch.object(il, '_accounts', return_value=accounts):
+                collect = lambda intraday: (days, heat, None, None)
+                il.decide_run(latest, now=pd.Timestamp(f'{today} 10:31', tz='America/New_York'),
+                              collect_fn=collect, move_fn=lambda d: 5.)
+                il.decide_run(latest, now=pd.Timestamp(f'{today} 15:40', tz='America/New_York'),
+                              collect_fn=collect, move_fn=lambda d: 5.)
+            with unittest.mock.patch.object(il, '_accounts', return_value=iter(accounts)):
+                il.run(latest, collect_fn=lambda: (days, heat, prices, holdings), move_fn=lambda d: 5.)
+            snap = json.loads(latest.read_text())
+            self.assertEqual(snap['session'], today)
+            self.assertEqual((snap['morning']['date'], snap['intraday']['date']), (today, today))
+            self.assertTrue(snap['intraday']['order'])
+            self.assertIn('Morning reading', il.render(snap, [(n, l, s) for n, l, _, s in accounts]))
+
     def test_morning_reading_records_without_an_order(self):
         days = sessions(30)
         today = days[-1]
