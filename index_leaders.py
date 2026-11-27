@@ -322,8 +322,8 @@ def _accounts(start=FIRST_START):
         yield name, level, path, upgrade(load(path, start=start, level=level, name=name), level, name)
 
 
-def run(latest=LATEST):
-    sessions, heat, prices, holdings = collect()
+def run(latest=LATEST, collect_fn=None, move_fn=None):
+    sessions, heat, prices, holdings = (collect_fn or collect)()
     events = {}
     for name, _, path, state in _accounts():
         events[name] = advance(state, sessions[-130:], heat, prices,
@@ -331,13 +331,22 @@ def run(latest=LATEST):
         Path(path).parent.mkdir(parents=True, exist_ok=True)
         Path(path).write_text(json.dumps(state, indent=1) + '\n', encoding='utf-8')
     last = sessions[-1]
+    try:
+        previous = json.loads(Path(latest).read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        previous = {}
     snapshot = dict(schema='index-leaders-latest-v1', as_of=datetime.now(timezone.utc).isoformat(timespec='minutes'),
-                    session=last, heat=heat.get(last), move_excess=_move_now(last), heat_recent=[[d, heat[d]] for d in sessions[-30:] if d in heat],
+                    session=last, heat=heat.get(last), move_excess=(move_fn or _move_now)(last), heat_recent=[[d, heat[d]] for d in sessions[-30:] if d in heat],
                     holdings={fund: [dict(symbol=s, weight=w, name=n) for s, w, n in rows]
                               for fund, rows in holdings.items()},
                     events=events,
                     # latest closes of everything an account holds, and EUR/USD, so the page can value each position
                     prices={sym: [max(series), series[max(series)]] for sym, series in prices.items() if series})
+    # the intraday readings are dated records of their own; the close run keeps them (it used to drop the morning
+    # reading and the pre-close decision from the page, 27 Nov 2026)
+    for key in ('morning', 'intraday'):
+        if previous.get(key):
+            snapshot[key] = previous[key]
     Path(latest).parent.mkdir(parents=True, exist_ok=True)
     Path(latest).write_text(json.dumps(snapshot, indent=1) + '\n', encoding='utf-8')
     print(json.dumps(dict(session=last, heat=heat.get(last), events=events), indent=1))
