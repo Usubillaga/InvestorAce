@@ -1,0 +1,32 @@
+//@version=5
+// InvestorAce · McClellan Oscillator (NYSE breadth momentum), study version, 27 Nov 2026.
+// Oscillator = EMA19 - EMA39 of NYSE net advances (advancing - declining issues). The ratio-adjusted form
+// (RANA) divides by the total so readings are comparable across decades. Classic reading: below -150 is
+// oversold breadth; a turn back above 0 after that ("breadth thrust") often marks the end of a sell-off.
+// NOT BACKTESTED in InvestorAce (no NYSE advance/decline history in our data); shown next to the panic
+// thermometer as context only. Not investment advice.
+indicator("InvestorAce · McClellan Oscillator", shorttitle="IA McClellan", overlay=false)
+
+advSym   = input.symbol("USI:ADVN.NY", "NYSE advancing issues")
+decSym   = input.symbol("USI:DECL.NY", "NYSE declining issues")
+ratio    = input.bool(true, "Ratio-adjusted (RANA, x1000)")
+oversold = input.float(-150, "Oversold level")
+overbought = input.float(150, "Overbought level")
+
+adv = request.security(advSym, "D", close)
+dec = request.security(decSym, "D", close)
+net = ratio ? (adv - dec) / math.max(adv + dec, 1) * 1000 : adv - dec
+osc = ta.ema(net, 19) - ta.ema(net, 39)
+
+// a thrust: the oscillator was below the oversold level within the last 20 sessions and now crosses above 0
+wasOversold = ta.lowest(osc, 20) < oversold
+thrust = ta.crossover(osc, 0) and wasOversold
+
+plot(osc, "McClellan", color=osc >= 0 ? color.teal : color.red, style=plot.style_columns)
+hline(0, "Zero", color=color.gray)
+hline(oversold, "Oversold", color=color.green, linestyle=hline.style_dashed)
+hline(overbought, "Overbought", color=color.red, linestyle=hline.style_dashed)
+plotshape(thrust, "Breadth thrust", shape.triangleup, location.bottom, color.lime, size=size.small)
+
+alertcondition(ta.crossunder(osc, oversold), "McClellan oversold", "NYSE McClellan below oversold: {{plot_0}}")
+alertcondition(thrust, "McClellan breadth thrust", "NYSE McClellan crossed above 0 after oversold: {{plot_0}}")
