@@ -25,6 +25,9 @@ class McClellan(unittest.TestCase):
         r = mb.study(spx, osc, sig)
         json.dumps(r, allow_nan=False)
         self.assertIn('McClellan Oscillator from S&P 500 members', mb.report(r))
+        lvl = mb.calibrated(osc, warmup=200)
+        self.assertTrue(lvl.iloc[:199].isna().all() and lvl.iloc[-1] < 0)
+        self.assertIsInstance(mb.signals(osc, lvl)['thrust'], list)
         members.iloc[:, 15:] = False                           # under 50 counted stocks: no reading
         self.assertTrue(mb.oscillator(close, members).empty)
 

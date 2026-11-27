@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parent
 OUT_JSON = ROOT / 'backtests' / 'mcclellan.json'
 OUT_MD = ROOT / 'backtests' / 'mcclellan.md'
 OVERSOLD, LOOKBACK, GAP = -150., 20, 63
+QUANTILE, WARMUP = 0.025, 500          # calibrated oversold: the lowest 2.5% of readings so far
 HORIZONS = (21, 63, 126, 252)
 PERIODS = (('2000-01-01', '2009-12-31'), ('2010-01-01', '2019-12-31'), ('2020-01-01', None))
 
@@ -34,10 +35,18 @@ def oscillator(close, members):
     return (net.ewm(span=19, adjust=False).mean() - net.ewm(span=39, adjust=False).mean()).iloc[39:]
 
 
+def calibrated(osc, q=QUANTILE, warmup=WARMUP):
+    """Oversold level from the oscillator's own history (known on the day): the fixed NYSE level of -150 does not
+    fit breadth rebuilt from 500 large stocks, which reached it only four times since 2000 and not in 2008."""
+    return osc.expanding(warmup).quantile(q).shift()
+
+
 def signals(osc, oversold=OVERSOLD, lookback=LOOKBACK, gap=GAP):
+    """oversold: a fixed level or a series of levels (one per day)."""
+    level = oversold if isinstance(oversold, pd.Series) else pd.Series(oversold, index=osc.index)
     low = osc.rolling(lookback).min()
-    thrust = (osc > 0) & (osc.shift() <= 0) & (low.shift() < oversold)
-    under = (osc < oversold) & (osc.shift() >= oversold)
+    thrust = (osc > 0) & (osc.shift() <= 0) & (low.shift() < level.shift())
+    under = (osc < level) & (osc.shift() >= level.shift())
     out = {}
     for name, flags in (('thrust', thrust), ('oversold', under)):
         days, last = [], None
@@ -103,6 +112,18 @@ def report(r):
                              f"{_pct(c['mean_edge'])} | {_pct(c['median_edge'])} | {100 * c['positive']:.0f}% |")
     lines += [''] + [f"Passes {k}: {'yes' if v else 'no'}" for k, v in r['passes'].items()]
     lines += [''] + [f"{k} dates: " + ', '.join(s['dates']) for k, s in r['signals'].items()]
+    cal = r.get('calibrated')
+    if cal:
+        lines += ['', f"## Calibrated oversold level (lowest {100 * QUANTILE:g}% of readings so far; now {cal['level']:+.1f})", '',
+                  '| Signal | Period | Horizon | n | Mean | All days | Mean edge | Median edge | Positive |',
+                  '|---|---|---|---:|---:|---:|---:|---:|---:|']
+        for name, s in cal['signals'].items():
+            for period, cells in s['periods'].items():
+                for h, c in cells.items():
+                    lines.append(f"| {name} | {period} | {h} | {c['n']} | {_pct(c['mean'])} | {_pct(c['base'])} | "
+                                 f"{_pct(c['mean_edge'])} | {_pct(c['median_edge'])} | {100 * c['positive']:.0f}% |")
+        lines += [''] + [f"Passes {k} (calibrated): {'yes' if v else 'no'}" for k, v in cal['passes'].items()]
+        lines += [''] + [f"{k} dates (calibrated): " + ', '.join(s['dates']) for k, s in cal['signals'].items()]
     return '\n'.join(lines) + '\n'
 
 
@@ -117,6 +138,9 @@ def main():
     members = ph.membership(rows, close.index, close.columns)
     osc = oscillator(close, members)
     result = study(spx, osc, signals(osc))
+    fixed = study(spx, osc, signals(osc, calibrated(osc)))
+    result['calibrated'] = dict(level=round(float(calibrated(osc).iloc[-1]), 1), signals=fixed['signals'],
+                                passes=fixed['passes'])
     OUT_JSON.parent.mkdir(exist_ok=True)
     OUT_JSON.write_text(json.dumps(result, indent=1, allow_nan=False) + '\n', encoding='utf-8')
     OUT_MD.write_text(report(result), encoding='utf-8')
