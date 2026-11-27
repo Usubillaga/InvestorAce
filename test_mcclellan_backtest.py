@@ -28,6 +28,9 @@ class McClellan(unittest.TestCase):
         lvl = mb.calibrated(osc, warmup=200)
         self.assertTrue(lvl.iloc[:199].isna().all() and lvl.iloc[-1] < 0)
         self.assertIsInstance(mb.signals(osc, lvl)['thrust'], list)
+        st = mb.strategy(spx, sig['oversold'], start='2005-01-01')
+        self.assertLessEqual(st['invested'], 1) and self.assertGreaterEqual(st['strategy']['total'], -1)
+        self.assertGreater(st['buy_hold']['total'], 0.9)                 # 100 -> 200 over the sample
         members.iloc[:, 15:] = False                           # under 50 counted stocks: no reading
         self.assertTrue(mb.oscillator(close, members).empty)
 

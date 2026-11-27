@@ -93,6 +93,28 @@ def study(spx, osc, sig):
     return result
 
 
+def strategy(spx, days, hold=126, cost=0.001, start='2000-01-01'):
+    """In the S&P 500 for `hold` sessions after each signal close (a new signal extends the stay), else cash at 0%.
+    Cumulative return, CAGR, worst fall and time invested, against buying and holding the S&P 500."""
+    s = spx[spx.index >= pd.Timestamp(start)].dropna()
+    inside = pd.Series(False, index=s.index)
+    for d in days:
+        if d in s.index:
+            i = s.index.get_loc(d)
+            inside.iloc[i + 1:i + 1 + hold] = True       # bought at the signal close: the next sessions count
+    daily = s.pct_change().fillna(0)
+    switches = inside.astype(int).diff().abs().fillna(0)
+    equity = (1 + daily * inside - switches * cost).cumprod()
+    hold_eq = (1 + daily).cumprod()
+    years = (s.index[-1] - s.index[0]).days / 365.25
+
+    def stats(e):
+        return dict(total=float(e.iloc[-1] - 1), cagr=float(e.iloc[-1] ** (1 / years) - 1),
+                    worst=float((e / e.cummax() - 1).min()))
+    return dict(start=str(s.index[0].date()), end=str(s.index[-1].date()), invested=float(inside.mean()),
+                strategy=stats(equity), buy_hold=stats(hold_eq))
+
+
 def _pct(x):
     return f'{100 * x:+.1f}%'
 
@@ -123,6 +145,13 @@ def report(r):
                     lines.append(f"| {name} | {period} | {h} | {c['n']} | {_pct(c['mean'])} | {_pct(c['base'])} | "
                                  f"{_pct(c['mean_edge'])} | {_pct(c['median_edge'])} | {100 * c['positive']:.0f}% |")
         lines += [''] + [f"Passes {k} (calibrated): {'yes' if v else 'no'}" for k, v in cal['passes'].items()]
+ 
+        for k, st in (cal.get('strategy') or {}).items():
+            a, b = st['strategy'], st['buy_hold']
+            lines.append(f"Strategy {k} (6 months invested after each signal, else cash), {st['start']} → {st['end']}: "
+                         f"cumulative {_pct(a['total'])}, CAGR {_pct(a['cagr'])}, worst fall {_pct(a['worst'])}, "
+                         f"invested {100 * st['invested']:.0f}% of days; buy and hold {_pct(b['total'])}, CAGR "
+                         f"{_pct(b['cagr'])}, worst fall {_pct(b['worst'])}.")
         lines += [''] + [f"{k} dates (calibrated): " + ', '.join(s['dates']) for k, s in cal['signals'].items()]
     return '\n'.join(lines) + '\n'
 
@@ -139,8 +168,10 @@ def main():
     osc = oscillator(close, members)
     result = study(spx, osc, signals(osc))
     fixed = study(spx, osc, signals(osc, calibrated(osc)))
+    cal_sig = signals(osc, calibrated(osc))
     result['calibrated'] = dict(level=round(float(calibrated(osc).iloc[-1]), 1), signals=fixed['signals'],
-                                passes=fixed['passes'])
+                                passes=fixed['passes'],
+                                strategy={k: strategy(spx, v) for k, v in cal_sig.items()})
     OUT_JSON.parent.mkdir(exist_ok=True)
     OUT_JSON.write_text(json.dumps(result, indent=1, allow_nan=False) + '\n', encoding='utf-8')
     OUT_MD.write_text(report(result), encoding='utf-8')
