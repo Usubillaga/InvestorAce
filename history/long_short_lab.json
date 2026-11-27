@@ -1,10 +1,10 @@
 {
  "schema": "codex-long-short-v1",
- "archive_build": "20261127T121003187607-b8bd0e73a3c245aba67fd07a7aa61f2e",
- "as_of": "2026-11-27T07:10:03.187607-05:00",
+ "archive_build": "20261127T211605941129-9d5bdf809f4344a6a58c9a2088064e49",
+ "as_of": "2026-11-27T16:16:05.941129-05:00",
  "opportunity_version": "opportunity-v18.1",
  "timing_version": "experimental-timing-v2",
- "verified_builds": 172,
+ "verified_builds": 173,
  "parameters": {
   "capital_usd": 10000.0,
   "position_usd": 500.0,
@@ -1017,27 +1017,27 @@
   }
  },
  "paper": {
-  "sessions": 3,
-  "decision_sessions": 3,
+  "sessions": 4,
+  "decision_sessions": 4,
   "first": "2026-11-23",
-  "last": "2026-11-25",
-  "final_equity": 10023.570584934378,
-  "return_pct": 0.23570584934378136,
-  "drawdown_pct": -0.004999999999999449,
+  "last": "2026-11-27",
+  "final_equity": 9988.66565408503,
+  "return_pct": -0.11334345914969512,
+  "drawdown_pct": -0.348228513518023,
   "gap_sessions": 0,
-  "execution_fees": 1.5,
-  "borrow_cost": 0.05370492117808219,
-  "borrow_stress_cost": 0.13426230294520547,
+  "execution_fees": 2.0,
+  "borrow_cost": 0.1610763171555556,
+  "borrow_stress_cost": 0.402690792888889,
   "by_side": {
    "LONG": {
-    "entries": 1,
+    "entries": 2,
     "exits": 0,
-    "net_pnl": 4.388278150000019
+    "net_pnl": -1.8243340437297775
    },
    "SHORT": {
     "entries": 2,
     "exits": 0,
-    "net_pnl": 19.18230678437712
+    "net_pnl": -9.510011871238923
    }
   },
   "fundamental_sides": [
@@ -1049,61 +1049,55 @@
     "side": "SHORT",
     "opened_on": "2026-11-23",
     "entry_close": 313.54998779296875,
-    "mark_close": 300.8599853515625,
-    "marked_on": "2026-11-25",
-    "marked_notional": 479.7639882944448,
+    "mark_close": 312.3399963378906,
+    "marked_on": "2026-11-27",
+    "marked_notional": 498.0704967040833,
     "entry_fee": 0.5,
-    "borrow_cost": 0.05370492117808219,
-    "gross_return_pct": 4.04720234111104,
-    "net_return_pct": 3.936461356875424
+    "borrow_cost": 0.10628179660761039,
+    "gross_return_pct": 0.38590065918333494,
+    "net_return_pct": 0.2646442998618128
    },
    "RMD": {
     "symbol": "RMD",
     "side": "LONG",
     "opened_on": "2026-11-24",
     "entry_close": 243.44000244140625,
-    "mark_close": 245.82000732421875,
-    "marked_on": "2026-11-25",
-    "marked_notional": 504.88827815,
+    "mark_close": 242.9199981689453,
+    "marked_on": "2026-11-27",
+    "marked_notional": 499.1756659562702,
     "entry_fee": 0.5,
     "borrow_cost": 0.0,
-    "gross_return_pct": 0.9776556300000039,
-    "net_return_pct": 0.8776556300000038
+    "gross_return_pct": -0.1648668087459555,
+    "net_return_pct": -0.2648668087459555
    },
    "NRG": {
     "symbol": "NRG",
     "side": "SHORT",
     "opened_on": "2026-11-25",
     "entry_close": 91.94000244140625,
-    "mark_close": 91.94000244140625,
-    "marked_on": "2026-11-25",
+    "mark_close": 93.83000183105469,
+    "marked_on": "2026-11-27",
+    "marked_notional": 510.27843885000004,
+    "entry_fee": 0.5,
+    "borrow_cost": 0.0547945205479452,
+    "gross_return_pct": -2.0556877700000085,
+    "net_return_pct": -2.166646674109598
+   },
+   "MO": {
+    "symbol": "MO",
+    "side": "LONG",
+    "opened_on": "2026-11-27",
+    "entry_close": 76.88999938964844,
+    "mark_close": 76.88999938964844,
+    "marked_on": "2026-11-27",
     "marked_notional": 500.0,
     "entry_fee": 0.5,
     "borrow_cost": 0.0,
-    "gross_return_pct": -0.0,
+    "gross_return_pct": 0.0,
     "net_return_pct": -0.1
    }
   },
-  "pending": [
-   {
-    "ticker": "MO",
-    "symbol": "MO",
-    "signal_session": "2026-11-25",
-    "submitted_at": "2026-11-26T00:16:56.729548-05:00",
-    "signal_build": "20261126T051656729548-32cdaacfc6be4955b9d3297ee3b6c2de",
-    "signal_close": 76.27999877929688,
-    "sma36": 75.12749968634711,
-    "sma50": 73.2709992980957,
-    "sma200": 68.73659498214721,
-    "side": "LONG",
-    "action": "OPEN",
-    "entry_basis": "FUNDAMENTAL_AND_TECHNICAL",
-    "fundamental_score": 7.935578126131181,
-    "quality_score": 8.88888888888889,
-    "reason": "Trend and SMA36 crossing",
-    "status": "PENDING"
-   }
-  ],
+  "pending": [],
   "orders": [
    {
     "ticker": "AVGO",
@@ -1173,6 +1167,29 @@
     "execution_close": 91.94000244140625,
     "turnover": 500.0,
     "fee": 0.5
+   },
+   {
+    "ticker": "MO",
+    "symbol": "MO",
+    "signal_session": "2026-11-25",
+    "submitted_at": "2026-11-26T00:16:56.729548-05:00",
+    "signal_build": "20261126T051656729548-32cdaacfc6be4955b9d3297ee3b6c2de",
+    "signal_close": 76.27999877929688,
+    "sma36": 75.12749968634711,
+    "sma50": 73.2709992980957,
+    "sma200": 68.73659498214721,
+    "side": "LONG",
+    "action": "OPEN",
+    "entry_basis": "FUNDAMENTAL_AND_TECHNICAL",
+    "fundamental_score": 7.935578126131181,
+    "quality_score": 8.88888888888889,
+    "reason": "Trend and SMA36 crossing",
+    "execution_session": "2026-11-27",
+    "status": "FILLED",
+    "price_build": "20261127T211605941129-9d5bdf809f4344a6a58c9a2088064e49",
+    "execution_close": 76.88999938964844,
+    "turnover": 500.0,
+    "fee": 0.5
    }
   ],
   "daily_equity": [
@@ -1189,6 +1206,11 @@
    {
     "session": "2026-11-25",
     "equity": 10023.570584934378,
+    "missing": []
+   },
+   {
+    "session": "2026-11-27",
+    "equity": 9988.66565408503,
     "missing": []
    }
   ]
