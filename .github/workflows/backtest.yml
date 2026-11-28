@@ -69,6 +69,17 @@ jobs:
         # Optional: a failure keeps the previous crash_study.json and never blocks the backtest results.
         continue-on-error: true
         run: python crash_study.py
+      - name: Credit spreads from FRED (for panic_history.py)
+        # Optional: curl with retries; panic_history.py reads these files and records in its results why a series is missing.
+        continue-on-error: true
+        run: |
+          mkdir -p .cache
+          for id in BAMLH0A0HYM2 BAA10Y; do
+            curl -sSL --retry 4 --retry-delay 10 --max-time 120 -A 'Mozilla/5.0 (InvestorAce research)' \
+              -o ".cache/fred-$id.csv" -w "$id: HTTP %{http_code}, %{size_download} bytes\n" \
+              "https://fred.stlouisfed.org/graph/fredgraph.csv?id=$id" || echo "$id: curl failed"
+            head -c 120 ".cache/fred-$id.csv" 2>/dev/null; echo
+          done
       - name: Panic buys since 2000 (panic_history.py)
         # Optional, like the crash study: a failure keeps the previous results and never blocks the backtest.
         continue-on-error: true

@@ -172,6 +172,7 @@ def move_study(level_events, move, vix, index, bands=None):
 
 CREDIT_BANDS = (('wide (> +1.0 pp)', lambda m: m > 1.0), ('widening (0 to +1.0 pp)', lambda m: 0. <= m <= 1.0),
                 ('tight (< 0)', lambda m: m < 0.))
+CREDIT_LOG = []                                 # why each series loaded or not; stored in the results
 CREDIT_SERIES = ('BAMLH0A0HYM2', 'BAA10Y')      # ICE BofA US high-yield OAS; Moody's Baa minus 10-year as a fallback
 
 
@@ -180,9 +181,15 @@ def credit_series(fetch=None):
     carries it from the 1990s, otherwise Moody's Baa corporate yield minus the 10-year Treasury (since 1986)."""
     import io
     from urllib.request import Request, urlopen
-    fetch = fetch or (lambda sid: urlopen(Request(f'https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}',
-                                                  headers={'User-Agent': 'InvestorAce research'}), timeout=60).read())
+    def _fred(sid):
+        cached = ROOT / '.cache' / f'fred-{sid}.csv'      # written by the workflow's curl step, if it succeeded
+        if cached.exists() and cached.stat().st_size > 100:
+            return cached.read_bytes()
+        return urlopen(Request(f'https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}',
+                               headers={'User-Agent': 'Mozilla/5.0 (InvestorAce research)'}), timeout=120).read()
+    fetch = fetch or _fred
     best = None
+    CREDIT_LOG.clear()
     for sid in CREDIT_SERIES:
         try:
             body = fetch(sid)
@@ -191,9 +198,11 @@ def credit_series(fetch=None):
             s.index = pd.to_datetime(raw.iloc[:, 0], errors='coerce')
             s = s[s.index.notna()].dropna()
         except Exception as exc:
-            print(f'credit {sid}: {type(exc).__name__}: {str(exc)[:120]}')
+            CREDIT_LOG.append(f'{sid}: {type(exc).__name__}: {str(exc)[:120]}')
+            print('credit ' + CREDIT_LOG[-1])
             continue
-        print(f'credit {sid}: {len(s)} rows' + (f' from {s.index[0].date()}' if len(s) else f'; first bytes {body[:80]!r}'))
+        CREDIT_LOG.append(f'{sid}: {len(s)} rows' + (f' from {s.index[0].date()}' if len(s) else f'; first bytes {body[:80]!r}'))
+        print('credit ' + CREDIT_LOG[-1])
         if len(s) and (best is None or s.index[0] < best[1].index[0]):
             best = (sid, s)
     return best
@@ -915,16 +924,19 @@ def main():
     try:
         credit = credit_series()
     except Exception as exc:
-        print(f'credit spreads unavailable: {type(exc).__name__}')
+        CREDIT_LOG.append(f'unavailable: {type(exc).__name__}: {str(exc)[:120]}')
         credit = None
     result = study(spx, vix, data['adj'], data['split_close'], data['volume'], rows, CachedShares(),
                    extremes=extremes, move=move, credit=credit)
+    result['credit_log'] = list(CREDIT_LOG)
     result['tickers_requested'] = len(tickers)
     result['tickers_priced'] = int(data['adj'].notna().any().sum())
     OUT_JSON.parent.mkdir(exist_ok=True)
     OUT_JSON.write_text(json.dumps(result, indent=1, allow_nan=False) + '\n', encoding='utf-8')
     md = report(result) + (f"\nTickers ever in the index since 1998: {result['tickers_requested']}; with Yahoo prices: "
                            f"{result['tickers_priced']}.\n")
+    if result.get('credit') is None:
+        md += '\nCredit split not computed: ' + ('; '.join(CREDIT_LOG) or 'no FRED answer recorded') + '\n'
     OUT_MD.write_text(md, encoding='utf-8')
     print(md)
 
