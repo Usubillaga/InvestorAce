@@ -15,6 +15,7 @@ on:
       - 'rebound_backtest.py'
       - 'panic_backtest.py'
       - 'panic_history.py'
+      - 'credit_followup.py'
       - 'insider_backtest.py'
       - 'mcclellan_backtest.py'
       - '.github/workflows/backtest.yml'
@@ -69,11 +70,27 @@ jobs:
         # Optional: a failure keeps the previous crash_study.json and never blocks the backtest results.
         continue-on-error: true
         run: python crash_study.py
+      - name: Credit spreads from FRED (for panic_history.py)
+        # Optional: curl with retries; panic_history.py reads these files and records in its results why a series is missing.
+        continue-on-error: true
+        run: |
+          mkdir -p .cache
+          for id in BAMLH0A0HYM2 BAA10Y; do
+            curl -sSL --retry 4 --retry-delay 10 --max-time 120 -A 'Mozilla/5.0 (InvestorAce research)' \
+              -o ".cache/fred-$id.csv" -w "$id: HTTP %{http_code}, %{size_download} bytes\n" \
+              "https://fred.stlouisfed.org/graph/fredgraph.csv?id=$id" || echo "$id: curl failed"
+            head -c 120 ".cache/fred-$id.csv" 2>/dev/null; echo
+          done
       - name: Panic buys since 2000 (panic_history.py)
         # Optional, like the crash study: a failure keeps the previous results and never blocks the backtest.
         continue-on-error: true
         timeout-minutes: 45              # chunked download with pauses while Yahoo throttles
         run: python panic_history.py
+      - name: Credit stress follow-up (credit_followup.py)
+        # Optional: S&P 500 index and the FRED file above; a failure keeps the previous results.
+        continue-on-error: true
+        timeout-minutes: 15
+        run: python credit_followup.py
       - name: Insider purchase clusters since 2006 (insider_backtest.py)
         # Optional as well: SEC data sets and Yahoo prices; a failure keeps the previous results.
         continue-on-error: true
@@ -93,7 +110,7 @@ jobs:
           tested=$(git rev-parse HEAD)   # the commit these results were calculated from
           git add backtests/latest.json backtests/latest.md
           if [ -f backtests/crash_study.json ]; then git add backtests/crash_study.json; fi
-          for f in backtests/panic_history.json backtests/panic_history.md backtests/insider_clusters.json backtests/insider_clusters.md backtests/mcclellan.json backtests/mcclellan.md; do if [ -f "$f" ]; then git add "$f"; fi; done
+          for f in backtests/panic_history.json backtests/panic_history.md backtests/credit_followup.json backtests/credit_followup.md backtests/insider_clusters.json backtests/insider_clusters.md backtests/mcclellan.json backtests/mcclellan.md; do if [ -f "$f" ]; then git add "$f"; fi; done
           if git diff --cached --quiet; then exit 0; fi
           git commit -qm "backtest: results $(date -u +%F)"
           target="$BRANCH"

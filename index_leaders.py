@@ -521,6 +521,13 @@ def _move_html(move):
             + '</p>')
 
 
+# Shown on the accounts that buy SpaceX (user's request, 28 Nov 2026). A dated third-party reading, not our data.
+CREDIT_NOTE = ('<p class="muted" style="color:#ffb3b3;font-size:13px;margin:4px 0 6px">Credit warning: SpaceX five-year '
+               'CDS about 266 bp on 19 Nov 2026, from about 100 bp a few months earlier; the market-implied rating is '
+               'B+ (high yield). Source: Groundbreaker, Bloomberg data via Goldman Sachs (not verified by InvestorAce).'
+               '</p>')
+
+
 ACCOUNT_STYLE = {'20': ('#f5d000', 'Buys under 20', ''),
                  '17': ('#ff9d2e', 'Buys under 17', ''),
                  '17-spcx-ant': ('#b57bff', 'Buys under 17 · SpaceX + Anthropic',
@@ -578,6 +585,7 @@ def accounts_html(states, snapshot, intraday):
         cards.append(
             f'<div class="acc" style="--acc:{colour}"><h3>{escape(title)}</h3>'
             + (f'<span class="tag">{escape(tag)}</span>' if tag else '')
+            + (CREDIT_NOTE if any(sym == 'SPCX' for sym, _ in (state.get('basket_spec') or [])) else '')
             + f'<div class="state {"inv" if invested else "cash"}">{"INVESTED" if invested else "IN CASH · waiting"}</div>'
             '<dl>'
             f'<dt>Value</dt><dd>{equity:,.2f} {cur} <span class="{"up" if (result or 0) >= 0 else "down"}">'

@@ -143,7 +143,7 @@ def excess(series, index, window=MOVE_WINDOW):
     return s - s.rolling(window, min_periods=window // 2).mean()
 
 
-def move_study(level_events, move, vix, index):
+def move_study(level_events, move, vix, index, bands=None):
     """Panic buys split by bond-market stress on the signal day (MOVE vs its 3-year mean; 3Fourteen's chart, asked
     for on 26 Nov 2026). Same events and exits as the level study; only the grouping is new."""
     mx, vx = excess(move, index), excess(vix, index)
@@ -156,7 +156,7 @@ def move_study(level_events, move, vix, index):
             tagged.append((e, None if m is None or m != m else float(m),
                            None if vx.get(day) is None or vx.get(day) != vx.get(day) else float(vx.get(day))))
         groups = {}
-        for name, band in MOVE_BANDS:
+        for name, band in (bands or MOVE_BANDS):
             sub = [e for e, m, _ in tagged if m is not None and band(m)]
             full = summary(sub, horizons=(252, LONG))
             groups[name] = dict(signals=[e['date'] for e in sub], long_exit=long_summary(sub),
@@ -168,6 +168,44 @@ def move_study(level_events, move, vix, index):
                                            mix_42m=(e['long_exit'] or {}).get('mix') if e.get('long_exit') else None)
                                       for e, m, v in tagged])
     return out
+
+
+CREDIT_BANDS = (('wide (> +1.0 pp)', lambda m: m > 1.0), ('widening (0 to +1.0 pp)', lambda m: 0. <= m <= 1.0),
+                ('tight (< 0)', lambda m: m < 0.))
+CREDIT_LOG = []                                 # why each series loaded or not; stored in the results
+CREDIT_SERIES = ('BAMLH0A0HYM2', 'BAA10Y')      # ICE BofA US high-yield OAS; Moody's Baa minus 10-year as a fallback
+
+
+def credit_series(fetch=None):
+    """(FRED id, daily spread in percentage points) with the longest history: the high-yield OAS when FRED still
+    carries it from the 1990s, otherwise Moody's Baa corporate yield minus the 10-year Treasury (since 1986)."""
+    import io
+    from urllib.request import Request, urlopen
+    def _fred(sid):
+        cached = ROOT / '.cache' / f'fred-{sid}.csv'      # written by the workflow's curl step, if it succeeded
+        if cached.exists() and cached.stat().st_size > 100:
+            return cached.read_bytes()
+        return urlopen(Request(f'https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}',
+                               headers={'User-Agent': 'Mozilla/5.0 (InvestorAce research)'}), timeout=120).read()
+    fetch = fetch or _fred
+    best = None
+    CREDIT_LOG.clear()
+    for sid in CREDIT_SERIES:
+        try:
+            body = fetch(sid)
+            raw = pd.read_csv(io.BytesIO(body))
+            s = pd.to_numeric(raw.iloc[:, 1], errors='coerce')
+            s.index = pd.to_datetime(raw.iloc[:, 0], errors='coerce')
+            s = s[s.index.notna()].dropna()
+        except Exception as exc:
+            CREDIT_LOG.append(f'{sid}: {type(exc).__name__}: {str(exc)[:120]}')
+            print('credit ' + CREDIT_LOG[-1])
+            continue
+        CREDIT_LOG.append(f'{sid}: {len(s)} rows' + (f' from {s.index[0].date()}' if len(s) else f'; first bytes {body[:80]!r}'))
+        print('credit ' + CREDIT_LOG[-1])
+        if len(s) and (best is None or s.index[0] < best[1].index[0]):
+            best = (sid, s)
+    return best
 
 
 def drawdowns(adj):
@@ -443,7 +481,7 @@ def long_summary(events):
     return out
 
 
-def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extremes=None, move=None):
+def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extremes=None, move=None, credit=None):
     index = spx.index[spx.index >= pd.Timestamp(start) - pd.Timedelta(days=400)]
     adj, split_close, volume = (f.reindex(index) for f in (adj, split_close, volume))
     spx, vix = spx.reindex(index), vix.reindex(index).ffill()
@@ -500,8 +538,12 @@ def study(spx, vix, adj, split_close, volume, rows, shares, start=START, extreme
         touch = touch_study(heat, th, start, lambda d: event(d, adj, split_close, volume, members, dd, recent_high,
                                                              spx, heat, shares, horizons=(252, LONG)))
     bonds = move_study(level_events, move, vix, index) if move is not None and len(move) else None
+    spread = None
+    if credit is not None and len(credit[1]):
+        spread = dict(series=credit[0], start=str(credit[1].index[0].date()),
+                      split=move_study(level_events, credit[1], vix, index, bands=CREDIT_BANDS))
     last = heat.dropna()
-    return dict(schema='panic-history-v1', touch=touch, move=bonds, start=str(index[0].date()), end=str(index[-1].date()),
+    return dict(schema='panic-history-v1', touch=touch, move=bonds, credit=spread, start=str(index[0].date()), end=str(index[-1].date()),
                 signals=len(events), events=events, summary=summary(events), breadth_checks=checks,
                 long_exit=long_summary(events), delays=delays, levels=levels,
                 staged=dict(rows=staged_rows, summary=staged_summary(staged_rows)), staged_grid=staged_grid,
@@ -703,6 +745,25 @@ def report(result):
                 f"{'—' if r['vix_excess'] is None else format(r['vix_excess'], '+.1f')}"
                 f"{'' if r['mix_42m'] is None else ' → ' + _pct(r['mix_42m'])}" for r in b['per_signal'])]
         lines.append('')
+    spread = result.get('credit')
+    if spread:
+        lines += ['## Panic buys split by credit stress (' + spread['series'] + ' vs its 3-year mean on the signal day)', '',
+                  f"FRED {spread['series']} from {spread['start']}, in percentage points. Same buys and exits as above.", '',
+                  '| Level | Credit spread | Signals | Mix 12 m mean / worst | Mix 42 m then euphoria: mean / worst / beats S&P | '
+                  'Mix worst fall, 42 m |', '|---|---|---:|---|---|---:|']
+        for level, b in spread['split'].items():
+            for name, g in b['groups'].items():
+                y1, y42 = g['summary'].get('252') or {}, g['summary'].get(str(LONG)) or {}
+                m1, d42 = y1.get('mix'), (y42.get('drawdown') or {}).get('mix')
+                le = (g.get('long_exit') or {}).get('mix')
+                lines.append(f"| < {level} | {name} | {len(g['signals'])} | "
+                             f"{_pct(m1['mean']) + ' / ' + _pct(m1['worst']) if m1 else '—'} | "
+                             f"{(_pct(le['mean']) + ' / ' + _pct(le['worst']) + ' / ' + str(le['beats_spx']) + '/' + str(g['long_exit']['n'])) if le else '—'} | "
+                             f"{_pct(d42['worst']) if d42 else '—'} |")
+        for level, b in spread['split'].items():
+            lines += ['', f'Signals under {level} (credit spread pp vs 3-year mean): ' + '; '.join(
+                f"{r['date']} {'—' if r['move_excess'] is None else format(r['move_excess'], '+.2f')}" for r in b['per_signal'])]
+        lines.append('')
     return '\n'.join(lines) + '\n'
 
 
@@ -860,14 +921,22 @@ def main():
         move = None
     if move is not None:
         move = move[move.index < cutoff]
+    try:
+        credit = credit_series()
+    except Exception as exc:
+        CREDIT_LOG.append(f'unavailable: {type(exc).__name__}: {str(exc)[:120]}')
+        credit = None
     result = study(spx, vix, data['adj'], data['split_close'], data['volume'], rows, CachedShares(),
-                   extremes=extremes, move=move)
+                   extremes=extremes, move=move, credit=credit)
+    result['credit_log'] = list(CREDIT_LOG)
     result['tickers_requested'] = len(tickers)
     result['tickers_priced'] = int(data['adj'].notna().any().sum())
     OUT_JSON.parent.mkdir(exist_ok=True)
     OUT_JSON.write_text(json.dumps(result, indent=1, allow_nan=False) + '\n', encoding='utf-8')
     md = report(result) + (f"\nTickers ever in the index since 1998: {result['tickers_requested']}; with Yahoo prices: "
                            f"{result['tickers_priced']}.\n")
+    if result.get('credit') is None:
+        md += '\nCredit split not computed: ' + ('; '.join(CREDIT_LOG) or 'no FRED answer recorded') + '\n'
     OUT_MD.write_text(md, encoding='utf-8')
     print(md)
 

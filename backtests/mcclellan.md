@@ -1,6 +1,6 @@
 # McClellan Oscillator from S&P 500 members
 
-Rebuilt breadth (RANA) 1996-02-27 → 2026-11-27; last +37.0 on 2026-11-27. Thrust: crosses above 0 within 20 sessions of a reading under -150. Oversold: first close under -150. One signal per 63 sessions; S&P 500 forward returns against the average of all days in the same period. Passes only with a positive mean and median 6-month edge in all periods.
+Rebuilt breadth (RANA) 1996-02-27 → 2026-11-27; last +37.4 on 2026-11-27. Thrust: crosses above 0 within 20 sessions of a reading under -150. Oversold: first close under -150. One signal per 63 sessions; S&P 500 forward returns against the average of all days in the same period. Passes only with a positive mean and median 6-month edge in all periods.
 
 | Signal | Period | Horizon | n | Mean | All days | Mean edge | Median edge | Positive |
 |---|---|---|---:|---:|---:|---:|---:|---:|
