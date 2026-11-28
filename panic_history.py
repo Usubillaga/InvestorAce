@@ -185,13 +185,15 @@ def credit_series(fetch=None):
     best = None
     for sid in CREDIT_SERIES:
         try:
-            raw = pd.read_csv(io.BytesIO(fetch(sid)))
+            body = fetch(sid)
+            raw = pd.read_csv(io.BytesIO(body))
             s = pd.to_numeric(raw.iloc[:, 1], errors='coerce')
-            s.index = pd.to_datetime(raw.iloc[:, 0])
-            s = s.dropna()
+            s.index = pd.to_datetime(raw.iloc[:, 0], errors='coerce')
+            s = s[s.index.notna()].dropna()
         except Exception as exc:
-            print(f'{sid}: {type(exc).__name__}')
+            print(f'credit {sid}: {type(exc).__name__}: {str(exc)[:120]}')
             continue
+        print(f'credit {sid}: {len(s)} rows' + (f' from {s.index[0].date()}' if len(s) else f'; first bytes {body[:80]!r}'))
         if len(s) and (best is None or s.index[0] < best[1].index[0]):
             best = (sid, s)
     return best
