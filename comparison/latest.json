@@ -1,7 +1,7 @@
 {
  "schema": "stock-comparison-v1",
- "generated_at": "2026-11-27T12:11:29.055713+00:00",
- "universe_count": 133,
+ "generated_at": "2026-11-28T05:31:53.742615+00:00",
+ "universe_count": 134,
  "rows": [
   {
    "ticker": "AAPL",
@@ -10065,7 +10065,7 @@
    "financial_currency": null,
    "quote_currency": null,
    "retrieved_at": null,
-   "attempted_at": "2026-11-27T12:11:29.055713+00:00",
+   "attempted_at": "2026-11-28T05:31:53.742615+00:00",
    "status": "UNAVAILABLE",
    "annual": [],
    "market": {},
@@ -13559,8 +13559,8 @@
    "sector": "Real Estate",
    "financial_currency": "USD",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-20T13:06:53.978959+00:00",
-   "attempted_at": "2026-11-20T13:06:53.978959+00:00",
+   "retrieved_at": "2026-11-27T21:17:39.229671+00:00",
+   "attempted_at": "2026-11-27T21:17:39.229671+00:00",
    "status": "PARTIAL",
    "annual": [
     {
@@ -13686,9 +13686,9 @@
    ],
    "market": {
     "shares_outstanding": 950997048.0,
-    "float_shares": 948980934.0,
-    "float_pct": 99.78799997284534,
-    "retrieved_at": "2026-11-20T13:06:53.978959+00:00"
+    "float_shares": 948971424.0,
+    "float_pct": 99.78699996974123,
+    "retrieved_at": "2026-11-27T21:17:39.229671+00:00"
    },
    "warnings": [],
    "sources": [
@@ -14667,8 +14667,8 @@
    "sector": "Consumer Cyclical",
    "financial_currency": "CNY",
    "quote_currency": "USD",
-   "retrieved_at": "2026-11-20T13:47:14.330633+00:00",
-   "attempted_at": "2026-11-20T13:47:14.330633+00:00",
+   "retrieved_at": "2026-11-27T21:17:39.229671+00:00",
+   "attempted_at": "2026-11-27T21:17:39.229671+00:00",
    "status": "OK",
    "annual": [
     {
@@ -14794,9 +14794,9 @@
    ],
    "market": {
     "shares_outstanding": 1423396462.0,
-    "float_shares": 754173908.0,
-    "float_pct": 52.98410724868023,
-    "retrieved_at": "2026-11-20T13:47:14.330633+00:00"
+    "float_shares": 754483613.0,
+    "float_pct": 53.00586541713632,
+    "retrieved_at": "2026-11-27T21:17:39.229671+00:00"
    },
    "warnings": [],
    "sources": [
@@ -17503,6 +17503,164 @@
     {
      "label": "Yahoo Finance \u00b7 Share statistics",
      "url": "https://finance.yahoo.com/quote/SMCI/key-statistics/"
+    }
+   ]
+  },
+  {
+   "ticker": "SNDK",
+   "listing": "SNDK",
+   "name": "Sandisk Corporation",
+   "sector": "Technology",
+   "financial_currency": "USD",
+   "quote_currency": "USD",
+   "retrieved_at": "2026-11-27T21:17:39.229671+00:00",
+   "attempted_at": "2026-11-27T21:17:39.229671+00:00",
+   "status": "OK",
+   "annual": [
+    {
+     "period_end": "2026-06-30",
+     "basis": "FY",
+     "revenue": 20248000000.0,
+     "gross_profit": 14472000000.0,
+     "operating_income": 12468000000.0,
+     "net_income": 11433000000.0,
+     "ebitda": 13239000000.0,
+     "shares_diluted": 155000000.0,
+     "shares_basic": 147000000.0,
+     "debt": 177000000.0,
+     "cash": 4762000000.0,
+     "equity": 15736000000.0,
+     "assets": 22507000000.0,
+     "liabilities": 6771000000.0,
+     "ocf": 11671000000.0,
+     "capex": 177000000.0,
+     "stock_comp": 232000000.0,
+     "buybacks": 4524000000.0,
+     "fcf": 11494000000.0,
+     "net_debt": -4585000000.0,
+     "gross_margin": 71.47372580007902,
+     "operating_margin": 61.57645199525879,
+     "net_margin": 56.46483603318846,
+     "fcf_margin": 56.76610035559067,
+     "net_debt_ebitda": -0.3463252511518997,
+     "debt_equity": 0.01124809354346721,
+     "revenue_growth": 175.29571719918425,
+     "dilution": 6.896551724137923
+    },
+    {
+     "period_end": "2025-06-30",
+     "basis": "FY",
+     "revenue": 7355000000.0,
+     "gross_profit": 2212000000.0,
+     "operating_income": 507000000.0,
+     "net_income": -1641000000.0,
+     "ebitda": -1253000000.0,
+     "shares_diluted": 145000000.0,
+     "shares_basic": 145000000.0,
+     "debt": 2042000000.0,
+     "cash": 1481000000.0,
+     "equity": 9216000000.0,
+     "assets": 12985000000.0,
+     "liabilities": 3769000000.0,
+     "ocf": 84000000.0,
+     "capex": 204000000.0,
+     "stock_comp": 182000000.0,
+     "buybacks": 0.0,
+     "fcf": -120000000.0,
+     "net_debt": 561000000.0,
+     "gross_margin": 30.074779061862678,
+     "operating_margin": 6.8932698844323586,
+     "net_margin": -22.31135282121006,
+     "fcf_margin": -1.6315431679129844,
+     "net_debt_ebitda": null,
+     "debt_equity": 0.22157118055555555,
+     "revenue_growth": 10.385712141677917,
+     "dilution": 0.0
+    },
+    {
+     "period_end": "2024-06-30",
+     "basis": "FY",
+     "revenue": 6663000000.0,
+     "gross_profit": 1072000000.0,
+     "operating_income": -444000000.0,
+     "net_income": -672000000.0,
+     "ebitda": -239000000.0,
+     "shares_diluted": 145000000.0,
+     "shares_basic": 145000000.0,
+     "debt": 985000000.0,
+     "cash": 328000000.0,
+     "equity": 11082000000.0,
+     "assets": 13506000000.0,
+     "liabilities": 2424000000.0,
+     "ocf": -309000000.0,
+     "capex": 166000000.0,
+     "stock_comp": 149000000.0,
+     "buybacks": 0.0,
+     "fcf": -475000000.0,
+     "net_debt": 657000000.0,
+     "gross_margin": 16.08884886687678,
+     "operating_margin": -6.663665015758667,
+     "net_margin": -10.085547050877983,
+     "fcf_margin": -7.128920906498575,
+     "net_debt_ebitda": null,
+     "debt_equity": 0.0888828731275943,
+     "revenue_growth": 9.480775550443642,
+     "dilution": 0.0
+    },
+    {
+     "period_end": "2023-06-30",
+     "basis": "FY",
+     "revenue": 6086000000.0,
+     "gross_profit": 430000000.0,
+     "operating_income": -1295000000.0,
+     "net_income": -2143000000.0,
+     "ebitda": -1523000000.0,
+     "shares_diluted": 145000000.0,
+     "shares_basic": 145000000.0,
+     "debt": null,
+     "cash": null,
+     "equity": null,
+     "assets": null,
+     "liabilities": null,
+     "ocf": -713000000.0,
+     "capex": 219000000.0,
+     "stock_comp": 165000000.0,
+     "buybacks": null,
+     "fcf": -932000000.0,
+     "net_debt": null,
+     "gross_margin": 7.065395990798554,
+     "operating_margin": -21.27834373973053,
+     "net_margin": -35.21196187972396,
+     "fcf_margin": -15.313835031219192,
+     "net_debt_ebitda": null,
+     "debt_equity": null,
+     "revenue_growth": null,
+     "dilution": null
+    }
+   ],
+   "market": {
+    "shares_outstanding": 1138314920.0,
+    "float_shares": 1122890753.0,
+    "float_pct": 98.64500001458296,
+    "retrieved_at": "2026-11-27T21:17:39.229671+00:00"
+   },
+   "warnings": [],
+   "sources": [
+    {
+     "label": "Yahoo Finance \u00b7 Income statement",
+     "url": "https://finance.yahoo.com/quote/SNDK/financials/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Balance sheet",
+     "url": "https://finance.yahoo.com/quote/SNDK/balance-sheet/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Cash flow",
+     "url": "https://finance.yahoo.com/quote/SNDK/cash-flow/"
+    },
+    {
+     "label": "Yahoo Finance \u00b7 Share statistics",
+     "url": "https://finance.yahoo.com/quote/SNDK/key-statistics/"
     }
    ]
   },
