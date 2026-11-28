@@ -226,7 +226,8 @@ class Study(unittest.TestCase):
         rows = [(pd.Timestamp('1999-01-04'), list(adj.columns))]
         volume = pd.DataFrame(1e6, index=idx, columns=adj.columns)
         result = ph.study(spx, vix, adj, adj, volume, rows, lambda t, d: None, start='2000-01-01',
-                          extremes=(spx * 0.99, vix * 1.1), move=pd.Series(100., index=idx))
+                          extremes=(spx * 0.99, vix * 1.1), move=pd.Series(100., index=idx),
+                          credit=('BAA10Y', pd.Series(2.0, index=idx)))
         self.assertGreaterEqual(result['signals'], 1)
         json.dumps(result, allow_nan=False)
         md = ph.report(result)
@@ -246,6 +247,11 @@ class Study(unittest.TestCase):
         self.assertEqual(sorted(result['move']), ['17', '20'])
         self.assertEqual(len(result['move']['20']['per_signal']), len(result['levels']['20']['signals']))
         self.assertIn('bond-market stress', md)
+        self.assertEqual(result['credit']['series'], 'BAA10Y')
+        self.assertIn('credit stress', md)
+        sid, ser = ph.credit_series(fetch=lambda sid: b'DATE,X\n2000-01-03,3.1\n2000-01-04,3.2\n' if sid == 'BAA10Y'
+                                    else b'DATE,X\n2023-01-03,4.0\n')
+        self.assertEqual((sid, len(ser)), ('BAA10Y', 2))                  # the longer history wins
 
 
 if __name__ == '__main__':

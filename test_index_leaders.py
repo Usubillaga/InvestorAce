@@ -325,6 +325,9 @@ class MoveAccount(unittest.TestCase):
         self.assertIn('Not high', il._move_html(3.))
         html = il.accounts_html([('20-move', 20., il.fresh('2026-11-20', 20., '20-move'))], {}, {})
         self.assertIn('only if MOVE', html)
+        self.assertIn('Credit warning', html)                               # the MOVE account buys SpaceX
+        plain = il.accounts_html([('20', 20., il.fresh('2026-11-20', 20., '20'))], {}, {})
+        self.assertNotIn('Credit warning', plain)
 
 
 class Page(unittest.TestCase):
