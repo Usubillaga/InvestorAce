@@ -1,6 +1,6 @@
 # Panic buys since 2000
 
-Thermometer panic signals 2001-03-21 → 2026-11-25: 14 first panic closes. Members as on each day (S&P 500), bought at the next close, 0.1% per side, delisted names carried at their last price. Survivorship: members without Yahoo prices are left out (counted per signal), so early busted baskets look better than they were.
+Thermometer panic signals 2001-03-21 → 2026-11-27: 14 first panic closes. Members as on each day (S&P 500), bought at the next close, 0.1% per side, delisted names carried at their last price. Survivorship: members without Yahoo prices are left out (counted per signal), so early busted baskets look better than they were.
 
 ## 3 months (63 sessions)
 
@@ -70,12 +70,12 @@ Worst fall from a high while held (mean / worst signal): Top 10 by weight -35.7%
 
 | Basket | Mean | Median | Worst | Beats S&P | Worst fall while held |
 |---|---:|---:|---:|---:|---:|
-| Top 10 by weight | +65.6% | +64.2% | -9.2% | 10/14 | -58.8% |
-| All members, equal | +63.8% | +59.2% | +20.6% | 12/14 | -54.9% |
-| Half top 10, half all members | +64.7% | +76.4% | +19.8% | 14/14 | -56.7% |
-| S&P 500 | +42.4% | +54.3% | -0.5% | — | -52.6% |
+| Top 10 by weight | +65.8% | +65.4% | -9.2% | 10/14 | -58.8% |
+| All members, equal | +64.0% | +59.2% | +20.6% | 12/14 | -54.9% |
+| Half top 10, half all members | +64.9% | +76.4% | +19.8% | 14/14 | -56.7% |
+| S&P 500 | +42.6% | +54.3% | -0.5% | — | -52.6% |
 
-Per signal: 2001-03-21 → 2004-11-05: top 10 -9.2%, all +48.7%, S&P +4.3%; 2001-09-07 → 2005-06-20: top 10 +2.3%, all +54.4%, S&P +11.3%; 2002-07-02 → 2006-01-04: top 10 +44.0%, all +74.5%, S&P +33.5%; 2003-01-24 → 2006-09-27: top 10 +43.2%, all +119.4%, S&P +57.7%; 2008-01-17 → 2012-01-26: top 10 +28.3%, all +20.6%, S&P -0.5%; 2008-07-02 → 2012-01-26: top 10 +28.7%, all +24.3%, S&P +4.4%; 2010-06-07 → 2013-12-09: top 10 +67.9%, all +92.2%, S&P +70.3%; 2011-08-04 → 2015-02-23: top 10 +105.0%, all +103.5%, S&P +75.9%; 2015-08-24 → 2019-04-08: top 10 +128.3%, all +63.9%, S&P +55.1%; 2016-01-15 → 2019-07-23: top 10 +86.7%, all +72.4%, S&P +59.8%; 2018-12-19 → 2023-02-03: top 10 +122.3%, all +80.2%, S&P +67.6%; 2020-02-27 → 2023-11-21: top 10 +101.8%, all +52.4%, S&P +53.6%; 2022-03-07 → 2025-09-15: top 10 +108.5%, all +42.9%, S&P +58.6%; 2025-04-04 → 2026-11-25 (open): top 10 +60.6%, all +44.1%, S&P +41.9%
+Per signal: 2001-03-21 → 2004-11-05: top 10 -9.2%, all +48.7%, S&P +4.3%; 2001-09-07 → 2005-06-20: top 10 +2.3%, all +54.4%, S&P +11.3%; 2002-07-02 → 2006-01-04: top 10 +44.0%, all +74.5%, S&P +33.5%; 2003-01-24 → 2006-09-27: top 10 +43.2%, all +119.4%, S&P +57.7%; 2008-01-17 → 2012-01-26: top 10 +28.3%, all +20.6%, S&P -0.5%; 2008-07-02 → 2012-01-26: top 10 +28.7%, all +24.3%, S&P +4.4%; 2010-06-07 → 2013-12-09: top 10 +67.9%, all +92.2%, S&P +70.3%; 2011-08-04 → 2015-02-23: top 10 +105.0%, all +103.5%, S&P +75.9%; 2015-08-24 → 2019-04-08: top 10 +128.3%, all +63.9%, S&P +55.1%; 2016-01-15 → 2019-07-23: top 10 +86.7%, all +72.4%, S&P +59.8%; 2018-12-19 → 2023-02-03: top 10 +122.3%, all +80.2%, S&P +67.6%; 2020-02-27 → 2023-11-21: top 10 +101.8%, all +52.4%, S&P +53.6%; 2022-03-07 → 2025-09-15: top 10 +108.5%, all +42.9%, S&P +58.6%; 2025-04-04 → 2026-11-27 (open): top 10 +62.9%, all +46.4%, S&P +44.2%
 
 ## Buying deeper in the panic: first close under each level from 20 to 10
 
@@ -95,7 +95,7 @@ Eleven levels on 11-14 overlapping signals: the best-looking level is partly luc
 | < 11 | 12 | +20.7% / -39.8% | -58.6% | +69.8% / +17.1% | -56.4% | +12.3% |
 | < 10 | 11 | +26.2% / -25.0% | -56.4% | +75.0% / +33.9% | -52.7% | +17.1% |
 
-42 months then euphoria (mixed basket): < 20: +64.7% mean, worst +19.8%, beats S&P 14/14; < 19: +63.8% mean, worst +17.9%, beats S&P 14/14; < 18: +65.5% mean, worst +17.9%, beats S&P 14/14; < 17: +68.2% mean, worst +24.4%, beats S&P 14/14; < 16: +72.5% mean, worst +24.4%, beats S&P 13/13; < 15: +74.2% mean, worst +24.4%, beats S&P 12/12; < 14: +76.3% mean, worst +29.2%, beats S&P 12/12; < 13: +76.5% mean, worst +29.2%, beats S&P 12/12; < 12: +75.8% mean, worst +29.2%, beats S&P 12/12; < 11: +76.0% mean, worst +30.9%, beats S&P 12/12; < 10: +80.1% mean, worst +38.5%, beats S&P 11/11
+42 months then euphoria (mixed basket): < 20: +64.9% mean, worst +19.8%, beats S&P 14/14; < 19: +64.0% mean, worst +17.9%, beats S&P 14/14; < 18: +65.6% mean, worst +17.9%, beats S&P 14/14; < 17: +68.4% mean, worst +24.4%, beats S&P 14/14; < 16: +72.7% mean, worst +24.4%, beats S&P 13/13; < 15: +74.4% mean, worst +24.4%, beats S&P 12/12; < 14: +76.5% mean, worst +29.2%, beats S&P 12/12; < 13: +76.7% mean, worst +29.2%, beats S&P 12/12; < 12: +76.0% mean, worst +29.2%, beats S&P 12/12; < 11: +76.2% mean, worst +30.9%, beats S&P 12/12; < 10: +80.4% mean, worst +38.5%, beats S&P 11/11
 
 Signals under 20: 2001-03-21, 2001-09-07, 2002-07-02, 2003-01-24, 2008-01-17, 2008-07-02, 2010-06-07, 2011-08-04, 2015-08-24, 2016-01-15, 2018-12-19, 2020-02-27, 2022-03-07, 2025-04-04
 Signals under 19: 2001-03-22, 2001-09-07, 2002-07-03, 2003-01-24, 2008-01-17, 2008-07-02, 2010-06-07, 2011-08-04, 2015-08-24, 2016-01-15, 2018-12-20, 2020-02-28, 2022-03-07, 2025-04-04
@@ -185,17 +185,17 @@ Our share of priced members broken/busted versus Scion's Bloomberg counts. A low
 | 2025-02-19 | 503 / 503 | 483 | 38% / 43% | 16% / 19% |
 | 2026-10-06 | 503 / 503 | 497 | 48% / 55% | 19% / 23% |
 
-Now (2026-11-25): 50% broken, 22% busted (110 names, 54 of them with a ten-year high set in the last two years); thermometer 33.9.
+Now (2026-11-27): 48% broken, 21% busted (106 names, 52 of them with a ten-year high set in the last two years); thermometer 43.2.
 ## Touching the level intraday (any time of day) vs a close under it
 
 The touch thermometer uses the S&P 500 daily low and the VIX daily high (they need not coincide, so it overstates the intraday panic a little); breadth stays on closes. Both rules are bought the same way (next close after the signal day), so only the trigger differs. The touch fill in a live account would be at the moment of the touch, which daily data cannot price.
 
 | Level | Rule | Signals | Touch-only episodes | Earlier (sessions, median) | Mix 12 m mean / worst | Mix 42 m mean / worst | Mix 42 m then euphoria: mean / worst / beats S&P | Mix worst fall, 42 m |
 |---|---|---:|---:|---:|---|---|---|---:|
-| < 20 | close (current) | 14 | — | — | +12.6% / -45.8% | +59.2% / +11.7% | +64.7% / +19.8% / 14/14 | -56.7% |
-| < 20 | touch | 15 | 2 | 0 | +7.6% / -45.8% | +53.1% / +11.7% | +54.2% / -0.7% / 15/15 | -58.0% |
-| < 17 | close (current) | 14 | — | — | +14.7% / -45.8% | +63.7% / +18.7% | +68.2% / +24.4% / 14/14 | -56.7% |
-| < 17 | touch | 16 | 2 | 0 | +11.1% / -45.8% | +56.4% / +10.7% | +57.2% / -0.7% / 16/16 | -58.0% |
+| < 20 | close (current) | 14 | — | — | +12.6% / -45.8% | +59.2% / +11.7% | +64.9% / +19.8% / 14/14 | -56.7% |
+| < 20 | touch | 15 | 2 | 0 | +7.6% / -45.8% | +53.1% / +11.7% | +54.5% / +0.7% / 14/15 | -58.0% |
+| < 17 | close (current) | 14 | — | — | +14.7% / -45.8% | +63.7% / +18.7% | +68.4% / +24.4% / 14/14 | -56.7% |
+| < 17 | touch | 16 | 2 | 0 | +11.1% / -45.8% | +56.4% / +10.7% | +57.5% / +0.7% / 15/16 | -58.0% |
 
 Under 20: touch signals 2001-03-21, 2001-09-07, 2002-06-26, 2007-08-16, 2008-01-17, 2008-06-27, 2010-05-25, 2011-08-04, 2015-08-24, 2016-01-11, 2018-12-19, 2020-02-27, 2022-02-24, 2025-04-04, 2026-11-20; touch-only 2007-08-16, 2026-11-20
 Under 17: touch signals 2001-03-22, 2001-09-10, 2002-07-03, 2003-01-24, 2007-08-16, 2008-01-17, 2008-07-07, 2010-06-29, 2011-08-04, 2015-08-24, 2016-01-15, 2018-12-20, 2020-02-28, 2022-02-24, 2025-04-04, 2026-11-20; touch-only 2007-08-16, 2026-11-20
@@ -207,15 +207,15 @@ Idea from 3Fourteen Research's VIX & MOVE chart: stock fear with calm bonds was 
 | Level | MOVE on the signal day | Signals | Mix 12 m mean / worst | Mix 42 m mean / worst | Mix 42 m then euphoria: mean / worst / beats S&P | Mix worst fall, 42 m |
 |---|---|---:|---|---|---|---:|
 | < 20 | high (> +15) | 5 | -4.3% / -45.8% | +54.6% / +18.7% | +60.0% / +24.4% / 5/5 | -56.7% |
-| < 20 | elevated (0 to +15) | 2 | +36.2% / +26.6% | +78.1% / +78.1% | +65.9% / +52.3% / 2/2 | -22.4% |
+| < 20 | elevated (0 to +15) | 2 | +36.2% / +26.6% | +78.1% / +78.1% | +67.1% / +54.7% / 2/2 | -22.4% |
 | < 20 | calm (< 0) | 3 | +24.1% / +18.4% | +86.1% / +79.3% | +95.2% / +80.1% / 3/3 | -33.6% |
 | < 17 | high (> +15) | 5 | -2.5% / -45.8% | +56.9% / +18.7% | +63.0% / +24.4% / 5/5 | -56.7% |
-| < 17 | elevated (0 to +15) | 2 | +35.9% / +26.0% | +78.0% / +78.0% | +64.7% / +52.3% / 2/2 | -22.3% |
+| < 17 | elevated (0 to +15) | 2 | +35.9% / +26.0% | +78.0% / +78.0% | +65.9% / +54.7% / 2/2 | -22.3% |
 | < 17 | calm (< 0) | 3 | +27.9% / +18.4% | +93.8% / +91.0% | +100.4% / +90.7% / 3/3 | -33.5% |
 
-Signals under 20 (MOVE / VIX points vs their 3-year mean; mix 42 m then euphoria): 2001-03-21 — / +7.2 → +19.8%; 2001-09-07 — / +6.3 → +28.4%; 2002-07-02 — / +5.2 → +59.2%; 2003-01-24 — / +6.0 → +81.3%; 2008-01-17 +58.1 / +13.9 → +24.4%; 2008-07-02 +46.9 / +9.8 → +26.5%; 2010-06-07 -21.9 / +8.0 → +80.1%; 2011-08-04 -25.5 / +3.7 → +104.3%; 2015-08-24 +24.8 / +26.1 → +96.1%; 2016-01-15 +6.4 / +11.9 → +79.5%; 2018-12-19 -1.9 / +11.2 → +101.3%; 2020-02-27 +35.0 / +24.6 → +77.1%; 2022-03-07 +76.4 / +14.5 → +75.7%; 2025-04-04 +10.6 / +26.4 → +52.3%
+Signals under 20 (MOVE / VIX points vs their 3-year mean; mix 42 m then euphoria): 2001-03-21 — / +7.2 → +19.8%; 2001-09-07 — / +6.3 → +28.4%; 2002-07-02 — / +5.2 → +59.2%; 2003-01-24 — / +6.0 → +81.3%; 2008-01-17 +58.1 / +13.9 → +24.4%; 2008-07-02 +46.9 / +9.8 → +26.5%; 2010-06-07 -21.9 / +8.0 → +80.1%; 2011-08-04 -25.5 / +3.7 → +104.3%; 2015-08-24 +24.8 / +26.1 → +96.1%; 2016-01-15 +6.4 / +11.9 → +79.5%; 2018-12-19 -1.9 / +11.2 → +101.3%; 2020-02-27 +35.0 / +24.6 → +77.1%; 2022-03-07 +76.4 / +14.5 → +75.7%; 2025-04-04 +10.6 / +26.4 → +54.7%
 
-Signals under 17 (MOVE / VIX points vs their 3-year mean; mix 42 m then euphoria): 2001-04-03 — / +9.9 → +28.0%; 2001-09-10 — / +7.2 → +37.2%; 2002-07-10 — / +10.3 → +63.4%; 2003-01-24 — / +6.0 → +81.3%; 2008-01-17 +58.1 / +13.9 → +24.4%; 2008-07-11 +42.7 / +11.3 → +29.5%; 2010-06-30 -38.7 / +5.6 → +90.7%; 2011-08-04 -25.5 / +3.7 → +104.3%; 2015-08-24 +24.8 / +26.1 → +96.1%; 2016-01-20 +10.1 / +12.4 → +77.0%; 2018-12-20 -2.2 / +14.0 → +106.3%; 2020-02-28 +52.0 / +25.5 → +68.9%; 2022-05-09 +57.6 / +12.2 → +95.8%; 2025-04-04 +10.6 / +26.4 → +52.3%
+Signals under 17 (MOVE / VIX points vs their 3-year mean; mix 42 m then euphoria): 2001-04-03 — / +9.9 → +28.0%; 2001-09-10 — / +7.2 → +37.2%; 2002-07-10 — / +10.3 → +63.4%; 2003-01-24 — / +6.0 → +81.3%; 2008-01-17 +58.1 / +13.9 → +24.4%; 2008-07-11 +42.7 / +11.3 → +29.5%; 2010-06-30 -38.7 / +5.6 → +90.7%; 2011-08-04 -25.5 / +3.7 → +104.3%; 2015-08-24 +24.8 / +26.1 → +96.1%; 2016-01-20 +10.1 / +12.4 → +77.0%; 2018-12-20 -2.2 / +14.0 → +106.3%; 2020-02-28 +52.0 / +25.5 → +68.9%; 2022-05-09 +57.6 / +12.2 → +95.8%; 2025-04-04 +10.6 / +26.4 → +54.7%
 
 
 Tickers ever in the index since 1998: 1165; with Yahoo prices: 745.
