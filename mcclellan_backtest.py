@@ -97,6 +97,8 @@ def strategy(spx, days, hold=126, cost=0.001, start='2000-01-01'):
     """In the S&P 500 for `hold` sessions after each signal close (a new signal extends the stay), else cash at 0%.
     Cumulative return, CAGR, worst fall and time invested, against buying and holding the S&P 500."""
     s = spx[spx.index >= pd.Timestamp(start)].dropna()
+    if len(s) < 2:
+        return None
     inside = pd.Series(False, index=s.index)
     for d in days:
         if d in s.index:
@@ -113,6 +115,36 @@ def strategy(spx, days, hold=126, cost=0.001, start='2000-01-01'):
                     worst=float((e / e.cummax() - 1).min()))
     return dict(start=str(s.index[0].date()), end=str(s.index[-1].date()), invested=float(inside.mean()),
                 strategy=stats(equity), buy_hold=stats(hold_eq))
+
+
+def robustness(spx, days, starts=20, placebo=500, seed=7):
+    """The user's checks (27 Nov 2026): each period alone, 20 quarterly start dates 2000-2004, holding 63/126/252
+    sessions, and a placebo of the same number of random signal days (same hold) to see how often chance does as well."""
+    import numpy as np
+    out = dict(periods={}, starts=[], holds={}, placebo={})
+    for lo, hi in PERIODS:
+        span = spx[(spx.index >= pd.Timestamp(lo)) & ((spx.index <= pd.Timestamp(hi)) if hi else True)]
+        st = strategy(span, [d for d in days if d in span.index], start=lo)
+        if st:
+            out['periods'][f'{lo[:4]}-{(hi or "now")[:4]}'] = st
+    for k in range(starts):
+        start = (pd.Timestamp('2000-01-01') + pd.DateOffset(months=3 * k)).strftime('%Y-%m-%d')
+        r = strategy(spx, days, start=start)
+        if not r:
+            continue
+        out['starts'].append(dict(start=start, cagr=r['strategy']['cagr'], hold=r['buy_hold']['cagr'],
+                                  worst=r['strategy']['worst'], hold_worst=r['buy_hold']['worst']))
+    for h in (63, 126, 252):
+        out['holds'][str(h)] = strategy(spx, days, hold=h)
+    s = spx[spx.index >= pd.Timestamp('2000-01-01')]
+    real = strategy(spx, days)['strategy']['cagr']
+    rng = np.random.default_rng(seed)
+    n = sum(1 for d in days if d >= s.index[0])
+    sims = [strategy(spx, list(s.index[np.sort(rng.choice(len(s) - 1, n, replace=False))]))['strategy']['cagr']
+            for _ in range(placebo)]
+    out['placebo'] = dict(runs=placebo, signals=n, real=real, median=float(np.median(sims)),
+                          share_at_least_real=float(np.mean([x >= real for x in sims])))
+    return out
 
 
 def _pct(x):
@@ -152,6 +184,23 @@ def report(r):
                          f"cumulative {_pct(a['total'])}, CAGR {_pct(a['cagr'])}, worst fall {_pct(a['worst'])}, "
                          f"invested {100 * st['invested']:.0f}% of days; buy and hold {_pct(b['total'])}, CAGR "
                          f"{_pct(b['cagr'])}, worst fall {_pct(b['worst'])}.")
+ 
+        for k, rb in (cal.get('robustness') or {}).items():
+            lines += ['', f'### Robustness · {k}', '', '| Check | Strategy CAGR | Buy & hold CAGR | Strategy worst fall | Buy & hold worst fall | Invested |',
+                      '|---|---:|---:|---:|---:|---:|']
+            for name, st in list(rb['periods'].items()) + [(f'hold {h} sessions', st) for h, st in rb['holds'].items()]:
+                lines.append(f"| {name} | {_pct(st['strategy']['cagr'])} | {_pct(st['buy_hold']['cagr'])} | "
+                             f"{_pct(st['strategy']['worst'])} | {_pct(st['buy_hold']['worst'])} | {100 * st['invested']:.0f}% |")
+            wins = sum(x['cagr'] > x['hold'] for x in rb['starts']) if rb['starts'] else 0
+            margins = [x['cagr'] - x['hold'] for x in rb['starts']] or [0.]
+            lines += ['', f"{len(rb['starts'])} start dates (quarterly 2000-2004): strategy CAGR above buy and hold in {wins}/{len(rb['starts'])}; "
+                      f"smallest margin {_pct(min(margins))}, largest {_pct(max(margins))}.",
+                      f"Placebo: {rb['placebo']['runs']} runs with {rb['placebo']['signals']} random signal days: median CAGR "
+                      f"{_pct(rb['placebo']['median'])}; {100 * rb['placebo']['share_at_least_real']:.1f}% of runs did as well "
+                      f"as the real {_pct(rb['placebo']['real'])}."]
+        for k, st in (cal.get('total_return') or {}).items():
+            lines.append(f"With dividends (^SP500TR) {k}: strategy CAGR {_pct(st['strategy']['cagr'])}, buy and hold "
+                         f"{_pct(st['buy_hold']['cagr'])}.")
         lines += [''] + [f"{k} dates (calibrated): " + ', '.join(s['dates']) for k, s in cal['signals'].items()]
     return '\n'.join(lines) + '\n'
 
@@ -171,7 +220,18 @@ def main():
     cal_sig = signals(osc, calibrated(osc))
     result['calibrated'] = dict(level=round(float(calibrated(osc).iloc[-1]), 1), signals=fixed['signals'],
                                 passes=fixed['passes'],
-                                strategy={k: strategy(spx, v) for k, v in cal_sig.items()})
+                                strategy={k: strategy(spx, v) for k, v in cal_sig.items()},
+                                robustness={k: robustness(spx, v) for k, v in cal_sig.items()})
+    try:
+        import yfinance as yf
+        tr = yf.download('^SP500TR', start='1999-01-01', auto_adjust=False, progress=False)['Close']
+        tr = (tr.iloc[:, 0] if isinstance(tr, pd.DataFrame) else tr).dropna()
+        tr.index = tr.index.tz_localize(None) if tr.index.tz is not None else tr.index
+        if len(tr) > 1000:
+            result['calibrated']['total_return'] = {k: strategy(tr.reindex(spx.index).ffill().dropna(), v)
+                                                    for k, v in cal_sig.items()}
+    except Exception as exc:
+        print(f'^SP500TR unavailable: {type(exc).__name__}')
     OUT_JSON.parent.mkdir(exist_ok=True)
     OUT_JSON.write_text(json.dumps(result, indent=1, allow_nan=False) + '\n', encoding='utf-8')
     OUT_MD.write_text(report(result), encoding='utf-8')

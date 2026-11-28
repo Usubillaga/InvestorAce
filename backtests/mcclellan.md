@@ -61,5 +61,35 @@ Passes oversold (calibrated): yes
 Strategy thrust (6 months invested after each signal, else cash), 2000-01-03 → 2026-11-27: cumulative +1083.3%, CAGR +9.6%, worst fall -44.6%, invested 78% of days; buy and hold +401.5%, CAGR +6.2%, worst fall -56.8%.
 Strategy oversold (6 months invested after each signal, else cash), 2000-01-03 → 2026-11-27: cumulative +887.3%, CAGR +8.9%, worst fall -48.3%, invested 79% of days; buy and hold +401.5%, CAGR +6.2%, worst fall -56.8%.
 
+### Robustness · thrust
+
+| Check | Strategy CAGR | Buy & hold CAGR | Strategy worst fall | Buy & hold worst fall | Invested |
+|---|---:|---:|---:|---:|---:|
+| 2000-2009 | +5.5% | -2.6% | -44.6% | -56.8% | 80% |
+| 2010-2019 | +9.8% | +11.1% | -19.4% | -19.8% | 75% |
+| 2020-now | +15.4% | +12.4% | -25.4% | -33.9% | 73% |
+| hold 63 sessions | +5.6% | +6.2% | -32.7% | -56.8% | 48% |
+| hold 126 sessions | +9.6% | +6.2% | -44.6% | -56.8% | 78% |
+| hold 252 sessions | +6.3% | +6.2% | -56.8% | -56.8% | 94% |
+
+20 start dates (quarterly 2000-2004): strategy CAGR above buy and hold in 20/20; smallest margin +0.7%, largest +3.4%.
+Placebo: 500 runs with 53 random signal days: median CAGR +3.6%; 0.0% of runs did as well as the real +9.6%.
+
+### Robustness · oversold
+
+| Check | Strategy CAGR | Buy & hold CAGR | Strategy worst fall | Buy & hold worst fall | Invested |
+|---|---:|---:|---:|---:|---:|
+| 2000-2009 | +5.2% | -2.6% | -48.3% | -56.8% | 82% |
+| 2010-2019 | +10.0% | +11.1% | -19.4% | -19.8% | 76% |
+| 2020-now | +12.7% | +12.4% | -28.5% | -33.9% | 75% |
+| hold 63 sessions | +5.9% | +6.2% | -38.7% | -56.8% | 48% |
+| hold 126 sessions | +8.9% | +6.2% | -48.3% | -56.8% | 79% |
+| hold 252 sessions | +6.5% | +6.2% | -56.8% | -56.8% | 94% |
+
+20 start dates (quarterly 2000-2004): strategy CAGR above buy and hold in 19/20; smallest margin -0.2%, largest +2.7%.
+Placebo: 500 runs with 53 random signal days: median CAGR +3.6%; 0.0% of runs did as well as the real +8.9%.
+With dividends (^SP500TR) thrust: strategy CAGR +11.2%, buy and hold +8.1%.
+With dividends (^SP500TR) oversold: strategy CAGR +10.5%, buy and hold +8.1%.
+
 thrust dates (calibrated): 1998-08-18, 1998-12-23, 2000-03-03, 2001-03-27, 2001-06-29, 2002-07-29, 2003-02-03, 2003-07-08, 2003-10-20, 2004-03-29, 2004-07-30, 2005-01-18, 2005-04-25, 2005-09-29, 2006-05-26, 2007-03-15, 2007-06-15, 2007-10-26, 2008-02-07, 2008-10-20, 2009-03-11, 2009-06-25, 2009-10-08, 2010-02-11, 2010-06-10, 2010-12-02, 2011-03-21, 2011-06-27, 2011-11-30, 2012-03-26, 2013-01-02, 2013-06-18, 2013-10-11, 2014-02-07, 2014-08-13, 2014-12-19, 2015-09-03, 2015-12-16, 2018-02-14, 2018-10-31, 2019-03-13, 2019-08-19, 2020-03-25, 2020-11-03, 2021-06-25, 2021-10-07, 2022-02-01, 2022-06-23, 2022-10-04, 2023-01-06, 2023-08-28, 2024-04-23, 2024-12-24, 2026-03-31, 2026-11-25
 oversold dates (calibrated): 1998-04-24, 1998-08-04, 1998-12-14, 2000-02-25, 2001-03-14, 2001-06-14, 2002-07-10, 2003-01-21, 2003-06-23, 2003-09-26, 2004-03-11, 2004-07-23, 2005-01-04, 2005-04-15, 2005-09-21, 2006-05-17, 2007-02-27, 2007-06-07, 2007-10-19, 2008-03-10, 2008-10-06, 2009-02-23, 2009-06-16, 2009-09-25, 2010-01-22, 2010-05-06, 2010-08-24, 2011-03-15, 2011-07-28, 2011-11-21, 2012-04-09, 2012-12-28, 2013-05-31, 2013-10-08, 2014-01-27, 2014-07-31, 2014-12-15, 2015-08-21, 2015-12-11, 2018-02-02, 2018-10-10, 2019-03-07, 2019-08-05, 2020-02-25, 2020-10-28, 2021-06-18, 2021-09-20, 2022-01-20, 2022-06-13, 2022-09-21, 2023-03-10, 2023-08-16, 2024-04-12, 2024-12-17, 2026-03-12, 2026-11-20
