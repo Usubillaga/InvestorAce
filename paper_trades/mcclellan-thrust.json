@@ -1,0 +1,35 @@
+{
+ "schema": "mcclellan-thrust-v1",
+ "capital": 10000.0,
+ "cash": 0.0,
+ "symbol": "SPY",
+ "shares": 13.716498104593265,
+ "entry": 728.3200073242188,
+ "bought": "2026-11-27",
+ "bought_signal": "2026-11-25",
+ "signal": "2026-11-25",
+ "hold_until": null,
+ "trades": [
+  {
+   "type": "BUY",
+   "date": "2026-11-27",
+   "price": 728.3200073242188,
+   "signal": "2026-11-25"
+  }
+ ],
+ "marks": [
+  {
+   "date": "2026-11-27",
+   "equity": 9990.0
+  }
+ ],
+ "experimental": true,
+ "note": "Failed the 3-period rule (2010-2019 below buy and hold); 20/20 starts and 0% placebo beat it.",
+ "start": "2026-11-27",
+ "oscillator": {
+  "date": "2026-11-27",
+  "value": 37.5,
+  "level": -88.8
+ },
+ "updated": "2026-11-28T09:25+00:00"
+}
