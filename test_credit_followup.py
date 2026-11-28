@@ -38,6 +38,13 @@ class CreditFollowupTest(unittest.TestCase):
         self.assertIn('Credit stress follow-up', cf.report(r))
         self.assertTrue(r['all_days']['wide_episodes'])
 
+    def test_today_and_analogs(self):
+        spx, credit = series()
+        r = cf.study(spx, credit)
+        r['today'] = cf.now_and_analogs(spx, spx * 0 + 15, credit)
+        self.assertIn('Today (', cf.report(r))
+        self.assertGreater(r['today']['analogs']['252']['days'], 0)
+
     def test_buy_days(self):
         spx, _ = series()
         self.assertEqual(cf.buy_days(spx, 10, 'time3'), [10, 31, 52])

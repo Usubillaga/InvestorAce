@@ -155,6 +155,39 @@ def all_days(spx, ex):
     return out
 
 
+def now_and_analogs(spx, vix, credit, move=None):
+    """Today's reading and the past sessions that looked like it: S&P drawdown within 5 pp and credit spread excess
+    within 0.5 pp of today's, with forward S&P returns and the separate episodes (gaps over 63 sessions)."""
+    spx = spx.dropna()
+    ex, dd = ph.excess(credit, spx.index), drawdown(spx)
+    day = spx.index[-1]
+    lvl = credit.reindex(spx.index).ffill()
+    now = dict(date=str(day.date()), spx=round(float(spx.iloc[-1]), 2), drawdown=round(float(dd.iloc[-1]), 4),
+               vix=None if vix is None or not len(vix) else round(float(vix.dropna().iloc[-1]), 2),
+               credit=round(float(lvl.iloc[-1]), 2), credit_excess=round(float(ex.iloc[-1]), 2), band=band(ex.iloc[-1]),
+               credit_mean_3y=round(float(lvl.iloc[-1] - ex.iloc[-1]), 2))
+    if move is not None and len(move):
+        mx = ph.excess(move, spx.index)
+        now['move'] = round(float(move.dropna().iloc[-1]), 1)
+        now['move_excess'] = round(float(mx.iloc[-1]), 1)
+    like = (dd - dd.iloc[-1]).abs().le(0.05) & (ex - ex.iloc[-1]).abs().le(0.5) & (spx.index >= pd.Timestamp(START))
+    like.iloc[-63:] = False
+    out = {}
+    for h in HORIZONS:
+        fwd = (spx.shift(-h) / spx - 1)[like].dropna()
+        out[str(h)] = dict(days=len(fwd), mean=float(fwd.mean()) if len(fwd) else None,
+                           positive=float((fwd > 0).mean()) if len(fwd) else None,
+                           worst=float(fwd.min()) if len(fwd) else None)
+    runs, last = [], None
+    for k, (d, w) in enumerate(like.items()):
+        if w:
+            if last is None or k - last > 63:
+                runs.append([str(d.date()), str(d.date())])
+            runs[-1][1] = str(d.date())
+            last = k
+    return dict(now=now, analogs=out, analog_episodes=runs)
+
+
 def _p(x):
     return '—' if x is None else f'{100 * x:+.1f}%'
 
@@ -195,16 +228,33 @@ def report(r):
         lines.append(f"| {name} | {c[0]['days']} | " + ' | '.join(
             f"{_p(x['mean'])} / {_share(x['positive'])}" for x in c) + ' |')
     lines += ['', 'Separate wide-spread episodes (> +1.0 pp): ' + '; '.join(f'{s} to {e}' for s, e in a['wide_episodes'])]
+    if r.get('today'):
+        t, n = r['today'], r['today']['now']
+        lines += ['', f"## Today ({n['date']}) and the past sessions that looked like it", '',
+                  f"S&P 500 {n['spx']} ({_p(n['drawdown'])} from its 252-session high); VIX {n['vix']}; "
+                  f"Baa minus 10-year {n['credit']} pp vs 3-year mean {n['credit_mean_3y']} ({n['credit_excess']:+.2f} pp, "
+                  f"{n['band']})" + (f"; MOVE {n['move']} ({n['move_excess']:+.1f} vs 3-year mean)" if 'move' in n else '') + '.',
+                  '', 'Sessions since 1989 with the drawdown within 5 pp and the spread excess within 0.5 pp of today:', '',
+                  '| Horizon | Sessions | Mean | Positive | Worst |', '|---|---:|---:|---:|---:|']
+        for h in HORIZONS:
+            c = t['analogs'][str(h)]
+            lines.append(f"| {h} | {c['days']} | {_p(c['mean'])} | {_share(c['positive'])} | {_p(c['worst'])} |")
+        lines += ['', 'Episodes: ' + '; '.join(f'{s} to {e}' for s, e in t['analog_episodes'])]
     return '\n'.join(lines) + '\n'
 
 
 def main():
-    spx, _ = ph.index_series()
+    spx, vix = ph.index_series()
     credit = ph.credit_series()
     if credit is None:
         raise SystemExit('credit spreads unavailable: ' + '; '.join(ph.CREDIT_LOG))
     result = study(spx, credit[1])
     result['credit_series'] = credit[0]
+    try:
+        move = ph.move_series()
+    except Exception:
+        move = None
+    result['today'] = now_and_analogs(spx, vix, credit[1], move)
     OUT_JSON.parent.mkdir(exist_ok=True)
     OUT_JSON.write_text(json.dumps(result, indent=1, allow_nan=False) + '\n', encoding='utf-8')
     OUT_MD.write_text(report(result), encoding='utf-8')
