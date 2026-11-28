@@ -31,6 +31,11 @@
    "date": "2026-11-25",
    "equity": 10000.0,
    "heat": 25.83
+  },
+  {
+   "date": "2026-11-27",
+   "equity": 10000.0,
+   "heat": 36.95
   }
  ],
  "basket": "half the ten largest S&P 500 holdings by weight, half RSP",
